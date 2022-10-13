@@ -8,7 +8,7 @@ const modules=[
   MaterialModule,
   PrimengModule,
   FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
 ]
 
 @NgModule({

@@ -1,3 +1,41 @@
-<div class="background blue">
-
+<div class="background blue contenedor">
+    <div class="sub-contenedor">
+        <div class="contenedor-circular">
+            <img src="../../../../../../assets/svg/logoRedondo.svg" alt="">
+        </div>
+        <div class="contenedor-cuadrado">
+            <div class="" style="margin-top: 73px;">
+                <!-- <div > -->
+                    <form [formGroup]="formLogin" role="form">
+                        <mat-form-field appearance="outline" style=" width: 74%;">
+                            <mat-label>Correo</mat-label>
+                            <input type="email" formControlName="correo" matInput>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style=" width: 74%;">
+                            <mat-label>Contraseña</mat-label>
+                            <input [type]="typePassword" matInput formControlName="password">
+                            <mat-icon *ngIf="isPassword" matSuffix (click)="tooglePsw()">visibility</mat-icon>
+                            <mat-icon *ngIf="!isPassword" matSuffix (click)="tooglePsw()">visibility_off</mat-icon>
+                        </mat-form-field>
+                        <div>
+                            <button mat-raised-button color="primary">Primary</button>
+                        </div>
+                    </form>   
+                   
+                    <!-- <div style="background: red;">
+                        <div>
+                            <button mat-raised-button color="primary">Primary</button>
+                        </div>
+                        <div>
+                            <label for="">adf</label>
+                            <label for="">dddd</label>
+                        </div>     
+                    </div>  -->
+                    <p class="predec-link">¿No puedes ingresar?
+                        <a class="link" href="../pages/sign-up.html">Recordar Contraseña</a>
+                    </p> 
+                <!-- </div>                -->
+            </div>   
+        </div>        
+    </div>
 </div>

@@ -1,5 +1,4 @@
 .background{
-    
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -12,4 +11,54 @@
 
 .yellow{
     background-image: url(./../../../../../../assets/png/backgound2.png);
+}
+
+.contenedor{ 
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sub-contenedor{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contenedor-cuadrado{
+    width: 335px;
+    height: 359px;
+    background-color: var(--white);
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.81);
+    border-radius: 15px;
+}
+
+// tablets
+@media screen and (min-width: 40em) and (max-width: 63.9em){
+    .contenedor-cuadrado{
+        width: 450px;
+        height: 40vw;
+    }
+  }
+  
+  // web
+  @media screen and (min-width: 64em){
+    .contenedor-cuadrado{
+        width: 600px;
+        height: 24vw;
+    }
+    form{
+        height: 18vw;
+    }
+  }
+
+.contenedor-circular{
+    height: 178px;
+    width: 178px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: drop-shadow(0px 7px 15px rgba(0, 0, 0, 0.5));
+    margin: -69px;
 }
