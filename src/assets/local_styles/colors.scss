@@ -1,19 +1,17 @@
 :root{
     /* Colores */
-    --degraded: gradient(94.7deg, #F80281 11.73%, #FB4B9C 28.05%, #CD00C1 45.29%, #004AED 63.43%, #7826F9 75.23%, #00CBFF 92.46%);
-    --degraded2: linear-gradient(94.7deg, #F80281 11.73%, #FB4B9C 28.05%, #CD00C1 45.29%, #004AED 63.43%, #7826F9 75.23%, #00CBFF 92.46%);
-    --gray: #798295;
-    --background-black: linear-gradient(109.51deg, #3E4553 0%, #05070B 100%);
-    --border: #EEEEEE;
-    --text: #404960;
-    --disabled: #CECED0;
-    --stoke-dark: #6F6C99;
-    --background: #E5E5E5;
-    --brand-rojo: #EB378C;
-    --login-active: #F80281;
-    --active: #F80281;
-    --login-inactive: #DDDFE8;
-    --text-inactive: #8084A2;
-    --white:#FFFFFF;
-    --varian-scales-meta300: #8084A2;
+    --black: #201D20;
+    --black-translucent: rgba(32, 29, 32, 0.8);
+    --blue: #128EC3;
+    --blue-mid: #149FDB;
+    --blue-dark: #0D6A8F;
+    --orange: #EFAF11;
+    --orange-ligth:#FBCF8A;
+    --white: #FFFFFF;
+    --primary: #06C167;
+    --primary-ligth: #06C167;
+    --danger: #AB1300;
+    --danger-ligth: #E85C4A;
+    --warning: #BC8B2C;
+    --warning-ligth: #FFCF70;
 }
