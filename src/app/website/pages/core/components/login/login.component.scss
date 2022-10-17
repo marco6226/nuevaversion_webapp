@@ -28,17 +28,24 @@
 
 .contenedor-cuadrado{
     width: 335px;
-    height: 359px;
+    height: 325px;
     background-color: var(--white);
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.81);
     border-radius: 15px;
+}
+
+form{
+    height: 225px;
 }
 
 // tablets
 @media screen and (min-width: 40em) and (max-width: 63.9em){
     .contenedor-cuadrado{
         width: 450px;
-        height: 40vw;
+        height: 320px;
+    }
+    form{
+        height: 225px;
     }
   }
   
@@ -46,10 +53,14 @@
   @media screen and (min-width: 64em){
     .contenedor-cuadrado{
         width: 600px;
-        height: 24vw;
+        height: 350px;
     }
     form{
-        height: 18vw;
+        height: 248px;
+    }
+    .predec-link{
+        text-align: right;
+        margin-right: 14px;
     }
   }
 

@@ -12,3 +12,12 @@ Sigess es un software de seguridad y salud en el trabajo de los empleados.
 | #EA9F10 | ![#EA9F10](https://via.placeholder.com/45/EA9F10/EA9F10.png)  |#41A1D8 | ![#41A1D8](https://via.placeholder.com/45/41A1D8/41A1D8.png)  |
 | #ECA80F | ![#ECA80F](https://via.placeholder.com/45/ECA80F/ECA80F.png)  |#68AADB | ![#68AADB](https://via.placeholder.com/45/68AADB/68AADB.png)  |
 | #EEB40C | ![#EEB40C](https://via.placeholder.com/45/EEB40C/EEB40C.png)  |#83B3DE | ![#83B3DE](https://via.placeholder.com/45/83B3DE/83B3DE.png)  |
+
+| Color   | Hex                                                           |Color   | Hex                                                           |
+| --------| ------------------------------------------------------------- |------- | ------------------------------------------------------------- |
+| #EEB40C | ![#EEB40C](https://via.placeholder.com/45/EEB40C/EEB40C.png)  |#081116 | ![#081116](https://via.placeholder.com/45/081116/081116.png)  |
+| #F8BB29 | ![#F8BB29](https://via.placeholder.com/45/F8BB29/F8BB29.png)  |#062323 | ![#062323](https://via.placeholder.com/45/062323/062323.png)  |
+| #F9C653 | ![#F9C653](https://via.placeholder.com/45/F9C653/F9C653.png)  |#0B3135 | ![#0B3135](https://via.placeholder.com/45/0B3135/0B3135.png)  |
+| #FACB6F | ![#FACB6F](https://via.placeholder.com/45/FACB6F/FACB6F.png)  |#0C3C44 | ![#0C3C44](https://via.placeholder.com/45/0C3C44/0C3C44.png)  |
+| #FAD28C | ![#FAD28C](https://via.placeholder.com/45/FAD28C/FAD28C.png)  |#124D5B | ![#124D5B](https://via.placeholder.com/45/124D5B/124D5B.png)  |
+| #FAE2BC | ![#FAE2BC](https://via.placeholder.com/45/FAE2BC/FAE2BC.png)  |#155772 | ![#155772](https://via.placeholder.com/45/155772/155772.png)  |
