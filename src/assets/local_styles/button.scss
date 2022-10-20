@@ -3,5 +3,14 @@
 }
 
 .button-orange{
-    background: var(--orange)!important;
+    background: var(--yellow-d1)!important;
+}
+
+.button-gray{
+    background: rgb(148, 148, 148) !important;
+}
+
+.button-white{
+    background: var(--white) !important;
+    color: var(--green-d3) !important;
 }

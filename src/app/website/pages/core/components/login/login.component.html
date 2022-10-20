@@ -1,7 +1,7 @@
 <div class="background blue contenedor">
     <div class="sub-contenedor">
         <div class="contenedor-circular">
-            <img src="../../../../../../assets/svg/logoRedondo.svg" alt="">
+            <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
         </div>
         <div class="contenedor-cuadrado">
             <div class="" style="margin-top: 73px;">
@@ -18,7 +18,7 @@
                             <mat-icon *ngIf="!isPassword" matSuffix (click)="tooglePsw()">visibility_off</mat-icon>
                         </mat-form-field>
                         <div>
-                            <button class="button-round button-orange" mat-raised-button color="primary">Ingresar</button>
+                            <button class="button-round button-orange" (click)="login()" mat-raised-button color="primary">Ingresar</button>
                         </div>
                     </form>   
                    

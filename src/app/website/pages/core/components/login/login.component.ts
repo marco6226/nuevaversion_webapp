@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private route: Router,
   ) { 
     this.formLogin = fb.group({
       'correo': [null, Validators.required],
@@ -31,6 +33,10 @@ export class LoginComponent implements OnInit {
     } else {
       this.typePassword = 'text';      
     }
+  }
+
+  login(){    
+    this.route.navigate(['app/home']);   
   }
 
 }
