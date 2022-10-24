@@ -1,1 +1,27 @@
-<p>menu works!</p>
+<div class="contenedor">
+    <div class="container">
+        <div class="sub-container">
+            <mat-icon class="material-icons-outlined">dashboard</mat-icon>
+            <label for=""> Dashboard</label> 
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    
+    <div *ngFor="let item of items" >
+        <div class="container" [ngClass]="{'isSelected': item.expanded}">
+            <div class="sub-container">
+                <div class="tittle" (click)="toogle(item)">
+                    <mat-icon class="material-icons-outlined">{{item.icon}}</mat-icon>
+                    <label for=""> {{item.label}}</label> 
+                </div>                
+                <div *ngIf="item.expanded" class="childs">
+                    <div *ngFor="let child of item.items" class="sub-childs" (click)="redirect(child)">
+                        <mat-icon class="material-icons-outlined">{{child.icon}}</mat-icon>
+                        <label for=""> {{child.label}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

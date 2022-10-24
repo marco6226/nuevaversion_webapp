@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './pages/core/components/dashboard/dashboard.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
+import { LayoutMenuComponent } from './components/layout-menu/layout-menu.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
     LoginComponent,
     DashboardComponent,
     NavBarComponent,
-    WhatsappComponent
+    WhatsappComponent,
+    LayoutMenuComponent
   ],
   imports: [
     CommonModule,

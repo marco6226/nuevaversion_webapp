@@ -1,5 +1,5 @@
 .contenedor{
-    background: var(--blue-d1);
+    background: var(--blue);
     height: 50px; 
     display: flex;
     align-items: center;
@@ -9,7 +9,8 @@
 .col1{
     align-items: center;
     display: flex;
-    margin: 0px 3px;
+    margin-right: 7px;
+    margin-left: 15px;
     img{
         height: 40px;
     }
@@ -17,13 +18,16 @@
 
 .col2{
     margin-right: 3px;
-    mat-icon{
-        color: var(--white);
+    height: inherit;
+    display: flex;
+    align-items: center;
+    img{
+        width: 100px;
+        height: auto;
     }
 }
 
 .col3{
-    // background: green;
     width: -webkit-fill-available;
     height: inherit;
     display: flex;
@@ -46,13 +50,19 @@
 
 .col4{
     margin-left: 3px;
+    margin-right: 15px;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
     mat-icon{
         color: var(--white);
     }
 }
 
 .col5{
-    margin: 0px 3px;
+    margin-left: 10px;
+    margin-right: 25px;
     display: flex;
     align-items: center;
     height: inherit;
@@ -62,19 +72,67 @@
         width: auto;
         height: auto;
     }
+    label{
+        display: none;
+    }
 }
 
 // tablets
 @media screen and (min-width: 40em) and (max-width: 63.9em){
-    
+    .col3{
+        width: -webkit-fill-available;
+        height: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        button{
+            width: 40%;
+            img{
+                width: 40px;
+            }
+            label{
+                width : 70%;
+                overflow:hidden;
+                display:inline-block;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+    .col4{
+        margin-left: 7px;
+        mat-icon{
+            color: var(--white);
+        }
+    }
   }
   
   // web
 @media screen and (min-width: 64em){
-    .contenedor{
-        background: var(--blue-d1);
-        height: 48px;
-        // border-radius: 0 0 5px 5px;
+    .col5{
+        label{
+            display: contents;
+        }
+    }
+    .col3{
+        width: -webkit-fill-available;
+        height: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        button{
+            width: 20%;
+            img{
+                width: 40px;
+            }
+            label{
+                width : 70%;
+                overflow:hidden;
+                display:inline-block;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
     }
 }
 
