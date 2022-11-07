@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutMenuComponent implements OnInit {
 
+  container = document.getElementById('container');
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onHiddenMenu(event: any){
+    const cont = document.getElementById('container');    
+
+    if (event) {
+      cont?.classList.add('showMenu')
+      cont?.classList.remove('hiddenMenu')      
+    } else {
+      cont?.classList.add('hiddenMenu')
+      cont?.classList.remove('showMenu')
+    }
   }
 
 }

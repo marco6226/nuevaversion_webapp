@@ -13,6 +13,10 @@
     }
 }
 
+mat-icon{
+    color: var(--gray-l1);
+}
+
 .container{
     display: flex;
     justify-content: center;
@@ -32,6 +36,10 @@
     width: 100%;
 }
 
+.tittleCompact{
+    width: 10%;
+}
+
 .sub-childs{
     display: flex;
     align-items: center;
@@ -47,9 +55,23 @@
                 color: var(--lila-d1);
             }
         }
-        background: var(--lila);    
+        background: var(--lila);
+    }        
+}
 
-    }    
+.container2:hover{   
+    .sub-container2{
+        border-radius: 10px;
+        .tittle{
+            mat-icon{
+                color: var(--lila-d1);
+            }
+            label{
+                color: var(--lila-d1);
+            }
+        }
+        background: var(--lila);
+    }        
 }
 
 mat-icon{
@@ -61,10 +83,10 @@ mat-icon{
 .isSelected {
     .sub-container{
         .tittle{
-        background: var(--lila-d1) !important;    
-        border-radius: 12px 12px 0 0;
-        margin-top: -1px;
-        width: 100%;
+            background: var(--lila-d1) !important;    
+            border-radius: 12px 12px 0 0;
+            margin-top: -1px;
+            width: 100%;
             mat-icon{
                 color: var(--white) !important;
             }
@@ -74,6 +96,19 @@ mat-icon{
         }
         background: var(--lila) !important;    
     }    
+
+    .sub-container2{
+        border-radius: 10px;
+        .tittle2{
+            background: var(--lila-d1) !important;  
+            border-radius: 10px 10px 0 0;
+            margin-top: 3px;
+            mat-icon{
+                color: var(--white);
+            }
+        }
+        background: var(--lila);
+    }        
 }
 
 .isSelected:hover{
@@ -89,4 +124,31 @@ mat-icon{
             }
         }
     }
+    .sub-container2{
+        .childs2{
+            .sub-childs2:hover{
+                mat-icon{
+                    color: var(--lila-d1);
+                }
+                label{
+                    color: var(--lila-d1);
+                }
+            }
+        }
+    }
+}
+
+.button-slide{
+    text-align: right;
+    width: 100%;
+    margin-bottom: -4px;
+    height: 20px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
 }

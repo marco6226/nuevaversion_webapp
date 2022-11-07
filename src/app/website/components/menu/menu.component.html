@@ -1,27 +1,56 @@
 <div class="contenedor">
-    <div class="container">
-        <div class="sub-container">
+    <div class="button-slide">
+        <mat-icon class="material-icons-outlined" (click)="toogleMenu()">arrow_left</mat-icon>
+    </div>
+    <div class="container">        
+
+        <div *ngIf="menuToggle" class="sub-container" routerLink="/app/home">
             <mat-icon class="material-icons-outlined">dashboard</mat-icon>
             <label for=""> Dashboard</label> 
+        </div>
+        <div *ngIf="!menuToggle" class="sub-container2" routerLink="/app/home">
+            <mat-icon class="material-icons-outlined">dashboard</mat-icon>
         </div>
     </div>
     <mat-divider></mat-divider>
     
-    <div *ngFor="let item of items" >
-        <div class="container" [ngClass]="{'isSelected': item.expanded}">
-            <div class="sub-container">
-                <div class="tittle" (click)="toogle(item)">
-                    <mat-icon class="material-icons-outlined">{{item.icon}}</mat-icon>
-                    <label for=""> {{item.label}}</label> 
-                </div>                
-                <div *ngIf="item.expanded" class="childs">
-                    <div *ngFor="let child of item.items" class="sub-childs" (click)="redirect(child)">
-                        <mat-icon class="material-icons-outlined">{{child.icon}}</mat-icon>
-                        <label for=""> {{child.label}}</label>
+    <div *ngIf="menuToggle">
+        <div *ngFor="let item of items" >
+            <div class="container" [ngClass]="{'isSelected': item.expanded}">
+                <div class="sub-container">
+                    <div class="tittle" (click)="toogle(item)">
+                        <mat-icon class="material-icons-outlined">{{item.icon}}</mat-icon>
+                        <label for=""> {{item.label}}</label> 
+                    </div>                
+                    <div *ngIf="item.expanded" class="childs">
+                        <div *ngFor="let child of item.items" class="sub-childs" (click)="redirect(child)">
+                            <mat-icon class="material-icons-outlined">{{child.icon}}</mat-icon>
+                            <label  for=""> {{child.label}}</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+
+    <div *ngIf="!menuToggle">
+        <div *ngFor="let item of items" >
+            <div class="container2" [ngClass]="{'isSelected': item.expanded}">
+                <div class="sub-container2">
+                    <div class="tittle2" (click)="toogle(item)">
+                        <mat-icon class="material-icons-outlined">{{item.icon}}</mat-icon>
+                    </div>                
+                    <div *ngIf="item.expanded" class="childs2">
+                        <div *ngFor="let child of item.items" class="sub-childs2" (click)="redirect(child)">
+                            <mat-icon class="material-icons-outlined">{{child.icon}}</mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
 </div>
 

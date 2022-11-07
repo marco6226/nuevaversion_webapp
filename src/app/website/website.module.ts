@@ -11,6 +11,9 @@ import { DashboardComponent } from './pages/core/components/dashboard/dashboard.
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { WhatsappComponent } from './components/whatsapp/whatsapp.component';
 import { LayoutMenuComponent } from './components/layout-menu/layout-menu.component';
+import { PerfilComponent } from './pages/admin/components/perfil/perfil.component';
+import { PermisosComponent } from './pages/admin/components/permisos/permisos.component';
+import { UsuarioComponent } from './pages/admin/components/usuario/usuario.component';
 
 
 @NgModule({
@@ -22,7 +25,10 @@ import { LayoutMenuComponent } from './components/layout-menu/layout-menu.compon
     DashboardComponent,
     NavBarComponent,
     WhatsappComponent,
-    LayoutMenuComponent
+    LayoutMenuComponent,
+    PerfilComponent,
+    PermisosComponent,
+    UsuarioComponent
   ],
   imports: [
     CommonModule,

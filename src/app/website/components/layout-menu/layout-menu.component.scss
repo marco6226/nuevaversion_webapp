@@ -8,3 +8,45 @@
     margin-left: 1px;
     text-align: center;
 }
+
+.hiddenMenu{
+    // background: teal !important;
+    animation: leftBox 2s forwards;
+    width: auto;
+}
+
+
+.showMenu{
+    // background: rgb(145, 221, 23) !important;
+    animation: rigthtBox 12s forwards;
+    
+}
+
+@keyframes leftBox {
+    0%{
+        // background: red;
+    }
+    10%{
+        // background: blue;
+    }
+    // 50% {
+    //     width: 0;
+    //     height: 0;
+    //     border: 0 solid transparent;
+    //     border-radius: 0;
+    //     border-right-width: 50px;
+    //     border-left-width: 50px;
+    //     border-bottom: 100px solid #6980fe;
+    //     background-color: transparent;
+    //  }
+    100%{
+        // background: yellow;
+    }
+}
+
+@keyframes rigthtBox {
+    // 17.2%, 38.4%, 73.6%, 94.8%  {transform:rotate(0deg);}
+    // 18.8%,  22.8%, 24.8%, 26.4%, 28.4%, 30.4%, 32.4%, 34.4%, 36.4%, 75.2%, 78.8%, 80.8%, 82.8%, 84.8%, 86.8%, 88.8%, 90.8%, 92.8%  {transform: rotate(12deg);}
+    // 21.2%, 21.6%,23.6%, 25.6%, 27.2%, 29.6%, 31.6%, 33.6%, 35.6%, 37.6% , 77.6%, 78%, 80%, 82%, 84%, 86%, 88%, 90%, 92%, 94%    {transform: rotate(-12deg)}
+
+}

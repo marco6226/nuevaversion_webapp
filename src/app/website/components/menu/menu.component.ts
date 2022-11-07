@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -7,13 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
+  @Output() statusMenu = new EventEmitter<boolean>();
+
+
+  menuToggle: boolean = true;
+
   items!: any[];
   nombreAUC: string="auc";
   nombreSEC: string="sec";
   nombreCOP: string="cop";
   empresaId!: string;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.items = [
@@ -24,9 +32,9 @@ export class MenuComponent implements OnInit {
           expanded: false,
           items:
               [
-                  { label: 'Perfiles', codigo: 'ADM_GET_PERF', routerLink: ['/app/admin/perfil'], icon: 'lan' },
-                  { label: 'Permisos', codigo: 'ADM_GET_PERM_PERF', routerLink: ['/app/admin/permisos'], icon: 'lan' },
-                  { label: 'Usuarios', codigo: 'ADM_GET_USR', routerLink: ['/app/admin/usuario'], icon: 'lan' },
+                  { label: 'Perfiles', codigo: 'ADM_GET_PERF', routerLink: ['/app/admin/perfil'], icon: 'person_add' },
+                  { label: 'Permisos', codigo: 'ADM_GET_PERM_PERF', routerLink: ['/app/admin/permisos'], icon: 'lock' },
+                  { label: 'Usuarios', codigo: 'ADM_GET_USR', routerLink: ['/app/admin/usuario'], icon: 'person' },
               ]
       },
       {
@@ -36,14 +44,14 @@ export class MenuComponent implements OnInit {
           expanded: false,
           items:
               [
-                  { label: 'Información Empresa', codigo: 'EMP_GET_EMPS', routerLink: ['/app/empresa/empresa'], icon: 'lan' },
-                  { label: 'Contexto organización', codigo: 'EMP_GET_CTXEMP', routerLink: ['/app/empresa/contextoOrganizacion'], icon: 'lan' },
-                  { label: 'Tipos área', codigo: 'EMP_GET_TIPOAREA', routerLink: ['/app/empresa/tipoArea'], icon: 'lan' },
-                  { label: 'Organización', codigo: 'EMP_GET_AREA', routerLink: ['/app/empresa/area'], icon: 'lan' },
-                  { label: 'Cargos', codigo: 'EMP_GET_CARGO', routerLink: ['/app/empresa/cargo'], icon: 'lan' },
-                  { label: 'Talento humano', codigo: 'EMP_GET_EMPL', routerLink: ['/app/empresa/empleado'], icon: 'lan'},
-                  { label: 'Evaluación desempeño', codigo: 'EMP_GET_EVALDES', routerLink: ['/app/empresa/evaluacionDesempeno'], icon: 'lan'},
-                  { label: 'Cargue datos', codigo: 'EMP_POST_LOADEMP', routerLink: ['/app/empresa/cargueDatos'], icon: 'lan'},
+                  { label: 'Información Empresa', codigo: 'EMP_GET_EMPS', routerLink: ['/app/empresa/empresa'], icon: 'domain' },
+                  { label: 'Contexto organización', codigo: 'EMP_GET_CTXEMP', routerLink: ['/app/empresa/contextoOrganizacion'], icon: 'extension' },
+                  { label: 'Tipos área', codigo: 'EMP_GET_TIPOAREA', routerLink: ['/app/empresa/tipoArea'], icon: 'web' },
+                  { label: 'Organización', codigo: 'EMP_GET_AREA', routerLink: ['/app/empresa/area'], icon: 'account_tree' },
+                  { label: 'Cargos', codigo: 'EMP_GET_CARGO', routerLink: ['/app/empresa/cargo'], icon: 'business_center' },
+                  { label: 'Talento humano', codigo: 'EMP_GET_EMPL', routerLink: ['/app/empresa/empleado'], icon: 'groups'},
+                  { label: 'Evaluación desempeño', codigo: 'EMP_GET_EVALDES', routerLink: ['/app/empresa/evaluacionDesempeno'], icon: 'format_list_bulleted'},
+                  { label: 'Cargue datos', codigo: 'EMP_POST_LOADEMP', routerLink: ['/app/empresa/cargueDatos'], icon: 'database'},
               ]
       },
       {
@@ -213,6 +221,14 @@ export class MenuComponent implements OnInit {
 
   redirect(data: any){
     console.log(data)
+    this.router.navigate(data.routerLink)
+
+  }
+
+  toogleMenu(){
+    const childLabels = document.getElementById('labelChild');
+    this.menuToggle = !this.menuToggle;
+    this.statusMenu.emit(this.menuToggle);
   }
 
 }
