@@ -12,6 +12,9 @@ export class LayoutMenuComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    const cont = document.getElementById('container');
+    cont?.classList.add('hiddenMenu')
+    cont?.classList.remove('showMenu')
   }
 
   onHiddenMenu(event: any){

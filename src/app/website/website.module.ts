@@ -90,6 +90,18 @@ import { AsignacionTareasComponent } from './pages/sec/components/asignacion-tar
 import { ConsultaAnalisisDesviacionComponent } from './pages/sec/components/consulta-analisis-desviacion/consulta-analisis-desviacion.component';
 import { ConsultaDesviacionComponent } from './pages/sec/components/consulta-desviacion/consulta-desviacion.component';
 import { ConsultaDesviacionInspeccionComponent } from './pages/sec/components/consulta-desviacion-inspeccion/consulta-desviacion-inspeccion.component';
+import { ChartComponent } from './components/chart/chart.component';
+import { ChartsComponent } from './components/charts/charts.component';
+import { SistemaGestionComponent } from './pages/sg/components/sistema-gestion/sistema-gestion.component';
+import { SgeFormComponent } from './pages/sg/components/sge-form/sge-form.component';
+import { EvaluacionComponent } from './pages/sg/components/evaluacion/evaluacion.component';
+import { ConsultaEvaluacionComponent } from './pages/sg/components/consulta-evaluacion/consulta-evaluacion.component';
+import { GestionTareasComponent } from './pages/sec/components/gestion-tareas/gestion-tareas.component';
+import { MisTareasComponent } from './pages/sec/components/mis-tareas/mis-tareas.component';
+import { TareaComponent } from './pages/sec/components/tarea/tarea.component';
+import { GestionDocumentalComponent } from './pages/ado/components/gestion-documental/gestion-documental.component';
+import { AccidentalidadComponent } from './pages/ind/components/accidentalidad/accidentalidad.component';
+import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/consulta-actas.component';
 
 
 @NgModule({
@@ -180,7 +192,19 @@ import { ConsultaDesviacionInspeccionComponent } from './pages/sec/components/co
     AsignacionTareasComponent,
     ConsultaAnalisisDesviacionComponent,
     ConsultaDesviacionComponent,
-    ConsultaDesviacionInspeccionComponent
+    ConsultaDesviacionInspeccionComponent,
+    ChartComponent,
+    ChartsComponent,
+    SistemaGestionComponent,
+    SgeFormComponent,
+    EvaluacionComponent,
+    ConsultaEvaluacionComponent,
+    GestionTareasComponent,
+    MisTareasComponent,
+    TareaComponent,
+    GestionDocumentalComponent,
+    AccidentalidadComponent,
+    ConsultaActasComponent
   ],
   imports: [
     CommonModule,
