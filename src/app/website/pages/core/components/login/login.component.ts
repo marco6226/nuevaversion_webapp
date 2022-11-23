@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +14,13 @@ export class LoginComponent implements OnInit {
   formLogin: FormGroup;
   typePassword = 'password';
   isPassword: boolean = true;
-
+  version!:string;
+  
   constructor(
     private fb: FormBuilder,
-    private route: Router,
+    private router: Router,
+    private sesionService: SessionService,
+    private authService: AuthService,
   ) { 
     this.formLogin = fb.group({
       'correo': [null, Validators.required],
@@ -24,6 +29,18 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.version = this.sesionService.getAppVersion();
+
+    // if (this.sesionService.getEmpresa() != null && this.sesionService.getUsuario() != null) {
+      this.router.navigate([this.authService.redirectUrl]);
+    // } else {
+    //     let countDown = Number(localStorage.getItem('countDown'));
+    //     if (countDown != null && countDown > 0) {
+    //         this.contadorFallas = 5;
+    //         this.iniciarContador(countDown);
+    //     }
+    // }
+
   }
 
   tooglePsw(){
@@ -36,7 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(){    
-    this.route.navigate(['app/home']);   
+    // this.route.navigate(['app/home']);   
   }
 
 }

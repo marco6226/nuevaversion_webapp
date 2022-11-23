@@ -4,8 +4,7 @@
             <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
         </div>
         <div class="contenedor-cuadrado">
-            <div class="" style="margin-top: 73px;">
-                <!-- <div > -->
+            <div class="" style="margin-top: 73px;">                
                     <form [formGroup]="formLogin" role="form">
                         <mat-form-field appearance="outline" style=" width: 74%;">
                             <mat-label>Correo</mat-label>
@@ -18,24 +17,18 @@
                             <mat-icon *ngIf="!isPassword" matSuffix (click)="tooglePsw()">visibility_off</mat-icon>
                         </mat-form-field>
                         <div>
-                            <button class="button-round button-orange" (click)="login()" mat-raised-button color="primary">Ingresar</button>
+                            <button class="button-round button-gray text-color-white" *ngIf="formLogin.invalid" (click)="login()" mat-raised-button color="disabled">Ingresar</button>
+                            <button class="button-round button-orange" *ngIf="formLogin.valid" (click)="login()" mat-raised-button color="primary">Ingresar</button>
                         </div>
                     </form>   
                    
-                    <!-- <div style="background: red;">
-                        <div>
-                            <button mat-raised-button color="primary">Primary</button>
-                        </div>
-                        <div>
-                            <label for="">adf</label>
-                            <label for="">dddd</label>
-                        </div>     
-                    </div>  -->
                     <p class="predec-link">¿No puedes ingresar?
                         <a class="link" href="../pages/sign-up.html">Recordar Contraseña</a>
                     </p> 
-                <!-- </div>                -->
             </div>   
         </div>        
+    </div>
+    <div class="footer">
+        <label class="version">{{version}}</label>
     </div>
 </div>
