@@ -83,9 +83,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  login(value: any){    
+  async login(value: any){    
     // this.route.navigate(['app/home']);   
     console.log(value);
+    debugger
+    var xc= await this.authService.login(value.correo, value.password, value.recordar, value.pin);
+    console.log(xc);
     
   }
 

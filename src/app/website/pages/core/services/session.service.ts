@@ -73,4 +73,26 @@ export class SessionService {
   public getAuthToken(): string {
     return localStorage.getItem(config.token_id)!;
   }
+
+  public setLoggedIn(isLoggedIn: boolean) {
+        if (isLoggedIn) {
+            this.session = this.session == null ? {} as Session : this.session;
+            this.session.isLoggedIn = true;
+            localStorage.setItem(config.session_id, JSON.stringify(this.session));
+        } else {
+            this.session = {} as Session;
+            localStorage.removeItem(config.session_id);
+            localStorage.removeItem('refresh');
+            localStorage.removeItem(config.token_id);
+
+        }
+    }
+
+  public setAuthToken(token: string) {
+    localStorage.setItem(config.token_id, token);
+  }
+
+  public setRefreshToken(refreshToken: string) {
+    localStorage.setItem('refresh', refreshToken);
+  }
 }

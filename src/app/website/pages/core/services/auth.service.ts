@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import * as CryptoJS from "crypto-js";
 import { HttpInt } from 'src/app/httpInt';
 import { endPoints } from 'src/environments/environment';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
 
   constructor(
     public httpInt: HttpInt,
+    public sesionService: SessionService,
   ) { }
 
   getLoginObservable(): Observable<boolean> {
@@ -41,6 +43,38 @@ export class AuthService {
     } catch (e) {
         //console.log(e);
         return "";
+    }
+  }
+
+  login(login: string, passwd: string, recordar: boolean = true, pin: string|null=null) {
+    let body = login + ":" + this.createHash(passwd);
+    debugger
+    return new Promise((resolve, reject) => {
+        this.httpInt
+            .post(
+                this.authEndPoint +
+                    "?r=" +
+                    recordar +
+                    (pin != null ? "&pin=" + pin : ""),
+                body
+            )
+            .subscribe(
+                (res: unknown) => {
+                    this.setSession(res, recordar);
+                    resolve(res);
+                },
+                (err: any) => reject(err)
+            );
+    });
+  }
+
+  setSession(res: any, recordar?: boolean) {
+    debugger
+    this.sesionService.setLoggedIn(true);
+    this.sesionService.setUsuario(res["usuario"]);
+    this.sesionService.setAuthToken(res["Authorization"]);
+    if (recordar != null && recordar == true && res["refresh"] != null) {
+        this.sesionService.setRefreshToken(res["refresh"]);
     }
   }
 }
