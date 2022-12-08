@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   @Input() visible: boolean = true;
 
   subscription: Subscription;
-
+  IsVisible: boolean = false;
   formLogin: FormGroup;
   typePassword = 'password';
   isPassword: boolean = true;
@@ -83,12 +83,22 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  async login(value: any){    
-    // this.route.navigate(['app/home']);   
+  async login(value: any){ 
     console.log(value);
-    debugger
-    var xc= await this.authService.login(value.correo, value.password, value.recordar, value.pin);
-    console.log(xc);
+    this.IsVisible = true;
+    try {
+      var xc= await this.authService.login(value.correo, value.password, value.recordar, value.pin).then(res =>{
+        debugger
+        let aceptaTerm = this.authService.sesionService.getUsuario()!.fechaAceptaTerminos != null;
+      });
+      console.log(xc);
+      this.router.navigate(['app/home']); 
+      this.IsVisible = false;      
+    } catch (error) {      
+      console.log(error);
+      this.IsVisible = false;      
+    }
+    
     
   }
 

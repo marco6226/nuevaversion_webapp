@@ -102,6 +102,7 @@ import { TareaComponent } from './pages/sec/components/tarea/tarea.component';
 import { GestionDocumentalComponent } from './pages/ado/components/gestion-documental/gestion-documental.component';
 import { AccidentalidadComponent } from './pages/ind/components/accidentalidad/accidentalidad.component';
 import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/consulta-actas.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
@@ -204,7 +205,8 @@ import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/co
     TareaComponent,
     GestionDocumentalComponent,
     AccidentalidadComponent,
-    ConsultaActasComponent
+    ConsultaActasComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,

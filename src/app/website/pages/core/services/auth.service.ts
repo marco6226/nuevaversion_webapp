@@ -48,7 +48,6 @@ export class AuthService {
 
   login(login: string, passwd: string, recordar: boolean = true, pin: string|null=null) {
     let body = login + ":" + this.createHash(passwd);
-    debugger
     return new Promise((resolve, reject) => {
         this.httpInt
             .post(
@@ -69,7 +68,6 @@ export class AuthService {
   }
 
   setSession(res: any, recordar?: boolean) {
-    debugger
     this.sesionService.setLoggedIn(true);
     this.sesionService.setUsuario(res["usuario"]);
     this.sesionService.setAuthToken(res["Authorization"]);
