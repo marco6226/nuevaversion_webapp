@@ -19,7 +19,7 @@ export const environment = {
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
-export const endPoints = {
+export const endPoints: string | any = {
   auth: path + "authenticate/",
   empresa: path + "empresa/",
   area: path + "area/",

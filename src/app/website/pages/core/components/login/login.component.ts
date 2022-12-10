@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { SessionService } from '../../services/session.service';
+import { SesionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +28,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private sesionService: SessionService,
+    private sesionService: SesionService,
     private authService: AuthService,
+    private messageService: MessageService,
   ) { 
     this.subscription = this.authService.getLoginObservable().subscribe(visible => this.setVisible(visible));
     this.formLogin = fb.group({
@@ -87,13 +88,16 @@ export class LoginComponent implements OnInit {
     console.log(value);
     this.IsVisible = true;
     try {
-      var xc= await this.authService.login(value.correo, value.password, value.recordar, value.pin).then(res =>{
+      await this.authService.login(value.correo, value.password, value.recordar, value.pin).then(res =>{
         debugger
         let aceptaTerm = this.authService.sesionService.getUsuario()!.fechaAceptaTerminos != null;
-      });
-      console.log(xc);
-      this.router.navigate(['app/home']); 
-      this.IsVisible = false;      
+        if (aceptaTerm) {
+          this.router.navigate(['app/home']); 
+          this.IsVisible = false;   
+        } else {
+          //mostrar acepTerm
+        }
+      });      
     } catch (error) {      
       console.log(error);
       this.IsVisible = false;      
@@ -119,9 +123,7 @@ export class LoginComponent implements OnInit {
   }
 
   setVisible(visible: boolean) {
-    this.msgs = [];
-    this.msgs.push({ severity: 'warn', detail: "Se cerro su sesion inicie de nuevo por favor" });
-
+    this.messageService.add({severity:'warn', summary: 'pro', detail: 'Se cerro su sesion inicie de nuevo por favor'});
     this.visible = visible;
   }
  

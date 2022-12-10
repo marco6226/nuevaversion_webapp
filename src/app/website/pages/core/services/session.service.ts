@@ -9,7 +9,8 @@ import { Session } from '../entities/session';
 @Injectable({
   providedIn: 'root'
 })
-export class SessionService {
+export class SesionService {
+  [x: string]: any;
 
   private session!: Session;
 
@@ -94,5 +95,10 @@ export class SessionService {
 
   public setRefreshToken(refreshToken: string) {
     localStorage.setItem('refresh', refreshToken);
+  }
+
+  public setConfiguracionMap(configMap: any) {
+    this.session.configuracion = configMap;
+    localStorage.setItem(config.session_id, JSON.stringify(this.session));
   }
 }

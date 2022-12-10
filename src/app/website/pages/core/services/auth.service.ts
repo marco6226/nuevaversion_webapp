@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import * as CryptoJS from "crypto-js";
 import { HttpInt } from 'src/app/httpInt';
 import { endPoints } from 'src/environments/environment';
-import { SessionService } from './session.service';
+import { SesionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
 
   constructor(
     public httpInt: HttpInt,
-    public sesionService: SessionService,
+    public sesionService: SesionService,
   ) { }
 
   getLoginObservable(): Observable<boolean> {

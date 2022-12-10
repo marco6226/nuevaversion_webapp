@@ -2,14 +2,14 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SessionService } from './website/pages/core/services/session.service';
+import { SesionService } from './website/pages/core/services/session.service';
 
 @Injectable()
 export class HttpInt {
 
     constructor(
         public http: HttpClient,
-        private sesionService: SessionService
+        private sesionService: SesionService
     ){}
 
     get(url: string, headers?: HttpHeaders): Observable<Object> {
