@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ContentChild, OnInit, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api';
+import { PermisoService } from '../../pages/admin/services/permiso.service';
 import { ConfiguracionGeneral } from '../../pages/comun/entities/configuracion-general';
 import { ConfiguracionGeneralService } from '../../pages/comun/services/configuracion-general.service';
 import { HelperService } from '../../pages/core/services/helper.service';
@@ -8,40 +9,48 @@ import { Empleado } from '../../pages/empresa/entities/empleado';
 import { Empresa } from '../../pages/empresa/entities/empresa';
 import { Permiso } from '../../pages/empresa/entities/permiso';
 import { Usuario } from '../../pages/empresa/entities/usuario';
+import { EmpleadoService } from '../../pages/empresa/services/empleado.service';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
+import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
+
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+	selector: 'app-layout',
+	templateUrl: './layout.component.html',
+	styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
+
+	@ViewChild(LayoutMenuComponent) layoutMenuComp!: LayoutMenuComponent;
 
 	actualizarPermisos: any;
 	usuario!: Usuario | null;
 	empresasItems: SelectItem[] = [];
-  empresaSelect?: Empresa | null;
+	empresaSelect?: Empresa | null;
 	empresaSelectOld?: Empresa | null;
+	mapaPermisos: any;
+	empleado!: Empleado;
 
-  constructor(
+	constructor(
 		private helperService: HelperService,
 		private empresaService: EmpresaService,
 		private sesionService: SesionService,
 		private confGenService: ConfiguracionGeneralService,
-    
-  ) { }
+		private permisoService: PermisoService,
+		private empleadoService: EmpleadoService,
+	) { }
 
-  async ngOnInit(): Promise<void> {
+	async ngOnInit(): Promise<void> {
 		await this.helperService.customMessage.subscribe(msg => this.actualizarPermisos = msg);
 		this.usuario = await this.sesionService.getUsuario();
 
-    this.empresaService.findByUsuario(this.usuario!.id).then(
+		this.empresaService.findByUsuario(this.usuario!.id).then(
 			resp => this.loadItems(<Empresa[]>resp)
 		);
 
-  }
+	}
 
-  async loadItems(empresas: Empresa[]) {
+	async loadItems(empresas: Empresa[]) {
 		empresas.forEach(emp => {
 			this.empresasItems.push({ label: emp.nombreComercial, value: emp });
 		});
@@ -51,31 +60,34 @@ export class LayoutComponent implements OnInit {
 		this.empresaSelect = await this.sesionService.getEmpresa();
 		this.empresaSelectOld = this.empresaSelect;
 
-		this.confGenService.obtenerPorEmpresa()
-			.then((resp: ConfiguracionGeneral[] | any) => {
+		await this.confGenService.obtenerPorEmpresa()
+			.then(async (resp: ConfiguracionGeneral[] | any) => {
 				let mapaConfig: string | any = {};
 				resp.forEach((conf: { codigo: string | number; valor: any; nombre: any; }) => mapaConfig[conf.codigo] = { 'valor': conf.valor, 'nombre': conf.nombre });
-				this.sesionService.setConfiguracionMap(mapaConfig);
-				this.menuComp.recargarMenu();
+				await this.sesionService.setConfiguracionMap(mapaConfig);
+				await this.layoutMenuComp.loadMenu();
 			});
 
-			await this.permisoService.findAll()
-			.then((data: Permiso[]) => {
+		await this.permisoService.findAll()
+			.then(async (data: Permiso[] | any) => {
 				this.mapaPermisos = {};
-				data.forEach(element => this.mapaPermisos[element.recurso.codigo] = { 'valido': element.valido, 'areas': element.areas });
+				data.forEach((element: any) => this.mapaPermisos[element.recurso.codigo] = {
+					'valido': element.valido, 'areas': element.areas
+				});
 				this.sesionService.setPermisosMap(this.mapaPermisos);
 				console.log(this.mapaPermisos);
-				this.menuComp.recargarMenu();
+				await this.layoutMenuComp.loadMenu();
 			});
 
-			         
-				await this.empleadoService.findempleadoByUsuario(this.usuario.id).then(
-          (					resp: Empleado) => {
-					  this.empleado = <Empleado>(resp);	
-					  console.log(this.empleado);				  
-					  this.sesionService.setEmpleado(this.empleado);
-					}
-				  );
+
+		await this.empleadoService.findempleadoByUsuario(this.usuario!.id).then(
+			(resp: Empleado | any) => {
+				debugger
+				this.empleado = <Empleado>(resp);
+				console.log(this.empleado);
+				this.sesionService.setEmpleado(this.empleado);
+			}
+		);
 	}
 
 }

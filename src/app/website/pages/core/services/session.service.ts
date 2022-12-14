@@ -101,4 +101,9 @@ export class SesionService {
     this.session.configuracion = configMap;
     localStorage.setItem(config.session_id, JSON.stringify(this.session));
   }
+
+  public setPermisosMap(permisosMapa: any) {
+    this.session.permisosMap = permisosMapa;
+    localStorage.setItem(config.session_id, JSON.stringify(this.session));
+  }
 }

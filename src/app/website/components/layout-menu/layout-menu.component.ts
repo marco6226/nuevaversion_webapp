@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ContentChild, OnInit, ViewChild } from '@angular/core';
+import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-layout-menu',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./layout-menu.component.scss']
 })
 export class LayoutMenuComponent implements OnInit {
+
+	@ViewChild(MenuComponent) menuComp!: MenuComponent;
 
   container = document.getElementById('container');
 
@@ -27,6 +30,10 @@ export class LayoutMenuComponent implements OnInit {
       cont?.classList.add('hiddenMenu')
       cont?.classList.remove('showMenu')
     }
+  }
+
+  loadMenu(){
+    this.menuComp.recargarMenu();
   }
 
 }
