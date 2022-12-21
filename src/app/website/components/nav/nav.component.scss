@@ -72,6 +72,11 @@
         width: auto;
         height: auto;
     }
+    img{
+        border-radius: 50%;
+        width: 40px;
+        margin-right: 3px;
+    }
     label{
         display: none;
     }
@@ -121,7 +126,7 @@
         align-items: center;
         justify-content: space-evenly;
         button{
-            width: 20%;
+            width: 40%;
             img{
                 width: 40px;
             }

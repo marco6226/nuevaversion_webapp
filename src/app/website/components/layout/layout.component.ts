@@ -75,19 +75,22 @@ export class LayoutComponent implements OnInit {
 					'valido': element.valido, 'areas': element.areas
 				});
 				this.sesionService.setPermisosMap(this.mapaPermisos);
-				console.log(this.mapaPermisos);
+				// console.log(this.mapaPermisos);
 				await this.layoutMenuComp.loadMenu();
 			});
 
 
 		await this.empleadoService.findempleadoByUsuario(this.usuario!.id).then(
 			(resp: Empleado | any) => {
-				debugger
 				this.empleado = <Empleado>(resp);
-				console.log(this.empleado);
+				// console.log(this.empleado);
 				this.sesionService.setEmpleado(this.empleado);
 			}
 		);
 	}
 
+	test(){
+		console.log(this.empresaSelect, this.empresaSelectOld, this.empresasItems);
+		
+	}
 }

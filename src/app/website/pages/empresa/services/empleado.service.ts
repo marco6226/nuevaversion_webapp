@@ -73,7 +73,6 @@ export class EmpleadoService extends CRUDService<Empleado>{
 
 
   findempleadoByUsuario(parametro: string) {
-    debugger
     return new Promise(resolve => {
       this.httpInt.get(endPoints.EmpleadoService + "buscarempleado/" + parametro)
         .subscribe(

@@ -32,12 +32,12 @@ export class MenuComponent implements OnInit, AfterContentInit {
   }
 
   toogle(item: any){
-    console.log(item)
+    // console.log(item)
     item.expanded = !item.expanded
   }
 
   redirect(data: any){
-    console.log(data)
+    // console.log(data)
     this.router.navigate(data.routerLink)
 
   }

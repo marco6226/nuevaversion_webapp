@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Empresa } from '../../pages/empresa/entities/empresa';
+import { Usuario } from '../../pages/empresa/entities/usuario';
 
 @Component({
   selector: 'app-nav',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-
   
-  selectedItem!: SelectItem;
+  @Input() usuario!: Usuario
+  @Input() empresasItems: SelectItem[] = [];
+	@Input() empresaSelect!: Empresa;
+	@Input() empresaSelectOld!: Empresa;
 
+  selectedItem!: SelectItem;
   listItems!: SelectItem[]
   cities!: City[];
 
@@ -27,8 +32,13 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
+  test(){
+    console.log(this.empresasItems, this.empresaSelect, this.empresaSelectOld);
+    
+  }
 }
 
 interface City {

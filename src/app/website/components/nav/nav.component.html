@@ -6,16 +6,18 @@
         <img src="../../../../assets/svg/Sigess5.svg" alt="">
     </div>
     <div class="col3">
-        <button class="button-round button-white" mat-raised-button color="primary">
+        <button class="button-round button-white" mat-raised-button color="primary" (click)="test()">
             <mat-icon fontIcon="apartment" style="color: #052f6e;"></mat-icon>
-            <label for="">Compañia Ejemplo</label>            
+            <label for="">{{empresaSelect?.razonSocial}}</label>            
         </button>       
     </div>
     <div class="col4">
         <mat-icon matBadge="15"  matBadgeColor="warn" aria-hidden="false" fontIcon="notifications"></mat-icon>        
     </div>
     <div class="col5">
-        <mat-icon aria-hidden="false" fontIcon="account_circle"></mat-icon>      
-        <label class="text-color-white" for="">ejemplo@correo.com.co</label>  
+        <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
+        <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
+        <label class="text-color-white" for="">{{usuario?.email}}</label>  
     </div>
 </div>
+<button (click)="test()">test</button>
