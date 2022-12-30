@@ -10,6 +10,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import {CardModule} from 'primeng/card';
 import {TableModule} from 'primeng/table';
+import {PanelModule} from 'primeng/panel';
 
 const modules=[
   DropdownModule,
@@ -19,7 +20,8 @@ const modules=[
   DialogModule,
   ConfirmDialogModule,  
   CardModule,
-  TableModule
+  TableModule,
+  PanelModule
 ]
 
 
