@@ -16,20 +16,10 @@ export class NavComponent implements OnInit {
 
   selectedItem!: SelectItem;
   listItems!: SelectItem[]
-  cities!: City[];
-
-  selectedCity!: City;
+  display: boolean = false;
 
   constructor() { 
-    this.cities = [
-      {name: 'New York', code: 'NY'},
-      {name: 'Rome', code: 'RM'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Paris', code: 'PRS'}
-  ];
-  this.listItems = [{label: 'pi pi-align-justify', value: 'v1'}, {label: 'pi pi-angle-right', value: 'v2'}];
-  }
+    }
 
   ngOnInit(): void {
 
@@ -39,11 +29,18 @@ export class NavComponent implements OnInit {
     console.log(this.empresasItems, this.empresaSelect, this.empresaSelectOld);
     
   }
-}
 
-interface City {
-  name: string,
-  code: string
+
+    showDialog() {
+      if (this.empresasItems.length > 1) {
+        this.display = true;        
+      }
+    }
+
+    confirmEmpresa(event: Event){
+      console.log(event);
+      
+    }
 }
 
 interface SelectItem{

@@ -6,7 +6,7 @@
         <img src="../../../../assets/svg/Sigess5.svg" alt="">
     </div>
     <div class="col3">
-        <button class="button-round button-white" mat-raised-button color="primary" (click)="test()">
+        <button class="button-round button-white" mat-raised-button color="primary" (click)="showDialog()">
             <mat-icon fontIcon="apartment" style="color: #052f6e;"></mat-icon>
             <label for="">{{empresaSelect?.razonSocial}}</label>            
         </button>       
@@ -20,4 +20,13 @@
         <label class="text-color-white" for="">{{usuario?.email}}</label>  
     </div>
 </div>
-<button (click)="test()">test</button>
+
+<p-dialog  header="Lista de Empresas" position="top" draggable="false" keepInViewport="false" modal="true" [(visible)]="display" [style]="{width: '50vw'}">
+    <app-empresa-list [empresasList]="empresasItems" (changeEmpresa)="confirmEmpresa($event)"></app-empresa-list>
+    <ng-template pTemplate="footer">
+        <!-- <p-button icon="pi pi-check" (click)="test()" label="Aceptar" styleClass="p-button-text"></p-button> -->
+    </ng-template>
+</p-dialog>
+<!-- <button (click)="test()">test</button>
+
+<button type="button" (click)="showDialog()" icon="pi pi-info-circle" label="Show"></button> -->

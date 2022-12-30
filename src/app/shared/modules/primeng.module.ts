@@ -5,12 +5,21 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import {DialogModule} from 'primeng/dialog';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+import {CardModule} from 'primeng/card';
+import {TableModule} from 'primeng/table';
 
 const modules=[
   DropdownModule,
   ScrollPanelModule,
   ProgressSpinnerModule,
-  ToastModule
+  ToastModule,
+  DialogModule,
+  ConfirmDialogModule,  
+  CardModule,
+  TableModule
 ]
 
 
@@ -24,7 +33,8 @@ const modules=[
     modules
   ],
   providers:[
-    MessageService
+    MessageService,
+    ConfirmationService
   ]
 })
 export class PrimengModule { }

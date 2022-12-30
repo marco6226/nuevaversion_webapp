@@ -9,6 +9,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatListModule} from '@angular/material/list';
+import {MatTableModule} from '@angular/material/table';
 
 const modules=[
   MatFormFieldModule,
@@ -19,7 +22,10 @@ const modules=[
   MatSelectModule,
   MatBadgeModule,
   MatDividerModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatDialogModule,
+  MatListModule,
+  MatTableModule
 ]
 
 @NgModule({
