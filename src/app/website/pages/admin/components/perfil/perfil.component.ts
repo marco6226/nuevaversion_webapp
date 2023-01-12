@@ -20,7 +20,6 @@ export class PerfilComponent implements OnInit {
   perfil!: Perfil | null;
   msgs!: Message[];
   visibleBtnSave!: boolean;
-  loading!: boolean;
   totalRecords!: number;
   fields: string[] = [
     'id',
@@ -36,7 +35,6 @@ export class PerfilComponent implements OnInit {
   }
 
   lazyLoad(event: any) {
-    this.loading = false;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
     filterQuery.sortOrder = event.sortOrder;
@@ -50,7 +48,6 @@ export class PerfilComponent implements OnInit {
     this.perfilService.findByFilter(filterQuery).then(
       (resp:any) => {
         this.totalRecords = resp['count'];
-        this.loading = false;
         this.perfilList = [];
         (<any[]>resp['data']).forEach(dto => this.perfilList.push(FilterQuery.dtoToObject(dto)));
       }

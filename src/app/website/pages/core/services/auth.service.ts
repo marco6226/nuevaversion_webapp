@@ -75,4 +75,25 @@ export class AuthService {
         this.sesionService.setRefreshToken(res["refresh"]);
     }
   }
+
+  async logout() {
+    debugger
+    let refresh = await this.sesionService.getRefreshToken();
+    let auth = await this.sesionService.getAuthToken();
+    return new Promise((resolve, reject) => {
+        this.httpInt
+            .post(this.authEndPoint + "logout", {
+                refresh: refresh,
+                Authorization: auth,
+            })
+            .subscribe(
+                (res) => {
+                    this.sesionService.setLoggedIn(false);
+                    resolve(res);
+                },
+                (err) => reject(err)
+            );
+    });
+  }
+  
 }

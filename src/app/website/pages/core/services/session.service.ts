@@ -106,4 +106,16 @@ export class SesionService {
     this.session.permisosMap = permisosMapa;
     localStorage.setItem(config.session_id, JSON.stringify(this.session));
   }
+
+  public getPermisosMap(): any {
+    if (this.session == null) {
+        this.session = <Session>JSON.parse(localStorage.getItem(config.session_id)!);
+        if (this.session == null) return null;
+    }
+    return this.session.permisosMap;
+  }
+
+  public getRefreshToken(): string {
+    return localStorage.getItem('refresh')!;
+  }
 }

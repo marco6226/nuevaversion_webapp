@@ -104,6 +104,7 @@ import { AccidentalidadComponent } from './pages/ind/components/accidentalidad/a
 import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/consulta-actas.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EmpresaListComponent } from './components/empresa-list/empresa-list.component';
+import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.directive';
 
 
 @NgModule({
@@ -208,7 +209,8 @@ import { EmpresaListComponent } from './components/empresa-list/empresa-list.com
     AccidentalidadComponent,
     ConsultaActasComponent,
     LoadingComponent,
-    EmpresaListComponent
+    EmpresaListComponent,
+    TienePermisoDirective
   ],
   imports: [
     CommonModule,

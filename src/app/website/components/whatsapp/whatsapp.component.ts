@@ -12,4 +12,7 @@ export class WhatsappComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  openWhatsapp(){
+    
+  }
 }

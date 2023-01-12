@@ -14,7 +14,7 @@
     <div class="col4">
         <mat-icon matBadge="15"  matBadgeColor="warn" aria-hidden="false" fontIcon="notifications"></mat-icon>        
     </div>
-    <div class="col5">
+    <div class="col5" (click)="showDialogSideBar()">
         <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
         <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
         <label class="text-color-white" for="">{{usuario?.email}}</label>  
@@ -27,6 +27,19 @@
         <!-- <p-button icon="pi pi-check" (click)="test()" label="Aceptar" styleClass="p-button-text"></p-button> -->
     </ng-template>
 </p-dialog>
-<!-- <button (click)="test()">test</button>
 
-<button type="button" (click)="showDialog()" icon="pi pi-info-circle" label="Show"></button> -->
+<p-sidebar [(visible)]="displaySideBar" position="right">
+    <div>
+        <div>
+            <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
+            <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
+            <label for="">{{usuario?.perfilNombre}}</label>  
+            <label for="">{{usuario?.email}}</label>  
+        </div>
+        <div>
+            <button type="button" pButton icon="fa fa-check" label="Preferencias"></button>
+            <button type="button" pButton icon="fa fa-check" (click)="logout()" label="Cerar Sesión"></button>
+            
+        </div>
+    </div>
+</p-sidebar>

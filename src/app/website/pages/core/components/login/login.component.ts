@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { MensajeUsuario } from '../../../comun/entities/mensaje-usuario';
 import { AuthService } from '../../services/auth.service';
 import { SesionService } from '../../services/session.service';
 
@@ -24,6 +25,8 @@ export class LoginComponent implements OnInit {
   contadorFallas = 0;
   relojText!: string;
   msgs: Message[] = [];
+  intentosMax = 5;
+  visiblePinForm = false;
   
   constructor(
     private fb: FormBuilder,
@@ -97,9 +100,39 @@ export class LoginComponent implements OnInit {
           //mostrar acepTerm
         }
       });      
-    } catch (error) {      
-      console.log(error);
+    } catch (err: any) {      
+      console.log(err);
       this.IsVisible = false;      
+      this.msgs = [];
+            if (err['name'] != null && err['name'] == 'TimeoutError') {
+                this.messageService.add({severity:'warn', summary: 'CONEXIÓN DEFICIENTE', detail: 'La conexión está tardando mucho tiempo en responder, la solicitud ha sido cancelada. Por favor intente mas tarde.'});
+                return;
+            }
+            let msg: MensajeUsuario = err.error;
+            switch (err.status) {
+                case 403:
+                    this.messageService.add({severity:'error', summary: 'CREDENCIALES INCORRECTAS', detail: 'El usuario o contraseña especificada no son correctas'});
+                    break;
+                case 401:                        
+                    if (msg.codigo == 2_007) {
+                        this.visiblePinForm = true;
+                    }
+                    if (msg.codigo == 2_009) {
+                        this.contadorFallas = this.intentosMax;
+                    }
+                    this.messageService.add({ severity: msg.tipoMensaje, summary: msg.mensaje, detail: msg.detalle });
+                    break;
+                case 400:
+                    this.messageService.add({ severity: msg.tipoMensaje, summary: msg.mensaje, detail: msg.detalle });
+                    break;
+                default:
+                    this.messageService.add({ severity: 'error', summary: 'ERROR', detail: 'Se ha generado un error no esperado' });
+                    break;
+            }
+            this.contadorFallas += 1;
+            if (this.contadorFallas >= this.intentosMax) {
+                this.iniciarContador(new Date().getTime() + (2 * 60 * 1000));
+            }
     }
     
     

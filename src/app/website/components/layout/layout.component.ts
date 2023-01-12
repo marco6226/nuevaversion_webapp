@@ -67,7 +67,7 @@ export class LayoutComponent implements OnInit {
 				await this.sesionService.setConfiguracionMap(mapaConfig);
 				await this.layoutMenuComp.loadMenu();
 			});
-
+		
 		await this.permisoService.findAll()
 			.then(async (data: Permiso[] | any) => {
 				this.mapaPermisos = {};
@@ -75,7 +75,7 @@ export class LayoutComponent implements OnInit {
 					'valido': element.valido, 'areas': element.areas
 				});
 				this.sesionService.setPermisosMap(this.mapaPermisos);
-				// console.log(this.mapaPermisos);
+				console.table(this.mapaPermisos);
 				await this.layoutMenuComp.loadMenu();
 			});
 
@@ -87,10 +87,5 @@ export class LayoutComponent implements OnInit {
 				this.sesionService.setEmpleado(this.empleado);
 			}
 		);
-	}
-
-	test(){
-		console.log(this.empresaSelect, this.empresaSelectOld, this.empresasItems);
-		
 	}
 }

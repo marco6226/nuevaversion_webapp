@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../pages/core/services/auth.service';
 import { Empresa } from '../../pages/empresa/entities/empresa';
 import { Usuario } from '../../pages/empresa/entities/usuario';
 
@@ -17,9 +19,13 @@ export class NavComponent implements OnInit {
   selectedItem!: SelectItem;
   listItems!: SelectItem[]
   display: boolean = false;
+  displaySideBar: boolean = false;
 
-  constructor() { 
-    }
+  constructor(
+		private authService: AuthService,
+		private router: Router,
+    ) { 
+      }
 
   ngOnInit(): void {
 
@@ -37,9 +43,24 @@ export class NavComponent implements OnInit {
       }
     }
 
+    showDialogSideBar() {
+      this.displaySideBar = !this.displaySideBar;
+    }
+
     confirmEmpresa(event: Event){
       console.log(event);
       
+    }
+
+    async logout() {
+      await this.authService.logout().then(
+        resp => this.router.navigate(['/login'])
+      ).catch(
+        err => {
+          
+          alert("Se produjo un error al cerrar sesión, ingresar nuevamente")
+        }
+      );
     }
 }
 

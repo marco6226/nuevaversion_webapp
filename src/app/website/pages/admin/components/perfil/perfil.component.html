@@ -1,9 +1,9 @@
 <!-- <div class="content"> -->
 
     <!-- <p-growl [value]="msgs"></p-growl> -->
-<!-- <p-panel header="Perfiles"> -->
+<p-panel header="Perfiles">
     <p-table #dt [value]="perfilList" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
-        dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+        dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="nombre">Nombre
@@ -35,7 +35,7 @@
                 (click)="abrirDlgModificar()" [disabled]="!perfil"></button>
         </ng-template>
     </p-table>
-
+</p-panel>
 
 <p-dialog header="Perfil" [(visible)]="visibleDlg" [responsive]="true" (onHide)="hideDlg()" showEffect="fade" [modal]="true">
     <div class="ui-g" *ngIf="perfil">
