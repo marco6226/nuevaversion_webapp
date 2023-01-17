@@ -1,6 +1,6 @@
 <!-- <button (click)="test()">test</button> -->
 <div>
-    <app-nav [usuario]="usuario" [empresasItems]="empresasItems" [empresaSelect]="empresaSelect" [empresaSelectOld]="empresaSelectOld"></app-nav>
+    <app-nav [usuario]="usuario" [empresasItems]="empresasItems" [empresaSelect]="empresaSelect" [empresaSelectOld]="empresaSelectOld" (reloadEmpresa)="reloadEmpresa()"></app-nav>
     <div class="contenedor-ppal">
         <app-layout-menu></app-layout-menu>
         <ng-content select="app-menu"></ng-content>

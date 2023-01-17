@@ -17,7 +17,7 @@ export class EmpresaListComponent implements OnInit {
 
   onSelect(empresa: SelectItem){
     this.confirmationService.confirm({
-      message: 'Confirma cambiar a la compañia ' + empresa.label +' ?',
+      message: '¿Confirma cambiar a la compañia ' + empresa.label +' ?',
       accept: () => {
           //Actual logic to perform a confirmation
           this.changeEmpresa.emit(empresa);
