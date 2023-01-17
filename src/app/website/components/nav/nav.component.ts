@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { AuthService } from '../../pages/core/services/auth.service';
+import { SesionService } from '../../pages/core/services/session.service';
 import { Empresa } from '../../pages/empresa/entities/empresa';
 import { Usuario } from '../../pages/empresa/entities/usuario';
+import { LayoutComponent } from '../layout/layout.component';
 
 @Component({
   selector: 'app-nav',
@@ -15,7 +18,8 @@ export class NavComponent implements OnInit {
   @Input() empresasItems: SelectItem[] = [];
 	@Input() empresaSelect!: Empresa;
 	@Input() empresaSelectOld!: Empresa;
-
+  @Output() reloadEmpresa = new EventEmitter();
+  
   selectedItem!: SelectItem;
   listItems!: SelectItem[]
   display: boolean = false;
@@ -24,11 +28,13 @@ export class NavComponent implements OnInit {
   constructor(
 		private authService: AuthService,
 		private router: Router,
-    ) { 
-      }
+    private messageService: MessageService,
+		private sesionService: SesionService,
+    ) {}
 
-  ngOnInit(): void {
-
+  async ngOnInit(): Promise<void> {  
+    debugger
+    await this.reloadEmpresa.emit();
   }
 
   test(){
@@ -47,7 +53,12 @@ export class NavComponent implements OnInit {
       this.displaySideBar = !this.displaySideBar;
     }
 
-    confirmEmpresa(event: Event){
+    async confirmEmpresa(event: Empresa){
+      debugger
+      // var x = this.empresasItems.find(x=>x.)
+      await this.sesionService.setEmpresa(event);				
+      await this.router.navigate([('/app/home')]);
+      // await location.reload();
       console.log(event);
       
     }
@@ -57,8 +68,9 @@ export class NavComponent implements OnInit {
         resp => this.router.navigate(['/login'])
       ).catch(
         err => {
+          this.messageService.add({severity:'error', summary: 'CREDENCIALES INCORRECTAS', detail: 'Se produjo un error al cerrar sesión, intente nuevamente'});
           
-          alert("Se produjo un error al cerrar sesión, ingresar nuevamente")
+          // alert("Se produjo un error al cerrar sesión, ingresar nuevamente")
         }
       );
     }

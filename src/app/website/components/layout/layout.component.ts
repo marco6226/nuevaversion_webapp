@@ -40,7 +40,7 @@ export class LayoutComponent implements OnInit {
 		private empleadoService: EmpleadoService,
 	) { }
 
-	async ngOnInit(): Promise<void> {
+	public async ngOnInit(): Promise<void> {
 		await this.helperService.customMessage.subscribe(msg => this.actualizarPermisos = msg);
 		this.usuario = await this.sesionService.getUsuario();
 
@@ -86,6 +86,17 @@ export class LayoutComponent implements OnInit {
 				// console.log(this.empleado);
 				this.sesionService.setEmpleado(this.empleado);
 			}
+		);
+	}
+
+	async reloadEmpresa()
+	{
+		debugger
+		await this.helperService.customMessage.subscribe(msg => this.actualizarPermisos = msg);
+		this.usuario = await this.sesionService.getUsuario();
+
+		this.empresaService.findByUsuario(this.usuario!.id).then(
+			resp => this.loadItems(<Empresa[]>resp)
 		);
 	}
 }
