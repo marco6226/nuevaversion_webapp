@@ -105,7 +105,43 @@ import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/co
 import { LoadingComponent } from './components/loading/loading.component';
 import { EmpresaListComponent } from './components/empresa-list/empresa-list.component';
 import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.directive';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {FieldsetModule} from 'primeng/fieldset';
+import {TreeTableModule} from 'primeng/treetable';
 
+	// PanelModule,
+	// InputTextareaModule,
+	// InputTextModule,
+	// PasswordModule,
+	// CheckboxModule,
+	// TabViewModule,
+	// TooltipModule,
+	// RadioButtonModule,
+	// DropdownModule,
+	// DialogModule,
+	// AccordionModule,
+	// ConfirmDialogModule,
+	// ToggleButtonModule,
+	// SelectButtonModule,
+	// TreeModule,
+	// CalendarModule,
+	// SpinnerModule,
+	// MenuModule,
+	// MultiSelectModule,
+	// OverlayPanelModule,
+	// OrganizationChartModule,
+	// AutoCompleteModule,
+	// ContextMenuModule,
+	// InputMaskModule,
+	// ChipsModule,
+	// FileUploadModule,
+	// BreadcrumbModule,
+	// ChartModule,
+	// GalleriaModule,
+	// LightboxModule,
+	// InputSwitchModule,
+// } from 'primeng/fieldset';
 
 @NgModule({
   declarations: [
@@ -216,6 +252,10 @@ import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.di
     CommonModule,
     WebsiteRoutingModule,
     SharedModule,
+    MessagesModule,
+    MessageModule,
+    FieldsetModule,
+    TreeTableModule
   ]
 })
 export class WebsiteModule { }
