@@ -105,7 +105,15 @@ import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/co
 import { LoadingComponent } from './components/loading/loading.component';
 import { EmpresaListComponent } from './components/empresa-list/empresa-list.component';
 import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.directive';
-
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputMaskModule } from 'primeng/inputmask';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputTextModule } from 'primeng/inputtext';
+import { PanelModule } from 'primeng/panel';
+import { RangoFechaSelectorComponent } from './pages/comun/components/rango-fecha-selector/rango-fecha-selector.component';
+import { CalendarModule } from 'primeng/calendar';
+import { PerfilService } from './pages/admin/services/perfil.service';
 
 @NgModule({
   declarations: [
@@ -210,12 +218,23 @@ import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.di
     ConsultaActasComponent,
     LoadingComponent,
     EmpresaListComponent,
-    TienePermisoDirective
+    TienePermisoDirective,
+    RangoFechaSelectorComponent
   ],
   imports: [
     CommonModule,
     WebsiteRoutingModule,
     SharedModule,
+    MultiSelectModule,
+    CheckboxModule,
+    InputMaskModule,
+    RadioButtonModule,
+    InputTextModule,
+    PanelModule,
+    CalendarModule
+  ],
+  providers: [
+    PerfilService
   ]
 })
 export class WebsiteModule { }

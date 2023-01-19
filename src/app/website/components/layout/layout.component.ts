@@ -23,7 +23,6 @@ export class LayoutComponent implements OnInit {
 
 	@ViewChild(LayoutMenuComponent) layoutMenuComp!: LayoutMenuComponent;
 
-	actualizarPermisos: any;
 	usuario!: Usuario | null;
 	empresasItems: SelectItem[] = [];
 	empresaSelect?: Empresa | null;
@@ -41,7 +40,15 @@ export class LayoutComponent implements OnInit {
 	) { }
 
 	public async ngOnInit(): Promise<void> {
-		await this.helperService.customMessage.subscribe(msg => this.actualizarPermisos = msg);
+		await this.helperService.customMessage.subscribe(
+			msg => {
+				// console.log(msg);
+				if(msg === 'actualizarPermisos'){
+					this.reloadEmpresa();
+					this.helperService.changeMessage('En espera...');
+				}
+			}
+		);
 		this.usuario = await this.sesionService.getUsuario();
 
 		this.empresaService.findByUsuario(this.usuario!.id).then(
@@ -75,12 +82,12 @@ export class LayoutComponent implements OnInit {
 					'valido': element.valido, 'areas': element.areas
 				});
 				this.sesionService.setPermisosMap(this.mapaPermisos);
-				console.table(this.mapaPermisos);
+				// console.table(this.mapaPermisos);
 				await this.layoutMenuComp.loadMenu();
 			});
 
 
-		await this.empleadoService.findempleadoByUsuario(this.usuario!.id).then(
+		await this.empleadoService.findempleadoByUsuario(this.usuario!.id!).then(
 			(resp: Empleado | any) => {
 				this.empleado = <Empleado>(resp);
 				// console.log(this.empleado);
@@ -91,8 +98,6 @@ export class LayoutComponent implements OnInit {
 
 	async reloadEmpresa()
 	{
-		debugger
-		await this.helperService.customMessage.subscribe(msg => this.actualizarPermisos = msg);
 		this.usuario = await this.sesionService.getUsuario();
 
 		this.empresaService.findByUsuario(this.usuario!.id).then(

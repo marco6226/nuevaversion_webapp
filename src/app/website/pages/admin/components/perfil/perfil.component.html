@@ -1,24 +1,22 @@
-<!-- <div class="content"> -->
-
-    <!-- <p-growl [value]="msgs"></p-growl> -->
+<p-toast></p-toast>
 <p-panel header="Perfiles">
-    <p-table #dt [value]="perfilList" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
-        dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords">
+    <p-table #dt [value]="perfilList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
+        dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="nombre">Nombre
+                <th pSortableColumn="nombre" class="text-center">Nombre
                     
                     <p-sortIcon field="nombre"></p-sortIcon>
                 </th>
-                <th pSortableColumn="descripcion">Descripción
+                <th pSortableColumn="descripcion" class="text-center">Descripción
                     <p-sortIcon field="descripcion"></p-sortIcon>
                 </th>
             </tr>
             <tr>
-                <td>
+                <td class="text-center bg-light">
                     <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
                 </td>
-                <td>
+                <td class="text-center bg-light">
                     <input pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
                 </td>
             </tr>
@@ -30,12 +28,23 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="summary" let-rowData>
-            <button *sTienePermiso="'ADM_POST_PERF'" pButton type="button" icon="fa fa-plus" label="Adicionar" (click)="abrirDlgNuevo()"></button>
-            <button *sTienePermiso="'ADM_PUT_PERF'" pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success"
-                (click)="abrirDlgModificar()" [disabled]="!perfil"></button>
+            <div class="d-flex justify-content-center">
+                <button *sTienePermiso="'ADM_POST_PERF'" 
+                    pButton type="button" 
+                    icon="bi bi-plus" 
+                    label="Adicionar"
+                    class="p-button-raised p-button-primary margin-right" 
+                    (click)="abrirDlgNuevo()"></button>
+                <button *sTienePermiso="'ADM_PUT_PERF'" 
+                    pButton type="button" 
+                    icon="bi bi-pencil" 
+                    label="Modificar" 
+                    class="p-button-raised p-button-success margin-left"
+                    (click)="abrirDlgModificar()" [disabled]="!perfil"></button>
+            </div>
         </ng-template>
     </p-table>
-</p-panel>
+
 
 <p-dialog header="Perfil" [(visible)]="visibleDlg" [responsive]="true" (onHide)="hideDlg()" showEffect="fade" [modal]="true">
     <div class="ui-g" *ngIf="perfil">
@@ -60,5 +69,3 @@
         </div>
     </p-footer>
 </p-dialog>
-
-<!-- </div> -->
