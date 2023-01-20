@@ -10,7 +10,7 @@ import { PerfilService } from './services/perfil.service';
         ComunModule,
         AdminRoutingModule
     ],
-    declarations: [AdminComponent, UsuarioComponent],
+    declarations: [AdminComponent],
     providers: [PerfilService]
 })
 export class AdminModule { }
