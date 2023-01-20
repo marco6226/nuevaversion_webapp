@@ -236,14 +236,13 @@ import {TreeTableModule} from 'primeng/treetable';
     MessagesModule,
     MessageModule,
     FieldsetModule,
-    TreeTableModule
+    TreeTableModule,
     InputTextModule,
     PanelModule,
     CalendarModule
   ],
   providers: [
     PerfilService
-  ]
   ]
 })
 export class WebsiteModule { }
