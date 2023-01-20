@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { Criteria } from './../../../core/entities/filter';
 import { Component, OnInit } from '@angular/core';
 import { AreaService } from '../../../empresa/services/area.service';
