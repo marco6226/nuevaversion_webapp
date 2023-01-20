@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { Message } from 'primeng/api/message';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { Perfil } from '../../../empresa/entities/perfil';
+import { MessageService } from 'primeng/api';
 import { PerfilService } from '../../services/perfil.service';
 
 @Component({
@@ -12,14 +11,13 @@ import { PerfilService } from '../../services/perfil.service';
   providers: [PerfilService],
 })
 export class PerfilComponent implements OnInit {
-  
 
   empresaId!: string;
   perfilList!: Perfil[];
   visibleDlg!: boolean;
-  perfil!: Perfil | null;
-  msgs!: Message[];
+  perfil!: Perfil;
   visibleBtnSave!: boolean;
+  loading!: boolean;
   totalRecords!: number;
   fields: string[] = [
     'id',
@@ -27,14 +25,20 @@ export class PerfilComponent implements OnInit {
     'descripcion'
   ];
 
-  constructor(
-    private perfilService: PerfilService
-  ) { }
 
-  ngOnInit(): void {
+  constructor(
+    private perfilService: PerfilService,
+    private msgs: MessageService
+  ) {
   }
 
+  ngOnInit() {
+    this.loading = true;
+  }
+
+
   lazyLoad(event: any) {
+    this.loading = true;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
     filterQuery.sortOrder = event.sortOrder;
@@ -46,8 +50,9 @@ export class PerfilComponent implements OnInit {
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
 
     this.perfilService.findByFilter(filterQuery).then(
-      (resp:any) => {
+      (resp: any) => {
         this.totalRecords = resp['count'];
+        this.loading = false;
         this.perfilList = [];
         (<any[]>resp['data']).forEach(dto => this.perfilList.push(FilterQuery.dtoToObject(dto)));
       }
@@ -56,12 +61,7 @@ export class PerfilComponent implements OnInit {
 
   abrirDlgNuevo() {
     this.visibleDlg = true;
-    this.perfil = {
-      id: "",
-      nombre: "", 
-      descripcion: "", 
-      permisoList: []
-    };
+    this.perfil = new Perfil();
     this.visibleBtnSave = true;
   }
 
@@ -71,17 +71,17 @@ export class PerfilComponent implements OnInit {
   }
 
   hideDlg() {
-    this.perfil = null;
+    this.perfil = new Perfil();
   }
 
   adicionar() {
-    this.perfilService.create(this.perfil!).then(
+    this.perfilService.create(this.perfil).then(
       resp => this.manageResponse(<Perfil>resp, false)
     );
   }
 
   modificar() {
-    this.perfilService.update(this.perfil!).then(
+    this.perfilService.update(this.perfil).then(
       resp => this.manageResponse(<Perfil>resp, true)
     );
   }
@@ -91,13 +91,12 @@ export class PerfilComponent implements OnInit {
       this.perfilList.push(perfil);
       this.perfilList = this.perfilList.slice();
     }
-    this.msgs = [];
-    this.msgs.push({
+    this.msgs.add({
       severity: 'success',
       summary: 'Perfil creado',
       detail: 'Se ha ' + (isUpdate ? 'actualizado' : 'creado') + ' correctamente el perfil ' + perfil.nombre
     });
     this.visibleDlg = false;
-    this.perfil = null;
+    this.perfil = new Perfil();
   }
 }

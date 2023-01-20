@@ -105,43 +105,19 @@ import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/co
 import { LoadingComponent } from './components/loading/loading.component';
 import { EmpresaListComponent } from './components/empresa-list/empresa-list.component';
 import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.directive';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputMaskModule } from 'primeng/inputmask';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputTextModule } from 'primeng/inputtext';
+import { PanelModule } from 'primeng/panel';
+import { RangoFechaSelectorComponent } from './pages/comun/components/rango-fecha-selector/rango-fecha-selector.component';
+import { CalendarModule } from 'primeng/calendar';
+import { PerfilService } from './pages/admin/services/perfil.service';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {FieldsetModule} from 'primeng/fieldset';
 import {TreeTableModule} from 'primeng/treetable';
-
-	// PanelModule,
-	// InputTextareaModule,
-	// InputTextModule,
-	// PasswordModule,
-	// CheckboxModule,
-	// TabViewModule,
-	// TooltipModule,
-	// RadioButtonModule,
-	// DropdownModule,
-	// DialogModule,
-	// AccordionModule,
-	// ConfirmDialogModule,
-	// ToggleButtonModule,
-	// SelectButtonModule,
-	// TreeModule,
-	// CalendarModule,
-	// SpinnerModule,
-	// MenuModule,
-	// MultiSelectModule,
-	// OverlayPanelModule,
-	// OrganizationChartModule,
-	// AutoCompleteModule,
-	// ContextMenuModule,
-	// InputMaskModule,
-	// ChipsModule,
-	// FileUploadModule,
-	// BreadcrumbModule,
-	// ChartModule,
-	// GalleriaModule,
-	// LightboxModule,
-	// InputSwitchModule,
-// } from 'primeng/fieldset';
 
 @NgModule({
   declarations: [
@@ -246,16 +222,28 @@ import {TreeTableModule} from 'primeng/treetable';
     ConsultaActasComponent,
     LoadingComponent,
     EmpresaListComponent,
-    TienePermisoDirective
+    TienePermisoDirective,
+    RangoFechaSelectorComponent
   ],
   imports: [
     CommonModule,
     WebsiteRoutingModule,
     SharedModule,
+    MultiSelectModule,
+    CheckboxModule,
+    InputMaskModule,
+    RadioButtonModule,
     MessagesModule,
     MessageModule,
     FieldsetModule,
     TreeTableModule
+    InputTextModule,
+    PanelModule,
+    CalendarModule
+  ],
+  providers: [
+    PerfilService
+  ]
   ]
 })
 export class WebsiteModule { }

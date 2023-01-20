@@ -1,6 +1,6 @@
 <!-- <p-growl [value]="msgs"></p-growl> -->
-
-<!-- <p-panel header="Administración de permisos"> -->
+<p-toast key="permisos"></p-toast>
+<p-panel header="Administración de permisos">
 
     <div class="ui-g">
         <div class="ui-g-8">
@@ -18,7 +18,7 @@
                 </tr>
             </table>
         </div>
-        <!-- <div class="ui-g-12">
+        <div class="ui-g-12">
             <p-table #dt [value]="recursosList" dataKey="modulo" autoLayout="true" *ngIf="permisosList">
                 <ng-template pTemplate="header">
                     <tr>
@@ -42,25 +42,31 @@
                 <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"
                     let-columns="columns">
                     <tr *ngIf="rowGroupMetadata[rowData.modulo].index === rowIndex">
-                        <td colspan="5">
-                            <a [pRowToggler]="rowData">
-                                <i
-                                    [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
-                                <span>{{rowData.modulo}}</span>
-                            </a>
+                        <td colspan="5" [pRowToggler]="rowData">
+                            <div type="button"
+                                pButton 
+                                pRipple 
+                                [pRowToggler]="product" 
+                                class="p-button-secondary p-button-text" 
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                                label="{{rowData.modulo}}">
+                            </div>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
                     <tr>
                         <td style="width: 3em;">
-                            <button [disabled]="isOnEdit" pButton icon="fa fa-pencil" class="soft-icon" style="color:green !important;"
-                                (click)="actualizarPermiso(rowData)"></button>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" (click)="actualizarPermiso(rowData)" id="flexSwitchCheckDefault" [checked]="rowData.selected">
+                            </div>
+                            <!-- <button [disabled]="isOnEdit" class="btn btn-success" pButton icon="bi bi-ubuntu" class="soft-icon" style="color:black !important;"
+                                (click)="actualizarPermiso(rowData)"></button> -->
                         </td>
-                        <td style="width: 3em;">
+                        <!-- <td style="width: 3em;">
                             <p-checkbox [(ngModel)]="rowData.selected" binary="true"></p-checkbox>
-                        </td>
-                        <td>{{rowData.nombre}}</td>
+                        </td> -->
+                        <td colspan="2">{{rowData.nombre}}</td>
                         <td>{{rowData.codigo}}</td>
                         <td>
 
@@ -71,8 +77,8 @@
                     </tr>
                 </ng-template>
             </p-table>
-        </div> -->
+        </div>
     </div>
 
 
-<!-- </p-panel> -->
+</p-panel>

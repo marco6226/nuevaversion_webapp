@@ -12,11 +12,11 @@ export class PermisoService extends CRUDService<Permiso>{
     return new Promise(resolve => {
       this.httpInt.get(endPoints.PermisoService + "perfil/" + perfilId)
         .subscribe(
-        res => {
-          resolve(res);
-        }
-        ,
-        err => this.manageError(err)
+          res => {
+            resolve(res);
+          }
+          ,
+          err => this.manageError(err)
         )
     });
   }
