@@ -118,6 +118,10 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {FieldsetModule} from 'primeng/fieldset';
 import {TreeTableModule} from 'primeng/treetable';
+import { DataNotFoundComponent } from './pages/comun/components/data-not-found/data-not-found.component';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -223,7 +227,8 @@ import {TreeTableModule} from 'primeng/treetable';
     LoadingComponent,
     EmpresaListComponent,
     TienePermisoDirective,
-    RangoFechaSelectorComponent
+    RangoFechaSelectorComponent,
+    DataNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -239,10 +244,13 @@ import {TreeTableModule} from 'primeng/treetable';
     TreeTableModule,
     InputTextModule,
     PanelModule,
-    CalendarModule
+    CalendarModule,
+    ConfirmDialogModule,
+    ImageCropperModule
   ],
   providers: [
-    PerfilService
+    PerfilService,
+    ConfirmationService
   ]
 })
 export class WebsiteModule { }
