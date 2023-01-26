@@ -1,13 +1,15 @@
 <p-toast key="myKey1"></p-toast>
 
-<s-dataNotFound *ngIf="!cargosList || cargosList.length <= 0" icon="fa-briefcase" message="Aún no se han registrado cargos">
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+<s-dataNotFound *ngIf="!cargosList || cargosList.length <= 0" icon="bi-briefcase" message="Aún no se han registrado cargos">
   <div *sTienePermiso="'EMP_POST_CARGO'">
     Inicia agregandolos haciendo click
     <a (click)="showAddForm()">aqui</a>
   </div>
 </s-dataNotFound>
 
-<p-panel header="Administración de cargos" [style.display]="cargosList && cargosList.length > 0 ? 'block':'none'" icon="fa-briefcase">
+<p-panel header="Administración de cargos" [style.display]="cargosList && cargosList.length > 0 ? 'block':'none'" icon="bi-briefcase">
 
   <p-table #dt [value]="cargosList" autoLayout="true" selectionMode="single" [(selection)]="cargoSelect" [rows]="10" [paginator]="true"
     dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
@@ -36,10 +38,10 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
-      <button *sTienePermiso="'EMP_POST_CARGO'" pButton type="button" icon="fa fa-plus" label="Adicionar" (click)="showAddForm()"></button>
-      <button *sTienePermiso="'EMP_PUT_CARGO'" pButton type="button" icon="fa fa-pencil-square-o" label="Modificar" class="ui-button-success"
+      <button *sTienePermiso="'EMP_POST_CARGO'" pButton type="button" icon="bi bi-plus" label="Adicionar" (click)="showAddForm()"></button>
+      <button *sTienePermiso="'EMP_PUT_CARGO'" pButton type="button" icon="bi bi-pencil-square-o" label="Modificar" class="ui-button-success"
         (click)="showUpdateForm()" [disabled]="!cargoSelect"></button>
-      <button *sTienePermiso="'EMP_DELETE_CARGO'" pButton type="button" icon="fa fa-trash" class="ui-button-danger" label="Eliminar"
+      <button *sTienePermiso="'EMP_DELETE_CARGO'" pButton type="button" icon="bi bi-trash" class="ui-button-danger" label="Eliminar"
         (click)="onCargoDelete()" [disabled]="!cargoSelect"></button>
     </ng-template>
   </p-table>
@@ -73,14 +75,14 @@
         </div>
       </div>
 
-      <!-- <p-fieldset>
+      <p-fieldset>
         <p-header>
           <label title="Click para adicionar función de cargo" class="clickable" (click)="addFuncion()">Funciones</label>
         </p-header>
         <table>
           <tr *ngFor="let funcion of funciones;let in = index">
             <td style="width: 1em;">
-              <button pButton type="button" icon="fa fa-close" class="soft-icon" (click)="removerFuncion(in)"></button>
+              <button pButton type="button" icon="bi bi-close" class="soft-icon" (click)="removerFuncion(in)"></button>
             </td>
             <td>
               <input name="inpfunc-{{in}}" [(ngModel)]="funcion.value" type="text" pInputText [ngModelOptions]="{standalone: true}" />
@@ -101,7 +103,7 @@
             <th>Deseable</th>
             <tr *ngFor="let perfEdu of perfilEducativoList;let in = index">
               <td>
-                <button pButton type="button" icon="fa fa-close" class="soft-icon" (click)="removerPerfilEdu(in)"></button>
+                <button pButton type="button" icon="bi bi-close" class="soft-icon" (click)="removerPerfilEdu(in)"></button>
               </td>
               <td>
                 <p-dropdown [options]="perfilEducativoOpts" appendTo="body" [(ngModel)]="perfEdu.minima" [ngModelOptions]="{standalone: true}"
@@ -126,7 +128,7 @@
           <th>Deseable</th>
           <tr *ngFor="let formacion of formacionList;let in = index">
             <td>
-              <button pButton type="button" icon="fa fa-close" class="soft-icon" (click)="removerFormacion(in)"></button>
+              <button pButton type="button" icon="bi bi-close" class="soft-icon" (click)="removerFormacion(in)"></button>
             </td>
             <td>
               <input name="inpformmin-{{in}}" [(ngModel)]="formacion.minima" type="text" pInputText [ngModelOptions]="{standalone: true}"
@@ -148,8 +150,8 @@
           <div class="ui-g-12 ui-md-6">
             <span class="ui-float-label">
               <input id="expmin-input" type="number" pInputText style="width: 100px;" formControlName="valorMinimo" />
-              <p-radioButton [style]="{'margin-left': '10px'}" name="expmin" value="anios" label="Año(s)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
-              <p-radioButton [style]="{'margin-left': '10px'}" name="expmin" value="meses" label="Mes(es)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
+              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadMinima" value="anios" label="Año(s)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
+              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadMinima" value="meses" label="Mes(es)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
               <label for="expmin-input">Mínima</label>
             </span>
           </div>
@@ -157,17 +159,17 @@
           <div class="ui-g-12 ui-md-6">
             <span class="ui-float-label">
               <input id="expdes-input" type="number" pInputText style="width: 100px;" formControlName="valorDeseable" />
-              <p-radioButton [style]="{'margin-left': '10px'}" name="expdes" value="anios" label="Año(s)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
-              <p-radioButton [style]="{'margin-left': '10px'}" name="expdes" value="meses" label="Mes(es)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
+              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadDeseable" value="anios" label="Año(s)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
+              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadDeseable" value="meses" label="Mes(es)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
               <label for="expdes-input">Deseable</label>
             </span>
           </div>
         </div>
-      </p-fieldset> -->
+      </p-fieldset>
 
-      <!-- <p-fieldset>
+      <p-fieldset>
         <p-header>
-          <button pButton type="button" icon="fa fa-gear" class="soft-icon" (click)="visibleFormComp = true"></button>
+          <button pButton type="button" icon="bi bi-gear" class="soft-icon" (click)="visibleFormComp = true"></button>
           <label title="Click para adicionar competencias" class="clickable" (click)="addCompetencia()">Competencias</label>
         </p-header>
 
@@ -184,13 +186,13 @@
             </tr>
           </ng-template>
         </p-treeTable>
-      </p-fieldset> -->
+      </p-fieldset>
 
 
     </div>
     <p-footer>
-      <button pButton type="submit" icon="fa fa-floppy-o" label="Guardar"></button>
-      <button pButton type="button" icon="fa fa-ban" class="ui-button-secondary" label="Cancelar" (click)="closeForm()"></button>
+      <button pButton type="submit" icon="bi bi-floppy-o" label="Guardar"></button>
+      <button pButton type="button" icon="bi bi-ban" class="ui-button-secondary" label="Cancelar" (click)="closeForm()"></button>
     </p-footer>
   </form>
 </p-dialog>

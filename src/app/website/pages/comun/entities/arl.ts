@@ -5,3 +5,4 @@ export class Arl implements ComunEntity {
     codigo!: string;
     nombre!: string;
 }
+

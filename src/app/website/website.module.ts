@@ -118,7 +118,6 @@ import {MessageModule} from 'primeng/message';
 import {FieldsetModule} from 'primeng/fieldset';
 import {TreeTableModule} from 'primeng/treetable';
 import { EmpleadoComponent } from './pages/empresa/components/empleado/empleado.component';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { EmpleadoFormComponent } from './pages/empresa/components/empleado/empleado-form/empleado-form.component';
 import { TabViewModule } from 'primeng/tabview';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -131,6 +130,10 @@ import { HorasExtraFormComponent } from './pages/empresa/components/empleado/hor
 import { DocumentosEmpleadoFormComponent } from './pages/empresa/components/empleado/documentos-empleado-form/documentos-empleado-form.component';
 import { DocumentoUploadComponent } from './pages/ado/components/documento-upload/documento-upload.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DataNotFoundComponent } from './pages/comun/components/data-not-found/data-not-found.component';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -243,7 +246,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     JornadaFormComponent,
     HorasExtraFormComponent,
     DocumentosEmpleadoFormComponent,
-    DocumentoUploadComponent
+    DocumentoUploadComponent,
+    DataNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -265,10 +269,12 @@ import { FileUploadModule } from 'primeng/fileupload';
     ProgressSpinnerModule,
     AutoCompleteModule,
     AccordionModule,
-    FileUploadModule
+    FileUploadModule,
+    ImageCropperModule
   ],
   providers: [
-    PerfilService
+    PerfilService,
+    ConfirmationService
   ]
 })
 export class WebsiteModule { }
