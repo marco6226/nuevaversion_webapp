@@ -1,1 +1,110 @@
-<p>empleado works!</p>
+<p-toast key="empleado"></p-toast>
+<div *ngIf="!visibleForm">
+    <p-panel header="Administración de empleados">
+        <p-table #dt styleClass="p-datatable-gridlines" [value]="empleadosList" [(selection)]="empleadoSelect" autoLayout="true" selectionMode="single" [rows]="10" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th rowspan="2"></th>
+                    <th pSortableColumn="primerNombre">Primer nombre
+                        <p-sortIcon field="primerNombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="segundoNombre">Segundo nombre
+                        <p-sortIcon field="segundoNombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="primerApellido">Primer apellido
+                        <p-sortIcon field="primerApellido"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="segundoApellido">Segundo apellido
+                        <p-sortIcon field="segundoApellido"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="numeroIdentificacion">Número identificación
+                        <p-sortIcon field="numeroIdentificacion"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="cargo.nombre">Cargo
+                        <p-sortIcon field="cargo.nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="usuario.email">E-Mail
+                        <p-sortIcon field="usuario.email"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="area.nombre">Ubicación
+                        <p-sortIcon field="area.nombre"></p-sortIcon>
+                    </th>
+                    <!-- <th pSortableColumn="estado">Estado
+                        <p-sortIcon field="estado"></p-sortIcon>
+                    </th> -->
+                </tr>
+                <tr>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerNombre', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'segundoNombre', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerApellido', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'segundoApellido', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'numeroIdentificacion', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'cargo.nombre', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'usuario.email', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'area.nombre', 'contains')">
+                    </td>
+                    <!-- <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                    </td> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-empleado>
+                <tr [pSelectableRow]="empleado" class="table-row table-row-selectable">
+                    <td class="td-avatar">
+                        <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle" aria-hidden="true"></i>
+                        <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon" style="border-radius: 50%;" />
+                    </td>
+                    <td>{{empleado.primerNombre}}</td>
+                    <td>{{empleado.segundoNombre}}</td>
+                    <td>{{empleado.primerApellido}}</td>
+                    <td>{{empleado.segundoApellido}}</td>
+                    <td>{{empleado.numeroIdentificacion}}</td>
+                    <td>{{empleado.cargo.nombre}}</td>
+                    <td>{{empleado.usuario.email}}</td>
+                    <td>{{empleado.area.nombre}}</td>
+                    <!-- <td>
+                        <label class="badge" [ngClass]="{'success': empleado.estado != 'ELIMINADO', 'novalid': empleado.estado == 'ELIMINADO'}">{{empleado.estado}}</label>
+                    </td> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group" role="group" >
+                        <button *sTienePermiso="'EMP_POST_EMPL'" pButton type="button" icon="bi bi-plus" class="margin-right" label="Nuevo" (click)="showAddForm()"></button>
+                        <button *sTienePermiso="'EMP_PUT_EMPL'" pButton type="button" icon="bi bi-pencil-square" class="p-button-success margin-left margin-right" label="Modificar" (click)="showUpdateForm()" [disabled]="!empleadoSelect"></button>
+                        <button *sTienePermiso="'EMP_PUT_EMPL'" pButton type="button" icon="bi bi-eye" class="p-button-info margin-left margin-right" label="Consultar" (click)="showForm()" [disabled]="!empleadoSelect"></button>
+                        <button *sTienePermiso="'EMP_DELETE_EMPL'" pButton type="button" icon="bi bi-trash" class="p-button-danger margin-left" label="Eliminar" (click)="onEmpleadoDelete()" [disabled]="!empleadoSelect"></button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-table>
+
+    </p-panel>
+
+</div>
+
+<s-dataNotFound *ngIf="!empleadosList || empleadosList.length <= 0" icon="fa-users" message="Aún no se han registrado empleados con esos criterios">
+    <div *sTienePermiso="'EMP_POST_EMPL'">
+        Inicia agregandolos haciendo click
+        <a (click)="showAddForm()">aqui</a>
+    </div>
+</s-dataNotFound>
+
+<div>
+    <s-empleadoForm *ngIf="visibleForm" (onEmpleadoCreate)="onEmpleadoCreate($event)" (onEmpleadoUpdate)="onEmpleadoUpdate($event)" (onCancel)="onCancel()" [isUpdate]="isUpdate" [editable]="isEditable" [show]="show" [empleadoSelect]="empleadoSelect"></s-empleadoForm>
+</div>

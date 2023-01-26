@@ -1,4 +1,7 @@
 import { ComunEntity } from "./comun-entity";
 
-export interface Afp extends ComunEntity {
+export class Afp implements ComunEntity {
+    id!: string;
+    codigo!: string;
+    nombre!: string;
 }

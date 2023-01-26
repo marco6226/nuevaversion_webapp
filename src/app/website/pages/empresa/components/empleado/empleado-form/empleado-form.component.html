@@ -1,0 +1,427 @@
+<p-toast key="empleadoForm"></p-toast>
+<p-tabView>
+    <p-tabPanel header="Datos básicos">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <p-panel header="PERSONAL">
+                <div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <label for="primerNombre">Primer nombre</label>
+                                <input type="text" class="form-control" id="primerNombre" pInputText formControlName="primerNombre" required/>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="segundoNombre">Segundo Nombre</label>
+                                <input type="text" class="form-control" id="segundoNombre" pInputText formControlName="segundoNombre" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="primerApellido">Primer Apellido</label>
+                                <input type="text" id="primerApellido" class="form-control" pInputText formControlName="primerApellido" required />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="segundoApellido">Segundo Apellido</label>
+                                <input type="text" id="segundoApellido" class="form-control" pInputText formControlName="segundoApellido" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label>Tipo de identificación</label>
+                                </div>
+                                <p-dropdown id="tipoId" placeholder="Tipo de identificación" [options]="tipoIdentificacionList" formControlName="tipoIdentificacion" required>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="numeroId" class="label-black">Número identificación</label>
+                                <input type="text" id="numeroId" class="form-control" pInputText formControlName="numeroIdentificacion" required />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <s-ciudadSelector id="ciudadSelector"
+                                    [styleCol]="'col-lg'"
+                                    formControlName="ciudad"
+                                ></s-ciudadSelector>
+                            </div>   
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div style="margin-left:10%;">
+                                <div>
+                                    <label>Zona residencia: </label>
+                                </div>
+                                <div class="field-radiobutton">
+                                    <p-radioButton id="zonaResidencia" class="'col-6'" style="margin-right: 10px;" name="zonaResidencia" value="U" label="Urbana " formControlName="zonaResidencia">
+                                    </p-radioButton>
+                                    <p-radioButton id="zonaResidencia" class="'col-6'" name="zonaResidencia" value="R" label="Rural" formControlName="zonaResidencia">
+                                    </p-radioButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label for="direccion">Dirección residencia</label>
+                                <input type="text" id="direccion" class="form-control" pInputText formControlName="direccion" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="telMovil">Teléfono movil personal</label>
+                                <input type="text" id="telMovil" class="form-control" pInputText formControlName="telefono1" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <label for="telFijo">Teléfono fijo personal</label>
+                                <input type="text" id="telFijo" class="form-control" pInputText formControlName="telefono2" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div style="margin-left:10%;">
+                                <div>
+                                    <label>Sexo:</label>
+                                </div>
+                                <div class="field-radiobutton">
+                                    <p-radioButton name="genero" value="M" label="Masculino" style="margin-right: 10px;" formControlName="genero">
+                                    </p-radioButton>
+                                    <p-radioButton name="genero" value="F" label="Femenino" formControlName="genero">
+                                    </p-radioButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label>Fecha de nacimiento</label>
+                                </div>
+                                <div>
+                                    <p-calendar [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                    [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                                    formControlName="fechaNacimiento"></p-calendar>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <label for="correoPersonal">Correo personal</label>
+                                <input type="text" id="correoPersonal" class="form-control" pInputText formControlName="correoPersonal" placeholder="Email personal" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-panel>
+            <br/>
+        <div class="">
+            <p-panel  class="ui-g-4" header="FIRMA EMPLEADO">
+                <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus" label="Adjuntar imágen" ></button>                
+                <s-galeria *ngIf="imagenesList?.length > 0" [images]="imagenesList" ></s-galeria>
+                <input name="myFile" type="file" style="visibility: hidden;" #fileInput (change)="onArchivoSelect($event)">
+                <div class="uploaders" *ngIf="listaEvidence.length >= 0 "> 
+                    <img *ngIf="avatar" [src]="imagenesPath"  />
+                </div>
+            </p-panel>
+        </div> 
+            <br>
+            <p-panel header="EMERGENCIA">
+                <div class="row g-2 mb-3">
+                    <div class="col-lg">
+                        <div>
+                            <label for="contactoEme">Contacto de emergencia</label>
+                            <input type="text" id="contactoEme" class="form-control" pInputText formControlName="emergencyContact"
+                                placeholder="Contacto de emergencia" />
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div>
+                            <label for="numeroEme">Numero de emergencia</label>
+                            <input type="text" id="numeroEme" class="form-control" pInputText formControlName="phoneEmergencyContact"
+                            placeholder="Numero de emergencia" />
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div>
+                            <label for="emailEme">Email de emergencia</label>
+                            <input type="text" id="emailEme" class="form-control" pInputText formControlName="emailEmergencyContact"
+                                placeholder="Email de emergencia" />
+                        </div>
+                    </div>
+                </div>
+            </p-panel>
+            <br />
+            <p-panel header="LABORAL">
+                <div class="row g-2 mb-3">
+                    <div class="col-lg">
+                        <div >
+                            <label for="email">Correo electrónico</label>
+                            <input type="text" id="email" class="form-control" pInputText formControlName="email" required />
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div >
+                            <div><label>Perfiles</label></div>
+                            <div>
+                                <p-multiSelect selectedItemsLabel="{0} elementos seleccionados" [maxSelectedLabels]="3" [options]="perfilList" formControlName="perfilesId" defaultLabel="--Perfiles--"
+                                required></p-multiSelect>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div >
+                            <label for="codigo">Código</label>
+                            <input type="text" id="codigo" class="form-control" pInputText formControlName="codigo" />
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div >
+                            <div>
+                                <label>AFP</label>
+                            </div>
+                            <div>
+                                <p-dropdown [filter]="true" [options]="afpList" formControlName="afp"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg">
+                        <div>
+                            <label>EPS</label>
+                        </div>
+                        <div>
+                            <p-dropdown [filter]="true" [options]="epsList" formControlName="eps"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div>
+                            <label>Fecha de ingreso</label>
+                        </div>
+                        <div>
+                            <p-calendar [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                            [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                            formControlName="fechaIngreso" required></p-calendar>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div>
+                            <label>Tipo vinculación</label>
+                        </div>
+                        <div>
+                            <p-dropdown [options]="tipoVinculacionList" formControlName="tipoVinculacion"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <div>
+                            <label>Ubicación</label>
+                        </div>
+                        <div>
+                            <!-- <area-selector formControlName="area"
+                            [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required></area-selector> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-3">
+                        <div>
+                            <label>Cargo</label>
+                        </div>
+                        <div>
+                            <p-dropdown [filter]="true" [options]="cargoList" formControlName="cargoId" required>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-lg">
+                        <label for="corporativePh">Telefono Laboral</label>
+                        <input type="text" id="corporativePh" class="form-control" pInputText formControlName="corporativePhone" />
+                    </div>
+                    <div class="col-lg">
+                        <label for="ciugerencia">Ciudad</label>
+                        <input type="text" id="ciugerencia" class="form-control" pInputText formControlName="ciudadGerencia" placeholder="Ciudad" />
+                    </div>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg" *ngIf="empresaId =='8';else blanco2">
+                        <label for="regional">Regional</label>
+                        <input type="text" pInputText id="regional" class="form-control" formControlName="regional" placeholder="Regional" />
+                    </div>
+                    <div class="col-lg" *ngIf="empresaId =='8';else blanco2">
+                        <label for="dirgrencia">Direccion gerencia</label>
+                        <input type="text" id="dirgrencia" class="form-control" pInputText formControlName="direccionGerencia"
+                            placeholder="Direccion Gerencia" />
+                    </div>
+                </div>
+            </p-panel>
+            <div style="position: relative;" *ngIf="isUpdate || editable">
+                <button pButton *ngIf="solicitando == false" type="submit" icon="bi bi-save"
+                    [disabled]="!form.valid" class="float-btn" style="bottom: 140px;"
+                    title="Guardar datos de empleado"></button>
+
+                <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
+                    [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
+            </div>
+        </form>
+
+    </p-tabPanel>
+
+    <p-tabPanel header="Jornada" *ngIf="empleadoSelect">
+        <s-jornadaForm [value]="empleadoSelect" *ngIf="loaded"></s-jornadaForm>
+    </p-tabPanel>
+    <p-tabPanel header="Horas extra" *ngIf="empleadoSelect">
+        <s-horasExtraForm [value]="empleadoSelect" *ngIf="loaded"></s-horasExtraForm>
+    </p-tabPanel>
+    <p-tabPanel header="Documentación" *ngIf="empleadoSelect">
+        <s-documentosEmpleadoForm *ngIf="loaded" [value]="empleadoSelect"></s-documentosEmpleadoForm>
+    </p-tabPanel>
+
+    <p-tabPanel header="Empresa" *ngIf="empresaId=='22' || empresaId=='3' ">
+        
+        <p-panel header="Datos de la empresa">
+            <div class="row g-2 mb-3" [formGroup]="empresaForm" >
+                <div class="col-lg">
+                    <div>
+                        <label for="" class="active">Nombre Comercial</label>
+                    </div>
+                    <div>
+                        <p-dropdown [options]="empresaList2" optionLabel="label" formControlName="empresa" [(ngModel)]="empresaSelect2"
+                            class="select-material" styleClass="select-material" >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-lg">
+                    <label for="nit" class="active">Nit</label>
+                    <input type="text" id="nit" class="form-control" pInputText optionLabel="nit" formControlName="nit" [value]="empresaSelect2?.nit"  readonly=true/>
+                </div>
+            </div>
+        </p-panel>
+        <br>
+        <p-panel header="Jefe inmediato">
+            <div [formGroup]="jefeInmediatoForm">
+                <div class="row g-2 mb-3">
+                    <div class="col-lg">
+                        <div>
+                            <label class="active" for="" >Número de identificación</label>
+                        </div>
+                        <div>
+                            <p-autoComplete styleClass="form-material-autocomplete" placeholder="Digite"
+                                [style]="{'width':'100%'}" (onSelect)="onSelectionJefeInmediato($event)"
+                                [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                                formControlName="numeroIdentificacion" *ngIf="empleado?.id == null">
+                                <ng-template let-empleado pTemplate="item">
+                                    <div class="ui-helper-clearfix">
+                                        <div class="wrapper">
+                                            <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                                style="font-size: 48px;" aria-hidden="true"></i>
+                                            <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
+                                                style="border-radius: 50%;" #imgAvatar />
+                                            <div style="margin-left:20px">
+                                                <br />{{empleado?.primerNombre}} {{empleado?.segundoNombre}}
+                                                    {{empleado?.primerApellido}}
+                                                <br /> {{empleado?.numeroIdentificacion}}
+                                                <br /> {{empleado?.usuario.email}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+                    </div>
+                    <small *ngIf="3>4" id="username2-help" class="p-invalid">Obligatorio</small>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg">
+                        <label for="pNombre" class="active">Primer nombre</label>
+                        <input type="text" id="pNombre" class="form-control" pInputText formControlName="primerNombre" required />
+                    </div>
+                    <div class="col-lg">
+                        <label for="pApellido" class="active">Primer Apellido</label>
+                        <input type="text" id="pApellido" class="form-control" pInputText formControlName="primerApellido" required />
+                    </div>
+                    <div class="col-lg">
+                        <label for="dirGer" class="active">Dirección / Gerencia</label>
+                        <input type="text" id="dirGer" class="form-control" pInputText formControlName="direccionGerencia" />
+                    </div>
+                    <div class="col-lg">
+                        <label for="eCorp" class="active">Correo corporativo</label>
+                        <input type="text" id="eCorp" class="form-control" pInputText formControlName="email" placeholder="Correo corporativo" />
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+        <br>
+        <p-panel header="Business Partner" *ngIf="empresaId!='22'">
+            <div [formGroup]="businessForm">
+                <div class="row g-2 mb-3">
+                    <div class="col-lg">
+                        <div>
+                            <label class="active" for="" >Número de identificación</label>
+                        </div>
+                        <div>
+                            <p-autoComplete styleClass="form-material-autocomplete" placeholder="Digite"
+                                [style]="{'width':'100%'}" (onSelect)="onSelectionBP($event)"
+                                [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                                formControlName="numeroIdentificacion" *ngIf="empleado?.id == null">
+                                <ng-template let-empleado pTemplate="item">
+                                    <div class="ui-helper-clearfix">
+                                        <div class="wrapper">
+                                            <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                                style="font-size: 48px;" aria-hidden="true"></i>
+                                            <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
+                                                style="border-radius: 50%;" #imgAvatar />
+                                            <div style="margin-left:20px">
+                                                <br />{{empleado?.primerNombre}} {{empleado?.segundoNombre}}
+                                                    {{empleado?.primerApellido}}
+                                                <br /> {{empleado?.numeroIdentificacion}}
+                                                <br /> {{empleado?.usuario.email}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+
+                    </div>
+                    <small *ngIf="3>4" id="username2-help" class="p-invalid">Obligatorio</small>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-lg">
+                        <label for="pNombre" class="active">Primer nombre</label>
+                        <input type="text" id="pNombre" class="form-control" pInputText formControlName="primerNombre" required />
+                    </div>
+                    <div class="col-lg">
+                        <label for="pApellido" class="active">Primer Apellido</label>
+                        <input type="text" id="pApellido" class="form-control" pInputText formControlName="primerApellido" required />
+                    </div>
+                    <div class="col-lg">
+                        <label for="dirGe" class="active">Dirección / Gerencia</label>
+                        <input type="text" id="dirGe" class="form-control" pInputText formControlName="direccionGerencia" />
+                    </div>
+                    <div class="input-field">
+                        <label for="eCorp" class="active">Correo corporativo</label>
+                        <input type="text" id="eCorp" class="form-control" pInputText formControlName="email" placeholder="Correo corporativo" />
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+    </p-tabPanel>
+</p-tabView>
+
+<button pButton *ngIf="solicitando == false" type="button" icon="bi bi-arrow-left" class="float-btn" style="bottom: 70px;"
+    (click)="closeForm()" title="Volver a listado de empleados"></button>
+    <ng-template #blanco2><div class="col-g-12 col-sm-12 col-md-2">
+        &nbsp;
+    </div></ng-template>
+    <ng-template #blanco4><div class="col-g-12 col-sm-12 col-md-4">
+        &nbsp;
+    </div></ng-template>

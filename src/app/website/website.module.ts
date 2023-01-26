@@ -40,7 +40,6 @@ import { CargoComponent } from './pages/empresa/components/cargo/cargo.component
 import { CargueDatosComponent } from './pages/empresa/components/cargue-datos/cargue-datos.component';
 import { CompetenciaComponent } from './pages/empresa/components/competencia/competencia.component';
 import { ContextoOrganizacionComponent } from './pages/empresa/components/contexto-organizacion/contexto-organizacion.component';
-import { EmpleadoComponent } from './pages/empresa/components/empleado/empleado.component';
 import { EmpresaAdminComponent } from './pages/empresa/components/empresa-admin/empresa-admin.component';
 import { EvaluacionDesempenoComponent } from './pages/empresa/components/evaluacion-desempeno/evaluacion-desempeno.component';
 import { EvaluacionDesempenoFormComponent } from './pages/empresa/components/evaluacion-desempeno-form/evaluacion-desempeno-form.component';
@@ -118,6 +117,20 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {FieldsetModule} from 'primeng/fieldset';
 import {TreeTableModule} from 'primeng/treetable';
+import { EmpleadoComponent } from './pages/empresa/components/empleado/empleado.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { EmpleadoFormComponent } from './pages/empresa/components/empleado/empleado-form/empleado-form.component';
+import { TabViewModule } from 'primeng/tabview';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CiudadSelectorComponent } from './pages/comun/components/ciudad-selector/ciudad-selector.component';
+import { GaleriaComponent } from './pages/comun/components/galeria/galeria.component';
+import { JornadaFormComponent } from './pages/empresa/components/empleado/jornada-form/jornada-form.component';
+import { AccordionModule } from 'primeng/accordion';
+import { HorasExtraFormComponent } from './pages/empresa/components/empleado/horas-extra-form/horas-extra-form.component';
+import { DocumentosEmpleadoFormComponent } from './pages/empresa/components/empleado/documentos-empleado-form/documentos-empleado-form.component';
+import { DocumentoUploadComponent } from './pages/ado/components/documento-upload/documento-upload.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -158,7 +171,6 @@ import {TreeTableModule} from 'primeng/treetable';
     CargueDatosComponent,
     CompetenciaComponent,
     ContextoOrganizacionComponent,
-    EmpleadoComponent,
     EmpresaAdminComponent,
     EvaluacionDesempenoComponent,
     EvaluacionDesempenoFormComponent,
@@ -223,7 +235,15 @@ import {TreeTableModule} from 'primeng/treetable';
     LoadingComponent,
     EmpresaListComponent,
     TienePermisoDirective,
-    RangoFechaSelectorComponent
+    RangoFechaSelectorComponent,
+    EmpleadoComponent,
+    EmpleadoFormComponent,
+    CiudadSelectorComponent,
+    GaleriaComponent,
+    JornadaFormComponent,
+    HorasExtraFormComponent,
+    DocumentosEmpleadoFormComponent,
+    DocumentoUploadComponent
   ],
   imports: [
     CommonModule,
@@ -239,7 +259,13 @@ import {TreeTableModule} from 'primeng/treetable';
     TreeTableModule,
     InputTextModule,
     PanelModule,
-    CalendarModule
+    CalendarModule,
+    ConfirmDialogModule,
+    TabViewModule,
+    ProgressSpinnerModule,
+    AutoCompleteModule,
+    AccordionModule,
+    FileUploadModule
   ],
   providers: [
     PerfilService

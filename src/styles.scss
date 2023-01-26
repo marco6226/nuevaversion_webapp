@@ -3,6 +3,17 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
+
+.float-btn {
+    position: fixed !important;
+    bottom: 30px;
+    right: 5px;
+    border-radius: 100px !important;
+    font-size: 30px !important;
+    width: 50px !important;
+}
+
 @import "./assets/local_styles/colors.scss";
 @import "./assets/local_styles/button.scss";
 @import "./assets/local_styles/card.scss";

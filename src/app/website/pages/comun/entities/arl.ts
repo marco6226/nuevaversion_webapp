@@ -1,4 +1,7 @@
 import { ComunEntity } from "./comun-entity";
 
-export interface Arl extends ComunEntity {
+export class Arl implements ComunEntity {
+    id!: string;
+    codigo!: string;
+    nombre!: string;
 }

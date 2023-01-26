@@ -1,0 +1,38 @@
+<p-toast></p-toast>
+<p-dialog header="Subir archivo" [visible]="visibleDlg" (visibleChange)="onVisibleChange($event)" modal="true">
+    <p-fileUpload
+        name="file"
+        maxFileSize="20000000"
+        [style]="{ width: '480px' }"
+        chooseLabel="Seleccionar"
+        uploadLabel="Subir"
+        cancelLabel="Cancelar"
+        customUpload="true"
+        (uploadHandler)="upload($event)"
+        [files]="myfiles"
+        
+    >
+    </p-fileUpload>
+
+    <div class="row g-2m b-3">
+        <div class="col-lg" [formGroup]="form">
+            <div class="col-12">
+                <label for="">Descripción</label>
+            </div>
+            <div class="col-12">
+                <input formControlName="descripcion" class="form-control" type="text" *ngIf="!contratistasFlag">
+                <h6 *ngIf="form.invalid" id="username2-help" class="p-invalid row">Obligatorio</h6>
+            </div>
+            <div class="col-12">
+                <p-dropdown appendTo="body" [options]="doContratista" formControlName="descripcion" *ngIf="contratistasFlag"></p-dropdown>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row bm-3 g-2" [formGroup]="myGroup">
+        <div class="col-12">
+            <p-checkbox #nivelAccesoH name="cbxAccessLevelH" id="nivelAccesoH" class="form-check-input" (click)="this.setNivelAcceso(nivelAccesoH.checked)" binary="true" label="Privado"></p-checkbox>
+        </div>
+    </div>
+    <br>
+</p-dialog>
