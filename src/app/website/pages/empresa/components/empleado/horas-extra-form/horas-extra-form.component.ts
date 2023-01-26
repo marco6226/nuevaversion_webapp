@@ -9,7 +9,7 @@ import { HorasExtraService } from '../../../services/horas-extra.service';
   selector: 's-horasExtraForm',
   templateUrl: './horas-extra-form.component.html',
   styleUrls: ['./horas-extra-form.component.scss'],
-  providers: [HorasExtraService]
+  providers: [HorasExtraService, ConfirmationService]
 })
 export class HorasExtraFormComponent implements OnInit {
 

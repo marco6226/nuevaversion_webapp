@@ -273,8 +273,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ImageCropperModule
   ],
   providers: [
-    PerfilService,
-    ConfirmationService
+    PerfilService
   ]
 })
 export class WebsiteModule { }
