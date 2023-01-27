@@ -1,5 +1,7 @@
 <p-toast value="msgs"></p-toast>
 
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
 <p-panel header="Empresas">
 
     <p-table #dt [value]="empresasList" [(selection)]="empresaSelect" autoLayout="true" selectionMode="single"

@@ -1,4 +1,7 @@
 import { ComunEntity } from "./comun-entity";
 
-export interface Ccf extends ComunEntity{
+export class Ccf {
+    id?: string;
+    codigo?: string;
+    nombre?: string;
 }
