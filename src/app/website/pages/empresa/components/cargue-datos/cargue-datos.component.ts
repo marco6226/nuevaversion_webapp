@@ -3,8 +3,8 @@ import { timeout } from 'rxjs/operators';
 import { SelectItem } from "primeng/api";
 import { Message } from "primeng/api";
 import { Empleado } from "src/app/website/pages/empresa/entities/empleado";
-import * as XLSX from "xlsx/types"
-// import * as xlsx from "xlsx";
+
+import * as XLSX from "xlsx";
 
 import { ComunService } from "src/app/website/pages/core/services/comun.service";
 import { CiudadService } from "src/app/website/pages/core/services/ciudad.service";
@@ -12,7 +12,7 @@ import { CargoService } from "src/app/website/pages/empresa/services/cargo.servi
 import { PerfilService } from "src/app/website/pages/admin/services/perfil.service";
 import { AreaService } from "src/app/website/pages/empresa/services/area.service";
 import { EmpleadoService } from "src/app/website/pages/empresa/services/empleado.service";
-// import * as FileSaver from "file-saver";
+import * as FileSaver from "file-saver";
 
 import {
   tipo_identificacion,
@@ -51,7 +51,6 @@ export class CargueDatosComponent implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
   initLoading = false;
-
   msgs?: Message[];
   msgsCarga: Message[] = [];
   opcionSelect: string = "EMPLEADO";
@@ -235,12 +234,14 @@ export class CargueDatosComponent implements OnInit {
     this.myFile='';
     this.isCargado = false;
   }
-
+  
   async onArchivoSelect(ev:any) {
     this.initLoading = true;
     this.fallidosArray = [];
     setTimeout(() => {
-    let workBook: XLSX.WorkBook | null=null;
+      // var XLSX = require("xlsx");
+    let workBook: XLSX.WorkBook;
+
     let jsonData :{[index: string]:any} = {};
     const reader = new FileReader();
     const file = ev.target.files[0];
@@ -398,8 +399,6 @@ export class CargueDatosComponent implements OnInit {
         empleado.cargo.nombre = arrayOfEmployees[i].cargo;
         empleado.usuario.email = arrayOfEmployees[i].email;
         empleado.usuario.ipPermitida = [];
-        //empleado.usuario.id = this.empleadoSelect.usuario.id;
-        // empleado.usuario.ipPermitida = arrayOfEmployees[i].ipPermitida;
         empleado.usuario.usuarioEmpresaList = [];
         let empleadoValidado= this.validateEmployeeCampos(
             empleado,
@@ -511,7 +510,7 @@ private saveAsExcelFile(buffer: any, fileName: string): void {
   const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE,
   });
-  // FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
+  FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
 }
 
 drop(e: any, cell: any) {
