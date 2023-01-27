@@ -105,6 +105,7 @@ import { ConsultaActasComponent } from './pages/cop/components/consulta-actas/co
 import { LoadingComponent } from './components/loading/loading.component';
 import { EmpresaListComponent } from './components/empresa-list/empresa-list.component';
 import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.directive';
+import { DataNotFoundComponent } from './components/data-not-found/data-not-found.component';
 
 
 @NgModule({
@@ -210,7 +211,8 @@ import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.di
     ConsultaActasComponent,
     LoadingComponent,
     EmpresaListComponent,
-    TienePermisoDirective
+    TienePermisoDirective,
+    DataNotFoundComponent
   ],
   imports: [
     CommonModule,
