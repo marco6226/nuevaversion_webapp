@@ -60,7 +60,6 @@ export class EmpleadoService extends CRUDService<Empleado>{
   buscar(parametro: string) {
     return new Promise(resolve => {
       this.httpInt.get(endPoints.EmpleadoService + "buscar/" + parametro)
-        .map((res: any) => res)
         .subscribe(
           (res: unknown) => {
             resolve(res);

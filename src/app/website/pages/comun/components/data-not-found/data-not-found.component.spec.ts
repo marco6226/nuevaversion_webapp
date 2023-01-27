@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TipoAreaComponent } from './tipo-area.component';
+import { DataNotFoundComponent } from './data-not-found.component';
 
-describe('TipoAreaComponent', () => {
-  let component: TipoAreaComponent;
-  let fixture: ComponentFixture<TipoAreaComponent>;
+describe('DataNotFoundComponent', () => {
+  let component: DataNotFoundComponent;
+  let fixture: ComponentFixture<DataNotFoundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TipoAreaComponent ]
+      declarations: [ DataNotFoundComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TipoAreaComponent);
+    fixture = TestBed.createComponent(DataNotFoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

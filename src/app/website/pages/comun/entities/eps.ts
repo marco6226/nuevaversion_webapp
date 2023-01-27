@@ -1,4 +1,7 @@
 import { ComunEntity } from "./comun-entity";
 
-export interface Eps extends ComunEntity {
+export class Eps implements ComunEntity {
+    id!: string;
+    codigo!: string;
+    nombre!: string;
 }

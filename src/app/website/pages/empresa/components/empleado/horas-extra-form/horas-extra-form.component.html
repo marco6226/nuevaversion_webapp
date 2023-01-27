@@ -1,0 +1,49 @@
+<p-toast key="horasExt"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<app-data-not-found *ngIf="!horasExtraList || horasExtraList.length <= 0" icon="fa-clock-o" message="No se han adicionado horas extra al empleado actual">
+  <div *sTienePermiso="'EMP_POST_HEEMPL'">
+    Haz click
+    <a (click)="adicionarHorasExtra()">aqui</a>
+    para adicionarlas
+  </div>
+</app-data-not-found>
+
+<p-table #dt styleClass="p-datatable-gridlines" [value]="horasExtraList" autoLayout="true" [style.display]="horasExtraList && horasExtraList.length > 0 ? 'block':'none'">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Fecha</th>
+      <th>Horas</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-he>
+    <tr>
+      <td>
+        <p-calendar [(ngModel)]="he.fecha" appendTo="body" dateFormat="dd/mm/yy"></p-calendar>
+      </td>
+      <td style="width:45px;">
+        <input pInputText [(ngModel)]="he.horas" />
+      </td>
+      <td style="width:45px;">
+        <button pButton type="button" (click)="guardarHorasExtra(he)" icon="bi bi-save2" class="soft-icon" title="Guarda registro"
+          *ngIf="!he.id"></button>
+        <ng-container *ngIf="he.id">
+          <button *sTienePermiso="'EMP_PUT_HEEMPL'" pButton type="button" (click)="actualizarHorasExtra(he)" icon="bi bi-pencil"
+            class="soft-icon p-button-success" title="Actualizar registro"></button>
+        </ng-container>
+      </td>
+      <td style="width:45px;">
+        <button pButton type="button" (click)="descartarHorasExtra(he)" icon="bi bi-trash" class="soft-icon" title="Descartar registro"
+          *ngIf="!he.id"></button>
+        <ng-container *ngIf="he.id">
+          <button *sTienePermiso="'EMP_DELETE_HEEMPL'" pButton type="button" (click)="confirmarEliminar(he)"
+            icon="bi bi-trash" class="soft-icon p-button-danger" title="Eliminar registro"></button>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<button *sTienePermiso="'EMP_POST_HEEMPL'" pButton type="button" (click)="adicionarHorasExtra()" icon="bi bi-plus" class="float-btn"
+  style="bottom: 140px;" title="Adicionar horas extra"></button>

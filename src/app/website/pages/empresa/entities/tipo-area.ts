@@ -1,8 +1,8 @@
 import { Empresa } from "./empresa";
 
-export interface TipoArea {
-    id: string;
-    nombre: string;
-    descripcion: string;
-    empresa: Empresa;
+export class TipoArea {
+    id?: string;
+    nombre?: string;
+    descripcion?: string;
+    empresa?: Empresa;
 }

@@ -1,0 +1,22 @@
+<div>
+    <label for="">{{labelText}}</label>
+</div>
+<div class="{{styleRow}}">
+    <div class="{{styleCol}}">
+        <p-dropdown [options]="departamentosItems" 
+        [readonly]="disabled" 
+        [filter]="true" 
+        styleClass="select-material {{inputStyle}}"   
+        (onChange)="onDepartamentoChange($event)" 
+        [(ngModel)]="departamentoSelectId">
+        </p-dropdown>
+    </div>
+    <div class="{{styleCol}}">
+        <p-dropdown [options]="ciudadesItems" 
+        [readonly]="disabled" 
+        [filter]="true" 
+        styleClass="select-material {{inputStyle}}" 
+        [(ngModel)]="value">
+        </p-dropdown>
+    </div>
+</div>
