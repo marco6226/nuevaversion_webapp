@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MessageService } from 'primeng/api';
+
+
+
+@ViewChild('diagram')
 
 @Component({
   selector: 'app-area',
@@ -7,9 +12,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AreaComponent implements OnInit {
 
-  constructor() { }
+  
+  constructor(
+    private messageService: MessageService,
+
+  ) { }
 
   ngOnInit(): void {
+
   }
 
 }

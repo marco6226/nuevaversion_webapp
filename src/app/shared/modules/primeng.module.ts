@@ -13,6 +13,9 @@ import {TableModule} from 'primeng/table';
 import {PanelModule} from 'primeng/panel';
 import {SidebarModule} from 'primeng/sidebar';
 import {ButtonModule} from 'primeng/button';
+import {OrganizationChartModule} from 'primeng/organizationchart';
+import {TabViewModule} from 'primeng/tabview';
+import {TreeModule} from 'primeng/tree';
 
 const modules=[
   DropdownModule,
@@ -25,7 +28,10 @@ const modules=[
   TableModule,
   PanelModule,
   SidebarModule,
-  ButtonModule
+  ButtonModule,
+  OrganizationChartModule,
+  TabViewModule,
+  TreeModule
 ]
 
 

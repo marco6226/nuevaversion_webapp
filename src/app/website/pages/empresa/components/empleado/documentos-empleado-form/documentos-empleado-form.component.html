@@ -1,11 +1,11 @@
 <p-toast key="docEmpl"></p-toast>
 
-<s-dataNotFound *ngIf="!documentosList || documentosList.length <= 0" icon="fa-files-o" message="No se han adicionado documentos al empleado actual">
+<app-data-not-found *ngIf="!documentosList || documentosList.length <= 0" icon="fa-files-o" message="No se han adicionado documentos al empleado actual">
   <div *sTienePermiso="'ADO_POST_DOCSUP'">
     Agrega nuevos documentos
     <a (click)="showDialog()">aqui</a>
   </div>
-</s-dataNotFound>
+</app-data-not-found>
 
 <p-table #dt [value]="documentosList" autoLayout="true" [style.display]="documentosList && documentosList.length > 0 ? 'block':'none'">
   <ng-template pTemplate="header">

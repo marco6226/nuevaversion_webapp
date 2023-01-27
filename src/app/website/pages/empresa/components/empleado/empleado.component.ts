@@ -102,15 +102,15 @@ export class EmpleadoComponent implements OnInit {
     }
 
 
-    // onEmpleadoCreate(event: any) {
-    //     this.manageCreateResponse(event.empleado);
-    //     this.visibleForm = false;
-    // }
+    onEmpleadoCreate(event: any) {
+        this.manageCreateResponse(event.empleado);
+        this.visibleForm = false;
+    }
 
-    // onEmpleadoUpdate(event: any) {
-    //     this.manageUpdateResponse(event.empleado);
-    //     this.visibleForm = false;
-    // }
+    onEmpleadoUpdate(event: any) {
+        this.manageUpdateResponse(event.empleado);
+        this.visibleForm = false;
+    }
 
     onEmpleadoDelete() {
         if (this.empleadoSelect != null) {
