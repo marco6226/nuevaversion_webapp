@@ -130,11 +130,11 @@ import { HorasExtraFormComponent } from './pages/empresa/components/empleado/hor
 import { DocumentosEmpleadoFormComponent } from './pages/empresa/components/empleado/documentos-empleado-form/documentos-empleado-form.component';
 import { DocumentoUploadComponent } from './pages/ado/components/documento-upload/documento-upload.component';
 import { FileUploadModule } from 'primeng/fileupload';
-//import { DataNotFoundComponent } from './pages/comun/components/data-not-found/data-not-found.component';
+import { DataNotFoundComponent } from './pages/comun/components/data-not-found/data-not-found.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { DataNotFoundComponent } from './components/data-not-found/data-not-found.component';
+
 @NgModule({
   declarations: [
     LayoutComponent,

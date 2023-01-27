@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChangeEventArgs as NumericChangeEventArgs } from '@syncfusion/ej2-inputs';
 import { MessageService } from 'primeng/api';
 
 
