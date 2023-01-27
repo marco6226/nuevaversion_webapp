@@ -149,14 +149,14 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Reporte A/I',
-            icon: 'lan',
+            icon: 'report',
             codigo: 'RAI',
             expanded: false,
             items:
                 [
-                    { label: 'Cargar archivo', codigo: 'RAI_POST_ARCH', routerLink: ['/app/rai/cargaArchivo'], icon: 'lan'},
-                    { label: 'Registrar reporte', codigo: 'RAI_POST_REP', routerLink: ['/app/rai/registroReporte'], icon: 'lan'},
-                    { label: 'Consulta reportes', codigo: 'RAI_GET_REP', routerLink: ['/app/rai/consultaReportes'], icon: 'lan'}
+                    { label: 'Cargar archivo', codigo: 'RAI_POST_ARCH', routerLink: ['/app/rai/cargaArchivo'], icon: 'publish'},
+                    { label: 'Registrar reporte', codigo: 'RAI_POST_REP', routerLink: ['/app/rai/registroReporte'], icon: 'assignment_add'},
+                    { label: 'Consulta reportes', codigo: 'RAI_GET_REP', routerLink: ['/app/rai/consultaReportes'], icon: 'format_list_bulleted_add'}
                 ]
         },
         {
