@@ -14,7 +14,6 @@ import { AreaService } from '../../../services/area.service';
 })
 export class AreaSelectorComponent implements OnInit {
 
-  // msgs: Message[] = [];
   @Input() name!: string;
   @Input() _value!: Area;
   @Input() disabled!: boolean;
@@ -25,7 +24,6 @@ export class AreaSelectorComponent implements OnInit {
 
   niveles: number = 1;
   areasNodes: TreeNode[] = [];
-  areasNodes2: TreeNode[] = [];
   sedesNodes: TreeNode[] = [];
   displayDialog: boolean = false;
   lblBtn!: string;
@@ -70,13 +68,12 @@ export class AreaSelectorComponent implements OnInit {
     this.areaService.findByFilter(filterAreaQuery)
       .then((data: any) => {
         let root: TreeNode = {
-          label: '',
+          label: this.sesionService.getEmpresa()!.razonSocial,
           selectable: false,
           expanded: false,
         };
         let nodos = this.createTreeNode(<Area[]>data['data'], null);
         root.children = nodos;
-        // debugger
         this.areasNodes.push(root);
         allComplete.organi = true;
         if (allComplete.organi == true && allComplete.fisica == true) {
@@ -231,34 +228,5 @@ export class AreaSelectorComponent implements OnInit {
             this.expandRecursive(childNode, isExpand);
         } );
     }
-  }
-
-  test(){
-    debugger
-    let x = this.areasNodes
-    let y = {
-      label: "ok",
-      id: 0,
-      parent: undefined,
-      selectable: false,
-      expanded: false,
-      children: [this.areasNodes[0].children]
-    }
-
-    // console.table(this.areasNodes[0])
-    // console.table(x)
-    // console.table(y)
-    // this.areasNodes = y;
-    let f: TreeNode ={
-      label: "a",
-      children: this.areasNodes[0].children,
-      expanded: false,
-      parent: undefined,
-      selectable: false
-    }
-    this.areasNodes2.push(f)
-    console.table(f)
-    console.table(this.areasNodes2)
-    console.log(sess)
   }
 }

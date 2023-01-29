@@ -1,6 +1,3 @@
-<!-- <p-tree [value]="files" layout="horizontal" selectionMode="single" [(selection)]="selectedFile"></p-tree> -->
-
-
 <div style="display: flex;">
 
     <div style="text-align: center" *ngIf="loading == true">
@@ -22,11 +19,10 @@
   
       <p-tabPanel header="Organigrama">
         <p-tree  [value]="areasNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
-        <p-tree  [value]="areasNodes2" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
       </p-tabPanel>
   
       <p-tabPanel header="Estructura física">
-        <p-tree  [value]="sedesNodes" *ngIf="displayDialog" layout="vertical" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+        <p-tree  [value]="sedesNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
       </p-tabPanel>
   
     </p-tabView>
@@ -34,7 +30,6 @@
     <p-footer>
       <button type="button" (click)="onAreaChange()" pButton label="Aceptar" icon="fa fa-check"></button>
       <button type="button" (click)="closeDialog()" pButton label="Cancelar" icon="fa fa-close" class="ui-button-secondary"></button>
-      <button (click)="test()">test</button>
     </p-footer>
   
   </p-dialog>
