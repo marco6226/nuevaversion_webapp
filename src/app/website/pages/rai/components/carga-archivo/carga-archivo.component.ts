@@ -5,8 +5,7 @@ import { Message } from 'primeng/api';
 
 import { DiagramComponent} from '@syncfusion/ej2-angular-diagrams';
 
-import {
-  Diagram, UndoRedo} from '@syncfusion/ej2-diagrams';
+import { Diagram, UndoRedo} from '@syncfusion/ej2-diagrams';
 
   Diagram.Inject(UndoRedo);
 

@@ -1,0 +1,40 @@
+<!-- <p-tree [value]="files" layout="horizontal" selectionMode="single" [(selection)]="selectedFile"></p-tree> -->
+
+
+<div style="display: flex;">
+
+    <div style="text-align: center" *ngIf="loading == true">
+      <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+      <label style="position: relative;top: -7px;"> Cargando ubicaciones...</label>
+    </div>
+  
+    <p-autoComplete *ngIf="loading == false" [disabled]="disabled" [placeholder]="name" [suggestions]="sugerenciasList" (completeMethod)="buscarUbicacion($event)"
+      (onSelect)="onSelection($event);" appendTo="body" emptyMessage="No se encontraron coincidencias" forceSelection="true"
+      field="label" [(ngModel)]="areaSelected">
+    </p-autoComplete>
+  
+    <button *ngIf="loading == false" [disabled]="disabled" type="button" (click)="showDialog()" pButton icon="fa fa-sitemap"></button>
+  </div>
+  
+  <p-dialog header="Áreas" [(visible)]="displayDialog" [contentStyle]="{'max-height':'70%'}" [style]="{width: '80%', height: '70%'}">
+  
+    <p-tabView>
+  
+      <p-tabPanel header="Organigrama">
+        <p-tree  [value]="areasNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+        <p-tree  [value]="areasNodes2" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+      </p-tabPanel>
+  
+      <p-tabPanel header="Estructura física">
+        <p-tree  [value]="sedesNodes" *ngIf="displayDialog" layout="vertical" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+      </p-tabPanel>
+  
+    </p-tabView>
+  
+    <p-footer>
+      <button type="button" (click)="onAreaChange()" pButton label="Aceptar" icon="fa fa-check"></button>
+      <button type="button" (click)="closeDialog()" pButton label="Cancelar" icon="fa fa-close" class="ui-button-secondary"></button>
+      <button (click)="test()">test</button>
+    </p-footer>
+  
+  </p-dialog>

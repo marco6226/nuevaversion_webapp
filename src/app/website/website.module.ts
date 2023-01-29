@@ -134,6 +134,7 @@ import { DataNotFoundComponent } from './pages/comun/components/data-not-found/d
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { AreaSelectorComponent } from './pages/empresa/components/area/area-selector/area-selector.component';
 
 @NgModule({
   declarations: [
@@ -247,7 +248,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     HorasExtraFormComponent,
     DocumentosEmpleadoFormComponent,
     DocumentoUploadComponent,
-    DataNotFoundComponent
+    DataNotFoundComponent,
+    AreaSelectorComponent
   ],
   imports: [
     CommonModule,
