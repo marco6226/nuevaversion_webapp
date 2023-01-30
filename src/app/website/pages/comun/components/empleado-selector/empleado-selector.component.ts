@@ -4,7 +4,7 @@ import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms'
 
 @Component({
-  selector: 'app-empleado-selector',
+  selector: 's-empleadoSelector',
   templateUrl: './empleado-selector.component.html',
   styleUrls: ['./empleado-selector.component.scss'],
   providers: [{
