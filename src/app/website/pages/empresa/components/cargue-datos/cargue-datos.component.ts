@@ -288,8 +288,6 @@ export class CargueDatosComponent implements OnInit {
                 this.cabecera || '',
                 JSON.stringify(this.mapping)
             );
-            console.log("CABECERA: ", this.cabecera);
-            console.log("MAPPING: ", this.mapping);
             this.msgsCarga.push({
                 summary: "Datos cargados",
                 detail: "Todos los registros fueron cargados exitosamente",

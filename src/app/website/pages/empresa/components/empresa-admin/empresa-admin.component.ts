@@ -155,7 +155,6 @@ export class EmpresaAdminComponent implements OnInit {
 
   onSubmit() {
     let empresa = new Empresa();
-    console.log(empresa);
     let ctx = this.canvas.getContext("2d");
     empresa.logo = this.canvas.toDataURL();
     empresa.id = this.form?.value.id;
@@ -212,7 +211,6 @@ export class EmpresaAdminComponent implements OnInit {
                 break;
             }
         }
-        console.log(this.empresasList);
     }
     this.msgs = [];
     this.msgs.push({
@@ -226,9 +224,6 @@ export class EmpresaAdminComponent implements OnInit {
 
   abrirDlg() {
     this.visibleDlg = true;
-    setTimeout(() => {
-        console.log(this.inputFile);
-    }, 1000);
     (<any>this.inputFile).nativeElement.click();
   }
 

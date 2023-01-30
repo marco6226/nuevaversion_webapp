@@ -135,6 +135,9 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AreaSelectorComponent } from './pages/empresa/components/area/area-selector/area-selector.component';
+import { EmpleadoSelectorComponent } from './pages/comun/components/empleado-selector/empleado-selector.component';
+import { FormularioAccidenteComponent } from './pages/rai/components/registro-reportes/formulario-accidente/formulario-accidente.component';
+import { FormularioIncidenteComponent } from './pages/rai/components/registro-reportes/formulario-incidente/formulario-incidente.component';
 
 @NgModule({
   declarations: [
@@ -249,7 +252,10 @@ import { AreaSelectorComponent } from './pages/empresa/components/area/area-sele
     DocumentosEmpleadoFormComponent,
     DocumentoUploadComponent,
     DataNotFoundComponent,
-    AreaSelectorComponent
+    AreaSelectorComponent,
+    EmpleadoSelectorComponent,
+    FormularioAccidenteComponent,
+    FormularioIncidenteComponent
   ],
   imports: [
     CommonModule,

@@ -218,7 +218,6 @@ export class AreaSelectorComponent implements OnInit {
     this.areasNodes[0].children!.forEach( node => {
         this.expandRecursive(node, false);
     } );
-    console.log(this.areasNodes)
   }
 
   private expandRecursive(node:TreeNode, isExpand:boolean){

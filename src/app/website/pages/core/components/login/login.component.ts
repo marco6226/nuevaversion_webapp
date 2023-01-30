@@ -88,7 +88,6 @@ export class LoginComponent implements OnInit {
   }
 
   async login(value: any){ 
-    console.log(value);
     this.IsVisible = true;
     try {
       await this.authService.login(value.correo, value.password, value.recordar, value.pin).then(res =>{
@@ -101,7 +100,6 @@ export class LoginComponent implements OnInit {
         }
       });      
     } catch (err: any) {      
-      console.log(err);
       this.IsVisible = false;      
       this.msgs = [];
             if (err['name'] != null && err['name'] == 'TimeoutError') {

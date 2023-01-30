@@ -90,7 +90,6 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     }
 
     onDepartamentoChange(event: any) {
-        console.log("paso por aca");
         this.value = null;
         this.loadCiudades(event.value);
     }
@@ -116,9 +115,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
             if (this.value != null) {
                 this.departamentoSelectId = this.value?.departamento?.id!;
                 this.loadCiudades(this.departamentoSelectId);
-            } else {
-                console.log(this.value, "cut");
-            } 
+            } else {} 
         }, 3000);
     }
 }

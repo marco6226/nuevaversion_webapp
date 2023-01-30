@@ -22,6 +22,20 @@ export class EmpresaService extends CRUDService<Empresa>{
     });
   }
 
+  findSelected() {
+    return new Promise(resolve => {
+        this.httpInt.get(endPoints.EmpresaService + "selected")
+            
+            .subscribe(
+                res => {
+                    resolve(res);
+                }
+                ,
+                err => this.manageError(err)
+            )
+    });
+}
+
   getClassName(): string {
       return "EmpresaService";
   }

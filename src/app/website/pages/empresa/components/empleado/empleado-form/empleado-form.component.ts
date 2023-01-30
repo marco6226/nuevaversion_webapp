@@ -33,7 +33,6 @@ export class EmpleadoFormComponent implements OnInit {
     empleadoSelect?: Empleado;
     @Input('empleadoSelect') 
     set empleadoSelectInput(empleadoInput: Empleado){
-        console.log(empleadoInput);
         this.empresaForm.reset()
         if(empleadoInput){
             this.empleadoSelect = empleadoInput
