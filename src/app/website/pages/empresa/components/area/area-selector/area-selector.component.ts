@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MessageService, TreeNode, TreeNodeExpand } from 'primeng/api';
+import { MessageService, TreeNode } from 'primeng/api';
 import { Criteria } from 'src/app/website/pages/core/entities/filter';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
@@ -128,10 +128,10 @@ export class AreaSelectorComponent implements OnInit {
         estructura: area.estructura,
         expanded: false,
         nodoPadre: nodoPadre,
-        children: null,
+        children: [],
         selected: true
       };
-      n.children = (area.areaList != null ? this.createTreeNode(area.areaList, n) : null);
+      n.children = (area.areaList != null ? this.createTreeNode(area.areaList, n) : []);
       n.expanded = area.areaList != null && area.areaList.length > 0;
       nodes.push(n);
     }
@@ -229,4 +229,13 @@ export class AreaSelectorComponent implements OnInit {
         } );
     }
   }
+}
+
+export interface TreeNodeExpand extends TreeNode{
+    id?: string
+    descripcion?: string
+    tipoAreaId?: string ;
+    estructura?: string;
+    nodoPadre: TreeNode | null | undefined;
+    selected?: boolean;
 }
