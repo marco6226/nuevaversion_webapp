@@ -8,7 +8,9 @@ import { MensajeUsuarioService } from './mensaje-usuario.service';
 // import { MensajeUsuarioService } from 'app/modulos/comun/services/mensaje-usuario.service'
 // import { deprecate } from 'util';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class ComunService {
 
     constructor(
