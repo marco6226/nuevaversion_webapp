@@ -184,14 +184,14 @@ export class MenuComponent implements OnInit, AfterContentInit {
         {
             //label: this.nombreSEC,
             label: 'Seguimiento y Control',
-            icon: 'lan',
+            icon: 'search',
             expanded: false,
             codigo: 'SEC',
             items:
                 [
-                    { label: 'Investigación', codigo: 'SEC_GET_DESV', routerLink: ['/app/sec/desviaciones'], icon: 'lan'},
-                    { label: 'Tareas asignadas', codigo: 'SEC_GET_TAR', routerLink: ['/app/sec/tareasAsignadas'], icon: 'lan'},
-                    { label: 'Mis tareas', codigo: 'SEC_GET_MYTAR', routerLink: ['/app/sec/misTareas'], icon: 'lan'},
+                    { label: 'Investigación', codigo: 'SEC_GET_DESV', routerLink: ['/app/sec/desviaciones'], icon: 'warning'},
+                    { label: 'Tareas asignadas', codigo: 'SEC_GET_TAR', routerLink: ['/app/sec/tareasAsignadas'], icon: 'storage'},
+                    { label: 'Mis tareas', codigo: 'SEC_GET_MYTAR', routerLink: ['/app/sec/misTareas'], icon: 'notifications'},
                 ]
         },
         {

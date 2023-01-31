@@ -90,7 +90,6 @@ export abstract class CRUDService<T> {
   }
 
   findByFilter(filterQuery: FilterQuery) {
-    // console.log(filterQuery, "filtro linea 71");
     return new Promise((resolve, reject) => {
 
       this.httpInt

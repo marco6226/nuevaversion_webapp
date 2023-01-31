@@ -9,6 +9,12 @@ import { HttpInt } from './httpInt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpAuthInterceptorService } from './website/pages/core/services/http-auth-interceptor.service';
 
+declare global {
+  interface Navigator {
+      msSaveBlob?: (blob: any, defaultName?: string) => boolean
+  }
+}
+
 @NgModule({
   declarations: [
     AppComponent
