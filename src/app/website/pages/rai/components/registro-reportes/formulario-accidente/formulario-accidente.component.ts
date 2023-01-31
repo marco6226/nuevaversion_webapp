@@ -29,7 +29,7 @@ import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado'
 
 @Component({
-  selector: 'app-formulario-accidente',
+  selector: 's-form-accidente',
   templateUrl: './formulario-accidente.component.html',
   styleUrls: ['./formulario-accidente.component.scss']
 })

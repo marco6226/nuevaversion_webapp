@@ -18,8 +18,8 @@ export class RegistroReportesComponent implements OnInit {
 
   tipoReporte?: string |null;
   empleadosList?: Empleado[];
-  empleadoSelect?: Empleado |null;
-  reporteSelect?: Reporte |null;
+  empleadoSelect?: Empleado | null;
+  reporteSelect?: Reporte | null;
   msgs?: Message[];
   consultar?: boolean;
   modificar?: boolean;

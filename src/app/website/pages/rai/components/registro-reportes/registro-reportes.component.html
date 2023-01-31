@@ -6,7 +6,7 @@
             <strong>Persona involucrada</strong>
             <br/>
             <br/>
-            <s-empleadoSelector ngDefaultControl [(ngModel)]="empleadoSelect " [readOnly]="reporteSelect "></s-empleadoSelector>
+            <s-empleadoSelector ngDefaultControl [(ngModel)]="empleadoSelect" [readOnly]="reporteSelect "></s-empleadoSelector>
             <br/>
             <br/>
         </div>
@@ -23,7 +23,7 @@
     </div>
     <br/>
     <br/>
-    <button pButton type="button " icon="fa fa-arrow-right " label="Continuar " [disabled]="!tipoReporte || empleadoSelect?.id==null " (click)="inicializarReporte() " *ngIf="!reporteSelect "></button>
+    <button pButton type="button " icon="bi bi-arrow-right " label="Continuar " [disabled]="!tipoReporte || empleadoSelect?.id==null " (click)="inicializarReporte() " *ngIf="!reporteSelect "></button>
 </p-panel>
 
 <br/>
@@ -32,4 +32,4 @@
 
 <br/>
  
-<button pButton type="button " class="float-btn " [title]="consultar || modificar ? ' Atras ' : 'Cancelar ' " [icon]="consultar || modificar ? 'fa fa-chevron-left ' : 'fa fa-ban'" (click)="volver() " *ngIf="reporteSelect" style="margin-right:65px;" > </button>
+<button pButton type="button " class="float-btn " [title]="consultar || modificar ? ' Atras ' : 'Cancelar ' " [icon]="consultar || modificar ? 'bi bi-chevron-left ' : 'bi bi-slash-circle'" (click)="volver() " *ngIf="reporteSelect" style="margin-right:65px;" > </button>

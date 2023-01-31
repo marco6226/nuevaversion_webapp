@@ -9,8 +9,10 @@
       (onSelect)="onSelection($event);" appendTo="body" emptyMessage="No se encontraron coincidencias" forceSelection="true"
       field="label" [(ngModel)]="areaSelected">
     </p-autoComplete>
-  
-    <button *ngIf="loading == false" [disabled]="disabled" type="button" (click)="showDialog()" pButton icon="fa fa-sitemap"></button>
+    
+    <button *ngIf="loading == false" [disabled]="disabled" type="button" (click)="showDialog()" pButton icon="bi bi-sitemap">
+      <mat-icon class="material-icons-outlined">account_tree</mat-icon>
+    </button>
   </div>
   
   <p-dialog header="Áreas" [(visible)]="displayDialog" [contentStyle]="{'max-height':'70%'}" [style]="{width: '80%', height: '70%'}">
@@ -28,8 +30,8 @@
     </p-tabView>
   
     <p-footer>
-      <button type="button" (click)="onAreaChange()" pButton label="Aceptar" icon="fa fa-check"></button>
-      <button type="button" (click)="closeDialog()" pButton label="Cancelar" icon="fa fa-close" class="ui-button-secondary"></button>
+      <button type="button" (click)="onAreaChange()" pButton label="Aceptar" icon="bi bi-check"></button>
+      <button type="button" (click)="closeDialog()" pButton label="Cancelar" icon="bi bi-close" class="ui-button-secondary"></button>
     </p-footer>
   
   </p-dialog>

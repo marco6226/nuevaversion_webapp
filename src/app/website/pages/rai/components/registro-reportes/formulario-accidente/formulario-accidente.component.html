@@ -142,9 +142,9 @@
                         Zona
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4">
-                        <p-radioButton name="zonaEmp" label="Urbana" formControlName="zonaEmpresa" value="U">
+                        <p-radioButton name="zonaEmpresa" label="Urbana" formControlName="zonaEmpresa" value="U">
                         </p-radioButton>
-                        <p-radioButton name="zonaEmp" label="Rural" formControlName="zonaEmpresa" value="R">
+                        <p-radioButton name="zonaEmpresa" label="Rural" formControlName="zonaEmpresa" value="R">
                         </p-radioButton>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-2">
@@ -166,9 +166,9 @@
                         ¿CT igual a sede principal?
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4">
-                        <p-radioButton name="ctIgualSede" label="Si" value="true"
+                        <p-radioButton name="centrTrabIgualSedePrinc" label="Si" value="true"
                             formControlName="centrTrabIgualSedePrinc"></p-radioButton>
-                        <p-radioButton name="ctIgualSede" label="No" value="false"
+                        <p-radioButton name="centrTrabIgualSedePrinc" label="No" value="false"
                             formControlName="centrTrabIgualSedePrinc"></p-radioButton>
                     </div>
 
@@ -220,9 +220,9 @@
                         Zona
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4">
-                        <p-radioButton name="tipoIdentificacionCT" label="Urbana" value="U"
+                        <p-radioButton name="zonaCentroTrabajo" label="Urbana" value="U"
                             formControlName="zonaCentroTrabajo"></p-radioButton>
-                        <p-radioButton name="tipoIdentificacionCT" label="Rural" value="R"
+                        <p-radioButton name="zonaCentroTrabajo" label="Rural" value="R"
                             formControlName="zonaCentroTrabajo"></p-radioButton>
                     </div>
                 </div>
@@ -347,21 +347,17 @@
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
                         <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" required>
-                            <!-- [formControl]="form.controls['fechaIngresoEmpleado']" -->
-                            <!-- formControlName="fechaIngresoEmpleado" -->
                         </p-calendar>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
                         <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange">
-                            <!-- [formControl]="form.controls['fechaIngresoEmpleado']" -->
-                            <!-- formControlName="fechaIngresoEmpleado" -->
                         </p-calendar>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-2" *ngIf="visibleCamposAccidente">
                         Ciudad
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
-                        <s-ciudadSelector formControlName="ciudadEmpleado" required></s-ciudadSelector>
+                        <s-ciudadSelector id="ciudadSelector" formControlName="ciudadEmpleado" required></s-ciudadSelector>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
                         <s-ciudadSelector formControlName="ciudadEmpleado"></s-ciudadSelector>
@@ -438,9 +434,7 @@
                         Ubicación
                     </div>
                     <div class="ui-g-12 ui-md-4">
-                        <area-selector formControlName="areaAccidente" style="
-                        width: 350px;
-                    "
+                        <area-selector formControlName="areaAccidente" style="width: 350px;"
                             [name]="this.reporte?.areaAccidente ?this.reporte?.areaAccidente.nombre:''" required>
                         </area-selector>
                     </div>
@@ -479,15 +473,15 @@
                         Jornada
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="idEmpresa == '22'">
-                        <p-radioButton name="jornadaAcc" label="Normal" value="NORMAL"
+                        <p-radioButton name="jornadaAccidente" label="Normal" value="NORMAL"
                             formControlName="jornadaAccidente" required></p-radioButton>
-                        <p-radioButton name="jornadaAcc" label="Extra" value="EXTRA" formControlName="jornadaAccidente">
+                        <p-radioButton name="jornadaAccidente" label="Extra" value="EXTRA" formControlName="jornadaAccidente">
                         </p-radioButton>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="idEmpresa != '22'">
-                        <p-radioButton name="jornadaAcc" label="Normal" value="NORMAL"
+                        <p-radioButton name="jornadaAccidente" label="Normal" value="NORMAL"
                             formControlName="jornadaAccidente"></p-radioButton>
-                        <p-radioButton name="jornadaAcc" label="Extra" value="EXTRA" formControlName="jornadaAccidente">
+                        <p-radioButton name="jornadaAccidente" label="Extra" value="EXTRA" formControlName="jornadaAccidente">
                         </p-radioButton>
                     </div>
 
@@ -495,15 +489,15 @@
                         Realizaba labor habitual
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa == '22'">
-                        <p-radioButton name="laborHabitual" label="Si" [value]="true"
+                        <p-radioButton name="realizandoLaborHabitual" label="Si" [value]="true"
                             formControlName="realizandoLaborHabitual" required></p-radioButton>
-                        <p-radioButton name="laborHabitual" label="No" [value]="false"
+                        <p-radioButton name="realizandoLaborHabitual" label="No" [value]="false"
                             formControlName="realizandoLaborHabitual"></p-radioButton>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa != '22'">
-                        <p-radioButton name="laborHabitual" label="Si" [value]="true"
+                        <p-radioButton name="realizandoLaborHabitual" label="Si" [value]="true"
                             formControlName="realizandoLaborHabitual"></p-radioButton>
-                        <p-radioButton name="laborHabitual" label="No" [value]="false"
+                        <p-radioButton name="realizandoLaborHabitual" label="No" [value]="false"
                             formControlName="realizandoLaborHabitual"></p-radioButton>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-2" *ngIf="visibleCamposAccidente && (form?.value.realizandoLaborHabitual==false);else blanco2">
@@ -552,15 +546,15 @@
                         Zona
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
-                        <p-radioButton name="zonaAcc" label="Urbana" value="U" formControlName="zonaAccidente" required>
+                        <p-radioButton name="zonaAccidente" label="Urbana" value="U" formControlName="zonaAccidente" required>
                         </p-radioButton>
-                        <p-radioButton name="zonaAcc" label="Rural" value="R" formControlName="zonaAccidente">
+                        <p-radioButton name="zonaAccidente" label="Rural" value="R" formControlName="zonaAccidente">
                         </p-radioButton>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
-                        <p-radioButton name="zonaAcc" label="Urbana" value="U" formControlName="zonaAccidente">
+                        <p-radioButton name="zonaAccidente" label="Urbana" value="U" formControlName="zonaAccidente">
                         </p-radioButton>
-                        <p-radioButton name="zonaAcc" label="Rural" value="R" formControlName="zonaAccidente">
+                        <p-radioButton name="zonaAccidente" label="Rural" value="R" formControlName="zonaAccidente">
                         </p-radioButton>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-2" *ngIf="visibleCamposAccidente && idEmpresa =='22';else blanco2">
@@ -828,12 +822,12 @@
     </p-panel>
 
     <ng-container *ngIf="!consultar && adicionar">
-        <button *sTienePermiso="'RAI_POST_REP'" pButton type="submit" icon="fa fa-floppy-o" title="Guardar reporte"
+        <button *sTienePermiso="'RAI_POST_REP'" pButton type="submit" icon="bi bi-save" title="Guardar reporte"
             class="float-btn" [disabled]="!form.valid"></button>
     </ng-container>
 
     <ng-container *ngIf="!consultar && !adicionar">
-        <button *sTienePermiso="'RAI_PUT_REP'" pButton type="submit" icon="fa fa-pencil" title="Actualizar reporte"
+        <button *sTienePermiso="'RAI_PUT_REP'" pButton type="submit" icon="bi bi-pencil" title="Actualizar reporte"
             class="float-btn ui-button-success" [disabled]="!form.valid"></button>
     </ng-container>
 

@@ -13,9 +13,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } f
     multi: true
   }]
 })
-export class EmpleadoSelectorComponent implements OnInit {
+export class EmpleadoSelectorComponent implements OnInit, ControlValueAccessor {
 
-  @Input() value?: Empleado | null;
+  @Input() _value?: Empleado | null;
   @Input("readOnly") disabled?: boolean;
   @Output("onSelect") onSelect = new EventEmitter<Empleado>();
   propagateChange = (_: any) => { };
@@ -27,17 +27,36 @@ export class EmpleadoSelectorComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onSelection(event:any) {
-    this.value = event;
-    if(this.value)
-    this.onSelect.emit(this.value);
+  writeValue(value: Empleado) {
+    this.value = value;
+  }
+
+  registerOnTouched() { }
+
+
+  get value() {
+    return this._value;
+  }
+
+  set value(val) {
+    this._value = val;
+    this.propagateChange(this._value);
+  }
+
+  registerOnChange(fn: any) {
+    this.propagateChange = fn;
   }
 
   // Component methods
-  buscarEmpleado(event:any) {
+  buscarEmpleado(event : any) {
     this.empleadoService.buscar(event.query).then(
       data => this.empleadosList = <Empleado[]>data
     );
+  }
+
+  onSelection(event : any) {
+    this.value = event;
+    this.onSelect.emit(this.value!);
   }
 
   resetEmpleado() {
@@ -46,3 +65,6 @@ export class EmpleadoSelectorComponent implements OnInit {
     }
   }
 }
+
+
+
