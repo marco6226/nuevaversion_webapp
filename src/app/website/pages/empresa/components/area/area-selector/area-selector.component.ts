@@ -1,18 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output,forwardRef } from '@angular/core';
 import { MessageService, TreeNode } from 'primeng/api';
 import { Criteria } from 'src/app/website/pages/core/entities/filter';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 import { Area, Estructura } from '../../../entities/area';
 import { AreaService } from '../../../services/area.service';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms'
 
 @Component({
   selector: 'area-selector',
   templateUrl: './area-selector.component.html',
   styleUrls: ['./area-selector.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => AreaSelectorComponent),
+      multi: true
+    }
+  ]
   
 })
-export class AreaSelectorComponent implements OnInit {
+// , ControlValueAccessor
+export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
 
   @Input() name!: string;
   @Input() _value!: Area;
@@ -228,6 +237,13 @@ export class AreaSelectorComponent implements OnInit {
         } );
     }
   }
+  writeValue(value: Area) {
+    this.value = value;
+  }
+  registerOnChange(fn : any) {
+    this.propagateChange = fn;
+  }
+  registerOnTouched() { }
 }
 
 export interface TreeNodeExpand extends TreeNode{
