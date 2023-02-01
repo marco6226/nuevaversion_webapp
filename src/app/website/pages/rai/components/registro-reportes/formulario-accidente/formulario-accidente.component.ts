@@ -57,7 +57,7 @@ export class FormularioAccidenteComponent implements OnInit {
   form?: FormGroup;
   testigoReporteList?: TestigoReporte[];
   visibleCamposAccidente?: boolean;
-  idEmpresa?: string;
+  idEmpresa?: string | null;
   fechaIngreso?:Date;
   fechaAccidente?:Date;
   deltaFecha?:Date;

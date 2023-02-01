@@ -29,7 +29,7 @@ export class CargaArchivoComponent implements OnInit {
   tipoReporte?: string;
   cargando?: boolean;
   msgs?: Message[];
-  idEmpresa?: string;
+  idEmpresa?: string | null;
 
   constructor(
     public repService: ReporteService,

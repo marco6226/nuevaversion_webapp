@@ -17,7 +17,7 @@ import { Criteria } from "src/app/website/pages/core/entities/filter";
 export class ConsultaReportesComponent implements OnInit {
 
   
-  idEmpresa?: string;
+  idEmpresa?: string | null;
   reporteSelect?: Reporte;
   reportesList?: Reporte[];
   loading: boolean=true;
