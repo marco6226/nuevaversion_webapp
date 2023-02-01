@@ -6,6 +6,7 @@ import { SesionService } from 'src/app/website/pages/core/services/session.servi
 import { Area, Estructura } from '../../../entities/area';
 import { AreaService } from '../../../services/area.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms'
+import { TreeNodeExpand } from '../../../entities/tree-node-expand';
 
 @Component({
   selector: 'area-selector',
@@ -246,11 +247,3 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
   registerOnTouched() { }
 }
 
-export interface TreeNodeExpand extends TreeNode{
-    id?: string
-    descripcion?: string
-    tipoAreaId?: string ;
-    estructura?: string;
-    nodoPadre: TreeNode | null | undefined;
-    selected?: boolean;
-}

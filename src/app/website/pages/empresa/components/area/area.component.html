@@ -1,10 +1,31 @@
 <p-panel>
     <p-tabView>
         <p-tabPanel header="Organigrama">
-            <app-data-not-found></app-data-not-found>
+            <app-data-not-found *ngIf="!areasNodes[0] || areasNodes[0].children!.length <= 0" icon="fa-sitemap" message="No se cuenta con registro de áreas">
+                <div *sTienePermiso="'EMP_POST_AREA'">
+                    Inicia agregandolas haciendo click
+                    <a class="link" (click)="showAddForm('ORGANIZACIONAL')">
+                        <strong>aqui</strong>
+                    </a>
+                </div>
+            </app-data-not-found>
+            <div [style.display]="areasNodes[0] && areasNodes[0].children!.length > 0 ? 'block':'none'">
+                <p-tree  [value]="areasNodes" *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+            </div>
+
         </p-tabPanel>
-        <p-tabPanel>
-            <p-tree ></p-tree>
+        <p-tabPanel header="Estructura física">
+            <app-data-not-found *ngIf="!sedesNodes[0] || sedesNodes[0].children!.length <= 0" icon="fa-sitemap" message="No se cuenta con registro de sedes">
+                <div *sTienePermiso="'EMP_POST_AREA'">
+                    Inicia agregandolas haciendo click
+                    <a class="link" (click)="showAddForm('FISICA')">
+                        <strong>aqui</strong>
+                    </a>
+                </div>
+            </app-data-not-found>
+            <div [style.display]="sedesNodes[0] && sedesNodes[0].children!.length > 0 ? 'block':'none'">
+                <p-tree  [value]="sedesNodes" *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="sedeSelected"></p-tree>
+            </div>
         </p-tabPanel>
     </p-tabView>
 </p-panel>
