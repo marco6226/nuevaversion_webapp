@@ -1,4 +1,4 @@
-export interface Filter {
+export class Filter {
     field?: string;
     value1?: string | null;
     value2?: string | null;

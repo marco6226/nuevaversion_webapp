@@ -23,7 +23,7 @@ export class UsuarioService extends CRUDService<Usuario>{
     });
   }
 
-  createUsuarioAliado(entity: Usuario, aliadoId: string) {
+  createUsuarioAliado(entity: Usuario, aliadoId: string): Promise<Usuario>{
     let body = JSON.stringify(entity);
     return new Promise((resolve, reject) => {
         this.httpInt

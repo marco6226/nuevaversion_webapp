@@ -2,11 +2,11 @@ import { Empresa } from "./empresa";
 import { Perfil } from "./perfil";
 
 export class Usuario {
-    id?: string;
+    id?: string | null;
     email?: string;
     perfilesId?: string[];
     perfilNombre?: string;
-    estado?: string;
+    estado?: string | null;
     usuarioEmpresaList?: UsuarioEmpresa[];
     avatar?: string;
     icon?: string;
@@ -15,8 +15,8 @@ export class Usuario {
     fechaModificacion?: Date;
     fechaAceptaTerminos?: Date;
     ipPermitida?: string[];
-    numeroMovil?:string;
-    mfa?:boolean;
+    numeroMovil?: string | null;
+    mfa?: boolean | null;
 }
 
 export class UsuarioEmpresa {

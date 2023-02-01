@@ -1,1 +1,56 @@
-<p>asignacion-colider works!</p>
+<div>
+    <strong>Seleccione el gestor o interventor del contrato</strong>
+
+    <div class="card">
+
+    
+        <p-table #dt styleClass="material-table" autoLayout="true"  [lazy]="true" [value]="gestorInters" [rows]="10" [paginator]="true"
+             [rowHover]="true" dataKey="id">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th pSortableColumn="gestor.primerNombre">Nombre</th>
+                    <th pSortableColumn="cargo">Cargo</th>
+                    <th pSortableColumn="gestor.numeroIdentificacion">No. documento</th>
+                    <th pSortableColumn="gestor.usuarioBasic.email">Correo</th>
+                    <th pSortableColumn="telefono">Telefono</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr [pSelectableRow]="rowData">
+                    <td>{{rowData.gestor?.primerNombre}} {{rowData.gestor?.primerApellido}}</td>
+                    <td>{{rowData.cargo}}</td>
+                    <td>{{rowData.gestor?.numeroIdentificacion}}</td>
+                    <td>{{rowData.gestor.usuarioBasic.email}}</td>
+                    <td>{{rowData.telefono}}</td>
+                    <td>
+                        <button pButton pRipple [disabled]="!onEdit || flagConsult" icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(rowData)" title="Editar interventor o gestor"></button>
+                        <button pButton pRipple [disabled]="!onEdit || flagConsult" icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(rowData)" title="Eliminar interventor o gestor"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <button pButton pRipple [disabled]="!onEdit || flagConsult" label="Agregar interventor o gestor" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+                <br><small *ngIf="gestorInters.length==0 && !flagConsult" class="p-invalid">Campo obligatorio.</small>
+            </ng-template>
+        </p-table>
+    </div>
+    <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Gestor o interventor" [modal]="true" styleClass="p-fluid">
+            <div class="p-field">
+                <label>Gestor o interventor</label>
+                <s-empleadoBasicSelector [(ngModel)]="gestorInter.gestor" (onSelect)="onData()" required autofocus></s-empleadoBasicSelector>
+                <small class="p-invalid" *ngIf="submitted && !gestorInter.gestor">Interventor o gestor requerido.</small>
+            </div>
+            <div class="p-field">
+                <label>Telefono</label>
+                <input type="number" pInputText  [(ngModel)]="gestorInter.telefono" autofocus />
+            </div>
+        
+        <div>
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Agregar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()" *ngIf="!edit"></button>
+            <button pButton pRipple label="Editar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"*ngIf="edit"></button>
+        </div>
+    </p-dialog>
+</div>
+

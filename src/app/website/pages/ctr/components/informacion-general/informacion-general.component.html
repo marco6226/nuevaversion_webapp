@@ -1,1 +1,36 @@
-<p>informacion-general works!</p>
+<p-panel header="Información General">
+    <div style="width:350px;margin-bottom:10px">
+          
+    </div>
+    <div>
+        <div class="row g-2 mb-3">
+            <div class="col-lg">
+                <label for="" class="active">Nombre del Representante Legal</label>    
+                <input required [disabled]="onEdit == 'consultar'" type="text" [(ngModel)]="repLegal" class="form-control" (input)="onRepLegal()">        
+            </div>
+            <div class="col-lg">
+                <label for="" class="active">Numero de trabajadores totales</label>       
+                <input required [disabled]="onEdit == 'consultar'" type="number" [(ngModel)]="numTrabajadores" class="form-control" (input)="onNumTrabajadores()">     
+            </div>
+            <div class="col-lg">
+                <label for="" class="active">Numero de trabajadores en Corona</label>  
+                <input required [disabled]="onEdit == 'consultar'" type="number" [(ngModel)]="numTrabajadoresAsig" class="form-control" (input)="onNumTrabajadoresAsig()">          
+            </div>
+            <div class="col-lg">
+                <label for="" class="active">Email de comunicaciones</label>
+                <input required [disabled]="onEdit == 'consultar'" type="email" [(ngModel)]="emailComercial" class="form-control" (input)="onEmailComercial()">
+            </div>
+        </div>
+        <div class="row g-2 mb-3">
+            <div class="col-lg">
+                <label for="" class="active">Teléfono de contacto</label>
+                <input required [disabled]="onEdit == 'consultar'" type="text" [(ngModel)]="telefonoContacto" class="form-control" (input)="onTelefonoContacto()">
+            </div>
+            <div class="col-lg">
+                <label for="" class="active">Seleccione su ARL</label>
+                <p-dropdown required class="form-control" [disabled]="onEdit == 'consultar'" [options]="arlList" [(ngModel)]="selectedArl" (onClick)="onSelectArl()" optionLabel="name" placeholder="--seleccione arl--"></p-dropdown>
+            </div>
+        </div>
+    </div>
+    <br>
+</p-panel >

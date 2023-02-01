@@ -1,1 +1,151 @@
-<p>equipo-sst-list works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<app-data-not-found *ngIf="!responsableList || responsableList.length <= 0" icon="bi-handshake-o" message="Registre el responsable en el SG-SST.">
+    <button [disabled]="flagConsult" pButton type="button" (click)="crearResponsableMiembros()" icon="bi bi-plus" label="Crear"></button>
+</app-data-not-found>
+
+<p-panel header="Responsable lider SST" [style.display]="responsableList && responsableList.length > 0 ? 'block':'none'">
+    <p-tabView>
+        <p-table [value]="responsableList" responsiveLayout="scroll" [(selection)]="selectedResponsableList" autoLayout="true">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Correo
+                    </th>
+                    <th>
+                        Telefono
+                    </th>
+                    <th>
+                        Licencia SST
+                    </th>           
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr>
+                    <td>
+                        {{rowData.nombre}}
+                    </td>
+                    <td>
+                        {{rowData.correo}}
+                    </td>
+                    <td>
+                        {{rowData.telefono}}
+                    </td>
+                    <td>
+                        {{rowData.licenciaSST}}
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="bi bi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="onEdit(rowData, 'Editar')" title="Editar" [disabled]="flagConsult"></button>
+                        <button pButton pRipple icon="bi bi-trash" class="p-button-rounded ui-button-danger" (click)="onEdit(rowData, 'Eliminar')" title="Eliminar" [disabled]="flagConsult"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <!-- <ng-template pTemplate="summary" let-rowData>
+                <button pButton type="button" icon="fa bi-plus" (click)="crearMiembros()" label="Crear"></button>    
+            </ng-template> -->
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="9" class="p-text-center">No hay registro con los términos de filtro usados
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabView>
+</p-panel>
+
+<br>
+
+<app-data-not-found *ngIf="(!equipoList || equipoList.length <= 0) && responsableList.length > 0" icon="bi-handshake-o" message="Si la empresa cuenta con personal asignado a SG-SST, cree los miembros en las diferentes localidades.">
+    <button [disabled]="flagConsult" pButton type="button" (click)="crearMiembros()" icon="bi bi-plus" label="Crear"></button>
+</app-data-not-found>
+
+<br>
+
+<p-panel header="Personal SST" [style.display]="equipoList && equipoList.length > 0 ? 'block':'none'">
+    <p-tabView>
+        <p-table [value]="equipoList" responsiveLayout="scroll" [(selection)]="selectedList" [responsive]="true" autoLayout="true">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Documento
+                    </th>
+                    <th>
+                        Correo
+                    </th>
+                    <th>
+                        Teléfono
+                    </th>
+                    <th>
+                        División
+                    </th>
+                    <th>
+                        Localidad
+                    </th>
+                    <th>
+                        Rol o Cargo
+                    </th>
+                    <th>
+                        Licencia SST
+                    </th>           
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr>
+                    <td>
+                        {{rowData.nombre}}
+                    </td>
+                    <td>
+                        {{rowData.documento}}
+                    </td>
+                    <td>
+                        {{rowData.correo}}
+                    </td>
+                    <td>
+                        {{rowData.telefono}}
+                    </td>
+                    <td>
+                        {{rowData.division}}
+                    </td>
+                    <td>
+                        {{ formatLocalidad(rowData.localidad) }}
+                    </td>
+                    <td>
+                        {{rowData.cargo}}
+                    </td>
+                    <td>
+                        {{rowData.licenciaSST}}
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="bi bi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="onEdit(rowData, 'Editar')" title="Editar" [disabled]="flagConsult"></button>
+                        <button pButton pRipple icon="bi bi-trash" class="p-button-rounded ui-button-danger" (click)="onEdit(rowData, 'Eliminar')" title="Eliminar" [disabled]="flagConsult"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <button pButton type="button" icon="bi bi-plus" (click)="crearMiembros()" label="Crear" [disabled]="flagConsult"></button>    
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="9" class="p-text-center">No hay registro con los términos de filtro usados
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-tabView>
+</p-panel>
+
+<p-dialog header="Responsable SST" [modal]="true" [closable]="false" [(visible)]="visibleDlgResponsable" [style]="{width: '50vw'}">
+  <app-equipo-sst (actualizarMiembro)="actualizarMiembro($event)" (closeDialog)="closeDialog()" [miembroToUpdate]="miembroToUpdate" (createResponsableSST)="agregarResponsableSST($event)" [isResponsable]="true"></app-equipo-sst>
+</p-dialog>
+
+<p-dialog header="Miembro SST" [modal]="true" [closable]="false" [(visible)]="visibleDlg" [style]="{width: '50vw'}">
+    <app-equipo-sst (actualizarMiembro)="actualizarMiembro($event)" (closeDialog)="closeDialog()" [miembroToUpdate]="miembroToUpdate" (createMiembroSST)="agregarMiembroSST($event)"></app-equipo-sst>
+</p-dialog>

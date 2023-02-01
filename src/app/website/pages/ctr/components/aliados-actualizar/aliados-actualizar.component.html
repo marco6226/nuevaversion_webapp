@@ -1,1 +1,93 @@
-<p>aliados-actualizar works!</p>
+<p-toast key="msgActualizarAliado"></p-toast>
+<p-panel header="Seguimiento aliados" >
+    <p-tabView [(activeIndex)]="tabIndex">
+      <p-tabPanel header="Información" 
+      [headerStyle]=" { 'background-color':'#3ba2dc' }">
+        <app-aliados 
+          [flagConsult]="flagConsult"
+          [analisisId]="id"
+          [onEdit]="this.onEdit" 
+          [valueEmpresa]="this.aliado"
+          [calificacion]="this.aliadoInformacion.calificacion_aliado"
+          [fechaCalificacion]="this.aliadoInformacion.fecha_calificacion_aliado"
+          [quienCalifica]="this.aliadoInformacion.nombre_calificador"
+          [documentos]="documentos"
+          [autorizaSubcontratacion]="this.aliadoInformacion.autoriza_subcontratacion"
+          (dataCalificacion)="onReciveCalificacionAliadoData($event, 'puntaje')"
+          (dataFechaCalificacion)="onReciveCalificacionAliadoData($event, 'fecha')"
+          (dataQuienCalifica)="onReciveCalificacionAliadoData($event, 'nombre')"
+          (idDoc)="reciveIdDoc($event)"
+          (onDelete)="deleteDocumento($event)"
+          (dataAutorizaSubcontratacion)="onReciveAutorizaSubcontratacion($event)"
+          ></app-aliados>
+      </p-tabPanel>
+      <p-tabPanel header="Información General"  [headerStyle]=" { 'background-color':'#fd9b14' }"> 
+        <app-informacion-general
+          [flagConsult]="flagConsult"
+          [repLegal]="this.aliadoInformacion.representante_legal" 
+          [numTrabajadores]="this.aliadoInformacion.numero_trabajadores" 
+          [numTrabajadoresAsig]="this.aliadoInformacion.numero_trabajadores_asignados"
+          [emailComercial]="this.aliadoInformacion.email_comercial"
+          [telefonoContacto]="this.aliadoInformacion.telefono_contacto"
+          [selectedArl]="this.aliadoInformacion.arl"
+          (dataRepLegal)="onReciveData($event, 'repLegal')" 
+          (dataNumTrabajadores)="onReciveData($event, 'numTrabajadores')" 
+          (dataNumTrabajadoresAsig)="onReciveData($event, 'numTrabajadoresAsig')"
+          (dataEmailComercial)="onReciveData($event, 'emailComercial')"
+          (dataTelefonoContacto)="onReciveData($event, 'telefonoContacto')"
+          (dataArl)="onReciveData($event, 'arl')"
+          ></app-informacion-general>
+      </p-tabPanel>
+      <p-tabPanel header="Equipo SST"  [headerStyle]=" { 'background-color':'#fd9b14' }"> 
+        <app-equipo-sst-list [flagConsult]="flagConsult" [alidadoId]="id"></app-equipo-sst-list>
+      </p-tabPanel>
+      <p-tabPanel header="Cargue de Documentos" [headerStyle]=" { 'background-color':'#fd9b14' }">  
+        <app-cargue-documentos [flagConsult]="flagConsult"
+        [analisisId]="id" 
+        (idDoc)="reciveIdDoc($event)" 
+        (fechaVencimientoArlEvent)="reciveFechaArl($event)" 
+        (fechaVencimientoSstEvent)="reciveFechaSst($event)" 
+        (fechaVencimientoCertExternaEvent)="reciveFechaCertExterna($event)"
+        (dataPuntajeArl)="onRecivePuntajeArl($event)"
+        (onDelete)="deleteDocumento($event)"
+        [documentos]="documentos" 
+        [fechaVencimientoArl]="getFecha('arl')" 
+        [fechaVencimientoSst]="getFecha('sst')" 
+        [fechaVencimientoCertExterna]="getFecha('certExt')"
+        [puntajeARL]="this.aliadoInformacion.puntaje_arl"
+        ></app-cargue-documentos>
+      </p-tabPanel>
+      <p-tabPanel header="Subcontratistas" *ngIf="this.aliadoInformacion.autoriza_subcontratacion" 
+      [headerStyle]=" { 'background-color':'#3ba2dc' }">
+        <app-subcontratistas  [onEdit]="this.onEdit"  [flagConsult]="flagConsult" [aliadoId]="this.aliado.id"></app-subcontratistas>
+      </p-tabPanel>
+      <p-tabPanel header="Actividades Contratadas" *ngIf="this.aliado.tipo_persona!='Natural'" 
+      [headerStyle]=" { 'background-color':'#3ba2dc' }">
+        <app-actividades-contratadas [flagConsult]="flagConsult" [flagPress]="flagPress" [selectActividad]="this.aliadoInformacion.actividad_contratada" (data)="onReciveData($event, 'actividades')"></app-actividades-contratadas>
+      </p-tabPanel>
+      <p-tabPanel header="División/Localidad" *ngIf="this.aliado.tipo_persona!='Natural'" 
+      [headerStyle]=" { 'background-color':'#3ba2dc' }">
+        <app-localidades [flagConsult]="flagConsult" [selectDivision]="this.aliadoInformacion.division" [selectLocalidad]="this.aliadoInformacion.localidad" (data)="onReciveData($event, 'division')" (dataLocalidad)="onReciveData($event, 'localidad')"></app-localidades>
+      </p-tabPanel>
+      <p-tabPanel header="Gestión del contrato" 
+      [headerStyle]=" { 'background-color':'#3ba2dc' }">
+        <app-asignacion-colider [flagConsult]="flagConsult" [dataIn]="this.aliadoInformacion.colider" (coliderData)="onReciveData($event, 'colider')"></app-asignacion-colider>
+      </p-tabPanel>
+      <p-tabPanel header="Control de riesgo" 
+      [headerStyle]=" { 'background-color':'#3ba2dc' }">
+        <app-control-riesgo [flagConsult]="flagConsult" [dataIn]="this.aliadoInformacion.control_riesgo" (data)="onReciveData($event, 'control-riesgo')"></app-control-riesgo>
+      </p-tabPanel>
+      <p-tabPanel header="Clasificación" 
+      [headerStyle]=" { 'background-color':'#3ba2dc' }">
+        <app-calificacion [flagConsult]="flagConsult" [selectCalificacion]="this.aliadoInformacion.calificacion" (flagValid2)="flagValidMetodo($event)"(data)="onReciveData($event, 'calificacion')" (valoracionOUT)="impactoIn($event)"></app-calificacion>
+      </p-tabPanel>
+    </p-tabView>
+</p-panel>
+<ng-container>
+  <button *ngIf="onEdit && !flagConsult;else btnGuardarAliado" pButton type="button" icon="bi bi-save" title="Guardar información del aliado"
+      (click)="actualizarAliado()" class="float-btn" style="bottom: 70px;"></button>
+  <ng-template #btnGuardarAliado>
+    <button *ngIf="!flagConsult" pButton type="button" icon="bi bi-save" title="Guardar"
+      (click)="actualizarAliado()" class="float-btn" style="bottom: 70px;"></button>
+  </ng-template>
+</ng-container>

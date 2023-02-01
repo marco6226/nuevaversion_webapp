@@ -313,15 +313,18 @@ export class DirectorioService extends CRUDService<Directorio> {
         });
     }
 
-    buscarDocumentosById(parametro: string) {
-        return new Promise((resolve) => {
+    buscarDocumentosById(parametro: string): Promise<Directorio[]> {
+        return new Promise((resolve, reject) => {
             this.httpInt
                 .get(this.end_point + 'buscarDocumentosById/' + parametro)
                 .subscribe(
-                    (res) => {
+                    (res: any) => {
                         resolve(res);
                     },
-                    (err) => this.manageError(err)
+                    (err) => {
+                        this.manageError(err);
+                        reject(err);
+                    }
                 );
         });
     }

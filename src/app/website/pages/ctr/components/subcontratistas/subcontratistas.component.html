@@ -1,0 +1,70 @@
+<p-toast key="msg" position="top-right"></p-toast>
+<p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="selectedSubcontratista" [value]="subcontratistasList" [paginator]="true" [rows]="12" dataKey="id" [lazy]="true">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>
+        Nit
+        <p-sortIcon field="nit"></p-sortIcon>
+      </th>
+      <th>
+        Nombre
+        <p-sortIcon field="nombre"></p-sortIcon></th>
+      <th>
+        Actividades de alto riesgo
+        <p-sortIcon field="actividadesRiesgo"></p-sortIcon></th>
+      <th>
+        Tipo de persona
+        <p-sortIcon field="tipo_persona"></p-sortIcon></th>
+      <th>
+        Porcentaje de certificación
+        <p-sortIcon field="porcentajeCertArl"></p-sortIcon></th>
+      <th>
+        Estado
+        <p-sortIcon field="estado"></p-sortIcon></th>
+      <th>
+        Soportes
+        <p-sortIcon field="cartaAutorizacion"></p-sortIcon></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData>
+    <tr [pSelectableRow]="rowData">
+      <td> {{rowData.nit}} </td>
+      <td> {{rowData.nombre}} </td>
+      <td> {{getActividadesAltoRiesgoFromObject(rowData.actividades_riesgo)}} </td>
+      <td>{{ rowData.tipo_persona || 'No registra'}}</td>
+      <td> {{rowData.porcentaje_arl || 'N/A'}} </td>
+      <td> {{getEstadoFromObject(rowData.estado)}} </td>
+      <td>
+        <div class="row">
+          <div class="col" *ngIf="directoriosSubcontratistas['dir_'+rowData.id]">
+            <div *ngFor="let dir of directoriosSubcontratistas['dir_'+rowData.id]">
+              <div class="dwrapper" *ngIf="dir!.documento.proceso=='cartaAutorizacion'">
+                <span [class]="dir.extension?.icono" [style.color]="dir.extension?.color"></span>
+                <a style="margin-left: 10px;color: blue;" (click)="descargarDocumento(dir.documento)">{{dir.documento.descripcion+' '}}</a>
+                <ng-container *ngIf="selectedSubcontratista">
+                  <a *ngIf="onEdit=='edit' && selectedSubcontratista.nit==rowData.nit" class="fa fa-trash" title="Eliminar documento" (click)="eliminarDocument(dir, selectedSubcontratista.id)" style="color: red;"></a><br>
+                </ng-container>
+                <label for="">{{dir.fechaCreacion | date:'yyyy-MM-dd'}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <button pButton type="button" [disabled]="(selectedSubcontratista!=null) || onEdit!='edit'" icon="bi bi-plus" label="Crear" (click)="createSubcontratista();selectedSubcontratista=null"></button>
+    <button pButton type="button" icon="bi bi-pencil" label="Modificar" [disabled]="selectedSubcontratista==null || onEdit!='edit'" class="ui-button-success" (click)="editSubcontratista()"></button>
+    <button pButton type="button" (click)="showDialogCarta()" [disabled]="selectedSubcontratista==null || onEdit!='edit'" icon="bi bi-cloud-upload" label="Adjuntar soporte" class="ui-button-warning"></button>
+    <s-documentoUpload [(visible)]="dialogCarta" [modParam]="aliadoId" [modulo]="modulo" [tipoEvidencia]="'cartaAutorizacion'" (onUpload)="onUpload($event, selectedSubcontratista.id)" [contratistasFlag]="contratistasFlag"></s-documentoUpload>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+        <td colspan="9" class="p-text-center">No hay registro de subcontratistas</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog header="Crear subcontratista" [closable]="false" [modal]="true" [style]="{'width':'60%'}" [(visible)]="displayDialog">
+  <app-form-subcontratista [loadSubcontratista]="selectedSubcontratista" [aliadoId]="aliadoId" (cancelarFormulario)="closeFormSubcontratista($event);selectedSubcontratista=null"></app-form-subcontratista>
+</p-dialog>

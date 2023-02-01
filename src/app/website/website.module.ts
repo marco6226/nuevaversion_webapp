@@ -25,11 +25,7 @@ import { InicioComponent } from './pages/core/components/inicio/inicio.component
 import { ActividadesContratadasComponent } from './pages/ctr/components/actividades-contratadas/actividades-contratadas.component';
 import { AdminContratistasComponent } from './pages/ctr/components/admin-contratistas/admin-contratistas.component';
 import { AliadosComponent } from './pages/ctr/components/aliados/aliados.component';
-import { AliadosActualizarComponent } from './pages/ctr/components/aliados-actualizar/aliados-actualizar.component';
-import { AliadosListComponent } from './pages/ctr/components/aliados-list/aliados-list.component';
 import { AsignacionColiderComponent } from './pages/ctr/components/asignacion-colider/asignacion-colider.component';
-import { CalificacionComponent } from './pages/ctr/components/calificacion/calificacion.component';
-import { CargueDocumentosComponent } from './pages/ctr/components/cargue-documentos/cargue-documentos.component';
 import { EquipoSstComponent } from './pages/ctr/components/equipo-sst/equipo-sst.component';
 import { EquipoSstListComponent } from './pages/ctr/components/equipo-sst-list/equipo-sst-list.component';
 import { InformacionGeneralComponent } from './pages/ctr/components/informacion-general/informacion-general.component';
@@ -132,12 +128,19 @@ import { DocumentoUploadComponent } from './pages/ado/components/documento-uploa
 import { FileUploadModule } from 'primeng/fileupload';
 import { DataNotFoundComponent } from './pages/comun/components/data-not-found/data-not-found.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AreaSelectorComponent } from './pages/empresa/components/area/area-selector/area-selector.component';
 import { EmpleadoSelectorComponent } from './pages/comun/components/empleado-selector/empleado-selector.component';
 import { FormularioAccidenteComponent } from './pages/rai/components/registro-reportes/formulario-accidente/formulario-accidente.component';
 import { FormularioIncidenteComponent } from './pages/rai/components/registro-reportes/formulario-incidente/formulario-incidente.component';
+import { AliadosActualizarComponent } from './pages/ctr/components/aliados-actualizar/aliados-actualizar.component';
+import { AliadosListComponent } from './pages/ctr/components/aliados-list/aliados-list.component';
+import { CalificacionComponent } from './pages/ctr/components/calificacion/calificacion.component';
+import { CargueDocumentosComponent } from './pages/ctr/components/cargue-documentos/cargue-documentos.component';
+import { DialogModule } from 'primeng/dialog';
+import { ControlRiesgoComponent } from './pages/ctr/components/control-riesgo/control-riesgo.component';
+import { FormSubcontratistaComponent } from './pages/ctr/components/subcontratistas/form-subcontratista/form-subcontratista.component';
+import { SubcontratistasComponent } from './pages/ctr/components/subcontratistas/subcontratistas.component';
 
 @NgModule({
   declarations: [
@@ -168,6 +171,9 @@ import { FormularioIncidenteComponent } from './pages/rai/components/registro-re
     AsignacionColiderComponent,
     CalificacionComponent,
     CargueDocumentosComponent,
+    ControlRiesgoComponent,
+    FormSubcontratistaComponent,
+    SubcontratistasComponent,
     EquipoSstComponent,
     EquipoSstListComponent,
     InformacionGeneralComponent,
@@ -278,7 +284,8 @@ import { FormularioIncidenteComponent } from './pages/rai/components/registro-re
     AutoCompleteModule,
     AccordionModule,
     FileUploadModule,
-    ImageCropperModule
+    ImageCropperModule,
+    DialogModule
   ],
   providers: [
     PerfilService

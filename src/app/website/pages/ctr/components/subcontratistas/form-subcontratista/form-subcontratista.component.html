@@ -1,0 +1,41 @@
+<form [formGroup]="formSubcontratista">
+  <div class="row g-2 mb-3">
+    <div class="col-lg">
+      <label for="nit" class="active">Nit/Documento</label>
+      <input type="number" required name="nit" class="form-control" formControlName="nit">
+    </div>
+    <div class="col-lg">
+      <label for="nombre" class="active">Razón social/Nombre</label>
+      <input type="text" required name="nombre" class="form-control" formControlName="nombre">
+    </div>
+  </div>
+  <div class="row g-2 mb-3">
+    <div class="col-lg">
+      <label for="actividades_riesgo" class="active">Actividades de alto riesgo</label> <br>
+      <p-multiSelect appendTo="body" required [options]="actividadesRiesgoList" 
+      formControlName="actividades_riesgo" defaultLabel="Seleccione las actividades" optionLabel="name"></p-multiSelect>
+    </div>
+    <div class="col-lg">
+      <label for="tipo_persona" class="active">Tipo de persona</label><br>
+      <p-radioButton name="tipo_persona" (click)="selectTipoPersona('Natural')" required value="Natural" label="Natural" 
+      formControlName="tipo_persona"></p-radioButton>
+      <p-radioButton name="tipo_persona" (click)="selectTipoPersona('Jurídica')" required value="Jurídica" label="Jurídica" 
+      formControlName="tipo_persona"></p-radioButton>
+    </div>
+  </div>
+  <div class="row g-2 mb-3">
+    <div *ngIf="formSubcontratista.value.tipo_persona == 'Jurídica'" class="col-lg">
+      <label for="porcentaje_certificacion" class="active">Porcentaje de certificación de ARL</label>
+      <input type="number" required name="porcentaje_certificacion" class="form-control" formControlName="porcentaje_certificacion">
+    </div>
+    <div class="col-lg">
+      <label for="estado" class="active">Estado</label><br>
+      <p-dropdown appendTo="body" required [options]="estadosList" formControlName="estado" 
+      optionLabel="name" placeholder="Seleccione el estado"></p-dropdown>
+    </div>
+  </div>
+</form>
+<div class="d-flex justify-content-sm-center">
+  <button class="margin" pButton type="button" icon="fa fa-plus" label="Guardar" [disabled]="!formSubcontratista.valid" (click)="guardarSubcontratista()"></button>
+  <button class="ui-button-danger margin" pButton type="button" icon="fa fa-trash" label="Cancelar" (click)="cancelarSubcontratista(true)"></button>
+</div>
