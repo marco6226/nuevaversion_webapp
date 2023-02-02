@@ -142,6 +142,7 @@ import { ControlRiesgoComponent } from './pages/ctr/components/control-riesgo/co
 import { FormSubcontratistaComponent } from './pages/ctr/components/subcontratistas/form-subcontratista/form-subcontratista.component';
 import { SubcontratistasComponent } from './pages/ctr/components/subcontratistas/subcontratistas.component';
 import { FlowChartComponent } from './pages/sec/components/analisis-desviacion/flow-chart/flow-chart.component';
+import { EmpleadoBasicSelectorComponent } from './pages/comun/components/empleado-basic-selector/empleado-basic-selector.component';
 
 @NgModule({
   declarations: [
@@ -263,7 +264,8 @@ import { FlowChartComponent } from './pages/sec/components/analisis-desviacion/f
     EmpleadoSelectorComponent,
     FormularioAccidenteComponent,
     FormularioIncidenteComponent,
-    FlowChartComponent
+    FlowChartComponent,
+    EmpleadoBasicSelectorComponent
   ],
   imports: [
     CommonModule,

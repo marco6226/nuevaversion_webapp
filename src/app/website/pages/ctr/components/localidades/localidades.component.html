@@ -1,8 +1,8 @@
-<s-dataNotFound *ngIf="!actividadesList || actividadesList!.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de Divisiones">
+<app-data-not-found *ngIf="!actividadesList || actividadesList!.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de Divisiones">
     <button [disabled]="!edit || flagConsult" pButton type="button" (click)="abrirDialogo('crear')" icon="fa fa-plus" label="Agregar División"></button>
     <br><small class="p-invalid" style="
     font-weight: bold;" *ngIf="!flagConsult">Campo obligatorio.</small>
-</s-dataNotFound>
+</app-data-not-found>
 
 <p-panel header="Lista de División" *ngIf="actividadesList!.length > 0">
     <p-tabView>
@@ -40,11 +40,11 @@
     </p-tabView>
 </p-panel>
 
-<s-dataNotFound *ngIf="!locadidadesList || locadidadesList!.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de Localidades">
+<app-data-not-found *ngIf="!locadidadesList || locadidadesList!.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de Localidades">
     <button [disabled]="!edit || flagConsult" pButton type="button" (click)="abrirDialogoLocalidades('crear')" icon="fa fa-plus" label="Agregar Localidad"></button>
     <br><small class="p-invalid" style="
     font-weight: bold;" *ngIf="!flagConsult">Campo obligatorio.</small>
-</s-dataNotFound>
+</app-data-not-found>
 
 <p-panel header="Localidades" *ngIf="locadidadesList.length > 0">
     <p-tabView>

@@ -1,10 +1,12 @@
 import { AfterContentInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { SesionService } from '../../pages/core/services/session.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  providers: [SesionService]
 })
 export class MenuComponent implements OnInit, AfterContentInit {
 
@@ -20,7 +22,8 @@ export class MenuComponent implements OnInit, AfterContentInit {
   empresaId!: string;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private sesionService: SesionService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +32,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit(): void {
     this.recargarMenu();
+    this.getEmpresaId();
   }
 
   toogle(item: any){
@@ -40,6 +44,10 @@ export class MenuComponent implements OnInit, AfterContentInit {
     // console.log(data)
     this.router.navigate(data.routerLink)
 
+  }
+
+  getEmpresaId(): void{
+    this.empresaId = this.sesionService.getEmpresa()!.id!;
   }
 
   public recargarMenu(): void{
@@ -75,14 +83,14 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Contratistas',
-            icon: 'lan',
+            icon: 'engineering',
             codigo: 'CTR',
             expanded: false,
             items:
                 [
-                    { label: 'Nuevo Aliado', codigo: 'CTR_ADM', routerLink: ['/app/ctr/aliado'], icon: 'lan'},
-                    { label: 'Listado de Aliados', codigo: 'CTR_ADM', routerLink: ['/app/ctr/listadoAliados'], icon: 'lan'},
-                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: ['/app/ctr/actualizarAliado/']+this.empresaId, icon: 'lan'},
+                    { label: 'Nuevo Aliado', codigo: 'CTR_ADM', routerLink: ['/app/ctr/aliado'], icon: 'person_add'},
+                    { label: 'Listado de Aliados', codigo: 'CTR_ADM', routerLink: ['/app/ctr/listadoAliados'], icon: 'format_list_bulleted'},
+                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.empresaId}`], icon: 'handshake'},
                 ]
         },
         {
