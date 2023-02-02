@@ -95,5 +95,26 @@ export class AuthService {
             );
     });
   }
-  
+  sendNotification(email: string, tarea:any) {
+    let body = tarea;
+    let endpoint = this.authEndPoint + "enviarCorreo/" + email;
+    return new Promise((resolve, reject) => {
+        this.httpInt
+            .post(endpoint, body)
+            .subscribe(
+                (res) => resolve(res),
+                (err) => reject(err)
+            );
+    });
+}
+callmsng() {
+  let endpoint = this.authEndPoint + "enviarCorreoSemanal";
+  return new Promise((resolve, reject) => {
+      this.httpInt.get(endpoint)
+          .subscribe(
+              (res) => resolve(res),
+              (err) => reject(err)
+          );
+  });
+}
 }

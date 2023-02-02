@@ -141,6 +141,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ControlRiesgoComponent } from './pages/ctr/components/control-riesgo/control-riesgo.component';
 import { FormSubcontratistaComponent } from './pages/ctr/components/subcontratistas/form-subcontratista/form-subcontratista.component';
 import { SubcontratistasComponent } from './pages/ctr/components/subcontratistas/subcontratistas.component';
+import { FlowChartComponent } from './pages/sec/components/analisis-desviacion/flow-chart/flow-chart.component';
 
 @NgModule({
   declarations: [
@@ -261,7 +262,8 @@ import { SubcontratistasComponent } from './pages/ctr/components/subcontratistas
     AreaSelectorComponent,
     EmpleadoSelectorComponent,
     FormularioAccidenteComponent,
-    FormularioIncidenteComponent
+    FormularioIncidenteComponent,
+    FlowChartComponent
   ],
   imports: [
     CommonModule,

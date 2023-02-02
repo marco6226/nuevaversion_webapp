@@ -1,1 +1,450 @@
-<p>analisis-desviacion works!</p>
+<p-toast (value)="msgs"></p-toast>
+
+<p-panel header="DESVIACIONES">
+    <p-table [value]="desviacionesList" *ngIf="desviacionesList" autoLayout="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Módulo</th>
+                <th>Código</th>
+                <th *ngIf="idEmpresa != '22'">Área origen</th>
+                <th *ngIf="idEmpresa == '22'">Ubicación</th>
+                <th>Concepto</th>
+                <th>Aspecto causante</th>
+                <th style="width:3em;"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+            <tr>
+                <td>
+                    {{rowData.modulo}}
+                </td>
+                <td>
+                    {{rowData.hashId}}
+                </td>
+                <td>
+                    {{rowData.area.nombre}}
+                </td>
+                <td>
+                    {{rowData.concepto}}
+                </td>
+                <td>
+                    {{rowData.aspectoCausante}}
+                </td>
+                <td>
+                    <button *ngIf="!consultar" pButton type="button" icon="fa fa-close" class="soft-icon"
+                        (click)="removeDesv(rowData)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<br />
+
+<p-tabView>
+    <p-tabPanel header="INVESTIGACIÓN" *sTienePermiso="'SEC_POST_INVESTIGACIONES'" >
+        <div class="ui-g">
+            <div class="ui-g-12 ui-sm-12">
+                <p-tabView [(activeIndex)]="tabIndex" (onChange)="indexTab($event)">
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Descripción">
+                        <!-- <button (click)="test2()">test2</button> -->
+                        <div class="ui-g">
+                            <div *ngIf="desviacionesList" class="ui-g-12 ui-sm-12 ui-xl-4">
+                                <h4 style="margin-bottom: 20px;">Nombre de la Empresa</h4>
+                                {{desviacionesList[0]?.empresa}}
+                            </div>
+                            <div *ngIf="desviacionesList" class="ui-g-12 ui-sm-12 ui-xl-4">
+                                <h4 style="margin-bottom: 20px;">NIT</h4>
+                                {{desviacionesList[0]?.nit}}
+                            </div>    
+                                                  
+                        </div>
+                        <div class="ui-g">
+                            <h4 style="margin-bottom: 20px;">Reporte de investigación</h4>
+                                                       
+                        </div>
+                        <div class="ui-g">
+                            <h4 style="margin-bottom: 20px;">Reporte Inicial</h4>
+                                                       
+                        </div>
+                                              
+                          
+                        <p-table [value]="desviacionesList"  autoLayout="true" id="TablaDescripcion">
+                                                        
+                            <ng-template pTemplate="body">
+                                <tr>
+                                    <th style="border: 1px solid #c8c8c8;">Nombre del evento</th>
+                                    <td>{{desviacionesList[0]?.concepto}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #c8c8c8;">Nombre del colaborador</th>
+                                    <td>{{desviacionesList[0]?.nombre}}</td> 
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #c8c8c8;">Fecha del incidente</th>
+                                    <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td> 
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #c8c8c8;">Hora del incidente</th>
+                                    <td>{{desviacionesList[0]?.hora}}</td> 
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #c8c8c8;">Ubicacion</th>
+                                    <td>{{desviacionesList[0]?.area.nombre}}</td> 
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #c8c8c8;">Clasificación</th>
+                                    <td>{{desviacionesList[0]?.severidad}}</td> 
+                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #c8c8c8;">Descripción detallada del AT</th>
+                                   
+                                    <textarea maxlength="5000" *ngIf="!consultar" pInputTextarea rows="20"
+                            placeholder="Observaciones de análisis" [(ngModel)]="observacion"></textarea>
+                        <div *ngIf="consultar">
+                            {{observacion}}
+                        </div> 
+                                </tr>
+                                </ng-template>
+                            
+                        </p-table>  
+                        
+                    </p-tabPanel>
+                    <p-tabPanel  *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Información complementaria">
+                        <p-tabView>
+                            <p-tabPanel  *ngIf="idEmpresa == '22'" header="Complementaria">
+                                <p-table [value]="desviacionesList"  autoLayout="true" [formGroup]="analisisPeligros">
+                                
+                                                        
+                                    <ng-template pTemplate="body" let-aus>
+                                        <tr>
+                                            <th style="border: 1px solid #c8c8c8;">Peligro</th>
+                                            <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                                            <p-dropdown [options]="this.tipoPeligroItemList" formControlName="Peligro" (onChange)="SelectPeligro($event.value)" >
+                                            </p-dropdown></th>
+                                        </tr>
+                                        <tr>
+                                            <th style="border: 1px solid #c8c8c8;">Descripción del Peligro</th>
+                                            <!-- <td>{{desviacionesList[0]?.nombre}}</td>  -->
+                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <!-- <p-dropdown [options]="this.peligroItemList" formControlName="tipoCaso"></p-dropdown> -->
+                                            
+                                            <p-dropdown [options]="this.peligroItemList" formControlName="DescripcionPeligro"></p-dropdown>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="border: 1px solid #c8c8c8;">Estado del evento ante ARL</th>
+                                            <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
+                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <p-dropdown [options]="ARLfirme" formControlName="EnventoARL"></p-dropdown>
+                                        </tr>
+                                        <tr>
+                                            <th style="border: 1px solid #c8c8c8;">Reporte a entes de control
+                                            </th>
+                                            <td *ngIf="!severidadFlag">
+                                                <p-radioButton name="group1" label="Si  " [value]="true"  formControlName="ReporteControl" ></p-radioButton>
+                                                <p-radioButton name="group1" label="No  " [value]="false" formControlName="ReporteControl" ></p-radioButton>
+                                            </td> 
+                                            <td *ngIf="severidadFlag">
+                                                <p-radioButton name="group1" label="Si  " [value]="true"  formControlName="ReporteControl" required class="fieldgroup"></p-radioButton>
+                                                <p-radioButton name="group1" label="No  " [value]="false" formControlName="ReporteControl" class="fieldgroup"></p-radioButton>
+                                            </td> 
+                                        </tr>
+                                        <tr *ngIf="analisisPeligros.get('ReporteControl').value == true">
+                                            
+                                            <th style="border: 1px solid #c8c8c8;">Fecha de envio a entes de control</th>
+                                            <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
+                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                                <div class="field col-12 md:col-4">
+                                                    <!-- <label for="touchui">Touch UI</label> -->
+                                                    <!-- <p-calendar [(ngModel)]="date1" [touchUI]="true" [readonlyInput]="true" inputId="touchui" [(ngModel)]="FechaControl"></p-calendar> -->
+                                                    <p-calendar [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" required inputId="touchui" formControlName="FechaControl"></p-calendar>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th style="border: 1px solid #c8c8c8;">Entrega copia de FURAT  al trabajador</th>
+                                           
+                                            <td><p-radioButton name="group2" label="Si  " [value]="true"  formControlName="CopiaTrabajador" ></p-radioButton>
+                                                <p-radioButton name="group2" label="No  " [value]="false" formControlName="CopiaTrabajador" ></p-radioButton>
+                                            </td>                                
+                                        </tr>
+                                        <tr *ngIf="analisisPeligros.get('CopiaTrabajador').value == true">
+                                            <th style="border: 1px solid #c8c8c8;width: 35%">Fecha entrega copia al trabajador</th>
+                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                                <div class="field col-12 md:col-4">
+                                                    <!-- <label for="touchui">Touch UI</label> -->
+                                                    <!-- <p-calendar [(ngModel)]="date2" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaCopia"></p-calendar> -->
+                                                    <p-calendar [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaCopia"></p-calendar>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                        <s-documentosAnalisisDesviacion *ngIf="documentos" [analisisId]="analisisId"
+                                        [documentos]="documentos" (onUpdate)="confirmarActualizacion($event)"
+                                        [readOnly]="consultar"></s-documentosAnalisisDesviacion>
+                                        </tr>
+                                        </ng-template>
+
+                                                                            
+                                </p-table>                                
+                                   
+                               
+                            </p-tabPanel>
+                            <p-tabPanel  *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Dias perdidos">
+
+                                <app-incapacidades-complementaria (listIncapacidades)="getListIncapacidades($event)" [incapacidades]="incapacidadesList"></app-incapacidades-complementaria>
+
+                                
+                            </p-tabPanel>
+                        </p-tabView>
+                        
+                    </p-tabPanel>
+                    <p-tabPanel  *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Miembros del equipo">
+                        <app-miembros-equipo [miembrosList]="miembros" (disable)="guardadModificar($event)"></app-miembros-equipo>
+                        <!-- <app-miembros-equipo [miembrosList]="miembros" (miembrosOut)="miembrosIn($event)" (selectedProductsOUT)="selectedProductsIn($event)"></app-miembros-equipo> -->
+                    </p-tabPanel>
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Evidencias" [disabled]="adicionar">
+                        <app-evidencias [analisisId]="analisisId" [documentos]="documentos"></app-evidencias>
+                    </p-tabPanel>                    
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Diagrama de flujo">
+                        <app-flow-chart (datosFC)="setFactorCausal($event)" (diagramSave)="dataDiagram($event)" [dataFlowChart]="dataFlow"></app-flow-chart>
+                    </p-tabPanel>
+                    
+                    <p-tabPanel *ngFor="let data of factorCusal; let i=index" header="Factor Causal {{i+1}}">
+                        <app-factor-causal (dataFC)="setListDataFactor()" (validators2)="getValidator($event)"[factorCausal]="data"></app-factor-causal>
+                    </p-tabPanel>
+                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && dataListFactor.length>0 && !validators" header="Listado de causas">
+                        <app-listado-causas [factores]="dataListFactor" (tabIndex)="changeTab()" (validacionPA)="habilitarInforme()" [planAccionList]="listPlanAccion"></app-listado-causas>
+                    </p-tabPanel>
+                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && listPlanAccion.length>0" header="Plan de accion">
+                        <app-plan-accion-list (actualizar)="setListDataFactor()" (validacionPA)="habilitarInforme()" (flagPlanAccionlist)="eliminarPlandeAccion($event)" [planAccionList]="listPlanAccion"></app-plan-accion-list>
+                    </p-tabPanel>
+                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && displayInforme" header="Informe">
+                        <button  pButton icon="fa fa-print" (click)="imprimir()" class="soft-icon" [disabled]="buttonPrint"></button> 
+                        <!-- <button  (click)="test2()" >test</button>  -->
+                        <table width="90%" style=" margin: auto;" [formGroup]="infoIn">
+                            <tr>
+                                <td  style="text-align: left">Fecha de investigación</td>
+                                <td  style="text-align: left"><p-calendar [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaI"></p-calendar></td> 
+                            </tr>
+                            <tr>
+                                <td style=" text-align: left">Anexo Furat No</td> 
+                                <td style=" text-align: left">{{desviacionesList[0]?.furat}}</td> 
+                                <td style=" text-align: left">Anexos Otros</td> 
+                                <td colspan="2" style=" text-align: left"><input type="text" pInputText formControlName="AnexoO" style="border-top: 0px;border-left: 0px;border-right: 0px;"/></td>
+                            </tr>   
+                            <tr>
+                                <td colspan="5" style=" text-align: left"></td> 
+                            </tr>
+                            <tr>
+                                <th colspan="2" style=" text-align: left">Representante Legal</th> 
+                                <th colspan="3" style=" text-align: left">Responsable de la Investigación</th> 
+                            </tr>
+                            <tr>
+                                <td style=" text-align: left">Nombre</td> 
+                                <td style=" text-align: left"><input type="text" pInputText formControlName="RepresentanteLegal" style="border-top: 0px;border-left: 0px;border-right: 0px;"/></td> 
+                                <td style=" text-align: left"></td> 
+                                <td style=" text-align: left">Nombre</td>
+                                <td style=" text-align: left"><input type="text" pInputText formControlName="RepresentanteInvestigacion" style="border-top: 0px;border-left: 0px;border-right: 0px;"/></td>
+                            </tr>
+                            <tr>
+                                <td style=" text-align: left">CC</td> 
+                                <td style=" text-align: left"><input type="number" pInputText formControlName="CcLegal" style="border-top: 0px;border-left: 0px;border-right: 0px;"/></td> 
+                                <td style=" text-align: left"></td> 
+                                <td style=" text-align: left">CC</td>
+                                <td style=" text-align: left"><input type="number" pInputText formControlName="CcInvestigacion" style="border-top: 0px;border-left: 0px;border-right: 0px;"/></td>
+                            </tr>
+                            <tr>
+                                <td style=" text-align: left">Cargo</td> 
+                                <td style=" text-align: left"><input type="text" formControlName="Cargo" style="border-top: 0px;border-left: 0px;border-right: 0px;"/></td> 
+                                <td style=" text-align: left"></td> 
+                                <td style=" text-align: left">Licencia No</td>
+                                <td style=" text-align: left"><input type="number" pInputText formControlName="Licencia" style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
+                            </tr>
+                            <tr>
+                                <td style=" text-align: left"></td> 
+                                <td style=" text-align: left"></td> 
+                                <td style=" text-align: left"></td> 
+                                <td style=" text-align: left">Expedida</td>
+                                <td style=" text-align: left"><p-calendar [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="Expedida"></p-calendar></td>
+                            </tr>
+                            <tr>        
+                                <td colspan="5" style=" text-align: left"></td> 
+                            </tr>
+                            <tr>
+                                <td colspan="4" rowspan="3" style=" text-align: left">Fecha envío investigación y sus recomendaciones a la dirección territorial y oficinas especiales del Ministerio del Trabajo</td> 
+                                <td style=" text-align: left"><p-calendar [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaEnvio">
+                                </p-calendar></td>
+                                
+                            </tr>
+                        </table>
+                        <div id="plantilla" style="display: none;">
+                        <!-- <div id="plantilla" > -->
+                            <div style="background-color: white">
+                                
+                                <table width="90%" style="border-collapse: collapse;margin: auto">
+                                    <tr>
+                                        <td style="width: 30%;text-align: left">
+                                            <img style="width:50%; margin-left: 28px;" id="P_empresa_logo" />
+                                        </td>        
+                                        <th style="width: 40%;text-align: center">
+                                            INFORME INVESTIGACIÓN DE ACCIDENTE LABORAL
+                                        </th>
+                                        <th style="width: 30%;text-align: center"></th>
+                                    </tr>
+                                </table>
+                                <table width="85%" style="border-collapse: collapse;margin: auto;">
+                                    <tr>
+                                        <th style="text-align: left" width="30%">
+                                            Nombre de la empresa
+                                        </th>
+                                        <td style="text-align: left">{{desviacionesList[0]?.empresa}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: left" width="30%">
+                                            NIT:
+                                        </th>
+                                        <td style="text-align: left">{{desviacionesList[0]?.nit}}</td>
+                                    </tr>
+                                </table>
+
+                                <br />
+                                
+                                <app-informe [desviacionesList]="desviacionesList" 
+                                [consultar]="consultar" 
+                                [observacion]="observacion"
+                                [miembros]="miembros"
+                                [selectedProducts]="selectedProducts"
+                                
+                                [factores]="dataListFactor"
+                                [infoIn]="infoIn"
+                                [planAccionList]="listPlanAccion"
+                                [contFotografia]="contFotografia"
+                                [contDocumental]="contDocumental"
+                                [contPoliticas]="contPoliticas"
+                                [contProcedimientos]="contProcedimientos"
+                                [contMultimedias]="contMultimedias">
+                                </app-informe>
+                                <!-- [diagramaFlujo]="imgIN" -->
+                                
+                            </div>
+                            <p style="page-break-after: always"></p>
+                            <!-- <div><h1><strong><u>Anexos:</u></strong></h1></div> -->
+
+                            <!-- <br/> -->
+
+                            <table width="90%" style="border-collapse: collapse; margin: auto;">
+                                <tr>
+                                    <th style="text-align: center" width="50%">Diagrama de flujo - Análisis Factor Causal y Raiz</th>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </p-tabPanel>
+                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Establecimiento de causas">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-sm-12 ui-xl-4">
+                                <h4 style="margin-bottom: 20px;">Causas inmediatas</h4>
+                                <p-tree [value]="causaInmediataList!" selectionMode="checkbox"
+                                    [(selection)]="causaInmediataListSelect" [style]="{'width':'100%'}"></p-tree>
+                            </div>
+                            <div class="ui-g-12 ui-sm-12 ui-xl-4">
+                                <h4 style="margin-bottom: 20px;">Causas básicas (raíz) </h4>
+                                <p-tree [value]="causaRaizList!" selectionMode="checkbox"
+                                    [(selection)]="causaRaizListSelect" [style]="{'width':'100%'}"></p-tree>
+                            </div>
+                            <div class="ui-g-12 ui-sm-12 ui-xl-4">
+                                <h4 style="margin-bottom: 20px;">Causas administrativas</h4>
+                                <p-tree [value]="causaAdminList!" selectionMode="checkbox"
+                                    [(selection)]="causaAdminListSelect" [style]="{'width':'100%'}"></p-tree>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+
+                    <p-tabPanel header="Costos" *sConfig="'FORM_COSTOS_INVST'">
+                        <s-analisisCostos *ngIf="analisisCosto" [analisisCosto]="analisisCosto" [readOnly]="consultar">
+                        </s-analisisCostos>
+                    </p-tabPanel>
+
+                    <p-tabPanel header="Participantes" *sConfig="'FORM_PART_INVST'">
+                        <table style="width: 100%;table-layout: fixed">
+                            <thead style="background: #efefef;">
+                                <th class="th">Nombres y apellidos</th>
+                                <th class="th">Cargo</th>
+                                <th class="th">Tipo identificación</th>
+                                <th class="th">Número identificación</th>
+                                <th style="width: 2.5em;"></th>
+                            </thead>
+                            <ng-template ngFor let-parti [ngForOf]="participantes" let-i="index">
+                                <tr>
+                                    <td>
+                                        <input pInputText type="text" [(ngModel)]="parti.nombresApellidos"
+                                            [disabled]="consultar" maxlength="128" />
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text" [(ngModel)]="parti.cargo" [disabled]="consultar"
+                                            maxlength="128" />
+                                    </td>
+                                    <td>
+                                        <select class="select-option" [(ngModel)]="parti.tipoIdentificacion"
+                                            [disabled]="consultar">
+                                            <option value="Cedula de ciudadanía">Cedula de ciudadanía</option>
+                                            <option value="Cédula de extranjería">Cédula de extranjería</option>
+                                            <option value="Tarjeta de identidad">Tarjeta de identidad</option>
+                                            <option value="Pasaporte">Pasaporte</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input pInputText type="text" [(ngModel)]="parti.numeroIdentificacion"
+                                            [disabled]="consultar" maxlength="45" />
+                                    </td>
+                                    <td>
+                                        <button pButton type="button" icon="fa fa-close" class="soft-icon"
+                                            (click)="removeParti(i)" *ngIf="!consultar"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </table>
+                        <button *ngIf="!consultar" style="margin-top: 10px;" pButton type="button" icon="fa fa-plus"
+                            label="Adicionar participante" (click)="adicionarParticipante()"></button>
+                    </p-tabPanel>
+
+                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Documentación" [disabled]="adicionar">
+                        <s-documentosAnalisisDesviacion *ngIf="documentos" [analisisId]="analisisId"
+                            [documentos]="documentos" (onUpdate)="confirmarActualizacion($event)"
+                            [readOnly]="consultar"></s-documentosAnalisisDesviacion>
+                    </p-tabPanel>
+
+                    <p-tabPanel  *ngIf="idEmpresa != '22' " header="Observaciones">
+                        <textarea maxlength="510" *ngIf="!consultar" pInputTextarea rows="7"
+                            placeholder="Observaciones de análisis" [(ngModel)]="observacion"></textarea>
+                        <div *ngIf="consultar">
+                            {{observacion}}
+                        </div>
+                    </p-tabPanel>
+
+                </p-tabView>
+            </div>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel  *ngIf="idEmpresa != '22' " header="PLAN DE TRABAJO">
+        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar"></s-gestionTareas>
+    </p-tabPanel>
+
+</p-tabView>
+
+<div class="loader float-btn" *ngIf="guardando" style="position:absolute; top:340px; left:53%; "></div>
+<ng-container *ngIf="adicionar && !consultar">
+    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="fa fa-floppy-o" title="Guardar Análisis"
+        (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled "></button>
+</ng-container>
+
+<ng-container *ngIf="modificar && !consultar">
+    <button *sTienePermiso="'SEC_PUT_ANADESV'" pButton type="button" icon="fa fa-pencil" title="Modificar Análisis"
+        (click)="modificarAnalisis()" class="ui-button-success float-btn" [disabled]="guardando" style="z-index: 100;"></button>
+</ng-container>
+
+<div style="height: 100px;"></div>
+<button (click)="testmsng()" *ngIf="idUsuario=='214'">Envio correo periodico</button>

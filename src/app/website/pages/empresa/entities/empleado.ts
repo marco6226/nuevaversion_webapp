@@ -8,6 +8,7 @@ import { Cargo } from "./cargo";
 import { ConfiguracionJornada } from "./configuracion-jornada";
 import { HorasExtra } from "./horas-extra";
 import { Usuario } from "./usuario";
+import { UsuarioBasic } from './usuario-basic'
 
 export class Empleado {
     id?: string | null;
@@ -43,6 +44,7 @@ export class Empleado {
     regional!: string;
     correoPersonal!: string;
     usuario!: Usuario;
+    usuarioBasic?: UsuarioBasic;
     configuracionJornadaList!: ConfiguracionJornada[];
     horasExtraList!: HorasExtra[];
     documentosList!: Documento[];
