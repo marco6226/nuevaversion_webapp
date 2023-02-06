@@ -292,7 +292,7 @@ import { EmpleadoBasicSelectorComponent } from './pages/comun/components/emplead
     ListadoCausasComponent,
     PlanAccionListComponent,
     InformeComponent,
-    PlanAccionComponent
+    PlanAccionComponent,
     FlowChartComponent,
     EmpleadoBasicSelectorComponent
   ],
