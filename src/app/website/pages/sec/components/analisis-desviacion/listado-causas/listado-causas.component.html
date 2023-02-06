@@ -1,0 +1,33 @@
+<p-toast></p-toast>
+<h1>RELACIÓN DE FACTORES CAUSALES IDENTIFICADOS</h1>
+<br>
+<p-table [value]="factores" [(selection)]="causasListSelect" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem"></th>
+            <th>Pregunta</th>
+            <th>Nombre del Factor Causal</th>
+            <th>Factor Identificado según Metodología</th>
+            <th>Acción</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-factor>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="factor" ></p-tableCheckbox>
+            </td>
+            <td>{{factor.pregunta}}</td>
+            <td>{{factor.nombre}}</td>
+            <td>{{factor.metodologia}}</td>
+            <td><label class="badge" [ngClass]="{'success': factor.accion== 'Con Plan de Accion',  'warning': factor.accion == 'Sin Plan de Accion'}">
+                {{factor.accion}}
+            </label>
+            </td>
+        </tr>       
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+
+        <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="fa fa-pencil" label="Iniciar Plan de Acción" (click)="crearPlanAccion()" [disabled]="causasListSelect == null || causasListSelect.length <= 0"></button>
+
+    </ng-template>
+</p-table>

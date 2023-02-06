@@ -5,7 +5,7 @@ import { Empleado } from "src/app/website/pages/empresa/entities/empleado";
 export interface FactorCausal{
     id: number;
     nombre: string;
-    seccion?: seccion[];
+    seccion?: seccion[] | null;
     causa_Raiz?: Causa_Raiz[];
 }
 
@@ -33,7 +33,7 @@ export interface IdentificacionFC{
     id: number;
     factor: string;
     subProd: SubClasificacion[];
-    selectable: boolean;
+    selectable: boolean | null;
   }
   
 export interface SubClasificacion{
@@ -60,10 +60,10 @@ export interface Incapacidad{
   id?:number;
   cie10?: Cie;
   diagnostico?: string;
-  fechaInicio?: Date;
-  fechaFin?: Date;
-  tipo?: string;
-  diasAusencia?: number;
+  fechaInicio?: Date | null;
+  fechaFin?: Date | null;
+  tipo?: string | null;
+  diasAusencia?: number | null;
 }
 
 export interface listFactores{
@@ -75,7 +75,7 @@ export interface listFactores{
 
 export interface listPlanAccion{
   nombreFC?: string;
-  causaRaiz?: planCausaRaiz[];
+  causaRaiz?: planCausaRaiz[] | any;
 }
 
 export interface planCausaRaiz{
@@ -92,43 +92,43 @@ export interface planCausaRaiz{
 }
 
 export interface PlanEspecifico{
-  id:string;
-  nombreAccionCorrectiva: string;
-  accionCorrectiva: string;
-  fechaVencimiento: Date;
-  responsableEmpresa: Empleado;
-  responsableExterno: String;
-  isComplete: boolean;
-  email:boolean;
+  id:string | null;
+  nombreAccionCorrectiva: string | null;
+  accionCorrectiva: string | null;
+  fechaVencimiento: Date | null;
+  responsableEmpresa: Empleado | null;
+  responsableExterno: String | null;
+  isComplete: boolean | null;
+  email:boolean | null;
 }
 
 export interface PlanRazonable{
-  justificacion?: string;
+  justificacion?: string | null;
   isComplete: boolean;
 }
 
 export interface PlanMedible{
-  id:string;
-  responsableEmpresa: Empleado
-  responsableExterno: String
-  fechaVencimiento: Date;
-  planVerificacion: string;
-  isComplete: boolean;
-  email:boolean;
+  id:string | null;
+  responsableEmpresa: Empleado | null
+  responsableExterno: String | null
+  fechaVencimiento: Date | null;
+  planVerificacion: string | null;
+  isComplete: boolean | null;
+  email:boolean | null;
 }
 
 export interface PlanEficaz{
-  id:string;
-  responsableEmpresa: Empleado
-  responsableExterno: String
-  fechaVencimiento: Date;
-  planValidacion: string;
-  isComplete: boolean;
-  email:boolean;
+  id:string | null;
+  responsableEmpresa: Empleado | null
+  responsableExterno: String | null
+  fechaVencimiento: Date | null;
+  planValidacion: string | null;
+  isComplete: boolean | null;
+  email:boolean | null;
 }
 
 export interface PlanRevisado{
-  revisado: string;
+  revisado: string | null;
   isComplete: boolean;
 }
 
@@ -138,6 +138,6 @@ export interface ValorCausas{
   causaRaiz:string;
   accionCorrectiva:string;
   fechaVencimiento: Date;
-  responsableEmpresa?:string;
+  responsableEmpresa?:string | null;
   responsableExterno?:string;
 }

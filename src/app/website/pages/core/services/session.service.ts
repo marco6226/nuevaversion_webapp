@@ -118,4 +118,11 @@ export class SesionService {
   public getRefreshToken(): string {
     return localStorage.getItem('refresh')!;
   }
+  public getToken(): string | null{
+    if (this.session == null) {
+        this.session = <Session>JSON.parse(localStorage.getItem(config.session_id)!);
+        if (this.session == null) return null;
+    }
+    return this.session.token;
+}
 }

@@ -20,6 +20,7 @@ export class DocumentoUploadComponent implements OnInit {
     @Input('directorio') directorio!: Directorio;
     @Input('visible') visibleDlg!: boolean;
     @Input('contratistasFlag') contratistasFlag: boolean=false;
+    @Input('temporalesFlag') temporalesFlag: boolean=false;
     @Output('visibleChange') visibleChange = new EventEmitter();
     @Output('onUpload') onUpload = new EventEmitter();
     esPrivado!: boolean;
@@ -29,6 +30,14 @@ export class DocumentoUploadComponent implements OnInit {
         { label: "--Seleccione--", value: null },
         { label: "Carta autorización", value: "Carta autorización" },
         { label: "Certificado ARL", value: "Certificado ARL" },
+        { label: "Otros", value: "Otros" }
+    ]
+
+    doTemporales= [
+        { label: "--Seleccione--", value: null },
+        { label: "FURAT", value: "FURAT" },
+        { label: "Investigación de AT", value: "Investigación de AT" },
+        { label: "Reportes a EPS y/o entes territoriales", value: "Reportes a EPS y/o entes territoriales" },
         { label: "Otros", value: "Otros" }
     ]
 

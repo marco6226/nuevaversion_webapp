@@ -1,0 +1,190 @@
+<table width="85%" style="border-collapse: collapse; margin: auto;">
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left" width="21%">Fecha de investigación</th>
+        <td style="border: 1px solid #c8c8c8; text-align: left">{{this.infoIn.value['FechaI']  | date: 'dd/MM/yyyy'}}</td> 
+    </tr>
+</table>
+
+<br />
+
+<table width="85%" style="border-collapse: collapse; margin: auto;">
+    <tr>
+        <th colspan="2" style="border: 1px solid #c8c8c8; text-align: center">REPORTE INICIAL</th>
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left">Nombre del evento</th>
+        <td style="border: 1px solid #c8c8c8; ">{{desviacionesList[0].concepto}}</td> 
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left">Nombre del colaborador</th>
+        <td style="border: 1px solid #c8c8c8; ">{{desviacionesList[0]?.nombre}}</td> 
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left">Fecha del incidente</th>
+        <td style="border: 1px solid #c8c8c8; ">{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td> 
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left">Hora del incidente</th>
+        <td style="border: 1px solid #c8c8c8; ">{{desviacionesList[0]?.hora}}</td> 
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left">Ubicacion</th>
+        <td style="border: 1px solid #c8c8c8; ">{{desviacionesList[0]?.area.nombre}}</td> 
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left">Clasificación</th>
+        <td style="border: 1px solid #c8c8c8; ">{{desviacionesList[0]?.severidad}}</td> 
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: left">Descripción detallada del AT</th>
+        
+        <td maxlength="510"  pInputTextarea rows="10"
+        placeholder="Observaciones de análisis" style="border: 1px solid #c8c8c8;">{{observacion}}</td>
+    </tr>
+</table>
+
+<br />
+
+<table width="85%" style="border-collapse: collapse; margin: auto;">
+    <tr>
+        <th colspan="7" style="border: 1px solid #c8c8c8; text-align: center">MIEMBROS DEL EQUIPO</th>
+    </tr>
+    <tr>
+        <th  style="border: 1px solid #c8c8c8; text-align: center">No </th>
+        <th  style="border: 1px solid #c8c8c8; text-align: center">C.C. </th>
+        <th  style="border: 1px solid #c8c8c8; text-align: center">Nombre </th>
+        <th  style="border: 1px solid #c8c8c8; text-align: center">Cargo </th>
+        <th  style="border: 1px solid #c8c8c8; text-align: center">División</th>
+        <th  style="border: 1px solid #c8c8c8; text-align: center">Localidad </th>
+        <th  width="30%" style="border: 1px solid #c8c8c8; text-align: center">Firma </th>
+    </tr>
+<ng-container *ngFor="let miembro of miembros" >
+    <tr >
+        <td  height="50px" style="border: 1px solid #c8c8c8; text-align: center">{{miembro?.id}} </td>
+        <td  height="50px" style="border: 1px solid #c8c8c8; text-align: center">{{miembro?.cedula}}</td>
+        <td  height="50px" style="border: 1px solid #c8c8c8; text-align: center">{{miembro?.nombre}}</td>
+        <td  height="50px" style="border: 1px solid #c8c8c8; text-align: center">{{miembro?.cargo}}</td>
+        <td  height="50px" style="border: 1px solid #c8c8c8; text-align: center">{{miembro?.division}}</td>
+        <td  height="50px" style="border: 1px solid #c8c8c8; text-align: center">{{miembro?.localidad}}</td>
+        <td  height="50px" width="30%" style="border: 1px solid #c8c8c8; text-align: center">&nbsp;</td>
+    </tr>
+</ng-container>
+
+
+</table>
+
+<br />
+
+<table width="85%" style="border-collapse: collapse; margin: auto;">
+    <tr>
+        <th colspan="6" style="border: 1px solid #c8c8c8; text-align: center" width="50%">RECOLECCIÓN DE EVIDENCIAS</th>
+    </tr>
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: center">Fotografica</th> 
+        <th style="border: 1px solid #c8c8c8; text-align: center">Documental</th> 
+        <th style="border: 1px solid #c8c8c8; text-align: center">Politicas</th> 
+        <th style="border: 1px solid #c8c8c8; text-align: center">Procedimientos</th>    
+        <th style="border: 1px solid #c8c8c8; text-align: center">Multimedia</th>     
+    </tr>
+    <tr>
+        <td style="border: 1px solid #c8c8c8; text-align: center">{{this.contFotografia}}</td> 
+        <td style="border: 1px solid #c8c8c8; text-align: center">{{this.contDocumental}}</td> 
+        <td style="border: 1px solid #c8c8c8; text-align: center">{{this.contPoliticas}}</td> 
+        <td style="border: 1px solid #c8c8c8; text-align: center">{{this.contProcedimientos}}</td>
+        <td style="border: 1px solid #c8c8c8; text-align: center">{{this.contMultimedias}}</td> 
+    </tr>
+</table>
+
+<br />
+
+<table width="85%" style="border-collapse: collapse; margin: auto;">
+    <tr>
+        <th colspan="7" style="border: 1px solid #c8c8c8; text-align: center" width="50%">DESCRIPCION DE LAS ACCIONES</th>
+    </tr>
+    <tr>
+        <th rowspan="2" style="border: 1px solid #c8c8c8; text-align: center">No</th> 
+        <th colspan="2" style="border: 1px solid #c8c8c8; text-align: center">CAUSA RAIZ</th> 
+        <th colspan="4" style="border: 1px solid #c8c8c8; text-align: center">ESPECIFICO</th> 
+    </tr>   
+    <tr>
+        <th style="border: 1px solid #c8c8c8; text-align: center">Nombre del Factor Causal</th> 
+        <th style="border: 1px solid #c8c8c8; text-align: center">Causa Raiz</th> 
+        <th style="border: 1px solid #c8c8c8; text-align: center">Acción correctiva</th> 
+        <th style="border: 1px solid #c8c8c8; text-align: center">Fecha Vencimiento</th>
+        <th style="border: 1px solid #c8c8c8; text-align: center">Responsable empresa </th> 
+        <th style="border: 1px solid #c8c8c8; text-align: center">Responsable externo </th> 
+    </tr>
+    <ng-container  *ngFor="let factor of prueba;let indice1=index;" >
+        <tr>
+            <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.id}}</td> 
+            <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.NcausaRaiz}}</td> 
+            <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.causaRaiz}}</td> 
+            <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.accionCorrectiva}}</td>
+            <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.fechaVencimiento | date: 'dd/MM/yyyy'}}</td>
+            <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.responsableEmpresa}}</td> 
+            <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.responsableExterno}}</td> 
+        </tr>
+        {{numerarCausal()}}
+    </ng-container>
+</table>
+<br/>
+<table width="85%" style=" margin: auto;">
+    <tr>
+        <td style=" text-align: left">Anexo Furat No.</td> 
+        <td style=" text-align: left">{{desviacionesList[0].furat}}</td> 
+        <td></td>
+        <td style=" text-align: left">Anexos Otros:</td> 
+        <td style=" text-align: left">{{this.infoIn.value['AnexoO']}}</td>
+    </tr>   
+    <tr><td colspan="5">&nbsp;</td></tr>
+    <tr>
+        <th colspan="2" style=" text-align: left">Representante Legal</th> 
+        <th colspan="3" style=" text-align: left">Responsable de la Investigación</th> 
+    </tr>
+    <tr>
+        <td style=" text-align: left">Nombre:</td> 
+        <td style=" text-align: left">{{this.infoIn.value['RepresentanteLegal']}}</td> 
+        <td style=" text-align: left"></td> 
+        <td style=" text-align: left">Nombre:</td>
+        <td style=" text-align: left">{{this.infoIn.value['RepresentanteInvestigacion']}}</td>
+    </tr>
+    <tr><td colspan="5">&nbsp;</td></tr>
+    <tr>
+        <td style=" text-align: left">Firma: </td> 
+        <td style=" text-align: left">______________________________</td> 
+        <td style=" text-align: left"></td> 
+        <td style=" text-align: left">Firma: </td>
+        <td style=" text-align: left">______________________________</td>
+    </tr>
+    <tr>
+        <td style=" text-align: left">CC.</td> 
+        <td style=" text-align: left">{{this.infoIn.value['CcLegal']}}</td> 
+        <td style=" text-align: left"></td> 
+        <td style=" text-align: left">CC.</td>
+        <td style=" text-align: left">{{this.infoIn.value['CcInvestigacion']}}</td>
+    </tr>
+    <tr>
+        <td style=" text-align: left">Cargo:</td> 
+        <td style=" text-align: left">{{this.infoIn.value['Cargo']}}</td> 
+        <td style=" text-align: left"></td> 
+        <td style=" text-align: left">Licencia No.</td>
+        <td style=" text-align: left">{{this.infoIn.value['Licencia']}}</td>
+    </tr>
+    <tr>
+        <td style=" text-align: left"></td> 
+        <td style=" text-align: left"></td> 
+        <td style=" text-align: left"></td> 
+        <td style=" text-align: left">Expedida:</td>
+        <td style=" text-align: left">{{this.infoIn.value['Expedida']  | date: 'dd/MM/yyyy'}}</td>
+    </tr>
+    <tr>        
+        <td colspan="5" style=" text-align: left"></td> 
+    </tr>
+    <tr>
+        <td colspan="4" rowspan="3" style=" text-align: left">Fecha envío investigación y sus recomendaciones a la dirección territorial y oficinas especiales del Ministerio del Trabajo</td> 
+        <td style=" text-align: left">{{this.infoIn.value['FechaEnvio']  | date: 'dd/MM/yyyy'}}</td>
+        
+    </tr>
+</table>
+
+<br/>

@@ -2,7 +2,7 @@ import { Area } from './../../empresa/entities/area';
 
 export class Desviacion {
   hashId?: string;
-  modulo?: string;
+  modulo?: string | null;
   concepto?: string;
   fechaReporte?: string;
   aspectoCausante?: string;
