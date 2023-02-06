@@ -320,28 +320,28 @@ export class EmpleadoFormComponent implements OnInit {
     }
 
     onSubmit() {
-        let empleado: Empleado | null = null;
-        console.log(this.form.value, 'asdlasdñad');
-        empleado!.id = this.form.value.id;
-        empleado!.primerNombre = this.form.value.primerNombre;
-        empleado!.segundoNombre = this.form.value.segundoNombre;
-        empleado!.primerApellido = this.form.value.primerApellido;
-        empleado!.segundoApellido = this.form.value.segundoApellido;
-        empleado!.codigo = this.form.value.codigo;
-        empleado!.direccion = this.form.value.direccion;
-        empleado!.fechaIngreso = this.form.value.fechaIngreso;
-        empleado!.emergencyContact = this.form.value.emergencyContact;
-        empleado!.corporativePhone = this.form.value.corporativePhone;
-        empleado!.phoneEmergencyContact = this.form.value.phoneEmergencyContact;
-        empleado!.emailEmergencyContact = this.form.value.emailEmergencyContact;
-        empleado!.fechaNacimiento = this.form.value.fechaNacimiento;
-        empleado!.genero = this.form.value.genero;
-        empleado!.numeroIdentificacion = this.form.value.numeroIdentificacion;
-        empleado!.telefono1 = this.form.value.telefono1;
-        empleado!.telefono2 = this.form.value.telefono2;
-        empleado!.empresa = this.empresaForm.value.empresa == null ? null : this.empresaForm.value.empresa.label;
-        empleado!.nit = this.empresaForm.value.empresa == null ? 0 : this.empresaForm.value.empresa.nit;
-        empleado!.ciudad = this.form.value.ciudad == null ? null : this.form.value.ciudad.id;
+        let empleado: Empleado = new Empleado();
+        // console.log(this.form.value, 'asdlasdñad');
+        empleado.id = this.form.value.id;
+        empleado.primerNombre = this.form.value.primerNombre;
+        empleado.segundoNombre = this.form.value.segundoNombre;
+        empleado.primerApellido = this.form.value.primerApellido;
+        empleado.segundoApellido = this.form.value.segundoApellido;
+        empleado.codigo = this.form.value.codigo;
+        empleado.direccion = this.form.value.direccion;
+        empleado.fechaIngreso = this.form.value.fechaIngreso;
+        empleado.emergencyContact = this.form.value.emergencyContact;
+        empleado.corporativePhone = this.form.value.corporativePhone;
+        empleado.phoneEmergencyContact = this.form.value.phoneEmergencyContact;
+        empleado.emailEmergencyContact = this.form.value.emailEmergencyContact;
+        empleado.fechaNacimiento = this.form.value.fechaNacimiento;
+        empleado.genero = this.form.value.genero;
+        empleado.numeroIdentificacion = this.form.value.numeroIdentificacion;
+        empleado.telefono1 = this.form.value.telefono1;
+        empleado.telefono2 = this.form.value.telefono2;
+        empleado.empresa = this.empresaForm.value.empresa == null ? null : this.empresaForm.value.empresa.label;
+        empleado.nit = this.empresaForm.value.empresa == null ? 0 : this.empresaForm.value.empresa.nit;
+        empleado.ciudad = this.form.value.ciudad == null ? null : this.form.value.ciudad.id;
         if (this.form.value.afp != null) {
             empleado!.afp = new Afp();
             empleado!.afp.id = this.form.value.afp;
@@ -350,29 +350,27 @@ export class EmpleadoFormComponent implements OnInit {
             empleado!.eps = new Eps();
             empleado!.eps.id = this.form.value.eps;
         }
-        empleado!.tipoIdentificacion = this.form.value.tipoIdentificacion;
-        empleado!.tipoVinculacion = this.form.value.tipoVinculacion;
-        empleado!.zonaResidencia = this.form.value.zonaResidencia;
-        empleado!.area = new Area();
-        empleado!.cargo = new Cargo();
-        empleado!.usuario = new Usuario();
-        empleado!.area.id = this.form.value.area.id;
-        empleado!.cargo.id = this.form.value.cargoId;
-        empleado!.usuario.email = this.form.value.email;
-        empleado!.ciudadGerencia = this.form.value.ciudadGerencia;
-        (empleado!.regional = this.form.value.regional), (empleado!.correoPersonal = this.form.value.correoPersonal);
+        empleado.tipoIdentificacion = this.form.value.tipoIdentificacion;
+        empleado.tipoVinculacion = this.form.value.tipoVinculacion;
+        empleado.zonaResidencia = this.form.value.zonaResidencia;
+        empleado.area = new Area();
+        empleado.cargo = new Cargo();
+        empleado.usuario = new Usuario();
+        empleado.area.id = this.form.value.area.id;
+        empleado.cargo.id = this.form.value.cargoId;
+        empleado.usuario.email = this.form.value.email;
+        empleado.ciudadGerencia = this.form.value.ciudadGerencia;
+        (empleado.regional = this.form.value.regional), (empleado.correoPersonal = this.form.value.correoPersonal);
 
         if (this.form.value.businessPartner) {
-            empleado!.businessPartner = this.form.value.businessPartner.id;
+            empleado.businessPartner = this.form.value.businessPartner.id;
         }
         if (this.form.value.jefeInmediato) {
-            console.log('empleado existe');
-            empleado!.jefeInmediato = this.form.value.jefeInmediato.id;
+            empleado.jefeInmediato = this.form.value.jefeInmediato.id;
         }
         empleado!.direccionGerencia = this.form.value.direccionGerencia;
         console.log(this.form.value.jefeInmediato);
 
-        // //console.log(this.form.value.ipPermitida);
         empleado!.usuario.ipPermitida = [];
         empleado!.usuario.usuarioEmpresaList = [];
 

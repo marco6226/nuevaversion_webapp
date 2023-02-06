@@ -158,6 +158,8 @@ import { InformeComponent } from './pages/sec/components/analisis-desviacion/fac
 import { PlanAccionComponent } from './pages/sec/components/analisis-desviacion/factor-causal/plan-accion/plan-accion.component';
 import { DiagramModule, SymbolPaletteModule } from '@syncfusion/ej2-angular-diagrams';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+import { EmpleadoBasicSelectorComponent } from './pages/comun/components/empleado-basic-selector/empleado-basic-selector.component';
+
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -291,6 +293,8 @@ import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion
     PlanAccionListComponent,
     InformeComponent,
     PlanAccionComponent
+    FlowChartComponent,
+    EmpleadoBasicSelectorComponent
   ],
   imports: [
     CommonModule,

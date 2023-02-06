@@ -1,0 +1,26 @@
+<label for="buscar"></label>
+<p-autoComplete name="buscar" placeholder="Buscar: número identificación, correo electrónico o nombres y apellidos" [style]="{'width':'100%'}"
+  (onSelect)="onSelection($event)" [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)" [(ngModel)]="_value"
+  [delay]="500"
+  *ngIf="_value?.id == null">
+  <ng-template let-empleado pTemplate="item">
+    <div class="ui-helper-clearfix" >
+      <div class="wrapper" >
+        
+        <div style="margin-left:20px">
+          <label>{{empleado?.primerNombre}} {{empleado?.primerApellido}}</label>
+          <br/> {{empleado?.numeroIdentificacion}}
+          <br/> {{empleado?.usuarioBasic.email}}
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-autoComplete>
+
+<div class="wrapper" [ngClass]="disabled == true ? 'disabled' : 'clickable'" style="padding-left: 20px;" *ngIf="_value?.id != null" (click)="resetEmpleado()">
+  <div style="margin-left:20px">
+    <h4 style="margin:0px">{{_value?.primerNombre}} {{_value?.primerApellido}}</h4>
+    <p>{{_value?.tipoIdentificacion?.nombre}}Numero de Identificación: {{_value?.numeroIdentificacion}}</p>
+    <p>{{_value?.cargo?.nombre}}</p>
+  </div>
+</div>

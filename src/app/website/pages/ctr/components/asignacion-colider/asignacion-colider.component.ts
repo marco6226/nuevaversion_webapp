@@ -91,8 +91,10 @@ deleteProduct(inter: interventorgestor) {
     icon: 'pi pi-exclamation-triangle',
     accept: () => {
       this.gestorInters = this.gestorInters.filter(val => val!=inter);
-      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Interventor '+inter.gestor?.primerNombre+' '+inter.gestor?.primerApellido+'eliminado', life: 3000});
-    }
+      this.messageService.add({key: 'colider', severity:'success', summary: 'Successful', detail: 'Interventor '+inter.gestor?.primerNombre+' '+inter.gestor?.primerApellido+'eliminado', life: 3000});
+    },
+    acceptLabel: 'Si',
+    rejectLabel: 'No'
 });
 }
 
