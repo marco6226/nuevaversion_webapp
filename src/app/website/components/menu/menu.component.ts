@@ -132,7 +132,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Inspeccion',
-            icon: 'lan',
+            icon: 'fact_check',
             codigo: 'INP',
             expanded: false,
             items:
