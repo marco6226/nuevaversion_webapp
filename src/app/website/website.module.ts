@@ -159,6 +159,8 @@ import { PlanAccionComponent } from './pages/sec/components/analisis-desviacion/
 import { DiagramModule, SymbolPaletteModule } from '@syncfusion/ej2-angular-diagrams';
 import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import { EmpleadoBasicSelectorComponent } from './pages/comun/components/empleado-basic-selector/empleado-basic-selector.component';
+import { FormularioConstructorComponent } from './pages/comun/components/formulario-constructor/formulario-constructor.component';
+import { DirectorioService } from './pages/ado/services/directorio.service';
 
 @NgModule({
   declarations: [
@@ -294,7 +296,8 @@ import { EmpleadoBasicSelectorComponent } from './pages/comun/components/emplead
     InformeComponent,
     PlanAccionComponent,
     FlowChartComponent,
-    EmpleadoBasicSelectorComponent
+    EmpleadoBasicSelectorComponent,
+    FormularioConstructorComponent
   ],
   imports: [
     CommonModule,
@@ -328,7 +331,8 @@ import { EmpleadoBasicSelectorComponent } from './pages/comun/components/emplead
     UploaderModule
   ],
   providers: [
-    PerfilService
+    PerfilService,
+    DirectorioService
   ]
 })
 export class WebsiteModule { }

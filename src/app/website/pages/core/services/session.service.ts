@@ -125,4 +125,34 @@ export class SesionService {
     }
     return this.session.token;
 }
+
+public getConfigParam(codigo: string) {
+  let map = this.getConfiguracionMap();
+  if (map == null || this.getConfiguracionMap()[codigo] == null) {
+      switch (codigo) {
+          case 'APROB_INVEST_OBSERV': return 'true';
+          case 'FORM_PART_INVST': return 'true';
+          case 'FORM_COSTOS_INVST': return 'true';
+          case 'NOMB_MOD_INP': return 'Inspecciones';
+          case 'NOMB_MOD_AUC': return 'Observaciones';
+          case 'NOMB_MOD_COP': return 'COPASST';
+          case 'NOMB_MOD_SEC': return 'Seguimiento y control';
+          case 'NOMB_MOD_IND': return 'Indicadores';
+          case 'NUM_MAX_FOTO_INP': return '3';
+      }
+      return null;
+  } else {
+      return this.getConfiguracionMap()[codigo].valor;
+  }
+
+}
+
+public getConfiguracionMap(): any {
+  if (this.session == null) {
+      this.session = <Session>JSON.parse(localStorage.getItem(config.session_id)!);
+      if (this.session == null) return null;
+  }
+  return this.session.configuracion;
+}
+
 }

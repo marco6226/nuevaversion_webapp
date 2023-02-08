@@ -89,11 +89,11 @@ export abstract class CRUDService<T> {
     return urlParam;
   }
 
-  findByFilter(filterQuery: FilterQuery) {
+  findByFilter(filterQuery?: FilterQuery) {
     return new Promise((resolve, reject) => {
 
       this.httpInt
-        .get(this.end_point + "?" + this.buildUrlParams(filterQuery))
+        .get(this.end_point + "?" + this.buildUrlParams(filterQuery!))
         .subscribe(
           (res) => {
             resolve(res);

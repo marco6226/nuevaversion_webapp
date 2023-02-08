@@ -4,6 +4,7 @@ import * as CryptoJS from "crypto-js";
 import { HttpInt } from 'src/app/httpInt';
 import { endPoints } from 'src/environments/environment';
 import { SesionService } from './session.service';
+import { ElementoInspeccion } from '../../inspecciones/entities/elemento-inspeccion';
 
 @Injectable({
   providedIn: 'root'
@@ -114,6 +115,22 @@ callmsng() {
           .subscribe(
               (res) => resolve(res),
               (err) => reject(err)
+          );
+  });
+}
+
+sendNotificationhallazgosCriticos(id: string | number, nocumplecriticos: ElementoInspeccion[],numeroeconomico: string,ubicacion: string) {
+  let body = nocumplecriticos;
+  let endPoint = this.authEndPoint + 'enviarHallazgosCriticos/' + id + '/' + numeroeconomico  + '/' + ubicacion;
+  return new Promise((resolve) => {
+      this.httpInt
+          .post(endPoint , body)
+          // .map((res) => res)
+          .subscribe(
+              (res) => {
+                  resolve(res);
+              },
+             // (err) => this.manageError(err)
           );
   });
 }

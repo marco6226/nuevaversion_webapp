@@ -7,7 +7,7 @@ import { Inspeccion } from '../entities/inspeccion';
   providedIn: 'root'
 })
 export class InspeccionService extends CRUDService<Inspeccion>{
-
+ 
   getClassName(): string {
     return "InspeccionService";
   }
@@ -23,15 +23,14 @@ export class InspeccionService extends CRUDService<Inspeccion>{
           .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken())
       };
       this.httpInt.http.get(this.end_point + "consolidado/" + params, options)
-        // .map(res => res)
         .subscribe(
-          res => resolve(res),
-          err => {
+          (res: any) => resolve(res),
+          (err: any) => {
             reject(err);
             this.manageBlobError(err)
           }
         )
     });
-  }
-
+  } 
+  
 }
