@@ -1,78 +1,80 @@
 <!-- <p-growl [value]="msgs"></p-growl> -->
-<p-toast></p-toast>
-<p-panel header="Usuarios">
+<div class="shadow">
+        <p-panel header="Usuarios">
 
-    <p-table #dt [value]="usuarioList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="usuarioSelect" [rows]="10" [paginator]="true"
-        dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
-        <ng-template pTemplate="header">
-            <tr>
-                <th rowspan="2"></th>
-                <th pSortableColumn="email" class="text-center">Correo electrónico
-                    <p-sortIcon field="email"></p-sortIcon>
-                </th>
-                <th pSortableColumn="fechaModificacion" class="text-center">Última modificación
-                    <p-sortIcon field="fechaModificacion"></p-sortIcon>
-                </th>
-                <th pSortableColumn="fechaCreacion" class="text-center">Fecha creación
-                    <p-sortIcon field="fechaCreacion"></p-sortIcon>
-                </th>
-                <th pSortableColumn="ultimoLogin" class="text-center">Ultimo acceso
-                    <p-sortIcon field="ultimoLogin"></p-sortIcon>
-                </th>
-                <th pSortableColumn="estado" class="text-center">Estado
-                    <p-sortIcon field="estado"></p-sortIcon>
-                </th>
-            </tr>
-            <tr>
-                <td class="text-center bg-light">
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
-                </td>
-                <td class="text-center bg-light" >
-                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaModificacion', 'bt')"></s-rangoFechaSelector>
-                </td>
-                <td class="text-center bg-light" >
-                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')"></s-rangoFechaSelector>
-                </td>
-                <td class="text-center bg-light" >
-                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'ultimoLogin', 'bt')"></s-rangoFechaSelector>
-                </td>
-                <td class="text-center bg-light" >
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-usr>
-            <tr [pSelectableRow]="usr">
-                <td class="td-avatar">
-                    <i *ngIf="!usr?.icon" class="fa fa-user-circle" aria-hidden="true"></i>
-                    <img *ngIf="usr?.icon" [src]="usr?.icon" style="border-radius: 50%;" />
-                </td>
-                <td class="text-center">{{usr.email}}</td>
-                <td class="text-center">{{usr.fechaModificacion | date:'dd/MM/yyyy HH:mm'}}</td>
-                <td class="text-center">{{usr.fechaCreacion | date:'dd/MM/yyyy HH:mm'}}</td>
-                <td class="text-center">{{usr.ultimoLogin | date:'dd/MM/yyyy HH:mm'}}</td>
-                <td class="text-center">
-                    <span class="badge" [ngClass]="{'text-success': usr.estado == 'ACTIVO', 'text-white': usr.estado == 'ELIMINADO', 'text-warning': usr.estado == 'INACTIVO', 'text-primary': usr.estado == 'CAMBIO_PASSWD', 'text-danger': usr.estado == 'BLOQUEADO'}">
-                        {{usr.estado}}
-                    </span>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary" let-rowData>
-            <div class="d-flex justify-content-center">
-                <div class="btn-group" role="group">
-                    <button *sTienePermiso="'ADM_POST_USR'" class="p-button-raised p-button-primary margin-right" pButton type="button" icon="bi bi-plus" label="Adicionar" (click)="abrirDlg(false)"></button>         
-                    <button *sTienePermiso="'ADM_PUT_USR'" class="p-button-raised p-button-success margin-right margin-left" pButton type="button" icon="bi bi-pencil" label="Modificar"
-                        (click)="abrirDlg(true)" [disabled]="!usuarioSelect"></button>
-                    <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="bi bi-trash" label="Eliminar" class="p-button-raised p-button-danger margin-right margin-left"
-                        (click)="eliminar()" [disabled]="!usuarioSelect"></button>
-                    <button *sTienePermiso="'ADM_GET_USER_CONS'" pButton type="button" icon="bi bi-download" label="Usuarios" title="Descarga consolidado de usuarios" (click)="descargarInvs()" class="p-button-raised p-button-secondary margin-left"></button>
+        <p-table #dt [value]="usuarioList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="usuarioSelect" [rows]="10" [paginator]="true"
+            dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th rowspan="2"></th>
+                    <th pSortableColumn="email" class="text-center">Correo electrónico
+                        <p-sortIcon field="email"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="fechaModificacion" class="text-center">Última modificación
+                        <p-sortIcon field="fechaModificacion"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="fechaCreacion" class="text-center">Fecha creación
+                        <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="ultimoLogin" class="text-center">Ultimo acceso
+                        <p-sortIcon field="ultimoLogin"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="estado" class="text-center">Estado
+                        <p-sortIcon field="estado"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
+                    </td>
+                    <td class="text-center bg-light" >
+                        <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaModificacion', 'bt')"></s-rangoFechaSelector>
+                    </td>
+                    <td class="text-center bg-light" >
+                        <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')"></s-rangoFechaSelector>
+                    </td>
+                    <td class="text-center bg-light" >
+                        <s-rangoFechaSelector (onSelect)="dt.filter($event, 'ultimoLogin', 'bt')"></s-rangoFechaSelector>
+                    </td>
+                    <td class="text-center bg-light" >
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-usr>
+                <tr [pSelectableRow]="usr">
+                    <td class="td-avatar">
+                        <i *ngIf="!usr?.icon" class="fa fa-user-circle" aria-hidden="true"></i>
+                        <img *ngIf="usr?.icon" [src]="usr?.icon" style="border-radius: 50%;" />
+                    </td>
+                    <td class="text-center">{{usr.email}}</td>
+                    <td class="text-center">{{usr.fechaModificacion | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td class="text-center">{{usr.fechaCreacion | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td class="text-center">{{usr.ultimoLogin | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td class="text-center">
+                        <span class="badge" [ngClass]="{'text-success': usr.estado == 'ACTIVO', 'text-white': usr.estado == 'ELIMINADO', 'text-warning': usr.estado == 'INACTIVO', 'text-primary': usr.estado == 'CAMBIO_PASSWD', 'text-danger': usr.estado == 'BLOQUEADO'}">
+                            {{usr.estado}}
+                        </span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group" role="group">
+                        <button *sTienePermiso="'ADM_POST_USR'" class="p-button-raised p-button-primary margin-right" pButton type="button" icon="bi bi-plus" label="Adicionar" (click)="abrirDlg(false)"></button>         
+                        <button *sTienePermiso="'ADM_PUT_USR'" class="p-button-raised p-button-success margin-right margin-left" pButton type="button" icon="bi bi-pencil" label="Modificar"
+                            (click)="abrirDlg(true)" [disabled]="!usuarioSelect"></button>
+                        <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="bi bi-trash" label="Eliminar" class="p-button-raised p-button-danger margin-right margin-left"
+                            (click)="eliminar()" [disabled]="!usuarioSelect"></button>
+                        <button *sTienePermiso="'ADM_GET_USER_CONS'" pButton type="button" icon="bi bi-download" label="Usuarios" title="Descarga consolidado de usuarios" (click)="descargarInvs()" class="p-button-raised p-button-secondary margin-left"></button>
+                    </div>
                 </div>
-            </div>
-        </ng-template>
-    </p-table>
+            </ng-template>
+        </p-table>
 
-</p-panel>
+    </p-panel>
+</div>
+
 
 <p-dialog header="Usuario" [(visible)]="visibleDlg" [responsive]="true" showEffect="fade" [modal]="true">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
