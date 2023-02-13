@@ -136,9 +136,24 @@ import { ControlRiesgoComponent } from './pages/ctr/components/control-riesgo/co
 import { FormSubcontratistaComponent } from './pages/ctr/components/subcontratistas/form-subcontratista/form-subcontratista.component';
 import { SubcontratistasComponent } from './pages/ctr/components/subcontratistas/subcontratistas.component';
 import { FlowChartComponent } from './pages/sec/components/analisis-desviacion/flow-chart/flow-chart.component';
+import { DocumentosAnalisisDesviacionComponent } from './pages/sec/components/documentos-analisis-desviacion/documentos-analisis-desviacion.component';
+import { FactorCausalComponent } from './pages/sec/components/analisis-desviacion/factor-causal/factor-causal.component';
+import { IncapacidadesComplementariaComponent } from './pages/sec/components/analisis-desviacion/factor-causal/incapacidades-complementaria/incapacidades-complementaria.component';
+import { CieSelectorComponent } from './pages/comun/components/cie-selector/cie-selector.component';
+import { MiembrosEquipoComponent } from './pages/sec/components/analisis-desviacion/miembros-equipo/miembros-equipo.component';
+import { EvidenciasComponent } from './pages/sec/components/analisis-desviacion/evidencias/evidencias.component';
+import { StepsModule } from 'primeng/steps';
+import { ToastModule } from 'primeng/toast';
+import { IdentificacionFactoresCausalesComponent } from './pages/sec/components/analisis-desviacion/factor-causal/identificacion-factores-causales/identificacion-factores-causales.component';
+import { IdentificacionFactorCausalComponent } from './pages/sec/components/analisis-desviacion/factor-causal/identificacion-factor-causal/identificacion-factor-causal.component';
+import { ListadoCausasComponent } from './pages/sec/components/analisis-desviacion/listado-causas/listado-causas.component';
+import { PlanAccionListComponent } from './pages/sec/components/analisis-desviacion/factor-causal/plan-accion-list/plan-accion-list.component';
+import { InformeComponent } from './pages/sec/components/analisis-desviacion/factor-causal/informe/informe.component';
+import { PlanAccionComponent } from './pages/sec/components/analisis-desviacion/factor-causal/plan-accion/plan-accion.component';
+import { DiagramModule, SymbolPaletteModule } from '@syncfusion/ej2-angular-diagrams';
+import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
 import { EmpleadoBasicSelectorComponent } from './pages/comun/components/empleado-basic-selector/empleado-basic-selector.component';
 import { DiagnosticoFormComponent } from './pages/scm/components/diagnostico-form/diagnostico-form.component';
-import { CieSelectorComponent } from './pages/comun/components/cie-selector/cie-selector.component';
 import { ReintegroComponent } from './pages/scm/components/formulario-scm/reintegro/reintegro.component';
 import { ReintegroListComponent } from './pages/scm/components/formulario-scm/reintegro-list/reintegro-list.component';
 import { PclComponent } from './pages/scm/components/pcl/pcl.component';
@@ -146,6 +161,8 @@ import { RecomendationsformComponent } from './pages/scm/components/recomendatio
 import { ScmComponent } from './pages/scm/components/scm/scm.component';
 import { ScmpermisosComponent } from './pages/scm/components/scmpermisos/scmpermisos.component';
 import { SeguimientosformComponent } from './pages/scm/components/seguimientosform/seguimientosform.component';
+import { FormularioConstructorComponent } from './pages/comun/components/formulario-constructor/formulario-constructor.component';
+import { DirectorioService } from './pages/ado/services/directorio.service';
 
 @NgModule({
   declarations: [
@@ -271,7 +288,22 @@ import { SeguimientosformComponent } from './pages/scm/components/seguimientosfo
     RecomendationsformComponent,
     ScmComponent,
     ScmpermisosComponent,
-    SeguimientosformComponent
+    SeguimientosformComponent,
+    DocumentosAnalisisDesviacionComponent,
+    FactorCausalComponent,
+    IncapacidadesComplementariaComponent,
+    CieSelectorComponent,
+    MiembrosEquipoComponent,
+    EvidenciasComponent,
+    IdentificacionFactoresCausalesComponent,
+    IdentificacionFactorCausalComponent,
+    ListadoCausasComponent,
+    PlanAccionListComponent,
+    InformeComponent,
+    PlanAccionComponent,
+    FlowChartComponent,
+    EmpleadoBasicSelectorComponent,
+    FormularioConstructorComponent
   ],
   imports: [
     CommonModule,
@@ -295,10 +327,18 @@ import { SeguimientosformComponent } from './pages/scm/components/seguimientosfo
     AccordionModule,
     FileUploadModule,
     ImageCropperModule,
-    DialogModule
+    DialogModule,
+    StepsModule,
+    ToastModule,
+    DiagramModule, 
+    SymbolPaletteModule,
+    NumericTextBoxModule, 
+    TextBoxModule, 
+    UploaderModule
   ],
   providers: [
-    PerfilService
+    PerfilService,
+    DirectorioService
   ]
 })
 export class WebsiteModule { }

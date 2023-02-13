@@ -1,4 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { PerfilService } from '../../../admin/services/perfil.service';
+import { Criteria } from '../../../core/entities/filter';
+import { FilterQuery } from '../../../core/entities/filter-query';
+import { ParametroNavegacionService } from '../../../core/services/parametro-navegacion.service';
+import { SesionService } from '../../../core/services/session.service';
+import { Inspeccion } from '../../entities/inspeccion';
+import { ListaInspeccion } from '../../entities/lista-inspeccion';
+import { InspeccionService } from '../../services/inspeccion.service';
+import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 
 @Component({
   selector: 'app-consulta-inspecciones',
@@ -7,9 +17,203 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConsultaInspeccionesComponent implements OnInit {
 
-  constructor() { }
+  inspeccionesList!: any[];
+  inspeccionSelect!: Inspeccion;
+  totalRecords!: number;
+  loading: boolean = true;
+  fields: string[] = [
+      'id',
+      'programacion_fecha',
+      'fechaRealizada',
+      'usuarioRegistra_email',
+      'programacion_listaInspeccion_nombre',
+      'programacion_area_id',
+      'programacion_area_nombre',
+      'fechaModificacion',
+      'usuarioModifica_email',    
+      'listaInspeccion'
+  ];
+  areasPermiso!: string;
+  userParray: any;
+  listaInspeccion!: ListaInspeccion;
+  inspeccionNoProgList!: any[];
+  inspeccionNoProgSelect!: Inspeccion;
+  totalRecordsNoProg!: number;
+  loadingNoProg: boolean = true;
+  fieldsNoProg: string[] = [
+      'id',
+      'fechaRealizada',
+      'usuarioRegistra_email',
+      'listaInspeccion_nombre',
+      'area_id',
+      'area_nombre',
+      'fechaModificacion',
+      'usuarioModifica_email',    
+      'listaInspeccion'
+  ];
+
+  constructor(
+    private paramNav: ParametroNavegacionService,
+    private inspeccionService: InspeccionService,
+    private sesionService: SesionService,
+    private userService: PerfilService,
+    private messageService: MessageService,
+  ) { }
 
   ngOnInit(): void {
+    this.areasPermiso = this.sesionService.getPermisosMap()['INP_GET_INP'].areas;
+    let areasPermiso =this.areasPermiso.replace('{','');
+    areasPermiso =areasPermiso.replace('}','');
+    let areasPermiso2=areasPermiso.split(',')
+
+    const filteredArea = areasPermiso2.filter(function(ele , pos){
+      return areasPermiso2.indexOf(ele) == pos;
+    }) 
+    this.areasPermiso='{'+filteredArea.toString()+'}';
   }
+
+  async lazyLoadNoProg(event: any) {
+    let user:any = JSON.parse(localStorage.getItem('session')!);
+    let filterQuery = new FilterQuery();
+
+    filterQuery.filterList = [{
+      field: 'usuarioEmpresaList.usuario.id',
+      criteria: Criteria.EQUALS,
+      value1: user.usuario.id,
+      value2: null
+    }];
+    const userP = await this.userService.findByFilter(filterQuery);
+        this.userParray = userP; 
+        this.loadingNoProg = true;
+        
+        filterQuery = new FilterQuery();
+        filterQuery.sortField = event.sortField;
+        filterQuery.sortOrder = event.sortOrder;
+        filterQuery.offset = event.first;
+        filterQuery.rows = event.rows;
+        filterQuery.count = true;
+
+        filterQuery.fieldList = this.fieldsNoProg;
+        filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+        filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: 'programacion' });
+        filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPermiso });
+
+    var x:any[]=[];
+
+        this.userParray.data.forEach((element: any) => {
+            console.log(element.id);
+            x.push(element.id)
+        });
+        console.log("{"+x+"}");
+        
+        var y:string = "["+x+"]";
+        let z : string ="{"+x+"}"
+        console.log(y);
+        console.log(z);
+        
+    //    filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: 'listaInspeccion.fkPerfilId', value1: z });
+
+        this.inspeccionService.findByFilter(filterQuery).then(
+            (resp: any) => {
+                this.totalRecordsNoProg = resp['count'];
+                console.log(resp);
+                
+                this.loadingNoProg = false;
+                this.inspeccionNoProgList = [];
+                (<any[]>resp['data']).forEach(dto => {
+                    let obj = FilterQuery.dtoToObject(dto)
+                    obj['hash'] = obj.listaInspeccion.listaInspeccionPK.id + '.' + obj.listaInspeccion.listaInspeccionPK.version;
+                      try {
+                        for (const profile of this.userParray.data) {
+            
+                        let perfilArray = JSON.parse(obj.listaInspeccion.fkPerfilId)
+            
+                        perfilArray.forEach((perfil: any) => {
+                          if (perfil===profile.id) {
+                            if(!this.inspeccionNoProgList.find(element=>element==obj)){
+                              this.inspeccionNoProgList.push(obj);
+                            }              
+                        }
+                        });
+                      }
+                      console.log(this.inspeccionNoProgList.length);
+                      
+                      } catch (error) {
+                        
+                      } 
+                });
+            }
+        );
+    }
+
+  async lazyLoad(event: any) {
+      this.loading = true;
+      let filterQuery = new FilterQuery();
+      filterQuery.sortField = event.sortField;
+      filterQuery.sortOrder = event.sortOrder;
+      filterQuery.offset = event.first;
+      filterQuery.rows = event.rows;
+      filterQuery.count = true;
+      filterQuery.fieldList = this.fields;
+      filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+      filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "programacion.area.id", value1: this.areasPermiso });
+
+      this.inspeccionService.findByFilter(filterQuery).then(
+          (resp: any) => {
+              this.totalRecords = resp['count'];
+              this.loading = false;
+              this.inspeccionesList = [];
+              
+              (<any[]>resp['data']).forEach(dto => {
+                  let obj = FilterQuery.dtoToObject(dto)
+                  obj['hash'] = obj.listaInspeccion.listaInspeccionPK.id + '.' + obj.listaInspeccion.listaInspeccionPK.version;
+                    try {
+                      for (const profile of this.userParray.data) {
+          
+                      let perfilArray = JSON.parse(obj.listaInspeccion.fkPerfilId)
+          
+                      perfilArray.forEach((perfil: any) => {
+                        if (perfil===profile.id) {
+                          if(!this.inspeccionesList.find(element=>element==obj)){
+                            this.inspeccionesList.push(obj);
+                          }              
+                      }
+                      });
+                    }
+                    } catch (error) {
+                      
+                    } 
+                  });
+              
+          }
+      );
+  }
+
+
+
+  redirect(consultar: boolean) {
+      if (this.inspeccionSelect == null) {
+          this.messageService.add({ severity: 'warn', detail: 'Debe seleccionar una inspección para ' + (consultar ? 'consultar' : 'modificarla') });
+      } else {
+          this.paramNav.setAccion<string>(+ consultar ? 'GET' : 'PUT');
+          this.paramNav.setParametro<Inspeccion>(this.inspeccionSelect);
+          this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones');
+      }
+  }
+
+  redirectNoProg(consultar: boolean) {
+      if (this.inspeccionNoProgSelect == null) {
+          this.messageService.add({ severity: 'warn', detail: 'Debe seleccionar una inspección para ' + (consultar ? 'consultar' : 'modificarla') });
+      } else {
+          this.paramNav.setAccion<string>(+ consultar ? 'GET' : 'PUT');
+          this.paramNav.setParametro<Inspeccion>(this.inspeccionNoProgSelect);
+          this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones');
+      }
+  }
+
+  navegar() {
+      this.paramNav.redirect('/app/inspecciones/programacion');
+  }
+
 
 }

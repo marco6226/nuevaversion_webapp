@@ -31,7 +31,7 @@
                     {{rowData.aspectoCausante}}
                 </td>
                 <td>
-                    <button *ngIf="!consultar" pButton type="button" icon="fa fa-close" class="soft-icon"
+                    <button *ngIf="!consultar" pButton type="button" icon="bi bi-x" class="border rounded p-2"
                         (click)="removeDesv(rowData)"></button>
                 </td>
             </tr>
@@ -143,12 +143,12 @@
                                             <th style="border: 1px solid #c8c8c8;">Reporte a entes de control
                                             </th>
                                             <td *ngIf="!severidadFlag">
-                                                <p-radioButton name="group1" label="Si  " [value]="true"  formControlName="ReporteControl" ></p-radioButton>
-                                                <p-radioButton name="group1" label="No  " [value]="false" formControlName="ReporteControl" ></p-radioButton>
+                                                <p-radioButton name="ReporteControl" label="Si  " [value]="true"  formControlName="ReporteControl" ></p-radioButton>
+                                                <p-radioButton name="ReporteControl" label="No  " [value]="false" formControlName="ReporteControl" ></p-radioButton>
                                             </td> 
                                             <td *ngIf="severidadFlag">
-                                                <p-radioButton name="group1" label="Si  " [value]="true"  formControlName="ReporteControl" required class="fieldgroup"></p-radioButton>
-                                                <p-radioButton name="group1" label="No  " [value]="false" formControlName="ReporteControl" class="fieldgroup"></p-radioButton>
+                                                <p-radioButton name="ReporteControl" label="Si  " [value]="true"  formControlName="ReporteControl" required class="fieldgroup"></p-radioButton>
+                                                <p-radioButton name="ReporteControl" label="No  " [value]="false" formControlName="ReporteControl" class="fieldgroup"></p-radioButton>
                                             </td> 
                                         </tr>
                                         <tr *ngIf="analisisPeligros.get('ReporteControl').value == true">
@@ -166,8 +166,8 @@
                                         <tr>
                                             <th style="border: 1px solid #c8c8c8;">Entrega copia de FURAT  al trabajador</th>
                                            
-                                            <td><p-radioButton name="group2" label="Si  " [value]="true"  formControlName="CopiaTrabajador" ></p-radioButton>
-                                                <p-radioButton name="group2" label="No  " [value]="false" formControlName="CopiaTrabajador" ></p-radioButton>
+                                            <td><p-radioButton name="CopiaTrabajador" label="Si  " [value]="true"  formControlName="CopiaTrabajador" ></p-radioButton>
+                                                <p-radioButton name="CopiaTrabajador" label="No  " [value]="false" formControlName="CopiaTrabajador" ></p-radioButton>
                                             </td>                                
                                         </tr>
                                         <tr *ngIf="analisisPeligros.get('CopiaTrabajador').value == true">

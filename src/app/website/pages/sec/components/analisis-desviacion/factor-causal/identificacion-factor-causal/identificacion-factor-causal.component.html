@@ -1,0 +1,14 @@
+<fieldset>
+    <h3 style="font-weight: 500;">{{factor?.factor}}</h3>
+    <div class="products--grids">
+      <div *ngFor="let datosF of factor?.subProd">
+        <h3>{{datosF.subProd}}</h3>
+        <fieldset>
+          <div *ngFor="let causales of datosF.causa">
+            <p-checkbox [name]="causales.id" [(ngModel)]="causales.esCausa" [binary]="true">{{causales.ProcedimientoFC}}</p-checkbox>
+            <label for="binary">  {{causales.ProcedimientoFC}}</label>
+          </div>        
+        </fieldset>
+      </div>
+    </div> 
+  </fieldset>

@@ -19,12 +19,15 @@
             <div class="col-12">
                 <label for="">Descripción</label>
             </div>
-            <div class="col-12">
-                <input formControlName="descripcion" class="form-control" type="text" *ngIf="!contratistasFlag">
+            <div class="col-12" *ngIf="!contratistasFlag && !temporalesFlag">
+                <input formControlName="descripcion" class="form-control" type="text" >
                 <h6 *ngIf="form.invalid" id="username2-help" class="p-invalid row">Obligatorio</h6>
             </div>
-            <div class="col-12">
-                <p-dropdown appendTo="body" [options]="doContratista" formControlName="descripcion" *ngIf="contratistasFlag"></p-dropdown>
+            <div class="col-12" *ngIf="contratistasFlag">
+                <p-dropdown appendTo="body" [options]="doContratista" formControlName="descripcion" ></p-dropdown>
+            </div>
+            <div class="col-12" *ngIf="temporalesFlag">
+                <p-dropdown appendTo="body" [options]="doTemporales" formControlName="descripcion" ></p-dropdown>
             </div>
         </div>
     </div>
