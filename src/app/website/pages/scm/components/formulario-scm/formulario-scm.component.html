@@ -1,1 +1,1664 @@
-<p>formulario-scm works!</p>
+<p-toast key="formScm"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="d-flex justify-content-end" *ngIf="caseSelect">
+    <div class="case-data d-flex justify-content-between">
+        <div class="case-code">
+            <div class="title">Caso:</div>
+            <div class="number">
+                No. {{caseSelect.id}}
+            </div>
+        </div>
+        <div class="case-date">
+            Creado el: {{ (!caseSelect.fechaCreacion) ? 'No disponible' : caseSelect.fechaCreacion | date:
+            'dd/MM/yyyy'}}
+        </div>
+    </div>
+    <div *ngIf="consultar2 && status=='Cerrado'" style="margin-left: 2rem;">
+        <button pButton *sTienePermiso="'SCM_PUT_ABRIR_CASO'" class="ui-button-raised ui-button-danger" label="Abrir caso" icon="fa fa-exchange" (click)="cambiarEstado()"></button>
+    </div>
+</div>
+
+<p-tabView styleClass="custom-panel">
+    <!-- Inicio información general -->
+    <ng-container *sTienePermiso="'SCM_GET_PERSONAL'">
+        <p-tabPanel header="Información General">
+            <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+                <div class="ui-g">
+                    <div class="row">
+                        <h5 class="title-header p-mb-2">Datos del trabajador involucrado</h5>
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Número de identificación</label>
+                                <p-autoComplete [readonly]="consultar2" styleClass="form-control-autocomplete" #autocomplete placeholder="Digite"
+                                    [style]="{'width':'100%'}" (onSelect)="onSelection($event)"
+                                    [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                                    formControlName="numeroIdentificacion" *ngIf="empleado?.id == null" required>
+                                    <ng-template let-empleado pTemplate="item">
+                                        <div class="ui-helper-clearfix">
+                                            <div class="wrapper">
+                                                <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                                    style="font-size: 48px;" aria-hidden="true"></i>
+                                                <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
+                                                    style="border-radius: 50%;" #imgAvatar alt="" />
+                                                <div style="margin-left:20px">
+                                                    <br /> {{empleado?.primerApellido}} {{empleado?.primerNombre}}
+                                                    {{empleado?.segundoNombre}}
+                                                    <br /> {{empleado?.numeroIdentificacion}}
+                                                    <br /> {{empleado?.usuario.email}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </p-autoComplete>
+                                <small *ngIf="pkUse.errors?.required && pkUse.touched" id="username2-help"
+                                    class="p-invalid">Obligatorio</small>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label for="" class="active">Tipo de identificación</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [options]="tipoIdentificacionList" formControlName="tipoIdentificacion"
+                                    [attr.disabled]="true" required styleClass="select-material">
+                                    </p-dropdown>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Apellidos y nombres</label>
+                                <input type="text" pInputText [value]="nameAndLastName" placeholder="Apellidos y nombres"
+                                    class="form-control" id="nameAndLastName" [attr.disabled]="true" />
+                            </div>
+                        </div>
+                        <div class="col-lg" *ngIf="empresaId!='22'">
+                            <div>
+                                <label for="" class="active">Dirección / Gerencia</label>
+                                <input type="text" [readonly]="consultar2" pInputText formControlName="direccionGerencia"
+                                    placeholder="Dirección / Gerencia" class="form-control" id="direccionGerencia1" />
+                            </div>
+                        </div>
+                        <div class="col-lg" *ngIf="empresaId=='22'">
+                            <div>
+                                <label for="" class="active">División/Unidad</label>
+                                <input readonly type="text" pInputText formControlName="division"
+                                    placeholder="División/Unidad" class="form-control" id="division" />
+                            </div>
+                        </div>  
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label for="" class="active">Cargo / Categoría</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [filter]="true" [options]="cargoList" formControlName="cargoId"
+                                        class="select-material" styleClass="select-material">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label for="" class="active">Fecha de vinculación</label>
+                                </div>
+                                <div>
+                                    <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                        [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                        dateFormat="dd/mm/yy" formControlName="fechaIngreso"></p-calendar>
+                                </div>    
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Antigüedad</label>
+                                <input type="text" pInputText [value]="antiguedad || ''" placeholder="Antigüedad"
+                                    class="form-control" id="antiguedad" [attr.disabled]="true" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Rango de antigüedad</label>
+                                <input type="text" pInputText [value]="range || ''" placeholder="Antigüedad"
+                                    class="form-control" id="rango" [attr.disabled]="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb3">
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label for="" class="active">Fecha de desvinculación</label>
+                                </div>
+                                <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                    [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                    dateFormat="dd/mm/yy">
+                                </p-calendar>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Teléfono corporativo</label>
+                                <input [readonly]="consultar2" pInputText formControlName="corporativePhone" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Correo corporativo</label>
+                                <input type="email" pInputText formControlName="email" placeholder="Correo corporativo"
+                                    class="form-control" id="correocorporativo" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Ciudad</label>
+                                <input [readonly]="consultar2" type="text" pInputText formControlName="ciudadGerencia" placeholder="Ciudad"
+                                    class="form-control" id="ciudad" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3 mt-3">
+                        <div class="col-lg" *ngIf="empresaId!='22'">
+                            <div>
+                                <label for="" class="active">Ubicación</label>
+                                <area-selector [disabled]="consultar2" formControlName="area"
+                                    [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
+                                </area-selector>
+                            </div>
+                        </div>
+                        <div class="col-lg" *ngIf="empresaId=='22'">
+                            <div>
+                                <label for="" class="active">Ubicación</label>
+                                <area-selector [disabled]="consultar2" (onDivision)="areaChange($event)" formControlName="area"
+                                    [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
+                                </area-selector>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Sexo </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <p-radioButton [disabled]="consultar2" name="genero" value="M" label=" Masculino   ." formControlName="genero">
+                                </p-radioButton>
+                                <p-radioButton [disabled]="consultar2" name="genero" value="F" label="Femenino" formControlName="genero">
+                                </p-radioButton>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label for="" class="active">Fecha de nacimiento</label>
+                                </div>
+                                <div>
+                                    <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                        [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                        dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg"></div>
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Edad</label>
+                                <input [attr.disabled]="true" type="text" pInputText [value]="edad || ''" placeholder="Edad"
+                                    class="form-control" id="Edad" />
+                            </div>
+                        </div>
+                        <div class="col-lg" *ngIf="empresaId!='22'">
+                            <div>
+                                <label for="" class="active">Regional</label>
+                                <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText formControlName="regional"
+                                    placeholder="regional" class="form-control" id="regional" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <s-ciudadSelector [disabled]="consultar2" formControlName="ciudad" [id]="departamento" class="select-material"
+                                    styleClass="select-material" required>
+                                </s-ciudadSelector>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Dirección de residencia</label>
+                                <input [readonly]="consultar2" pInputText class="form-control" formControlName="direccion"
+                                    styleClass="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Zona de residencia</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <p-radioButton [disabled]="consultar2" name="zonaResidencia" value="U" label=" Urbana   ."
+                                    formControlName="zonaResidencia">
+                                </p-radioButton>
+                                <p-radioButton [disabled]="consultar2" name="zonaResidencia" value="R" label="Rural"
+                                    formControlName="zonaResidencia">
+                                </p-radioButton>
+                            </div>
+                        </div>    
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Teléfono personal</label>
+                                <input [readonly]="consultar2" pInputText formControlName="telefono1" class="form-control"
+                                    styleClass="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Teléfono de residencia</label>
+                                <input [readonly]="consultar2" pInputText formControlName="telefono2" class="form-control"
+                                    styleClass="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Correo personal</label>
+                                <input [readonly]="consultar2" type="email" pInputText formControlName="correoPersonal"
+                                    plaholder="Correo personal" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label for="" class="active">EPS</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
+                                        class="select-material" styleClass="select-material"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <div>
+                                    <label for="" class="active">AFP</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [filter]="true" [options]="afpList" formControlName="afp"
+                                    class="select-material" styleClass="select-material"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">ARL</label>
+                                <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
+                                    class="form-control" id="arl" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Contacto de emergencia</label>
+                                <input [readonly]="consultar2" type="text" pInputText formControlName="emergencyContact"
+                                    placeholder="Contacto de emergencia" class="form-control" id="emergencyContact" />
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Telefono de contacto de emergencia</label>
+                                <input [readonly]="consultar2" pInputText formControlName="phoneEmergencyContact" class="form-control"
+                                    styleClass="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Correo de contacto de emergencia</label>
+                                <input [readonly]="consultar2" type="email" pInputText formControlName="emailEmergencyContact"
+                                    placeholder="Correo corporativo" class="form-control" id="emailEmergencyContact" />
+                            </div>
+                        </div>
+                        <div class="col-lg"></div>
+                        <div class="col-lg"></div>
+                        <div class="col-lg"></div>
+                    </div>
+                </div>
+                <br>
+                <form [formGroup]="jefeInmediato">
+                    <div class="ui-g">
+                        <div class="row">
+                            <div>
+                                <h5 class="title-header p-mb-2">Datos del jefe inmediato</h5>
+                            </div>
+                        </div>
+                        <!-- div -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-lg">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Número de identificación</label>
+                                    </div>
+                                    <div>
+                                        <p-autoComplete [readonly]="consultar2" styleClass="form-control-autocomplete" placeholder="Digite"
+                                            [style]="{'width':'100%'}" (onSelect)="onSelectionJefeInmediato($event)"
+                                            [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                                            formControlName="numeroIdentificacion" *ngIf="empleado?.id == null">
+                                            <ng-template let-empleado pTemplate="item">
+                                                <div class="ui-helper-clearfix">
+                                                    <div class="wrapper">
+                                                        <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                                            style="font-size: 48px;" aria-hidden="true"></i>
+                                                        <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
+                                                            style="border-radius: 50%;" #imgAvatar />
+                                                        <div style="margin-left:20px">
+                                                            <br />{{empleado?.primerApellido}} {{empleado?.primerNombre}}
+                                                            {{empleado?.segundoNombre}}
+    
+                                                            <br /> {{empleado?.numeroIdentificacion}}
+                                                            <br /> {{empleado?.usuario.email}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-autoComplete>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>                               
+                                    <label for="" class="active">Apellidos y nombres</label>
+                                    <input type="text" pInputText [value]="jefeNames" placeholder="Apellidos y nombres"
+                                        [attr.disabled]="true" class="form-control" id="jefeNames" />
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Cargo / Categoría</label>
+                                    </div>
+                                    <div>
+                                        <p-dropdown [filter]="true" [options]="cargoList" formControlName="cargoId"
+                                            class="select-material" styleClass="select-material">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg" *ngIf="empresaId!='22'">
+                                <div>
+                                    <label for="" class="active">Dirección / Gerencia</label>
+                                    <input type="text" pInputText formControlName="direccionGerencia"
+                                        placeholder="Dirección / Gerencia" class="form-control" id="direccionGerencia2" />
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <label for="" class="active">Número móvil corporativo</label>
+                                    <input  type="text" pInputText formControlName="corporativePhone" class="form-control"
+                                        styleClass="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div>
+                            <label for="" class="active">Correo corporativo</label>
+                            <input type="text" pInputText formControlName="email" placeholder="Correo corporativo"
+                                class="form-control" id="emailjefe" />
+                        </div>
+                    </div>
+
+                    <div *ngIf="!consultar2" style="text-align: center; width: 100%;">
+                        <button pButton *ngIf="solicitando == false" (click)="submitEmp()" type="submit"
+                            icon="pi pi-save" class="float-btn" style="bottom: 140px;height: 50px;"
+                            title="Guardar datos de Empleado"></button>
+
+                        <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
+                            [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
+                    </div>
+                </form>
+                <form [formGroup]="bussinessParner" >
+                    <div class="ui-g" *ngIf="empresaId != '22'">
+                        <div class="row">
+                            <div class="row g-2 mb-3">
+                                <h5 class="title-header mb-2">Datos del Business Partner</h5>
+                            </div>
+                        </div>
+                        <!-- div -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-lg">
+                                <div>
+                                    <label for="" class="active">Número de identificación</label>
+                                    <p-autoComplete [readonly]="consultar2" styleClass="form-control-autocomplete" placeholder="Digite"
+                                        [style]="{'width':'100%'}" (onSelect)="onSelectionBP($event)"
+                                        [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                                        formControlName="numeroIdentificacion" *ngIf="empleado?.id == null">
+                                        <ng-template let-empleado pTemplate="item">
+                                            <div class="ui-helper-clearfix">
+                                                <div class="wrapper">
+                                                    <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                                        style="font-size: 48px;" aria-hidden="true"></i>
+                                                    <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
+                                                        style="border-radius: 50%;" #imgAvatar />
+                                                    <div style="margin-left:20px">
+                                                        <br />{{empleado?.primerApellido}} {{empleado?.primerNombre}}
+                                                        {{empleado?.segundoNombre}}
+                                                        <br /> {{empleado?.numeroIdentificacion}}
+                                                        <br /> {{empleado?.usuario.email}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-autoComplete>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <label for="" class="active">Apellidos y nombres</label>
+                                    <input type="text" pInputText [value]="businessNames" placeholder="Apellidos y nombres"
+                                        [attr.disabled]="true" class="form-control" id="businessNames" />
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Cargo / Categoría</label>
+                                    </div>
+                                    <div>
+                                        <p-dropdown [readonly]="consultar2" [filter]="true" [options]="cargoList" formControlName="cargoId"
+                                            class="select-material" styleClass="select-material">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <label for="" class="active">Dirección / Gerencia</label>
+                                    <input [readonly]="consultar2" type="text" pInputText formControlName="direccionGerencia"
+                                        placeholder="Dirección / Gerencia" class="form-control" id="direccionGerencia" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- div -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-lg">
+                                <div>
+                                    <input [readonly]="consultar2"  type="text" pInputText formControlName="corporativePhone" class="form-control"
+                                        styleClass="form-control">
+    
+                                    <label for="" class="active">Número móvil corporativo</label>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <input [readonly]="consultar2" type="text" pInputText formControlName="email" placeholder="Correo corporativo"
+                                        class="form-control" id="emailbussines" />
+                                    <label for="" class="active">Correo corporativo</label>
+                                </div>
+                            </div>
+                            <div class="col-lg"></div>
+                            <div class="col-lg"></div>
+                        </div>
+                    </div>
+                </form>
+            </form>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza información general -->
+
+    <!-- Inicio información médica -->
+    <ng-container *ngIf="empleadoSelect">
+        <p-tabPanel header="Información Médica">
+
+            <form *ngIf="createCase || caseSelect" [formGroup]="casoMedicoForm" (ngSubmit)="onSubmit()">
+                <div class="ui-g">
+                    <div class="row g-2 mb-3">
+                        <div class="col">
+                            <label for="" class="active">Estado del caso</label>
+                            <input type="text" class="form-control" pInputText [value]="status" [attr.disabled]="true">
+                        </div>
+                        <div class="col">
+                            <div>
+                                <div>
+                                    <label for="" class="active">Fecha de cierre</label>
+                                </div>
+                                <div>
+                                    <p-calendar  formControlName="fechaFinal" [disabled]="consultar2" *sTienePermiso="'SCM_PUT_CAMBIAR_FECHAFIN'" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                    [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar>
+                                    <p-calendar formControlName="fechaFinal" [disabled]="consultar2" *ngIf="!permisoFechaCierre()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                        [maxDate]="fechaActual" [minDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg">
+                            <div>
+                                <label for="" class="active">Observaciones del cierre</label>
+                                <textarea [readonly]="consultar2" class="textarea-material" pInputTextarea
+                                    formControlName="observaciones" style="width: 100%;"></textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="!consultar2" class="mt-4">
+                                <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" type="button" pButton class="ui-button-raised ui-button-warning" label="Cerrar caso" icon="bi bi-arrow-left-right" (click)="cambiarEstado('cerrar')"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- div -->
+                    <div class="row g-2 mb-3">
+                        
+                    </div>
+                    <!-- div -->
+                    <div *sTienePermiso="'SCM_GET_CASE_INFO'">
+                        <div class="row g-2 mb-3">
+                            <h5 class="title-header">Información del caso</h5>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-lg">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Descripción general del caso</label>
+                                    </div>
+                                    <div>
+                                        <textarea [readonly]="consultar2" pInputTextarea formControlName="descripcionCompletaCaso" rows="5"
+                                            style="width: 100%;" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Descripción del cargo / Funciones actuales</label>
+                                    </div>
+                                    <div>
+                                        <textarea [readonly]="consultar2" pInputTextarea formControlName="descripcionCargo" rows="5"
+                                            style="width: 100%;" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Caso de mesa laboral</label>
+                                    </div>
+                                    <div>
+                                        <p-dropdown [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
+                                            style="width: 100%;">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Prioridad</label>
+                                    </div>
+                                    <div>
+                                        <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                            style="width: 100%;">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Tipo de caso</label>
+                                    </div>
+                                    <div>
+                                        <p-dropdown [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
+                                            style="width: 100%;">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6"></div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <h5 class="title-header mb-2">Intervención complementaria</h5>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-lg">
+                                <div>
+                                    <label for="" class="active">Requiere intervención complementaria</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [options]="IntervencionOptionList" formControlName="requiereIntervencion"
+                                        class="select-material" styleClass="select-material">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-lg"
+                                *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">SVE</label>
+                                    </div>
+                                    <div>
+                                        <p-dropdown [readonly]="consultar2" [options]="sveOptionList" formControlName="sve" class="select-material"
+                                            styleClass="select-material">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg"
+                                *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
+                                <div>
+                                    <div>
+                                        <label for="" class="active">Área profesional</label>
+                                    </div>
+                                    <div>
+                                        <p-dropdown [readonly]="consultar2" [options]="professionalAreaList" formControlName="professionalArea"
+                                            class="select-material" styleClass="select-material">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div>
+                                    <label for="" class="active">Justificación</label>
+                                </div>
+                                <div>
+                                    <textarea [readonly]="consultar2" class="textarea-material" pInputTextarea  formControlName="justification"
+                                    style="width: 100%;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- div -->
+                    <div class="principal" *sTienePermiso="'SCM_GET_REHABILITA'">
+                        <h5 class="title-header">Conceptos de rehabilitación</h5>
+                        <div class="id">
+                            <h2> 1. </h2>
+                        </div>
+                        <div class="concepto">
+                            <div>
+                                <label for="" class="active">Concepto de rehabilitación</label>
+                            </div>
+                            <div>
+                                <p-dropdown [readonly]="consultar2" [filter]="true" [options]="conceptoRehabilitacion"
+                                    formControlName="conceptRehabilitacion" class="select-material"
+                                    styleClass="select-material">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="fecha">
+                            <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
+                                <div>
+                                    <label for="" class="active">Fecha de concepto de rehabilitación</label>
+                                </div>
+                                <div>
+                                    <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                        [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                                        formControlName="fechaConceptRehabilitacion"></p-calendar>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="entidadp">
+                            <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
+                                <div>
+                                    <label for="" class="active">Entidad que emite el concepto de
+                                        rehabilitación</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [filter]="true"
+                                        [options]="entityConceptoRehabilitacion[casoMedicoForm.get('conceptRehabilitacion').value]"
+                                        formControlName="entidadEmiteConcepto" class="select-material"
+                                        styleClass="select-material">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="entidad">
+                            <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
+                                <div>
+                                    <label for="" class="active">Entidad</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [filter]="true"
+                                        [options]="entity[casoMedicoForm.get('entidadEmiteConcepto').value]"
+                                        formControlName="entidadEmitida" class="select-material"
+                                        styleClass="select-material">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="id">
+                            <h2> 2. </h2>
+                        </div>
+                        <div class="concepto">
+                            <div>
+                                <label for="" class="active">Concepto de rehabilitación</label>
+                            </div>
+                            <div>
+                                <p-dropdown [readonly]="consultar2" [filter]="true" [options]="conceptoRehabilitacion"
+                                    formControlName="conceptRehabilitacionTwo" class="select-material"
+                                    styleClass="select-material">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="fecha">
+                            <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
+                                <div>
+                                    <label for="" class="active">Fecha de concepto de rehabilitación</label>
+                                </div>
+                                <div>
+                                    <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                        [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                                        formControlName="fechaConceptRehabilitacionTwo"></p-calendar>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="entidadp">
+                            <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
+                                <div>
+                                    <label for="" class="active">Entidad que emite el concepto de
+                                        rehabilitación</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [filter]="true"
+                                        [options]="entityConceptoRehabilitacion[casoMedicoForm.get('conceptRehabilitacionTwo').value]"
+                                        formControlName="entidadEmiteConceptoTwo" class="select-material"
+                                        styleClass="select-material">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="entidad">
+                            <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
+                                <div>
+                                    <label for="" class="active">Entidad</label>
+                                </div>
+                                <div>
+                                    <p-dropdown [readonly]="consultar2" [filter]="true"
+                                        [options]="entity[casoMedicoForm.get('entidadEmiteConceptoTwo').value]"
+                                        formControlName="entidadEmitidaTwo" class="select-material"
+                                        styleClass="select-material">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; width: 100%;">
+                    <button pButton *ngIf="solicitando == false" type="button" (click)="onCancel.emit()"
+                        icon="bi bi-arrow-left-right" class="float-btn" (click)="closeForm()"
+                        title="Volver a listado de empleados" style="bottom: 70px;"></button>
+                    <button pButton *ngIf="solicitando == false && !this.consultar2" type="submit" icon="bi bi-save"
+                        class="float-btn" [disabled]="this.consultar" style="bottom: 140px;"
+                        title="Guardar datos medicos"></button>
+                    <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
+                        [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
+                </div>
+            </form>
+
+            <p-table *ngIf="!caseSelect && !createCase" #dt [value]="casosList" (click)="onClick()" autoLayout="true"
+                selectionMode="single" [(selection)]="casoSeleccionado" [rows]="10" (onLazyLoad)="lazyLoad($event)"
+                [paginator]="true" dataKey="id" [lazy]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="id">No. Caso
+
+                        </th>
+                        <th pSortableColumn="fechaCreacion">Fecha de apertura
+
+                        </th>
+                        <th pSortableColumn="case.region">Regional
+
+                        </th>
+                        <th pSortableColumn="case.ciudad">Ciudad
+
+                        </th>
+                        <th pSortableColumn="pkUser.primerApellido">Apellido
+
+                        </th>
+                        <th pSortableColumn="pkUser.primerNombre">Nombre
+
+                        </th>
+                        <th pSortableColumn="case.documento">No. Documento
+
+                        </th>
+                        <th pSortableColumn="case.statusCaso">Estado de caso
+
+                        </th>
+                        <th pSortableColumn="case.casoMedicoLaboral">Caso de mesa laboral
+
+                        </th>
+                        <th pSortableColumn="case.prioridadCaso">Prioridad
+
+                        </th>
+                        <th pSortableColumn="case.tipoCaso">Tipo de caso
+
+                        </th>
+                    </tr>
+                    <tr>
+
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-case>
+
+                    <tr [pSelectableRow]="case" class="table-row table-row-selectable">
+                        <td>{{case.id}}</td>
+                        <td>{{case.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{case.region}}</td>
+                        <td>{{case.ciudad}}</td>
+                        <td>{{case.pkUser.primerApellido}}</td>
+                        <td>{{case.pkUser.primerNombre}}
+                        <td>{{case.documento}}</td>
+                        <td>{{case.statusCaso == 1 ? 'Abierto' : 'Cerrado'}}</td>
+                        <td>{{case.casoMedicoLaboral == 1 ? 'Si' : 'No'}}</td>
+                        <td>{{case.prioridadCaso}}</td>
+                        <td>{{case.tipoCaso}}</td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary" let-rowData>
+                    <button *sTienePermiso="'SCM_CREATE_CASE'" (click)="createCaso()" pButton type="button"
+                        icon="fa fa-plus" [routerLink]="['/app/scm/creacion']" label="Crear Caso"></button>
+
+                    <button *sTienePermiso="'SCM_PUT_CASE'" (click)="modifyCase()" pButton type="button"
+                        icon="fa fa-pencil" label="Modificar" class="ui-button-success"
+                        [disabled]="!casoSeleccionado"></button>
+
+                    <button *sTienePermiso="'SCM_LIST_CASE'" (click)="readCase()" pButton type="button"
+                        icon="fa fa-pencil" label="Consultar" class="ui-button-warning"
+                        [disabled]="!casoSeleccionado"></button>
+                    <!--  <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="fa fa-trash" label="Eliminar" class="ui-button-danger"
+                (click)="eliminar()" [disabled]="!usuarioSelect"></button>-->
+                </ng-template>
+            </p-table>
+
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza información médica -->
+
+    <!-- Inicio diagnósticos -->
+    <ng-container *sTienePermiso="'SCM_GET_CASE_DIAG'">
+        <p-tabPanel header="Diagnósticos" *ngIf="caseSelect">
+
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Información sobre diagnósticos</h5>
+                </div>
+                <div class="ui-g-12">
+                    <p-table #dt [value]="diagnosticoList" styleClass="material-table" autoLayout="true"
+                        selectionMode="single" [(selection)]="diagSelect" [rows]="5" [paginator]="true" dataKey="id"
+                        [lazy]="true">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="codigoCie10">CIE 10
+
+                                </th>
+                                <th pSortableColumn="sistemaAfectado">Sistema Afectado
+
+                                </th>
+                                <th pSortableColumn="diagnostico">Diagnóstico
+
+                                </th>
+                                <th pSortableColumn="detalle">Detalles
+
+                                </th>
+                                <th pSortableColumn="case.origen">Origen
+
+                                </th>
+                                <th pSortableColumn="fechaDiagnostico">Fecha
+
+                                </th>
+                                <th pSortableColumn="case.creadoPor">Modificado
+
+                                </th>
+                            </tr>
+
+                        </ng-template>
+                        <ng-template pTemplate="body" let-case>
+
+                            <tr [pSelectableRowDisabled]="modalDianostico" [pSelectableRow]="case"
+                                class="table-row table-row-selectable">
+                                <td class="p-text-center">{{case.codigoCie10 }}</td>
+                                <td class="p-text-center">{{case.sistemaAfectado || ""}}</td>
+                                <td class="p-text-center">{{case.diagnostico}}</td>
+                                <td class="p-text-center">{{case.detalle}}</td>
+                                <td class="p-text-center">{{case.origen}}</td>
+                                <td class="p-text-center">{{case.fechaDiagnostico | date:'dd/MM/yyyy' }}</td>
+                                <td class="p-text-center">{{case.creadoPor}}</td>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="summary" let-rowData>
+                            <ng-container *ngIf="!consultar2"><button *sTienePermiso="'SCM_CREATE_CASE_DIAG'" pButton [disabled]="diagSelect"
+                                type="button" icon="fa fa-plus" label="Crear"
+                                (click)="diagSelect = null; modalDianostico = true" ></button>
+                            <button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton type="button" icon="fa fa-pencil"
+                                label="Modificar" class="ui-button-success" (click)="showModalDiagnostico()"
+                                [disabled]="!diagSelect"></button>
+                            <button *sTienePermiso="['SCM_DEL_CASE_DIAG']" pButton type="button" icon="fa fa-trash"
+                                label="Eliminar" class="ui-button-danger" (click)="deleteDiagnostico(diagSelect.id)"
+                                [disabled]="!diagSelect"></button></ng-container>
+
+                            <ng-container *ngIf="consultar2"><button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton type="button" icon="fa fa-search"
+                                label="Consultar" class="ui-button-warning" (click)="showModalDiagnostico()"
+                                [disabled]="!diagSelect"></button></ng-container>
+
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="7" class="p-text-center">No hay registro de diagnósticos médicos</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza diagnósticos -->
+
+    <!-- Inicio PCL -->
+    <ng-container *sTienePermiso="'SCM_GET_CASEPCL'">
+        <p-tabPanel header="PCL" *ngIf="caseSelect && this.diagnosticoList.length > 0">
+            <app-pcl [diagnosticos]="this.diagnosticoList" [entity]="entity" [emitPclentity]="emitPclentity"
+                [pkCase]="caseSelect.id" [pclOptionList]="pclOptionList" (eventClose)="onCloseModalDianostico()" (dlistaPCL)="recibirPCL($event)">
+            </app-pcl>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza PCL -->
+
+    <!-- Inicio incapacidades -->
+    <ng-container *sTienePermiso="'SCM_LIST_CASE_INC'">
+        <p-tabPanel header="Incapacidades" *ngIf="caseSelect">
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Información sobre incapacidades</h5>
+                </div>
+                <div class="ui-g-12">
+                    <!-- <p-table [columns]="cols" [value]="products" styleClass="p-datatable-responsive"> -->
+                    <p-table [value]="incapacidades" dataKey="id" styleClass="material-table">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="fechaDesde">Fecha Inicio
+                                    <!-- <p-sortIcon field="fechaDesde"></p-sortIcon> -->
+                                </th>
+                                <th pSortableColumn="fechaHasta">Fecha Hasta
+
+                                    <!-- <p-sortIcon field="fechaHasta"></p-sortIcon> -->
+                                </th>
+                                <th pSortableColumn="diasAusencia">Dias de incapacidad
+                                    <!-- <p-sortIcon field="diasAusencia"></p-sortIcon> -->
+                                </th>
+                                <th pSortableColumn="causaAusentismo.nombre">Clase
+
+                                    <!-- <p-sortIcon field="causaAusentismo.nombre"></p-sortIcon> -->
+                                </th>
+                                <th pSortableColumn="causaAusentismo.nombre">Tipo
+                                    <!-- <p-sortIcon field="causaAusentismo.nombre"></p-sortIcon> -->
+                                </th>
+                                <th pSortableColumn="cie.codigo">Codigo CIE 10
+                                    <!-- <p-sortIcon field="cie.codigo"></p-sortIcon> -->
+                                </th>
+                                <th pSortableColumn="cie.nombre">Diagnóstico
+                                    <!-- <p-sortIcon field="cie.nombre"></p-sortIcon> -->
+                                </th>
+
+
+                            </tr>
+
+                        </ng-template>
+                        <ng-template pTemplate="body" let-aus>
+
+                            <tr [pSelectableRow]="aus" class="table-row table-row-selectable">
+                                <td>{{aus.finicio |date:'dd/MM/yyyy' }}</td>
+
+                                <td>{{aus.ffinal | date:'dd/MM/yyyy'}}</td>
+
+                                <td>{{aus.tdias}}</td>
+
+                                <td>{{aus.clase}}</td>
+
+                                <td>{{aus.tipo }}</td>
+
+                                <td>{{aus.codigocie || "No definio" }}</td>
+
+                                <td>{{aus.diagnostico || "" }}</td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8" class="p-text-center">
+                                    No se han registrado incapacidades en este caso médico
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                    </p-table>
+                </div>
+
+            </div>
+
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza incapacidades -->
+
+    <!-- Inicio recomendaciones -->
+    <ng-container *sTienePermiso="'SCM_LIST_CASE_RECO'">
+        <p-tabPanel header="Recomendaciones" *ngIf="caseSelect">
+
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Información sobre recomendaciones</h5>
+                </div>
+                <div class="ui-g-12">
+
+                    <p-table #dt [value]="recomendationList" autoLayout="true" selectionMode="single"
+                        styleClass="material-table" [(selection)]="recoSelect" [rows]="5" [paginator]="true"
+                        dataKey="id" [lazy]="true">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Entidad emisora
+
+                                </th>
+                                <th>Tipo
+
+                                </th>
+                                <th>Estado
+
+                                </th>
+                                <th>Recomendación
+
+                                </th>
+                                <th>Fecha inicial
+
+                                </th>
+                                <th>Fecha final
+
+                                </th>
+                            </tr>
+                            <tr class="filters" *ngIf="false">
+                                <td>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon">
+                                            <em class="pi pi-search"></em>
+                                        </span>
+                                        <input pInputText type="text"
+                                            (input)="dt.filter($event.target.value, 'id', 'contains')">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon">
+                                            <em class="pi pi-search"></em>
+                                        </span>
+                                        <input pInputText type="text"
+                                            (input)="dt.filter($event.target.value, 'fapertura', 'contains')">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon">
+                                            <em class="pi pi-search"></em>
+                                        </span>
+                                        <input pInputText type="text"
+                                            (input)="dt.filter($event.target.value, 'regional', 'contains')">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon">
+                                            <em class="pi pi-search"></em>
+                                        </span>
+                                        <input pInputText type="text"
+                                            (input)="dt.filter($event.target.value, 'ciudad', 'contains')">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon">
+                                            <em class="pi pi-search"></em>
+                                        </span>
+                                        <input pInputText type="text"
+                                            (input)="dt.filter($event.target.value, 'nameLastname', 'contains')">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ui-inputgroup">
+                                        <span class="ui-inputgroup-addon">
+                                            <em class="pi pi-search"></em>
+                                        </span>
+                                        <input pInputText type="text"
+                                            (input)="dt.filter($event.target.value, 'documento', 'contains')">
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-case>
+
+                            <tr [pSelectableRowDisabled]="modalRecomendatios" [pSelectableRow]="case"
+                                class="table-row table-row-selectable">
+                                <td class="p-text-center">{{case.entidadEmitRecomendaciones}}</td>
+                                <td class="p-text-center">{{case.tipo }}</td>
+                                <td class="p-text-center">{{case.fechaExpiracion | recomendationstatus}}</td>
+                                <td class="p-text-center">{{case.recomendaciones}}</td>
+                                <td class="p-text-center">{{case.fechaInicio | date:'dd/MM/yyyy'}}</td>
+                                <td class="p-text-center">{{case.fechaExpiracion | date:'dd/MM/yyyy'}}</td>
+
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="summary" let-rowData>
+                            <button [disabled]="consultar2" *sTienePermiso="'SCM_CREATE_CASE_RECO'" pButton type="button" icon="fa fa-plus"
+                                label="Crear" (click)="openModalRecomendantions()">
+                            </button>
+                            <button pButton type="button" icon="fa fa-pencil" label="Modificar" *sTienePermiso="'SCM_PUT_CASE_RECO'"
+                                class="ui-button-success" (click)="modalRecomendatios = true"
+                                [disabled]="!recoSelect || consultar2"></button>
+                            <button pButton type="button" icon="fa fa-search" label="Consultar" *ngIf="consultar2"
+                                class="ui-button-warning" (click)="modalRecomendatios = true"
+                                [disabled]="!recoSelect"></button>
+                            <button pButton type="button" icon="fa fa-trash" label="Eliminar" *sTienePermiso="'SCM_DEL_CASE_RECO'" class="ui-button-danger"
+                                (click)="deleteRecomendation(recoSelect.id)" [disabled]="!recoSelect || consultar2"></button>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6" class="p-text-center">
+                                    No se han registrado recomendaciones en este caso médico
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza recomendaciones -->
+
+    <!-- Inicio seguimiento -->
+    <ng-container *sTienePermiso="'SCM_GET_CASE_SEG'">
+        <p-tabPanel header="Seguimiento" *ngIf="caseSelect">
+
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Seguimientos del caso</h5>
+                </div>
+                <div class="ui-g-12">
+                    <p-table [value]="seguimientos" dataKey="id" editMode="row" styleClass="material-table">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Fecha de seguimiento</th>
+                                <th colspan="3">Seguimiento</th>
+                                <th>Tarea</th>
+                                <th>Responsable Empresa</th>
+                                <th>Responsable Externo</th>
+                                <th>Resultado</th>
+
+                                <th style="width:10rem"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-seguimiento let-editing="editing" let-ri="rowIndex">
+                            <tr [pEditableRow]="seguimiento">
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-calendar [disabled]="consultar2" [touchUI]="true" [(ngModel)]="seguimiento.fechaSeg"
+                                                dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" [locale]="localeES">
+                                            </p-calendar>
+
+                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{seguimiento.fechaSeg | date : 'dd/MM/yyyy'}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td colspan="3">
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input [readOnly]="consultar2" pInputText type="text" [(ngModel)]="seguimiento.seguimiento">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{seguimiento.seguimiento}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input [readOnly]="consultar2" pInputText type="text" [(ngModel)]="seguimiento.tarea">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{seguimiento.tarea}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-autoComplete [readonly]="consultar2" styleClass="form-control-autocomplete" #autocomplete
+                                                placeholder="Digite" [style]="{'width':'100%'}"
+                                                (onSelect)="seguimiento.responsable = $event"
+                                                [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                                                field="numeroIdentificacion" [(ngModel)]="seguimiento.responsable"
+                                                *ngIf="empleado?.id == null">
+                                                <ng-template let-empleado pTemplate="item">
+                                                    <div class="ui-helper-clearfix">
+                                                        <div class="wrapper">
+                                                            <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                                                style="font-size: 48px;" aria-hidden="true"></i>
+                                                            <img *ngIf="empleado.usuario?.icon"
+                                                                [src]="empleado.usuario?.icon"
+                                                                style="border-radius: 50%;" #imgAvatar />
+                                                            <div style="margin-left:20px">
+                                                                <label>{{empleado?.primerApellido}}
+                                                                    {{empleado?.primerNombre}}
+                                                                    {{empleado?.segundoNombre}}
+                                                                </label>
+                                                                <br /> {{empleado?.numeroIdentificacion}}
+                                                                <br /> {{empleado?.usuario.email}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{seguimiento.responsable?.primerApellido }}
+                                            {{seguimiento.responsable?.primerNombre }}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input [readOnly]="consultar2" pInputText type="text" [(ngModel)]="seguimiento.responsableExterno">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{seguimiento.responsableExterno}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input [readOnly]="consultar2" pInputText type="text" [(ngModel)]="seguimiento.resultado">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{seguimiento.resultado}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td class="p-text-center" *ngIf="!this.consultar">
+                                    <!-- *sTienePermiso="'SCM_PUT_CASE_SEG'" -->
+                                    <button *ngIf="!editing" [disabled]="consultar2" pButton pRipple type="button" pInitEditableRow
+                                        icon="pi pi-pencil" (click)="onRowEditInit(seguimiento)"
+                                        title="Editar Seguimiento" 
+                                        class="p-button-rounded p-button-text p-mr-2"></button>
+                                        <!-- *sTienePermiso="'SCM_PUT_CASE_SEG'" -->
+                                    <button *ngIf="!editing" [disabled]="consultar2" pButton pRipple type="button" icon="pi pi-copy"
+                                        (click)="onRowCloneInit(seguimiento)" title="Clonar Seguimiento" 
+                                        class="p-button-rounded p-button-text p-mr-2"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                        icon="pi pi-check" (click)="onRowEditSave(seguimiento)"
+                                        class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
+                                        icon="pi pi-times" (click)="onRowEditCancel(seguimiento, ri)"
+                                        class="p-button-rounded p-button-text ui-button-danger"></button>
+
+                                    <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton pRipple type="button" pCancelEditableRow
+                                        icon="pi pi-trash" (click)="deleteSeguimiento(seguimiento.id)"
+                                        title="Borrar Seguimiento" class="ui-button-danger"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="summary" let-rowData>
+                            <button *sTienePermiso="'SCM_CREATE_CASE_SEG'" [disabled]="consultar2" pButton type="button" icon="fa fa-plus"
+                                label="Crear"  (click)="openModalSeguimientos()">
+
+                            </button>
+
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza seguimientos -->
+
+    <!-- Inicio reintegro -->
+    <ng-container *sTienePermiso="'SCM_GET_REINTEGRO'">
+        <!-- <p-tabPanel header="Reintegro" *ngIf="caseSelect">
+        </p-tabPanel> -->
+        <p-tabPanel header="PRL" *ngIf="caseSelect">
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Programa de retorno laboral</h5>
+                </div>
+                <div class="ui-g-12">
+                    <app-reintegro-list [idCase]="caseSelect.id"></app-reintegro-list>        
+                </div>
+            </div>
+        </p-tabPanel>
+        <!-- <button pButton *ngIf="solicitando == false || !this.consultar" (click)="saveReintegro()" icon="fa fa-floppy-o"
+                        class="float-btn" [disabled]="this.consultar" style="bottom: 100px;"
+        title="Guardar reintegro"></button> -->
+        
+    </ng-container>
+    <!-- Finaliza reintegro -->
+
+    <!-- Inicio tratamientos -->
+    <ng-container *sTienePermiso="'SCM_GET_CASE_TRAT'">
+        <p-tabPanel header="Tratamientos" *ngIf="caseSelect">
+
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Tratamientos en el caso</h5>
+                </div>
+                <div class="ui-g-12">
+                    <p-table [value]="tratamientos" dataKey="id" editMode="row" styleClass="material-table">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="tipo">Tipo</th>
+                                <th pSortableColumn="tipoIntervencion">Tipo de intervencion</th>
+                                <th pSortableColumn="descripcion">Descripcion</th>
+                                <th pSortableColumn="fecha">Fecha</th>
+                                <th style="width:8rem"></th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-tratamiento let-editing="editing" let-ri="rowIndex">
+                            <tr [pEditableRow]="tratamiento">
+
+                                <td class="p-text-center">
+                                    <p-cellEditor>
+
+                                        <ng-template pTemplate="input">
+
+                                            <div>
+                                                <p-dropdown [filter]="true" [options]="tipoTratamientos"
+                                                    class="select-material" [(ngModel)]="tratamiento.tipo"
+                                                    styleClass="select-material">
+                                                </p-dropdown>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{(tratamiento.tipo !== null) ? tipoTratamientos[tratamiento.tipo + 1].label
+                                            : ''}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td class="p-text-center">
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input pInputText type="text" [(ngModel)]="tratamiento.tipoIntervencion">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{tratamiento.tipoIntervencion}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td class="p-text-center">
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input pInputText type="text" [(ngModel)]="tratamiento.descripcion">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{tratamiento.descripcion}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+
+                                <td class="p-text-center">
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-calendar [touchUI]="true" [(ngModel)]="tratamiento.fecha"
+                                                dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" [locale]="localeES">
+                                            </p-calendar>
+
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{tratamiento.fecha | date : 'dd/MM/yyyy'}}
+                                        </ng-template>
+                                    </p-cellEditor>
+
+                                </td>
+
+                                <td class="p-text-center">
+                                    <!-- *sTienePermiso="'SCM_PUT_CASE_TRAT'" -->
+                                    <button *ngIf="!editing" [disabled]="consultar2" pButton pRipple type="button" pInitEditableRow
+                                        icon="pi pi-pencil" (click)="onRowEditInit(tratamiento)"  title="Editar Tratamiento" 
+                                        class="p-button-rounded p-button-text p-mr-2"> </button>
+                                        <!-- *sTienePermiso="'SCM_DEL_CASE_TRAT'" -->
+                                    <button *ngIf="!editing" [disabled]="consultar2" pButton pRipple type="button" icon="pi pi-trash"  title="Eliminar Tratamiento"
+                                        (click)="confirm(tratamiento,ri)"
+                                        class="p-button-rounded p-button-text ui-button-danger">
+                                    </button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                        icon="pi pi-check" (click)="onRowEditSave(tratamiento,'tratamiento')"
+                                        title="Editar Tratamiento"
+                                        class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
+                                        icon="pi pi-times" (click)="onRowEditCancel(tratamiento, ri)"
+                                        class="p-button-rounded p-button-text ui-button-danger"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="summary" let-rowData>
+                            <button [disabled]="consultar2" *sTienePermiso="'SCM_CREATE_CASE_TRAT'" pButton type="button" icon="fa fa-plus"
+                                (click)="nuevoTratamiento()" label="Crear">
+                            </button>
+                        </ng-template>
+
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza tratamientos -->
+
+    <!-- Inicio documentación -->
+    <ng-container *sTienePermiso="'SCM_GET_CASE_DOC'">
+        <p-tabPanel header="Documentación" *ngIf="caseSelect">
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Documentos asociados al caso médico</h5>
+                </div>
+                <div class="ui-g-12">
+                    <app-gestion-documental [caseid]="this.caseSelect.id"></app-gestion-documental>
+                </div>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza documentación -->
+
+    <!-- Inicio Plan de acción -->
+    <ng-container *sTienePermiso="'SCM_GET_CASE_PLAN'">
+        <p-tabPanel header="Plan de Acción" *ngIf="caseSelect">
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Listado de planes de acción</h5>
+                </div>
+                <div class="ui-g-12">
+                    <p-table [value]="this.recomendationList" dataKey="id" styleClass="material-table">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 4rem"></th>
+                                <th pSortableColumn="name">Recomendación
+                                    <p-sortIcon field="name"></p-sortIcon>
+                                </th>
+                                <th>Estado</th>
+                                <th>Fecha de Finalización</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-product let-expanded="expanded">
+                            <tr>
+                                <td class="p-text-center">
+                                    <button type="button" pButton pRipple [pRowToggler]="product"
+                                        class="p-button-text p-button-rounded p-button-plain"
+                                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                </td>
+                                <td class="p-text-center">{{product.recomendaciones}}</td>
+                                <td class="p-text-center">{{product.fechaExpiracion | recomendationstatus}}</td>
+                                <td class="p-text-center">{{product.fechaExpiracion | date:'dd/MM/yyyy'}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="rowexpansion" let-product>
+                            <tr>
+                                <td colspan="4">
+                                    <div class="p-p-3">
+                                        <p-table [value]="product.actionPlanList" dataKey="id">
+                                            <ng-template pTemplate="header">
+                            <tr *ngIf="product.actionPlanList.length > 0">
+                                <th pSortableColumn="actividad">Actividad
+                                    <p-sortIcon field="actividad"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="descripcionAct">Descripcion de la actividad
+                                    <p-sortIcon field="descripcionAct">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="responsableEmpresa">Responsable Empresa
+                                    <p-sortIcon field="responsableEmpresa">
+                                    </p-sortIcon>
+                                <th pSortableColumn="responsableExterno">Responsable Externo
+                                    <p-sortIcon field="responsableExterno">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="fechaProyectada">Fecha proyectada
+                                    <p-sortIcon field="fechaProyectada">
+                                    </p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-plan>
+                            <tr>
+                                <td>{{plan.actividad}}</td>
+                                <td>{{plan.descripcionAct}}</td>
+                                <td>{{plan.responsableEmpresa?.primerApellido }} {{plan.responsableEmpresa?.primerNombre
+                                    }}
+                                </td>
+                                <td>{{plan.responsableExterno}}</td>
+                                <td>{{plan.fechaProyectada | date:'dd/MM/yyyy'}}</td>
+
+                                <!-- <td>
+                        <p-button type="button" icon="pi pi-search"></p-button>
+                    </td>-->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6">No Existen planes de accion para esta recomendacion.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                </td>
+                </tr>
+                </ng-template>
+                </p-table>
+            </div>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza Plan de acción -->
+
+    <!-- Inicio trazabilidad -->
+    <ng-container *sTienePermiso="'SCM_GET_CASE_LOG'">
+        <p-tabPanel header="Trazabilidad" *ngIf="caseSelect">
+
+            <div class="ui-g">
+                <div class="row g-2 mb-3">
+                    <h5 class="title-header p-mb-2">Listado de trazabilidad</h5>
+                </div>
+                <div class="ui-g-12">
+                    <p-table #dt [value]="logsList" autoLayout="true" selectionMode="single" [rows]="10"
+                        [paginator]="true" [(selection)]="logSelected" dataKey="id" [lazy]="true"
+                        styleClass="material-table">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="action">Accion
+
+                                </th>
+                                <th pSortableColumn="fapertura">Fecha & Hora
+
+                                </th>
+                                <th pSortableColumn="entity">Observación
+
+                                </th>
+                                <th pSortableColumn="ciudad">Usuario que realizo
+
+                                </th>
+
+
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-case>
+
+                            <tr [pSelectableRow]="case" class="table-row table-row-selectable">
+                                <td class="p-text-center">{{case.action}}</td>
+                                <td class="p-text-center">{{case.fecha_creacion | date:'dd/MM/yyyy HH:mm' }}</td>
+                                <td class="p-text-center">{{case.entity}}</td>
+                                <td class="p-text-center">{{case.pkUser}}</td>
+                            </tr>
+                        </ng-template>
+
+                    </p-table>
+                </div>
+            </div>
+        </p-tabPanel>
+    </ng-container>
+    <!-- Finaliza trazabilidad -->
+</p-tabView>
+
+<!-- Inicio de modales -->
+<p-dialog header="Persistencia de datos" *ngIf="logSelected" [(visible)]="logSelected" [style]="{width: '50vw'}"
+    [modal]="true" [closable]="true" [draggable]="false" [resizable]="false" styleClass="text-center">
+    <app-logmodal *ngIf="logsList" [log]="logSelected" [logList]="logsList">
+    </app-logmodal>
+</p-dialog>
+
+<p-dialog [header]="(!diagSelect) ? 'Crear Diagnóstico' : 'Editar Diagnóstico'" [(visible)]="modalDianostico" 
+    [modal]="true" [closable]="false" [draggable]="false" [resizable]="false" [responsive]="true">
+
+    <app-diagnostico-form *ngIf="caseSelect" [diagSelect]="diagSelect" [id]="caseSelect.pkUser.id"
+        [caseId]="caseSelect.id" (eventClose)="onCloseModalDianostico()" (closeModal)="closeModalDiagnostico()">
+    </app-diagnostico-form>
+
+</p-dialog>
+
+<p-dialog *ngIf="caseSelect" [header]="(recoSelect) ? 'Editar recomendación' : 'Crear Recomendación'"
+    [(visible)]="modalRecomendatios" [style]="{width: '75vw'}" [modal]="true" [closable]="true" [draggable]="false"
+    [resizable]="false">
+    <app-recomendationsform [id]="caseSelect.id" [recoSelect]="recoSelect" [entity]="entity"
+        (eventClose)="onCloseModalrecomendation()">
+    </app-recomendationsform>
+</p-dialog>
+<p-dialog *ngIf="caseSelect" [header]="(seguiSelect) ? 'Editar seguimiento' : 'Crear seguimiento'"
+    [(visible)]="modalSeguimientos" [style]="{width: '75vw'}" [modal]="true" [closable]="true" [draggable]="false"
+    [resizable]="false">
+    <app-seguimientosform [id]="caseSelect.id" [recoSelect]="seguiSelect" [entity]="entity"
+        (eventClose)="onCloseModalseguimiento()">
+    </app-seguimientosform>
+</p-dialog>
+
+<!-- Boton de retorno al listado -->
+<button pButton *ngIf="solicitando == false" routerLink="/app/scm/list" type="button" icon="bi bi-chevron-left"
+    class="float-btn" style="bottom: 70px;" title="Volver al listado"></button>

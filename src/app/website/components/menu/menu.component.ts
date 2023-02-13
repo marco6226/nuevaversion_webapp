@@ -95,14 +95,14 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Seguimiento Casos medicos', 
-            icon: 'lan',
+            icon: 'local_hospital',
             codigo: 'SCM',
             expanded: false,
             items:
                 [
-                    { label: 'Creacion de seguimiento caso', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/creacion'], icon: 'lan'},
-                    { label: 'Listado de seguimientos', codigo: 'SCM_LIST_CASE', routerLink: ['/app/scm/list'], icon: 'lan'},
-                    { label: 'Permisos', codigo: 'SCM_PERF_SCM', routerLink: ['/app/scm/permisos'], icon: 'lan'},
+                    { label: 'Creacion de seguimiento caso', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/creacion'], icon: 'medical_services'},
+                    { label: 'Listado de seguimientos', codigo: 'SCM_LIST_CASE', routerLink: ['/app/scm/list'], icon: 'view_list'},
+                    { label: 'Permisos', codigo: 'SCM_PERF_SCM', routerLink: ['/app/scm/permisos'], icon: 'security'},
   
                 ]
         },

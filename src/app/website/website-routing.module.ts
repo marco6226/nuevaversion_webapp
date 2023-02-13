@@ -52,8 +52,8 @@ import { ConsultarReporteTemporalComponent } from './pages/rai/components/consul
 import { RegistroReporteTemporalComponent } from './pages/rai/components/registro-reporte-temporal/registro-reporte-temporal.component';
 import { RegistroReportesComponent } from './pages/rai/components/registro-reportes/registro-reportes.component';
 import { FormularioScmComponent } from './pages/scm/components/formulario-scm/formulario-scm.component';
-import { ScmPermisosComponent } from './pages/scm/components/scm-permisos/scm-permisos.component';
 import { ScmComponent } from './pages/scm/components/scm/scm.component';
+import { ScmpermisosComponent } from './pages/scm/components/scmpermisos/scmpermisos.component';
 import { AnalisisDesviacionComponent } from './pages/sec/components/analisis-desviacion/analisis-desviacion.component';
 import { AsignacionTareasComponent } from './pages/sec/components/asignacion-tareas/asignacion-tareas.component';
 import { ConsultaDesviacionComponent } from './pages/sec/components/consulta-desviacion/consulta-desviacion.component';
@@ -178,7 +178,7 @@ const routes: Routes = [
           { path: 'creacion', component: FormularioScmComponent },
           { path: 'list', component: ScmComponent },
           { path: 'case/:id', component: FormularioScmComponent },
-          { path: 'permisos', component: ScmPermisosComponent },
+          { path: 'permisos', component: ScmpermisosComponent },
         ]
       },
       {

@@ -1,0 +1,53 @@
+<p-table editMode="row" [value]="reintegroList" styleClass="material-table">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Tipo Retorno</th>
+            <th >Descripcion</th>
+            <th>permanencia</th>
+            <th>Periodo seguimiento</th>
+            <th>Proceso Exitoso</th>
+            <th>Fecha Cierre</th>
+            <th>Observacion</th>
+            <th style="width:10rem"></th>
+
+            <!-- <th style="width:10rem"></th> -->
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-reintegro let-editing="editing">
+        <tr>
+            <td>{{reintegro.tipo_retorno}}</td>
+            <td >{{reintegro.descripcion}}</td>
+            <td >{{reintegro.permanencia}}</td>
+            <td>{{reintegro.periodo_seguimiento}}</td>
+            <td>{{reintegro.reintegro_exitoso}}</td>
+            <td>{{reintegro.fecha_cierre | date:'dd/MM/yyyy'}}</td>
+            <td>{{reintegro.observacion}}</td>
+            <td class="p-text-center">
+                <!-- <button title="Editar Seguimiento"></button> -->
+                <button *sTienePermiso="'SCM_PUT_REINTEGRO'" pButton pRipple type="button"
+                    icon="pi pi-pencil" (click)="onRowEditInit(reintegro)"
+                    title="Editar Seguimiento"
+                    class="p-button-rounded p-button-text p-mr-2"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+        <br>
+        <button *sTienePermiso="'SCM_CREATE_REINTEGRO'" pButton type="button" icon="fa fa-plus"
+            label="Crear"  (click)="createRetorno()">
+
+        </button>
+
+    </ng-template>
+</p-table>
+
+<p-dialog header="Nuevo Retorno"
+    [(visible)]="modalRetorno" [style]="{heigth:'850px'}" [modal]="true" [closable]="true" [draggable]="true"
+    [resizable]="false"
+    (onHide)="onHideDialog()" >
+    <app-reintegro [idCase]="idCase" [isEdit]="editRetorno" [onEdit]="onEdit" (isCreate)="reload()"></app-reintegro>
+</p-dialog>
+
+
+
+<!-- <app-reintegro [idCase]="idCase"></app-reintegro> -->

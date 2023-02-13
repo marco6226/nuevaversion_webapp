@@ -71,14 +71,8 @@ import { ConsultaReportesComponent } from './pages/rai/components/consulta-repor
 import { ConsultarReporteTemporalComponent } from './pages/rai/components/consultar-reporte-temporal/consultar-reporte-temporal.component';
 import { RegistroReporteTemporalComponent } from './pages/rai/components/registro-reporte-temporal/registro-reporte-temporal.component';
 import { RegistroReportesComponent } from './pages/rai/components/registro-reportes/registro-reportes.component';
-import { DiagnosticoFormComponent } from './pages/scm/components/diagnostico-form/diagnostico-form.component';
 import { FormularioScmComponent } from './pages/scm/components/formulario-scm/formulario-scm.component';
 import { LogmodalComponent } from './pages/scm/components/logmodal/logmodal.component';
-import { PclComponent } from './pages/scm/components/pcl/pcl.component';
-import { RecomendationsFormComponent } from './pages/scm/components/recomendations-form/recomendations-form.component';
-import { ScmComponent } from './pages/scm/components/scm/scm.component';
-import { ScmPermisosComponent } from './pages/scm/components/scm-permisos/scm-permisos.component';
-import { SeguimientosFormComponent } from './pages/scm/components/seguimientos-form/seguimientos-form.component';
 import { AnalisisCostosComponent } from './pages/sec/components/analisis-costos/analisis-costos.component';
 import { AnalisisDesviacionComponent } from './pages/sec/components/analisis-desviacion/analisis-desviacion.component';
 import { AsignacionTareasComponent } from './pages/sec/components/asignacion-tareas/asignacion-tareas.component';
@@ -143,6 +137,15 @@ import { FormSubcontratistaComponent } from './pages/ctr/components/subcontratis
 import { SubcontratistasComponent } from './pages/ctr/components/subcontratistas/subcontratistas.component';
 import { FlowChartComponent } from './pages/sec/components/analisis-desviacion/flow-chart/flow-chart.component';
 import { EmpleadoBasicSelectorComponent } from './pages/comun/components/empleado-basic-selector/empleado-basic-selector.component';
+import { DiagnosticoFormComponent } from './pages/scm/components/diagnostico-form/diagnostico-form.component';
+import { CieSelectorComponent } from './pages/comun/components/cie-selector/cie-selector.component';
+import { ReintegroComponent } from './pages/scm/components/formulario-scm/reintegro/reintegro.component';
+import { ReintegroListComponent } from './pages/scm/components/formulario-scm/reintegro-list/reintegro-list.component';
+import { PclComponent } from './pages/scm/components/pcl/pcl.component';
+import { RecomendationsformComponent } from './pages/scm/components/recomendationsform/recomendationsform.component';
+import { ScmComponent } from './pages/scm/components/scm/scm.component';
+import { ScmpermisosComponent } from './pages/scm/components/scmpermisos/scmpermisos.component';
+import { SeguimientosformComponent } from './pages/scm/components/seguimientosform/seguimientosform.component';
 
 @NgModule({
   declarations: [
@@ -221,14 +224,6 @@ import { EmpleadoBasicSelectorComponent } from './pages/comun/components/emplead
     ConsultarReporteTemporalComponent,
     RegistroReporteTemporalComponent,
     RegistroReportesComponent,
-    DiagnosticoFormComponent,
-    FormularioScmComponent,
-    LogmodalComponent,
-    PclComponent,
-    RecomendationsFormComponent,
-    ScmComponent,
-    ScmPermisosComponent,
-    SeguimientosFormComponent,
     AnalisisCostosComponent,
     AnalisisDesviacionComponent,
     AsignacionTareasComponent,
@@ -265,7 +260,18 @@ import { EmpleadoBasicSelectorComponent } from './pages/comun/components/emplead
     FormularioAccidenteComponent,
     FormularioIncidenteComponent,
     FlowChartComponent,
-    EmpleadoBasicSelectorComponent
+    EmpleadoBasicSelectorComponent,
+    DiagnosticoFormComponent,
+    CieSelectorComponent,
+    FormularioScmComponent,
+    ReintegroComponent,
+    ReintegroListComponent,
+    LogmodalComponent,
+    PclComponent,
+    RecomendationsformComponent,
+    ScmComponent,
+    ScmpermisosComponent,
+    SeguimientosformComponent
   ],
   imports: [
     CommonModule,

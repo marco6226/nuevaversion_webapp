@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScmComponent } from './scm.component';
+import { ReintegroComponent } from './reintegro.component';
 
-describe('ScmComponent', () => {
-  let component: ScmComponent;
-  let fixture: ComponentFixture<ScmComponent>;
+describe('ReintegroComponent', () => {
+  let component: ReintegroComponent;
+  let fixture: ComponentFixture<ReintegroComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScmComponent ]
+      declarations: [ ReintegroComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScmComponent);
+    fixture = TestBed.createComponent(ReintegroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
