@@ -36,11 +36,26 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
-      <button *sTienePermiso="'EMP_POST_TIPOAREA'" pButton type="button" icon="bi bi-plus" label="Adicionar" (click)="showAddForm()"></button>
-      <button *sTienePermiso="'EMP_PUT_TIPOAREA'" pButton type="button" icon="bi bi-pencil-square-o" label="Modificar" class="ui-button-success"
-        (click)="showUpdateForm()" [disabled]="!tipoAreaSelect"></button>
-      <button *sTienePermiso="'EMP_DELETE_TIPOAREA'" pButton type="button" icon="bi bi-trash" class="ui-button-danger" label="Eliminar"
-        (click)="onDelete()" [disabled]="!tipoAreaSelect"></button>
+      <button *sTienePermiso="'EMP_POST_TIPOAREA'" 
+                            pButton type="button" 
+                            icon="bi bi-plus" 
+                            label="Adicionar"
+                            class="p-button-raised p-button-primary margin-right"
+                            (click)="showAddForm()"></button>
+      <button *sTienePermiso="'EMP_PUT_TIPOAREA'" 
+                          pButton type="button" 
+                          icon="bi bi-pencil-square-o"
+                          class="p-button-raised p-button-success margin-right margin-left"
+                          label="Modificar" 
+                          (click)="showUpdateForm()"
+                          [disabled]="!tipoAreaSelect"></button>
+      <button *sTienePermiso="'EMP_DELETE_TIPOAREA'" 
+                          pButton type="button" 
+                          icon="bi bi-trash" 
+                          class="p-button-raised p-button-danger margin-right margin-left"
+                          label="Eliminar" 
+                          (click)="onDelete()" 
+                          [disabled]="!tipoAreaSelect"></button>
     </ng-template>
   </p-table>
 </p-panel>

@@ -62,12 +62,32 @@
             <ng-template pTemplate="summary" let-rowData>
                 <div class="d-flex justify-content-center">
                     <div class="btn-group" role="group">
-                        <button *sTienePermiso="'ADM_POST_USR'" class="p-button-raised p-button-primary margin-right" pButton type="button" icon="bi bi-plus" label="Adicionar" (click)="abrirDlg(false)"></button>         
-                        <button *sTienePermiso="'ADM_PUT_USR'" class="p-button-raised p-button-success margin-right margin-left" pButton type="button" icon="bi bi-pencil" label="Modificar"
-                            (click)="abrirDlg(true)" [disabled]="!usuarioSelect"></button>
-                        <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="bi bi-trash" label="Eliminar" class="p-button-raised p-button-danger margin-right margin-left"
-                            (click)="eliminar()" [disabled]="!usuarioSelect"></button>
-                        <button *sTienePermiso="'ADM_GET_USER_CONS'" pButton type="button" icon="bi bi-download" label="Usuarios" title="Descarga consolidado de usuarios" (click)="descargarInvs()" class="p-button-raised p-button-secondary margin-left"></button>
+                        <button *sTienePermiso="'ADM_POST_USR'" 
+                            class="p-button-raised p-button-primary margin-right" 
+                            pButton type="button" 
+                            icon="bi bi-plus" 
+                            label="Adicionar" (click)="abrirDlg(false)"></button>         
+                        <button *sTienePermiso="'ADM_PUT_USR'" 
+                            class="p-button-raised p-button-success margin-right margin-left" 
+                            pButton type="button" 
+                            icon="bi bi-pencil" 
+                            label="Modificar"
+                            (click)="abrirDlg(true)" 
+                            [disabled]="!usuarioSelect"></button>
+                        <button *sTienePermiso="'ADM_DELETE_USR'" 
+                            pButton type="button" 
+                            icon="bi bi-trash" 
+                            label="Eliminar" 
+                            class="p-button-raised p-button-danger margin-right margin-left"
+                            (click)="eliminar()" 
+                            [disabled]="!usuarioSelect"></button>
+                        <button *sTienePermiso="'ADM_GET_USER_CONS'" 
+                            pButton type="button" 
+                            icon="bi bi-download" 
+                            label="Usuarios" 
+                            title="Descarga consolidado de usuarios" 
+                            (click)="descargarInvs()" 
+                            class="p-button-raised p-button-secondary margin-left"></button>
                     </div>
                 </div>
             </ng-template>

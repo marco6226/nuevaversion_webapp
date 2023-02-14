@@ -86,7 +86,7 @@
             <ng-template pTemplate="body" let-empresa>
                 <tr [pSelectableRow]="empresa">
                     <td class="td-avatar" st>
-                        <i *ngIf="!empresa.logo" class="pi pi-box" aria-hidden="true" style="font-size: 110px;"></i>
+                        <i *ngIf="!empresa.logo" class="pi pi-box" aria-hidden="true" style="font-size: 100px;"></i>
                         <img *ngIf="empresa.logo" [src]="empresa.logo" class="img-logo" />
                     </td>
                     <td>{{empresa.razonSocial}}</td>
@@ -103,13 +103,30 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" let-rowData>
-                <button *sTienePermiso="'EMP_POST_EMPS'" pButton type="button" icon="bi bi-plus" label="Adicionar"
-                    (click)="showAddForm()"></button>
-                <button *sTienePermiso="'EMP_PUT_EMPS'" pButton type="button" icon="bi bi-pencil-square-o"
-                    class="ui-button-success" label="Modificar" (click)="showUpdateForm()"
-                    [disabled]="!empresaSelect"></button>
-                <button *sTienePermiso="'EMP_DELETE_EMPS'" pButton type="button" icon="bi bi-trash" class="ui-button-danger"
-                    label="Eliminar" (click)="onDelete()" [disabled]="!empresaSelect"></button>
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group" role="group">
+                        <button *sTienePermiso="'EMP_POST_EMPS'" 
+                            pButton type="button" 
+                            icon="bi bi-plus" 
+                            label="Adicionar"
+                            class="p-button-raised p-button-primary margin-right"
+                            (click)="showAddForm()"></button>
+                        <button *sTienePermiso="'EMP_PUT_EMPS'" 
+                            pButton type="button" 
+                            icon="bi bi-pencil-square-o"
+                            class="p-button-raised p-button-success margin-right margin-left"
+                            label="Modificar" 
+                            (click)="showUpdateForm()"
+                            [disabled]="!empresaSelect"></button>
+                        <button *sTienePermiso="'EMP_DELETE_EMPS'" 
+                            pButton type="button" 
+                            icon="bi bi-trash" 
+                            class="p-button-raised p-button-danger margin-right margin-left"
+                            label="Eliminar" 
+                            (click)="onDelete()" 
+                            [disabled]="!empresaSelect"></button>
+                    </div>
+                </div>
             </ng-template>
         </p-table>
     
