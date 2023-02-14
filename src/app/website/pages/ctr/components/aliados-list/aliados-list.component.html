@@ -1,218 +1,217 @@
 <s-dataNotFound *ngIf="!aliadosList || aliadosList.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de Aliados">
         <button pButton type="button" icon="fa fa-plus" [routerLink]="['/app/ctr/aliado']" label="Crear"></button>
 </s-dataNotFound>
-
-<p-panel header="Listado de Aliados" [style.display]="aliadosList && aliadosList.length > 0 ? 'block':'none'">
-    <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" label="Exportar a archivo Excel" icon="fa fa-file-excel-o" class="ui-button-success"></button>
-    <button type="reset" pButton (click)="dt.reset();rangeDatesCreacion=null;rangeDatesActualizacion=null" title="Reiniciar Filtros" label="Reiniciar filtros" icon="fa fa-retweet" style="margin-left: 10px;"></button>
-    <p-tabView>
-    <p-table #dt id="excel-table" 
-        autoLayout="true"
-        [value]="aliadosList"
-        styleClass="material-table" 
-        (onRowUnselect)="onRowSelect($event)" 
-        (onRowSelect)="onRowSelect($event)" 
-        [(selection)]="selectedList" 
-        [paginator]="true" 
-        [rows]="10"
-        [totalRecords]="aliadosList.length"
-        [pageLinks]="3">
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                
-                <!-- <th pSortableColumn="name">
-                    <div class="flex justify-content-between align-items-center">
-                        Name
-                        <p-sortIcon field="name"></p-sortIcon>
-                    </div>
-                </th> -->
-                <th style="width: 20%" pSortableColumn="razonSocial">
-                    Nombre o Razón Social
-                    <p-sortIcon field="razonSocial"></p-sortIcon>
-                </th>
-                <th style="width: 8%" pSortableColumn="tipo_persona">
-                    Tipo de Persona
-                    <p-sortIcon field="tipo_persona"></p-sortIcon>
-                </th>
-                <th style="width: 10rem;" pSortableColumn="division">
-                    División de negocio
-                    <p-sortIcon field="division"></p-sortIcon>
-                </th>
-                <th style="width: 2.5rem" pSortableColumn="estado">
-                    Estado
-                    <p-sortIcon field="estado"></p-sortIcon>
-                </th>
-                <th style="width: 2.5rem" pSortableColumn="calificacion">
-                    Impacto
-                    <p-sortIcon field="calificacion"></p-sortIcon>
-                </th>
-                <th style="width: 10rem" pSortableColumn="fechaCreacion">
-                    Fecha Creación
-                    <p-sortIcon field="fechaCreacion"></p-sortIcon>
-                </th>
-                <th style="width: 10rem" pSortableColumn="fechaActualizacion">
-                    Fecha Modificación
-                    <p-sortIcon field="fechaActualizacion"></p-sortIcon>
-                </th>
-                <th></th>
-            </tr>
-            <tr class="filters">
-                
-                <th>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <em class="bi bi-search"></em>
-                        </span>
-                        <input class="form-control" pInputText type="text" (input)="dt.filter($event.target.value, 'razonSocial', 'contains')">
-                    </div>
-                </th>
-                <th>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <em class="pi pi-search"></em>
-                        </span>
-                        <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'tipo_persona', 'contains')">
-                    </div>
-                </th>
-                <th>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <em class="pi pi-search"></em>
-                        </span>
-                        <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'division', 'contains')">
-                    </div>
-                </th>
-                <th>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <em class="pi pi-search"></em>
-                        </span>
-                        <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
-                    </div>
-                </th>
-                <th>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <em class="pi pi-search"></em>
-                        </span>
-                        <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'calificacion', 'contains')">
-                    </div>
-                </th>
-                <th>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <em  class="pi pi-calendar"></em>
-                        </span>
-                        <p-calendar
-                        [(ngModel)]="rangeDatesCreacion"
-                        dateFormat="dd/MM/yyyy"
-                        selectionMode="range"
-                        (onSelect)="dt.filter(rangeDatesCreacion,'fechaCreacion', 'fechaCreacionFilter')"
-                        placeholder="buscar"
-                        appendTo="body"
-                        showButtonBar="true"
-                        (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                        (onClearClick)="onResetDate(dt, 'fechaCreacion')"
-                        [locale]="es"
-                        class="form-control">
-                            <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
-                        </p-calendar>
-                    </div>
-                </th>
-                <th>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <em class="pi pi-calendar"></em>
-                        </span>
-                        <p-calendar
-                        [(ngModel)]="rangeDatesActualizacion"
-                        dateFormat="dd/MM/yyyy"
-                        selectionMode="range"
-                        (onSelect)="dt.filter(rangeDatesActualizacion,'fechaActualizacion', 'FechaActualizacionFilter')"
-                        placeholder="buscar"
-                        appendTo="body"
-                        showButtonBar="true"
-                        (onTodayClick)="dt.filter(rangeDatesActualizacion, 'fechaActualizacion', 'FechaActualizacionFilter')"
-                        (onClearClick)="onResetDate(dt, 'fechaActualizacion')"
-                        [locale]="es"
-                        class="form-control">
-                            <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
-                        </p-calendar>
-                    </div>
-                </th>
-                <th>
-                    <span>
-                        Consultar
-                    </span>
-                </th>
-                <th>
-                    <span>
-                        Editar
-                    </span>
-                </th>
-                <th>
-                    <span>
-                        Desactivar/Activar
-                    </span>
-                </th>
-                
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData>
-            <tr>
-                
-                <td>
-                    {{rowData.razonSocial}}
-                </td>
-                <td>
-                    {{rowData.tipo_persona}}
-                </td>
-                <td>
-                    <span class="d-inline-block text-truncate" style="max-width: 10rem;">{{getDivision(rowData.division)}}</span>
-                </td>
-                <td>
-                    {{rowData.estado}}
-                </td>                
-                <td class="p-text-center status" [ngClass]="{
-                    'status--danger': rowData.calificacion === 'Alto', 
-                    'status--success': rowData.calificacion === 'Bajo',
-                    'status--warning': rowData.calificacion === 'Medio'
-                }">{{rowData.calificacion}}</td>                
-                <td>
-                    {{rowData.fechaCreacion | date:'dd/MM/yyyy'}}
-                </td>
-                <td>
-                    {{rowData.fechaActualizacion | date:'dd/MM/yyyy'}}
-                </td>
-                <td>
-                    <button style="margin-left: 5px;" pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success p-mr-2" (click)="onConsult(rowData)" title="Consultar"></button>
+<div class="shadow">
+    <p-panel header="Listado de Aliados" [style.display]="aliadosList && aliadosList.length > 0 ? 'block':'none'">
+        <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" label="Exportar a archivo Excel" icon="fa fa-file-excel-o" class="ui-button-success"></button>
+        <button type="reset" pButton (click)="dt.reset();rangeDatesCreacion=null;rangeDatesActualizacion=null" title="Reiniciar Filtros" label="Reiniciar filtros" icon="fa fa-retweet" style="margin-left: 10px;"></button>
+        <p-tabView>
+        <p-table #dt id="excel-table" 
+            autoLayout="true"
+            [value]="aliadosList"
+            styleClass="material-table" 
+            (onRowUnselect)="onRowSelect($event)" 
+            (onRowSelect)="onRowSelect($event)" 
+            [(selection)]="selectedList" 
+            [paginator]="true" 
+            [rows]="10"
+            [totalRecords]="aliadosList.length"
+            [pageLinks]="3">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
                     
-                 <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded ui-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
-                </td>
-                <td>
-                    <button style="margin-left: 5px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="onEdit(rowData)" title="Editar"></button>
+                    <!-- <th pSortableColumn="name">
+                        <div class="flex justify-content-between align-items-center">
+                            Name
+                            <p-sortIcon field="name"></p-sortIcon>
+                        </div>
+                    </th> -->
+                    <th style="width: 20%" pSortableColumn="razonSocial">
+                        Nombre o Razón Social
+                        <p-sortIcon field="razonSocial"></p-sortIcon>
+                    </th>
+                    <th style="width: 8%" pSortableColumn="tipo_persona">
+                        Tipo de Persona
+                        <p-sortIcon field="tipo_persona"></p-sortIcon>
+                    </th>
+                    <th style="width: 10rem;" pSortableColumn="division">
+                        División de negocio
+                        <p-sortIcon field="division"></p-sortIcon>
+                    </th>
+                    <th style="width: 2.5rem" pSortableColumn="estado">
+                        Estado
+                        <p-sortIcon field="estado"></p-sortIcon>
+                    </th>
+                    <th style="width: 2.5rem" pSortableColumn="calificacion">
+                        Impacto
+                        <p-sortIcon field="calificacion"></p-sortIcon>
+                    </th>
+                    <th style="width: 10rem" pSortableColumn="fechaCreacion">
+                        Fecha Creación
+                        <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                    </th>
+                    <th style="width: 10rem" pSortableColumn="fechaActualizacion">
+                        Fecha Modificación
+                        <p-sortIcon field="fechaActualizacion"></p-sortIcon>
+                    </th>
+                    <th></th>
+                </tr>
+                <tr class="filters">
                     
-                 <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded ui-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
-                </td>
-                <td>
-                    <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="rowData.activo" class="p-button-rounded ui-button-success p-mr-2" (click)="onChangeStatusAliado(rowData, 'Desactivar')" title="Desactivar Aliado"></button>
-                    <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="!rowData.activo" class="p-button-rounded ui-button-danger p-mr-2" (click)="onChangeStatusAliado(rowData, 'Activar')" title="Activar Aliado"></button>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary" let-rowData>
-            <button pButton type="button" icon="fa fa-plus" [routerLink]="['/app/ctr/aliado']" label="Crear"></button>    
-            <!-- <button pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success" (click)="onEdit(rowData)" [disabled]="!caseSelect"></button>     -->
-            <button pButton type="button" icon="pi pi-envelope" label="Enviar Correos" class="ui-button-warning" (click)="sendMultiplesEmails()" [disabled]="!caseSelect"></button>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="9" class="p-text-center">No hay registro con los términos de filtro usados
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-  </p-tabView>
-</p-panel>
-
-<!-- <button (click)="test()">test</button> -->
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <em class="bi bi-search"></em>
+                            </span>
+                            <input class="form-control" pInputText type="text" (input)="dt.filter($event.target.value, 'razonSocial', 'contains')">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <em class="pi pi-search"></em>
+                            </span>
+                            <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'tipo_persona', 'contains')">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <em class="pi pi-search"></em>
+                            </span>
+                            <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'division', 'contains')">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <em class="pi pi-search"></em>
+                            </span>
+                            <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <em class="pi pi-search"></em>
+                            </span>
+                            <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'calificacion', 'contains')">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <em  class="pi pi-calendar"></em>
+                            </span>
+                            <p-calendar
+                            [(ngModel)]="rangeDatesCreacion"
+                            dateFormat="dd/MM/yyyy"
+                            selectionMode="range"
+                            (onSelect)="dt.filter(rangeDatesCreacion,'fechaCreacion', 'fechaCreacionFilter')"
+                            placeholder="buscar"
+                            appendTo="body"
+                            showButtonBar="true"
+                            (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                            (onClearClick)="onResetDate(dt, 'fechaCreacion')"
+                            [locale]="es"
+                            class="form-control">
+                                <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
+                            </p-calendar>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <em class="pi pi-calendar"></em>
+                            </span>
+                            <p-calendar
+                            [(ngModel)]="rangeDatesActualizacion"
+                            dateFormat="dd/MM/yyyy"
+                            selectionMode="range"
+                            (onSelect)="dt.filter(rangeDatesActualizacion,'fechaActualizacion', 'FechaActualizacionFilter')"
+                            placeholder="buscar"
+                            appendTo="body"
+                            showButtonBar="true"
+                            (onTodayClick)="dt.filter(rangeDatesActualizacion, 'fechaActualizacion', 'FechaActualizacionFilter')"
+                            (onClearClick)="onResetDate(dt, 'fechaActualizacion')"
+                            [locale]="es"
+                            class="form-control">
+                                <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
+                            </p-calendar>
+                        </div>
+                    </th>
+                    <th>
+                        <span>
+                            Consultar
+                        </span>
+                    </th>
+                    <th>
+                        <span>
+                            Editar
+                        </span>
+                    </th>
+                    <th>
+                        <span>
+                            Desactivar/Activar
+                        </span>
+                    </th>
+                    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+                <tr>
+                    
+                    <td>
+                        {{rowData.razonSocial}}
+                    </td>
+                    <td>
+                        {{rowData.tipo_persona}}
+                    </td>
+                    <td>
+                        <span class="d-inline-block text-truncate" style="max-width: 10rem;">{{getDivision(rowData.division)}}</span>
+                    </td>
+                    <td>
+                        {{rowData.estado}}
+                    </td>                
+                    <td class="p-text-center status" [ngClass]="{
+                        'status--danger': rowData.calificacion === 'Alto', 
+                        'status--success': rowData.calificacion === 'Bajo',
+                        'status--warning': rowData.calificacion === 'Medio'
+                    }">{{rowData.calificacion}}</td>                
+                    <td>
+                        {{rowData.fechaCreacion | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td>
+                        {{rowData.fechaActualizacion | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td>
+                        <button style="margin-left: 5px;" pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success p-mr-2" (click)="onConsult(rowData)" title="Consultar"></button>
+                        
+                     <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded ui-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
+                    </td>
+                    <td>
+                        <button style="margin-left: 5px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="onEdit(rowData)" title="Editar"></button>
+                        
+                     <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded ui-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
+                    </td>
+                    <td>
+                        <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="rowData.activo" class="p-button-rounded ui-button-success p-mr-2" (click)="onChangeStatusAliado(rowData, 'Desactivar')" title="Desactivar Aliado"></button>
+                        <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="!rowData.activo" class="p-button-rounded ui-button-danger p-mr-2" (click)="onChangeStatusAliado(rowData, 'Activar')" title="Activar Aliado"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <button pButton type="button" icon="fa fa-plus" [routerLink]="['/app/ctr/aliado']" label="Crear"></button>    
+                <!-- <button pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success" (click)="onEdit(rowData)" [disabled]="!caseSelect"></button>     -->
+                <button pButton type="button" icon="pi pi-envelope" label="Enviar Correos" class="ui-button-warning" (click)="sendMultiplesEmails()" [disabled]="!caseSelect"></button>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="9" class="p-text-center">No hay registro con los términos de filtro usados
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+      </p-tabView>
+    </p-panel>
+</div>

@@ -1,4 +1,4 @@
-<div class="cols">
+<div class="cols shadow">
   <p-panel header="Actividades habilitadas">
     <div *ngFor="let tarea of tareasList">
       <p-checkbox [disabled]="onEdit != 'edit'" name="tareas" label="{{tarea}}" value="{{tarea}}" [(ngModel)]="selectedTareas" (onChange)="updateSelectedTareas()"></p-checkbox>

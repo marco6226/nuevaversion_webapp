@@ -6,24 +6,25 @@
             dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
             <ng-template pTemplate="header">
                 <tr>
-                    <th rowspan="2"></th>
-                    <th pSortableColumn="email" class="text-center">Correo electrónico
+                    <th class="text-center">Foto</th>
+                    <th pSortableColumn="email" class="text-center" >Correo electrónico
                         <p-sortIcon field="email"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="fechaModificacion" class="text-center">Última modificación
+                    <th pSortableColumn="fechaModificacion" class="text-center" style="width:20%">Última modificación
                         <p-sortIcon field="fechaModificacion"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="fechaCreacion" class="text-center">Fecha creación
+                    <th pSortableColumn="fechaCreacion" class="text-center" style="width:20%">Fecha creación
                         <p-sortIcon field="fechaCreacion"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="ultimoLogin" class="text-center">Ultimo acceso
+                    <th pSortableColumn="ultimoLogin" class="text-center" style="width:20%">Ultimo acceso
                         <p-sortIcon field="ultimoLogin"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="estado" class="text-center">Estado
+                    <th pSortableColumn="estado" class="text-center" style="width:10%">Estado
                         <p-sortIcon field="estado"></p-sortIcon>
                     </th>
                 </tr>
                 <tr>
+                    <td class="text-center bg-light"></td>
                     <td class="text-center bg-light">
                         <input pInputText type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
                     </td>
@@ -44,7 +45,7 @@
             <ng-template pTemplate="body" let-usr>
                 <tr [pSelectableRow]="usr">
                     <td class="td-avatar">
-                        <i *ngIf="!usr?.icon" class="fa fa-user-circle" aria-hidden="true"></i>
+                        <i *ngIf="!usr?.icon" class="pi pi-user" style="border-radius: 50%;" aria-hidden="true"></i>
                         <img *ngIf="usr?.icon" [src]="usr?.icon" style="border-radius: 50%;" />
                     </td>
                     <td class="text-center">{{usr.email}}</td>

@@ -1,5 +1,6 @@
 <p-toast key="msgActualizarAliado"></p-toast>
-<p-panel header="Seguimiento aliados" >
+<div class="shadow">
+  <p-panel header="Seguimiento aliados" >
     <p-tabView [(activeIndex)]="tabIndex">
       <p-tabPanel header="Información" 
       [headerStyle]=" { 'background-color':'#3ba2dc' }">
@@ -83,6 +84,7 @@
       </p-tabPanel>
     </p-tabView>
 </p-panel>
+</div>
 <ng-container>
   <button *ngIf="onEdit && !flagConsult;else btnGuardarAliado" pButton type="button" icon="bi bi-save" title="Guardar información del aliado"
       (click)="actualizarAliado()" class="float-btn" style="bottom: 70px;"></button>

@@ -1,58 +1,60 @@
-<p-panel header="Formulario Clasificación" >
-    <br>
-    <div>
-        <div class="row g-2 mb-3">
-            <p-panel class="col-6 col-sm" header="Tareas de Alto riesgo">
-                <div>
-                <span for="">La empresa realiza en su servicio Tareas de Alto Riesgo:</span><br><br>
-                <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="riesgo" value="2" label="Si" [(ngModel)]="riesgo" required></p-radioButton>
-                <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="riesgo" value="0.4" label="NO" [(ngModel)]="riesgo" required></p-radioButton>
-                </div>
-            </p-panel>
-            <p-panel class="col-6 col-sm" header="Permanencia">
-                <span for="">El servicio demanda una permanencia específica en las operaciones productivas directas de la Organización:</span><br><br>
-                <p-dropdown [disabled]="onEdit!='edit'" (click)="onSaveData()" [options]="permanencia" [(ngModel)]="selectedPermanencia" placeholder="-- seleccionar --" optionLabel="name" [showClear]="false" required></p-dropdown>
-            </p-panel>
-        </div>
-        <div class="row g-2 mb-3">
-            <p-panel class="col-6 col-sm" header="Impacto personal directo">
-                <span>El servicio suministrado tiene impacto en la seguridad y salud de los colaboradores directos de la Organización:</span><br><br>
-                <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="impacto" value="0.25" label="Si" [(ngModel)]="impacto" required></p-radioButton>
-                <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="impacto" value="0.05" label="NO" [(ngModel)]="impacto" required></p-radioButton>
-            </p-panel>
-            <p-panel class="col-6 col-sm" header="Tamaño empresa">
-                <span>El número de trabajadores vinculados directamente con la empresa está en los siguientes rangos:</span><br><br>
-                <p-dropdown [disabled]="onEdit!='edit'" (click)="onSaveData()" [options]="tamano" [(ngModel)]="selectedTamano" placeholder="-- seleccionar --" optionLabel="name" [showClear]="false" required></p-dropdown>
-            </p-panel>
-        </div>
-        <div class="row g-2 mb-3">
-            <p-panel class="col-6 col-sm" header="Clase de riesgo">
-                <span>La empresa  está clasificada en una clase de riesgo específica, de acuerdo con su actividad económica en:</span><br><br>
-                <p-dropdown [disabled]="onEdit!='edit'" (click)="onSaveData()" [options]="claseRiesgo" [(ngModel)]="selectedClaseRiesgo" placeholder="-- seleccionar --" optionLabel="name" [showClear]="false" required></p-dropdown>
+<div class="shadow">
+    <p-panel header="Formulario Clasificación" >
+        <br>
+        <div>
+            <div class="row g-2 mb-3">
+                <p-panel class="col-6 col-sm" header="Tareas de Alto riesgo">
+                    <div>
+                    <span for="">La empresa realiza en su servicio Tareas de Alto Riesgo:</span><br><br>
+                    <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="riesgo" value="2" label="Si" [(ngModel)]="riesgo" required></p-radioButton>
+                    <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="riesgo" value="0.4" label="NO" [(ngModel)]="riesgo" required></p-radioButton>
+                    </div>
+                </p-panel>
+                <p-panel class="col-6 col-sm" header="Permanencia">
+                    <span for="">El servicio demanda una permanencia específica en las operaciones productivas directas de la Organización:</span><br><br>
+                    <p-dropdown [disabled]="onEdit!='edit'" (click)="onSaveData()" [options]="permanencia" [(ngModel)]="selectedPermanencia" placeholder="-- seleccionar --" optionLabel="name" [showClear]="false" required></p-dropdown>
+                </p-panel>
+            </div>
+            <div class="row g-2 mb-3">
+                <p-panel class="col-6 col-sm" header="Impacto personal directo">
+                    <span>El servicio suministrado tiene impacto en la seguridad y salud de los colaboradores directos de la Organización:</span><br><br>
+                    <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="impacto" value="0.25" label="Si" [(ngModel)]="impacto" required></p-radioButton>
+                    <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="impacto" value="0.05" label="NO" [(ngModel)]="impacto" required></p-radioButton>
+                </p-panel>
+                <p-panel class="col-6 col-sm" header="Tamaño empresa">
+                    <span>El número de trabajadores vinculados directamente con la empresa está en los siguientes rangos:</span><br><br>
+                    <p-dropdown [disabled]="onEdit!='edit'" (click)="onSaveData()" [options]="tamano" [(ngModel)]="selectedTamano" placeholder="-- seleccionar --" optionLabel="name" [showClear]="false" required></p-dropdown>
+                </p-panel>
+            </div>
+            <div class="row g-2 mb-3">
+                <p-panel class="col-6 col-sm" header="Clase de riesgo">
+                    <span>La empresa  está clasificada en una clase de riesgo específica, de acuerdo con su actividad económica en:</span><br><br>
+                    <p-dropdown [disabled]="onEdit!='edit'" (click)="onSaveData()" [options]="claseRiesgo" [(ngModel)]="selectedClaseRiesgo" placeholder="-- seleccionar --" optionLabel="name" [showClear]="false" required></p-dropdown>
+        
+                </p-panel>
+                <p-panel class="col-6 col-sm" header="Transversalidad">
+                    <span>El servicio se prestará en más de una de las Unidades de Negocio de la Organización:</span><br><br>
+                    <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="transversalidad" value="0.25" label="Si" [(ngModel)]="transversalidad" required></p-radioButton>
+                    <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="transversalidad" value="0.05" label="NO" [(ngModel)]="transversalidad" required></p-radioButton>
+                </p-panel>
+            </div>
     
-            </p-panel>
-            <p-panel class="col-6 col-sm" header="Transversalidad">
-                <span>El servicio se prestará en más de una de las Unidades de Negocio de la Organización:</span><br><br>
-                <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="transversalidad" value="0.25" label="Si" [(ngModel)]="transversalidad" required></p-radioButton>
-                <p-radioButton [disabled]="onEdit!='edit'" (click)="onSaveData()" name="transversalidad" value="0.05" label="NO" [(ngModel)]="transversalidad" required></p-radioButton>
-            </p-panel>
-        </div>
-
-        <p-panel class="p-col">
-            <div class="col-md-4 col-xl-3">
-                <div class="card {{ getColor() }} order-card">
-                    <div class="card-block" style="padding: 10px;">
-                        <h4 class="m-b-20">Su valoración es: <span>{{ valoracionActual || ' ' }}</span></h4>
-                        <h2 class="text-right">
-                            <i class="fa fa-thumbs-o-up"></i>
-                            <span style="font-size: 20px;color: black;">
-                                {{ getValoracionToString() || '' }}
-                            </span>
-                        </h2>
+            <p-panel class="p-col">
+                <div class="col-md-4 col-xl-3">
+                    <div class="card {{ getColor() }} order-card">
+                        <div class="card-block" style="padding: 10px;">
+                            <h4 class="m-b-20">Su valoración es: <span>{{ valoracionActual || ' ' }}</span></h4>
+                            <h2 class="text-right">
+                                <i class="fa fa-thumbs-o-up"></i>
+                                <span style="font-size: 20px;color: black;">
+                                    {{ getValoracionToString() || '' }}
+                                </span>
+                            </h2>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </p-panel>
-    </div>    
-    <br>
-</p-panel>
+            </p-panel>
+        </div>    
+        <br>
+    </p-panel>
+</div>

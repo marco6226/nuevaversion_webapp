@@ -1,14 +1,14 @@
 <div class="shadow">
     <p-panel header="Perfiles">
-        <p-table #dt [value]="perfilList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
+        <p-table #dt [tableStyle]="{'min-width': '50rem'}" [value]="perfilList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
             dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
             <ng-template pTemplate="header">
                 <tr>
-                    <th pSortableColumn="nombre" class="text-center">Nombre
+                    <th pSortableColumn="nombre" style="width:30%" class="text-center">Nombre
                         
                         <p-sortIcon field="nombre"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="descripcion" class="text-center">Descripción
+                    <th pSortableColumn="descripcion" style="width:70%" class="text-center">Descripción
                         <p-sortIcon field="descripcion"></p-sortIcon>
                     </th>
                 </tr>

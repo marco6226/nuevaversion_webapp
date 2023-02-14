@@ -1,120 +1,120 @@
 <p-toast value="msgs"></p-toast>
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<div class="shadow">
+    <p-panel header="Empresas">
 
-<p-panel header="Empresas">
-
-    <p-table #dt [value]="empresasList" [(selection)]="empresaSelect" autoLayout="true" selectionMode="single"
-        [rows]="20" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
-        [totalRecords]="totalRecords" [loading]="loading">
-        <ng-template pTemplate="header">
-            <tr>
-                <th rowspan="2"></th>
-                <th pSortableColumn="razonSocial">Razón Social
-                    <p-sortIcon field="razonSocial"></p-sortIcon>
-                </th>
-                <th pSortableColumn="nombreComercial">Nombre Comercial
-                    <p-sortIcon field="nombreComercial"></p-sortIcon>
-                </th>
-                <th pSortableColumn="nit">Nit
-                    <p-sortIcon field="nit"></p-sortIcon>
-                </th>
-                <th pSortableColumn="direccion">Dirección
-                    <p-sortIcon field="direccion"></p-sortIcon>
-                </th>
-                <th pSortableColumn="telefono">Telefono
-                    <p-sortIcon field="telefono"></p-sortIcon>
-                </th>
-                <th pSortableColumn="numeroSedes">Número de sedes
-                    <p-sortIcon field="numeroSedes"></p-sortIcon>
-                </th>
-                <th pSortableColumn="email">Email
-                    <p-sortIcon field="email"></p-sortIcon>
-                </th>
-                <th pSortableColumn="web">Pagina web
-                    <p-sortIcon field="web"></p-sortIcon>
-                </th>
-                <th pSortableColumn="arl.nombre">ARL
-                    <p-sortIcon field="arl.nombre"></p-sortIcon>
-                </th>
-                <th pSortableColumn="ciiu.codigo">Código CIIU
-                    <p-sortIcon field="arl.nombre"></p-sortIcon>
-                </th>
-                <th pSortableColumn="ciiu.nombre">Nombre IIU
-                    <p-sortIcon field="ciiu.nombre"></p-sortIcon>
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'razonSocial', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text"
-                        (input)="dt.filter($event.target.value, 'nombreComercial', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'nit', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'direccion', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'telefono', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="number" min="0"
-                        (input)="dt.filter($event.target.value, 'numeroSedes', 'equals')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'web', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'arl.nombre', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'ciiu.codigo', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'ciiu.nombre', 'contains')">
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-empresa>
-            <tr [pSelectableRow]="empresa">
-                <td class="td-avatar">
-                    <i *ngIf="!empresa.logo" class="bi bi-user-circle" aria-hidden="true"></i>
-                    <img *ngIf="empresa.logo" [src]="empresa.logo" style="border-radius: 50%;width: 128px;
-                    height: 128px;" />
-                </td>
-                <td>{{empresa.razonSocial}}</td>
-                <td>{{empresa.nombreComercial}}</td>
-                <td>{{empresa.nit}}</td>
-                <td>{{empresa.direccion}}</td>
-                <td>{{empresa.telefono}}</td>
-                <td>{{empresa.numeroSedes}}</td>
-                <td>{{empresa.email}}</td>
-                <td>{{empresa.web}}</td>
-                <td>{{empresa.arl?.nombre}}</td>
-                <td>{{empresa.ciiu?.codigo}}</td>
-                <td>{{empresa.ciiu?.nombre}}</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary" let-rowData>
-            <button *sTienePermiso="'EMP_POST_EMPS'" pButton type="button" icon="bi bi-plus" label="Adicionar"
-                (click)="showAddForm()"></button>
-            <button *sTienePermiso="'EMP_PUT_EMPS'" pButton type="button" icon="bi bi-pencil-square-o"
-                class="ui-button-success" label="Modificar" (click)="showUpdateForm()"
-                [disabled]="!empresaSelect"></button>
-            <button *sTienePermiso="'EMP_DELETE_EMPS'" pButton type="button" icon="bi bi-trash" class="ui-button-danger"
-                label="Eliminar" (click)="onDelete()" [disabled]="!empresaSelect"></button>
-        </ng-template>
-    </p-table>
-
-</p-panel>
-
+        <p-table #dt [value]="empresasList" [(selection)]="empresaSelect" autoLayout="true" selectionMode="single"
+            [rows]="20" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
+            [totalRecords]="totalRecords" [loading]="loading">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">Logo</th>
+                    <th class="text-center" pSortableColumn="razonSocial">Razón Social
+                        <p-sortIcon field="razonSocial"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="nombreComercial">Nombre Comercial
+                        <p-sortIcon field="nombreComercial"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="nit">Nit
+                        <p-sortIcon field="nit"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="direccion">Dirección
+                        <p-sortIcon field="direccion"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="telefono">Telefono
+                        <p-sortIcon field="telefono"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="numeroSedes">Número de sedes
+                        <p-sortIcon field="numeroSedes"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="email">Email
+                        <p-sortIcon field="email"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="web">Pagina web
+                        <p-sortIcon field="web"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="arl.nombre">ARL
+                        <p-sortIcon field="arl.nombre"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="ciiu.codigo">Código CIIU
+                        <p-sortIcon field="arl.nombre"></p-sortIcon>
+                    </th>
+                    <th class="text-center" pSortableColumn="ciiu.nombre">Nombre IIU
+                        <p-sortIcon field="ciiu.nombre"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="text-center bg-light"></td>
+                    <td class="text-center bg-light">
+                        <input  pInputText type="text" (input)="dt.filter($event.target.value, 'razonSocial', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text"
+                            (input)="dt.filter($event.target.value, 'nombreComercial', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText  type="text" (input)="dt.filter($event.target.value, 'nit', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'direccion', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'telefono', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="number" min="0"
+                            (input)="dt.filter($event.target.value, 'numeroSedes', 'equals')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'email', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'web', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'arl.nombre', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'ciiu.codigo', 'contains')">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'ciiu.nombre', 'contains')">
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-empresa>
+                <tr [pSelectableRow]="empresa">
+                    <td class="td-avatar" st>
+                        <i *ngIf="!empresa.logo" class="pi pi-box" aria-hidden="true" style="font-size: 110px;"></i>
+                        <img *ngIf="empresa.logo" [src]="empresa.logo" class="img-logo" />
+                    </td>
+                    <td>{{empresa.razonSocial}}</td>
+                    <td>{{empresa.nombreComercial}}</td>
+                    <td>{{empresa.nit}}</td>
+                    <td>{{empresa.direccion}}</td>
+                    <td>{{empresa.telefono}}</td>
+                    <td>{{empresa.numeroSedes}}</td>
+                    <td>{{empresa.email}}</td>
+                    <td>{{empresa.web}}</td>
+                    <td>{{empresa.arl?.nombre}}</td>
+                    <td>{{empresa.ciiu?.codigo}}</td>
+                    <td>{{empresa.ciiu?.nombre}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <button *sTienePermiso="'EMP_POST_EMPS'" pButton type="button" icon="bi bi-plus" label="Adicionar"
+                    (click)="showAddForm()"></button>
+                <button *sTienePermiso="'EMP_PUT_EMPS'" pButton type="button" icon="bi bi-pencil-square-o"
+                    class="ui-button-success" label="Modificar" (click)="showUpdateForm()"
+                    [disabled]="!empresaSelect"></button>
+                <button *sTienePermiso="'EMP_DELETE_EMPS'" pButton type="button" icon="bi bi-trash" class="ui-button-danger"
+                    label="Eliminar" (click)="onDelete()" [disabled]="!empresaSelect"></button>
+            </ng-template>
+        </p-table>
+    
+    </p-panel>
+</div>
 
 <p-dialog [(visible)]="visibleForm" width="380" modal="true" responsive="true" header="Datos de empresa">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
