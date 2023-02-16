@@ -4,73 +4,107 @@
         <a (click)="navegar()">aqui</a>
     </div>
 </s-dataNotFound>
-<p-panel header="Listas de inspección">
-<p-table #dt [value]="listaInspeccionList" autoLayout="true" selectionMode="single" [(selection)]="listaInpSelect" [rows]="10" [paginator]="true" dataKey="hash" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
-       
-        <ng-template pTemplate="header">
-            <tr>
-                <th pSortableColumn="codigo">Código
-                    <p-sortIcon field="codigo"></p-sortIcon>
-                </th>
-                <th pSortableColumn="listaInspeccionPK.version">Versión
-                    <p-sortIcon field="listaInspeccionPK.version"></p-sortIcon>
-                </th>
-                <th pSortableColumn="nombre">Nombre
-                    <p-sortIcon field="nombre"></p-sortIcon>
-                </th>
-                <th pSortableColumn="tipoLista">Tipo de lista
-                    <p-sortIcon field="tipoLista"></p-sortIcon>
-                </th>
-                <th pSortableColumn="descripcion">Descripción
-                    <p-sortIcon field="descripcion"></p-sortIcon>
-                </th>
-                <th pSortableColumn="estado">Estado
-                    <p-sortIcon field="estado"></p-sortIcon>
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'codigo', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'listaInspeccionPK.version', 'equals')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoLista', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
-                </td>
-                <td>
-                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-listInp>
-            <tr [pSelectableRow]="listInp">
-                <td>{{listInp.codigo}}</td>
-                <td>{{listInp.listaInspeccionPK.version}}</td>
-                <td>{{listInp.nombre}}</td>
-                <td>{{listInp.tipoLista}}</td>
-                <td>{{listInp.descripcion}}</td>
-                <td>{{listInp.estado}}</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary" let-rowData>
 
-            <button *sTienePermiso="'INP_GET_LISTINP'" pButton type="button" icon="fa fa-search" label="Consultar" (click)="consultar()" [disabled]="!listaInpSelect"></button>
+<div class="shadow">
+    <p-panel header="Listas de inspección">
+        <p-table #dt [value]="listaInspeccionList" autoLayout="true" selectionMode="single" [(selection)]="listaInpSelect" [rows]="10" [paginator]="true" dataKey="hash" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+           
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="codigo">Código
+                        <p-sortIcon field="codigo"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="listaInspeccionPK.version">Versión
+                        <p-sortIcon field="listaInspeccionPK.version"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nombre">Nombre
+                        <p-sortIcon field="nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="tipoLista">Tipo de lista
+                        <p-sortIcon field="tipoLista"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="descripcion">Descripción
+                        <p-sortIcon field="descripcion"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="estado">Estado
+                        <p-sortIcon field="estado"></p-sortIcon>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'codigo', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="number" (input)="dt.filter($event.target.value, 'listaInspeccionPK.version', 'equals')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoLista', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                    </td>
+                    <td>
+                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-listInp>
+                <tr [pSelectableRow]="listInp">
+                    <td>{{listInp.codigo}}</td>
+                    <td>{{listInp.listaInspeccionPK.version}}</td>
+                    <td>{{listInp.nombre}}</td>
+                    <td>{{listInp.tipoLista}}</td>
+                    <td>{{listInp.descripcion}}</td>
+                    <td>{{listInp.estado}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+    
+                <button *sTienePermiso="'INP_GET_LISTINP'" pButton type="button" icon="fa fa-search" label="Consultar" (click)="consultar()" [disabled]="!listaInpSelect"></button>
+                
+                <button    *sTienePermiso="'INP_PUT_LISTINP'"  pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success" (click)="modificar()" [disabled]="listaInpSelect?.estado == 'inactivo'"></button>
+                
+                <button pButton type="button" icon="fa fa-trash" label="Eliminar" title="Eliminar lista de inspección seleccionada" class="ui-button-danger" (click)="eliminar()" [disabled]="!listaInpSelect"></button>
+                
+                <button *sTienePermiso="'INP_GET_CONSINP'" pButton type="button" icon="fa fa-download" label="Inspecciones" title="Descarga consolidado de inspecciones de la lista seleccionada" class="ui-button-secondary" (click)="abrirDlg()" [disabled]="!listaInpSelect"></button>
             
-            <button    *sTienePermiso="'INP_PUT_LISTINP'"  pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success" (click)="modificar()" [disabled]="listaInpSelect?.estado == 'inactivo'"></button>
-            
-            <button pButton type="button" icon="fa fa-trash" label="Eliminar" title="Eliminar lista de inspección seleccionada" class="ui-button-danger" (click)="eliminar()" [disabled]="!listaInpSelect"></button>
-            
-            <button *sTienePermiso="'INP_GET_CONSINP'" pButton type="button" icon="fa fa-download" label="Inspecciones" title="Descarga consolidado de inspecciones de la lista seleccionada" class="ui-button-secondary" (click)="abrirDlg()" [disabled]="!listaInpSelect"></button>
-        </ng-template>
-    </p-table>
-</p-panel>
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group" role="group">
+                        <button *sTienePermiso="'INP_GET_LISTINP'" 
+                            class="p-button-raised p-button-primary margin-right" 
+                            pButton type="button" 
+                            icon="bi bi-plus" 
+                            label="Adicionar" (click)="abrirDlg(false)"></button>         
+                        <button *sTienePermiso="'ADM_PUT_USR'" 
+                            class="p-button-raised p-button-success margin-right margin-left" 
+                            pButton type="button" 
+                            icon="bi bi-pencil" 
+                            label="Modificar"
+                            (click)="abrirDlg(true)" 
+                            [disabled]="!usuarioSelect"></button>
+                        <button *sTienePermiso="'ADM_DELETE_USR'" 
+                            pButton type="button" 
+                            icon="bi bi-trash" 
+                            label="Eliminar" 
+                            class="p-button-raised p-button-danger margin-right margin-left"
+                            (click)="eliminar()" 
+                            [disabled]="!usuarioSelect"></button>
+                        <button *sTienePermiso="'ADM_GET_USER_CONS'" 
+                            pButton type="button" 
+                            icon="bi bi-download" 
+                            label="Usuarios" 
+                            title="Descarga consolidado de usuarios" 
+                            (click)="descargarInvs()" 
+                            class="p-button-raised p-button-secondary margin-left"></button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-table>
+    </p-panel>
+</div>
 
 <p-dialog [(visible)]="visibleDlg" modal="true">
     <div class="ui-g">

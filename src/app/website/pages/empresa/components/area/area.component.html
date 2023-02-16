@@ -1,4 +1,5 @@
-<!-- <p-panel> -->
+<div class="shadow">
+  <p-panel header="Organización">
     <p-tabView>
         <p-tabPanel header="Organigrama">
             <app-data-not-found *ngIf="!areasNodes[0] || areasNodes[0].children!.length <= 0" icon="fa-sitemap" message="No se cuenta con registro de áreas">
@@ -12,13 +13,30 @@
             <div [style.display]="areasNodes[0] && areasNodes[0].children!.length > 0 ? 'block':'none'">
                 <p-tree  [value]="areasNodes" *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
             </div>
-            <div>
-                <button *sTienePermiso="'EMP_POST_AREA'" pButton type="button" icon="fa fa-plus" label="Adicionar" (click)="showAddForm('ORGANIZACIONAL')"></button>
-                <button *sTienePermiso="'EMP_PUT_AREA'" pButton type="button" icon="fa fa-pencil-square-o" class="ui-button-success" label="Modificar"
-                    (click)="showUpdateForm('ORGANIZACIONAL')" [disabled]="!areaSelected"></button>
-                <button *sTienePermiso="'EMP_DELETE_AREA'" pButton type="button" icon="fa fa-trash" class="ui-button-danger" label="Eliminar"
-                    (click)="onAreaDelete('ORGANIZACIONAL')" [disabled]="!areaSelected"></button>
-            </div>
+            <br/>
+            <div class="d-flex justify-content-center">
+              <div class="btn-group" role="group">                
+                <button *sTienePermiso="'EMP_POST_AREA'" 
+                  class="p-button-raised p-button-primary margin-right" 
+                  pButton type="button" 
+                  icon="bi bi-plus" 
+                  label="Adicionar" (click)="showAddForm('ORGANIZACIONAL')"></button>
+                <button *sTienePermiso="'EMP_PUT_AREA'" 
+                  class="p-button-raised p-button-success margin-right margin-left" 
+                  pButton type="button" 
+                  icon="bi bi-pencil" 
+                  label="Modificar"
+                  (click)="showUpdateForm('ORGANIZACIONAL')" 
+                  [disabled]="!areaSelected"></button>
+                <button *sTienePermiso="'EMP_DELETE_AREA'" 
+                  pButton type="button" 
+                  icon="bi bi-trash" 
+                  label="Eliminar" 
+                  class="p-button-raised p-button-danger margin-right margin-left"
+                  (click)="onAreaDelete('ORGANIZACIONAL')" 
+                  [disabled]="!areaSelected"></button>
+              </div>
+            </div>            
         </p-tabPanel>
         <p-tabPanel header="Estructura física">
             <app-data-not-found *ngIf="!sedesNodes[0] || sedesNodes[0].children!.length <= 0" icon="fa-sitemap" message="No se cuenta con registro de sedes">
@@ -32,16 +50,33 @@
             <div [style.display]="sedesNodes[0] && sedesNodes[0].children!.length > 0 ? 'block':'none'">
                 <p-tree  [value]="sedesNodes" *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="sedeSelected"></p-tree>
             </div>
+            <br/>
             <div>
-                <button *sTienePermiso="'EMP_POST_AREA'" pButton type="button" icon="fa fa-plus" label="Adicionar" (click)="showAddForm('FISICA')"></button>
-                <button *sTienePermiso="'EMP_PUT_AREA'" pButton type="button" icon="fa fa-pencil-square-o" class="ui-button-success" label="Modificar"
-                  (click)="showUpdateForm('FISICA')" [disabled]="!sedeSelected"></button>
-                <button *sTienePermiso="'EMP_DELETE_AREA'" pButton type="button" icon="fa fa-trash" class="ui-button-danger" label="Eliminar"
-                  (click)="onAreaDelete('FISICA')" [disabled]="!sedeSelected"></button>
+                <button *sTienePermiso="'EMP_POST_AREA'" 
+                            class="p-button-raised p-button-primary margin-right" 
+                            pButton type="button" 
+                            icon="bi bi-plus" 
+                            label="Adicionar" (click)="showAddForm('FISICA')"></button>
+                <button *sTienePermiso="'EMP_PUT_AREA'" 
+                          class="p-button-raised p-button-success margin-right margin-left" 
+                          pButton type="button" 
+                          icon="bi bi-pencil" 
+                          label="Modificar"
+                          (click)="showUpdateForm('FISICA')" 
+                          [disabled]="!sedeSelected"></button>
+                <button *sTienePermiso="'EMP_DELETE_AREA'" 
+                            pButton type="button" 
+                            icon="bi bi-trash" 
+                            label="Eliminar" 
+                            class="p-button-raised p-button-danger margin-right margin-left"
+                            (click)="onAreaDelete('FISICA')" 
+                            [disabled]="!sedeSelected"></button>
             </div>
         </p-tabPanel>
     </p-tabView>
-<!-- </p-panel> -->
+  </p-panel>
+</div>
+
 
 <p-dialog [header]="areaSelected?.label" [(visible)]="visibleForm" width="380" modal="true" responsive="true" header="Datos de Area">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">

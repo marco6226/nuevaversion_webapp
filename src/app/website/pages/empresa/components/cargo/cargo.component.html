@@ -9,44 +9,63 @@
   </div>
 </s-dataNotFound>
 
-<p-panel header="Administración de cargos" [style.display]="cargosList && cargosList.length > 0 ? 'block':'none'" icon="bi-briefcase">
+<div class="shadow">
+  <p-panel header="Administración de cargos" [style.display]="cargosList && cargosList.length > 0 ? 'block':'none'" icon="bi-briefcase">
 
-  <p-table #dt [value]="cargosList" autoLayout="true" selectionMode="single" [(selection)]="cargoSelect" [rows]="10" [paginator]="true"
-    dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
-    <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="nombre">Nombre
-          <p-sortIcon field="nombre"></p-sortIcon>
-        </th>
-        <th pSortableColumn="descripcion">Descripción
-          <p-sortIcon field="descripcion"></p-sortIcon>
-        </th>
-      </tr>
-      <tr>
-        <td>
-          <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
-        </td>
-        <td>
-          <input pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-cargo>
-      <tr [pSelectableRow]="cargo">
-        <td>{{cargo.nombre}}</td>
-        <td>{{cargo.descripcion}}</td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="summary" let-rowData>
-      <button *sTienePermiso="'EMP_POST_CARGO'" pButton type="button" icon="bi bi-plus" label="Adicionar" (click)="showAddForm()"></button>
-      <button *sTienePermiso="'EMP_PUT_CARGO'" pButton type="button" icon="bi bi-pencil-square-o" label="Modificar" class="ui-button-success"
-        (click)="showUpdateForm()" [disabled]="!cargoSelect"></button>
-      <button *sTienePermiso="'EMP_DELETE_CARGO'" pButton type="button" icon="bi bi-trash" class="ui-button-danger" label="Eliminar"
-        (click)="onCargoDelete()" [disabled]="!cargoSelect"></button>
-    </ng-template>
-  </p-table>
-</p-panel>
-
+    <p-table #dt [value]="cargosList" autoLayout="true" selectionMode="single" [(selection)]="cargoSelect" [rows]="10" [paginator]="true"
+      dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="nombre">Nombre
+            <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="descripcion">Descripción
+            <p-sortIcon field="descripcion"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+          </td>
+          <td>
+            <input pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cargo>
+        <tr [pSelectableRow]="cargo">
+          <td>{{cargo.nombre}}</td>
+          <td>{{cargo.descripcion}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" let-rowData>
+        <div class="d-flex justify-content-center">
+          <div class="btn-group" role="group">
+            <button *sTienePermiso="'EMP_POST_CARGO'" 
+              class="p-button-raised p-button-primary margin-right" 
+              pButton type="button" 
+              icon="bi bi-plus" 
+              label="Adicionar" (click)="showAddForm()"></button>
+            <button *sTienePermiso="'EMP_PUT_CARGO'" 
+              class="p-button-raised p-button-success margin-right margin-left" 
+              pButton type="button" 
+              icon="bi bi-pencil" 
+              label="Modificar"
+              (click)="showUpdateForm()" 
+              [disabled]="!cargoSelect"></button>
+            <button *sTienePermiso="'EMP_DELETE_CARGO'" 
+              pButton type="button" 
+              icon="bi bi-trash" 
+              label="Eliminar" 
+              class="p-button-raised p-button-danger margin-right margin-left"
+              (click)="onCargoDelete()" 
+              [disabled]="!cargoSelect"></button>
+            </div>
+          </div>  
+      </ng-template>
+    </p-table>
+  </p-panel>
+</div>
 
 <p-dialog [(visible)]="visibleFormComp" modal="true" header="Parametrización de competencias" width="800">
   <div style="overflow-y: auto;height: 600px;">
