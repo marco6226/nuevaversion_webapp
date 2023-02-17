@@ -7,12 +7,12 @@
 
 <div *ngIf="!finalizado">
 
-    
-        
-    <p-header class="ui-panel-title"> 
+    <div class="shadow">
+        <p-panel header="Elaboración listas de inspeccion">
+ <!-- <p-header class="ui-panel-title"> 
         
         <h2>Elaboración listas de inspeccion</h2>
-    </p-header>
+    </p-header> -->
             
 
         <div class="ui-g-12 ui-sm-12 ui-md-6">
@@ -134,4 +134,8 @@
         <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn" pButton type="button" (click)="actualizar(false)" icon="fa fa-pencil" title="Actualizar datos" style="bottom: 100px;" [disabled]="!form.valid"></button>
     </div>
 
+        </p-panel>
+    </div>
+        
+   
 </div>

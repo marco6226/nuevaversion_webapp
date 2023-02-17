@@ -1,4 +1,5 @@
-<p-panel header="Reportes A/I" >
+<div class="shadow">
+  <p-panel header="Reportes A/I" >
     <p-table #dt sortField={{sortedTable}} sortOrder="1" [value]="reportesList" autoLayout="true" selectionMode="single" [(selection)]="reporteSelect"
       [rows]="10" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords"
       [loading]="loading">
@@ -83,10 +84,26 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="summary" let-rowData>
-        <button *sTienePermiso="'RAI_GET_REP'" pButton type="button" icon="pi pi-plus" label="Consultar" (click)="consultarDetalle()"
-          [disabled]="!reporteSelect"></button>
-        <button *sTienePermiso="'RAI_PUT_REP'" pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success"
-          (click)="modificar()" [disabled]="!reporteSelect"></button>
+        
+          <div class="d-flex justify-content-center">
+            <div class="btn-group" role="group">                
+              <button *sTienePermiso="'RAI_PUT_REP'" 
+                class="p-button-raised p-button-success margin-right margin-left" 
+                pButton type="button" 
+                icon="bi bi-pencil" 
+                label="Modificar"
+                (click)="modificar()" 
+                [disabled]="!reporteSelect"></button>
+              <button *sTienePermiso="'RAI_GET_REP'" 
+                pButton type="button" 
+                icon="bi bi-search" 
+                label="Consultar" 
+                style="color: var(--white)"
+                class="p-button-raised p-button-warning margin-right margin-left"
+                (click)="consultarDetalle()" 
+                [disabled]="!reporteSelect"></button>
+            </div>
+          </div>            
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
@@ -102,3 +119,4 @@
       </ng-template>
     </p-table>
   </p-panel>
+</div>

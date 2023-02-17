@@ -62,42 +62,40 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" let-rowData>
-    
-                <button *sTienePermiso="'INP_GET_LISTINP'" pButton type="button" icon="fa fa-search" label="Consultar" (click)="consultar()" [disabled]="!listaInpSelect"></button>
-                
-                <button    *sTienePermiso="'INP_PUT_LISTINP'"  pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success" (click)="modificar()" [disabled]="listaInpSelect?.estado == 'inactivo'"></button>
-                
-                <button pButton type="button" icon="fa fa-trash" label="Eliminar" title="Eliminar lista de inspección seleccionada" class="ui-button-danger" (click)="eliminar()" [disabled]="!listaInpSelect"></button>
-                
-                <button *sTienePermiso="'INP_GET_CONSINP'" pButton type="button" icon="fa fa-download" label="Inspecciones" title="Descarga consolidado de inspecciones de la lista seleccionada" class="ui-button-secondary" (click)="abrirDlg()" [disabled]="!listaInpSelect"></button>
             
                 <div class="d-flex justify-content-center">
                     <div class="btn-group" role="group">
-                        <button *sTienePermiso="'INP_GET_LISTINP'" 
-                            class="p-button-raised p-button-primary margin-right" 
-                            pButton type="button" 
-                            icon="bi bi-plus" 
-                            label="Adicionar" (click)="abrirDlg(false)"></button>         
+                        
                         <button *sTienePermiso="'ADM_PUT_USR'" 
                             class="p-button-raised p-button-success margin-right margin-left" 
                             pButton type="button" 
                             icon="bi bi-pencil" 
                             label="Modificar"
-                            (click)="abrirDlg(true)" 
-                            [disabled]="!usuarioSelect"></button>
+                            (click)="modificar()" 
+                            [disabled]="listaInpSelect?.estado == 'inactivo'"></button>
+
                         <button *sTienePermiso="'ADM_DELETE_USR'" 
                             pButton type="button" 
                             icon="bi bi-trash" 
                             label="Eliminar" 
                             class="p-button-raised p-button-danger margin-right margin-left"
                             (click)="eliminar()" 
-                            [disabled]="!usuarioSelect"></button>
+                            [disabled]="!listaInpSelect"></button>
+                        
+                        <button *sTienePermiso="'INP_GET_LISTINP'" 
+                            class="p-button-raised p-button-warning margin-right" 
+                            pButton type="button" 
+                            icon="bi bi-search" 
+                            style="color: var(--white)"
+                            label="Consultar" (click)="consultar()"></button> 
+
                         <button *sTienePermiso="'ADM_GET_USER_CONS'" 
                             pButton type="button" 
                             icon="bi bi-download" 
-                            label="Usuarios" 
-                            title="Descarga consolidado de usuarios" 
-                            (click)="descargarInvs()" 
+                            label="Inspecciones" 
+                            title="Descarga consolidado de inspecciones de la lista seleccionada" 
+                            (click)="abrirDlg()" 
+                            [disabled]="!listaInpSelect"
                             class="p-button-raised p-button-secondary margin-left"></button>
                     </div>
                 </div>
