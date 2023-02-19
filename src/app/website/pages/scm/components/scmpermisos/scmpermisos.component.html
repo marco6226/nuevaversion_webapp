@@ -25,11 +25,11 @@
                             <th rowspan="2">Area</th>
                         </tr>
                         <tr>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input placeholder="Buscar por nombre" pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'nombre', 'contains')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input placeholder="Buscar por código" pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'codigo', 'contains')">
                             </td>
@@ -39,24 +39,37 @@
                     <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"
                         let-columns="columns">
                         <tr *ngIf="rowGroupMetadata[rowData.modulo].index === rowIndex">
-                            <td colspan="5">
+                            <!-- <td colspan="5">
                                 <a [pRowToggler]="rowData">
                                     <i
                                         [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
                                     <span>{{rowData.modulo}}</span>
                                 </a>
+                            </td> -->
+                            <td colspan="5" [pRowToggler]="rowData">
+                                <div type="button"
+                                    pButton 
+                                    pRipple 
+                                    [pRowToggler]="product" 
+                                    class="p-button-secondary p-button-text" 
+                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                                    label="{{rowData.modulo}}">
+                                </div>
                             </td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
                         <tr>
                             <td style="width: 3em;" >
-                                <button pButton [disabled]="isOnEdit" icon="fa fa-pencil" class="soft-icon" style="color:green !important;"
-                                    (click)="actualizarPermiso(rowData)"></button>
+                                <!-- <button pButton [disabled]="isOnEdit" icon="fa fa-pencil" class="soft-icon" style="color:green !important;"
+                                    (click)="actualizarPermiso(rowData)"></button> -->
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" (click)="actualizarPermiso(rowData)" id="flexSwitchCheckDefault" [checked]="rowData.selected">
+                                </div>
                             </td>
-                            <td style="width: 3em;">
+                            <!-- <td style="width: 3em;">
                                 <p-checkbox [(ngModel)]="rowData.selected" binary="true"></p-checkbox>
-                            </td>
+                            </td> -->
                             <td>{{rowData.nombre}}</td>
                             <td>{{rowData.codigo}}</td>
                             <td>

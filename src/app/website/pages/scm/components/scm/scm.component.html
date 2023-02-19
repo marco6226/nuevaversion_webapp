@@ -59,9 +59,7 @@
                 <tr class="filters">
                     <td>
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
                         </div>
                     </td>
@@ -75,109 +73,83 @@
                     </td>
                     <td *ngIf="idEmpresa!='22'">
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'region', 'contains')">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'">
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value,'pkUser.area.padreNombre')">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'">
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value,'ciudad', 'contains')">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'">
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')">
                         </div>
                     </td>
                     <td>
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerApellido')"> -->
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerApellido')">
                         </div>
                     </td>
                     <td>
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerNombre')"> -->
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerNombre')">
                         </div>
                     </td>
                     <td>
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'documento', 'contains')">
                         </div>
                     </td>
                     <td>
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter(DecodificacionEstado($event.target.value), 'statusCaso', 'contains')">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'">
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
                             <input pInputText type="text" (input)="dt.filter(DecodificacionSiNo($event.target.value), 'casoMedicoLaboral', 'contains')">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'">
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'diagnostico', 'contains')">
                         </div>
                     </td>
                     <td>
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'prioridadCaso','contains')">
                         </div>
                     </td>
                     <td>
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoCaso','contains')">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'">
                         <div class="ui-inputgroup">
-                            <span class="ui-inputgroup-addon">
-                                <em class="pi pi-search"></em>
-                            </span>
+                            
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoReporte')">
                         </div>
                     </td>
