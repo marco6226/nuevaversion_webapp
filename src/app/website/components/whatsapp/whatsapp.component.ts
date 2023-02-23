@@ -13,6 +13,5 @@ export class WhatsappComponent implements OnInit {
   }
 
   openWhatsapp(){
-    
   }
 }

@@ -30,17 +30,35 @@
 </p-dialog>
 
 <p-sidebar [(visible)]="displaySideBar" position="right">
-    <div>
+    <ng-template pTemplate="content">
         <div>
-            <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
-            <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
-            <label for="">{{usuario?.perfilNombre}}</label>  
-            <label for="">{{usuario?.email}}</label>  
-        </div>
+            <div>
+                <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
+                <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
+                <label for="">{{usuario?.perfilNombre}}</label>  
+                <label for="">{{usuario?.email}}</label>  
+            </div>
+            <div>
+                <!-- <button type="button" pButton icon="fa fa-check" label="Preferencias"></button> -->
+                <button class="p-button-raised p-button-primary margin-right" 
+                        pButton type="button" 
+                        icon="bi bi-sliders" 
+                        label="Preferencias"></button>
+            </div>
+        </div>        
+    </ng-template>
+    <ng-template pTemplate="footer">
         <div>
-            <button type="button" pButton icon="fa fa-check" label="Preferencias"></button>
-            <button type="button" pButton icon="fa fa-check" (click)="logout()" label="Cerar Sesión"></button>
             
+            
+            <div>
+                <!-- <button type="button" pButton icon="fa fa-check" (click)="logout()" label="Cerar Sesión"></button> -->
+                <button pButton type="button" 
+                        icon="bi bi-box-arrow-left" 
+                        label="Cerar Sesión" 
+                        class="p-button-raised p-button-danger margin-right margin-left"
+                        (click)="logout()" ></button>
+            </div>
         </div>
-    </div>
+    </ng-template>
 </p-sidebar>
