@@ -78,7 +78,6 @@ export class AuthService {
   }
 
   async logout() {
-    debugger
     let refresh = await this.sesionService.getRefreshToken();
     let auth = await this.sesionService.getAuthToken();
     return new Promise((resolve, reject) => {

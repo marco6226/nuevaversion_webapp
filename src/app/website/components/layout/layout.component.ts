@@ -40,6 +40,7 @@ export class LayoutComponent implements OnInit {
 	) { }
 
 	public async ngOnInit(): Promise<void> {
+		// debugger
 		await this.helperService.customMessage.subscribe(
 			msg => {
 				// console.log(msg);
@@ -51,8 +52,10 @@ export class LayoutComponent implements OnInit {
 		);
 		this.usuario = await this.sesionService.getUsuario();
 
-		this.empresaService.findByUsuario(this.usuario!.id).then(
-			resp => this.loadItems(<Empresa[]>resp)
+		await this.empresaService.findByUsuario(this.usuario!.id).then(
+			resp => {
+				this.loadItems(<Empresa[]>resp)
+			}
 		);
 
 	}
