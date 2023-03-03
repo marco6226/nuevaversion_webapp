@@ -1,8 +1,10 @@
 import { Component, ContentChild, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { PermisoService } from '../../pages/admin/services/permiso.service';
 import { ConfiguracionGeneral } from '../../pages/comun/entities/configuracion-general';
 import { ConfiguracionGeneralService } from '../../pages/comun/services/configuracion-general.service';
+import { AuthService } from '../../pages/core/services/auth.service';
 import { HelperService } from '../../pages/core/services/helper.service';
 import { SesionService } from '../../pages/core/services/session.service';
 import { Empleado } from '../../pages/empresa/entities/empleado';
@@ -37,13 +39,13 @@ export class LayoutComponent implements OnInit {
 		private confGenService: ConfiguracionGeneralService,
 		private permisoService: PermisoService,
 		private empleadoService: EmpleadoService,
+		private router: Router,
+		private authService: AuthService
 	) { }
 
 	public async ngOnInit(): Promise<void> {
-		// debugger
 		await this.helperService.customMessage.subscribe(
 			msg => {
-				// console.log(msg);
 				if(msg === 'actualizarPermisos'){
 					this.reloadEmpresa();
 					this.helperService.changeMessage('En espera...');

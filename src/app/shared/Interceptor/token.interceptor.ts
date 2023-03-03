@@ -25,21 +25,15 @@ export class TokenInterceptor implements HttpInterceptor {
     .pipe(
       tap({
         next: () => null,
-        error: (err: HttpErrorResponse) =>{
+        error: async (err: HttpErrorResponse) =>{
           // debugger
           console.log(err.status)
           if ([401, 403].includes(err.status)){
-            this.authService.logout();
+            await this.authService.logout();
             this.router.navigate(['/login']); 
           }
         }
       })
     )
-    // .pipe(catchError((err: Response) => {
-    //   if ([401, 403].includes(err.status)) {
-    //       // auto logout if 401 or 403 response returned from api
-    //       this.authService.logout();
-    //   }
-    // }))
   }
 }

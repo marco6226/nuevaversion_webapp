@@ -6,10 +6,11 @@
     <div class="col2">
         <img src="../../../../assets/svg/Sigess5.svg" alt="">
     </div>
-    <div class="col3">
-        <button class="button-round button-white" mat-raised-button color="primary" (click)="showDialog()">
-            <mat-icon fontIcon="apartment" style="color: #052f6e;"></mat-icon>
-            <label for="">{{empresaSelect?.razonSocial}}</label>            
+    <div class="col3">        
+        <img class="logo-Empresa" *ngIf="empresaSelect?.logo" [src]="empresaSelect?.logo" alt="">          
+        <button class="button-round button-white" mat-raised-button color="primary" (click)="showDialog()">  
+            <mat-icon class="logo-Empresa" *ngIf="!empresaSelect?.logo" fontIcon="apartment" style="color: #052f6e;"></mat-icon>
+            <label for="">{{empresaSelect?.nombreComercial}}</label>           
         </button>       
     </div>
     <div class="col4">
