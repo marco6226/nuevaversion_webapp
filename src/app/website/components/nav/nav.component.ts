@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from '@syncfusion/ej2/base';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MessageService } from 'primeng/api';
+import { CambioPasswdService } from '../../pages/comun/services/cambio-passwd.service';
 import { AuthService } from '../../pages/core/services/auth.service';
 import { SesionService } from '../../pages/core/services/session.service';
 import { Empresa } from '../../pages/empresa/entities/empresa';
@@ -21,16 +23,23 @@ export class NavComponent implements OnInit {
 	@Input() empresaSelect!: Empresa;
 	@Input() empresaSelectOld!: Empresa;
   @Output() reloadEmpresa = new EventEmitter();
+  @ViewChild('imgAvatar', { static: false }) imgAvatar!: HTMLImageElement;
+  @ViewChild('inputFile', { static: false }) inputFile!: HTMLInputElement;
   
   selectedItem!: SelectItem;
   listItems!: SelectItem[]
   display: boolean = false;
   displaySideBar: boolean = false;
+  visibleDlg: boolean = false;
+  imageChangedEvent: any;
+  croppedImage: any;
+  visbleChangePasw: boolean = false;
 
   constructor(
 		private authService: AuthService,
 		private router: Router,
     private messageService: MessageService,
+    private cambioPasswdService: CambioPasswdService,
 		private sesionService: SesionService,
     private empresaService: EmpresaService
     ) {}
@@ -92,6 +101,30 @@ export class NavComponent implements OnInit {
           this.messageService.add({severity:'error', summary: 'CREDENCIALES INCORRECTAS', detail: 'Se produjo un error al cerrar sesión, intente nuevamente'});
         }
       );
+    }
+    
+    abrirCambioPasswd(){
+      // this.cambioPasswdService.setVisible(true);
+      this.visbleChangePasw = true
+    }
+
+    abrirDlg() {
+      debugger
+      this.visibleDlg = true;
+      (<any>this.inputFile).nativeElement.click();
+    }
+
+    aceptarImg() {
+      this.visibleDlg = false;
+      this.usuario.avatar = this.croppedImage;
+    }
+
+    fileChangeEvent(event: any): void {
+      this.imageChangedEvent = event;
+    }
+
+    imageCropped(event: ImageCroppedEvent) {
+      this.croppedImage = event.base64;
     }
 }
 

@@ -34,18 +34,31 @@
     <ng-template pTemplate="content">
         <div>
             <div>
-                <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
-                <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
+                <!-- <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
+                <img *ngIf="usuario?.icon" [src]="usuario.icon"/> -->
+
+                <div>
+                    <i *ngIf="!usuario.avatar" class="fa fa-user-circle" style="font-size: 128px;color:#3ba2dc;"
+                        aria-hidden="true"></i>
+                    <img *ngIf="usuario.avatar" [src]="usuario.avatar" style="border-radius: 50%; height: 128px; width: 128px; margin-right: -3px;" #imgAvatar />
+                    <div class="img-select" (click)="abrirDlg()">
+                        <div>
+                            <i class="bi bi-camera" style="font-size: 32px; color:#aaa;" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <label for="">{{usuario?.perfilNombre}}</label>  
                 <label for="">{{usuario?.email}}</label>  
             </div>
+            <br>
             <div>
-                <!-- <button type="button" pButton icon="fa fa-check" label="Preferencias"></button> -->
                 <button class="p-button-raised p-button-primary margin-right" 
                         pButton type="button" 
-                        icon="bi bi-sliders" 
-                        label="Preferencias"></button>
-            </div>
+                        icon="bi bi-key" 
+                        label="Cambiar Contraseña"
+                        (click)="abrirCambioPasswd()"></button>
+            </div>            
         </div>        
     </ng-template>
     <ng-template pTemplate="footer">
@@ -63,3 +76,30 @@
         </div>
     </ng-template>
 </p-sidebar>
+
+<p-dialog [(visible)]="visibleDlg" modal="true">
+    <p-header>
+        <button (click)="inputFile.click()" pButton label="Subir foto" icon="fa fa-upload"
+            class="ui-button-secondary"></button>
+        <button (click)="aceptarImg()" icon="fa fa-check" pButton label="Aceptar"></button>
+        <input type="file" #inputFile style="visibility: hidden;width: 0px;height: 0px;"
+            (change)="fileChangeEvent($event)" />
+    </p-header>
+    <div style="width: 600px;height: 600px">
+        <div class="previsual-crop">
+            <img [src]="croppedImage" />
+        </div>
+        <image-cropper *ngIf="imageChangedEvent" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 4" height="480" [resizeToWidth]="128" format="jpg" (imageCropped)="imageCropped($event)">
+        </image-cropper>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="visbleChangePasw" modal="true">    
+    <p-header>
+        Cambiar Contraseña
+    </p-header>
+    <div style="width: 600px;height: 600px">
+        <app-cambio-passwd></app-cambio-passwd>
+    </div>
+</p-dialog>

@@ -163,6 +163,7 @@ import { ScmpermisosComponent } from './pages/scm/components/scmpermisos/scmperm
 import { SeguimientosformComponent } from './pages/scm/components/seguimientosform/seguimientosform.component';
 import { FormularioConstructorComponent } from './pages/comun/components/formulario-constructor/formulario-constructor.component';
 import { DirectorioService } from './pages/ado/services/directorio.service';
+import { UsuarioService } from './pages/admin/services/usuario.service';
 
 @NgModule({
   declarations: [
@@ -338,7 +339,8 @@ import { DirectorioService } from './pages/ado/services/directorio.service';
   ],
   providers: [
     PerfilService,
-    DirectorioService
+    DirectorioService,
+    UsuarioService
   ]
 })
 export class WebsiteModule { }
