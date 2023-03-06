@@ -16,6 +16,7 @@ import {ButtonModule} from 'primeng/button';
 import {OrganizationChartModule} from 'primeng/organizationchart';
 import {TabViewModule} from 'primeng/tabview';
 import {TreeModule} from 'primeng/tree';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 const modules=[
   DropdownModule,
@@ -31,7 +32,8 @@ const modules=[
   ButtonModule,
   OrganizationChartModule,
   TabViewModule,
-  TreeModule
+  TreeModule,
+  ProgressBarModule
 ]
 
 

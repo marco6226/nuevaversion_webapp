@@ -164,6 +164,7 @@ import { SeguimientosformComponent } from './pages/scm/components/seguimientosfo
 import { FormularioConstructorComponent } from './pages/comun/components/formulario-constructor/formulario-constructor.component';
 import { DirectorioService } from './pages/ado/services/directorio.service';
 import { UsuarioService } from './pages/admin/services/usuario.service';
+import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle-timeout.component';
 
 @NgModule({
   declarations: [
@@ -304,7 +305,8 @@ import { UsuarioService } from './pages/admin/services/usuario.service';
     PlanAccionComponent,
     FlowChartComponent,
     EmpleadoBasicSelectorComponent,
-    FormularioConstructorComponent
+    FormularioConstructorComponent,
+    IdleTimeoutComponent
   ],
   imports: [
     CommonModule,
