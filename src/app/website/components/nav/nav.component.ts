@@ -26,6 +26,8 @@ export class NavComponent implements OnInit {
   @ViewChild('imgAvatar', { static: false }) imgAvatar!: HTMLImageElement;
   @ViewChild('inputFile', { static: false }) inputFile!: HTMLInputElement;
   
+  uploadedFiles: any[] = [];
+
   selectedItem!: SelectItem;
   listItems!: SelectItem[]
   display: boolean = false;
@@ -109,9 +111,8 @@ export class NavComponent implements OnInit {
     }
 
     abrirDlg() {
-      debugger
       this.visibleDlg = true;
-      (<any>this.inputFile).nativeElement.click();
+      // (<any>this.inputFile).nativeElement.click();
     }
 
     aceptarImg() {
@@ -126,7 +127,17 @@ export class NavComponent implements OnInit {
     imageCropped(event: ImageCroppedEvent) {
       this.croppedImage = event.base64;
     }
+
+    onUpload(event: any) {
+      for(let file of event.files) {
+          this.uploadedFiles.push(file);
+          this.croppedImage = this.uploadedFiles[0].base64;
+      }
+
+      this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+  }
 }
+
 
 interface SelectItem{
   label: string,

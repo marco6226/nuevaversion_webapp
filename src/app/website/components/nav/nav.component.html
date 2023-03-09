@@ -79,9 +79,18 @@
 
 <p-dialog [(visible)]="visibleDlg" modal="true">
     <p-header>
-        <button (click)="inputFile.click()" pButton label="Subir foto" icon="fa fa-upload"
-            class="ui-button-secondary"></button>
-        <button (click)="aceptarImg()" icon="fa fa-check" pButton label="Aceptar"></button>
+        <button pButton type="button" 
+            icon="bi bi-plus"
+            class="p-button-raised p-button-primary margin-right margin-left"
+            label="Explorar" 
+            (click)="inputFile.click()"></button>
+
+        <button pButton type="button" 
+            icon="bi bi-upload"
+            class="p-button-raised p-button-success margin-right margin-left"
+            label="Subir" 
+            (click)="aceptarImg()"></button>
+
         <input type="file" #inputFile style="visibility: hidden;width: 0px;height: 0px;"
             (change)="fileChangeEvent($event)" />
     </p-header>
@@ -99,7 +108,7 @@
     <p-header>
         Cambiar Contraseña
     </p-header>
-    <div style="width: 600px;height: 600px">
+    <div style="width: 300px">
         <app-cambio-passwd></app-cambio-passwd>
     </div>
 </p-dialog>

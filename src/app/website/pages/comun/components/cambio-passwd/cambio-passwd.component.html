@@ -50,10 +50,17 @@
       </div>
 
       <div class="ui-g-12">
-        <button pButton type="submit" label="Guardar" [disabled]="!form.valid 
+        <!-- <button pButton type="submit" label="Guardar" [disabled]="!form.valid 
                                                       || (form.controls['newPasswdConfirm'].value != form.controls['newPasswd'].value 
                                                       || (form.controls['newPasswd'].value == form.controls['oldPasswd'].value))">
-        </button>
+        </button> -->
+        <button class="p-button-raised p-button-success margin-right margin-left" 
+                pButton type="submit" 
+                icon="bi bi-send" 
+                label="Guardar"
+                [disabled]="!form.valid 
+                  || (form.controls['newPasswdConfirm'].value != form.controls['newPasswd'].value 
+                  || (form.controls['newPasswd'].value == form.controls['oldPasswd'].value))"></button>
       </div>
     </div>
   </form>
