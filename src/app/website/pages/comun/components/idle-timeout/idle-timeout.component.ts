@@ -40,18 +40,18 @@ export class IdleTimeoutComponent implements OnInit {
   }
 
   startTimer() {
-    console.log(this.timeoutID)
+    // console.log(this.timeoutID)
     this.timeoutID = window.setTimeout(() => { this.goInactive() }, this.timeOut);
   }
 
   goInactive() {
     this.expired = true;
-    this.intervalID = setInterval(() => this.countInterval(), 50);
+    this.intervalID = setInterval(() => this.countInterval(), 300);
   }
 
   async countInterval() {
     console.log(this.countDown)
-    this.countDown += 1;
+    this.countDown = this.countDown + 1;
     // this.divBar['nativeElement'].style.width = this.countDown + '%';
     
     if (this.countDown >= 100) {
@@ -60,12 +60,12 @@ export class IdleTimeoutComponent implements OnInit {
       this.visibleBtn = true;
 
       clearInterval(this.intervalID);
-      // await this.authService.logout().then(
-      //   resp => {
-      //     this.visibleBtn = true;
-      //   }
-      // );
-      // this.redireccionar()
+      await this.authService.logout().then(
+        resp => {
+          this.visibleBtn = true;
+        }
+      );
+      this.redireccionar()
     }
   }
 

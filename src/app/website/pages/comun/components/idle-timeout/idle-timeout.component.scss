@@ -31,3 +31,7 @@
   p{
     text-align: center;
   }
+
+  .p-progressbar-determinate .p-progressbar-value-animate {
+    transition: width 1s ease-in-out;
+}
