@@ -12,6 +12,10 @@ import { ListaInspeccion } from '../../entities/lista-inspeccion';
 import { Programacion } from '../../entities/programacion';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 import { ProgramacionService } from '../../services/programacion.service';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
   selector: 'app-programacion',
@@ -52,7 +56,7 @@ export class ProgramacionComponent implements OnInit {
 
   anioSelect!: number;
   mesSelect!: number;
-  matriz!: any[][];
+  matriz?: any[][];
   aniosList!: SelectItem[];
   listasInspeccionList: SelectItem[] = [{ label: '--Seleccione--', value: null }];
   visibleDlg!: boolean;
@@ -71,6 +75,9 @@ export class ProgramacionComponent implements OnInit {
   permiso:boolean = false;;
   totalRecords!: number;
   
+  calendarOptions!: any;
+  events!: any[];
+
   constructor(
     private sesionService: SesionService,
     private userService: PerfilService,
@@ -93,6 +100,30 @@ export class ProgramacionComponent implements OnInit {
    }
 
   async ngOnInit() {
+    this.calendarOptions = {
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      initialDate: new Date(),
+      locale: esLocale,
+      dateClick: this.openDlg.bind(this),
+      headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      editable: true,
+      selectable: true,
+      selectMirror: true,
+      dayMaxEvents: true
+  };
+
+  this.events = [
+    {
+      title: "asdf",
+      start: new Date(),
+      description: "ooaosdfadsf"
+    }
+  ]
+
     let permiso = this.sesionService.getPermisosMap()['INP_PUT_PROG'];  
      let empresa = this.sesionService.getEmpresa();     
 
@@ -170,6 +201,7 @@ const userP = await this.userService.findByFilter(filterQuery);
       });
     
     let fechaActual = new Date();
+    debugger
     this.actualizarFecha(fechaActual.getFullYear(), fechaActual.getMonth());
     this.form.controls['area'].disabled
   }
@@ -228,6 +260,7 @@ const userP = await this.userService.findByFilter(filterQuery);
       .then((data: any) => {
         let array = <any[]>data['data'];
         let objArray: any[] = [];
+        debugger
         array.forEach(dto => {
           objArray.push(FilterQuery.dtoToObject(dto));
         });
@@ -310,6 +343,7 @@ const userP = await this.userService.findByFilter(filterQuery);
     if(!this.permiso)this.form.disable();
   }
   openDlg(event: Date) {
+    console.log(event)
     this.visibleDlg = true;
     this.actualizar = false;
     this.adicionar = true;
@@ -325,6 +359,7 @@ const userP = await this.userService.findByFilter(filterQuery);
   }
 
   onSubmit() {
+    debugger
     this.loading = true;
     if (this.adicionar) {
       if (this.form.value.unidadFrecuencia == null || this.form.value.valorFrecuencia == null || this.form.value.fechaHasta == null) {
@@ -424,10 +459,11 @@ const userP = await this.userService.findByFilter(filterQuery);
 
 
   findMatrizValue(fecha: Date) {
-    for (let i = 0; i < this.matriz.length; i++) {
-      for (let j = 0; j < this.matriz[i].length; j++) {
-        if (this.matriz[i][j] != null && this.matriz[i][j].dia.valueOf() === fecha.valueOf()) {
-          return this.matriz[i][j];
+    debugger
+    for (let i = 0; i < this.matriz!.length; i++) {
+      for (let j = 0; j < this.matriz![i].length; j++) {
+        if (this.matriz![i][j] != null && this.matriz![i][j].dia.valueOf() === fecha.valueOf()) {
+          return this.matriz![i][j];
         }
       }
     }
@@ -520,6 +556,19 @@ const userP = await this.userService.findByFilter(filterQuery);
     let fecha : Date;
             fecha= new Date;
             console.log(fecha)
+  }
+
+  test(event: any){
+    // console.log(this.matriz)
+    // this.matriz!.forEach((element: any) => {
+    //   element.forEach((element2: any) => {
+    //     element2.programacionList.forEach((element3: any) => {
+    //       console.log(element3)
+    //     });
+    //   });
+    // });}
+    console.log(event)
+
   }
 
 }

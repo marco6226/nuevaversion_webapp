@@ -19,6 +19,7 @@ import {TreeModule} from 'primeng/tree';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {DragDropModule} from 'primeng/dragdrop';
 import {FileUploadModule} from 'primeng/fileupload';
+import {FullCalendarModule} from '@fullcalendar/angular';
 
 const modules=[
   DropdownModule,
@@ -37,7 +38,8 @@ const modules=[
   TreeModule,
   DragDropModule,
   FileUploadModule,
-  ProgressBarModule
+  ProgressBarModule,
+  FullCalendarModule
 ]
 
 

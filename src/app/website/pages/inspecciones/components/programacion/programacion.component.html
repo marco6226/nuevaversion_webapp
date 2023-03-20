@@ -1,9 +1,9 @@
 
 <p-panel header="PROGRAMACIÓN DE INSPECCIONES">
 
-    <table class="main">
+    <!-- <table class="main">
       <tr>
-        <th colspan="7" >
+        <th colspan="7" align="center">
           <div style="width:25%;float:left;">
             <p-dropdown [disabled]="progLoading" [options]="meses" (onChange)="updateMonth($event)" [(ngModel)]="mesSelect"></p-dropdown>
           </div>
@@ -30,23 +30,30 @@
             <td style="width: 14.2%;" valign="top">
               <div class="dia-container">
                 <div class="dia" (click)="openDlg(value.dia)">{{value?.dia?.getDate()}}</div>
-                <ng-template ngFor let-prog [ngForOf]="value?.programacionList">
-                  <div class="badge clickable" [ngClass]="{'success': (prog.numeroInspecciones == prog.numeroRealizadas), 'active': (prog.numeroInspecciones > prog.numeroRealizadas)}"
-                    (click)="openProg(prog)">
-                    {{prog.numeroRealizadas}}/{{prog.numeroInspecciones}} insp. en {{prog.area.nombre}}
-                  </div>
-                </ng-template>
+                  <ng-template *ngIf="value">
+                    <ng-template ngFor let-prog [ngForOf]="value.programacionList">
+                      <div class="badge clickable" [ngClass]="{'success': (prog.numeroInspecciones == prog.numeroRealizadas), 'active': (prog.numeroInspecciones > prog.numeroRealizadas)}"
+                        (click)="openProg(prog)">
+                        {{prog.numeroRealizadas}}/{{prog.numeroInspecciones}} insp. en {{prog.area.nombre}}
+                      </div>
+                  </ng-template>
+
+                    
+                  </ng-template>
+                 
               </div>
             </td>
           </ng-template>
         </tr>
       </ng-template>
-    </table>
+    </table> -->
+  <full-calendar (click)="test($event)" [options]="calendarOptions" [events]="events"></full-calendar>
+
   </p-panel>
   
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
   
-    <p-dialog width="600" [(visible)]="visibleDlg" [responsive]="true" [modal]="true">
+    <p-dialog [style]="{width: '50%'}" [(visible)]="visibleDlg" [responsive]="true" [modal]="true">
   
       <p-header>
         {{fechaSelect | date: 'yyyy-MM-dd' }}
@@ -130,3 +137,17 @@
       </p-footer>
     </p-dialog>
   </form>
+
+  <!-- <button (click)="test()">test</button> -->
+<!-- 
+  <div *ngFor="let a of matriz">
+    <div *ngFor="let value of a">
+      <div *ngFor="let prog of value.programacionList">
+        <p>{{prog}}</p>
+
+      </div>
+
+    </div>
+
+  </div> -->
+
