@@ -37,7 +37,7 @@ export class CambioPasswdComponent implements OnInit {
    }
 
   async ngOnInit(): Promise<void> {
-    debugger
+    
     // this.subscription = await this.cambioPasswdService.getObservable().subscribe(visible => this.visible = visible);
 
     this.password = 'password';

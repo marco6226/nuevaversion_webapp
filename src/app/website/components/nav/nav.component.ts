@@ -68,7 +68,7 @@ export class NavComponent implements OnInit {
     }
 
     async confirmEmpresa(event: SelectItem){
-      debugger
+      
 
       // this.empresaService.findByUsuario(this.usuario!.id).then(
       //   resp => this.loadItems(<Empresa[]>resp)
