@@ -55,7 +55,7 @@ export class IdleTimeoutComponent implements OnInit {
     // this.divBar['nativeElement'].style.width = this.countDown + '%';
     
     if (this.countDown >= 100) {
-      debugger
+      
       this.countDown = 100;
       this.visibleBtn = true;
 

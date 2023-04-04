@@ -88,7 +88,7 @@ export class NavComponent implements OnInit {
           }
         })
       })
-      debugger
+      
       await this.sesionService.setEmpresa(this.empresaSelect);				
       await this.router.navigate([('/app/home')]);
       await location.reload();
