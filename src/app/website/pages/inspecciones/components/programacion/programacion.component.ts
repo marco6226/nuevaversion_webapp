@@ -121,19 +121,6 @@ export class ProgramacionComponent implements OnInit {
     let userParray:any = userP;   
    
     this.areasPerm = this.sesionService.getPermisosMap()['INP_GET_PROG'].areas;
-    // let areasPermiso =this.areasPerm.replace('{','');
-    // areasPermiso =areasPermiso.replace('}','');
-    // let areasPermiso2=areasPermiso.split(',')
-
-    // const filteredArea = areasPermiso2.filter(function(ele , pos){
-    //   return areasPermiso2.indexOf(ele) == pos;
-    // }) 
-    // this.areasPerm='{'+filteredArea.toString()+'}';
-
-    // this.fechaMaxima = new Date();
-    // this.fechaMaxima.setDate(31);
-    // this.fechaMaxima.setMonth(11);
-    // this.fechaMaxima.setFullYear(this.fechaMaxima.getFullYear() + 1);
 
      filterQuery = new FilterQuery();
      filterQuery.filterList= [{
@@ -169,31 +156,7 @@ export class ProgramacionComponent implements OnInit {
               
           } 
         });
-        // (<any[]>resp['data']).forEach(dto => {
-        //   let obj = FilterQuery.dtoToObject(dto)
-        //   obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
-        //  try {
-        //    for (const profile of userParray.data) {
-        //     console.log(profile.id)
-
-        //     let perfilArray = JSON.parse(obj.fkPerfilId)
-
-        //     perfilArray.forEach((perfil: any) => {
-        //       console.log(perfil);
-        //       if (perfil===profile.id) {
-        //         if(!this.listaInspeccionList.find(element=>element==obj)){
-        //           this.listaInspeccionList.push(obj);
-        //           this.listasInspeccionList.push({ label: obj.codigo + ' - ' + obj.nombre + ' v' + obj.listaInspeccionPK.version, value: obj.listaInspeccionPK } );
-        //         }              
-        //       }
-        //     });
-        //   }
-        //  } catch (error) {            
-        //   } 
-        // });
-        // console.log(this.listasInspeccionList);
-        // this.listasInspeccionList = this.listasInspeccionList.slice();
-        // //this.listasInspeccionList = this.listasInspeccionList[this.listasInspeccionList.length-1];
+        
       });
     
     let fechaActual = new Date();
@@ -286,140 +249,10 @@ export class ProgramacionComponent implements OnInit {
       description: ''
     }
     
-    this.events = [
-      // {
-      //   title: "asdf",
-      //   start: new Date(),
-      //   description: "ooaosdfadsf"
-      // },
-      // {
-      //   title: "asdf",
-      //   start: new Date(1677646800000),
-      //   end: new Date(1677801599000),
-      //   description: "ooaosdfadsf"
-      // },
-    ]
+    this.events = []
     this.events.push(this.event)
   }
-  // buildAniosList(anioSelect: number) {
-  //   this.aniosList = [];
-  //   for (let anio = (anioSelect - 5); anio < (anioSelect + 5); anio++) {
-  //     this.aniosList.push({ label: '' + anio, value: anio });
-  //   }
-  // }
-
-  // updateMonth(mes: SelectItem) {
-  //   this.actualizarFecha(this.anioSelect, mes.value);
-  // }
-
-  // updateYear(anio: SelectItem) {
-  //   this.actualizarFecha(anio.value, this.mesSelect);
-  // }
-
-  // actualizarFecha(anio: number, mes: number, ) {
-  //   // debugger
-  //   let ultimoDiaMes = 0;
-  //   switch (mes) {
-  //     case 0: case 2: case 4: case 6: case 7: case 9: case 11:
-  //       ultimoDiaMes = 31;
-  //       break;
-  //     case 3: case 5: case 8: case 10:
-  //       ultimoDiaMes = 30;
-  //       break;
-  //     case 1:
-  //       ultimoDiaMes = this.esBisiesto(anio) ? 29 : 28;
-  //       break;
-  //   }
-
-  //   let filterQuery = new FilterQuery();
-
-  //   let filter = new Filter();
-  //   filter.criteria = Criteria.BETWEEN;
-  //   filter.field = "fecha";
-  //   filter.value1 = new Date(anio + '-' + (mes + 1) + '-' + '01').toISOString();
-  //   filter.value2 = new Date(anio + '-' + (mes + 1) + '-' + ultimoDiaMes).toISOString();
-
-  //   // filterQuery.filterList = [
-  //   //   filter,
-  //   //   { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm }
-  //   // ];
-  //   filterQuery.filterList = [
-  //     // filter,
-  //     { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm }
-  //   ];
-  //   filterQuery.fieldList = [
-  //     'id',
-  //     'fecha',
-  //     'listaInspeccion_listaInspeccionPK',
-  //     'area_id',
-  //     'area_nombre',
-  //     'numeroInspecciones',
-  //     'numeroRealizadas'
-  //   ];
-  //   this.progLoading = true;
-  //   this.programacionService.findByFilter(filterQuery)
-  //     .then((data: any) => {
-  //       debugger
-  //       console.log(data);
-  //       let array = <any[]>data['data'];
-  //       let objArray: any[] = [];
-        
-  //       array.forEach(dto => {
-  //         objArray.push(FilterQuery.dtoToObject(dto));
-  //       });
-  //       this.buildUI(anio, mes, objArray);
-  //       this.progLoading = false;
-  //     })
-  //     .catch(err => {
-  //       this.progLoading = false;
-  //     });
-  // }
-
-  // buildUI(anio: number, mes: number, programacionList: Programacion[]) {
-  //   this.anioSelect = anio;
-  //   this.mesSelect = mes;
-  //   let ultimoDiaMes = 0;
-  //   switch (this.mesSelect) {
-  //     case 0: case 2: case 4: case 6: case 7: case 9: case 11:
-  //       ultimoDiaMes = 31;
-  //       break;
-  //     case 3: case 5: case 8: case 10:
-  //       ultimoDiaMes = 30;
-  //       break;
-  //     case 1:
-  //       ultimoDiaMes = this.esBisiesto(this.anioSelect) ? 29 : 28;
-  //       break;
-  //   }
-  //   this.matriz = [];
-  //   let fechaPrimerDiaMes = new Date(this.anioSelect, this.mesSelect, 1);
-  //   let contadorSemanas = 0;
-  //   let contadorDias = fechaPrimerDiaMes.getDay();
-  //   for (let i = 1; i <= ultimoDiaMes; i++) {
-  //     if (contadorDias > 0 && contadorDias % 7 == 0) {
-  //       contadorSemanas++;
-  //       contadorDias = 0;
-  //     }
-  //     if (this.matriz[contadorSemanas] == null) {
-  //       // this.matriz[contadorSemanas] = [];
-  //     }
-  //     let fechaDia = new Date(this.anioSelect, this.mesSelect, i);
-  //     let progDiaList = this.findProgramacion(programacionList, fechaDia);
-  //     // this.matriz[contadorSemanas][contadorDias] = { dia: fechaDia, programacionList: progDiaList };
-  //     contadorDias++;
-  //   }
-  //   // this.buildAniosList(this.anioSelect);
-  // }
-
-  // findProgramacion(programacionList: Programacion[], dia: Date): Programacion[] {
-  //   let progDiaList = []
-  //   for (let i = 0; i < programacionList.length; i++) {
-  //     let progDate = new Date(programacionList[i].fecha.valueOf());
-  //     if (progDate.getDate() === dia.getDate()) {
-  //       progDiaList.push(programacionList[i]);
-  //     }
-  //   }
-  //   return progDiaList;
-  // }
+  
 
   esBisiesto(year: number) {
     return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) ? true : false;
@@ -468,7 +301,7 @@ debugger
 
     if(!this.permiso)this.form.disable();
   }
-  
+
   openDlg(event: any) {
     debugger
     console.log(event)
@@ -629,12 +462,6 @@ debugger
     this.programacionService.delete(programacionId)
       .then(data => {
         let matrizValue = this.findMatrizValue(this.fechaSelect);
-        // for (let i = 0; i < matrizValue.programacionList.length; i++) {
-        //   if (matrizValue.programacionList[i].id == programacionId) {
-        //     matrizValue.programacionList.splice(i, 1);
-        //     break;
-        //   }
-        // }
         this.visibleDlg = false;
         this.messageService.add({
           severity: 'success',
@@ -652,12 +479,6 @@ debugger
     let programacionId = this.form.value.id;
     let matrizValue = this.findMatrizValue(this.fechaSelect);
     let programacion: Programacion;
-    // for (let i = 0; i < matrizValue.programacionList.length; i++) {
-    //   if (matrizValue.programacionList[i].id == programacionId) {
-    //     programacion = matrizValue.programacionList[i];
-    //     break;
-    //   }
-    // }
     this.paramNav.setParametro<Programacion>(programacion!);
     this.paramNav.setAccion<string>('POST');
     this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones');
@@ -667,21 +488,8 @@ debugger
     let programacionId = this.form.value.id;    
     let matrizValue = this.findMatrizValue(this.fechaSelect);
     console.log(matrizValue)
-    // console.log( matrizValue.programacionList)
-    // console.log(this.fechaSelect)
-    // let programacion: Programacion;
-    
-    // for (let i = 0; i < matrizValue.programacionList.length; i++) {
-    //   if (matrizValue.programacionList[i].id == programacionId) {
-    //     programacion = matrizValue.programacionList[i];
-    //     break;
-    //   }
-    // }
-    // let nId=programacion!.listaInspeccion.listaInspeccionPK.id;
-    // let nVersion=programacion!.listaInspeccion.listaInspeccionPK.version;
-    // this.paramNav.setParametro<Programacion>(programacion!);
+   
     this.paramNav.setAccion<string>('POST');
-    // this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones/' + nId + "/" + nVersion);
     let fecha : Date;
             fecha= new Date;
             console.log(fecha)
