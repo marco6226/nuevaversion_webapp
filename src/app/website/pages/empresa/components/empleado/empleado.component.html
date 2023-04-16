@@ -66,7 +66,7 @@
             <ng-template pTemplate="body" let-empleado>
                 <tr [pSelectableRow]="empleado" class="table-row table-row-selectable">
                     <td class="td-avatar">
-                        <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle" aria-hidden="true"></i>
+                        <i *ngIf="!empleado.usuario?.icon" class="pi pi-user" aria-hidden="true"></i>
                         <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon" style="border-radius: 50%;" />
                     </td>
                     <td>{{empleado.primerNombre}}</td>
