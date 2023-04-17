@@ -20,6 +20,12 @@
     <p-tabView>
   
       <p-tabPanel header="Organigrama">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <p-button icon="pi pi-search" (click)="showDialogFilter()" styleClass="p-button-raised p-button-rounded p-button-success" ></p-button>
+          <p *ngIf="areaSelected">Area seleccionada: {{areaSelected.label}}</p>
+        </div>
+        <br>
+
         <p-tree  [value]="areasNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
       </p-tabPanel>
   
@@ -35,3 +41,10 @@
     </p-footer>
   
   </p-dialog>
+
+  <div class="card flex justify-content-center">
+    <p-dialog header="Organigrama Filtro" [(visible)]="visibleFilterArea" [style]="{width: '50vw'}">
+          <p-tree [value]="areasNodes" [filter]="true" filterPlaceholder="Filtro" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+    </p-dialog>
+  </div>
+  

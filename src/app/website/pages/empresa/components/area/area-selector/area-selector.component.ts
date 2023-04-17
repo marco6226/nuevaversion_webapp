@@ -41,7 +41,8 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
   loading: boolean = false;
   division?: string | null =null;
   empresaId = this.sesionService.getEmpresa()!.id;
-  
+  visibleFilterArea: boolean = false;
+
   constructor(
     private sesionService: SesionService,
     private messageService: MessageService,
@@ -81,6 +82,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
           label: this.sesionService.getEmpresa()!.razonSocial,
           selectable: false,
           expanded: false,
+          key: this.sesionService.getEmpresa()!.razonSocial
         };
         let nodos = this.createTreeNode(<Area[]>data['data'], null);
         root.children = nodos;
@@ -139,7 +141,8 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
         expanded: false,
         nodoPadre: nodoPadre,
         children: [],
-        selected: true
+        selected: true,
+        key: area.nombre
       };
       n.children = (area.areaList != null ? this.createTreeNode(area.areaList, n) : []);
       n.expanded = area.areaList != null && area.areaList.length > 0;
@@ -245,5 +248,10 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
     this.propagateChange = fn;
   }
   registerOnTouched() { }
+
+  showDialogFilter(){
+    this.visibleFilterArea = true;
+
+  }
 }
 

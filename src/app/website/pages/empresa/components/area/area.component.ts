@@ -23,6 +23,7 @@ export class AreaComponent implements OnInit {
 
   visibleTree: boolean = false;
   areasNodes: TreeNode[] = [];
+  areasNodesDialog: TreeNode[] = [];
   sedesNodes: TreeNode[] = [];
   tiposAreaList: SelectItem[] = [{ label: '--Seleccione--', value: null }];
   estructuraSelected!: string;
@@ -33,7 +34,9 @@ export class AreaComponent implements OnInit {
   visibleForm!: boolean;
   form!: FormGroup;
   areaSelected: any;
+  areaSelectedDialog: any;
   estruct: any;
+  visibleFilterArea: boolean = false;
 
   constructor(
     private messageService: MessageService,
@@ -69,6 +72,7 @@ export class AreaComponent implements OnInit {
           label: this.sesionService.getEmpresa()!.razonSocial,
           selectable: false,
           expanded: true,
+          key: this.sesionService.getEmpresa()!.razonSocial
         };
 
         let nodos = this.createTreeNode(<Area[]>data['data'], null);
@@ -111,7 +115,8 @@ export class AreaComponent implements OnInit {
         expanded: false,
         nodoPadre: nodoPadre,
         children: [],
-        selected: true
+        selected: true,
+        key: area.nombre
       };
       n.children = (area.areaList != null ? this.createTreeNode(area.areaList, n) : []);
       nodes.push(n);
@@ -291,4 +296,11 @@ export class AreaComponent implements OnInit {
     this.adicionar = false;
     this.modificar = false;
   }
+
+  showDialog(){
+    this.visibleFilterArea = true;
+  }
+
+
+  
 }

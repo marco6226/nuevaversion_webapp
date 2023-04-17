@@ -11,7 +11,14 @@
                 </div>
             </app-data-not-found>
             <div [style.display]="areasNodes[0] && areasNodes[0].children!.length > 0 ? 'block':'none'">
-                <p-tree  [value]="areasNodes" *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <p-button icon="pi pi-search" (click)="showDialog()" styleClass="p-button-raised p-button-rounded p-button-success" ></p-button>
+                <p *ngIf="areaSelected">Area seleccionada: {{areaSelected.label}}</p>
+
+              </div>
+              <br>
+
+              <p-tree  [value]="areasNodes" [filter]="true" filterPlaceholder="Filtro" *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
             </div>
             <br/>
             <div class="d-flex justify-content-center">
@@ -109,3 +116,10 @@
       </footer>
     </form>
   </p-dialog>
+
+  
+<div class="card flex justify-content-center">
+  <p-dialog header="Organigrama Filtro" [(visible)]="visibleFilterArea" [style]="{width: '50vw'}">
+        <p-tree [value]="areasNodes" [filter]="true" filterPlaceholder="Filtro" *ngIf="visibleTree" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+  </p-dialog>
+</div>
