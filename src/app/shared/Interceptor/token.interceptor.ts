@@ -28,7 +28,7 @@ export class TokenInterceptor implements HttpInterceptor {
         error: async (err: HttpErrorResponse) =>{
           // debugger
           console.log(err.status)
-          if ([401, 403].includes(err.status)){
+          if ([401].includes(err.status)){
             await this.authService.logout();
             this.router.navigate(['/login']); 
           }
