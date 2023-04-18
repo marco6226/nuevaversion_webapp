@@ -27,6 +27,7 @@ import { HhtComponent } from './pages/empresa/components/hht/hht.component';
 import { TipoAreaComponent } from './pages/empresa/components/tipo-area/tipo-area.component';
 import { UsuarioPreferenciasComponent } from './pages/empresa/components/usuario-preferencias/usuario-preferencias.component';
 import { AccidentalidadComponent } from './pages/ind/components/accidentalidad/accidentalidad.component';
+import { IndCaracterizacionComponent } from './pages/ind/components/ind-caracterizacion/ind-caracterizacion.component';
 import { ConsultaTableroComponent } from './pages/ind/components/consulta-tablero/consulta-tablero.component';
 import { HoraHombresTrabajadaComponent } from './pages/ind/components/hora-hombres-trabajada/hora-hombres-trabajada.component';
 import { IndicadoresAusentismoComponent } from './pages/ind/components/indicadores-ausentismo/indicadores-ausentismo.component';
@@ -199,6 +200,8 @@ const routes: Routes = [
           { path: 'rai', component: IndicadoresRaiComponent },
           { path: 'inp', component: IndicadoresInpComponent },
           { path: 'accidentalidad', component: AccidentalidadComponent },
+          { path: 'indcaracterizacion', component: IndCaracterizacionComponent }
+
         ]
       },
       {

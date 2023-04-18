@@ -165,9 +165,11 @@ import { FormularioConstructorComponent } from './pages/comun/components/formula
 import { DirectorioService } from './pages/ado/services/directorio.service';
 import { UsuarioService } from './pages/admin/services/usuario.service';
 import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle-timeout.component';
-
+import { IndCaracterizacionComponent } from './pages/ind/components/ind-caracterizacion/ind-caracterizacion.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [
+ 
     LayoutComponent,
     MenuComponent,
     NavComponent,
@@ -306,9 +308,11 @@ import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle
     FlowChartComponent,
     EmpleadoBasicSelectorComponent,
     FormularioConstructorComponent,
-    IdleTimeoutComponent
+    IdleTimeoutComponent,
+    IndCaracterizacionComponent
   ],
   imports: [
+    NgxChartsModule,
     CommonModule,
     WebsiteRoutingModule,
     SharedModule,

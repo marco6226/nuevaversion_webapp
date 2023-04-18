@@ -1,5 +1,5 @@
 import { Component, ContentChild, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+//import { Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { PermisoService } from '../../pages/admin/services/permiso.service';
 import { ConfiguracionGeneral } from '../../pages/comun/entities/configuracion-general';
@@ -39,7 +39,7 @@ export class LayoutComponent implements OnInit {
 		private confGenService: ConfiguracionGeneralService,
 		private permisoService: PermisoService,
 		private empleadoService: EmpleadoService,
-		private router: Router,
+		//private router: Router,
 		private authService: AuthService
 	) { }
 

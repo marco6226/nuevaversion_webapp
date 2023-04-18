@@ -204,17 +204,20 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Indicadores',
-            icon: 'lan',
+            icon: 'signal_cellular_alt',
             codigo: 'IND',
             expanded: false,
             items:
                 [
+                    { label: 'HHT', codigo: 'IND_GET_HHT', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'lan' },
                     { label: 'Consulta tableros', codigo: 'IND_GET_TAB', routerLink: ['/app/ind/consultaTablero'], icon: 'lan'},
                     { label: 'Ausentismo', codigo: 'IND_GET_AUS', routerLink: ['/app/ind/ausentismo'], icon: 'lan'},
                     { label: 'Talento humano', codigo: 'IND_GET_EMP', routerLink: ['/app/ind/emp'], icon: 'lan'},
                     { label: 'Autoevaluacion', codigo: 'IND_GET_SGE', routerLink: ['/app/ind/sge'], icon: 'lan'},
                     { label: 'Reporte de accidentes', codigo: 'IND_GET_RAI', routerLink: ['/app/ind/rai'], icon: 'lan'},
                     { label: 'Inspecciones', codigo: 'IND_GET_INP', routerLink: ['/app/ind/inp'], icon: 'lan'},
+                    { label: 'Accidentalidad', codigo: 'IND_GET_ACD', routerLink: ['/app/ind/accidentalidad'], class: 'lan' },
+                    { label: 'Ind. caracterización', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indcaracterizacion'], icon: 'medication' }
                 ]
         },
         {

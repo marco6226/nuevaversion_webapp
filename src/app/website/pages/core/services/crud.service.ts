@@ -157,7 +157,7 @@ export abstract class CRUDService<T> {
     });
   }
 
-  update(entity: T, params?: string) {
+  update(entity?: T, params?: string) {
     let body = JSON.stringify(entity);
     return new Promise((resolve, reject) => {
       this.httpInt
