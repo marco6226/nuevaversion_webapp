@@ -22,3 +22,24 @@ export interface ValorHht {
     Nh:Number;
 }
 
+export interface DataPlanta {
+    id: number;
+    NumPersonasPlanta: number;
+    HhtPlanta: number;
+  }
+  
+  export interface DataArea {
+    id: number;
+    NumPersonasArea: number;
+    HhtArea: number;
+    ILIArea: number;
+    Plantas: DataPlanta[];
+  }
+  
+  export interface DataHht {
+    id: number;
+    mes: string;
+    NumPersonasMes: number;
+    HhtMes: number;
+    Areas: DataArea[];
+  }

@@ -1,1 +1,560 @@
-<p>accidentalidad works!</p>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<div class="ui-g">
+    <div style="width: 100%;">
+      <p-panel header="RESUMEN" styleClass="colorfondo">
+          <div>
+            <div class="row justify-content-around mb-3" style="width: 100%; margin-left: inherit;">
+                <div class="col-3 col-md-3 col-sm-6">
+                    <div class="card l-bg-blue1-dark">
+                        <div class="card-statistic-3 p-3">
+                            <div class="card-icon card-icon-large"></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">Numero de ATs</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                
+                                <div class="col-4 text-right">
+                                    <span class="tamañotexto">{{this.NoEventos || 0}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 col-md-3 col-sm-6">
+                    <div class="card l-bg-blue2-dark">
+                        <div class="card-statistic-3 p-3">
+                            <div class="card-icon card-icon-large"></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">Dias perdidos</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                
+                                <div class="col-4 text-right">
+                                    <span class="tamañotexto">{{this.diasPerdidos || 0}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 col-md-3 col-sm-6">
+                    <div class={{colorIli}}>
+                        <div class="card-statistic-3 p-3">
+                            <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">ILI</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                
+                                <div class="col-4 text-left">
+                                    <span class="tamañotexto">{{ili || 0}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 col-md-3 col-sm-6">
+                    <div class="card l-bg-blue3-dark">
+                        <div class="card-statistic-3 p-3">
+                            <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="mb-4">
+                                <h5 class="card-title mb-0">Meta</h5>
+                            </div>
+                            <div class="row align-items-center mb-2 d-flex">
+                                <div class="col-4 text-left">
+                                    <span class="tamañotexto">{{metaIli || 0}}</span>
+                                </div>                                     
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-evenly mb-3 mt-3" style="width: 100%; margin-left: inherit;text-align: center;">
+              <div class="col-md-6 col-sm-6 col-lg-3">
+                <div class="input-field">
+                  <label style="margin-right: 10px;">División:</label>
+                  <p-dropdown appendTo="body" styleClass="form-material" [options]="divisiones" [(ngModel)]="selectedDivisionResumen"
+                  placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen()"></p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-3">
+                <label style="margin-right: 10px">Año:</label>
+                <p-dropdown [options]="yearRange"
+                  placeholder="Seleccione un año"
+                  [(ngModel)]="anioActualResumen"
+                  styleClass="form-material"
+                  (onChange)="loadResumen()">
+                </p-dropdown>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-3">
+                <label style="margin-right: 10px">Desde:</label>
+                  <p-calendar [locale]="localeES" view="month"
+                  dateFormat="MM" placeholder="Seleccione" appendTo="body" 
+                  [(ngModel)]="fechaInicioResumen" showButtonBar="true" 
+                  (onSelect)="loadResumen()" (onClearClick)="loadResumen()"
+                  (onTodayClick)="loadResumen()" [showIcon]="true" appendTo="body">
+                  </p-calendar>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-3">
+                <label style="margin-right: 10px">Hasta:</label> 
+                  <p-calendar [locale]="localeES" view="month" dateFormat="MM" 
+                  placeholder="Seleccione" appendTo="body" showButtonBar="true" 
+                  [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
+                  (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()"
+                  [showIcon]="true" appendTo="body">
+                  </p-calendar>
+              </div>
+            </div>
+          </div>
+      </p-panel>
+      <br/>
+
+    <p-panel header="TOTAL EVENTOS Y DÍAS" >
+      <div class="colorfondo">
+        <div class="ui-g">
+          <p> <b> Eventos AT </b></p>
+          <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center" style="height: 10cm;">
+            <p-radioButton name="group10" label="Total " [value]="0"   (onClick)="getEventosAt();reiniciarVariableFechaEventosAt()" [style]="{'margin-left': '15px'}"></p-radioButton>
+            <p-radioButton name="group10" label=" Temporales " [value]="1"  (onClick)="getEventosAt('temp');reiniciarVariableFechaEventosAt()" [style]="{'margin-left': '15px'}"></p-radioButton>
+            <p-radioButton name="group10" label=" Directos " [value]="2"  (onClick)="getEventosAt('dir');reiniciarVariableFechaEventosAt()" [style]="{'margin-left': '15px'}"></p-radioButton>
+            <ngx-charts-advanced-pie-chart
+            class="align-items-center"
+            [scheme]="colorScheme"
+            [results]="randomEv1Dona"
+            [gradient]="gradient">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="ui-g-3">&nbsp;</div>
+          <div class="ui-g-6">
+            <div class="ui-g-6">  
+              <i style="font-size:24px" class="fa">&#xf073;</i>   
+              <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" 
+              appendTo="body" (onSelect)="selectRangoEventosAt($event, 'desde')" [(ngModel)]="filtroFechaAt[0]"> </p-calendar> 
+            </div>
+            <div class="ui-g-6"> 
+              <i style="font-size:24px" class="fa">&#xf073;</i> 
+              <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" 
+              appendTo="body" (onSelect)="selectRangoEventosAt($event, 'hasta')" [(ngModel)]="filtroFechaAt[1]"> </p-calendar>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="ui-g">
+          <p><b>Días perdidos</b></p>
+          <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center" style="height: 10cm;">
+            <p-radioButton name="group11" label="Total " [value]="0"   (onClick)="getDiasPerdidosAt();reiniciarVariableFechaDiasPerdidos()" [style]="{'margin-left': '15px'}"></p-radioButton>
+            <p-radioButton name="group11" label=" Temporales " [value]="1"  (onClick)="getDiasPerdidosAt('temp');reiniciarVariableFechaDiasPerdidos()" [style]="{'margin-left': '15px'}"></p-radioButton>
+            <p-radioButton name="group11" label=" Directos " [value]="2"  (onClick)="getDiasPerdidosAt('dir');reiniciarVariableFechaDiasPerdidos()" [style]="{'margin-left': '15px'}"></p-radioButton>
+            <ngx-charts-advanced-pie-chart
+            class="align-items-center"
+            [scheme]="colorScheme"
+            [results]="randomEv1Donadb"
+            [gradient]="gradient">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="ui-g-3">&nbsp;</div>
+          <div class="ui-g-6">
+            <div class="ui-g-6">  
+              <i style="font-size:24px" class="fa">&#xf073;</i>   
+              <p-calendar [locale]="localeES" view="month" [showButtonBar]="true" dateFormat="mm/yy" [(ngModel)]="filtroFechaDiasPerdidos[0]" 
+              (onSelect)="selectRangoDiasPerdidosAt($event, 'desde')" placeholder="Desde" appendTo="body"> </p-calendar> 
+            </div>
+            <div class="ui-g-6"> 
+              <i style="font-size:24px" class="fa">&#xf073;</i> 
+              <p-calendar [locale]="localeES" view="month" [showButtonBar]="true" dateFormat="mm/yy" [(ngModel)]="filtroFechaDiasPerdidos[1]" 
+              (onSelect)="selectRangoDiasPerdidosAt($event, 'hasta')" placeholder="Hasta" appendTo="body"> </p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+    <br/>
+
+  <p-panel header="TASAS">
+    <div class="colorfondo">
+      <div class="ui-g">
+      <!-- Primera grafica -->
+        <ng-container *ngIf="selectIndicarores1.length>0">
+          <ng-container *ngFor="let indicador of selectIndicarores1;first as f;last as l">
+            <p *ngIf="f || (l && selectIndicarores1.length != 2);else otro1"> <b>{{indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p *ngIf="selectIndicarores1.length != 2;else otro2"><b>/{{indicador.label}}/</b></p>
+              <ng-template #otro2>
+                <p><b>/{{indicador.label}}</b></p>
+              </ng-template>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="selectIndicarores1.length==0">
+          <ng-container *ngFor="let Indicador of Indicadores;first as f;last as l">
+            <p *ngIf="f || l;else otro1"><b>{{Indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p><b>/{{Indicador.label}}/</b></p>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+
+        <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
+          <p-radioButton name="group12" label="Total " [value]="0"   (onClick)="getTasas_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group12" label=" Temporales " [value]="1"  (onClick)="getTasas_1('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group12" label=" Directos " [value]="2"  (onClick)="getTasas_1('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+        </div>
+
+        <div  class="ui-g-8 ui-g-nopad">
+          <div *ngIf="tasasNotFound">
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+          </div>
+          <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" *ngIf="!tasasNotFound">
+              <ngx-charts-bar-vertical-2d 
+              [scheme]="colorScheme2"
+              [animations]="false"
+              [results]="tasaFrecuencia1"
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="false"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Divisiones'"
+              [yAxisLabel]="'Indicadores'"
+              [barPadding]=0
+              [groupPadding]=4
+              [showDataLabel]="true"
+              [tooltipDisabled]="false">
+              </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="ui-g-1">&nbsp;</div>
+          <div class="ui-g-2">&nbsp;</div>
+          <div class="ui-g-8">
+          </div>
+        </div>
+
+        <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
+          <h5>Año</h5>
+          <p-dropdown appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+          [(ngModel)]="filtroAnioTasa_1" (onChange)="getTasas_1('filtro')"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+          <h5>Meses</h5>
+          <p-multiSelect defaultLabel="Seleccione" [options]="Meses"
+          [(ngModel)]="selectedMesesTasa1" (onChange)="getTasas_1('filtro')"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+          <h5>Division</h5>
+          <p-multiSelect [options]="divisiones2" defaultLabel="Seleccione"
+          [(ngModel)]="selectDivisiones1" (onChange)="filtroTasas1_1()"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+          <h5>Filtro indicadores</h5>
+          <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+            <p-checkbox name="group2" value="Indicador" [value]="Indicador"
+            [(ngModel)]="selectIndicarores1" [inputId]="Indicador.value"
+            (click)="filtroTasas1_1()"></p-checkbox>
+            <label>{{Indicador.label}}</label>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <!-- Segunda grafica -->
+      <div class="ui-g">
+
+        <ng-container *ngIf="selectIndicarores2.length>0">
+          <ng-container *ngFor="let indicador of selectIndicarores2;first as f;last as l">
+            <p *ngIf="f || (l && selectIndicarores2.length != 2);else otro1"><b>{{indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p *ngIf="selectIndicarores2.length != 2;else otro2"><b>/{{indicador.label}}/</b></p>
+              <ng-template #otro2>
+                <p><b>/{{indicador.label}}</b></p>
+              </ng-template>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="selectIndicarores2.length==0">
+          <ng-container *ngFor="let Indicador of Indicadores;first as f;last as l">
+            <p *ngIf="f || l;else otro1"><b>{{Indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p><b>/{{Indicador.label}}/</b></p>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+
+        <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
+          <p-radioButton name="group13" label="Total " [value]="0" (onClick)="getTasas_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group13" label=" Temporales " [value]="1" (onClick)="getTasas_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group13" label=" Directos " [value]="2" (onClick)="getTasas_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+        </div>
+
+        <div  class="ui-g-8 ui-g-nopad">
+          <div *ngIf="tasasNotFound2">
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+          </div>
+          <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" *ngIf="!tasasNotFound2">
+            <ngx-charts-bar-vertical-2d
+            class="align-items-center"
+            [scheme]="colorScheme2"
+            [animations]="false"
+            [results]="tasaFrecuencia2"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="false"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Meses'"
+            [yAxisLabel]="'Indicadores'"
+            [showDataLabel]="flagtasa2"
+            [barPadding]=0
+            [groupPadding]=4
+            [tooltipDisabled]="flagtasa2">
+            </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="ui-g-1">&nbsp;</div>
+          <div class="ui-g-2">&nbsp;</div>
+        </div>
+        <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
+          <h5>Año</h5>
+          <p-dropdown appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
+          [(ngModel)]="filtroAnioTasa_2" (onChange)="getTasas_2('filtro')"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+          <h5>Meses</h5>
+          <p-multiSelect defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
+          (onChange)="filtroTasas_2()"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+          <!-- divisiones -->
+          <h5>Division</h5>
+          <p-dropdown placeholder="Seleccione" [options]="divisiones" [showClear]="true"
+          [(ngModel)]="filtroDivisionesTasa_2" (onChange)="getTasas_2('filtro')"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+          <h5>Filtro indicadores</h5>
+          <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+              <p-checkbox name="group4" value="Indicador" [value]="Indicador" 
+              [(ngModel)]="selectIndicarores2" [inputId]="Indicador.value" (onChange)="filtroTasas_2()"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-checkbox>
+              <label>{{Indicador.label}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br/>
+
+
+  <p-panel header="EVENTOS">
+    <div class="colorfondo">
+      <!-- Tercera grafica -->
+      <div class="ui-g">
+
+        <ng-container *ngIf="selectEventos1.length>0">
+          <ng-container *ngFor="let indicador of selectEventos1;first as f;last as l">
+            <p *ngIf="f || (l && selectEventos1.length != 2);else otro1"><b>{{indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p *ngIf="selectEventos1.length != 2;else otro2"><b>/{{indicador.label}}/</b></p>
+              <ng-template #otro2>
+                <p><b>/{{indicador.label}}</b></p>
+              </ng-template>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="selectEventos1.length==0">
+          <ng-container *ngFor="let Indicador of Eventos;first as f;last as l">
+            <p *ngIf="f || l;else otro1"><b>{{Indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p><b>/{{Indicador.label}}/</b></p>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+
+        <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
+          <!-- <p>Eventos</p> -->
+          <p-radioButton name="group14" [(ngModel)]="filtroEventos1" label="Total " [value]="'total'" (onClick)="getEventos_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group14" [(ngModel)]="filtroEventos1" label=" Temporales " [value]="'temp'" (onClick)="getEventos_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group14" [(ngModel)]="filtroEventos1" label=" Directos " [value]="'dir'" (onClick)="getEventos_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        </div>
+        <div  class="ui-g-8 ui-g-nopad">
+          <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
+            <ngx-charts-bar-vertical-2d
+            class="align-items-center"
+            [scheme]="colorScheme2"
+            [results]="dataEventos1"
+            [animations]="false"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="false"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Divisiones'"
+            [yAxisLabel]="'eventos'"
+            [showDataLabel]="true"
+            [barPadding]=0
+            [groupPadding]=4>
+            </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="ui-g-1">&nbsp;</div>
+          <div class="ui-g-2">&nbsp;</div>
+          <div class="ui-g-8">
+              <div class="ui-g-6">  
+                <i style="font-size:24px" class="fa">&#xf073;</i>   
+                <p-calendar [locale]="localeES" view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="evento1Desde" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar> 
+              </div>
+              <div class="ui-g-6"> 
+                <i style="font-size:24px" class="fa">&#xf073;</i> 
+                <p-calendar [locale]="localeES" view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="evento1Hasta" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar>
+              </div>
+          </div>
+        </div>
+
+        <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
+          <h5>Division</h5>
+          <div *ngFor="let category of divisiones2" class="p-field-checkbox">
+              <p-checkbox name="group3" value="category" [value]="category"  [(ngModel)]="selectDivisiones2" [inputId]="category.value" (click)="filtroEventos_1()"></p-checkbox>
+              <label>{{category.label}}</label>
+          </div>
+
+          <h5>Filtro eventos</h5>
+          <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
+              <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos1" [inputId]="Indicador.value" (click)="filtroEventos_1()"></p-checkbox>
+              <label>{{Indicador.label}}</label>
+          </div>
+        </div>
+      </div>
+
+        <hr/>
+      <!-- Cuarta grafica -->
+      <div class="ui-g">
+
+        <ng-container *ngIf="selectEventos2.length>0">
+          <ng-container *ngFor="let indicador of selectEventos2;first as f;last as l">
+            <p *ngIf="f || (l && selectEventos2.length != 2);else otro1"><b>{{indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p *ngIf="selectEventos2.length != 2;else otro2"><b>/{{indicador.label}}/</b></p>
+              <ng-template #otro2>
+                <p><b>/{{indicador.label}}</b></p>
+              </ng-template>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="selectEventos2.length==0">
+          <ng-container *ngFor="let Indicador of Eventos;first as f;last as l">
+            <p *ngIf="f || l;else otro1"><b>{{Indicador.label}}</b></p>
+            <ng-template #otro1>
+              <p><b>/{{Indicador.label}}/</b></p>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+
+          <!-- <p>Eventos</p> -->
+        <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
+          <p-radioButton name="group15" [(ngModel)]="filtroEventos2" label="Total" [value]="'total'" (onClick)="getEventos_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group15" [(ngModel)]="filtroEventos2" label=" Temporales" [value]="'temp'" (onClick)="getEventos_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group15" [(ngModel)]="filtroEventos2" label=" Directos" [value]="'dir'" (onClick)="getEventos_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        </div>
+
+        <div class="ui-g-8 ui-g-nopad">
+          <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 560px;">
+            <ngx-charts-bar-vertical-2d
+            class="align-items-center"
+            [scheme]="colorScheme2"
+            [results]="dataEventos2"
+            [gradient]="gradient"
+            [animations]="false"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="false"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Meses'"
+            [yAxisLabel]="'Eventos'"
+            [showDataLabel]="true"
+            [barPadding]=0
+            [groupPadding]=4>
+            </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="ui-g-1">&nbsp;</div>
+
+          <div class="ui-g-12">&nbsp;</div>
+        </div>
+
+        <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
+          <h5>Año</h5>
+            <p-dropdown appendTo="body" [options]="yearRange" [(ngModel)]="filtroAnioEventos2" placeholder="Seleccionar año" (onChange)="getEventos_2()"></p-dropdown>
+          <h5>Meses</h5>
+          <p-multiSelect defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2" (onChange)="filtroEventos_2()"></p-multiSelect>
+          <h5>Division</h5>
+            <p-multiSelect defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2()"></p-multiSelect>
+          <h5>Filtro indicadores</h5>
+          <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
+              <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos2" [inputId]="Indicador.value" (click)="filtroEventos_2()"></p-checkbox>
+              <label>{{Indicador.label}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br/>
+
+
+  <p-panel header="ILI">
+    <div class="colorfondo">
+  <!-- Quinta grafica -->
+      <div class="ui-g">
+        <div class="ui-g-8 ui-g-nopad">
+          <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
+            <!-- <ngx-charts-combo
+            [categories]="divisionesCoronaIli1"
+            [series]="dataIli_1"
+            [options]="optionsIli_1"
+            >
+            </ngx-charts-combo> -->
+          </div>
+          <!-- <div class="ui-g-1">&nbsp;</div>
+          <div class="ui-g-2">&nbsp;</div> -->
+        </div>
+
+        <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">   
+          <h5>Año</h5>
+            <p-dropdown appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioIli_1" (onChange)="getIli_1()"></p-dropdown>
+          <h5>Meses</h5>
+            <p-multiSelect defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1" (onChange)="getIli_1()"></p-multiSelect> 
+          <h5>Division</h5>
+          <div *ngFor="let category of divisiones2" class="p-field-checkbox">
+              <p-checkbox name="group6" value="label" [value]="category" [(ngModel)]="selectDivisionesILI1" (onChange)="filtroIli_1()"></p-checkbox>
+              <label>{{category.label}}</label>
+          </div>
+        </div>
+      </div>
+      <hr/>
+   <!-- Quinta grafica.2 -->
+      <div class="ui-g">
+        <div class="ui-g-8 ui-g-nopad">
+          <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
+            <!-- <ngx-charts-combo
+            [categories]="mesesILI2"
+            [series]="dataIli_2"
+            [options]="optionsIli_2"
+            >
+            </ngx-charts-combo> -->
+          </div>
+          <div class="ui-g-1">&nbsp;</div>
+          <div class="ui-g-2">&nbsp;</div>
+        </div>
+        <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">    
+          <h5>Año</h5>
+          <p-dropdown appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
+          [(ngModel)]="selectedAnioIli_2" (onChange)="getIli_2()"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+          <h5>Meses</h5>
+          <p-multiSelect defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2" 
+          (onChange)="filtroIli_2()" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> 
+          <h5>Division</h5>
+          <p-dropdown placeholder="Seleccione" [options]="divisiones" 
+          [showClear]="true" [(ngModel)]="selectDivisionesILI2"
+          (onChange)="getIli_2($event.value)" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br/>
+</div>
+</div>

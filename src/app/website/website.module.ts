@@ -165,6 +165,9 @@ import { FormularioConstructorComponent } from './pages/comun/components/formula
 import { DirectorioService } from './pages/ado/services/directorio.service';
 import { UsuarioService } from './pages/admin/services/usuario.service';
 import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle-timeout.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -337,7 +340,8 @@ import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle
     SymbolPaletteModule,
     NumericTextBoxModule, 
     TextBoxModule, 
-    UploaderModule
+    UploaderModule,
+    NgxChartsModule,
   ],
   providers: [
     PerfilService,
