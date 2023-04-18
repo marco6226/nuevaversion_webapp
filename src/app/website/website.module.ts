@@ -167,6 +167,8 @@ import { UsuarioService } from './pages/admin/services/usuario.service';
 import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle-timeout.component';
 import { IndCaracterizacionComponent } from './pages/ind/components/ind-caracterizacion/ind-caracterizacion.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 @NgModule({
   declarations: [
  
@@ -341,7 +343,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     SymbolPaletteModule,
     NumericTextBoxModule, 
     TextBoxModule, 
-    UploaderModule
+    UploaderModule,
+    NgxChartsModule,
   ],
   providers: [
     PerfilService,
