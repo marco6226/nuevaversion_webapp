@@ -8,6 +8,8 @@ import { SharedModule } from './shared/shared.module';
 import { HttpInt } from './httpInt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/Interceptor/token.interceptor';
+
+
 // import { HttpAuthInterceptorService } from './website/pages/core/services/http-auth-interceptor.service';
 
 declare global {
@@ -36,6 +38,7 @@ declare global {
         //     multi: true
         // },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule { }

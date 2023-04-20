@@ -103,6 +103,10 @@ export const endPoints: string | any = {
   IndicadorService: path + "indicador/",
   TableroService: path + "tablero/",
   ModeloGrafica: path,
+  CaracterizacionViewService: path +"indcar/",
+  Plantas: path + "plantas/",
+  ViewscmcoService: path + "indscmco/",
+  ViewscmgeService: path + "indscmge/",
 
   TipoPeligroService: path + "tipoPeligro/",
   PeligroService: path + "peligro/",

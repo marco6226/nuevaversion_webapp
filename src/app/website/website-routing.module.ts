@@ -27,6 +27,7 @@ import { HhtComponent } from './pages/empresa/components/hht/hht.component';
 import { TipoAreaComponent } from './pages/empresa/components/tipo-area/tipo-area.component';
 import { UsuarioPreferenciasComponent } from './pages/empresa/components/usuario-preferencias/usuario-preferencias.component';
 import { AccidentalidadComponent } from './pages/ind/components/accidentalidad/accidentalidad.component';
+import { IndCaracterizacionComponent } from './pages/ind/components/ind-caracterizacion/ind-caracterizacion.component';
 import { ConsultaTableroComponent } from './pages/ind/components/consulta-tablero/consulta-tablero.component';
 import { HoraHombresTrabajadaComponent } from './pages/ind/components/hora-hombres-trabajada/hora-hombres-trabajada.component';
 import { IndicadoresAusentismoComponent } from './pages/ind/components/indicadores-ausentismo/indicadores-ausentismo.component';
@@ -64,6 +65,8 @@ import { ConsultaEvaluacionComponent } from './pages/sg/components/consulta-eval
 import { EvaluacionComponent } from './pages/sg/components/evaluacion/evaluacion.component';
 import { SgeFormComponent } from './pages/sg/components/sge-form/sge-form.component';
 import { SistemaGestionComponent } from './pages/sg/components/sistema-gestion/sistema-gestion.component';
+import {IndCasosMedicosComponent} from 'src/app/website/pages/ind/components/ind-casos-medicos/ind-casos-medicos.component';
+import {IndCasosMedicosGestionComponent} from 'src/app/website/pages/ind/components/ind-casos-medicos-gestion/ind-casos-medicos-gestion.component';
 
 const routes: Routes = [
   {
@@ -199,6 +202,9 @@ const routes: Routes = [
           { path: 'rai', component: IndicadoresRaiComponent },
           { path: 'inp', component: IndicadoresInpComponent },
           { path: 'accidentalidad', component: AccidentalidadComponent },
+          { path: 'indcasosmedicos', component: IndCasosMedicosComponent },
+          { path: 'indcasosmedicosgestion', component: IndCasosMedicosGestionComponent },
+          { path: 'indcaracterizacion', component: IndCaracterizacionComponent }
         ]
       },
       {
