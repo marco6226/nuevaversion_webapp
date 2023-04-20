@@ -194,7 +194,9 @@ export class ProgramacionComponent implements OnInit {
     ];
 
     this.progLoading = true;
-    this.programacionService.findByFilter(filterQuery)
+    debugger
+    try {
+      this.programacionService.findByFilter(filterQuery)
       .then((data: any) => {
         
         console.log(data);
@@ -238,6 +240,10 @@ export class ProgramacionComponent implements OnInit {
       .catch(err => {
         this.progLoading = false;
       });
+    } catch (error) {
+      console.log(error)
+    }
+    
       
       
 

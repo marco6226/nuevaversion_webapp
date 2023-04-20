@@ -1,0 +1,43 @@
+.p-datatable{
+    // width: 1px;
+    border-radius: 50% !important;
+}
+
+.p-datatable-footer	{
+    // background: lightskyblue !important;
+}
+
+// .p-datatable-header	{
+//     background: blue;
+//     font-weight: bold;
+//     background: lightskyblue ;
+// }
+
+.bg-light{
+    --bs-bg-opacity: 0.8 !important;
+}
+
+.p-paginator-bottom	{
+    // background: blue;
+    background: lightskyblue;
+
+}
+
+.p-datatable-thead{
+    background: red;
+    font-weight: bold;
+    background: lightskyblue ;
+}
+
+.p-datatable .p-datatable-thead > tr > th{
+    font-weight: bold;
+    background: lightskyblue ;
+}
+
+.p-datatable .p-datatable-tbody > tr{
+    font-size: 14px;
+    color: #698baf;
+}
+
+// font-weight: bold;
+//     background: lightskyblue;
