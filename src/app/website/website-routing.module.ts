@@ -65,6 +65,8 @@ import { ConsultaEvaluacionComponent } from './pages/sg/components/consulta-eval
 import { EvaluacionComponent } from './pages/sg/components/evaluacion/evaluacion.component';
 import { SgeFormComponent } from './pages/sg/components/sge-form/sge-form.component';
 import { SistemaGestionComponent } from './pages/sg/components/sistema-gestion/sistema-gestion.component';
+import {IndCasosMedicosComponent} from 'src/app/website/pages/ind/components/ind-casos-medicos/ind-casos-medicos.component';
+import {IndCasosMedicosGestionComponent} from 'src/app/website/pages/ind/components/ind-casos-medicos-gestion/ind-casos-medicos-gestion.component';
 
 const routes: Routes = [
   {
@@ -200,8 +202,9 @@ const routes: Routes = [
           { path: 'rai', component: IndicadoresRaiComponent },
           { path: 'inp', component: IndicadoresInpComponent },
           { path: 'accidentalidad', component: AccidentalidadComponent },
+          { path: 'indcasosmedicos', component: IndCasosMedicosComponent },
+          { path: 'indcasosmedicosgestion', component: IndCasosMedicosGestionComponent },
           { path: 'indcaracterizacion', component: IndCaracterizacionComponent }
-
         ]
       },
       {

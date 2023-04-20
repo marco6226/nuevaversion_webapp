@@ -167,8 +167,13 @@ import { UsuarioService } from './pages/admin/services/usuario.service';
 import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle-timeout.component';
 import { IndCaracterizacionComponent } from './pages/ind/components/ind-caracterizacion/ind-caracterizacion.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartModule } from 'primeng/chart';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { IndCasosMedicosComponent } from './pages/ind/components/ind-casos-medicos/ind-casos-medicos.component';
+import { IndCasosMedicosGestionComponent } from './pages/ind/components/ind-casos-medicos-gestion/ind-casos-medicos-gestion.component';
+
 @NgModule({
   declarations: [
  
@@ -311,9 +316,13 @@ import { BrowserModule } from '@angular/platform-browser';
     EmpleadoBasicSelectorComponent,
     FormularioConstructorComponent,
     IdleTimeoutComponent,
-    IndCaracterizacionComponent
+    IndCaracterizacionComponent,
+    IndCasosMedicosComponent,
+    IndCasosMedicosGestionComponent
   ],
   imports: [
+    MatTooltipModule,
+    ChartModule,
     NgxChartsModule,
     CommonModule,
     WebsiteRoutingModule,

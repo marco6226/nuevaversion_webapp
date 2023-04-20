@@ -29,7 +29,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   añoActual:number=this.dateValue.getFullYear();
   yearRangeNumber= Array.from({length: this.añoActual - this.añoPrimero+1}, (f, g) => g + this.añoPrimero);
   yearRange = new Array();
-  anioSelected?: number;
+  anioSelected?: any;
   empresaSelected?: string;
   mostrarForm: boolean = false;
   guardarFlag:boolean=true;
@@ -155,9 +155,8 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
     let idhttquery = new FilterQuery();
     idhttquery.sortOrder = SortOrder.DESC;
     idhttquery.sortField = "id";
-    console.log('revisar',this.anioSelected)
     idhttquery.filterList = [
-      {criteria: Criteria.EQUALS, field: 'anio', value1: this.anioSelected!['valueOf'].toString()},
+      {criteria: Criteria.EQUALS, field: 'anio', value1: this.anioSelected?.value},
       {criteria: Criteria.EQUALS, field: 'empresaSelect', value1: this.empresaSelected}
     ];
     
@@ -252,12 +251,11 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   async guardarHht(){
     let flagListHHT = false;
     if(this.listaHHT.length === 0) flagListHHT = true;
-    console.log('revisar',this.anioSelected)
     await this.meses.forEach((mes, index) => {
       
       let hht = new Hht();
       hht.id = null;
-      hht.anio = Number(this.anioSelected!['valueOf']);//this.anioSelected!['valueOf'];
+      hht.anio = Number(this.anioSelected?.value);
       hht.empresaSelect = this.empresaSelected;
       hht.mes = mes.value; 
       hht.valor = JSON.stringify({
@@ -271,7 +269,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
       }
       
       this.hhtService.create(hht).then(() => {
-        console.info('HHT creado para el mes de: ', `${mes.value} de ${this.anioSelected!['valueOf']}`);
+        console.info('HHT creado para el mes de: ', `${mes.value} de ${this.anioSelected.value}`);
       });
     });
     setTimeout(() => {

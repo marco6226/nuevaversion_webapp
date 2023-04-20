@@ -35,73 +35,47 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   categoriesCombo: any=[];
   seriesCombo: any=[];
   selectedAnioIli_1: number = new Date().getFullYear();
-  dataIli_1: any;
+  dataIli_1?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
   optionsIli_1: any = {
-    title: 'ILI por división', 
-    height: 400,
-    width: 800,
-    xAxis: {
-      title: 'Divisiones',
-      labelRotation: 300,
-      labelAlign: 'middle', // left, middle, right,
-      labelEllipsisSize: 80
-    },
-    yAxis: {
-      leftTitle: 'ILI',
-      rightTitle: 'Meta',
-      labelEllipsisSize: 8
-    },
-    plotOptions: {
-      groupBarPadding: 1,
-      innerBarPadding: 3
-    },
-    legend: {
-      labelEllipsisSize: 80
+    title: {
+      display: true,
+      text: 'ILI por División'
     }
+  }
+  dataIli_2?: {
+    labels: any;
+    datasets: any[];
+    options: any;
   };
   optionsIli_2: any = {
-    title: 'ILI por mes', 
-    height: 400,
-    width: 800,
-    xAxis: {
-        title: 'Meses',
-        labelRotation: 300,
-        labelAlign: 'middle', // left, middle, right,
-        labelEllipsisSize: 80
-    },
-    yAxis: {
-        leftTitle: 'ILI',
-        rightTitle: 'Meta',
-        labelEllipsisSize: 8
-    },
-    plotOptions: {
-        groupBarPadding: 1,
-        innerBarPadding: 3
-    },
-    legend: {
-        labelEllipsisSize: 80
+    title: {
+      display: true,
+      text: 'ILI por mes'
     }
   };
-  dataIli_2: any[] | null = null;
   selectedAnioIli_2: number = new Date().getFullYear();
-  multi: any[] | null = null;
+  multi?: any[];
   localeES = locale_es;
-  desde: Date | null = null;
-  hasta: Date | null = null;
-  NoEventos: number | null = null;
-  diasPerdidos: number | null = null;
-  incapacidades: any[] | null = null; // revisar si se usa
-  areasPermiso: string | null = null;
-  filtroFechaAt: Date[] = [];
+  desde?: Date | null;
+  hasta?: Date;
+  NoEventos?:number;
+  diasPerdidos?:number;
+  incapacidades?:any;
+  areasPermiso?: string;
+  filtroFechaAt: Date[] | null | undefined = [];
   filtroFechaDiasPerdidos: Date[] = [];
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
   areaList: Area[] = [];
-  divisiones = new Array();
-  divisiones2 = new Array();
-  divisiones4 = new Array();
-  divisionS = null;
-  divisiones5 = [
+  divisiones= new Array();
+  divisiones2= new Array();
+  divisiones4= new Array();
+  divisionS=null;
+  divisiones5=[
     {name:'Enero',code:0},
     {name:'Febrero',code:1},
     {name:'Marzo',code:2},
@@ -163,7 +137,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     domain: ['#00B0F0', '#FC4512', '#FFC000', '#002060','#FCB8FC', '#5B9BD5','#70AD47']
   };
   title: string = 'Accidentalidad';
-  data: any[] | null = null;
+  data?: [];
   meses: string[] = [
     'Enero',
     'Febrero',
@@ -192,12 +166,12 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     {label:'Noviembre',value:'Noviembre'},
     {label:'Diciembre',value:'Diciembre'}
   ];
-  selectedDivisionResumen: string | null = null;
+  selectedDivisionResumen?: string | null = null;
   selectDivisiones1: any[] = [];
   selectIndicarores1: any[] = [];
   selectDivisiones2: any[] = [];
   selectDivisionesILI1: any[] = [];
-  selectDivisionesILI2: string | null = null;
+  selectDivisionesILI2?: string;
   selectIndicarores2: any[] = [];
   selectMeses1: any[] = [];
   selectMeses2: any[] = [];
@@ -208,12 +182,12 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   mesesILI2: string[] = [];
   Indicadores: any[] = [{label: 'Tasa de Frecuencia', value: 0}, {label: 'Tasa de Severidad', value: 1}, {label: 'Proporción AT mortal', value: 2}];
   Eventos: any[] = [{label: 'Numero AT', value: 0}, {label: 'Numero días perdidos', value: 1}, {label: 'Numero AT mortales', value: 2}, {label: 'Numero AT con cero días', value: 3}];
-  dataEventos1: any[] | null = null;
+  dataEventos1?: any[];
   evento1Desde: Date | null = null;
   evento1Hasta: Date | null = null;
-  randomEv2: any[] | null = null;
-  tasaFrecuencia1: any[] | null = null;
-  tasaFrecuencia2: any[] | null = null;
+  randomEv2?: any[];
+  tasaFrecuencia1?: any[];
+  tasaFrecuencia2?: any[];
   tasaDesde: Date = new Date();
   tasaHasta: Date = new Date();
   tasasNotFound: boolean = false;
@@ -223,75 +197,75 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   divisionesCoronaConId: any[] = [];
   divisionesCoronaIli1: string[] = [];
   filtroAnioTasa_2: number = new Date().getFullYear();
-  filtroDivisionesTasa_2: string | null = null;
+  filtroDivisionesTasa_2?: string;
   filtroDivisionEventos2: any[] = [];
   filtroMesesIli_1: any[] = []; 
   dataEventos2: any[] = [];
   filtroAnioEventos2: number = new Date().getFullYear();
-  filtroEventos1: string | null = null;
-  filtroEventos2: string | null = null;
-  randomILI: any[] | null = null;
-  randomILI2: any[] | null = null;
-  randomILI2_2: any[] | null = null;
-  randomILI3: any[] | null = null;
-  randomILI3_2: any[] | null = null;
-  randomEv1Dona: any[] | null = null;
-  randomEv2Dona: any[] | null = null;
-  randomEv3Dona: any[] | null = null;
-  randomEv1Donadb: any[] | null = null;
-  randomEv2Donadb: any[] | null = null;
-  randomEv3Donadb: any[] | null = null;
-  flagdiv1: boolean = false;
-  flagdiv2: boolean = false;
-  flagevent2: boolean = false;
-  flagILI2: boolean = false;
-  flagILI2_2: boolean = false;
-  flagILI3: boolean = false;
-  flagILI3_2: boolean = false;
-  hastaEv2: Date = new Date(Date.now());
-  hastaIn1: Date = new Date(Date.now());
-  hastaIn2: Date = new Date(Date.now());
-  hastaILI1: Date = new Date(Date.now());
-  hastaILI2: Date = new Date(Date.now());
-  hastaILI3: Date = new Date(Date.now());
-  hastaILI1_2: Date = new Date(Date.now());
-  hastaILI2_2: Date = new Date(Date.now());
-  hastaILI3_2: Date = new Date(Date.now());
-  desdeEv2: Date | null = null;
-  desdeIn1: Date | null = null;
-  desdeIn2: Date | null = null;
-  desdeILI1: Date | null = null;
-  desdeILI2: Date | null = null;
-  desdeILI3: Date | null = null;
-  desdeILI1_2: Date | null = null;
-  desdeILI2_2: Date | null = null;
-  desdeILI3_2: Date | null = null;
-  divisiones3: any[] | null = null;
-  reporteTabla: any;
-  reporteTabla2: any;
-  totalDiasPerdidosDv: any[] | null = null;
-  totalEventosDv: any[] | null = null;
-  totalEventosDv2: any[] | null = null;
-  totalDiasEventos: any[] | null = null;
-  random: any[] | null = null;
-  flag: boolean=false
-  flag1: boolean = false
-  flagdiv: boolean = false
-  flagevent: boolean = false
-  flagtasa1: boolean = false
-  flagtasa2: boolean = false
-  flagtasaILI: boolean = false
+  filtroEventos1?: string;
+  filtroEventos2?: string;
+  randomILI?: any[];
+  randomILI2?: any[];
+  randomILI2_2?: any[];
+  randomILI3?: any[];
+  randomILI3_2?: any[];
+  randomEv1Dona?: any[];
+  randomEv2Dona?: any[];
+  randomEv3Dona?: any[];
+  randomEv1Donadb?: any[];
+  randomEv2Donadb?: any[];
+  randomEv3Donadb?: any[];
+  flagdiv1:boolean=false;
+  flagdiv2:boolean=false;
+  flagevent2:boolean=false;
+  flagILI2:boolean=false;
+  flagILI2_2:boolean=false;
+  flagILI3:boolean=false;
+  flagILI3_2:boolean=false;
+  hastaEv2: Date=new Date(Date.now());
+  hastaIn1: Date=new Date(Date.now());
+  hastaIn2: Date=new Date(Date.now());
+  hastaILI1: Date=new Date(Date.now());
+  hastaILI2: Date=new Date(Date.now());
+  hastaILI3: Date=new Date(Date.now());
+  hastaILI1_2: Date=new Date(Date.now());
+  hastaILI2_2: Date=new Date(Date.now());
+  hastaILI3_2: Date=new Date(Date.now());
+  desdeEv2?: Date;
+  desdeIn1?: Date;
+  desdeIn2?: Date;
+  desdeILI1?: Date;
+  desdeILI2?: Date;
+  desdeILI3?: Date;
+  desdeILI1_2?: Date;
+  desdeILI2_2?: Date;
+  desdeILI3_2?: Date;
+  divisiones3?: any[];
+  reporteTabla?:any
+  reporteTabla2?:any
+  totalDiasPerdidosDv?: any[];
+  totalEventosDv?: any[];
+  totalEventosDv2?: any[];
+  totalDiasEventos?: any[];
+  random?: any[];
+  flag:boolean=false
+  flag1:boolean=false
+  flagdiv:boolean=false
+  flagevent:boolean=false
+  flagtasa1:boolean=false
+  flagtasa2:boolean=false
+  flagtasaILI:boolean=false
   yearRange = new Array();
-  añoPrimero: number = 2015;
-  dateValue = new Date();
-  añoActual: number = this.dateValue.getFullYear();
+  añoPrimero:number=2015;
+  dateValue= new Date();
+  añoActual:number=this.dateValue.getFullYear();
   anioActualResumen: number = new Date().getFullYear();
-  fechaInicioResumen: Date | null = null;
-  fechaFinalResumen: Date | null = null;
-  yearRangeNumber = Array.from({length: this.añoActual - this.añoPrimero+1}, (f, g) => g + this.añoPrimero);
+  fechaInicioResumen?: Date | null | undefined;
+  fechaFinalResumen?: Date;
+  yearRangeNumber= Array.from({length: this.añoActual - this.añoPrimero+1}, (f, g) => g + this.añoPrimero);
 
-  filterMemoryTasas_1: string | null = null;
-  filterMemoryTasas_2: String | null = null;
+  filterMemoryTasas_1?:string;
+  filterMemoryTasas_2?:String;
   
 
   constructor(
@@ -299,7 +273,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     private areaService: AreaService,
     private hhtService: HhtService,
     private sessionService: SesionService
-  ) { /* */ }  
+    ) {}
+    
     
   ngAfterViewInit(){
     this.cargarEventosAt().then(() => {
@@ -309,7 +284,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
       this.loadResumen();
       this.getEventosAt();
-      this.selectRangoEventosAt(this.filtroFechaAt[0],'desde' )
+      this.selectRangoEventosAt(this.filtroFechaAt![0],'desde' )
       this.getDiasPerdidosAt();
       this.selectRangoDiasPerdidosAt(this.filtroFechaDiasPerdidos[0],'desde' )
       this.getTasas_1();
@@ -364,10 +339,10 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async getData(){
-    this.filtroFechaAt[0] = this.fechaInicioResumen ? this.fechaInicioResumen : new Date();
-    this.filtroFechaAt[1]= this.fechaFinalResumen ? this.fechaFinalResumen : new Date();
-    this.filtroFechaDiasPerdidos[0] = this.fechaInicioResumen ? this.fechaInicioResumen : new Date();
-    this.filtroFechaDiasPerdidos[1] = this.fechaFinalResumen ? this.fechaFinalResumen : new Date();
+    this.filtroFechaAt![0]=this.fechaInicioResumen!
+    this.filtroFechaAt![1]=(this.fechaFinalResumen)!
+    this.filtroFechaDiasPerdidos[0]=this.fechaInicioResumen!
+    this.filtroFechaDiasPerdidos[1]=(this.fechaFinalResumen)!
     let areafiltQuery = new FilterQuery();
       areafiltQuery.sortOrder = SortOrder.ASC;
       areafiltQuery.sortField = "nombre";
@@ -381,46 +356,47 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     // this.divisiones.push({label:'Total',value:'Total'})
     await this.areaService.findByFilter(areafiltQuery)
     .then(
-      (resp: any) => {
+      (resp:any) => {
         this.areaList = <Area[]>resp['data'];
-        let cont = 0;
+        let cont=0
         this.areaList.forEach(element => {
           this.divisionesCoronaConId.push({nombre: element.nombre, id: element.id});
-          this.divisiones.push({label:element['nombre'],value:element['nombre']});
-          this.divisiones2.push({label:element['nombre'],value:element['nombre']});
-          this.divisiones4.push({name:element['nombre'],code:cont});
-          cont += 1;
+          this.divisiones.push({label:element['nombre'],value:element['nombre']})
+          this.divisiones2.push({label:element['nombre'],value:element['nombre']})
+          this.divisiones4.push({name:element['nombre'],code:cont})
+          cont+=1
         });
-        this.divisiones4.push({name:'Corona total',code:cont});
-        this.divisiones2.push({label:'Corona total',value:'Corona total'});
+        this.divisiones4.push({name:'Corona total',code:cont})
+        this.divisiones2.push({label:'Corona total',value:'Corona total'})
       }
     );
-      this.reporteTabla = [];
-      this.reporteTabla2 = [];
-      this.totalDiasPerdidosDv = [];
-      this.totalEventosDv = [];
-      this.totalEventosDv2 = [];
-      this.totalDiasEventos = [];
+      // console.log(this.divisiones2)
+      this.reporteTabla=[]
+      this.reporteTabla2=[]
+      this.totalDiasPerdidosDv=[]
+      this.totalEventosDv=[]
+      this.totalEventosDv2=[]
+      this.totalDiasEventos=[]
       await this.reporteAtService.findAllRAT()
       .then(res => {
-        this.reporteTabla = res;
+        this.reporteTabla=res
         
         this.areaList.forEach(element => {
           let cont: number = 0;
-          let diasPerdidos: number=0;
+          let diasPerdidos: number=0
 
-          this.reporteTabla.forEach((element2: any) =>{
+          this.reporteTabla.forEach((element2:any) =>{
             if(element['nombre']==element2['padreNombre']){
               cont+=1;
               if(element2['incapacidades'] != null && element2['incapacidades'] != 'null'){
-                diasPerdidos+=JSON.parse(element2['incapacidades']).length;
+                diasPerdidos+=JSON.parse(element2['incapacidades']).length
               }
             }
           })
-          this.totalDiasPerdidosDv?.push({name:element['nombre'],value:diasPerdidos});
-          this.totalEventosDv?.push({name:element['nombre'],value:cont});
-          this.reporteTabla2.push({nombre:element['nombre'],eventos:cont,dias_Perdidos:diasPerdidos});
-          this.totalDiasEventos?.push({name:element['nombre'],series:[{name:'Eventos AT',value:cont},{name:'Días perdidos',value:diasPerdidos}]});
+          this.totalDiasPerdidosDv!.push({name:element['nombre'],value:diasPerdidos})
+          this.totalEventosDv!.push({name:element['nombre'],value:cont})
+          this.reporteTabla2.push({nombre:element['nombre'],eventos:cont,dias_Perdidos:diasPerdidos})
+          this.totalDiasEventos!.push({name:element['nombre'],series:[{name:'Eventos AT',value:cont},{name:'Días perdidos',value:diasPerdidos}]})
         });
       });
       this.totalEventosDv2=this.totalEventosDv
@@ -433,8 +409,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     let empresaId = this.sessionService.getEmpresa()?.id;
     let hhtEmpresa: Hht[] = [];
     let hhtTemp: Hht[] = [];
-    let localStorageData = localStorage.getItem('reportesAt');
-    let reportesAt: any[] = JSON.parse(localStorageData ? localStorageData : '').map((at: any) => at);
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).map((at:any) => at);
+
+    // console.log(this.fechaInicioResumen, this.fechaFinalResumen);
     
     filterQueryCorona.sortOrder = SortOrder.ASC;
     filterQueryCorona.sortField = "id";
@@ -463,14 +440,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     reportesAt = reportesAt.filter(at => new Date(at.fechaReporte).getFullYear() == this.anioActualResumen);
 
     reportesAt = reportesAt.filter(at => {
-      if( (this.fechaInicioResumen && this.fechaFinalResumen)){
-        return new Date(at['fechaReporte']) >= this.fechaInicioResumen && new Date(at['fechaReporte']) < this.fechaFinalResumen;
-      }else if(this.fechaInicioResumen && !this.fechaFinalResumen){
-        return new Date(at['fechaReporte']) >= this.fechaInicioResumen;
-      }else if(!this.fechaInicioResumen && this.fechaFinalResumen){
-        return new Date(at['fechaReporte']) < this.fechaFinalResumen;
-      }
-      return true;
+        return new Date(at['fechaReporte']) >= this.fechaInicioResumen! && new Date(at['fechaReporte']) < this.fechaFinalResumen!;
     });
 
     if(this.selectedDivisionResumen && this.selectedDivisionResumen !== 'Total') reportesAt = reportesAt.filter(at => at.padreNombre === this.selectedDivisionResumen);
@@ -481,7 +451,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     reportesAt.forEach(at => {
       if(at['incapacidades']!=null && at['incapacidades']!='null'){
         this.diasPerdidos = this.diasPerdidos + JSON.parse(at['incapacidades'])
-        .reduce((count: number, incapacidad: any) => {
+        .reduce((count:any, incapacidad:any) => {
           return count + incapacidad.diasAusencia;
         }, 0);
       }
@@ -495,7 +465,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           this.metaIli = JSON.parse(res.data[0].valor).ILI_Anual;
         }else{
           let data: DataHht = JSON.parse(res.data[0].valor).Data;
-          data.Areas!.forEach((area) => {
+          data.Areas!.forEach((area , index) => {
             this.areaList.forEach(ar => {
               if(ar.nombre === this.selectedDivisionResumen && ar.id == area.id!.toString()){
                 this.metaIli = area.ILIArea!;
@@ -503,6 +473,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             });
           });
         }
+        // console.log('hhtEmpresa: ', hhtEmpresa);
       }else{
         console.error('No se obtuvieron registros hht de la empresa.');
       }
@@ -550,7 +521,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       .filter(at => at.padreNombre === this.selectedDivisionResumen && at.incapacidades !== null
         && at.incapacidades !== 'null')
         .reduce((count, at) => {
-          return count + JSON.parse(at.incapacidades).reduce((count2: number, incapacidad: any) => {
+          return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidad:any) => {
             return count2 + incapacidad.diasAusencia;
           }, 0);
         }, 0);
@@ -558,50 +529,50 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       totalDiasSeveridad = reportesAt
       .filter(at => at.incapacidades !== null && at.incapacidades !== 'null')
       .reduce((count, at) => {
-        return count + JSON.parse(at.incapacidades).reduce((count2: number, incapacidad: any) => {
+        return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidad:any) => {
           return count2 + incapacidad.diasAusencia;
         }, 0);
       }, 0);
     }
 
     let totalHhtEmpresa = 0;
-    let mesInicio = this.fechaInicioResumen?.getMonth();
-    let mesFinal = this.fechaFinalResumen?.getMonth();
-    totalHhtEmpresa = this.calcularTotalHht(hhtEmpresa, mesInicio || 0, mesFinal || 11, this.selectedDivisionResumen);
+    let mesInicio = this.fechaInicioResumen!.getMonth();
+    let mesFinal = this.fechaFinalResumen!.getMonth();
+    totalHhtEmpresa = this.calcularTotalHht(hhtEmpresa, mesInicio, mesFinal, this.selectedDivisionResumen!, false);
     let totalHHtTemporales = 0;
-    totalHHtTemporales = this.calcularTotalHht(hhtTemp, mesInicio || 0, mesFinal || 11, this.selectedDivisionResumen);
+    totalHHtTemporales = this.calcularTotalHht(hhtTemp, mesInicio, mesFinal, this.selectedDivisionResumen!, true);
 
     let IF = (accidentesConDiasPerdidos / (totalHhtEmpresa + totalHHtTemporales)) * 240000;
     let IS = (totalDiasSeveridad / (totalHhtEmpresa + totalHHtTemporales)) * 240000;
     let ILI = (IF * IS) / 1000;
-    // console.log(accidentesConDiasPerdidos, totalHhtEmpresa, totalHHtTemporales, totalDiasSeveridad, IF, IS, ILI);
+    console.log(accidentesConDiasPerdidos, totalHhtEmpresa, totalHHtTemporales, totalDiasSeveridad, IF, IS, ILI);
     this.ili = Number(ILI.toFixed(6));
+
+    if(this.ili<=this.metaIli){
+      this.colorIli="card l-bg-green-dark"}
+      else {this.colorIli="card l-bg-red-dark"}
 
   }
 
-  calcularTotalHht(hht: Hht[], mesInicio: number, mesFinal: number, selectedDivisionResumen: string | null): number{
+  calcularTotalHht(hht: Hht[], mesInicio: number, mesFinal: number, selectedDivisionResumen: string, flagTemporales: boolean): number{
     let totalHht = 0;
-    if(mesInicio == mesFinal){
-      hht.forEach(hht => {
-        if(selectedDivisionResumen && selectedDivisionResumen !== 'Total'){
-          if(hht.mes === this.meses[mesInicio]){
-            let dataHht: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
-            totalHht += dataHht.Areas!
-            .filter((ar:any) => ar.id === this.divisionesCoronaConId!.find((div:any) => div.nombre === selectedDivisionResumen).id)[0].HhtArea!;
-          }
-        }else{
-          if(hht.mes === this.meses[mesInicio]){
-            let dataHht: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
-            totalHht += dataHht.HhtMes!;
-          }
+    if(mesInicio === mesFinal){
+      hht.forEach(item => {
+        if(item.mes === this.meses[mesInicio]){
+          let dataHHT: DataHht = <DataHht>JSON.parse(item.valor!).Data;
+          totalHht += (selectedDivisionResumen && selectedDivisionResumen) !== 'Total' ?
+          dataHHT.Areas!.filter((data:any) => data.id! === this.divisionesCoronaConId.find((div:any) => div.nombre === selectedDivisionResumen).id)[0].HhtArea!
+          : dataHHT.HhtMes!;
         }
-      })
+      });
     }else{
-      hht.forEach(hht => {
-        let mesIndex = this.meses.findIndex(mes => hht.mes === mes);
+      hht.forEach(item => {
+        let mesIndex = this.meses.findIndex(mes => item.mes === mes);
         if(mesIndex >= mesInicio && mesIndex <= mesFinal){
-          let dataHht: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
-          totalHht += dataHht.HhtMes!;
+          let dataHHT: DataHht = <DataHht>JSON.parse(item.valor!).Data;
+          totalHht += selectedDivisionResumen && selectedDivisionResumen !== 'Total' ? 
+          dataHHT.Areas!.filter(data => data.id === this.divisionesCoronaConId.find(div => div.nombre === selectedDivisionResumen).id)[0].HhtArea!
+          : dataHHT.HhtMes!;
         }
       });
     }
@@ -621,18 +592,20 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   //Eventos At
-  reiniciarVariableFechaEventosAt(){
-    this.filtroFechaAt[0]=new Date(new Date().getFullYear(), 0, 1)
-    this.filtroFechaAt[1]=new Date()
-  }
+  reiniciarVariableFechaEventosAt(filter?: string){
+    this.filtroFechaAt![0]=new Date(new Date().getFullYear(), 0, 1)
+    this.filtroFechaAt![1]=new Date()
+    this.getEventosAt(filter)
+    this.selectRangoEventosAt(this.filtroFechaAt![1], 'hasta')
+  } 
 
   getEventosAt(filter?: string){
     // this.filtroFechaAt = [];
     let divisiones: string[] = [];
     let randomEv1Dona: any[] = [];
-    let auxRandomEv1Dona: any[] = [];
-    let padreNombreList: any[] = [];
-    let reporteAt = JSON.parse(localStorage.getItem('reportesAt') || "[]").map((at: any) => at);
+    let auxRandomEv1Dona:any = [];
+    let padreNombreList:any = [];
+    let reporteAt = JSON.parse(localStorage.getItem('reportesAt')!).map((at:any) => at);
     reporteAt.forEach((at: any) => {
       padreNombreList.push(at.padreNombre);
     });
@@ -645,12 +618,12 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     try {
       switch(filter){
         case 'temp':
-          let eventosAttemp: any[] = [];
+          let eventosAttemp:any = [];
           divisiones.forEach(
             division => {
               let data = {name: division, value: 0};
-              auxRandomEv1Dona= auxRandomEv1Dona.concat(reporteAt.filter((at: any) => at.padreNombre === division && at.temporal));
-              data.value = reporteAt.filter((at: any) => at.padreNombre === division && at.temporal).length;
+              auxRandomEv1Dona= auxRandomEv1Dona.concat(reporteAt.filter((at:any) => at.padreNombre === division && at.temporal));
+              data.value = reporteAt.filter((at:any) => at.padreNombre === division && at.temporal).length;
               eventosAttemp.push(data);
             }
           );
@@ -658,12 +631,12 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           Object.assign(this, {randomEv1Dona});
           break;
         case 'dir':
-          let eventosAtdir: any[] = [];
+          let eventosAtdir:any = [];
           divisiones.forEach(
             division => {
               let data = {name: division, value: 0};
-              auxRandomEv1Dona= auxRandomEv1Dona.concat(reporteAt.filter((at: any) => at.padreNombre === division && !at.temporal));
-              data.value = reporteAt.filter((at: any) => at.padreNombre === division && at.temporal == null).length;
+              auxRandomEv1Dona= auxRandomEv1Dona.concat(reporteAt.filter((at:any) => at.padreNombre === division && !at.temporal));
+              data.value = reporteAt.filter((at:any) => at.padreNombre === division && at.temporal == null).length;
               eventosAtdir.push(data);
             }
           );
@@ -674,19 +647,19 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           throw 'error';
       }
     }catch(err){
-      let eventosAt: any[] = [];
+      let eventosAt:any = [];
       divisiones.forEach(
         division => {
           let data = {name: division, value: 0};
-          auxRandomEv1Dona = auxRandomEv1Dona.concat(reporteAt.filter((at: any) => at.padreNombre === division));
-          data.value = reporteAt.filter((at: any) => at.padreNombre === division).length;
+          auxRandomEv1Dona= auxRandomEv1Dona.concat(reporteAt.filter((at:any) => at.padreNombre === division));
+          data.value = reporteAt.filter((at:any) => at.padreNombre === division).length;
           eventosAt.push(data);
         }
       );
       randomEv1Dona.push(...eventosAt);
       Object.assign(this, {randomEv1Dona});
     }
-    localStorage.setItem('reporteAtList', JSON.stringify(auxRandomEv1Dona.map(at => at)));
+    localStorage.setItem('reporteAtList', JSON.stringify(auxRandomEv1Dona.map((at:any) => at)));
   }
 
   selectRangoEventosAt(event: Date, filter: string){
@@ -694,20 +667,22 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     if(typeof this.filtroFechaAt === "undefined") this.filtroFechaAt = [];
 
     if(filter === 'desde'){
-      this.filtroFechaAt[0] = event;
+      this.filtroFechaAt![0] = event;
     }else if(filter === 'hasta'){
-      this.filtroFechaAt[1] = event;
+      this.filtroFechaAt![1] = event;
     }
+    // console.log();
     
-    if(this.filtroFechaAt[0] && this.filtroFechaAt[1]){
-      let dataEv1Dona: any[] = JSON.parse(localStorage.getItem('reporteAtList') || "");
+    if(this.filtroFechaAt![0] && this.filtroFechaAt![1]){
+      let dataEv1Dona: any[] = JSON.parse(localStorage.getItem('reporteAtList')!);
+      // console.log(dataEv1Dona)
       let listaDivisiones: any[] = dataEv1Dona.map(at => at.padreNombre);
       let divisiones: any[] = listaDivisiones.filter((item, index) => {
         return listaDivisiones.indexOf(item) === index;
       });
 
-      let dateFinal: Date = new Date(new Date(this.filtroFechaAt[1]).setMonth(new Date(this.filtroFechaAt[1]).getMonth()+1));
-      dataEv1Dona = dataEv1Dona.filter(at => at.fechaReporte >= this.filtroFechaAt[0] && at.fechaReporte < dateFinal);
+      let dateFinal: Date = new Date(new Date(this.filtroFechaAt![1]).setMonth(new Date(this.filtroFechaAt![1]).getMonth()+1));
+      dataEv1Dona = dataEv1Dona.filter(at => at.fechaReporte >= this.filtroFechaAt![0] && at.fechaReporte < dateFinal);
       let randomEv1Dona: any[] = [];
       divisiones.forEach(division => {
         let data = {name: division, value: 0};
@@ -719,19 +694,23 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   //Dias perdidos
-  reiniciarVariableFechaDiasPerdidos(){
+  reiniciarVariableFechaDiasPerdidos(filter?: string){
     this.filtroFechaDiasPerdidos[0]=new Date(new Date().getFullYear(), 0, 1)
     this.filtroFechaDiasPerdidos[1]=new Date()
+    this.getDiasPerdidosAt(filter)
+    this.selectRangoDiasPerdidosAt(this.filtroFechaDiasPerdidos[1], 'hasta')
   }
 
   getDiasPerdidosAt(filter?: string){
+    //this.filtroFechaDiasPerdidos = [];
+    // this.filtroFechaAt = [];
     let divisiones: string[] = [];
-    let randomEv1Donadb: any[] = [];
-    let auxRandomEv1Donadb: any[] = [];
-    let listaDivisionesDp: any[];
-    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt') || "[]");
+    let randomEv1Donadb:any = [];
+    let auxRandomEv1Donadb:any = [];
+    let listaDivisionesDp:any;
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!);
     listaDivisionesDp = reportesAt.map(atDp => atDp.padreNombre);
-    divisiones = listaDivisionesDp.filter((item, index) => {
+    divisiones = listaDivisionesDp.filter((item:any, index:any) => {
       return listaDivisionesDp.indexOf(item) === index; 
     }).sort();
     try {
@@ -744,7 +723,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             data.value = reportesAt.filter(at => at.padreNombre === division && at.incapacidades !== null 
                                                 && at.incapacidades !== 'null' && at.temporal)
                                   .reduce((count, itemActual) => {
-                                    return count + JSON.parse(itemActual.incapacidades).reduce((count2: number, dataIncapacidad: any) => {
+                                    return count + JSON.parse(itemActual.incapacidades).reduce((count2:any, dataIncapacidad:any) => {
                                       return count2 + dataIncapacidad.diasAusencia;
                                     }, 0);
                                   }, 0);
@@ -762,7 +741,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
                                           && at.incapacidades !== null 
                                           && at.incapacidades !== 'null' && !at.temporal)
                           .reduce((cont, itemActual) => {
-                            return cont + JSON.parse(itemActual.incapacidades).reduce((cont2: number, dataIncapacidad: any) => {
+                            return cont + JSON.parse(itemActual.incapacidades).reduce((cont2:any, dataIncapacidad:any) => {
                               return cont2 + dataIncapacidad.diasAusencia;
                             }, 0);
                           }, 0);
@@ -781,7 +760,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         data.value = reportesAt
                       .filter(at => at.padreNombre === division && at.incapacidades !== null && at.incapacidades !== 'null')
                       .reduce((count, itemActual) => {
-                        return count + JSON.parse(itemActual.incapacidades).reduce((count2: number, dataIncapacidad: any) => {
+                        return count + JSON.parse(itemActual.incapacidades).reduce((count2:any, dataIncapacidad:any) => {
                           return count2 + dataIncapacidad.diasAusencia;
                         }, 0);
                       }, 0);
@@ -789,7 +768,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       });
       Object.assign(this, {randomEv1Donadb});
     }
-    localStorage.setItem('diasPerdidosAtList', JSON.stringify(auxRandomEv1Donadb.map(at => at)));
+    localStorage.setItem('diasPerdidosAtList', JSON.stringify(auxRandomEv1Donadb.map((at:any) => at)));
   }
 
   selectRangoDiasPerdidosAt(event: Date, filter: string){
@@ -802,7 +781,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     }
     
     if(this.filtroFechaDiasPerdidos[0] && this.filtroFechaDiasPerdidos[1]){
-      let dataDiasPerdidosAtList: any[] = JSON.parse(localStorage.getItem('diasPerdidosAtList') || "");
+      let dataDiasPerdidosAtList: any[] = JSON.parse(localStorage.getItem('diasPerdidosAtList')!);
       // console.log(dataDiasPerdidosAtList)
       let listaDivisiones: any[] = dataDiasPerdidosAtList.map(at => at.padreNombre);
       let divisiones: any[] = listaDivisiones.filter((item, index) => {
@@ -816,7 +795,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let data = {name: division, value: 0};
         data.value = dataDiasPerdidosAtList.filter(at => at.padreNombre === division && at.incapacidades != null && at.incapacidades != 'null')
                                             .reduce((count, item) => {
-                                              return count + JSON.parse(item.incapacidades).reduce((count2: number, dataIncapacidad: any) => {
+                                              return count + JSON.parse(item.incapacidades).reduce((count2:any, dataIncapacidad:any) => {
                                                 return count2 + dataIncapacidad.diasAusencia;
                                               }, 0)
                                             }, 0);
@@ -835,7 +814,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     // Obtener At y filtrarlos si se han seleccionado meses
     let reportesAt: any[] = [];
     if (this.selectedMesesTasa1.length > 0) {
-      reportesAt = JSON.parse(localStorage.getItem('reportesAt') || "[]").filter((at: any) => {
+      reportesAt = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => {
         let fechaReporte = new Date(at.fechaReporte);
         if(fechaReporte.getFullYear() === this.filtroAnioTasa_1
           && this.selectedMesesTasa1.includes(this.Meses[fechaReporte.getMonth()].value)){
@@ -844,10 +823,14 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         return false;
       });
     } else {
-      reportesAt = JSON.parse(localStorage.getItem('reportesAt') || "[]").filter((at: any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_1);
+      reportesAt = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_1);
     }
 
-    if(filter != 'filtro') this.filterMemoryTasas_1 = filter || null;
+    // let listaDivisiones: any[] = reportesAt.map(at => at.padreNombre);
+    // let divisiones: any[] = listaDivisiones.filter((item, index) => {
+    //   return listaDivisiones.indexOf(item) === index;
+    // }).sort();
+    if(filter!='filtro')this.filterMemoryTasas_1=filter
 
     try{
       switch (filter) {
@@ -861,6 +844,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           throw 'err';
       }
     }catch (e){
+      // if(this.tasaDesde && this.tasaHasta){
+      //   reportesAt = reportesAt.filter(at => at.fechaReporte > this.tasaDesde && at.fechaReporte < this.tasaHasta);
+      // }
       filterQuery.sortOrder = SortOrder.ASC;
       filterQuery.sortField = "id";
       filterQuery.filterList = [
@@ -869,7 +855,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       ];
       
       this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
-        let hhtTemp: Array<Hht> | null = null;
+        // console.log(res)
+        let hhtTemp: Array<Hht>;
         let filterQuery2 = new FilterQuery();
         filterQuery2.sortField = "id";
         filterQuery2.filterList = [
@@ -880,11 +867,13 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         await this.hhtService.findByFilter(filterQuery2)
         .then((res: any) => {
           hhtTemp = Array.from(res.data);
+          // console.log(hhtTemp)
         }).catch((err: any) => {
           console.error('Error al leer hht de temporales', err);
         });
+        // console.log(hhtTemp);
 
-        if(res.data.length > 0 && hhtTemp) {
+        if(res.data.length > 0 && hhtTemp!) {
           let trabajadoresTotalesMes=0
           let totalTrabajadoresTempMes=0
           let totalDiasPerdidos=0
@@ -893,22 +882,19 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             
             let trabajadoresTotales = 0;
             let mesesFiltrados = 0;
-            let data: {
-              name: string;
-              series: any[];
-            } = {
+            let data:any = {
               name: division.nombre,
               series: []
             };
             
-            res.data.forEach((elem: any) => {
+            res.data.forEach((elem:any) => {
               let data: DataHht = <DataHht>JSON.parse(elem.valor).Data;
               let trabajadoresPorArea = 0;
               if(this.selectedMesesTasa1.length > 0){  
                 if(this.selectedMesesTasa1.includes(data.mes)){
                   data.Areas!.forEach(area => {
                     if (division.id === area.id) {
-                      trabajadoresPorArea += area.NumPersonasArea! !== null ? area.NumPersonasArea! : 0;
+                      trabajadoresPorArea += area.NumPersonasArea !== null ? area.NumPersonasArea! : 0;
                     }
                   });
                   trabajadoresTotales += trabajadoresPorArea;
@@ -917,7 +903,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               }else{
                 data.Areas!.forEach(area => {
                   if (division.id === area.id) {
-                    trabajadoresPorArea += area.NumPersonasArea! !== null ? area.NumPersonasArea! : 0;
+                    trabajadoresPorArea += area.NumPersonasArea !== null ? area.NumPersonasArea! : 0;
                   }
                 });
                 trabajadoresTotales += trabajadoresPorArea;
@@ -928,40 +914,40 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             if(mesesFiltrados > 0) trabajadoresTotales = trabajadoresTotales / mesesFiltrados;
 
             let totalTrabajadoresTemp = 0;
-            let trabajadoresPorMes: any[] = [];
+            let trabajadoresPorMes:any = [];
             this.meses.forEach((mes, index) => {
               let totalTrabajadoresMes = 0;
               if(this.selectedMesesTasa1.length > 0){
                 if(this.selectedMesesTasa1.includes(mes)){
-                  hhtTemp?.forEach((hht, indexHHT) => {
+                  hhtTemp.forEach((hht, indexHHT) => {
                     let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
                     if(mes === hht.mes){
                       let area = data.Areas!.find(dataArea => dataArea.id == division.id);
                       let totalTrabajadores = area?.NumPersonasArea !== null ? area?.NumPersonasArea : 0;
-                      totalTrabajadoresMes += totalTrabajadores || 0;
+                      totalTrabajadoresMes += totalTrabajadores!;
                     }
                   });
                 }
               }else{
-                hhtTemp?.forEach((hht, indexHHT) => {
+                hhtTemp.forEach((hht, indexHHT) => {
                   let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
                   if(mes === hht.mes){
                     let area = data.Areas!.find(dataArea => dataArea.id == division.id);
                     let totalTrabajadores = area?.NumPersonasArea !== null ? area?.NumPersonasArea : 0;
-                    totalTrabajadoresMes += totalTrabajadores || 0;
+                    totalTrabajadoresMes += totalTrabajadores!;
                   }
                 });
               }
               trabajadoresPorMes.push(totalTrabajadoresMes);
             });
             if(this.selectedMesesTasa1.length > 0){
-              let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count, trabajadores) => {
+              let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count:any, trabajadores:any) => {
                 return count + trabajadores;
               }, 0);
               totalTrabajadoresTempMes+=totalTrabajadoresTemp;
               totalTrabajadoresTemp=totalTrabajadoresTemp / this.selectedMesesTasa1.length
             }else{
-              let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count, trabajadores) => {
+              let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count:any, trabajadores:any) => {
                 return count + trabajadores;
               }, 0);
               totalTrabajadoresTempMes+=totalTrabajadoresTemp;
@@ -973,7 +959,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             let diasPerdidos = reportesAt.filter(at => at.padreNombre === division.nombre && at.incapacidades !== null 
                                                         && at.incapacidades !== 'null')
                                           .reduce((count, item) => {
-                                            return count + JSON.parse(item.incapacidades).reduce((count2: number, incapacidad: any) => {
+                                            return count + JSON.parse(item.incapacidades).reduce((count2:any, incapacidad:any) => {
                                               return count2 + incapacidad.diasAusencia;
                                             }, 0);
                                           }, 0);
@@ -996,6 +982,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               name: 'Proporción AT mortal',
               value: PAT === Infinity ? 0 : PAT
             });
+            // console.log(TF, TS, PAT, ' : ', totalAt, diasPerdidos, AtMortales, trabajadoresTotales, totalTrabajadoresTemp);
             
             tasaFrecuencia1.push(data);
           });
@@ -1015,10 +1002,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               break;
           }
 
-          let dataTotal: {
-            name: string;
-            series: any[];
-          } = {
+          let dataTotal:any = {
             name: 'Corona total',
             series: []
           };
@@ -1051,14 +1035,16 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   filtroTasas1_1() {
-    let tasaFrecuencia1: any[] = JSON.parse(localStorage.getItem('tasaFrecuencia1') || "[]");
+    let tasaFrecuencia1: any[] = JSON.parse(localStorage.getItem('tasaFrecuencia1')!);
     if(this.selectDivisiones1.length > 0){
+      // console.log(this.selectDivisiones1);
+      // let divisiones = this.selectDivisiones1.map(div => div.value);
       tasaFrecuencia1 = tasaFrecuencia1.filter(tasasXDivision => this.selectDivisiones1.includes(tasasXDivision.name));
     }
     if(this.selectIndicarores1.length > 0){
       let indicadores = this.selectIndicarores1.map(indicador => indicador.label);
       tasaFrecuencia1.forEach(tf1 => {
-        tf1.series = tf1.series.filter((dataSeries: any) => indicadores.includes(dataSeries.name));
+        tf1.series = tf1.series.filter((dataSeries:any) => indicadores.includes(dataSeries.name));
       });
     }
     Object.assign(this, {tasaFrecuencia1});
@@ -1068,9 +1054,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     let tasaFrecuencia2: any[] = [];
     let filterQuery = new FilterQuery();
 
-    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt') || "[]").filter((at: any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_2);
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_2);
 
-    if(filter!='filtro') this.filterMemoryTasas_2 = filter || null;
+    if(filter!='filtro')this.filterMemoryTasas_2=filter
 
     try {
       switch (this.filterMemoryTasas_2) {
@@ -1098,7 +1084,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
       this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
 
-        let hhtTemp: Array<Hht> | null = null;
+        let hhtTemp: Array<Hht>;
         let filterQuery2 = new FilterQuery();
         filterQuery2.sortField = "id";
         filterQuery2.filterList = [
@@ -1113,28 +1099,25 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           console.error('Error al leer hht de temporales', err);
         });
 
-        if(res.data.length > 0 && hhtTemp){
+        if(res.data.length > 0 && hhtTemp!){
           this.Meses.forEach((mes, index) => {
 
             let trabajadoresTotales2 = 0;
             let totalAt = 0;
             let diasPerdidos = 0;
             let atMortales = 0;
-            let data: {
-              name: string;
-              series: any[]
-            } = {
+            let data:any = {
               name: mes.label,
               series: []
             };
 
-            res.data.forEach((elem: any) => {
+            res.data.forEach((elem:any) => {
               let data: DataHht = <DataHht>JSON.parse(elem.valor).Data;
               let trabajadoresPorArea = 0;
               
               if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
                 if(data.mes === mes.label){
-                  data.Areas!.forEach((dataArea) => {
+                  data.Areas!.forEach((dataArea, indexArea) => {
                     let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
                     if (div.nombre === this.filtroDivisionesTasa_2) {
                       trabajadoresPorArea += dataArea.NumPersonasArea!;
@@ -1154,12 +1137,12 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             // console.log(trabajadoresTotales2);
             // debugger
             let totalTrabajadoresTemp = 0;
-            hhtTemp?.forEach((hht, index) => {
+            hhtTemp.forEach((hht, index) => {
               let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
               let trabajadoresTemPorArea = 0;
 
               if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
-                data.Areas!.forEach((dataArea) => {
+                data.Areas!.forEach((dataArea, index) => {
                   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
                   if(div.nombre === this.filtroDivisionesTasa_2){
                     trabajadoresTemPorArea += dataArea.NumPersonasArea!;
@@ -1178,7 +1161,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             
             diasPerdidos = reportesAt.filter(at => index === new Date(at.fechaReporte).getMonth() && at.incapacidades !== null && at.incapacidades !== 'null')
                                                   .reduce((count, item) => {
-                                                    return count + JSON.parse(item.incapacidades).reduce((count2: number, incapacidad: any) => {
+                                                    return count + JSON.parse(item.incapacidades).reduce((count2:any, incapacidad:any) => {
                                                       return count2 + incapacidad.diasAusencia;
                                                     }, 0);
                                                   }, 0);
@@ -1218,17 +1201,17 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   filtroTasas_2(){
 
-    let tasaFrecuencia2 = JSON.parse(localStorage.getItem('tasaFrecuencia2') || "[]");
+    let tasaFrecuencia2 = JSON.parse(localStorage.getItem('tasaFrecuencia2')!);
     if(this.selectMeses1.length > 0){
-      tasaFrecuencia2 = tasaFrecuencia2.filter((tasaXMes: any) => this.selectMeses1.includes(tasaXMes.name));
+      tasaFrecuencia2 = tasaFrecuencia2.filter((tasaXMes:any) => this.selectMeses1.includes(tasaXMes.name));
     }
 
     if(this.selectIndicarores2.length > 0){
       let indicadores = this.selectIndicarores2.map(el => el.label);
-      tasaFrecuencia2 = tasaFrecuencia2.map((tasaXMes: any) => {
+      tasaFrecuencia2 = tasaFrecuencia2.map((tasaXMes:any) => {
         return {
           name: tasaXMes.name,
-          series: tasaXMes.series.filter((el: any) => indicadores.includes(el.name))
+          series: tasaXMes.series.filter((el:any) => indicadores.includes(el.name))
         }
       })
     }
@@ -1238,7 +1221,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   getEventos_1(){
     
-    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt') || "[]");
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!);
     let dataEventos1: any[] = [];
     let listaDivisiones = reportesAt.map(at => at.padreNombre);
     let divisiones = listaDivisiones.filter((div, index) => {
@@ -1258,7 +1241,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     }catch(err){
       if(this.evento1Desde && this.evento1Hasta) {
         let dateFinal: Date = new Date(new Date(this.evento1Hasta).setMonth(new Date(this.evento1Hasta).getMonth()+1));
-        reportesAt = reportesAt.filter(at => at.fechaReporte >= (this.evento1Desde || new Date(+0)) && at.fechaReporte < dateFinal);
+        reportesAt = reportesAt.filter(at => at.fechaReporte >= this.evento1Desde! && at.fechaReporte < dateFinal);
       };
       
       let numAtTotal = 0;
@@ -1267,10 +1250,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       let atCeroDiasTotales = 0;
 
       divisiones.forEach((division: any) => {
-        let data: {
-          name: string;
-          series: any[];
-        } = {
+        let data:any = {
           name: division,
           series: []
         }
@@ -1278,7 +1258,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let numeroAt: number = reportesAt.filter(at => at.padreNombre === division).length;
         let diasPerdidos: number = reportesAt.filter(at => at.padreNombre===division && at.incapacidades!==null && at.incapacidades!=='null')
                                       .reduce((count, incapacidades) => {
-                                        return count + JSON.parse(incapacidades.incapacidades).reduce((count2: number, incapacidad: any) => {
+                                        return count + JSON.parse(incapacidades.incapacidades).reduce((count2:any, incapacidad:any) => {
                                           return count2 + incapacidad.diasAusencia;
                                         }, 0);
                                       }, 0);
@@ -1321,10 +1301,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         dataEventos1.push(data);
       });
       
-      let dataTotal: {
-        name: string;
-        series: any[];
-      } = {
+      let dataTotal:any = {
         name: 'Corona total',
         series: []
       }
@@ -1355,7 +1332,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   filtroEventos_1(){
-    let dataEventos1: any[] = JSON.parse(localStorage.getItem('dataEventos1') || "[]");
+    let dataEventos1: any[] = JSON.parse(localStorage.getItem('dataEventos1')!);
     if(this.selectDivisiones2.length > 0){
       let divisiones = this.selectDivisiones2.map(div => div.label)
       dataEventos1 = dataEventos1.filter(data => divisiones.includes(data.name));
@@ -1366,7 +1343,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       dataEventos1 = dataEventos1.map(data => {
         return {
           name: data.name,
-          series: data.series.filter((item: any) => eventos.includes(item.name))
+          series: data.series.filter((item:any) => eventos.includes(item.name))
         }
       });
     }
@@ -1375,7 +1352,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   getEventos_2(){
-    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt') || "[]").filter((at: any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioEventos2);
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioEventos2);
     let dataEventos2: any[] = [];
     
     try{
@@ -1393,10 +1370,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       if(this.filtroDivisionEventos2.length > 0) reportesAt = reportesAt.filter(at => this.filtroDivisionEventos2.includes(at.padreNombre));
       this.Meses.forEach((mes, index) => {
         // if(this.Meses.length === index + 1) return;
-        let data: {
-          name: string;
-          series: any[];
-        } = {
+        let data:any = {
           name: mes.label,
           series: []
         };
@@ -1405,7 +1379,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let diasPerdidos = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === index
                                                 &&  at.incapacidades !== null && at.incapacidades !== 'null')
                                       .reduce((count, at) => {
-                                        return count + JSON.parse(at.incapacidades).reduce((count2: number, incapacidad: any) => {
+                                        return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidad:any) => {
                                           return count2 + incapacidad.diasAusencia;
                                         }, 0);
                                       }, 0);
@@ -1449,7 +1423,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   filtroEventos_2(){
-    let dataEventos2: any[] = JSON.parse(localStorage.getItem('dataEventos2') || "[]");
+    let dataEventos2: any[] = JSON.parse(localStorage.getItem('dataEventos2')!);
     
     if(this.selectMeses2.length > 0){
       dataEventos2 = dataEventos2.filter(data => this.selectMeses2.includes(data.name));
@@ -1460,7 +1434,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       dataEventos2 = dataEventos2.map(data => {
         return {
           name: data.name,
-          series: data.series.filter((el: any) => eventos.includes(el.name))
+          series: data.series.filter((el:any) => eventos.includes(el.name))
         }
       })
     }
@@ -1472,8 +1446,30 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     this.divisionesCoronaIli1 = this.divisionesCorona.map(div => {
       return  div;
     });
-    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt') || "[]").filter((at: any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioIli_1);
-    let dataIli_1: any[] = [];
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioIli_1);
+    let dataIli_1: {
+      labels: any;
+      datasets: any[];
+      options?: any;
+    } = {
+      labels: this.divisionesCoronaIli1,
+      datasets: [
+        {
+          label: 'Meta',
+          backgroundColor: 'rgb(67, 67, 72)',
+          fill: false,
+          borderColor: 'rgb(67, 67, 72)',
+          data: [],
+          type: 'line'
+        },
+        {
+          label: 'ILI',
+          backgroundColor: 'rgb(124, 181, 255)',
+          borderColor: 'rgb(124, 181, 255)',
+          data: [],
+        }
+      ]
+    };
 
     let filterQuery = new FilterQuery();
     filterQuery.sortOrder = SortOrder.ASC;
@@ -1485,24 +1481,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       if(this.filtroMesesIli_1.length > 0) reportesAt = reportesAt.filter(at => this.filtroMesesIli_1.includes(this.meses[new Date(at.fechaReporte).getMonth()]));
-      let dataILI: {
-        name: string;
-        type: string;
-        data: any[];
-      } = {
-        name: 'ILI',
-        type: 'verticalBar',
-        data: []
-      };
-      let dataMeta: {
-        name: string;
-        type: string;
-        data: any[];
-      } = {
-        name: 'Meta',
-        type: 'line',
-        data: []
-      }
 
       let accidentesConDiasPerdidosTotal = 0;
       let hhtTotalEmpresa = 0;
@@ -1540,7 +1518,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           }).length;
         let hhtCorona = 0;
         // let mesesFiltrados: number = 0;
-        res.data.forEach((elem: any) => {
+        res.data.forEach((elem:any) => {
           let dataHHT: DataHht = <DataHht>JSON.parse(elem.valor).Data;
           if(this.filtroMesesIli_1.length > 0){
             if(this.filtroMesesIli_1.includes(dataHHT.mes)){
@@ -1585,7 +1563,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         // console.log(division.nombre, hhtCorona);
         let totalDiasSeveridad = reportesAt.filter(at => at.padreNombre === division.nombre && at.incapacidades !== 'null' && at.incapacidades !== null)
                                           .reduce((count, at) => {
-                                            return count + JSON.parse(at.incapacidades).reduce((count2: any, incapacidades: any) => {
+                                            return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidades:any) => {
                                               return count2 + incapacidades.diasAusencia;
                                             }, 0);
                                           }, 0);
@@ -1601,44 +1579,69 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         diasSeveridadTotalEmp += totalDiasSeveridad;
         // console.log('if: ',IF,'is:',IS,'ILI:',ILI);
         
-        dataILI.data.push(isNaN(ILI) ? 0.00 : ILI === Infinity ? 0.00 : Number(ILI.toFixed(6)));
-        dataMeta.data.push(metaCorona);
+        dataIli_1.datasets[1].data.push(isNaN(ILI) ? 0.00 : ILI === Infinity ? 0.00 : Number(ILI.toFixed(6)));
+        dataIli_1.datasets[0].data.push(metaCorona);
       });
 
       let IF = (accidentesConDiasPerdidosTotal / (hhtTotalEmpresa + hhtTotalTemp)) * 240000;
       let IS = (diasSeveridadTotalEmp / (hhtTotalEmpresa + hhtTotalTemp)) * 240000;
       let ILI = (IF * IS)/1000;
 
-      dataILI.data.push(isNaN(ILI) ? 0.00 : ILI === Infinity ? 0.00 : Number(ILI.toFixed(6)));
-      let metaTotal = JSON.parse(res.data[0].valor).ILI_Anual ? JSON.parse(res.data[0].valor).ILI_Anual : 0;
-      dataMeta.data.push(metaTotal);
+      dataIli_1.datasets[1].data.push(isNaN(ILI) ? 0.00 : ILI === Infinity ? 0.00 : Number(ILI.toFixed(6)));
+      
+      let metaTotal = 0;
+      if(res.data[0]){
+        metaTotal = JSON.parse(res.data[0].valor).ILI_Anual ? JSON.parse(res.data[0].valor).ILI_Anual : 0;
+      }
+      dataIli_1.datasets[0].data.push(metaTotal);
 
-      dataIli_1.push(dataILI);
-      dataIli_1.push(dataMeta);
       localStorage.setItem('dataIli_1', JSON.stringify(dataIli_1));
-      this.filtroIli_1();
       Object.assign(this, {dataIli_1});
+      this.filtroIli_1();
     });
   }
 
   filtroIli_1(){
-    let dataIli_1: any = JSON.parse(localStorage.getItem('dataIli_1') || "[]");
+    let dataIli_1: any = JSON.parse(localStorage.getItem('dataIli_1')!);
     let divisionesCoronaIli1 = this.divisionesCorona.map(div => div);
     if(this.selectDivisionesILI1.length > 0){
       let selectedDivisiones = this.selectDivisionesILI1.map(div => div.label);
       divisionesCoronaIli1 = divisionesCoronaIli1.filter(div => selectedDivisiones.includes(div));
-      dataIli_1[0].data = dataIli_1[0].data.filter((data: any, index: number) => selectedDivisiones.includes(this.divisionesCorona[index]));
+      dataIli_1.labels = divisionesCoronaIli1;
+      dataIli_1.datasets[1].data = dataIli_1.datasets[1].data.filter((data:any, index:any) => selectedDivisiones.includes(this.divisionesCorona[index]));
+      dataIli_1.datasets[0].data = dataIli_1.datasets[0].data.filter((data:any, index:any) => selectedDivisiones.includes(this.divisionesCorona[index]));
     }
-    Object.assign(this, {divisionesCoronaIli1});
+    // Object.assign(this, {divisionesCoronaIli1});
     Object.assign(this, {dataIli_1});
   }
 
   async getIli_2(event?: any){
     this.selectDivisionesILI2 = event;
     
-    this.mesesILI2 = this.meses.map(mes => mes);
-    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt') || "[]").filter((at: any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioIli_2);
-    let dataIli_2: any[] = [];
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioIli_2);
+    let dataIli_2: {
+      labels: any;
+      datasets: any[];
+      options?: any;
+    } = {
+      labels: this.meses,
+      datasets: [
+        {
+          label: 'Meta',
+          type: 'line',
+          fill: false,
+          data: [],
+          backgroundColor: 'rgb(67, 67, 72)',
+          borderColor: 'rgb(57, 57, 72)'
+        },
+        {
+          label: 'ILI',
+          data: [],
+          backgroundColor: 'rgb(124, 181, 255)',
+          borderColor: 'rgb(124, 181, 255)'
+        }
+      ]
+    }
 
     let filterQuery = new FilterQuery();
     filterQuery.sortOrder = SortOrder.ASC;
@@ -1652,16 +1655,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'Corona total'){
         // console.log('filtrando ats');
         reportesAt = reportesAt.filter(at => this.selectDivisionesILI2 === at.padreNombre);
-      }
-      let dataILI = {
-        name: 'ILI',
-        type: 'verticalBar',
-        data: [0,0,0,0,0,0,0,0,0,0,0,0]
-      };
-      let dataMeta = {
-        name: 'Meta',
-        type: 'line',
-        data: [0,0,0,0,0,0,0,0,0,0,0,0]
       }
 
       let listaHhtTemp: Hht[];
@@ -1694,7 +1687,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         }).length;
         
         let hhtCorona = 0;
-        res.data.forEach((elem: any) => {
+        res.data.forEach((elem:any) => {
           let dataHHT: DataHht = <DataHht>JSON.parse(elem.valor).Data;
           if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'Corona total'){
             if(mes == dataHHT.mes){
@@ -1729,11 +1722,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               });
             }
           }else {
-            // console.log('Corona total...');
             if(mes == data.mes){
               data.Areas!.forEach(area => {
                 hhtTemp += area.HhtArea ? area.HhtArea : 0;
-                // console.log(mes, area.id, hhtTemp);
               });
             }
           }
@@ -1742,7 +1733,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let totalDiasSeveridad = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === index 
                                                         && at.incapacidades !== null && at.incapacidades !== 'null')
                                             .reduce((count, at) => {
-                                              return count + JSON.parse(at.incapacidades).reduce((count2: number, incapacidad: any) => {
+                                              return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidad:any) => {
                                                 return count2 + incapacidad.diasAusencia;
                                               }, 0);
                                             }, 0);
@@ -1752,42 +1743,41 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let ILI = (IF*IS)/1000;
         // console.log(accidentesConDiasPerdidos, hhtCorona, hhtTemp, totalDiasSeveridad, IF, IS, ILI);
         
-        dataILI.data[index] = (isNaN(ILI) ? 0.0 : ILI === Infinity ? 0.0 : Number(ILI.toFixed(6)));
-
-        dataMeta.data[index] = metaCorona;
+        let ILIAux = (isNaN(ILI) ? 0.0 : ILI === Infinity ? 0.0 : Number(ILI.toFixed(6)));
+        dataIli_2.datasets[1].data.push(ILIAux);
+        dataIli_2.datasets[0].data.push(metaCorona);
       });
-      dataIli_2.push(dataILI);
-      dataIli_2.push(dataMeta);
+
       localStorage.setItem('dataIli_2', JSON.stringify(dataIli_2));
+      Object.assign(this, {dataIli_2});
       this.filtroIli_2();
-      Object.assign(this, {dataIli_2})
     });
   }
 
   filtroIli_2(){
-    let dataIli_2 = JSON.parse(localStorage.getItem('dataIli_2') || "[]");
-    let mesesILI2 = this.meses.map(mes => mes);
+    let dataIli_2 = JSON.parse(localStorage.getItem('dataIli_2')!);
     if(this.selectMesesILI2.length > 0){
-      mesesILI2 = this.meses.filter(mes => this.selectMesesILI2.includes(mes))
-      dataIli_2[0].data = dataIli_2[0].data.filter((data: any, index: number) => this.selectMesesILI2.includes(this.meses[index]));
+      // mesesILI2 = this.meses.filter(mes => this.selectMesesILI2.includes(mes));
+      dataIli_2.labels = this.meses.filter(mes => this.selectMesesILI2.includes(mes));
+      dataIli_2.datasets[1].data = dataIli_2.datasets[1].data.filter((data:any, index:any) => this.selectMesesILI2.includes(this.meses[index]));
+      dataIli_2.datasets[0].data = dataIli_2.datasets[0].data.filter((data:any, index:any) => this.selectMesesILI2.includes(this.meses[index]));
     }
 
-    Object.assign(this, {mesesILI2});
     Object.assign(this, {dataIli_2});
   }
 
-  contTotal(datos: any[]){
-    let name: any[] = []
-    let datosGrafica_total: any[] = []
+  contTotal(datos:any){
+    let name:any=[]
+    let datosGrafica_total:any=[]
     let total=new Map()
-    datos.forEach(resp=>{
-      resp.series.forEach((resp2: any) => {
+    datos.forEach((resp:any)=>{
+      resp.series.forEach((resp2:any)=>{
         if(total.has(resp2.name)){total.set(resp2.name,total.get(resp2.name)+resp2.value)}
         else{total.set(resp2.name,resp2.value)
           name.push(resp2.name)}
       })
     })
-    name.forEach(resp=>{
+    name.forEach((resp:any)=>{
       datosGrafica_total.push({name:resp,value:total.get(resp)})
     })
     
