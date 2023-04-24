@@ -1,4 +1,4 @@
-<div class="ui-g">
+<div styleClass="ui-g">
     <div style="width: 100%;">
       <p-panel header="Clasificación eventos">
         <div class="p-grid  p-mt-3 p-jc-evenly colorsitos colorfondo">
@@ -92,7 +92,7 @@
       <br>
       <p-panel header="{{NombreGra1[radioGra1_1]}}">
         <div class="colorfondo">
-            <div class="ui-g" *ngIf="flagevent1">
+            <div styleClass="ui-g" *ngIf="flagevent1">
                 <p><b>
                     <ng-container *ngIf="selectEv1.length>0">
                         <ng-container *ngFor="let ret of selectEv1;first as f;last as l">
@@ -457,7 +457,7 @@
                 </ng-container>
                 <ng-container *ngIf="!selectPel6Flag">
                     <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad">
-                        <s-dataNotFound [message]="'Selecione el tipo de peligro'"></s-dataNotFound>
+                        <app-data-not-found [message]="'Selecione el tipo de peligro'"></app-data-not-found>
                       </div>
                 </ng-container>
                 <div class="ui-g-1">&nbsp;</div>

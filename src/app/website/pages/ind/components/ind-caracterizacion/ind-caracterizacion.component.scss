@@ -88,7 +88,7 @@
        
   }
   
-      .ui-card{ 
+      .p-card{ 
       background: linear-gradient(256deg, #65afc4 0%, #88c0d0 100%);
           }
   
@@ -309,12 +309,12 @@ color: #fff;
   height: 17cm;
   }
   
-  :host ::ng-deep .ui-panel .ui-panel-content {
-  background-color: #ebe9e5;
-  }
-  :host ::ng-deep .ui-panel {
-  font-size:large;
-  }
+  :host ::ng-deep .p-panel .p-panel-content {
+    background-color: #ebe9e5;
+    }
+    :host ::ng-deep .p-panel {
+    font-size:large;
+    }
   
   .colorfondo{
   background: #ebe9e5;

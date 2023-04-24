@@ -24,7 +24,7 @@
                     </div>                
                     <div *ngIf="item.expanded" class="childs">
                         <div *ngFor="let child of item.items" class="sub-childs" (click)="redirect(child)">
-                            <mat-icon class="material-icons-outlined">{{child.icon}}</mat-icon>
+                            <mat-icon class="material-icons-outlined color-icon-child">{{child.icon}}</mat-icon>
                             <label  for=""> {{child.label}}</label>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     </div>                
                     <div *ngIf="item.expanded" class="childs2">
                         <div *ngFor="let child of item.items" class="sub-childs2" (click)="redirect(child)">
-                            <mat-icon matTooltip="{{child.label}}" [matTooltipPosition]="'right'" class="material-icons-outlined">{{child.icon}}</mat-icon>
+                            <mat-icon matTooltip="{{child.label}}" [matTooltipPosition]="'right'" class="material-icons-outlined color-icon-child">{{child.icon}}</mat-icon>
                         </div>
                     </div>
                 </div>
