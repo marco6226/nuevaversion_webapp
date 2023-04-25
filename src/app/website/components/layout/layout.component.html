@@ -4,14 +4,12 @@
         <app-nav [usuario]="usuario" [empresasItems]="empresasItems" [empresaSelect]="empresaSelect" [empresaSelectOld]="empresaSelectOld" (reloadEmpresa)="reloadEmpresa()"></app-nav>
     </div>
     <div class="contenedor-ppal">
-        <div class="{{menu}}">
-            <app-layout-menu (openMenu)="OutopenMenu($event)"></app-layout-menu>
-        </div>
-        <!-- <ng-content select="app-menu"></ng-content> -->
-        <div class="{{contenedor}}" style="padding: 10px; background-color: #EEF2F6;">   
+        <app-layout-menu></app-layout-menu>
+        <ng-content select="app-menu"></ng-content>
+        <div style="width: 96%; padding: 10px; margin-left: 50px;">   
             <router-outlet></router-outlet>
         </div>
+        <app-whatsapp></app-whatsapp>
     </div>
-    <app-whatsapp></app-whatsapp>
     <app-idle-timeout></app-idle-timeout>
 </div>

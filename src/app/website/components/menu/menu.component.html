@@ -1,4 +1,4 @@
-<div class="contenedor" style="width: 100%;" >
+<!-- <div class="contenedor">
     <div class="button-slide">
         <mat-icon class="material-icons-outlined" (click)="toogleMenu()">arrow_left</mat-icon>
     </div>
@@ -51,5 +51,44 @@
     </div>
     
 
-</div>
+</div> -->
 
+
+<div class="container">
+    <div *ngIf="!menuToggle">
+        <div *ngFor="let item of items" >
+            <div [ngClass]="{'isSelected': item.expanded}">
+                <div >
+                    <!-- <div (click)="toogle(item)" [class]="item.icon"> -->
+                    <!-- <div (click)="toogle(item)" class="test"> -->
+                    <div (click)="menu.toggle($event)" class="button-menu">
+                        <p-tieredMenu #menu [model]="item.items" [popup]="true"></p-tieredMenu>
+                        <!-- <p-speedDial #menu [model]="item.items" direction="right"></p-speedDial> -->
+
+                        <!-- <p-menu #menu [model]="item.items" [popup]="true"></p-menu> -->
+
+                        <!-- <mat-icon matTooltip="{{item.label}}" [matTooltipPosition]="'right'">{{item.icon}}</mat-icon> -->
+                        <!-- <mat-icon>{{item.icon}}</mat-icon> -->
+                        <div>
+                            <!-- <mat-icon>{{item.icon}}</mat-icon> -->
+
+                            <i [class]="item.icon" style="font-size: 1rem;">
+                            </i>
+                            <p>{{item.label}}</p>
+                        </div>                        
+
+                    </div>                
+                    <!-- <div *ngIf="item.expanded" class="childs2">
+                        <div *ngFor="let child of item.items"  (click)="redirect(child)">
+                            <mat-icon matTooltip="{{child.label}}" [matTooltipPosition]="'right'" >{{child.icon}}</mat-icon>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <button #btn type="button" pButton icon="pi pi-bars" label="Show" (click)="menu.toggle($event)"></button> -->
+    <!-- <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu> -->
+    <!-- <p-breadcrumb class="max-w-full" [model]="items" home="/app/home"></p-breadcrumb> -->
+
+</div>
