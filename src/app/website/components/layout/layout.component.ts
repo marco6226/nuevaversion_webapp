@@ -1,4 +1,4 @@
-import { Component, ContentChild, OnInit, ViewChild } from '@angular/core';
+import { Component, ContentChild, OnInit, ViewChild,Input } from '@angular/core';
 //import { Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { PermisoService } from '../../pages/admin/services/permiso.service';
@@ -24,13 +24,15 @@ import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
 export class LayoutComponent implements OnInit {
 
 	@ViewChild(LayoutMenuComponent) layoutMenuComp!: LayoutMenuComponent;
-
+	openMenu: boolean = false;
 	usuario!: Usuario | null;
 	empresasItems: SelectItem[] = [];
 	empresaSelect?: Empresa | null;
 	empresaSelectOld?: Empresa | null;
 	mapaPermisos: any;
 	empleado!: Empleado;
+	menu:string="closed-menu";
+	contenedor:string="closed-contenedor";
 
 	constructor(
 		private helperService: HelperService,
@@ -108,5 +110,15 @@ export class LayoutComponent implements OnInit {
 		this.empresaService.findByUsuario(this.usuario!.id).then(
 			resp => this.loadItems(<Empresa[]>resp)
 		);
+	}
+	OutopenMenu(e:boolean){
+		console.log(e)
+		if(e){
+			this.menu="open-menu";
+			this.contenedor="open-contenedor";
+		}else{
+			this.menu="closed-menu";
+			this.contenedor="closed-contenedor";
+		}
 	}
 }

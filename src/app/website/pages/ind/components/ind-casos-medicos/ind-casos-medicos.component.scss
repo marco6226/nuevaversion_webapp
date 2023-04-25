@@ -280,10 +280,6 @@
   font-size: 40px;
   }
   
-  ::ng-deep .col-4 {
-  width: 100%!important;
-  text-align:right;
-  }
   ::ng-deep a:hover {
   background-color: orange !important;
   }
@@ -369,5 +365,23 @@
       overflow: hidden;
       white-space: pre;
   }
+
+  .grafDona {
+    font-size:10px !important;
+    letter-spacing: normal;
+}
+.custom-label-text {
+    background-color: #00b400;
+    color: #fff;
+  }
+
+//   ::ng-deep .mat-body{
+//     font-size: 400 14px/30px Roboto, "Helvetica Neue", sans-serif !important;
+//     letter-spacing: normal;
+// }
   
+
+:host ::ng-deep .mat-typography {
+    font: 400 14px/35px Roboto, "Helvetica Neue", sans-serif !important;
+}
   

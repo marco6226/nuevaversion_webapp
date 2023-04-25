@@ -18,7 +18,6 @@ import {TreeModule} from 'primeng/tree';
   styleUrls: ['./ind-casos-medicos.component.scss']
 })
 export class IndCasosMedicosComponent implements OnInit {
-
   localeES = locale_es;
   numCasos:number=0;
   casosAbiertos:number=0;

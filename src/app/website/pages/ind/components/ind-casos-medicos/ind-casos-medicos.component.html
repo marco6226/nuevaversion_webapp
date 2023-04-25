@@ -75,31 +75,33 @@
       <br/>
       <p-panel header="TOTAL CASOS Y DIAGNOSTICO" >
         <div class="colorfondo">
-          <div class="grid">
+        <div class="grid">
             <p> <b> Casos medicos </b></p>
-            <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center" style="height: 10cm;">
-              <p-radioButton name="group0" label="Total " [value]="0"   (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-              <p-radioButton name="group0" label=" Abiertos " [value]="1"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-              <p-radioButton name="group0" label=" Cerrados " [value]="2"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-              <ngx-charts-advanced-pie-chart
-              class="align-items-center"
-              [scheme]="colorScheme"
-              [results]="datosGraf0Print"
-              [gradient]="true">
-              </ngx-charts-advanced-pie-chart>
+            <div class="col-12" style="height: 10cm;">
+            <p-radioButton name="group0" label="Total " [value]="0"   (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+            <p-radioButton name="group0" label=" Abiertos " [value]="1"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+            <p-radioButton name="group0" label=" Cerrados " [value]="2"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+            <ngx-charts-advanced-pie-chart
+            class="align-items-center mat-typography"
+            [scheme]="colorScheme"
+            [results]="datosGraf0Print"
+            [gradient]="true">
+            </ngx-charts-advanced-pie-chart>
             </div>
-            <div class="ui-g-3">&nbsp;</div>
-            <div class="ui-g-6">
-              <div class="ui-g-6">  
-                <i style="font-size:24px" class="fa">&#xf073;</i>   
-                <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde1" (ngModelChange)="DatosGrafica1()"> </p-calendar> 
-              </div>
-              <div class="ui-g-6"> 
-                <i style="font-size:24px" class="fa">&#xf073;</i> 
-                <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta1" (ngModelChange)="DatosGrafica1()"> </p-calendar>
-              </div>
+            <div class="col-3">&nbsp;</div>
+            <div class="col-6">
+                <div class="grid">  
+                    <div class="col-6">  
+                        <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  
+                        <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde1" (ngModelChange)="DatosGrafica1()"> </p-calendar> 
+                    </div>
+                    <div class="col-6"> 
+                        <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                        <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta1" (ngModelChange)="DatosGrafica1()"> </p-calendar>
+                    </div>
+                </div>
             </div>
-          </div>
+            </div>
         </div>
       </p-panel>
       <br/>
