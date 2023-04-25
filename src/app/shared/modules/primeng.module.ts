@@ -20,6 +20,11 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {DragDropModule} from 'primeng/dragdrop';
 import {FileUploadModule} from 'primeng/fileupload';
 import {FullCalendarModule} from '@fullcalendar/angular';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { MenuModule } from 'primeng/menu';
+import { SpeedDialModule } from 'primeng/speeddial';
+
 
 const modules=[
   DropdownModule,
@@ -39,7 +44,11 @@ const modules=[
   DragDropModule,
   FileUploadModule,
   ProgressBarModule,
-  FullCalendarModule
+  TieredMenuModule,
+  BreadcrumbModule,
+  FullCalendarModule,
+  SpeedDialModule,
+  MenuModule
 ]
 
 

@@ -4,10 +4,10 @@
     <div class="contenedor-ppal">
         <app-layout-menu></app-layout-menu>
         <ng-content select="app-menu"></ng-content>
-        <div style="width: 96%; padding: 10px; background-color: #EEF2F6;">   
+        <div style="width: 96%; padding: 10px; margin-left: 50px;">   
             <router-outlet></router-outlet>
         </div>
+        <app-whatsapp></app-whatsapp>
     </div>
-    <app-whatsapp></app-whatsapp>
     <app-idle-timeout></app-idle-timeout>
 </div>

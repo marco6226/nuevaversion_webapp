@@ -54,7 +54,8 @@ export class MenuComponent implements OnInit, AfterContentInit {
     this.items = [
         {
             label: 'Administracion',
-            icon: 'settings',
+            // icon: 'settings',
+            icon: 'bi bi-gear-fill',
             codigo: 'ADM',
             expanded: false,
             items:
@@ -66,7 +67,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Empresa',
-            icon: 'lan',
+            icon: 'bi bi-building',
             codigo: 'EMP',
             expanded: false,
             items:
@@ -83,7 +84,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Contratistas',
-            icon: 'engineering',
+            icon: 'bi bi-person-video2',
             codigo: 'CTR',
             expanded: false,
             items:
@@ -95,7 +96,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Seguimiento Casos medicos', 
-            icon: 'local_hospital',
+            icon: 'bi bi-calendar-plus-fill',
             codigo: 'SCM',
             expanded: false,
             items:
@@ -108,7 +109,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'AutoEvaluación',
-            icon: 'lan',
+            icon: 'pi pi-sitemap',
             codigo: 'SGE',
             expanded: false,
             items:
@@ -120,7 +121,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'IPECR',
-            icon: 'lan',
+            icon: 'pi pi-sitemap',
             codigo: 'IPECR',
             expanded: false,
             items:
@@ -132,7 +133,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Inspeccion',
-            icon: 'fact_check',
+            icon: 'bi bi-card-checklist',
             codigo: 'INP',
             expanded: false,
             items:
@@ -145,7 +146,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: this.nombreAUC,
-            icon: 'lan',
+            icon: 'pi pi-sitemap',
             codigo: 'AUC',
             expanded: false,
             items:
@@ -157,7 +158,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Reporte A/I',
-            icon: 'report',
+            icon: 'bi bi-exclamation-octagon',
             codigo: 'RAI',
             expanded: false,
             items:
@@ -169,7 +170,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Ausentismo',
-            icon: 'lan',
+            icon: 'pi pi-sitemap',
             codigo: 'AUS',
             expanded: false,
             items:
@@ -180,7 +181,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'Información Documentada',
-            icon: 'lan',
+            icon: 'pi pi-sitemap',
             codigo: 'ADO',
             expanded: false,
             items:
@@ -224,7 +225,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: this.nombreCOP,
-            icon: 'lan',
+            icon: 'pi pi-sitemap',
             codigo: 'COP',
             expanded: false,
             items:
@@ -234,7 +235,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: "Ayuda",
-            icon: 'help',
+            icon: 'pi pi-question-circle',
             codigo: 'CONF_GET_MANUSR',
             expanded: false,
             items:
@@ -249,6 +250,10 @@ export class MenuComponent implements OnInit, AfterContentInit {
     const childLabels = document.getElementById('labelChild');
     this.menuToggle = !this.menuToggle;
     this.statusMenu.emit(this.menuToggle);
+  }
+
+  test(event: any){
+    console.log(event)
   }
 
 }
