@@ -12,7 +12,7 @@
                             <th pSortableColumn="programacion.fecha">Fecha programada
                                 <p-sortIcon field="programacion.fecha"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="fechaRealizada">Fecha elaboración
+                            <th pSortableColumn="programacion.fecha">Fecha elaboración
                                 <p-sortIcon field="fechaRealizada"></p-sortIcon>
                             </th>
                             <th pSortableColumn="id">Código
@@ -35,34 +35,34 @@
                             </th>
                         </tr>
                         <tr>
-                            <td>
+                            <td class="text-center bg-light">
                                 <s-rangoFechaSelector (onSelect)="dt.filter($event, 'programacion.fecha', 'bt')">
                                 </s-rangoFechaSelector>
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaRealizada', 'bt')">
                                 </s-rangoFechaSelector>
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'usuarioRegistra.email', 'contains')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'programacion.listaInspeccion.nombre', 'contains')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'programacion.area.nombre', 'contains')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaModificacion', 'bt')">
                                 </s-rangoFechaSelector>
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'usuarioModifica.email', 'contains')">
                             </td>
@@ -130,7 +130,7 @@
                     sortField="fechaRealizada" sortOrder="1">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="fechaRealizada">Fecha elaboración
+                            <th >Fecha elaboración
                                 <p-sortIcon field="fechaRealizada"></p-sortIcon>
                             </th>
                             <th pSortableColumn="id">Código
@@ -153,30 +153,30 @@
                             </th>
                         </tr>
                         <tr>
-                            <td>
+                            <td class="text-center bg-light">
                                 <s-rangoFechaSelector (onSelect)="dtnp.filter($event, 'fechaRealizada', 'bt')">
                                 </s-rangoFechaSelector>
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="number" (input)="dtnp.filter($event.target.value, 'id', 'equals')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dtnp.filter($event.target.value, 'usuarioRegistra.email', 'contains')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dtnp.filter($event.target.value, 'listaInspeccion.nombre', 'contains')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dtnp.filter($event.target.value, 'area.nombre', 'contains')">
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <s-rangoFechaSelector (onSelect)="dtnp.filter($event, 'fechaModificacion', 'bt')">
                                 </s-rangoFechaSelector>
                             </td>
-                            <td>
+                            <td class="text-center bg-light">
                                 <input pInputText type="text"
                                     (input)="dtnp.filter($event.target.value, 'usuarioModifica.email', 'contains')">
                             </td>

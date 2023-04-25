@@ -20,5 +20,15 @@
 }
 
 .margin-right {
-margin-right: .3rem;
+    margin-right: .3rem;
+}
+
+.soft-icon{
+    color: var(--white) !important;
+    height: 38px;
+}
+
+.icons-table{
+    display: flex;
+    justify-content: space-evenly;
 }

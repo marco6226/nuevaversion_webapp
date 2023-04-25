@@ -11,9 +11,8 @@
                 <div>
                     <p-table id="excel-table" #dt [value]="desviacionesList" [rows]="10" [paginator]="true"
                         [(selection)]="desviacionesListSelect" [autoLayout]="false" [paginator]="true"
-                        paginatorPosition="top" dataKey="hashId" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
+                        dataKey="hashId" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
                         [totalRecords]="totalRecords" [loading]="loading" [responsive]="true">
-
                         <!-- paginatorPosition="both" [rowsPerPageOptions]="[5,10,15,20]"-->
                         <ng-template pTemplate="header">
                             <tr>
@@ -58,45 +57,45 @@
                                 </th>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="text-center bg-light">
                                     <p-dropdown
                                         [options]="[{label:'', value:null},{label:'Si', value:true},{label:'No', value:false}]"
                                         [style]="{'min-width':'0em'}"
                                         (onChange)="dt.filter($event.value, 'analisisId', 'is_not_null')"></p-dropdown>
                                 </td>
-                                <td>
+                                <td class="text-center bg-light">
                                     <p-dropdown [options]="opcionesModulos" [style]="{'min-width':'0em'}"
                                         (onChange)="dt.filter($event.value, 'modulo', 'equals')"></p-dropdown>
                                 </td>
-                                <td *ngIf="empresaId=='22'">
+                                <td *ngIf="empresaId=='22'" class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'furat', 'contains')">
                                 </td>
-                                <td>
+                                <td class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'hashId', 'contains')">
                                 </td>
-                                <td>
+                                <td class="text-center bg-light">
                                     <s-rangoFechaSelector
                                         (onSelect)="dt.filter($event, 'fechaReporte', 'bt')"></s-rangoFechaSelector>
                                 </td>
-                                <td *ngIf="empresaId=='22'">
+                                <td *ngIf="empresaId=='22'" class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'area.padreNombre', 'contains')">
                                 </td>
-                                <td>
+                                <td class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'area.nombre', 'contains')">
                                 </td>
-                                <td>
+                                <td class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value, 'concepto', 'contains')">
                                 </td>
-                                <td>
+                                <td class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value, 'aspectoCausante', 'contains')">
                                 </td>
-                                <td *ngIf="empresaCriticidadPermiso==empresaId">
+                                <td *ngIf="empresaCriticidadPermiso==empresaId" class="text-center bg-light">
                                     <p-dropdown [options]="opcionesCritididad" [style]="{'min-width':'0em'}"
                                         (onChange)="dt.filter($event.value, 'criticidad', 'equals')"></p-dropdown>
                                 </td>
@@ -106,12 +105,14 @@
                             <tr [pSelectableRow]="desviacion">
                                 <td style="text-align: center;">
                                     <ng-container *ngIf="desviacion.analisisId">
-                                        <button pButton type="button" icon="bi bi-search" class="soft-icon"
+                                        <div class="icons-table ">
+                                            <button pButton type="button" icon="bi bi-search" class="soft-icon p-button-warning"
                                             *sTienePermiso="'SEC_GET_ANADESV'" (click)="consultarAnalisis(desviacion)"
                                             style="margin-bottom:5px;"></button>
-                                        <button pButton type="button" icon="bi bi-pencil" class="soft-icon"
+                                            <button pButton type="button" icon="bi bi-pencil" class="soft-icon p-button-success"
                                             *sTienePermiso="'SEC_PUT_ANADESV'"
                                             (click)="modificarAnalisis(desviacion)"></button>
+                                        </div>                                        
                                     </ng-container>
                                     <p-tableCheckbox [value]="desviacion"
                                         *ngIf="!desviacion.analisisId"></p-tableCheckbox>

@@ -20,15 +20,19 @@
             </div>
             <br/>
             <div class="ui-g-12">
-                <p-table #dt [value]="recursosList" dataKey="modulo" autoLayout="true" *ngIf="permisosList" [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-gridlines" autoLayout="true">
+                <p-table #dt [value]="recursosList" dataKey="modulo" autoLayout="true" *ngIf="permisosList" styleClass="p-datatable-gridlines" autoLayout="true">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th colspan="2" rowspan="2"></th>
+                            <th></th>
+                            <!-- <th colspan="2" rowspan="2"></th> -->
                             <th>Nombre</th>
                             <th>Código</th>
-                            <th rowspan="2">Area</th>
+                            <th>Area</th>
+                            <th></th>
                         </tr>
                         <tr>
+                            <td class="text-center bg-light"></td>
+
                             <td class="text-center bg-light">
                                 <input placeholder="Buscar por nombre" pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'nombre', 'contains')">
@@ -37,7 +41,10 @@
                                 <input placeholder="Buscar por código" pInputText type="text"
                                     (input)="dt.filter($event.target.value, 'codigo', 'contains')">
                             </td>
-                            <td></td>
+                            <td class="text-center bg-light"></td>
+
+                            <td class="text-center bg-light"></td>
+
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"

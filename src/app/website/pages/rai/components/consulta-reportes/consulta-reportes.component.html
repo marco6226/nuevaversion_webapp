@@ -5,7 +5,7 @@
       [loading]="loading">
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="fechaReporte" *ngIf="idEmpresa!='22'">Fecha registro
+          <th *ngIf="idEmpresa!='22'">Fecha registro
             <p-sortIcon field="fechaReporte"></p-sortIcon>
           </th>
           <th pSortableColumn="fechaAccidente">Fecha accidente
@@ -37,34 +37,34 @@
           </th>
         </tr>
         <tr>
-          <td *ngIf="idEmpresa!='22'">
+          <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
             <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaReporte', 'bt')"></s-rangoFechaSelector>
           </td>
-          <td>
+          <td class="text-center bg-light">
             <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaAccidente', 'bt')"></s-rangoFechaSelector>
           </td>
-          <td *ngIf="idEmpresa=='22'">
+          <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
             <input pInputText type="number" min="0" (input)="dt.filter($event.target.value, 'numerofurat', 'contains')">
           </td>
-          <td>
+          <td class="text-center bg-light">
             <input pInputText type="number" min="0" (input)="dt.filter($event.target.value, 'id', 'equals')">
           </td>
-          <td>
+          <td class="text-center bg-light">
             <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerNombreEmpleado', 'contains')">
           </td>
-          <td>
+          <td class="text-center bg-light">
             <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerApellidoEmpleado', 'contains')">
           </td>
-          <td>
+          <td class="text-center bg-light">
             <input pInputText type="text" (input)="dt.filter($event.target.value, 'numeroIdentificacionEmpleado', 'contains')">
           </td>
-          <td>
+          <td class="text-center bg-light">
             <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipo', 'contains')">
           </td>
-          <td *ngIf="idEmpresa=='22'">
+          <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
             <input pInputText type="text" (input)="dt.filter($event.target.value, 'areaAccidente.padreNombre', 'contains')">
           </td>
-          <td *ngIf="idEmpresa=='22'">
+          <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
             <input pInputText type="text" (input)="dt.filter($event.target.value, 'areaAccidente.nombre', 'contains')">
           </td>
         </tr>
