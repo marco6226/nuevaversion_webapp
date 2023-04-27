@@ -8,6 +8,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {CaracterizacionViewService} from "src/app/website/pages/core/services/caracterizacion-view.service"
 import{datos, division,tipoAccidenteCont,tipo_lesionCont,parte_cuerpoCont,agenteCont,mecanismoCont,sitioCont} from 'src/app/website/pages/comun/entities/datosGraf4' 
 import { SelectItem } from 'primeng/api'
+import { PrimeNGConfig } from 'primeng/api';
 
 import {
   tipo_vinculacion,
@@ -234,6 +235,7 @@ export class IndCaracterizacionComponent implements OnInit {
     private tipoPeligroService: TipoPeligroService,
     private peligroService: PeligroService,
     private cargoService: CargoService,
+    private config: PrimeNGConfig
   ) {
     this.tipolesionList = <SelectItem[]>tipo_lesion;
     this.partecuerpoList = <SelectItem[]>parte_cuerpo;
@@ -245,6 +247,7 @@ export class IndCaracterizacionComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.config.setTranslation(this.localeES);
     this.cargarTiposPeligro();
     let cargofiltQuery = new FilterQuery();
     cargofiltQuery.sortOrder = SortOrder.ASC;

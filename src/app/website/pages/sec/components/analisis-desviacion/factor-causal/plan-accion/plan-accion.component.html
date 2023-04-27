@@ -1,74 +1,77 @@
 <p-toast></p-toast>
-<p-panel *ngIf="process=='ESPECIFICO'" header="ESPECIFICO">
-  <div class="p-field">
+
+<p-panel *ngIf="process=='ESPECIFICO'" header="ESPECIFICO" >
+    <!-- <div class="ui-fluid"> -->
+  <div class="flex flex-column gap-2">
         <label>Nombre de Acción Correctiva</label>
         <input type="text" [(ngModel)]="planAcciones.especifico.nombreAccionCorrectiva" required onchange="planAcciones.especifico.email=false"/>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Acción correctiva</label>
         <input type="text" [(ngModel)]="planAcciones.especifico.accionCorrectiva" required autofocus onchange="habilitar()"/>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Fecha Vencimiento</label>
         <p-calendar [defaultDate]="fechaActual" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true" [(ngModel)]="planAcciones.especifico.fechaVencimiento" required autofocus [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Responsable Empresa</label>
         <s-empleadoBasicSelector [(ngModel)]="planAcciones.especifico.responsableEmpresa" [readOnly]="reporteSelect " required></s-empleadoBasicSelector>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Responsable Externo</label>
         <input type="text" [(ngModel)]="planAcciones.especifico.responsableExterno" onchange="habilitar()"/>
     </div>
+<!-- </div> -->
     </p-panel>
 
     <p-panel *ngIf="process=='RAZONABLE'" header="RAZONABLE">
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Justificación (Opcional)</label>
         <input type="text" [(ngModel)]="planAcciones.razonable.justificacion" required autofocus/>
     </div>
     </p-panel>
 
     <p-panel *ngIf="process=='MEDIBLE'" header="MEDIBLE">
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Responsable de Verificar que la acción ha sido compleatada</label>
         <s-empleadoBasicSelector [(ngModel)]="planAcciones.medible.responsableEmpresa" [readOnly]="reporteSelect " required></s-empleadoBasicSelector>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Responsable Externo</label>
         <input type="text" [(ngModel)]="planAcciones.medible.responsableExterno" onchange="habilitar()"/>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Fecha Vencimiento</label>
         <p-calendar [defaultDate]="planAcciones.especifico.fechaVencimiento" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true" [locale]="localeES" [minDate]="planAcciones.especifico.fechaVencimiento" [(ngModel)]="planAcciones.medible.fechaVencimiento" (onInput)="test()" dateFormat="dd/mm/yy" required></p-calendar>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Plan de Verificación</label>
         <input type="text" [(ngModel)]="planAcciones.medible.planVerificacion" required autofocus onchange="habilitar()"/>
     </div>
     </p-panel>
 
     <p-panel *ngIf="process=='EFICAZ'" header="EFICAZ">    
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Responsable Verificar solución</label>
         <s-empleadoBasicSelector [(ngModel)]="planAcciones.eficaz.responsableEmpresa " [readOnly]="reporteSelect " required></s-empleadoBasicSelector>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Responsable Externo</label>
         <input type="text" [(ngModel)]="planAcciones.eficaz.responsableExterno" onchange="habilitar()"/>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Fecha Vencimiento</label>
         <p-calendar [defaultDate]="planAcciones.medible.fechaVencimiento" [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [touchUI]="true" [locale]="localeES" [minDate]="planAcciones.medible.fechaVencimiento" [(ngModel)]="planAcciones.eficaz.fechaVencimiento" dateFormat="dd/mm/yy" required></p-calendar>
     </div>
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Plan de Validación</label>
         <input type="text" [(ngModel)]="planAcciones.eficaz.planValidacion" required autofocus onchange="habilitar()"/>
     </div>
     </p-panel>
 
     <p-panel *ngIf="process=='REVISADO'" header="REVISADO">    
-    <div class="p-field">
+    <div class="flex flex-column gap-2">
         <label>Revisado</label>
         <div class="field-radiobutton">
             <p-radioButton name="groupname" value="Si" [(ngModel)]="planAcciones.revisado.revisado" ></p-radioButton>
@@ -80,11 +83,13 @@
         </div>
         
     </div>
-    </p-panel>
-    <br>
-    <br>
-    <button pButton *ngIf="process=='ESPECIFICO'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.especifico.accionCorrectiva!=null && planAcciones.especifico.fechaVencimiento!=null && (planAcciones.especifico.responsableEmpresa!=null))"></button>
-    <button pButton *ngIf="process=='RAZONABLE'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised"></button>
-    <button pButton *ngIf="process=='MEDIBLE'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.medible.planVerificacion!=null && planAcciones.medible.fechaVencimiento!=null && (planAcciones.medible.responsableEmpresa))"></button>
-    <button pButton *ngIf="process=='EFICAZ'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.eficaz.planValidacion!=null && planAcciones.eficaz.fechaVencimiento!=null && (planAcciones.eficaz.responsableEmpresa))"></button>
-    <button pButton *ngIf="process=='REVISADO'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.revisado.revisado!=null)"></button>
+
+</p-panel>
+
+<br>
+<br>
+<button pButton *ngIf="process=='ESPECIFICO'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.especifico.accionCorrectiva!=null && planAcciones.especifico.fechaVencimiento!=null && (planAcciones.especifico.responsableEmpresa!=null))"></button>
+<button pButton *ngIf="process=='RAZONABLE'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised"></button>
+<button pButton *ngIf="process=='MEDIBLE'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.medible.planVerificacion!=null && planAcciones.medible.fechaVencimiento!=null && (planAcciones.medible.responsableEmpresa))"></button>
+<button pButton *ngIf="process=='EFICAZ'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.eficaz.planValidacion!=null && planAcciones.eficaz.fechaVencimiento!=null && (planAcciones.eficaz.responsableEmpresa))"></button>
+<button pButton *ngIf="process=='REVISADO'" type="button" (click)="submit()" label="confirmar" class="ui-button-raised" [disabled]="!(planAcciones.revisado.revisado!=null)"></button>

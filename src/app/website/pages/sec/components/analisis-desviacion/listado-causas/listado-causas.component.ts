@@ -2,6 +2,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { FactorCausal, listFactores, listPlanAccion } from 'src/app/website/pages/comun/entities/factor-causal';
 import { Component, Injectable, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
+
 @Component({
   selector: 'app-listado-causas',
   templateUrl: './listado-causas.component.html',

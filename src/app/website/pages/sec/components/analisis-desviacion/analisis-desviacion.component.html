@@ -42,27 +42,27 @@
 
 <p-tabView>
     <p-tabPanel header="INVESTIGACIÓN" *sTienePermiso="'SEC_POST_INVESTIGACIONES'" >
-        <div class="ui-g">
-            <div class="ui-g-12 ui-sm-12">
+        <div class="grid">
+            <div class="col-12">
                 <p-tabView [(activeIndex)]="tabIndex" (onChange)="indexTab($event)">
                     <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Descripción">
                         <!-- <button (click)="test2()">test2</button> -->
-                        <div class="ui-g">
-                            <div *ngIf="desviacionesList" class="ui-g-12 ui-sm-12 ui-xl-4">
+                        <div class="grid">
+                            <div *ngIf="desviacionesList" class="col-12 lg:col-4">
                                 <h4 style="margin-bottom: 20px;">Nombre de la Empresa</h4>
                                 {{desviacionesList[0]?.empresa}}
                             </div>
-                            <div *ngIf="desviacionesList" class="ui-g-12 ui-sm-12 ui-xl-4">
+                            <div *ngIf="desviacionesList" class="col-12 lg:col-4">
                                 <h4 style="margin-bottom: 20px;">NIT</h4>
                                 {{desviacionesList[0]?.nit}}
                             </div>    
                                                   
                         </div>
-                        <div class="ui-g">
+                        <div class="grid">
                             <h4 style="margin-bottom: 20px;">Reporte de investigación</h4>
                                                        
                         </div>
-                        <div class="ui-g">
+                        <div class="grid">
                             <h4 style="margin-bottom: 20px;">Reporte Inicial</h4>
                                                        
                         </div>
@@ -119,7 +119,7 @@
                                         <tr>
                                             <th style="border: 1px solid #c8c8c8;">Peligro</th>
                                             <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
-                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <th style="border: 1px solid #c8c8c8;" >
                                             <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
                                             <p-dropdown [options]="this.tipoPeligroItemList" formControlName="Peligro" (onChange)="SelectPeligro($event.value)" >
                                             </p-dropdown></th>
@@ -127,7 +127,7 @@
                                         <tr>
                                             <th style="border: 1px solid #c8c8c8;">Descripción del Peligro</th>
                                             <!-- <td>{{desviacionesList[0]?.nombre}}</td>  -->
-                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <th style="border: 1px solid #c8c8c8;" >
                                             <!-- <p-dropdown [options]="this.peligroItemList" formControlName="tipoCaso"></p-dropdown> -->
                                             
                                             <p-dropdown [options]="this.peligroItemList" formControlName="DescripcionPeligro"></p-dropdown>
@@ -136,7 +136,7 @@
                                         <tr>
                                             <th style="border: 1px solid #c8c8c8;">Estado del evento ante ARL</th>
                                             <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
-                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <th style="border: 1px solid #c8c8c8;" >
                                             <p-dropdown [options]="ARLfirme" formControlName="EnventoARL"></p-dropdown>
                                         </tr>
                                         <tr>
@@ -155,7 +155,7 @@
                                             
                                             <th style="border: 1px solid #c8c8c8;">Fecha de envio a entes de control</th>
                                             <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
-                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <th style="border: 1px solid #c8c8c8;" >
                                                 <div class="field col-12 md:col-4">
                                                     <!-- <label for="touchui">Touch UI</label> -->
                                                     <!-- <p-calendar [(ngModel)]="date1" [touchUI]="true" [readonlyInput]="true" inputId="touchui" [(ngModel)]="FechaControl"></p-calendar> -->
@@ -172,7 +172,7 @@
                                         </tr>
                                         <tr *ngIf="analisisPeligros.get('CopiaTrabajador').value == true">
                                             <th style="border: 1px solid #c8c8c8;width: 35%">Fecha entrega copia al trabajador</th>
-                                            <th style="border: 1px solid #c8c8c8;" class="ui-g-12 ui-md-6 ui-lg-12">
+                                            <th style="border: 1px solid #c8c8c8;" >
                                                 <div class="field col-12 md:col-4">
                                                     <!-- <label for="touchui">Touch UI</label> -->
                                                     <!-- <p-calendar [(ngModel)]="date2" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaCopia"></p-calendar> -->
@@ -344,18 +344,18 @@
 
                     </p-tabPanel>
                     <p-tabPanel *ngIf="idEmpresa != '22' " header="Establecimiento de causas">
-                        <div class="ui-g">
-                            <div class="ui-g-12 ui-sm-12 ui-xl-4">
+                        <div class="grid">
+                            <div class="col-12 lg:col-4">
                                 <h4 style="margin-bottom: 20px;">Causas inmediatas</h4>
                                 <p-tree [value]="causaInmediataList!" selectionMode="checkbox"
                                     [(selection)]="causaInmediataListSelect" [style]="{'width':'100%'}"></p-tree>
                             </div>
-                            <div class="ui-g-12 ui-sm-12 ui-xl-4">
+                            <div class="col-12 lg:col-4">
                                 <h4 style="margin-bottom: 20px;">Causas básicas (raíz) </h4>
                                 <p-tree [value]="causaRaizList!" selectionMode="checkbox"
                                     [(selection)]="causaRaizListSelect" [style]="{'width':'100%'}"></p-tree>
                             </div>
-                            <div class="ui-g-12 ui-sm-12 ui-xl-4">
+                            <div class="col-12 lg:col-4">
                                 <h4 style="margin-bottom: 20px;">Causas administrativas</h4>
                                 <p-tree [value]="causaAdminList!" selectionMode="checkbox"
                                     [(selection)]="causaAdminListSelect" [style]="{'width':'100%'}"></p-tree>

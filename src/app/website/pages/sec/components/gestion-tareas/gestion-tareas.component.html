@@ -1,66 +1,66 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!readOnly">
-    <div class="ui-g">
+    <div class="grid">
 
-        <div class="ui-g-12 ui-md-2">
+        <div class="col-12 md:col-2 lg:col-2">
             <label for="nombre">Actividad</label>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <input pInputText id="nombre" formControlName="nombre" maxlength="254" required />
         </div>
 
-        <div class="ui-g-12 ui-md-2">
+        <div class="col-12 md:col-2 lg:col-2">
             <label for="descripcion">Descripción</label>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <textarea pInputTextarea id="descripcion" formControlName="descripcion" maxlength="1022"
                 required></textarea>
         </div>
 
-        <div class="ui-g-12 ui-md-2">
+        <div class="col-12 md:col-2 lg:col-2">
             <label for="tipoAccion">Tipo Acción</label>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <p-radioButton required name="tipoAccion" value="Mejoramiento" label="Mejoramiento"
-                formControlName="tipoAccion"></p-radioButton>
+                formControlName="tipoAccion"></p-radioButton><br>
             <p-radioButton required name="tipoAccion" value="Preventiva" label="Preventiva"
-                formControlName="tipoAccion"></p-radioButton>
+                formControlName="tipoAccion"></p-radioButton><br>
             <p-radioButton required name="tipoAccion" value="Correctiva" label="Correctiva"
-                formControlName="tipoAccion"></p-radioButton>
+                formControlName="tipoAccion"></p-radioButton><br>
         </div>
-        <div class="ui-g-12 ui-md-2">
+        <div class="col-12 md:col-2 lg:col-2">
             <label for="jerarquia">Jerarquía de control</label>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <p-radioButton required name="jerarquia" value="Eliminación" label="Eliminación"
-                formControlName="jerarquia"></p-radioButton>
+                formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Sustitución" label="Sustitución"
-                formControlName="jerarquia"></p-radioButton>
+                formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Control de ingeniería" label="Control de ingeniería"
-                formControlName="jerarquia"></p-radioButton>
+                formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Controles administrativos" label="Controles administrativos"
-                formControlName="jerarquia"></p-radioButton>
+                formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Elementos de protección personal"
                 label="Elementos de protección personal" formControlName="jerarquia"></p-radioButton>
         </div>
-        <div class="ui-g-12 ui-md-2">
+        <div class="col-12 md:col-2 lg:col-2">
             <label for="fechaProyectada">Fecha Proyectada</label>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <p-calendar [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="es"
                 dateFormat="dd/mm/yy" id="fechaProyectada" formControlName="fechaProyectada" required></p-calendar>
         </div>
 
-        <div class="ui-g-12 ui-md-2">
+        <div class="col-12 md:col-2 lg:col-2">
             <label for="areaResponsable">Area Responsable</label>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <area-selector formControlName="areaResponsable"></area-selector>
         </div>
 
-        <div class="ui-g-12 ui-md-2">
+        <div class="col-12 md:col-2 lg:col-2">
             <label for="empResponsable">Empleado Responsable</label>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <s-empleadoSelector formControlName="empResponsable" required></s-empleadoSelector>
         </div>
     </div>
