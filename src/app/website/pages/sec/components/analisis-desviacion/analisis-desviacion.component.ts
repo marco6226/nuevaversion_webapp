@@ -81,6 +81,7 @@ export class AnalisisDesviacionComponent implements OnInit {
   analisisPeligros: FormGroup;
   tareasList?: Tarea[];
   // tareasList2: Tarea[];
+  flowChart:any;
   flowChartSave?: string;
   form2?: Peligro;
   guardando: boolean= true;
@@ -332,6 +333,7 @@ export class AnalisisDesviacionComponent implements OnInit {
         let analisis = <AnalisisDesviacion>resp["data"][0];
         this.Evidencias=resp['data'][0].documentosList;
         this.dataFlow = resp["data"][0];
+        this.flowChart= resp["data"][0].flow_chart;
         this.flowChartSave = resp["data"][0].flow_chart;
         this.factorCusal = JSON.parse(resp["data"][0].factor_causal);
         this.informacionComplementaria = JSON.parse(resp["data"][0].complementaria);

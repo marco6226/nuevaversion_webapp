@@ -21,9 +21,15 @@ export class FlowChartComponent {
 
   @Output() datosFC = new EventEmitter<FactorCausal[]>();
   listFC: FactorCausal[]=[];
-  @Input() dataFlowChart?:AnalisisDesviacion;
+  // @Input() dataFlowChart?:AnalisisDesviacion;
+  @Input('dataFlowChart') 
+  set flowC(dataFlowChart:any){
+    this.dataFlowChart=dataFlowChart
+    this.LoadFlowChart()
+  }
+  dataFlowChart?:any;
   @Output() diagramSave = new EventEmitter<string>();
-  
+
   precarga: boolean=false;
   public terminator: FlowShapeModel = { type: 'Flow', shape: 'Terminator' };
   public process: FlowShapeModel = { type: 'Flow', shape: 'Process' };
@@ -63,28 +69,40 @@ export class FlowChartComponent {
   }
 
   ngOnInit() {
-
-
-    setTimeout(() => {
-        this.precarga=true;
+    // setTimeout(() => {
+    //     this.precarga=true;
         
-        setTimeout(async () => {
-          if(this.dataFlowChart!=undefined){
-            this.loading=false;
-            await this.diagram?.loadDiagram(this.dataFlowChart?.flow_chart!);
+    //     setTimeout(async () => {
+    //       if(this.dataFlowChart!=undefined){
+    //         this.loading=false;
+    //         await this.diagram?.loadDiagram(this.dataFlowChart?.flow_chart!);
             
-            this.loadFC();
-            this.FlowchartService.setDiagram(this.diagram!)
+    //         this.loadFC();
+    //         this.FlowchartService.setDiagram(this.diagram!)
             
-          }
-          this.loading=false;
-        }, 3000);
+    //       }
+    //       this.loading=false;
+    //     }, 3000);
 
         
-    }, 3600); 
-
-    
+    // }, 3600); 
   }
+
+  LoadFlowChart(){
+    setTimeout(() => {
+      this.precarga=true;
+      setTimeout(async () => {
+        if(this.dataFlowChart!=undefined){
+          this.loading=false;
+          await this.diagram!.loadDiagram(this.dataFlowChart);
+          this.loadFC();
+          this.FlowchartService.setDiagram(this.diagram!)
+        }
+        this.loading=false;
+      }, 3000);
+  }, 3600); 
+  }
+
   ​​​​​​​  public nodeDefaults(node: NodeModel): NodeModel {
     let obj: NodeModel = {};
     obj.width = 100;

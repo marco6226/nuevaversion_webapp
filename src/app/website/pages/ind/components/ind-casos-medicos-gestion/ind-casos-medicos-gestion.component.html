@@ -48,15 +48,20 @@
             <label>{{category.label}}</label>
         </div>
         <h3>Filtro rangos</h3>
-        <div class="col-md-10">
-            <p-radioButton name="group2" label="Antiguedad" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-            <p-radioButton name="group2" label="Edad" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-            <p-radioButton name="group2" label="Fecha creación &#916; cierre" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-            <p-radioButton name="group2" label="Fecha diagnostico &#916; PCL" [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-            <p-radioButton name="group2" label="Fecha diagnostico &#916; origen" [value]="4" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+        <div>
+            <p-radioButton name="group2" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+            <label for="">Antiguedad</label><br><br>
+            <p-radioButton name="group2"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+            <label for="">Edad</label><br><br>
+            <p-radioButton name="group2"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+            <label for="">Fecha creación &#916; cierre</label><br><br>
+            <p-radioButton name="group2"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+            <label for="">Fecha diagnostico &#916; PCL</label><br><br>
+            <p-radioButton name="group2"  [value]="4" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+            <label for="">Fecha diagnostico &#916; origen</label>
         </div>
-        <br>
-        <p-multiSelect defaultLabel="Seleccione" [options]="opcion1" optionLabel="label" [(ngModel)]="selectEvento1" (onChange)="DatosGrafica1()"></p-multiSelect>
+        
+        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion1" optionLabel="label" [(ngModel)]="selectEvento1" (onChange)="DatosGrafica1()"></p-multiSelect>
         </div>
     </div>
     </p-panel>
@@ -134,13 +139,17 @@
         </div>
         <h3>Filtro casos</h3>
         <div class="col-md-10">
-            <p-radioButton name="group4" label="Rehabilitación" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-            <p-radioButton name="group4" label="PCL" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-            <p-radioButton name="group4" label="Origen" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-            <p-radioButton name="group4" label="Todos" [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
+            <p-radioButton name="group4"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+            <label for="">Rehabilitación</label><br><br>
+            <p-radioButton name="group4"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+            <label for="">PCL</label><br><br>
+            <p-radioButton name="group4"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+            <label for="">Origen</label><br><br>
+            <p-radioButton name="group4"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+            <label for="">Todos</label>
         </div>
         <br>
-        <p-multiSelect defaultLabel="Seleccione" [options]="opcion2" optionLabel="label" [(ngModel)]="selectEvento2" (onChange)="DatosGrafica2()"></p-multiSelect>
+        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion2" optionLabel="label" [(ngModel)]="selectEvento2" (onChange)="DatosGrafica2()"></p-multiSelect>
         </div>
     </div>
     </p-panel>
@@ -214,7 +223,7 @@
             <label>{{category.label}}</label>
         </div>
         <h3>Filtro</h3>
-        <p-multiSelect defaultLabel="Seleccione" [options]="opcion3" optionLabel="label" [(ngModel)]="selectEvento3" (onChange)="DatosGrafica3()"></p-multiSelect>
+        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion3" optionLabel="label" [(ngModel)]="selectEvento3" (onChange)="DatosGrafica3()"></p-multiSelect>
         </div>
     </div>
     <hr>
@@ -286,7 +295,7 @@
 
         <div class="col-12 md:col-4 lg:col-4 filter">
             <h3>Division</h3>
-            <p-dropdown appendTo="body" [options]="divisiones0" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea4()"></p-dropdown>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea4()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones4.length>0">
                 &nbsp;
                 <h3>Estructura</h3>
@@ -294,7 +303,7 @@
             </ng-container>
             &nbsp;
             <h3 *ngIf="flagReturnDatos4">Filtro casos</h3>
-            <p-multiSelect *ngIf="flagReturnDatos4" defaultLabel="Seleccione" [options]="opcion4" optionLabel="label" [(ngModel)]="selectEvento4" (onChange)="DatosGrafica4()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" *ngIf="flagReturnDatos4" defaultLabel="Seleccione" [options]="opcion4" optionLabel="label" [(ngModel)]="selectEvento4" (onChange)="DatosGrafica4()"></p-multiSelect>
         </div>
     </div>
     </p-panel>

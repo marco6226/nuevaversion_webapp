@@ -97,9 +97,9 @@
                                 </tr>
                                 <tr>
                                     <th style="border: 1px solid #c8c8c8;">Descripción detallada del AT</th>
-                                   
-                                    <textarea maxlength="5000" *ngIf="!consultar" pInputTextarea rows="20"
-                            placeholder="Observaciones de análisis" [(ngModel)]="observacion"></textarea>
+                                   <td>
+                                    <textarea style="width: 100%;" maxlength="5000" *ngIf="!consultar" pInputTextarea rows="20"
+                            placeholder="Observaciones de análisis" [(ngModel)]="observacion"></textarea></td>
                         <div *ngIf="consultar">
                             {{observacion}}
                         </div> 
@@ -209,7 +209,7 @@
                         <app-evidencias [analisisId]="analisisId" [documentos]="documentos"></app-evidencias>
                     </p-tabPanel>                    
                     <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Diagrama de flujo">
-                        <app-flow-chart (datosFC)="setFactorCausal($event)" (diagramSave)="dataDiagram($event)" [dataFlowChart]="dataFlow"></app-flow-chart>
+                        <app-flow-chart (datosFC)="setFactorCausal($event)" (diagramSave)="dataDiagram($event)" [dataFlowChart]="flowChart"></app-flow-chart>
                     </p-tabPanel>
                     
                     <p-tabPanel *ngFor="let data of factorCusal; let i=index" header="Factor Causal {{i+1}}">

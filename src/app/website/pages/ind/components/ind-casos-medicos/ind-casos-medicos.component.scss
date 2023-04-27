@@ -217,8 +217,8 @@
     margin-bottom: 30px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    
   }
-  
   .card .card-block {
     padding: 25px;
   }
@@ -386,3 +386,11 @@
     font: 400 14px/35px Roboto, "Helvetica Neue", sans-serif !important;
 }
   
+div{
+    font-size: large;
+    padding-bottom: 20px;
+  }
+
+  label{
+    font-size: large;
+  }

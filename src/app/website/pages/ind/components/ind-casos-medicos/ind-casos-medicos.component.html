@@ -57,7 +57,7 @@
                 <div class="grid">
                       <div class="col">
                         <div class="grid" style="margin-top: 1px;">
-                            <p>Area:</p><p-dropdown appendTo="body" [options]="divisiones0" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
+                            <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
                         </div>
                       </div>
                       <div class="col"> 
@@ -74,13 +74,19 @@
       </p-panel>
       <br/>
       <p-panel header="TOTAL CASOS Y DIAGNOSTICO" >
+        <br>
         <div class="colorfondo">
         <div class="grid">
             <p> <b> Casos medicos </b></p>
             <div class="col-12" style="height: 10cm;">
-                <p-radioButton name="group0" label="Total " [value]="0"   (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-                <p-radioButton name="group0" label=" Abiertos " [value]="1"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-                <p-radioButton name="group0" label=" Cerrados " [value]="2"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+                <div>
+                    <p-radioButton name="group0"  [value]="0"   (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+                    <label for="">Total</label>
+                    <p-radioButton name="group0"  [value]="1"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+                    <label for="">Abiertos</label>
+                    <p-radioButton name="group0"  [value]="2"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+                    <label for="">Cerrados</label>
+                </div>
                 <ngx-charts-advanced-pie-chart
                 class="align-items-center mat-typography"
                 [scheme]="colorScheme"
@@ -178,13 +184,17 @@
             <br>
             <h3>Filtro casos</h3>
             <div class="col-md-10">
-              <p-radioButton name="group1" label="Estado" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-              <p-radioButton name="group1" label="Mesa laboral" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-              <p-radioButton name="group1" label="Prioridad" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-              <p-radioButton name="group1" label="Tipo de caso" [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <p-radioButton name="group1"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Estado</label><br><br>
+              <p-radioButton name="group1"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Mesa laboral</label><br><br>
+              <p-radioButton name="group1"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Prioridad</label><br><br>
+              <p-radioButton name="group1"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Tipo de caso</label>
             </div>
             <br>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion1" optionLabel="label" [(ngModel)]="selectEvento1" (onChange)="DatosGrafica2()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion1" optionLabel="label" [(ngModel)]="selectEvento1" (onChange)="DatosGrafica2()"></p-multiSelect>
           </div>
 
         </div>
@@ -260,7 +270,7 @@
   
           <div class="col-12 md:col-4 lg:col-4 filter">
             <h3>Division</h3>
-            <p-dropdown appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones2" placeholder="Seleccionar división" (onChange)="cargarArea()"></p-dropdown>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones2" placeholder="Seleccionar división" (onChange)="cargarArea()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones2.length>0">
               &nbsp;
               <h3>Estructura</h3>
@@ -269,13 +279,17 @@
             &nbsp;
             <h3>Filtro casos</h3>
             <div class="col-md-10">
-              <p-radioButton name="group2" label="Estado" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-              <p-radioButton name="group2" label="Mesa laboral" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-              <p-radioButton name="group2" label="Prioridad" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-              <p-radioButton name="group2" label="Tipo de caso" [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <p-radioButton name="group2"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Estado</label><br><br>
+              <p-radioButton name="group2"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Mesa laboral</label><br><br>
+              <p-radioButton name="group2"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Prioridad</label><br><br>
+              <p-radioButton name="group2"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Tipo de caso</label>
             </div>
             <br>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion2" optionLabel="label" [(ngModel)]="selectEvento2" (onChange)="DatosGrafica3()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion2" optionLabel="label" [(ngModel)]="selectEvento2" (onChange)="DatosGrafica3()"></p-multiSelect>
           </div>
         </div>
         
@@ -352,7 +366,7 @@
               <label>{{category.label}}</label>
             </div>
             <h3>Filtro casos</h3>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion3" optionLabel="label" [(ngModel)]="selectEvento3" (onChange)="DatosGrafica4()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion3" optionLabel="label" [(ngModel)]="selectEvento3" (onChange)="DatosGrafica4()"></p-multiSelect>
           </div>
         </div>
         <hr>
@@ -425,7 +439,7 @@
 
           <div class="col-12 md:col-4 lg:col-4 filter">
             <h3>Division</h3>
-            <p-dropdown appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea5()"></p-dropdown>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea5()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones4.length>0">
               &nbsp;
               <h3>Estructura</h3>
@@ -433,7 +447,7 @@
             </ng-container>
             &nbsp;
             <h3>Filtro casos</h3>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion4" optionLabel="label" [(ngModel)]="selectEvento4" (onChange)="DatosGrafica5()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion4" optionLabel="label" [(ngModel)]="selectEvento4" (onChange)="DatosGrafica5()"></p-multiSelect>
           </div>
         </div>
       </p-panel>
@@ -442,10 +456,13 @@
         <div class="grid" *ngIf="flag5">
 
           <div class="col-12 align-items-center">
-            <p-radioButton name="group4" [(ngModel)]="radioButon5" label="Total " [value]="0" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group4" [(ngModel)]="radioButon5" label=" Comun " [value]="1" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group4" [(ngModel)]="radioButon5" label=" Laboral " [value]="2" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
-          </div>
+            <p-radioButton name="group4" [(ngModel)]="radioButon5"  [value]="0" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group4" [(ngModel)]="radioButon5"  [value]="1" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Comun</label>
+            <p-radioButton name="group4" [(ngModel)]="radioButon5"  [value]="2" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Laboral</label>
+        </div>
           <div class="ui-g-12">&nbsp;</div>
           <div  class="col-8 grid">
             <div class="col-11 grafic">
@@ -490,17 +507,20 @@
               <label>{{category.label}}</label>
             </div>
             <h3>Filtro diagnosticos</h3>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion5" optionLabel="label" [(ngModel)]="selectEvento5" (onChange)="DatosGrafica6()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion5" optionLabel="label" [(ngModel)]="selectEvento5" (onChange)="DatosGrafica6()"></p-multiSelect>
           </div>
         </div>
         <hr>
 
         <div class="grid" *ngIf="flag6">
           <div class="col-12">
-            <p-radioButton name="group6" [(ngModel)]="radioButon6" label="Total " [value]="0" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group6" [(ngModel)]="radioButon6" label=" Comun " [value]="1" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group6" [(ngModel)]="radioButon6" label=" Laboral " [value]="2" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
-          </div>
+            <p-radioButton name="group6" [(ngModel)]="radioButon6"  [value]="0" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group6" [(ngModel)]="radioButon6"  [value]="1" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Comun</label>
+            <p-radioButton name="group6" [(ngModel)]="radioButon6"  [value]="2" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Laboral</label>
+        </div>
           <div class="ui-g-12">&nbsp;</div>
           <div  class="col-8 grid">
             <div class="col-11 grafic" *ngIf="flagReturnDatos6">
@@ -544,7 +564,7 @@
 
           <div class="col-12 md:col-4 lg:col-4 filter">
             <h3>Division</h3>
-            <p-dropdown appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones6" placeholder="Seleccionar división" (onChange)="cargarArea7()"></p-dropdown>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones6" placeholder="Seleccionar división" (onChange)="cargarArea7()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones6.length>0">
               &nbsp;
               <h3>Estructura</h3>
@@ -552,7 +572,7 @@
             </ng-container>
             &nbsp;
             <h3>Filtro casos</h3>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion6" optionLabel="label" [(ngModel)]="selectEvento6" (onChange)="DatosGrafica7()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion6" optionLabel="label" [(ngModel)]="selectEvento6" (onChange)="DatosGrafica7()"></p-multiSelect>
           </div>
         </div>
       </p-panel>
