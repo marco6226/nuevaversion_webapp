@@ -17,12 +17,7 @@
 // 	font-family: montserrat, arial, verdana;
 // }
 /*form styles*/
-#msform {
-	// width: 400px;
-	// margin: 50px auto;
-	// text-align: center;
-	// position: relative;
-}
+
 #msform fieldset {
 	background: white;
 	border: 0 none;
@@ -52,9 +47,7 @@
 	position: relative;
 }
 /*Hide all except first fieldset*/
-#msform fieldset:not(:first-of-type) {
-	// display: none;
-}
+
 /*inputs*/
 #msform input, #msform textarea {
 	padding: 15px;
@@ -209,14 +202,6 @@
 				}
 			// }
 			
-			
-		}
-
-		.H1{
-
-		}
-
-		.H2{
 			
 		}
 

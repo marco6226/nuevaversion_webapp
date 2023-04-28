@@ -1,0 +1,38 @@
+<!-- <p-growl [value]="msgs"></p-growl> -->
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
+<!-- Start file uploader -->
+<div class="image-item" [ngClass]="{'upload': !imgURL, 'with-download': imgURL}">
+
+    <input #file type="file" accept='image/*, application/*' (change)="onArchivoSelect($event)" class="file-upload"
+        *ngIf="!show">
+
+    <!-- Start loader -->
+    <div class="loader" *ngIf="loading">
+        <em class="pi pi-spinner pi-spin"></em>
+    </div>
+    <!-- End loader -->
+
+    <!-- Start image -->
+    <div class="image" *ngIf="imgURL">
+        <img [src]="imgURL" class="img img-fluid" alt="Image uploaded">
+        <button type="button" class="btn-rounded shadow-none" (click)="removeImg()" *ngIf="imgURL && !show"
+            [ngClass]="{'show': imgURL}">
+            <em class="pi pi-times"></em>
+        </button>
+    </div>
+    <!-- End image -->
+
+    <!-- Start add image -->
+    <div class="add" *ngIf="!loading && !show">
+        <em class="pi pi-plus"></em>
+    </div>
+    <!-- End add image -->
+
+    <!-- Start download button -->
+    <div class="download" (click)="download()" *ngIf="show && !disable">
+        <em class="pi pi-download"></em>
+    </div>
+    <!-- End download button -->
+
+</div>
+<!-- End file uploader -->

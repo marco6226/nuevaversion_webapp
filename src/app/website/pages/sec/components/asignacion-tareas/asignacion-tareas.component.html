@@ -1,1 +1,241 @@
-<p>asignacion-tareas works!</p>
+<!-- <p-growl [value]="msgs"></p-growl> -->
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
+<app-data-not-found *ngIf="(!tareasList || tareasList.length <= 0) && !loading" icon="fa-tasks" message="No se cuenta con registros de tareas generadas">
+    <div *sTienePermiso="'SEC_GET_ANADESV'">
+        Genera nuevas tareas a partir de un análisis de desviación
+        <a (click)="navegar()">aqui</a>
+    </div>
+</app-data-not-found>
+            
+<p-panel header="Listado de tareas" styleClass="material-panel" [style.display]="(tareasList && tareasList.length > 0) || loading ? 'block':'none'">
+    <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>
+    
+    <div class="grid" >        
+        <div class="col-12">
+            <p-table  #dt id="excel-table" styleClass="material-table" autoLayout="true" selectionMode="single" [loading]="loading" [(selection)]="tareaSelect" selectionMode="single" [value]="tareasList" [paginator]="true" [rows]="10">
+                <ng-template pTemplate="header" let-columns>
+                    <tr >
+                        <th pSortableColumn="module"> Módulo
+                            <p-sortIcon field="module"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="fecha_reporte">Fecha de reporte
+                            <p-sortIcon field="fecha_reporte"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="regional" *ngIf="idEmpresa!='22'"> Regional
+                            <p-sortIcon field="regional"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="division" *ngIf="idEmpresa=='22'"> División / Unidad
+                            <p-sortIcon field="division"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="area" *ngIf="idEmpresa!='22'"> Sede
+                            <p-sortIcon field="area"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="area" *ngIf="idEmpresa=='22'"> Ubicación
+                            <p-sortIcon field="area"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="hash_id"> Código
+                            <p-sortIcon field="hash_id"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="nombre" style="width: 10%">Actividad
+                            <p-sortIcon field="nombre"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="empResponsable.primer_nombre"> Responsable
+                            <p-sortIcon field="empResponsable.primer_nombre"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="fecha_proyectada"> Fecha proyectada de cierre
+                            <p-sortIcon field="fecha_proyectada"></p-sortIcon>
+                        </th>
+
+                        <th pSortableColumn="estado">Estado
+                            <p-sortIcon field="estado"></p-sortIcon>
+                        </th>
+
+                    </tr>
+                    <tr class="filters">
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'module', 'contains')">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <p-calendar (onSelect)="dt.filter($event, 'fecha_reporte', 'dateFilter')" showButtonBar="true" dateFormat="dd-mm-yy"  (onClearClick)="dt.filter(undefined, 'fecha_reporte', 'dateFilter')" [yearNavigator]="true" [yearRange]="yearRange" styleClass="ui-inputtext"
+                                    inputStyleClass="ui-inputclean" readonlyInput="true"></p-calendar>
+                            </div>
+                        </td>
+                        <td *ngIf="idEmpresa=='22'">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'division', 'contains')">
+                            </div>
+                        </td>
+                        <td *ngIf="idEmpresa!='22'">
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'regional', 'contains')">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'area', 'contains')">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'hash_id', 'contains')">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'empResponsable.primer_nombre', 'contains')">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <p-calendar (onSelect)="dt.filter($event, 'fecha_proyectada', 'dateFilter')" showButtonBar="true" dateFormat="dd-mm-yy"  (onClearClick)="dt.filter(undefined, 'fecha_proyectada', 'dateFilter')" [yearNavigator]="true" [yearRange]="yearRange"
+                                    styleClass="ui-inputtext" inputStyleClass="ui-inputclean" readonlyInput="true"></p-calendar>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="ui-inputgroup">
+                                <span class="ui-inputgroup-addon">
+                                    <em class="pi pi-search"></em>
+                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                            </div>
+                        </td>
+
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-tarea >
+                    <tr [pSelectableRow]="tarea">
+
+                        <td class="p-text-center">{{tarea.module}}</td>
+                        <td class="p-text-center">{{tarea.fecha_reporte | date:'dd-MM-yyyy' : 'UTC'}}</td>
+                        <td *ngIf="idEmpresa!='22'">{{tarea.regional}}</td>
+                        <td *ngIf="idEmpresa=='22'">{{tarea.division}}</td>
+                        <td>{{tarea.area}}</td>
+                        <td>{{tarea.hash_id}}</td>
+                        <td>{{tarea.nombre}}</td>
+                        <td class="p-text-center">{{(tarea?.empResponsable) ? tarea?.empResponsable?.primer_nombre + ' ' + tarea?.empResponsable?.primer_apellido : 'No posee responsable'}}</td>
+                        <td class="p-text-center">{{ tarea?.fecha_proyectada | date:'dd-MM-yyyy' : 'UTC'}}</td>
+                        <td class="p-text-center status" [ngClass]="{
+                            'status--danger': tarea.estado === 'Vencida' || tarea.estado === 'Cerrada fuera de tiempo', 
+                            'status--success': tarea.estado === 'Abierta' || tarea.estado === 'Cerrada en el tiempo',
+                            'status--info': tarea.estado === 'En seguimiento',
+                            'status--warning': tarea.estado === 'N/A'
+                        }">{{tarea.estado}}</td>
+
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="9" class="p-text-center">No hay registro de tareas asignadas o con los términos de filtro usados</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary" let-rowData>
+                    <button pButton type="button" icon="fa fa-search" label="Consultar" (click)="onClick()" routerLinkActive="router-link-active" class="ui-button-warning" [disabled]="!tareaSelect"></button>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+
+</p-panel>
+
+
+<p-overlayPanel #opCump appendTo="body">
+    <div *ngIf="tareaSelect">
+        <h4>{{tareaSelect.nombre}}</h4>
+        <textarea rows="8" maxlength="512" pInputTextarea [(ngModel)]="tareaSelect.observacionesRealizacion" placeholder="Observaciones de cumplimiento"></textarea>
+        <br />
+        <br />
+        <button pButton type="button" (click)="reportarCumplimiento()" label="Reportar cumplimiento de tarea"></button>
+    </div>
+</p-overlayPanel>
+
+
+<p-overlayPanel #opVerf appendTo="body">
+    <div *ngIf="tareaSelect">
+        <h4>{{tareaSelect.nombre}}</h4>
+        <textarea rows="8" maxlength="512" pInputTextarea [(ngModel)]="tareaSelect.observacionesVerificacion" placeholder="Observaciones de verificación"></textarea>
+        <br />
+        <br />
+        <button pButton type="button" (click)="reportarVerificacion()" label="Reportar verificación de tarea"></button>
+    </div>
+</p-overlayPanel>
+
+<p-dialog   [style]="{'width':'630px','height':'100px', 'font-size': '10px'}">
+    <p-header style="font-size: 14px;margin-left: 10px;margin-top: -10px; padding-top: 100px;">
+        Seleccione los datos que desee exportar:
+    </p-header>
+    <div pDraggable="dd">
+        
+    </div>
+
+    <div class="grid">
+        <div class="col-12 md:col-6 drag-column">
+            <ul style="margin:0;padding:0">
+                <li class="ui-helper-clearfix" pDraggable="cars">
+                    <h6>ui-button-success</h6>
+                </li>
+            </ul>
+        </div>
+        <div class="col-12 md:col-6 drop-column" pDroppable="cars">
+            <p-table>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Vin</th>
+                        <th>Year</th>
+                        <th>Brand</th>
+                        <th>Color</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-car>
+                    <tr>
+                        <td>{{car.vin}}</td>
+                        <td>{{car.year}}</td>
+                        <td>{{car.brand}}</td>
+                        <td>{{car.color}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <div pDroppable="dd">Droppable Div</div>
+    <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="fa fa-file-excel-o" class="ui-button-success"></button>
+</p-dialog>

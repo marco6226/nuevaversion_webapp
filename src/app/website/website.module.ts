@@ -173,10 +173,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { IndCasosMedicosComponent } from './pages/ind/components/ind-casos-medicos/ind-casos-medicos.component';
 import { IndCasosMedicosGestionComponent } from './pages/ind/components/ind-casos-medicos-gestion/ind-casos-medicos-gestion.component';
-
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { CapitalizePipe } from '../website/pages/sec/components/utils/pipes/capitalize.pipe';
+import { SeguimientosTareasComponent } from './pages/sec/components/seguimientos-tareas/seguimientos-tareas.component';
+import { FileUploaderComponent } from './pages/comun/components/file-uploader/file-uploader.component';
+import { VerificacionTareaComponent } from './pages/sec/components/verificacion-tarea/verificacion-tarea.component';
 @NgModule({
   declarations: [
- 
+    CapitalizePipe,
     LayoutComponent,
     MenuComponent,
     NavComponent,
@@ -318,7 +322,10 @@ import { IndCasosMedicosGestionComponent } from './pages/ind/components/ind-caso
     IdleTimeoutComponent,
     IndCaracterizacionComponent,
     IndCasosMedicosComponent,
-    IndCasosMedicosGestionComponent
+    IndCasosMedicosGestionComponent,
+    SeguimientosTareasComponent,
+    FileUploaderComponent,
+    VerificacionTareaComponent
   ],
   imports: [
     MatTooltipModule,
@@ -352,12 +359,14 @@ import { IndCasosMedicosGestionComponent } from './pages/ind/components/ind-caso
     SymbolPaletteModule,
     NumericTextBoxModule, 
     TextBoxModule, 
-    UploaderModule
+    UploaderModule,
+    OverlayPanelModule
   ],
   providers: [
     PerfilService,
     DirectorioService,
-    UsuarioService
+    UsuarioService,
+    CapitalizePipe
   ]
 })
 export class WebsiteModule { }

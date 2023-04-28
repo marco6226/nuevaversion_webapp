@@ -1,1 +1,301 @@
-<p>tarea works!</p>
+<!-- <p-growl [value]="msgs"></p-growl> -->
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
+<div class="grid">
+    <div class="col-12 p-d-flex p-jc-end">
+        <span class="p-text-bold p-mr-2">Estado:</span>
+        <span>{{ statuses[status] }}</span>
+    </div>
+</div>
+
+<p-tabView styleClass="custom-panel">
+
+    <p-tabPanel header="Información General">
+        <div class="grid">
+
+            <div class="col-12">
+                <h5 class="title-header p-mb-2">Información de la desviación</h5>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="hash_id" class="form-material" [value]="tarea?.hash_id"
+                        readonly="true" />
+                    <label for="" class="active">Código de la desviación</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <label for="" class="active">Módulo</label>
+                    <input type="text" pInputText placeholder="Modulo" class="form-material" id="modulo" readonly="true"
+                        [value]="tarea?.module" />
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <textarea pInputTextarea rows="3" readonly="true">{{ tarea?.concepto }}</textarea>
+                    <label for="" class="active" *ngIf="idEmpresa=='22'">Nombre del evento</label>
+                    <label for="" class="active" *ngIf="idEmpresa!='22'">Concepto</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <textarea pInputTextarea rows="3" readonly="true">{{ tarea?.aspecto_causante }}</textarea>
+                    <label for="" class="active">Descripción de la desviación</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    
+                    <label for="" class="active">Fecha del reporte</label>
+                    <td class="form-material">{{ tarea?.fecha_reporte | date:'dd-MM-yyyy' }}</td>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h5 class="title-header p-mb-2">Tarea asignada</h5>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="idEmpresa!='22'">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Tipo de Accion" class="form-material"
+                        [value]="tarea?.tipo_accion" readonly="true" />
+                    <label for="" class="active" >Tipo de Acción</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="idEmpresa!='22'">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Jerarquia de control" class="form-material"
+                        [value]="tarea?.jerarquia" readonly="true" />
+                    <label for="" class="active">Jerarquia de control</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <input type="email" pInputText placeholder="Correo corporativo" class="form-material"
+                        [value]="tarea?.nombre" readonly="true" />
+                    <label for="" class="active">Nombre de la actividad</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <textarea pInputTextarea rows="3" readonly="true">{{ tarea?.descripcion }}</textarea>
+                    <label for="" class="active">Descripción de la actividad</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    
+                    <label for="" class="active">Fecha proyectada de cierre</label>
+                    <td class="form-material">{{ tarea?.fecha_proyectada | date:'dd-MM-yyyy' }}</td>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <input *ngIf="idEmpresa!='22'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.regional"
+                        readonly="true" />
+                    <input *ngIf="idEmpresa=='22'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.division"
+                        readonly="true" />
+                    <label for="" class="active" *ngIf="idEmpresa!='22'">Regional</label>
+                    <label for="" class="active" *ngIf="idEmpresa=='22'">División / Unidad</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Area" class="form-material" [value]="tarea?.area"
+                        readonly="true" />
+                    <label for="" class="active" *ngIf="idEmpresa!='22'">Sede</label>
+                    <label for="" class="active" *ngIf="idEmpresa=='22'">Ubicación</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Responsable" class="form-material"
+                        [value]="(tarea?.responsable)? tarea?.responsable : 'No posee responsable'" readonly="true" />
+                    <label for="" class="active">Responsable</label>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Correo Electronico" class="form-material"
+                        [value]="(tarea?.email) ? tarea?.email : 'No posee responsable'" readonly="true" />
+                    <label for="" class="active">Correo electrónico del responsable</label>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <h5 class="title-header p-mb-2">Evidencias</h5>
+            </div>
+
+            <div class="uploaders" *ngIf="tareaEvidences.length > 0">
+                <app-file-uploader *ngFor="let evidence of tareaEvidences; let i = index" [img]="evidence" [index]="i"
+                    [show]="true">
+                </app-file-uploader>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="tareaEvidences.length === 0">
+                <span>Esta tarea no posee evidencias</span>
+            </div>
+
+        </div>
+    </p-tabPanel>
+
+    <p-tabPanel header="Seguimientos">
+
+        <app-seguimientos-tareas [tarea]="tarea" [tareaClose]="tareaClose" [status]="status" [tareaId]="tareaId"
+            (isFollowExist)="isFollows($event)">
+        </app-seguimientos-tareas>
+
+    </p-tabPanel>
+
+    <p-tabPanel header="Cierre">
+
+        <form [formGroup]="tareaForm" (ngSubmit)="onSubmit()">
+
+            <div class="grid">
+
+                <!-- Start general info -->
+
+                <div class="col-12">
+                    <h5 class="title-header p-mb-2">Cierre</h5>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-4">
+                    <div class="input-field">
+                        <p-autoComplete styleClass="form-material-autocomplete" #autocomplete placeholder="Digite"
+                            formControlName="email" [style]="{'width':'100%'}" (onSelect)="onSelection($event)"
+                            [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                            [readonly]="tareaClose">
+                            <ng-template let-empleado pTemplate="item">
+                                <div class="ui-helper-clearfix">
+                                    <div class="wrapper">
+                                        <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                            style="font-size: 24px; align-self: center;" aria-hidden="true"></i>
+                                        <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
+                                            style="border-radius: 50%;" #imgAvatar alt="" />
+                                        <div style="margin-left:20px">
+                                            <span class="p-text-capitalize">
+                                                {{empleado?.primerApellido}} {{empleado?.primerNombre}}
+                                                {{empleado?.segundoNombre}}
+                                            </span>
+                                            <br /> {{empleado?.numeroIdentificacion}}
+                                            <br /> {{empleado?.usuario.email}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                        <label for="" class="active">Usuario que gestiona</label>
+                    </div>
+
+                    <!-- Start validations -->
+                    <div *ngIf="submitted && f['usuarioCierre'].hasError('required')" class="error-msg ">
+                        <span>Debe buscar un empleado válido.</span>
+                    </div>
+                    <!-- End validations -->
+
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-4">
+                    <div class="input-field">
+                        <input type="text" pInputText placeholder="Nombres y apellidos" [value]="fullName"
+                            class="form-material" [attr.disabled]="true" />
+                        <label for="" class="active">Nombres y apellidos</label>
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-4">
+                    <div class="input-field">
+                        <p-calendar formControlName="fechaCierre" [monthNavigator]="true" [yearNavigator]="true"
+                            [maxDate]="fechaActual" yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy"
+                            [disabled]="tareaClose" *sTienePermiso="'SEC_CHANGE_FECHACIERRE'" required="true"></p-calendar>
+                            <p-calendar formControlName="fechaCierre" 
+                            [maxDate]="fechaActual" [minDate]="fechaActual"  [locale]="localeES" dateFormat="dd/mm/yy"
+                            [disabled]="tareaClose" *ngIf="!fechavisible" required="true"></p-calendar>
+                           
+
+
+                        <label for="" class="active">Fecha de cierre</label>
+                    </div>
+
+                    
+
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-6">
+                    <div class="input-field">
+                        <textarea pInputTextarea formControlName="descripcionCierre" class="form-material" rows="5"
+                            required [readOnly]="tareaClose"></textarea>
+                        <label for="" class="active">Descripción de la acción realizada</label>
+                    </div>
+
+                    <!-- Start validations -->
+                    <div *ngIf="submitted && f['descripcionCierre'].hasError('required')" class="error-msg ">
+                        <span>Debe describir la acción realizada.</span>
+                    </div>
+                    <!-- End validations -->
+
+                </div>
+
+                <!-- End general info -->
+
+                <!-- Start evidences -->
+
+                <div class="col-12">
+                    <h5 class="title-header p-mb-2">Evidencias</h5>
+                </div>
+
+                <div class="uploaders">
+                    <ng-container *ngIf="!tareaClose">
+                        <app-file-uploader *ngFor="let item of [0,1,2]; let i = index" [index]="i"
+                            (loadedImage)="addImage($event)" (removeImage)="removeImage($event)"></app-file-uploader>
+                    </ng-container>
+                    <ng-container *ngIf="!flagEvidencias">
+                        <div class="loader" style="position:absolute; top:340px; left:53%; "></div>
+                    </ng-container>
+                    <ng-container *ngIf="(tareaClose && evidences?.files !== undefined) && flagEvidencias">
+                        <ng-container *ngIf="evidences?.files.length === 0">
+                            <p>Esta tarea se cerró sin evidencias</p>
+                        </ng-container>
+                        <ng-container *ngIf="evidences?.files.length > 0">
+                            <app-file-uploader *ngFor="let evidence of evidences?.files; let i = index" [img]="evidence"
+                                [index]="i" [show]="true">
+                            </app-file-uploader>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+                <!-- End evidences -->
+
+                <!-- Start send button -->
+                <ng-template [sTienePermiso]="'RAI_GET_TAREAEVI'" (flagTienePermiso)="TienePermiso($event)">
+                </ng-template>
+                <button pButton *ngIf="cargando == false && !tareaClose" type="submit" icon="fa fa-floppy-o"
+                    class="float-btn" style="bottom: 100px;" title="Guardar tarea"></button>
+
+                <p-progressSpinner *ngIf="cargando == true" class="float-btn" strokeWidth="8"
+                    [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
+                <!-- End send button -->
+
+            </div>
+
+        </form>
+
+    </p-tabPanel>
+
+    <p-tabPanel header="Verificación" *ngIf="tareaClose">
+        <app-verificacion-tarea [tarea]="tarea" [tareaVerify]="tareaVerify" (loadTareas)="getTarea($event)">
+        </app-verificacion-tarea>
+    </p-tabPanel>
+</p-tabView>
