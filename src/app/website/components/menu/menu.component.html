@@ -20,11 +20,16 @@
                 <div class="sub-container">
                     <div class="tittle" (click)="toogle(item)">
                         <mat-icon class="material-icons-outlined">{{item.icon}}</mat-icon>
+                        <i [class]="item.icon" class="icon-size"></i>
+
                         <label for=""> {{item.label}}</label> 
                     </div>                
                     <div *ngIf="item.expanded" class="childs">
                         <div *ngFor="let child of item.items" class="sub-childs" (click)="redirect(child)">
                             <mat-icon class="material-icons-outlined color-icon-child">{{child.icon}}</mat-icon>
+                            <i [class]="child.icon" style="font-size: 1rem;"></i>
+                            <i [class]="child.icon" class="icon-size"></i>
+
                             <label  for=""> {{child.label}}</label>
                         </div>
                     </div>
@@ -55,41 +60,64 @@
 </div> -->
 
 
-<div class="container">
-    <div *ngIf="!menuToggle">
-        <div *ngFor="let item of items" >
-            <div [ngClass]="{'isSelected': item.expanded}">
-                <div >
-                    <!-- <div (click)="toogle(item)" [class]="item.icon"> -->
-                    <!-- <div (click)="toogle(item)" class="test"> -->
-                    <div (click)="menu.toggle($event)" class="button-menu">
-                        <p-tieredMenu #menu [model]="item.items" [popup]="true"></p-tieredMenu>
-                        <!-- <p-speedDial #menu [model]="item.items" direction="right"></p-speedDial> -->
 
-                        <!-- <p-menu #menu [model]="item.items" [popup]="true"></p-menu> -->
-
-                        <!-- <mat-icon matTooltip="{{item.label}}" [matTooltipPosition]="'right'">{{item.icon}}</mat-icon> -->
-                        <!-- <mat-icon>{{item.icon}}</mat-icon> -->
-                        <div>
-                            <!-- <mat-icon>{{item.icon}}</mat-icon> -->
-
-                            <i [class]="item.icon" style="font-size: 1rem;">
-                            </i>
-                            <p>{{item.label}}</p>
-                        </div>                        
-
-                    </div>                
-                    <!-- <div *ngIf="item.expanded" class="childs2">
-                        <div *ngFor="let child of item.items"  (click)="redirect(child)">
-                            <mat-icon matTooltip="{{child.label}}" [matTooltipPosition]="'right'" >{{child.icon}}</mat-icon>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
+ <!-- <div class="container-fluid">
+    <div class="row">
+        <div class="d-flex flex-column justify-content-between col-auto bg-dark min-vh-100">
+            <a class="text-white text-decoration-none d-flex align-items-center ms-4" role="button">
+                <span class="fs-5">Sidemenu</span>
+            </a>
+            <ul class="nav nav-pills flex-column mt-2 mt-sm-0" id="menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white">
+                        <i class="fa fa-house"></i>
+                        <span class="ms-2">te</span>
+                    </a>
+                </li>               
+            </ul>
         </div>
     </div>
-    <!-- <button #btn type="button" pButton icon="pi pi-bars" label="Show" (click)="menu.toggle($event)"></button> -->
-    <!-- <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu> -->
-    <!-- <p-breadcrumb class="max-w-full" [model]="items" home="/app/home"></p-breadcrumb> -->
+ </div> -->
 
-</div>
+ <div id="container" class="container container-hide">
+    <div class="sub-container">
+        <div class="button-slide">
+            <i id="arrow" class="bi bi-caret-right-fill" type="button" (click)="toogleMenu()"></i>
+        </div>
+        
+        <div class="button-slide child-items" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-label="Toggle navigation" routerLink="/app/home" >
+            <i class="bi bi-columns icon-size"></i>
+            <span id="text-toggle" class="text-hide">Dashboard</span>
+        </div>
+    </div>    
+
+    <div *ngFor="let item of items">
+        <div class="child-items" type="button" data-bs-toggle="collapse" [attr.data-bs-target]= "'#'+ item.codigo" aria-expanded="false" aria-label="Toggle navigation">
+            <i [class]="item.icon" class="icon-size"></i>
+            <span id="text-toggle" class="text-hide">{{item.label}}</span>
+        </div>
+        <div *ngFor="let children of item.items" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="children.routerLink">
+            <div class="child-items">
+                <i [class]="children.icon" class="icon-size"></i>
+                <span id="text-toggle" class="text-hide">{{children.label}}</span >
+            </div>            
+        </div>
+    </div>
+ </div>
+
+ <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tooltip on right">
+    Tooltip on right
+  </button>
+ <!-- <div class="pos-f-t">
+    <div class="collapse" id="navbarToggleExternalContent">
+      <div class="bg-dark p-4">
+        <h4 class="text-white">Collapsed content</h4>
+        <span class="text-muted">Toggleable via the navbar brand.</span>
+      </div>
+    </div>
+    <nav class="navbar navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+  </div> -->
