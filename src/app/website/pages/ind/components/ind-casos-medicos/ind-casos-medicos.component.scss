@@ -10,8 +10,9 @@
     color: #ffffff;
   }
   h3{
-    margin-bottom: 1em;
-    text-align: center;
+    margin-bottom: 0.3em;
+    text-align: left;
+    font-weight: bold
   }
   h4{
     margin-bottom: 1em;
@@ -216,8 +217,9 @@
     margin-bottom: 30px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    padding: 5% 3% 5% 3%;
   }
-  
+
   .card .card-block {
     padding: 25px;
   }
@@ -280,10 +282,6 @@
   font-size: 40px;
   }
   
-  ::ng-deep .col-4 {
-  width: 100%!important;
-  text-align:right;
-  }
   ::ng-deep a:hover {
   background-color: orange !important;
   }
@@ -369,5 +367,31 @@
       overflow: hidden;
       white-space: pre;
   }
+
+  .grafDona {
+    font-size:10px !important;
+    letter-spacing: normal;
+}
+.custom-label-text {
+    background-color: #00b400;
+    color: #fff;
+  }
+
+//   ::ng-deep .mat-body{
+//     font-size: 400 14px/30px Roboto, "Helvetica Neue", sans-serif !important;
+//     letter-spacing: normal;
+// }
   
+
+:host ::ng-deep .mat-typography {
+    font: 400 14px/35px Roboto, "Helvetica Neue", sans-serif !important;
+}
   
+div{
+    font-size: large;
+    padding-bottom: 20px;
+  }
+
+  label{
+    font-size: large;
+  }

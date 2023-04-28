@@ -352,8 +352,7 @@ import { IndCasosMedicosGestionComponent } from './pages/ind/components/ind-caso
     SymbolPaletteModule,
     NumericTextBoxModule, 
     TextBoxModule, 
-    UploaderModule,
-    NgxChartsModule,
+    UploaderModule
   ],
   providers: [
     PerfilService,

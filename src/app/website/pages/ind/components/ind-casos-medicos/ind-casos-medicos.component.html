@@ -7,47 +7,32 @@
                   <div class="grid">
                       <div class="col-12 md:col-6 lg:col-4">
                           <div class="card l-bg-blue1-dark">
-                              <div class="card-statistic-3 p-3">
-                                <div class="card-icon card-icon-large"></div>
-                                <div class="mb-4">
-                                    <h1 class="card-title mb-0">Numero de casos</h1>
+                                <div style="text-align:left;">
+                                    <h1 >Numero de casos</h1>
                                 </div>
-                                <div class="row align-items-center mb-2 d-flex">
-                                  <div class="col-4 text-right">
-                                      <span class="tamañotexto">{{this.numCasos}}</span>
-                                  </div>
+                                <div style="text-align:right;">
+                                    <span class="tamañotexto" >{{this.numCasos}}</span>
                                 </div>
-                              </div>
                           </div>
                       </div>
                       <div class="col-12 md:col-6 lg:col-4">
                           <div class="card l-bg-blue2-dark">
-                              <div class="card-statistic-3 p-3">
-                                  <div class="card-icon card-icon-large"></div>
-                                  <div class="mb-4">
-                                      <h1 class="card-title mb-0">Casos abiertos</h1>
-                                  </div>
-                                  <div class="row align-items-center mb-2 d-flex">
-                                    <div class="col-4 text-right">
-                                        <span class="tamañotexto">{{this.casosAbiertos}}</span>
-                                    </div>
-                                  </div>
-                              </div>
+                                <div style="text-align:left;">
+                                    <h1 >Casos abiertos</h1>
+                                </div>
+                                <div style="text-align:right;">
+                                    <span class="tamañotexto">{{this.casosAbiertos}}</span>
+                                </div>
                           </div>
                       </div>
                       <div class="col-12 md:col-6 lg:col-4">
                           <div class="card l-bg-blue3-dark">
-                              <div class="card-statistic-3 p-3">
-                                  <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
-                                  <div class="mb-4">
-                                      <h1>Casos cerrados</h1>
-                                  </div>
-                                  <div class="row align-items-center mb-2 d-flex">
-                                      <div class="col-4 text-right">
-                                          <span class="tamañotexto">{{this.casosCerrados}}</span>
-                                      </div>                                     
-                                  </div>
-                              </div>
+                                <div style="text-align:left;">
+                                    <h1>Casos cerrados</h1>
+                                </div>
+                                <div style="text-align:right;">
+                                    <span class="tamañotexto">{{this.casosCerrados}}</span>
+                                </div>                                     
                           </div>
                       </div>
                   </div>
@@ -57,7 +42,7 @@
                 <div class="grid">
                       <div class="col">
                         <div class="grid" style="margin-top: 1px;">
-                            <p>Area:</p><p-dropdown appendTo="body" [options]="divisiones0" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
+                            <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
                         </div>
                       </div>
                       <div class="col"> 
@@ -74,40 +59,48 @@
       </p-panel>
       <br/>
       <p-panel header="TOTAL CASOS Y DIAGNOSTICO" >
+        <br>
         <div class="colorfondo">
-          <div class="grid">
+        <div class="grid">
             <p> <b> Casos medicos </b></p>
-            <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center" style="height: 10cm;">
-              <p-radioButton name="group0" label="Total " [value]="0"   (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-              <p-radioButton name="group0" label=" Abiertos " [value]="1"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-              <p-radioButton name="group0" label=" Cerrados " [value]="2"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
-              <ngx-charts-advanced-pie-chart
-              class="align-items-center"
-              [scheme]="colorScheme"
-              [results]="datosGraf0Print"
-              [gradient]="true">
-              </ngx-charts-advanced-pie-chart>
+            <div class="col-12" style="height: 10cm;">
+                <div>
+                    <p-radioButton name="group0"  [value]="0"   (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+                    <label for="">Total</label>
+                    <p-radioButton name="group0"  [value]="1"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+                    <label for="">Abiertos</label>
+                    <p-radioButton name="group0"  [value]="2"  (onClick)="DatosGrafica1()" [style]="{'margin-left': '15px'}" [(ngModel)]="radioButon0"></p-radioButton>
+                    <label for="">Cerrados</label>
+                </div>
+                <ngx-charts-advanced-pie-chart
+                class="align-items-center mat-typography"
+                [scheme]="colorScheme"
+                [results]="datosGraf0Print"
+                [gradient]="true">
+                </ngx-charts-advanced-pie-chart>
             </div>
-            <div class="ui-g-3">&nbsp;</div>
-            <div class="ui-g-6">
-              <div class="ui-g-6">  
-                <i style="font-size:24px" class="fa">&#xf073;</i>   
-                <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde1" (ngModelChange)="DatosGrafica1()"> </p-calendar> 
-              </div>
-              <div class="ui-g-6"> 
-                <i style="font-size:24px" class="fa">&#xf073;</i> 
-                <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta1" (ngModelChange)="DatosGrafica1()"> </p-calendar>
-              </div>
+            <div class="col-3">&nbsp;</div>
+            <div class="col-6">
+                <div class="grid">  
+                    <div class="col-6">  
+                        <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  
+                        <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde1" (ngModelChange)="DatosGrafica1()"> </p-calendar> 
+                    </div>
+                    <div class="col-6"> 
+                        <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                        <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta1" (ngModelChange)="DatosGrafica1()"> </p-calendar>
+                    </div>
+                </div>
             </div>
-          </div>
+            </div>
         </div>
       </p-panel>
       <br/>
       <p-panel header="Casos medicos">
         <div class="grid" *ngIf="flag1">
-            <div class="ui-g">
+
         <!-- Primera grafica -->
-        <div class="ui-g-12">
+        <div class="col-12">
           <p><b>
             <ng-container *ngIf="selectEvento1.length>0">
               <ng-container *ngFor="let ret of selectEvento1;first as f;last as l">
@@ -133,8 +126,8 @@
         </div>
 
         <!-- <div class="ui-g-12">&nbsp;</div> -->
-          <div  class="ui-g-8 ui-g-nopad">
-            <div class="ui-g-8 ui-sm-8 ui-md-8 grafic ui-g-nopad"style="background-color: red;">
+          <div  class="col-8 grid">
+            <div class="col-11 grafic">
                 <ngx-charts-bar-vertical-2d 
                 [scheme]="colorScheme"
                 [results]="datosGraf1Print"
@@ -153,40 +146,47 @@
                 [tooltipDisabled]="false">
                 </ngx-charts-bar-vertical-2d>
             </div>
-            <div class="ui-g-4">&nbsp;</div>
-            <div class="ui-g-12">
-              <div class="ui-g-6">  
-                <i style="font-size:24px" class="fa">&#xf073;</i>   
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8 grid">
+              <div class="col-6">  
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  
                 <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde2" (ngModelChange)="DatosGrafica2()"> </p-calendar> 
               </div>
-              <div class="ui-g-6"> 
-                <i style="font-size:24px" class="fa">&#xf073;</i> 
+              <div class="col-6"> 
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
                 <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta2" (ngModelChange)="DatosGrafica2()"> </p-calendar>
               </div>
             </div>
           </div>
   
-          <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-            <h5>Division</h5>
+          <div class="col-12 md:col-4 lg:col-4 filter">
+            <h3>Division</h3>
             <div *ngFor="let category of divisiones0" class="p-field-checkbox">
               <p-checkbox name="group1" value="category" [value]="category"  [(ngModel)]="selectDivisiones1" [inputId]="category.value" (click)="DatosGrafica2()"></p-checkbox>
               <label>{{category.label}}</label>
             </div>
-            <h5>Filtro casos</h5>
+            <br>
+            <h3>Filtro casos</h3>
             <div class="col-md-10">
-              <p-radioButton name="group1" label="Estado" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-              <p-radioButton name="group1" label="Mesa laboral" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-              <p-radioButton name="group1" label="Prioridad" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton><br>
-              <p-radioButton name="group1" label="Tipo de caso" [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <p-radioButton name="group1"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Estado</label><br><br>
+              <p-radioButton name="group1"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Mesa laboral</label><br><br>
+              <p-radioButton name="group1"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Prioridad</label><br><br>
+              <p-radioButton name="group1"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
+              <label for="">Tipo de caso</label>
             </div>
             <br>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion1" optionLabel="label" [(ngModel)]="selectEvento1" (onChange)="DatosGrafica2()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion1" optionLabel="label" [(ngModel)]="selectEvento1" (onChange)="DatosGrafica2()"></p-multiSelect>
           </div>
-        </div>
+
         </div>
         <hr/>
         <div class="grid" *ngIf="flag2">
 
+        <div class="col-12">
           <p><b>
             <ng-container *ngIf="selectEvento2.length>0">
               <ng-container *ngFor="let ret of selectEvento2;first as f;last as l">
@@ -209,10 +209,10 @@
               </ng-container>
             </ng-container>
           </b></p>
+        </div>
 
-          <div class="ui-g-12">&nbsp;</div>
-          <div  class="ui-g-8 ui-g-nopad">
-            <div class="ui-g-11 ui-sm-11 ui-md-11 grafic" *ngIf="flagReturnDatos2">
+        <div  class="col-8 grid">
+            <div class="col-11 grafic" *ngIf="flagReturnDatos2">
                 <ngx-charts-bar-vertical-2d
                 class="align-items-center"
                 [scheme]="colorScheme"
@@ -234,43 +234,47 @@
               <!-- </ng-container> -->
             </div>
             <ng-container *ngIf="!flagReturnDatos2">
-              <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad">
+              <div class="col-11">
                 <app-data-not-found [message]="'Selecione una división'"></app-data-not-found>
               </div>
             </ng-container>
-            <div class="ui-g-1">&nbsp;</div>
-            <div class="ui-g-2">&nbsp;</div>
-            <div class="ui-g-8">
-                <div class="ui-g-6" *ngIf="flagReturnDatos2">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8 grid">
+                <div class="col-6" *ngIf="flagReturnDatos2">  
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde3" (ngModelChange)="DatosGrafica3()"> </p-calendar> 
                 </div>
-                <div class="ui-g-6" *ngIf="flagReturnDatos2"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
+                <div class="col-6" *ngIf="flagReturnDatos2"> 
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta3" (ngModelChange)="DatosGrafica3()"> </p-calendar>
                 </div>
             </div>
           </div>
   
   
-          <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-            <h5>Division</h5>
-            <p-dropdown appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones2" placeholder="Seleccionar división" (onChange)="cargarArea()"></p-dropdown>
+          <div class="col-12 md:col-4 lg:col-4 filter">
+            <h3>Division</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones2" placeholder="Seleccionar división" (onChange)="cargarArea()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones2.length>0">
               &nbsp;
-              <h5>Estructura</h5>
+              <h3>Estructura</h3>
               <button style="display:flex" pButton type="button" icon="fa fa-pencil" (click)="abrirDialogo1()" label="Seleccionar Ubicación"></button>
             </ng-container>
             &nbsp;
-            <h5>Filtro casos</h5>
+            <h3>Filtro casos</h3>
             <div class="col-md-10">
-              <p-radioButton name="group2" label="Estado" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-              <p-radioButton name="group2" label="Mesa laboral" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-              <p-radioButton name="group2" label="Prioridad" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton><br>
-              <p-radioButton name="group2" label="Tipo de caso" [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <p-radioButton name="group2"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Estado</label><br><br>
+              <p-radioButton name="group2"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Mesa laboral</label><br><br>
+              <p-radioButton name="group2"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Prioridad</label><br><br>
+              <p-radioButton name="group2"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
+              <label for="">Tipo de caso</label>
             </div>
             <br>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion2" optionLabel="label" [(ngModel)]="selectEvento2" (onChange)="DatosGrafica3()"></p-multiSelect>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion2" optionLabel="label" [(ngModel)]="selectEvento2" (onChange)="DatosGrafica3()"></p-multiSelect>
           </div>
         </div>
         
@@ -278,7 +282,7 @@
       <br/>
       <p-panel header="PROGRAMA DE RETORNO LABORAL">
         <div class="grid" *ngIf="flag3">
-
+        <div class="col-12">
           <p><b>
             <ng-container *ngIf="selectEvento3.length>0">
               <ng-container *ngFor="let ret of selectEvento3;first as f;last as l">
@@ -301,11 +305,11 @@
               </ng-container>
             </ng-container>
           </b></p>
-
-          <div class="ui-g-12">&nbsp;</div>
+        </div>
+          
   
-          <div  class="ui-g-8 ui-g-nopad">
-            <div class="ui-g-11 ui-sm-11 ui-md-11 grafic">
+          <div  class="col-8 grid">
+            <div class="col-11 grafic">
               <ngx-charts-bar-vertical-2d
               class="align-items-center"
               [scheme]="colorScheme"
@@ -325,61 +329,61 @@
               [tooltipDisabled]="false">
               </ngx-charts-bar-vertical-2d>
             </div>
-            <div class="ui-g-1">&nbsp;</div>
-            <div class="ui-g-2">&nbsp;</div>
-            <div class="ui-g-8">
-                <div class="ui-g-6">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8 grid">
+                <div class="col-6">  
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde4" (ngModelChange)="DatosGrafica4()"> </p-calendar> 
                 </div>
-                <div class="ui-g-6"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
+                <div class="col-6"> 
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body"> [(ngModel)]="fechaHasta4" (ngModelChange)="DatosGrafica4()"</p-calendar>
                 </div>
             </div>
           </div>
   
   
-          <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-            <h5>Division</h5>
+          <div class="col-12 md:col-4 lg:col-4 filter">
+            <h3>Division</h3>
             <div *ngFor="let category of divisiones0" class="p-field-checkbox">
               <p-checkbox name="group3" value="category" [value]="category"  [(ngModel)]="selectDivisiones3" [inputId]="category.value" (click)="DatosGrafica4()"></p-checkbox>
               <label>{{category.label}}</label>
             </div>
-            <h5>Filtro casos</h5>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion3" optionLabel="label" [(ngModel)]="selectEvento3" (onChange)="DatosGrafica4()"></p-multiSelect>
+            <h3>Filtro casos</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion3" optionLabel="label" [(ngModel)]="selectEvento3" (onChange)="DatosGrafica4()"></p-multiSelect>
           </div>
         </div>
         <hr>
 
         <div class="grid" *ngIf="flag4">
-
-          <p><b>
-            <ng-container *ngIf="selectEvento4.length>0">
-              <ng-container *ngFor="let ret of selectEvento4;first as f;last as l">
-                <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
+        <div class="col-12">
+            <p><b>
+                <ng-container *ngIf="selectEvento4.length>0">
+                <ng-container *ngFor="let ret of selectEvento4;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                    /{{ret.label}}
+                    </ng-template>
                 </ng-container>
-                <ng-template #otro1>
-                  /{{ret.label}}
-                </ng-template>
-              </ng-container>
-            </ng-container>
-            <ng-container *ngIf="selectEvento4.length==0">
-              <ng-container *ngFor="let ret of opcion4;first as f;last as l">
-                <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
                 </ng-container>
-                <ng-template #otro1>
-                  /{{ret.label}}
-                </ng-template>
-              </ng-container>
-            </ng-container>
-          </b></p>
+                <ng-container *ngIf="selectEvento4.length==0">
+                <ng-container *ngFor="let ret of opcion4;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                    /{{ret.label}}
+                    </ng-template>
+                </ng-container>
+                </ng-container>
+            </b></p>
+        </div>
 
-          <div class="ui-g-12">&nbsp;</div>
-          <div  class="ui-g-8 ui-g-nopad">
-            <div class="ui-g-11 ui-sm-11 ui-md-11 grafic" *ngIf="flagReturnDatos4">
+          <div  class="col-8 grid">
+            <div class="col-11 grafic" *ngIf="flagReturnDatos4">
                 <ngx-charts-bar-vertical-2d
                 class="align-items-center"
                 [scheme]="colorScheme"
@@ -400,35 +404,35 @@
                 </ngx-charts-bar-vertical-2d>
             </div>
             <ng-container *ngIf="!flagReturnDatos4">
-              <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad">
+              <div class="col-11">
                 <app-data-not-found [message]="'Selecione una división'"></app-data-not-found>
               </div>
             </ng-container>
-            <div class="ui-g-1">&nbsp;</div>
-            <div class="ui-g-2">&nbsp;</div>
-            <div class="ui-g-8">
-                <div class="ui-g-6" *ngIf="flagReturnDatos4">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8 grid">
+                <div class="col-6" *ngIf="flagReturnDatos4">  
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde5" (ngModelChange)="DatosGrafica5()"> </p-calendar> 
                 </div>
-                <div class="ui-g-6" *ngIf="flagReturnDatos4"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
+                <div class="col-6" *ngIf="flagReturnDatos4"> 
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta5" (ngModelChange)="DatosGrafica5()"> </p-calendar>
                 </div>
             </div>
           </div>
 
-          <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-            <h5>Division</h5>
-            <p-dropdown appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea5()"></p-dropdown>
+          <div class="col-12 md:col-4 lg:col-4 filter">
+            <h3>Division</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea5()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones4.length>0">
               &nbsp;
-              <h5>Estructura</h5>
+              <h3>Estructura</h3>
               <button style="display:flex" pButton type="button" icon="fa fa-pencil" (click)="abrirDialogo5()" label="Seleccionar Ubicación"></button>
             </ng-container>
             &nbsp;
-            <h5>Filtro casos</h5>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion4" optionLabel="label" [(ngModel)]="selectEvento4" (onChange)="DatosGrafica5()"></p-multiSelect>
+            <h3>Filtro casos</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion4" optionLabel="label" [(ngModel)]="selectEvento4" (onChange)="DatosGrafica5()"></p-multiSelect>
           </div>
         </div>
       </p-panel>
@@ -436,15 +440,17 @@
       <p-panel header="Diagnosticos">
         <div class="grid" *ngIf="flag5">
 
-          <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-            <p-radioButton name="group4" [(ngModel)]="radioButon5" label="Total " [value]="0" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group4" [(ngModel)]="radioButon5" label=" Comun " [value]="1" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group4" [(ngModel)]="radioButon5" label=" Laboral " [value]="2" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
-          </div>
-  
-          <div  class="ui-g-8 ui-g-nopad">
-            <div class="ui-g-11 ui-sm-11 ui-md-11 grafic">
-              <div class="ui-g-12 ui-sm-12 ui-md-12" style="height: 90%;">
+          <div class="col-12 align-items-center">
+            <p-radioButton name="group4" [(ngModel)]="radioButon5"  [value]="0" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group4" [(ngModel)]="radioButon5"  [value]="1" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Comun</label>
+            <p-radioButton name="group4" [(ngModel)]="radioButon5"  [value]="2" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Laboral</label>
+        </div>
+          <div class="ui-g-12">&nbsp;</div>
+          <div  class="col-8 grid">
+            <div class="col-11 grafic">
                 <ngx-charts-bar-vertical-2d
                 class="align-items-center"
                 [scheme]="colorScheme"
@@ -463,44 +469,46 @@
                 [groupPadding]=4
                 [tooltipDisabled]="false">
                 </ngx-charts-bar-vertical-2d>
-              </div>
             </div>
-            <div class="ui-g-1">&nbsp;</div>
-            <div class="ui-g-2">&nbsp;</div>
-            <div class="ui-g-8">
-                <div class="ui-g-6">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8 grid">
+                <div class="col-6">  
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde6" (ngModelChange)="DatosGrafica6()"> </p-calendar> 
                 </div>
-                <div class="ui-g-6"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
+                <div class="col-6"> 
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body"> [(ngModel)]="fechaHasta6" (ngModelChange)="DatosGrafica6()"</p-calendar>
                 </div>
             </div>
           </div>
   
   
-          <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-            <h5>Division</h5>
+          <div class="col-12 md:col-4 lg:col-4 filter">
+            <h3>Division</h3>
             <div *ngFor="let category of divisiones1" class="p-field-checkbox">
               <p-checkbox name="group5" value="category" [value]="category"  [(ngModel)]="selectDivisiones5" [inputId]="category.value" (click)="DatosGrafica6()"></p-checkbox>
               <label>{{category.label}}</label>
             </div>
-            <h5>Filtro diagnosticos</h5>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion5" optionLabel="label" [(ngModel)]="selectEvento5" (onChange)="DatosGrafica6()"></p-multiSelect>
+            <h3>Filtro diagnosticos</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion5" optionLabel="label" [(ngModel)]="selectEvento5" (onChange)="DatosGrafica6()"></p-multiSelect>
           </div>
         </div>
         <hr>
 
         <div class="grid" *ngIf="flag6">
-          <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-            <p-radioButton name="group6" [(ngModel)]="radioButon6" label="Total " [value]="0" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group6" [(ngModel)]="radioButon6" label=" Comun " [value]="1" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
-            <p-radioButton name="group6" [(ngModel)]="radioButon6" label=" Laboral " [value]="2" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
-          </div>
+          <div class="col-12">
+            <p-radioButton name="group6" [(ngModel)]="radioButon6"  [value]="0" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group6" [(ngModel)]="radioButon6"  [value]="1" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Comun</label>
+            <p-radioButton name="group6" [(ngModel)]="radioButon6"  [value]="2" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Laboral</label>
+        </div>
           <div class="ui-g-12">&nbsp;</div>
-          <div  class="ui-g-8 ui-g-nopad">
-            <div class="ui-g-11 ui-sm-11 ui-md-11 grafic" *ngIf="flagReturnDatos6">
+          <div  class="col-8 grid">
+            <div class="col-11 grafic" *ngIf="flagReturnDatos6">
                 <ngx-charts-bar-vertical-2d
                 class="align-items-center"
                 [scheme]="colorScheme"
@@ -521,35 +529,35 @@
                 </ngx-charts-bar-vertical-2d>
             </div>
             <ng-container *ngIf="!flagReturnDatos6">
-              <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad">
+              <div class="col-11">
                 <app-data-not-found [message]="'Selecione una división'"></app-data-not-found>
               </div>
             </ng-container>
-            <div class="ui-g-1">&nbsp;</div>
-            <div class="ui-g-2">&nbsp;</div>
-            <div class="ui-g-8">
-              <div class="ui-g-6" *ngIf="flagReturnDatos6">  
-                <i style="font-size:24px" class="fa">&#xf073;</i>   
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8">
+              <div class="col-6" *ngIf="flagReturnDatos6">  
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  
                 <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde7" (ngModelChange)="DatosGrafica7()"> </p-calendar> 
               </div>
-              <div class="ui-g-6" *ngIf="flagReturnDatos6"> 
-                <i style="font-size:24px" class="fa">&#xf073;</i> 
+              <div class="col-6" *ngIf="flagReturnDatos6"> 
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>
                 <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta7" (ngModelChange)="DatosGrafica7()"> </p-calendar>
               </div>
             </div>
           </div>
 
-          <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-            <h5>Division</h5>
-            <p-dropdown appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones6" placeholder="Seleccionar división" (onChange)="cargarArea7()"></p-dropdown>
+          <div class="col-12 md:col-4 lg:col-4 filter">
+            <h3>Division</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones6" placeholder="Seleccionar división" (onChange)="cargarArea7()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones6.length>0">
               &nbsp;
-              <h5>Estructura</h5>
+              <h3>Estructura</h3>
               <button style="display:flex" pButton type="button" icon="fa fa-pencil" (click)="abrirDialogo7()" label="Seleccionar Ubicación"></button>
             </ng-container>
             &nbsp;
-            <h5>Filtro casos</h5>
-            <p-multiSelect defaultLabel="Seleccione" [options]="opcion6" optionLabel="label" [(ngModel)]="selectEvento6" (onChange)="DatosGrafica7()"></p-multiSelect>
+            <h3>Filtro casos</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="opcion6" optionLabel="label" [(ngModel)]="selectEvento6" (onChange)="DatosGrafica7()"></p-multiSelect>
           </div>
         </div>
       </p-panel>

@@ -1,4 +1,4 @@
-import { Component, ContentChild, OnInit, ViewChild } from '@angular/core';
+import { Component, ContentChild, Input, Output, OnInit, ViewChild ,EventEmitter} from '@angular/core';
 import { MenuComponent } from '../menu/menu.component';
 
 @Component({
@@ -9,6 +9,8 @@ import { MenuComponent } from '../menu/menu.component';
 export class LayoutMenuComponent implements OnInit {
 
 	@ViewChild(MenuComponent) menuComp!: MenuComponent;
+  @Output() openMenu = new EventEmitter<boolean>();
+
 
   container = document.getElementById('container');
 
@@ -21,6 +23,7 @@ export class LayoutMenuComponent implements OnInit {
   }
 
   onHiddenMenu(event: any){
+    this.openMenu.emit(event);
     const cont = document.getElementById('container');    
 
     if (event) {

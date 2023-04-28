@@ -1,98 +1,80 @@
-<div styleClass="ui-g">
-    <div style="width: 100%;">
-      <p-panel header="Clasificación eventos">
-        <div class="p-grid  p-mt-3 p-jc-evenly colorsitos colorfondo">
-            <div class="col-md-10">
-                <p-radioButton name="group1" label="Total " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
-                <p-radioButton name="group1" label=" Temporales " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
-                <p-radioButton name="group1" label=" Directos " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
-            </div>
-            <div class="col-md-10">&nbsp;</div>
-            <div class="col-md-10 ">
-                <div class="row ">
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card l-bg-blue1-dark">
-                            <div class="card-statistic-3 p-3">
-                              <div class="card-icon card-icon-large"></div>
-                              <div class="mb-4">
-                                  <h5 class="card-title mb-0">Leve</h5>
-                              </div>
-                              <div class="row align-items-center mb-2 d-flex">
-                                <div class="col-4 text-right">
-                                    <span class="tamañotexto">{{this.ContLeve}}</span>
-                                </div>
-                              </div>
-                            </div>
+
+<div style="margin-left: 3px;">
+    <p-panel header="Clasificación eventos">
+    <div class="grid colorsitos colorfondo">
+        <div class="col-12" >
+            <p-radioButton name="group1" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group1" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group1" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+            <label for="">Directos</label>
+        </div>
+        <div class="col-12 ">
+            <div class="grid ">
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue1-dark">
+                        <div  style="text-align:left;">
+                            <h3>Leve</h3>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card l-bg-blue2-dark">
-                            <div class="card-statistic-3 p-3">
-                                <div class="card-icon card-icon-large"></div>
-                                <div class="mb-4">
-                                    <h5 class="card-title mb-0">Grave</h5>
-                                </div>
-                                <div class="row align-items-center mb-2 d-flex">
-                                  <div class="col-4 text-right">
-                                      <span class="tamañotexto">{{this.ContGrave}}</span>
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card l-bg-blue3-dark">
-                            <div class="card-statistic-3 p-3">
-                                <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
-                                <div class="mb-4">
-                                    <h5 class="card-title mb-0">Severo</h5>
-                                </div>
-                                <div class="row align-items-center mb-2 d-flex">
-                                    <div class="col-4 text-left">
-                                        <span class="tamañotexto">{{this.ContSevero}}</span>
-                                    </div>                                     
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6">
-                        <div class="card l-bg-blue4-dark">
-                            <div class="card-statistic-3 p-3">
-                                <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
-                                <div class="mb-4">
-                                    <h5 class="card-title mb-0">Mortal</h5>
-                                </div>
-                                <div class="row align-items-center mb-2 d-flex">
-                                    <div class="col-4 text-left">
-                                        <span class="tamañotexto">{{this.ContMortal}}</span>
-                                    </div>                                     
-                                </div>
-                            </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContLeve}}</span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="p-col-6 p-mt-6 mid-border">
-                <div class="p-d-flex p-jc-evenly">
-                    <div class="p-d-flex"><p class="p-m-0">Area: </p>&nbsp;<p-dropdown appendTo="body" [options]="divisiones2" placeholder="Seleccionar división" (onChange)="CardsClasificacion()" [(ngModel)]="selectArea"></p-dropdown></div>
-                    &nbsp;
-                    <div class="p-d-flex">  
-                        <i style="font-size:24px" class="fa">&#xf073;</i>   
-                        <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue2-dark">
+                        <div  style="text-align:left;">
+                            <h3>Grave</h3>
+                        </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContGrave}}</span>
+                        </div>
                     </div>
-                    &nbsp;
-                    <div class="p-d-flex"> 
-                        <i style="font-size:24px" class="fa">&#xf073;</i> 
-                        <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue3-dark">
+                        <div  style="text-align:left;">
+                            <h3>Severo</h3>
+                        </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContSevero}}</span>
+                        </div>                                     
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue4-dark">
+                        <div  style="text-align:left;">
+                            <h3>Mortal</h3>
+                        </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContMortal}}</span>
+                        </div>                                     
                     </div>
                 </div>
             </div>
         </div>
-      </p-panel>
-      <br>
-      <p-panel header="{{NombreGra1[radioGra1_1]}}">
-        <div class="colorfondo">
-            <div styleClass="ui-g" *ngIf="flagevent1">
+        <div class="col-12 grid">
+            <div class="col-2">&nbsp;</div>
+            <div style="display: flex;" class="col-3"><p>Area: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones2" placeholder="Seleccionar división" (onChange)="CardsClasificacion()" [(ngModel)]="selectArea"></p-dropdown></div>
+            &nbsp;
+            <div style="display: flex;" class="col-3">  
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+            </div>
+            &nbsp;
+            <div style="display: flex;" class="col-3"> 
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+            </div>
+        </div>
+    </div>
+    </p-panel>
+    <br>
+    <p-panel header="{{NombreGra1[radioGra1_1]}}">
+    <div class="colorfondo">
+        <div class="grid" *ngIf="flagevent1">
+            <div class="col-12">
                 <p><b>
                     <ng-container *ngIf="selectEv1.length>0">
                         <ng-container *ngFor="let ret of selectEv1;first as f;last as l">
@@ -115,15 +97,18 @@
                         </ng-container>
                     </ng-container>
                 </b></p>    
-
-                <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-                    <p-radioButton name="group1" label="Total " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1" (onClick)="DatosGrafica1();resetSelect()"></p-radioButton>
-                    <p-radioButton name="group1" label=" Temporales " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1" (onClick)="DatosGrafica1();resetSelect()"></p-radioButton>
-                    <p-radioButton name="group1" label=" Directos " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1" (onClick)="DatosGrafica1();resetSelect()"></p-radioButton>
-                </div>
-        
-                <div  class="ui-g-8 ui-g-nopad">
-                <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
+            </div>
+            <div class="col-12">
+                <p-radioButton name="group1"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1" (onClick)="DatosGrafica1();resetSelect()"></p-radioButton>
+                <label for="">Total</label>
+                <p-radioButton name="group1"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1" (onClick)="DatosGrafica1();resetSelect()"></p-radioButton>
+                <label for="">Temporales</label>
+                <p-radioButton name="group1"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1" (onClick)="DatosGrafica1();resetSelect()"></p-radioButton>
+                <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+                <div class="col-11 grafic" style="height: 500px;">
                     <ngx-charts-bar-vertical-2d 
                     [scheme]="colorScheme"
                     [results]="datosGrafica1"
@@ -141,57 +126,202 @@
                     [tooltipDisabled]="false">
                     </ngx-charts-bar-vertical-2d>
                 </div>
-                <div class="ui-g-1">&nbsp;</div>
-                <div class="ui-g-2">&nbsp;</div>
-                <div class="ui-g-8">
-                    <div class="ui-g-6">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
+                <div class="col-1">&nbsp;</div>
+                <div class="col-2">&nbsp;</div>
+                <div class="col-8 grid">
+                    <div class="col-6">  
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="date3" (ngModelChange)="DatosGrafica1()"> </p-calendar> 
                     </div>
-                    <div class="ui-g-6"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
+                    <div class="col-6"> 
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
                     <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="date4" (ngModelChange)="DatosGrafica1()"> </p-calendar>
                     </div>
                 </div>
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+                <h3>Division</h3>
+                <div *ngFor="let category of divisiones2" class="p-field-checkbox">
+                    <p-checkbox name="group1" value="category" [value]="category" [inputId]="category.value" [(ngModel)]="selectDiv1" (click)="filtroGraEve1()"></p-checkbox>
+                    <label>{{category.label}}</label>
                 </div>
-        
-                <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-                    <h5>Division</h5>
-                    <div *ngFor="let category of divisiones2" class="p-field-checkbox">
-                        <p-checkbox name="group1" value="category" [value]="category" [inputId]="category.value" [(ngModel)]="selectDiv1" (click)="filtroGraEve1()"></p-checkbox>
-                        <label>{{category.label}}</label>
-                    </div>
-                    <h5>Filtro eventos</h5>
-                    <div>
-                        <p-radioButton name="group2" label="Sexo " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1_1" (onClick)="resetSelect()"></p-radioButton>
-                        <p-radioButton name="group2" label=" Lugar " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1_1" (onClick)="resetSelect()"></p-radioButton>
-                        <p-radioButton name="group2" label=" Jornada " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1_1" (onClick)="resetSelect()"></p-radioButton>
-                    </div>
-                    <br>
-                    <div *ngFor="let Indicador of filtroEventos[radioGra1_1]" class="p-field-checkbox">
-                        <p-checkbox name="group2" value="Indicador" [value]="Indicador" [inputId]="Indicador.value" [(ngModel)]="selectEv1" (click)="filtroGraEve1()"></p-checkbox>
-                        <label>{{Indicador.label}}</label>
-                    </div>
+                <h3>Filtro eventos</h3>
+                <div>
+                    <p-radioButton name="group2"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1_1" (onClick)="resetSelect()"></p-radioButton>
+                    <label for="">Sexo</label>
+                    <p-radioButton name="group2"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1_1" (onClick)="resetSelect()"></p-radioButton>
+                    <label for="">Lugar</label>
+                    <p-radioButton name="group2"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1_1" (onClick)="resetSelect()"></p-radioButton>
+                    <label for="">Jornada</label>
+                </div>
+                <br>
+                <div *ngFor="let Indicador of filtroEventos[radioGra1_1]" class="p-field-checkbox">
+                    <p-checkbox name="group2" value="Indicador" [value]="Indicador" [inputId]="Indicador.value" [(ngModel)]="selectEv1" (click)="filtroGraEve1()"></p-checkbox>
+                    <label>{{Indicador.label}}</label>
                 </div>
             </div>
         </div>
-      </p-panel>
-      <br>
-      <p-panel header="{{NombreGra2[radioGra2_1]}}">
-        <div class="colorfondo">
-            <div class="ui-g" *ngIf="flagevent2">    
+    </div>
+    </p-panel>
+    <br>
+    <p-panel header="{{NombreGra2[radioGra2_1]}}">
+    <div class="colorfondo">
+        <div class="grid" *ngIf="flagevent2">    
 
-                <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-                    <p-radioButton name="group3" label="Total " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2" (onClick)="resetSelect2()"></p-radioButton>
-                    <p-radioButton name="group3" label=" Temporales " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2" (onClick)="resetSelect2()"></p-radioButton>
-                    <p-radioButton name="group3" label=" Directos " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2" (onClick)="resetSelect2()"></p-radioButton>
+            <div class="col-12">
+                <p-radioButton name="group3"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2" (onClick)="resetSelect2()"></p-radioButton>
+                <label for="">Total</label>
+                <p-radioButton name="group3"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2" (onClick)="resetSelect2()"></p-radioButton>
+                <label for="">Temporales</label>
+                <p-radioButton name="group3"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2" (onClick)="resetSelect2()"></p-radioButton>
+                <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+            <div class="col-11 grafic" style="height: 500px;">
+                <ngx-charts-bar-vertical-2d  
+                [scheme]="colorScheme"
+                [results]="datosGrafica2"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="false"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Divisiones'"
+                [yAxisLabel]="'No. personas'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="false"
+                [tooltipDisabled]="false"
+                [animations]="false">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            
+            <div class="col-8">&nbsp;</div>
+            <!-- <div class="col-8">
+                <div class="col-6">  
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="date5" (ngModelChange)="DatosGrafica2()"> </p-calendar> 
                 </div>
-        
-                <div  class="ui-g-8 ui-g-nopad">
-                <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
+                <div class="col-6"> 
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="date6" (ngModelChange)="DatosGrafica2()"> </p-calendar>
+                </div>
+            </div> -->
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear2" (onChange)="DatosGrafica2()"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2" (onChange)="DatosGrafica2()"></p-multiSelect>
+                <h3>Division</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones2" optionLabel="label" [(ngModel)]="selectDiv2" (onChange)="filtroGraEve2()"></p-multiSelect>
+                <h3>Filtro eventos</h3>
+                <div>
+                    <p-radioButton name="group4" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2_1" (onClick)="segundaGrafica();resetSelect2()"></p-radioButton>
+                    <label for="">Edad</label><br><br>
+                    <p-radioButton name="group4" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2_1" (onClick)="segundaGrafica();resetSelect2()"></p-radioButton>
+                    <label for="">Antiguedad</label><br><br>
+                    <p-radioButton name="group4" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2_1" (onClick)="segundaGrafica();resetSelect2()"></p-radioButton>
+                    <label for="">Hora accidente</label>
+                </div>
+                <br>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="{{labelFilterGra2}}" [options]="filtroEventos2[radioGra2_1]" optionLabel="name" [(ngModel)]="selectEv2" (onChange)="filtroGraEve2()"></p-multiSelect>
+            </div>
+        </div>
+    </div>
+    </p-panel>
+
+    <br>
+    <p-panel header="Cargos">
+
+    <div class="colorfondo">
+        <div class="grid" *ngIf="flagevent3">    
+
+            <div class="col-12">
+                <p-radioButton name="group5"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra3" (onClick)="resetVariables3_2()"></p-radioButton>
+                <label for="">Total</label>
+                <p-radioButton name="group5"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra3" (onClick)="resetVariables3_2()"></p-radioButton>
+                <label for="">Temporales</label>
+                <p-radioButton name="group5"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra3" (onClick)="resetVariables3_2()"></p-radioButton>
+                <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+            <div class="col-11 grafic" style="height: 500px;">
+                <ngx-charts-bar-vertical-2d  
+                [scheme]="colorScheme"
+                [results]="this.datosGrafica3Top"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="false"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Divisiones'"
+                [yAxisLabel]="'No. accidentes'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="false"
+                [tooltipDisabled]="false"
+                >
+                </ngx-charts-bar-vertical-2d>
+            </div>
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8">&nbsp;</div>
+            <!-- <div class="col-8">
+                <div class="col-6">  
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="date7" (ngModelChange)="DatosGrafica3()"> </p-calendar> 
+                </div>
+                <div class="col-6"> 
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="date8" (ngModelChange)="DatosGrafica3()"> </p-calendar>
+                </div>
+            </div> -->
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear3" (onChange)="DatosGrafica3()"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3" (onChange)="DatosGrafica3()"></p-multiSelect>
+                <h3>Division</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv3" (onChange)="filtroGraEve3()"></p-multiSelect>
+                <h3>Filtro cargos</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="cargoList" optionLabel="label" [(ngModel)]="selectEv3" (onChange)="filtroGraEve3()"></p-multiSelect>
+                <br>
+            </div>
+        </div>
+    </div>
+    </p-panel>
+
+
+    <br>
+    <p-panel header="{{labelGraf4}}">
+    <div class="colorfondo">
+        <div class="grid" *ngIf="flagevent4">    
+
+            <div class="col-12">
+                <p-radioButton name="group7"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4" (onClick)="reinciarVariable4_1()"></p-radioButton>
+                <label for="">Total</label>
+                <p-radioButton name="group7"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4" (onClick)="reinciarVariable4_1()"></p-radioButton>
+                <label for="">Temporales</label>
+                <p-radioButton name="group7"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4" (onClick)="reinciarVariable4_1()"></p-radioButton>
+                <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+                <div class="col-11 grafic" style="height: 500px;">
                     <ngx-charts-bar-vertical-2d  
                     [scheme]="colorScheme"
-                    [results]="datosGrafica2"
+                    [results]="this.datosGrafica4Top"
                     [gradient]="true"
                     [xAxis]="true"
                     [yAxis]="true"
@@ -203,293 +333,172 @@
                     [barPadding]=0
                     [groupPadding]=4
                     [showDataLabel]="false"
-                    [tooltipDisabled]="false"
-                    [animations]="false">
+                    [tooltipDisabled]="false">
                     </ngx-charts-bar-vertical-2d>
                 </div>
-                <div class="ui-g-1">&nbsp;</div>
-                <div class="ui-g-2">&nbsp;</div>
-                
-                <div class="ui-g-8">&nbsp;</div>
-                <!-- <div class="ui-g-8">
-                    <div class="ui-g-6">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="date5" (ngModelChange)="DatosGrafica2()"> </p-calendar> 
-                    </div>
-                    <div class="ui-g-6"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="date6" (ngModelChange)="DatosGrafica2()"> </p-calendar>
-                    </div>
-                </div> -->
+                <div class="col-1">&nbsp;</div>
+                <div class="col-2">&nbsp;</div>
+                <div class="col-8">&nbsp;</div>
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear4"  (onChange)="DatosGrafica4()"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4"  (onChange)="DatosGrafica4()"></p-multiSelect>
+                <h3>Division</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv4" (onChange)="filtroGraEve4()" ></p-multiSelect>
+                <h3>Filtro eventos</h3>
+                <div>
+                    <p-radioButton name="group8"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton>
+                    <label for="">Tipo accidente</label><br><br>
+                    <p-radioButton name="group8"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton>
+                    <label for="">Lugar accidente</label><br><br>
+                    <p-radioButton name="group8"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton>
+                    <label for="">Agente</label><br><br>
+                    <p-radioButton name="group8"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton>
+                    <label for="">Mecanismo</label><br><br>
+                    <p-radioButton name="group8"  [value]="4" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton>
+                    <label for="">Parte cuerpo</label><br><br>
+                    <p-radioButton name="group8"  [value]="5" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton>
+                    <label for="">Tipo lesion</label>
                 </div>
-        
-                <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-                    <h5>Año</h5>
-                    <p-dropdown appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear2" (onChange)="DatosGrafica2()"></p-dropdown>
-                    <h5>Meses</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2" (onChange)="DatosGrafica2()"></p-multiSelect>
-                    <h5>Division</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="divisiones2" optionLabel="label" [(ngModel)]="selectDiv2" (onChange)="filtroGraEve2()"></p-multiSelect>
-                    <h5>Filtro eventos</h5>
-                    <div>
-                        <p-radioButton name="group4" label="Edad" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2_1" (onClick)="segundaGrafica();resetSelect2()"></p-radioButton><br>
-                        <p-radioButton name="group4" label="Antiguedad" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2_1" (onClick)="segundaGrafica();resetSelect2()"></p-radioButton><br>
-                        <p-radioButton name="group4" label="Hora accidente" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra2_1" (onClick)="segundaGrafica();resetSelect2()"></p-radioButton>
-                    </div>
-                    <br>
-                    <p-multiSelect appendTo="body" defaultLabel="{{labelFilterGra2}}" [options]="filtroEventos2[radioGra2_1]" optionLabel="name" [(ngModel)]="selectEv2" (onChange)="filtroGraEve2()"></p-multiSelect>
-                </div>
+                <br>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccione" [options]="filtroEventos4" optionLabel="value" [(ngModel)]="selectEv4" (onChange)="filtroGraEve4()"></p-multiSelect>
             </div>
         </div>
-      </p-panel>
+    </div>
+    </p-panel>
 
-      <br>
-      <p-panel header="Cargos">
-
-        <div class="colorfondo">
-            <div class="ui-g" *ngIf="flagevent3">    
-
-                <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-                    <p-radioButton name="group5" label="Total " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra3" (onClick)="resetVariables3_2()"></p-radioButton>
-                    <p-radioButton name="group5" label=" Temporales " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra3" (onClick)="resetVariables3_2()"></p-radioButton>
-                    <p-radioButton name="group5" label=" Directos " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra3" (onClick)="resetVariables3_2()"></p-radioButton>
+    <br>
+    <p-panel header="Peligros">
+    <div class="colorfondo">
+        <div class="grid" *ngIf="flagevent5">    
+            <div class="col-12">
+                <p-radioButton name="group9"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra5" (onClick)="resetvariable5_1()"></p-radioButton>
+                <label for="">Total</label>
+                <p-radioButton name="group9"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra5" (onClick)="resetvariable5_1()"></p-radioButton>
+                <label for="">Temporales</label>
+                <p-radioButton name="group9"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra5" (onClick)="resetvariable5_1()"></p-radioButton>
+                <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+            <div class="col-11 grafic" style="height: 500px;">
+                <ngx-charts-bar-vertical-2d  
+                [scheme]="colorScheme"
+                [results]="this.datosGrafica5Top"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="false"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Divisiones'"
+                [yAxisLabel]="'No. peligros'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="false"
+                [tooltipDisabled]="false">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8 grid">
+                <div class="col-6">  
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
+                <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="date9" (ngModelChange)="filtroGraEve5()"> </p-calendar> 
                 </div>
-        
-                <div  class="ui-g-8 ui-g-nopad">
-                <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
-                    <ngx-charts-bar-vertical-2d  
-                    [scheme]="colorScheme"
-                    [results]="this.datosGrafica3Top"
-                    [gradient]="true"
-                    [xAxis]="true"
-                    [yAxis]="true"
-                    [legend]="false"
-                    [showXAxisLabel]="true"
-                    [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
-                    [yAxisLabel]="'No. accidentes'"
-                    [barPadding]=0
-                    [groupPadding]=4
-                    [showDataLabel]="false"
-                    [tooltipDisabled]="false"
-                    >
-                    </ngx-charts-bar-vertical-2d>
-                </div>
-                <div class="ui-g-1">&nbsp;</div>
-                <div class="ui-g-2">&nbsp;</div>
-                <div class="ui-g-8">&nbsp;</div>
-                <!-- <div class="ui-g-8">
-                    <div class="ui-g-6">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="date7" (ngModelChange)="DatosGrafica3()"> </p-calendar> 
-                    </div>
-                    <div class="ui-g-6"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="date8" (ngModelChange)="DatosGrafica3()"> </p-calendar>
-                    </div>
-                </div> -->
-                </div>
-        
-                <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-                    <h5>Año</h5>
-                    <p-dropdown appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear3" (onChange)="DatosGrafica3()"></p-dropdown>
-                    <h5>Meses</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3" (onChange)="DatosGrafica3()"></p-multiSelect>
-                    <h5>Division</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv3" (onChange)="filtroGraEve3()"></p-multiSelect>
-                    <h5>Filtro cargos</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="cargoList" optionLabel="label" [(ngModel)]="selectEv3" (onChange)="filtroGraEve3()"></p-multiSelect>
-                    <br>
+                <div class="col-6"> 
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="date10" (ngModelChange)="filtroGraEve5()"> </p-calendar>
                 </div>
             </div>
-        </div>
-      </p-panel>
-
-
-      <br>
-      <p-panel header="{{labelGraf4}}">
-        <div class="colorfondo">
-            <div class="ui-g" *ngIf="flagevent4">    
-                <p><b></b></p>
-                <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-                    <p-radioButton name="group7" label="Total " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4" (onClick)="reinciarVariable4_1()"></p-radioButton>
-                    <p-radioButton name="group7" label=" Temporales " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4" (onClick)="reinciarVariable4_1()"></p-radioButton>
-                    <p-radioButton name="group7" label=" Directos " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4" (onClick)="reinciarVariable4_1()"></p-radioButton>
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+                <h3>Division</h3>
+                <div *ngFor="let category of divisiones2" class="p-field-checkbox">
+                    <p-checkbox name="group1" value="category" [value]="category" [inputId]="category.value" [(ngModel)]="selectDiv5" (click)="filtroGraEve5()"></p-checkbox>
+                    <label>{{category.label}}</label>
                 </div>
-        
-                <div  class="ui-g-8 ui-g-nopad">
-                    <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
+                <h3>Filtro peligros</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccione" [options]="tipoPeligroItemList2" optionLabel="label" [(ngModel)]="selectEv5" (onChange)="filtroGraEve5()"></p-multiSelect>
+            </div>
+        </div>
+    </div>
+    </p-panel>
+
+    <br>
+    <p-panel header="Descripción Peligro">
+    <div class="colorfondo">
+        <div class="grid" >    
+            <div class="col-12">
+                <p-radioButton name="group10"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra6" (onClick)="resetTipoPeligros6()"></p-radioButton>
+                <label for="">Total</label>
+                <p-radioButton name="group10"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra6" (onClick)="resetTipoPeligros6()"></p-radioButton>
+                <label for="">Temporales</label>
+                <p-radioButton name="group10"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra6" (onClick)="resetTipoPeligros6()"></p-radioButton>
+                <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+            <ng-container *ngIf="selectPel6Flag">
+                <div class="col-11 grafic" style="height: 500px;">
+                    <ng-container *ngIf="flagevent6">
                         <ngx-charts-bar-vertical-2d  
                         [scheme]="colorScheme"
-                        [results]="this.datosGrafica4Top"
+                        [results]="this.datosGrafica6Top"
                         [gradient]="true"
                         [xAxis]="true"
                         [yAxis]="true"
                         [legend]="false"
                         [showXAxisLabel]="true"
                         [showYAxisLabel]="true"
-                        [xAxisLabel]="'Divisiones'"
-                        [yAxisLabel]="'No. personas'"
+                        [xAxisLabel]="'Peligros'"
+                        [yAxisLabel]="'No. peligros'"
                         [barPadding]=0
                         [groupPadding]=4
                         [showDataLabel]="false"
                         [tooltipDisabled]="false">
                         </ngx-charts-bar-vertical-2d>
-                    </div>
-                    <div class="ui-g-1">&nbsp;</div>
-                    <div class="ui-g-2">&nbsp;</div>
-                    <div class="ui-g-8">&nbsp;</div>
+                    </ng-container>
                 </div>
-        
-                <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-                    <h5>Año</h5>
-                    <p-dropdown appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear4"  (onChange)="DatosGrafica4()"></p-dropdown>
-                    <h5>Meses</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4"  (onChange)="DatosGrafica4()"></p-multiSelect>
-                    <h5>Division</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv4" (onChange)="filtroGraEve4()" ></p-multiSelect>
-                    <h5>Filtro eventos</h5>
-                    <div>
-                        <p-radioButton name="group8" label="Tipo accidente" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton><br>
-                        <p-radioButton name="group8" label="Lugar accidente" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton><br>
-                        <p-radioButton name="group8" label="Agente" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton><br>
-                        <p-radioButton name="group8" label="Mecanismo" [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton><br>
-                        <p-radioButton name="group8" label="Parte cuerpo" [value]="4" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton><br>
-                        <p-radioButton name="group8" label="Tipo lesion" [value]="5" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra4_1" (onClick)="DatosGrafica4();reinciarVariable4_1()"></p-radioButton>
+            </ng-container>
+            <ng-container *ngIf="!selectPel6Flag">
+                <div class="col-11 ui-sm-11 ui-md-11 col-nopad">
+                    <app-data-not-found [message]="'Selecione el tipo de peligro'"></app-data-not-found>
                     </div>
-                    <br>
-                    <p-multiSelect appendTo="body" defaultLabel="Seleccione" [options]="filtroEventos4" optionLabel="value" [(ngModel)]="selectEv4" (onChange)="filtroGraEve4()"></p-multiSelect>
+            </ng-container>
+            <div class="col-1">&nbsp;</div>
+            <div class="col-2">&nbsp;</div>
+            <div class="col-8">&nbsp;</div>
+            <!-- <div class="col-8">
+                <div class="col-6">  
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body"> </p-calendar> 
                 </div>
+                <div class="col-6"> 
+                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body"> </p-calendar>
+                </div>
+            </div> -->
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" [filter]="true" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear6" (onChange)="filtroGraEve6()"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6" (onChange)="filtroGraEve6()"></p-multiSelect>
+                <h3>Division</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv6" (onChange)="filtroGraEve6()"></p-multiSelect>
+                <h3>Filtro tipo peligro</h3>
+                <p-dropdown [style]="{'width':'100%'}" [filter]="true"appendTo="body" placeholder="Seleccione"  [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="selectTipoPeligro6">
+                </p-dropdown><br>
+                <h3>Filtro descripción peligro</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="this.peligroItemList" optionLabel="label" [(ngModel)]="selectEv6" (onChange)="filtroGraEve6()"></p-multiSelect>
             </div>
         </div>
-      </p-panel>
-
-      <br>
-      <p-panel header="Peligros">
-        <div class="colorfondo">
-            <div class="ui-g" *ngIf="flagevent5">    
-                <p><b></b></p>
-                <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-                    <p-radioButton name="group9" label="Total " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra5" (onClick)="resetvariable5_1()"></p-radioButton>
-                    <p-radioButton name="group9" label=" Temporales " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra5" (onClick)="resetvariable5_1()"></p-radioButton>
-                    <p-radioButton name="group9" label=" Directos " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra5" (onClick)="resetvariable5_1()"></p-radioButton>
-                </div>
-        
-                <div  class="ui-g-8 ui-g-nopad">
-                <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
-                    <ngx-charts-bar-vertical-2d  
-                    [scheme]="colorScheme"
-                    [results]="this.datosGrafica5Top"
-                    [gradient]="true"
-                    [xAxis]="true"
-                    [yAxis]="true"
-                    [legend]="false"
-                    [showXAxisLabel]="true"
-                    [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
-                    [yAxisLabel]="'No. peligros'"
-                    [barPadding]=0
-                    [groupPadding]=4
-                    [showDataLabel]="false"
-                    [tooltipDisabled]="false">
-                    </ngx-charts-bar-vertical-2d>
-                </div>
-                <div class="ui-g-1">&nbsp;</div>
-                <div class="ui-g-2">&nbsp;</div>
-                <div class="ui-g-8">
-                    <div class="ui-g-6">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
-                    <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body" [(ngModel)]="date9" (ngModelChange)="filtroGraEve5()"> </p-calendar> 
-                    </div>
-                    <div class="ui-g-6"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
-                    <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body" [(ngModel)]="date10" (ngModelChange)="filtroGraEve5()"> </p-calendar>
-                    </div>
-                </div>
-                </div>
-        
-                <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-                    <h5>Division</h5>
-                    <div *ngFor="let category of divisiones2" class="p-field-checkbox">
-                        <p-checkbox name="group1" value="category" [value]="category" [inputId]="category.value" [(ngModel)]="selectDiv5" (click)="filtroGraEve5()"></p-checkbox>
-                        <label>{{category.label}}</label>
-                    </div>
-                    <h5>Filtro peligros</h5>
-                    <p-multiSelect appendTo="body" defaultLabel="Seleccione" [options]="tipoPeligroItemList2" optionLabel="label" [(ngModel)]="selectEv5" (onChange)="filtroGraEve5()"></p-multiSelect>
-                </div>
-            </div>
-        </div>
-      </p-panel>
-
-      <br>
-      <p-panel header="Descripción Peligro">
-        <div class="colorfondo">
-            <div class="ui-g" >    
-                <p><b></b></p>
-                <div class="ui-g-12 ui-sm-12 ui-md-12 align-items-center">
-                    <p-radioButton name="group10" label="Total " [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra6" (onClick)="resetTipoPeligros6()"></p-radioButton>
-                    <p-radioButton name="group10" label=" Temporales " [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra6" (onClick)="resetTipoPeligros6()"></p-radioButton>
-                    <p-radioButton name="group10" label=" Directos " [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra6" (onClick)="resetTipoPeligros6()"></p-radioButton>
-                </div>
-        
-                <div  class="ui-g-8 ui-g-nopad">
-                <ng-container *ngIf="selectPel6Flag">
-                    <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad grafic" style="height: 500px;">
-                        <ng-container *ngIf="flagevent6">
-                            <ngx-charts-bar-vertical-2d  
-                            [scheme]="colorScheme"
-                            [results]="this.datosGrafica6Top"
-                            [gradient]="true"
-                            [xAxis]="true"
-                            [yAxis]="true"
-                            [legend]="false"
-                            [showXAxisLabel]="true"
-                            [showYAxisLabel]="true"
-                            [xAxisLabel]="'Peligros'"
-                            [yAxisLabel]="'No. peligros'"
-                            [barPadding]=0
-                            [groupPadding]=4
-                            [showDataLabel]="false"
-                            [tooltipDisabled]="false">
-                            </ngx-charts-bar-vertical-2d>
-                        </ng-container>
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="!selectPel6Flag">
-                    <div class="ui-g-11 ui-sm-11 ui-md-11 ui-g-nopad">
-                        <app-data-not-found [message]="'Selecione el tipo de peligro'"></app-data-not-found>
-                      </div>
-                </ng-container>
-                <div class="ui-g-1">&nbsp;</div>
-                <div class="ui-g-2">&nbsp;</div>
-                <div class="ui-g-8">&nbsp;</div>
-                <!-- <div class="ui-g-8">
-                    <div class="ui-g-6">  
-                    <i style="font-size:24px" class="fa">&#xf073;</i>   
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Desde" appendTo="body"> </p-calendar> 
-                    </div>
-                    <div class="ui-g-6"> 
-                    <i style="font-size:24px" class="fa">&#xf073;</i> 
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy"  placeholder="Hasta" appendTo="body"> </p-calendar>
-                    </div>
-                </div> -->
-                </div>
-        
-                <div class="ui-g-4 ui-sm-12 ui-md-4 align-items-center justify-content-md-center filter">
-                    <h5>Año</h5>
-                    <p-dropdown [filter]="true" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear6" (onChange)="filtroGraEve6()"></p-dropdown>
-                    <h5>Meses</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6" (onChange)="filtroGraEve6()"></p-multiSelect>
-                    <h5>Division</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv6" (onChange)="filtroGraEve6()"></p-multiSelect>
-                    <h5>Filtro tipo peligro</h5>
-                    <p-dropdown [filter]="true"appendTo="body" placeholder="Seleccione"  [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="selectTipoPeligro6">
-                    </p-dropdown><br>
-                    <h5>Filtro descripción peligro</h5>
-                    <p-multiSelect defaultLabel="Seleccione" [options]="this.peligroItemList" optionLabel="label" [(ngModel)]="selectEv6" (onChange)="filtroGraEve6()"></p-multiSelect>
-                </div>
-            </div>
-        </div>
-      </p-panel>
     </div>
+    </p-panel>
 </div>

@@ -11,6 +11,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {ViewscmcoService} from "src/app/website/pages/core/services/indicador-scmco.service"
 import { SelectItem, Message, TreeNode } from 'primeng/api';
 import {TreeModule} from 'primeng/tree';
+import { PrimeNGConfig } from 'primeng/api';
+// import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ind-casos-medicos',
@@ -18,8 +20,7 @@ import {TreeModule} from 'primeng/tree';
   styleUrls: ['./ind-casos-medicos.component.scss']
 })
 export class IndCasosMedicosComponent implements OnInit {
-
-  localeES = locale_es;
+  localeES:any = locale_es;
   numCasos:number=0;
   casosAbiertos:number=0;
   casosCerrados:number=0;
@@ -197,6 +198,7 @@ export class IndCasosMedicosComponent implements OnInit {
   ]
 
   async ngOnInit() {
+    this.config.setTranslation(this.localeES);
     await this.cargarDatos()
     this.numeroCasos()
     this.DatosGrafica1()
@@ -209,6 +211,7 @@ export class IndCasosMedicosComponent implements OnInit {
   constructor(
     private viewscmcoService: ViewscmcoService,
     private areaService: AreaService,
+    private config: PrimeNGConfig
   ){}
   
   async cargarDatos(){

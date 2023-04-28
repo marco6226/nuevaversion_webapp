@@ -9,6 +9,7 @@ import { Area } from "../../../empresa/entities/area";
 import { AreaService } from "../../../empresa/services/area.service";
 import { Criteria, SortOrder } from "../../../core/entities/filter";
 import { DataHht, Hht } from "../../../empresa/entities/hht";
+import { PrimeNGConfig } from 'primeng/api';
 
 class division {
   name!: string;
@@ -272,7 +273,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     private reporteAtService: ReporteAtService, 
     private areaService: AreaService,
     private hhtService: HhtService,
-    private sessionService: SesionService
+    private sessionService: SesionService,
+    private config: PrimeNGConfig
     ) {}
     
     
@@ -311,6 +313,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   async ngOnInit() {
+    this.config.setTranslation(this.localeES);
     localStorage.removeItem('reporteAtList');
     localStorage.removeItem('diasPerdidosAtList');
     localStorage.removeItem('reportesAt');

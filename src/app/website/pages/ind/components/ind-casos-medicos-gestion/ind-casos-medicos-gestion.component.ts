@@ -7,6 +7,7 @@ import { Area } from 'src/app/website/pages/empresa/entities/area';
 import { AreaService } from "src/app/website/pages/empresa/services/area.service";
 import { SelectItem, Message, TreeNode } from 'primeng/api';
 import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-ind-casos-medicos-gestion',
@@ -150,9 +151,11 @@ conteo=[
 constructor(
   private ViewscmgeService: ViewscmgeService,
   private areaService: AreaService,
+  private config: PrimeNGConfig
 ) { }
 
 async ngOnInit() {
+  this.config.setTranslation(this.localeES);
   await this.cargarDatos()
   this.DatosGrafica1()
   this.DatosGrafica2()

@@ -136,6 +136,9 @@ export class NavComponent implements OnInit {
 
       this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
+  test123(){
+    console.log('test')
+  }
 }
 
 

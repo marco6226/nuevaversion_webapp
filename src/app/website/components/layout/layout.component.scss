@@ -1,3 +1,67 @@
 .contenedor-ppal{
-    display: flex;
+    // display:flex;
+    width: 100%; /* hacemos que la cabecera ocupe el ancho completo de la página */
+	left: 0; /* Posicionamos la cabecera al lado izquierdo */
+	top: 50px; /* Posicionamos la cabecera pegada arriba */
+	position: absolute; /* Hacemos que la cabecera tenga una posición fija */
+    z-index: 0;
+}
+
+.closed-menu{
+    width: 4%;
+    left: 0; /* Posicionamos la cabecera al lado izquierdo */
+	top: 50px; /* Posicionamos la cabecera pegada arriba */
+	position: sticky; /* Hacemos que la cabecera tenga una posición fija */
+    // overflow-y:scroll;
+    // overflow-x:hidden;
+}
+.closed-contenedor{
+    width: 96%;
+    left: 4%; /* Posicionamos la cabecera al lado izquierdo */
+	top: 0px; /* Posicionamos la cabecera pegada arriba */
+	position: absolute; /* Hacemos que la cabecera tenga una posición fija */
+}
+.open-menu{
+    width: 24%;
+    left: 0; /* Posicionamos la cabecera al lado izquierdo */
+	top: 50px; /* Posicionamos la cabecera pegada arriba */
+	position: sticky; /* Hacemos que la cabecera tenga una posición fija */
+    // overflow-y:scroll;
+    // overflow-x:hidden;
+    // animation: 1s in-out forwards;
+}
+.open-contenedor{
+    width: 76%;
+    left: 24%; /* Posicionamos la cabecera al lado izquierdo */
+	top: 0px; /* Posicionamos la cabecera pegada arriba */
+	position: absolute; /* Hacemos que la cabecera tenga una posición fija */
+    // animation: 1s out-in forwards;
+}
+@keyframes in-out {
+    0% {
+      transform:scaleX(0.4);
+      transform-origin:left;
+    }
+    100% {
+      transform:scaleX(1);
+      transform-origin:left;
+    }
+  }
+
+@keyframes out-in {
+0% {
+    transform:scaleX(1);
+    transform-origin:right;
+}
+100% {
+    transform:scaleX(0.76);
+    transform-origin:right;
+}
+}
+#main-header {
+	width: 100%; /* hacemos que la cabecera ocupe el ancho completo de la página */
+	left: 0; /* Posicionamos la cabecera al lado izquierdo */
+	top: 0; /* Posicionamos la cabecera pegada arriba */
+	position: fixed; /* Hacemos que la cabecera tenga una posición fija */
+    z-index: 3;
 }

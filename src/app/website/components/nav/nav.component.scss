@@ -6,6 +6,10 @@
     justify-content: space-evenly;
 }
 
+.defrente{
+    z-index: 2000;
+}
+
 :host ::ng-deep .p-sidebar .p-sidebar-content {
     height: 86% !important;
 }
@@ -194,4 +198,6 @@ p-sidebar{
     opacity: 0.8;
     height: 64px;
   }
+
+  .button {border-radius: 50%;}
   

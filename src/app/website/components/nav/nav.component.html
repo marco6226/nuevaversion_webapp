@@ -25,13 +25,13 @@
 
 <p-dialog  header="Lista de Empresas" position="top" draggable="false" keepInViewport="false" modal="true" [(visible)]="display" [style]="{width: '50vw'}">
     <app-empresa-list [empresasList]="empresasItems" (changeEmpresa)="confirmEmpresa($event)"></app-empresa-list>
-    <ng-template pTemplate="footer">
+    <!-- <ng-template pTemplate="footer"> -->
         <!-- <p-button icon="pi pi-check" (click)="test()" label="Aceptar" styleClass="p-button-text"></p-button> -->
-    </ng-template>
+    <!-- </ng-template> -->
 </p-dialog>
 
-<p-sidebar [(visible)]="displaySideBar" position="right">
-    <ng-template pTemplate="content">
+<p-sidebar [(visible)]="displaySideBar" position="right" autoZIndex="true" baseZIndex="0">
+    <ng-template pTemplate="content" class="defrente" >
         <div>
             <div>
                 <!-- <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
@@ -61,7 +61,7 @@
             </div>            
         </div>        
     </ng-template>
-    <ng-template pTemplate="footer">
+    <ng-template pTemplate="footer"  class="defrente">
         <div>
             
             
