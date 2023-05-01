@@ -32,3 +32,47 @@
     display: flex;
     justify-content: space-evenly;
 }
+
+.p-button-success:disabled {    
+    background: #C5E1A5 !important;
+    opacity: 1 !important;
+    .p-button-icon{
+        color: var(--white) !important;
+    }
+    .p-button-label{
+        color: var(--white) !important;
+    }
+}
+
+.p-button-danger:disabled {    
+    background: #EF9A9A !important;
+    opacity: 1 !important;
+    .p-button-icon{
+        color: var(--white) !important;
+    }
+    .p-button-label{
+        color: var(--white) !important;
+    }
+}
+
+.p-button-info:disabled {    
+    background: #90CAF9 !important;
+    opacity: 1 !important;
+    .p-button-icon{
+        color: var(--white) !important;
+    }
+    .p-button-label{
+        color: var(--white) !important;
+    }
+}
+
+.p-button-warning:disabled {    
+    background: #FFF59D !important;
+    opacity: 1 !important;
+    .p-button-icon{
+        color: var(--white) !important;
+    }
+    .p-button-label{
+        color: var(--white) !important;
+    }
+}
