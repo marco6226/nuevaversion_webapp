@@ -178,6 +178,7 @@ import { CapitalizePipe } from '../website/pages/sec/components/utils/pipes/capi
 import { SeguimientosTareasComponent } from './pages/sec/components/seguimientos-tareas/seguimientos-tareas.component';
 import { FileUploaderComponent } from './pages/comun/components/file-uploader/file-uploader.component';
 import { VerificacionTareaComponent } from './pages/sec/components/verificacion-tarea/verificacion-tarea.component';
+import { ConfiguracionGeneralDirective } from './pages/comun/directives/configuracion-general.directive'
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -325,7 +326,8 @@ import { VerificacionTareaComponent } from './pages/sec/components/verificacion-
     IndCasosMedicosGestionComponent,
     SeguimientosTareasComponent,
     FileUploaderComponent,
-    VerificacionTareaComponent
+    VerificacionTareaComponent,
+    ConfiguracionGeneralDirective
   ],
   imports: [
     MatTooltipModule,
@@ -367,6 +369,10 @@ import { VerificacionTareaComponent } from './pages/sec/components/verificacion-
     DirectorioService,
     UsuarioService,
     CapitalizePipe
+  ],
+  exports:[
+    ConfiguracionGeneralDirective
   ]
+
 })
 export class WebsiteModule { }

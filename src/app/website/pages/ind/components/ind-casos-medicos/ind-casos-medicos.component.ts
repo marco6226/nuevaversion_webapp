@@ -12,6 +12,8 @@ import {ViewscmcoService} from "src/app/website/pages/core/services/indicador-sc
 import { SelectItem, Message, TreeNode } from 'primeng/api';
 import {TreeModule} from 'primeng/tree';
 import { PrimeNGConfig } from 'primeng/api';
+import { Switch } from "@syncfusion/ej2/buttons";
+import { SesionService } from 'src/app/website/pages/core/services/session.service';
 // import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -20,13 +22,18 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./ind-casos-medicos.component.scss']
 })
 export class IndCasosMedicosComponent implements OnInit {
+  idEmpresa:any = this.sesionService.getEmpresa()?.id;
   localeES:any = locale_es;
   numCasos:number=0;
   casosAbiertos:number=0;
   casosCerrados:number=0;
   datos?:any[];
   datosNumeroCasos?:any[];
-  divisiones=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
+  nameX?:string;
+  divisiones?:any;
+  divisionesCorona=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
+  divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE']
+  nombreEmpresa?:string;
   colorScheme = {
     domain: ['#00B0F0', '#FC4512', '#FFC000', '#002060','#FCB8FC', '#5B9BD5','#70AD47']
   };
@@ -211,20 +218,38 @@ export class IndCasosMedicosComponent implements OnInit {
   constructor(
     private viewscmcoService: ViewscmcoService,
     private areaService: AreaService,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private sesionService: SesionService,
   ){}
   
   async cargarDatos(){
+    switch (this.idEmpresa) {
+      case 8:
+        this.divisiones=Array.from(this.divisionesTelefonica)
+        this.nombreEmpresa='TELEFONICA TOTAL'
+        this.nameX='Regiones'
+        break;
+      case 22:
+        this.divisiones=Array.from(this.divisionesCorona)
+        this.nombreEmpresa='Corona total'
+        this.nameX='Divisiones'
+        break;
+      default:
+      break;
+    }
+
     this.divisiones.forEach((resp:any)=>{
       this.divisiones0.push({label:resp,value:resp})
       this.divisiones1.push({label:resp,value:resp})
       this.divisiones2.push(resp)
       this.divisiones3.push({label:resp,value:resp})
     })
-    this.divisiones0.push({label:'Corona total',value:'Corona total'})
-    this.divisiones2.push('Corona total')
+    this.divisiones0.push({label:this.nombreEmpresa,value:this.nombreEmpresa})
+    this.divisiones2.push(this.nombreEmpresa)
+
     await this.viewscmcoService.findByEmpresaId().then((resp:any)=>{
       this.datos=resp
+      console.log(this.datos)
     })
 
     if(this.radioButon2==0){this.opcion2=this.StatusList;}
@@ -265,7 +290,7 @@ export class IndCasosMedicosComponent implements OnInit {
         break;
     }
     this.datosGraf0Print=[]
-    this.divisiones.forEach(resp=>{
+    this.divisiones.forEach((resp:any)=>{
       this.datosGraf0Print.push({name:resp,value:(this.datosGraf0.filter((resp1:any)=>{return resp1['divisionUnidad']==resp})).length})
     })
   }
@@ -766,7 +791,7 @@ export class IndCasosMedicosComponent implements OnInit {
   filtroDivisionMono(selecDiv:any,datos:any){
     let datos0=[]
     if(selecDiv.length>0){
-      if(selecDiv=='Corona total'){
+      if(selecDiv==this.nombreEmpresa){
         datos0=datos
       }else{
         datos0=datos.filter((resp1:any)=>{
@@ -815,11 +840,11 @@ export class IndCasosMedicosComponent implements OnInit {
     })
 
     division.forEach((resp:any)=>{
-      if(resp!='Corona total')datos0_1.push({name:resp,series:datos0_2})
+      if(resp!=this.nombreEmpresa)datos0_1.push({name:resp,series:datos0_2})
     })
 
-    let datos0_coronaTotal=[{name:'Corona total',series:datos0_2}]
-    const index = division.findIndex((el:any) => el == 'Corona total' )
+    let datos0_coronaTotal=[{name:this.nombreEmpresa,series:datos0_2}]
+    const index = division.findIndex((el:any) => el == this.nombreEmpresa )
 
     datos0.forEach((resp:any)=>{
       if(resp[nombre]){
@@ -846,7 +871,7 @@ export class IndCasosMedicosComponent implements OnInit {
             }
           }
 
-          //corona Total
+          //Total
           const indiceTotal=datos0_coronaTotal[0]['series'].findIndex((el:any) => el.name == nomObj )
           if(indiceTotal!=-1 && index!=-1){
             let newTotal1 = [...datos0_coronaTotal[0]['series']]
@@ -995,5 +1020,9 @@ export class IndCasosMedicosComponent implements OnInit {
     }
     return nodes;
   }
-
+  primeraMayuscula(string:string){
+    let firstLetter:any=string.charAt(0).toUpperCase(); 
+    let othersLetters:any=string.slice(1).toLowerCase();
+    return firstLetter + othersLetters
+  }
 }

@@ -19,7 +19,7 @@
             [legendTitle]="'Leyenda'"
             [showXAxisLabel]="true"
             [showYAxisLabel]="true"
-            [xAxisLabel]="'Divisiones'"
+            [xAxisLabel]="nameX"
             [yAxisLabel]="'No. Casos'"
             [barPadding]=0
             [groupPadding]=4
@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-12 md:col-4 lg:col-4 filter">
-        <h3>Division</h3>
+        <h3>{{nameX}}</h3>
         <div *ngFor="let category of divisiones0" class="p-field-checkbox">
             <p-checkbox name="group1" value="category" [value]="category"  [(ngModel)]="selectDivisiones1" [inputId]="category.value" (click)="DatosGrafica1()"></p-checkbox>
             <label>{{category.label}}</label>
@@ -108,7 +108,7 @@
             [legendTitle]="'Leyenda'"
             [showXAxisLabel]="true"
             [showYAxisLabel]="true"
-            [xAxisLabel]="'Divisiones'"
+            [xAxisLabel]="nameX"
             [yAxisLabel]="'No. Casos'"
             [showDataLabel]="true"
             [barPadding]=0
@@ -132,7 +132,7 @@
 
 
         <div class="col-12 md:col-4 lg:col-4 filter">
-        <h3>Division</h3>
+        <h3>{{nameX}}</h3>
         <div *ngFor="let category of divisiones0" class="p-field-checkbox">
             <p-checkbox name="group3" value="category" [value]="category"  [(ngModel)]="selectDivisiones2" [inputId]="category.value" (click)="DatosGrafica2()"></p-checkbox>
             <label>{{category.label}}</label>
@@ -194,7 +194,7 @@
             [legendTitle]="'Leyenda'"
             [showXAxisLabel]="true"
             [showYAxisLabel]="true"
-            [xAxisLabel]="'Divisiones'"
+            [xAxisLabel]="nameX"
             [yAxisLabel]="'No. Casos'"
             [barPadding]=0
             [groupPadding]=4
@@ -217,7 +217,7 @@
         </div>
 
         <div class="col-12 md:col-4 lg:col-4 filter">
-        <h3>Division</h3>
+        <h3>{{nameX}}</h3>
         <div *ngFor="let category of divisiones0" class="p-field-checkbox">
             <p-checkbox name="group5" value="category" [value]="category"  [(ngModel)]="selectDivisiones3" [inputId]="category.value" (click)="DatosGrafica3()"></p-checkbox>
             <label>{{category.label}}</label>
@@ -294,7 +294,7 @@
         </div>
 
         <div class="col-12 md:col-4 lg:col-4 filter">
-            <h3>Division</h3>
+            <h3>{{nameX}}</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea4()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones4.length>0">
                 &nbsp;

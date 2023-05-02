@@ -8,6 +8,7 @@ import { AreaService } from "src/app/website/pages/empresa/services/area.service
 import { SelectItem, Message, TreeNode } from 'primeng/api';
 import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 import { PrimeNGConfig } from 'primeng/api';
+import { SesionService } from 'src/app/website/pages/core/services/session.service';
 
 @Component({
   selector: 'app-ind-casos-medicos-gestion',
@@ -17,13 +18,20 @@ import { PrimeNGConfig } from 'primeng/api';
 export class IndCasosMedicosGestionComponent implements OnInit {
 
 //comun
+idEmpresa:any = this.sesionService.getEmpresa()?.id;
+nombreEmpresa?:string
 localeES = locale_es;
 datos?:any[];
-
+nameX?:string;
 areasNodes: TreeNode[] = [];
+divisiones_?:string[];
+divisiones?:string[];
 
-divisiones_=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas','Corona total'];
-divisiones=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
+divisionesTelefonica_=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE','TELEFONICA TOTAL'];
+divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE'];
+
+divisionesCorona_=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas',this.nombreEmpresa];
+divisionesCorona=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
 divisiones1:any=[]
 
 entidades=['EPS','ARL','AFP','Junta Regional','Junta Nacional']
@@ -151,7 +159,8 @@ conteo=[
 constructor(
   private ViewscmgeService: ViewscmgeService,
   private areaService: AreaService,
-  private config: PrimeNGConfig
+  private config: PrimeNGConfig,
+  private sesionService: SesionService,
 ) { }
 
 async ngOnInit() {
@@ -373,11 +382,28 @@ difmeses(date:any, otherDate:any):Number{
 }
 
 async cargarDatos(){
-  this.divisiones.forEach(resp=>{
+
+  switch (this.idEmpresa) {
+    case 8:
+      this.divisiones=Array.from(this.divisionesTelefonica)
+      this.divisiones_=Array.from(this.divisionesTelefonica_)
+      this.nombreEmpresa='TELEFONICA TOTAL'
+      this.nameX='Regiones'
+      break;
+    case 22:
+      this.divisiones=Array.from(this.divisionesCorona)
+      this.nombreEmpresa='Corona total'
+      this.nameX='Divisiones'
+      break;
+    default:
+    break;
+  }
+
+  this.divisiones!.forEach(resp=>{
     this.divisiones0.push({label:resp,value:resp})
     this.divisiones1.push(resp)
   })
-  this.divisiones1.push('Corona total')
+  this.divisiones1.push(this.nombreEmpresa)
 
   this.rangoFechaEdad.forEach(resp=>{
     this.rangoFechaEdadArray.push({label:resp,value:resp})
@@ -394,9 +420,9 @@ async cargarDatos(){
   this.entidades.forEach(resp=>{
     this.entidades0.push({label:resp,value:resp})
   })
-  this.entidades0.push('Corona total')
+  this.entidades0.push(this.nombreEmpresa)
 
-  this.divisiones0.push({label:'Corona total',value:'Corona total'})
+  this.divisiones0.push({label:this.nombreEmpresa,value:this.nombreEmpresa})
   await this.ViewscmgeService.findByEmpresaId().then((resp:any)=>{
     this.datos=resp
   })
@@ -424,7 +450,7 @@ filtroFecha(fechaDesde:Date,fechaHasta:Date,datos:any){
 filtroDivisionMono(selecDiv:any,datos:any){
   let datos0=[]
   if(selecDiv.length>0){
-    if(selecDiv=='Corona total'){
+    if(selecDiv==this.nombreEmpresa){
       datos0=datos
     }else{
       datos0=datos.filter((resp1:any)=>{
@@ -488,11 +514,11 @@ SumdatosGraf2DDivisiones(division:any,datos:any,opciones:any,nombre:string,div:s
   })
 
   division.forEach((resp:any)=>{
-    if(resp!='Corona total')datos0_1.push({name:resp,series:datos0_2})
+    if(resp!=this.nombreEmpresa)datos0_1.push({name:resp,series:datos0_2})
   })
 
-  let datos0_coronaTotal=[{name:'Corona total',series:datos0_2}]
-  const index = division.findIndex((el:any) => el == 'Corona total' )
+  let datos0_coronaTotal=[{name:this.nombreEmpresa,series:datos0_2}]
+  const index = division.findIndex((el:any) => el == this.nombreEmpresa )
 
   if(datossum)datos0_1=Array.from(datossum)
 
@@ -519,7 +545,7 @@ SumdatosGraf2DDivisiones(division:any,datos:any,opciones:any,nombre:string,div:s
           }
         }
 
-        //corona Total
+        //total
         const indiceTotal=datos0_coronaTotal[0]['series'].findIndex((el:any) => el.name == nomObj )
         if(indiceTotal!=-1 && index!=-1){
           let newTotal1 = [...datos0_coronaTotal[0]['series']]
@@ -548,11 +574,11 @@ datosGraf2DDivisiones(division:any,datos:any,opciones:any,nombre:string,div:stri
   })
 
   division.forEach((resp:any)=>{
-    if(resp!='Corona total')datos0_1.push({name:resp,series:datos0_2})
+    if(resp!=this.nombreEmpresa)datos0_1.push({name:resp,series:datos0_2})
   })
 
-  let datos0_coronaTotal=[{name:'Corona total',series:datos0_2}]
-  const index = division.findIndex((el:any) => el == 'Corona total' )
+  let datos0_coronaTotal=[{name:this.nombreEmpresa,series:datos0_2}]
+  const index = division.findIndex((el:any) => el == this.nombreEmpresa )
 
   datos0.forEach((resp:any)=>{
     if(resp[nombre]){
@@ -577,7 +603,7 @@ datosGraf2DDivisiones(division:any,datos:any,opciones:any,nombre:string,div:stri
           }
         }
 
-        //corona Total
+        //total
         const indiceTotal=datos0_coronaTotal[0]['series'].findIndex((el:any) => el.name == nomObj )
         if(indiceTotal!=-1 && index!=-1){
           let newTotal1 = [...datos0_coronaTotal[0]['series']]
@@ -606,11 +632,11 @@ datosGraf2DDivisiones2(division:any,datos:any,opciones:any,div:string){
   })
 
   division.forEach((resp:any)=>{
-    if(resp!='Corona total')datos0_1.push({name:resp,series:datos0_2})
+    if(resp!=this.nombreEmpresa)datos0_1.push({name:resp,series:datos0_2})
   })
 
-  let datos0_coronaTotal=[{name:'Corona total',series:datos0_2}]
-  const index = division.findIndex((el:any) => el == 'Corona total' )
+  let datos0_coronaTotal=[{name:this.nombreEmpresa,series:datos0_2}]
+  const index = division.findIndex((el:any) => el == this.nombreEmpresa )
 
   datos0.forEach((resp:any)=>{
     opciones.forEach((resp1:any)=>{
@@ -646,7 +672,7 @@ datosGraf2DDivisiones2_1(datos0_1:any,opciones:any,resp:any,nombre:any,div:any,d
         }
       }
 
-      //corona Total
+      //total
       const indiceTotal=datos0_coronaTotal[0]['series'].findIndex((el:any) => el.name == nomObj )
       if(indiceTotal!=-1 && index!=-1){
         let newTotal1 = [...datos0_coronaTotal[0]['series']]
@@ -672,11 +698,11 @@ datosGraf2DDivisionesRangos(division:any,datos:any,opciones:any,rango:any,fecha1
   })
 
   division.forEach((resp:any)=>{
-    if(resp!='Corona total')datos0_1.push({name:resp,series:datos0_2})
+    if(resp!=this.nombreEmpresa)datos0_1.push({name:resp,series:datos0_2})
   })
 
-  let datos0_coronaTotal=[{name:'Corona total',series:datos0_2}]
-  const index = division.findIndex((el:any) => el == 'Corona total' )
+  let datos0_coronaTotal=[{name:this.nombreEmpresa,series:datos0_2}]
+  const index = division.findIndex((el:any) => el == this.nombreEmpresa )
 
 
 
@@ -719,7 +745,7 @@ datosGraf2DDivisionesRangos(division:any,datos:any,opciones:any,rango:any,fecha1
           }
         }
 
-        //corona Total
+        //total
         const indiceTotal=datos0_coronaTotal[0]['series'].findIndex((el:any) => el.name == nomObj )
         if(indiceTotal!=-1 && index!=-1){
           let newTotal1 = [...datos0_coronaTotal[0]['series']]
@@ -882,10 +908,15 @@ contTotal(datos:any){
     datosGrafica_total.push({name:resp,value:total.get(resp)})
   })
   
-  datos.push({name:'Corona total',series:datosGrafica_total})
+  datos.push({name:this.nombreEmpresa,series:datosGrafica_total})
 
   return datos
 
+}
+primeraMayuscula(string:string){
+  let firstLetter:any=string.charAt(0).toUpperCase(); 
+  let othersLetters:any=string.slice(1).toLowerCase();
+  return firstLetter + othersLetters
 }
 
 }

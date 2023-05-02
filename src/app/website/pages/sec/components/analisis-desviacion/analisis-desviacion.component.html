@@ -44,7 +44,7 @@
     <p-tabPanel header="INVESTIGACIÓN" *sTienePermiso="'SEC_POST_INVESTIGACIONES'" >
         <div class="grid">
             <div class="col-12">
-                <p-tabView [(activeIndex)]="tabIndex" (onChange)="indexTab($event)">
+                <p-tabView [(activeIndex)]="tabIndex" (onChange)="indexTab($event)" [scrollable]="true">
                     <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Descripción">
                         <!-- <button (click)="test2()">test2</button> -->
                         <div class="grid">
