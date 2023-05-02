@@ -253,9 +253,9 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'Perfiles', codigo: 'ADM_GET_PERF', routerLink: ['/app/admin/perfil'], icon: 'pi pi-sitemap' },
-                    { label: 'Permisos', codigo: 'ADM_GET_PERM_PERF', routerLink: ['/app/admin/permisos'], icon: 'pi pi-sitemap' },
-                    { label: 'Usuarios', codigo: 'ADM_GET_USR', routerLink: ['/app/admin/usuario'], icon: 'pi pi-sitemap' },
+                    { label: 'Perfiles', codigo: 'ADM_GET_PERF', routerLink: ['/app/admin/perfil'], icon: 'bi bi-person-add' },
+                    { label: 'Permisos', codigo: 'ADM_GET_PERM_PERF', routerLink: ['/app/admin/permisos'], icon: 'bi bi-lock' },
+                    { label: 'Usuarios', codigo: 'ADM_GET_USR', routerLink: ['/app/admin/usuario'], icon: 'bi bi-person' },
                 ]
         },
         {
@@ -265,14 +265,14 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'Información Empresa', codigo: 'EMP_GET_EMPS', routerLink: ['/app/empresa/empresa'], icon: 'pi pi-sitemap' },
-                    { label: 'Contexto organización', codigo: 'EMP_GET_CTXEMP', routerLink: ['/app/empresa/contextoOrganizacion'], icon: 'pi pi-sitemap' },
-                    { label: 'Tipos área', codigo: 'EMP_GET_TIPOAREA', routerLink: ['/app/empresa/tipoArea'], icon: 'pi pi-sitemap' },
+                    { label: 'Información Empresa', codigo: 'EMP_GET_EMPS', routerLink: ['/app/empresa/empresa'], icon: 'bi bi-building' },
+                    { label: 'Contexto organización', codigo: 'EMP_GET_CTXEMP', routerLink: ['/app/empresa/contextoOrganizacion'], icon: 'bi bi-puzzle' },
+                    { label: 'Tipos área', codigo: 'EMP_GET_TIPOAREA', routerLink: ['/app/empresa/tipoArea'], icon: 'bi bi-window-stack' },
                     { label: 'Organización', codigo: 'EMP_GET_AREA', routerLink: ['/app/empresa/area'], icon: 'pi pi-sitemap' },
-                    { label: 'Cargos', codigo: 'EMP_GET_CARGO', routerLink: ['/app/empresa/cargo'], icon: 'pi pi-sitemap' },
-                    { label: 'Talento humano', codigo: 'EMP_GET_EMPL', routerLink: ['/app/empresa/empleado'], icon: 'pi pi-sitemap'},
-                    { label: 'Evaluación desempeño', codigo: 'EMP_GET_EVALDES', routerLink: ['/app/empresa/evaluacionDesempeno'], icon: 'pi pi-sitemap'},
-                    { label: 'Cargue datos', codigo: 'EMP_POST_LOADEMP', routerLink: ['/app/empresa/cargueDatos'], icon: 'pi pi-sitemap'},
+                    { label: 'Cargos', codigo: 'EMP_GET_CARGO', routerLink: ['/app/empresa/cargo'], icon: 'bi bi-briefcase' },
+                    { label: 'Talento humano', codigo: 'EMP_GET_EMPL', routerLink: ['/app/empresa/empleado'], icon: 'bi bi-people'},
+                    { label: 'Evaluación desempeño', codigo: 'EMP_GET_EVALDES', routerLink: ['/app/empresa/evaluacionDesempeno'], icon: 'bi bi-list-task'},
+                    { label: 'Cargue datos', codigo: 'EMP_POST_LOADEMP', routerLink: ['/app/empresa/cargueDatos'], icon: 'bi bi-database'},
                 ]
         },
         {
@@ -282,9 +282,9 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'Nuevo Aliado', codigo: 'CTR_ADM', routerLink: ['/app/ctr/aliado'], icon: 'pi pi-sitemap'},
-                    { label: 'Listado de Aliados', codigo: 'CTR_ADM', routerLink: ['/app/ctr/listadoAliados'], icon: 'pi pi-sitemap'},
-                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.empresaId}`], icon: 'pi pi-sitemap'},
+                    { label: 'Nuevo Aliado', codigo: 'CTR_ADM', routerLink: ['/app/ctr/aliado'], icon: 'bi bi-person-badge'},
+                    { label: 'Listado de Aliados', codigo: 'CTR_ADM', routerLink: ['/app/ctr/listadoAliados'], icon: 'bi bi-card-list'},
+                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.empresaId}`], icon: 'bi bi-building-gear'},
                 ]
         },
         {
@@ -294,34 +294,34 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'Creacion de seguimiento caso', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/creacion'], icon: 'pi pi-sitemap'},
-                    { label: 'Listado de seguimientos', codigo: 'SCM_LIST_CASE', routerLink: ['/app/scm/list'], icon: 'pi pi-sitemap'},
-                    { label: 'Permisos', codigo: 'SCM_PERF_SCM', routerLink: ['/app/scm/permisos'], icon: 'pi pi-sitemap'},
+                    { label: 'Creacion de seguimiento caso', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/creacion'], icon: 'bi bi-bag-plus'},
+                    { label: 'Listado de seguimientos', codigo: 'SCM_LIST_CASE', routerLink: ['/app/scm/list'], icon: 'bi bi-card-list'},
+                    { label: 'Permisos', codigo: 'SCM_PERF_SCM', routerLink: ['/app/scm/permisos'], icon: 'bi bi-lock'},
   
                 ]
         },
         {
             label: 'AutoEvaluación',
-            icon: 'pi pi-sitemap',
+            icon: 'bi bi-journal-text',
             codigo: 'SGE',
             expanded: false,
             items:
                 [
-                    { label: 'Elaboración SGE', codigo: 'SGE_POST_SGE', routerLink: ['/app/sg/sgeForm'], icon: 'pi pi-sitemap'},
-                    { label: 'Sistemas de Gestión', codigo: 'SGE_GET_SGE', routerLink: ['/app/sg/sistemasGestion'], icon: 'pi pi-sitemap'},
-                    { label: 'Consulta Evaluacion', codigo: 'SGE_GET_EVAL', routerLink: ['/app/sg/consultaEvaluaciones'], icon: 'pi pi-sitemap'}
+                    { label: 'Elaboración SGE', codigo: 'SGE_POST_SGE', routerLink: ['/app/sg/sgeForm'], icon: 'bi bi-layout-split'},
+                    { label: 'Sistemas de Gestión', codigo: 'SGE_GET_SGE', routerLink: ['/app/sg/sistemasGestion'], icon: 'bi bi-grid-3x2-gap'},
+                    { label: 'Consulta Evaluacion', codigo: 'SGE_GET_EVAL', routerLink: ['/app/sg/consultaEvaluaciones'], icon: 'bi bi-list-task'}
                 ]
         },
         {
             label: 'IPECR',
-            icon: 'pi pi-sitemap',
+            icon: 'pi pi-money-bill',
             codigo: 'IPECR',
             expanded: false,
             items:
                 [
-                    { label: 'Parametrización peligros', codigo: 'IPECR_PARAMPEL', routerLink: ['/app/ipr/peligros'], icon: 'pi pi-sitemap'},
-                    { label: 'Elaboración IPECR', codigo: 'IPECR_ELABIPECR', routerLink: ['/app/ipr/formularioIpecr'], icon: 'pi pi-sitemap'},
-                    { label: 'Consulta IPECR', codigo: 'IPECR_GET_IPECR', routerLink: ['/app/ipr/consultaIpecr'], icon: 'pi pi-sitemap'},
+                    { label: 'Parametrización peligros', codigo: 'IPECR_PARAMPEL', routerLink: ['/app/ipr/peligros'], icon: 'bi bi-gear'},
+                    { label: 'Elaboración IPECR', codigo: 'IPECR_ELABIPECR', routerLink: ['/app/ipr/formularioIpecr'], icon: 'bi bi-info-circle'},
+                    { label: 'Consulta IPECR', codigo: 'IPECR_GET_IPECR', routerLink: ['/app/ipr/consultaIpecr'], icon: 'bi bi-list-task'},
                 ]
         },
         {
@@ -444,18 +444,22 @@ export class MenuComponent implements OnInit, AfterContentInit {
     const childLabels = document.querySelectorAll("[id='text-toggle']");
     const arrow = document.getElementById('arrow');
     const container = document.getElementById('container');
+    const data = document.querySelectorAll("[id='data']");
  
     
 
     if(this.menuToggle){
-
-        
 
         arrow?.classList.add('bi-caret-left-fill')
         arrow?.classList.remove('bi-caret-right-fill')
 
         container?.classList.add('container-show')
         container?.classList.remove('container-hide')
+
+        data.forEach(element => {
+            element.classList.add('data-show');
+            element.classList.remove('data-hide'); 
+        });
 
         setTimeout(() => {
             childLabels.forEach(element => {
@@ -477,6 +481,11 @@ export class MenuComponent implements OnInit, AfterContentInit {
             arrow?.classList.remove('bi-caret-left-fill')
             container?.classList.remove('container-show')
             container?.classList.add('container-hide')
+            data.forEach(element => {
+                element.classList.remove('data-show');
+                element.classList.add('data-hide'); 
+            });
+            
         }, 80);
                 
     }

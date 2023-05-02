@@ -84,19 +84,21 @@
             <i id="arrow" class="bi bi-caret-right-fill" type="button" (click)="toogleMenu()"></i>
         </div>
         
-        <div class="button-slide child-items" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-label="Toggle navigation" routerLink="/app/home" >
+        <div class="button-slide child-item" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-label="Toggle navigation" routerLink="/app/home" >
             <i class="bi bi-columns icon-size"></i>
             <span id="text-toggle" class="text-hide">Dashboard</span>
         </div>
     </div>    
 
     <div *ngFor="let item of items">
-        <div class="child-items" type="button" data-bs-toggle="collapse" [attr.data-bs-target]= "'#'+ item.codigo" aria-expanded="false" aria-label="Toggle navigation">
-            <i [class]="item.icon" class="icon-size"></i>
-            <span id="text-toggle" class="text-hide">{{item.label}}</span>
+        <div class="child-item" [pTooltip]="item.label" tooltipPosition="right" type="button" data-bs-toggle="collapse" [attr.data-bs-target]= "'#'+ item.codigo" aria-expanded="false" aria-label="Toggle navigation">
+            <div id="data" class="data-hide">
+                <i [class]="item.icon" class="icon-size"></i>
+                <span id="text-toggle" class="text-hide">{{item.label}}</span>
+            </div>            
         </div>
-        <div *ngFor="let children of item.items" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="children.routerLink">
-            <div class="child-items">
+        <div *ngFor="let children of item.items" [pTooltip]="children.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="children.routerLink">
+            <div id="data" class="child-items data-hide">
                 <i [class]="children.icon" class="icon-size"></i>
                 <span id="text-toggle" class="text-hide">{{children.label}}</span >
             </div>            

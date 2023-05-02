@@ -33,6 +33,7 @@
     "@syncfusion/ej2-angular-inputs": "^20.4.48",
     "angular-ui-grid": "^4.12.2",
     "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.5",
     "chart.js": "^4.2.1",
     "crypto-js": "^4.1.1",
     "file-saver": "^2.0.5",
