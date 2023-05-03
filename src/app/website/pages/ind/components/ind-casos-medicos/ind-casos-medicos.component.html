@@ -173,8 +173,10 @@
               <label for="">Estado</label><br><br>
               <p-radioButton name="group1"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
               <label for="">Mesa laboral</label><br><br>
+              <ng-container *ngIf="idEmpresa!=8">
               <p-radioButton name="group1"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
               <label for="">Prioridad</label><br><br>
+              </ng-container>
               <p-radioButton name="group1"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon1" (onClick)="returnDatos1()"></p-radioButton>
               <label for="">Tipo de caso</label>
             </div>
@@ -268,8 +270,10 @@
               <label for="">Estado</label><br><br>
               <p-radioButton name="group2"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
               <label for="">Mesa laboral</label><br><br>
+              <ng-container *ngIf="idEmpresa!=8">
               <p-radioButton name="group2"  [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
               <label for="">Prioridad</label><br><br>
+              </ng-container>
               <p-radioButton name="group2"  [value]="3" [style]="{'margin-left':'15px'}" [(ngModel)]="radioButon2" (onClick)="returnDatos2()"></p-radioButton>
               <label for="">Tipo de caso</label>
             </div>
@@ -280,7 +284,8 @@
         
       </p-panel>
       <br/>
-      <p-panel header="PROGRAMA DE RETORNO LABORAL">
+      <ng-container *ngIf="idEmpresa!=8">
+      <p-panel header="PROGRAMA DE RETORNO LABORAL" >
         <div class="grid" *ngIf="flag3">
         <div class="col-12">
           <p><b>
@@ -437,6 +442,7 @@
         </div>
       </p-panel>
       <br/>
+    </ng-container>
       <p-panel header="Diagnosticos">
         <div class="grid" *ngIf="flag5">
 
