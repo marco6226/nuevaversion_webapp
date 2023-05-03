@@ -2,8 +2,8 @@
 <div class="shadow">
     <p-panel header="Administración de permisos">
 
-        <div class="ui-g">
-            <div class="ui-g-8">
+        <div class="grid">
+            <div class="col-8">
                 <table width="100%">
                     <tr>
                         <td style="padding-right: 10px;">
@@ -19,7 +19,7 @@
                 </table>
             </div>
             <br/>
-            <div class="ui-g-12">
+            <div class="col-12">
                 <p-table #dt [value]="recursosList" dataKey="modulo" autoLayout="true" *ngIf="permisosList" styleClass="p-datatable-gridlines" autoLayout="true">
                     <ng-template pTemplate="header">
                         <tr>

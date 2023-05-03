@@ -24,7 +24,7 @@
         <ng-container *sTienePermiso="'SCM_GET_PERSONAL'">
             <p-tabPanel header="Información General">
                 <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
-                    <div class="ui-g">
+                    <div class="grid">
                         <div class="row">
                             <h5 class="title-header p-mb-2">Datos del trabajador involucrado</h5>
                         </div>
@@ -340,7 +340,7 @@
                     </div>
                     <br>
                     <form [formGroup]="jefeInmediato">
-                        <div class="ui-g">
+                        <div class="grid">
                             <div class="row">
                                 <div>
                                     <h5 class="title-header p-mb-2">Datos del jefe inmediato</h5>
@@ -425,7 +425,7 @@
                         
                     </form>
                     <form [formGroup]="bussinessParner" >
-                        <div class="ui-g" *ngIf="empresaId != '22'">
+                        <div class="grid" *ngIf="empresaId != '22'">
                             <div class="row">
                                 <div class="row g-2 mb-3">
                                     <h5 class="title-header mb-2">Datos del Business Partner</h5>
@@ -518,7 +518,7 @@
             <p-tabPanel header="Información Médica">
     
                 <form *ngIf="createCase || caseSelect" [formGroup]="casoMedicoForm" (ngSubmit)="onSubmit()">
-                    <div class="ui-g">
+                    <div class="grid">
                         <div class="row g-2 mb-3">
                             <div class="col">
                                 <label for="" class="active">Estado del caso</label>
@@ -887,11 +887,11 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_DIAG'">
             <p-tabPanel header="Diagnósticos" *ngIf="caseSelect">
     
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Información sobre diagnósticos</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <p-table #dt [value]="diagnosticoList" styleClass="material-table" autoLayout="true"
                             selectionMode="single" [(selection)]="diagSelect" [rows]="5" [paginator]="true" dataKey="id"
                             [lazy]="true">
@@ -976,11 +976,11 @@
         <!-- Inicio incapacidades -->
         <ng-container *sTienePermiso="'SCM_LIST_CASE_INC'">
             <p-tabPanel header="Incapacidades" *ngIf="caseSelect">
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Información sobre incapacidades</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <!-- <p-table [columns]="cols" [value]="products" styleClass="p-datatable-responsive"> -->
                         <p-table [value]="incapacidades" dataKey="id" styleClass="material-table">
                             <ng-template pTemplate="header">
@@ -1053,11 +1053,11 @@
         <ng-container *sTienePermiso="'SCM_LIST_CASE_RECO'">
             <p-tabPanel header="Recomendaciones" *ngIf="caseSelect">
     
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Información sobre recomendaciones</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
     
                         <p-table #dt [value]="recomendationList" autoLayout="true" selectionMode="single"
                             styleClass="material-table" [(selection)]="recoSelect" [rows]="5" [paginator]="true"
@@ -1187,11 +1187,11 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_SEG'">
             <p-tabPanel header="Seguimiento" *ngIf="caseSelect">
     
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Seguimientos del caso</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <p-table [value]="seguimientos" dataKey="id" editMode="row" styleClass="material-table">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -1340,11 +1340,11 @@
             <!-- <p-tabPanel header="Reintegro" *ngIf="caseSelect">
             </p-tabPanel> -->
             <p-tabPanel header="PRL" *ngIf="caseSelect">
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Programa de retorno laboral</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <app-reintegro-list [idCase]="caseSelect.id"></app-reintegro-list>        
                     </div>
                 </div>
@@ -1360,11 +1360,11 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_TRAT'">
             <p-tabPanel header="Tratamientos" *ngIf="caseSelect">
     
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Tratamientos en el caso</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <p-table [value]="tratamientos" dataKey="id" editMode="row" styleClass="material-table">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -1470,11 +1470,11 @@
         <!-- Inicio documentación -->
         <ng-container *sTienePermiso="'SCM_GET_CASE_DOC'">
             <p-tabPanel header="Documentación" *ngIf="caseSelect">
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Documentos asociados al caso médico</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <app-gestion-documental [caseid]="this.caseSelect.id"></app-gestion-documental>
                     </div>
                 </div>
@@ -1485,11 +1485,11 @@
         <!-- Inicio Plan de acción -->
         <ng-container *sTienePermiso="'SCM_GET_CASE_PLAN'">
             <p-tabPanel header="Plan de Acción" *ngIf="caseSelect">
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Listado de planes de acción</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <p-table [value]="this.recomendationList" dataKey="id" styleClass="material-table">
                             <ng-template pTemplate="header">
                                 <tr>
@@ -1576,11 +1576,11 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_LOG'">
             <p-tabPanel header="Trazabilidad" *ngIf="caseSelect">
     
-                <div class="ui-g">
+                <div class="grid">
                     <div class="row g-2 mb-3">
                         <h5 class="title-header p-mb-2">Listado de trazabilidad</h5>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <p-table #dt [value]="logsList" autoLayout="true" selectionMode="single" [rows]="10"
                             [paginator]="true" [(selection)]="logSelected" dataKey="id" [lazy]="true"
                             styleClass="material-table">

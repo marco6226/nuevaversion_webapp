@@ -125,7 +125,7 @@
             </p-panel>
             <br/>
         <div class="">
-            <p-panel  class="ui-g-4" header="FIRMA EMPLEADO">
+            <p-panel  class="col-4" header="FIRMA EMPLEADO">
                 <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus" label="Adjuntar imágen" ></button>                
                 <s-galeria *ngIf="imagenesList?.length > 0" [images]="imagenesList" ></s-galeria>
                 <input name="myFile" type="file" style="visibility: hidden;" #fileInput (change)="onArchivoSelect($event)">

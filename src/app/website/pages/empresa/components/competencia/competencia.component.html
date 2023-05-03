@@ -1,25 +1,25 @@
 <p-toast (value)="msgs"></p-toast>
 
-<div class="ui-g">
-  <div class="ui-g-12 ui-md-12">
+<div class="grid">
+  <div class="col-12">
     <span class="ui-float-label">
       <input id="cnombre-input" type="text" [(ngModel)]="nombre" pInputText required/>
       <label for="cnombre-input">Nombre</label>
     </span>
   </div>
 
-  <div class="ui-g-12 ui-md-12">
+  <div class="col-12">
     <span class="ui-float-label">
       <textarea id="cdescripcion-input" pInputTextarea [(ngModel)]="descripcion" rows="6"></textarea>
       <label for="cdescripcion-input">Descripción</label>
     </span>
   </div>
-  <div class="ui-g-12 ui-md-12">
+  <div class="col-12">
     <button pButton type="button" icon="fa fa-plus" label="Adicionar" (click)="addCompetencia()"></button>
     <button pButton type="button" icon="fa fa-pencil" class="ui-button-success" label="Modificar" (click)="actualizarCompetencia()" [disabled]="nodeSelect == null"></button>
     <button pButton type="button" icon="fa fa-trash" class="ui-button-danger" label="Eliminar" (click)="removerCompetencia()" [disabled]="nodeSelect == null"></button>
   </div>
-  <div class="ui-g-12 ui-md-12">
+  <div class="col-12">
     <p-treeTable [value]="modelo" selectionMode="single" [(selection)]="nodeSelect" dataKey="id" appendTo="body" (onNodeSelect)="nodeSelectAction($event)">
       <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
         <tr [ttSelectableRow]="rowNode">

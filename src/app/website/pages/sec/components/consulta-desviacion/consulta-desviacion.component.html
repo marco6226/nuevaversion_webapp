@@ -177,13 +177,13 @@
 
 
 <p-dialog [(visible)]="visibleDlg" modal="true">
-    <div class="ui-g">
-        <div class="ui-g-6">
+    <div class="grid">
+        <div class="col-6">
             <label class="s-float-label">Desde</label>
             <p-calendar dateFormat="dd/mm/yy" [ngModel]="desde" (ngModelChange)="desde=$event"
                 appendTo="body"></p-calendar>
         </div>
-        <div class="ui-g-6">
+        <div class="col-6">
             <label class="s-float-label">Hasta</label>
             <p-calendar dateFormat="dd/mm/yy" [ngModel]="hasta" (ngModelChange)="hasta=$event"
                 appendTo="body"></p-calendar>

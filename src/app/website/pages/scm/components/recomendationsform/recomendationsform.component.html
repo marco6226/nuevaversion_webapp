@@ -1,13 +1,13 @@
 <p-toast key="recomendationsForm"></p-toast>
-<div class="ui-g">
-    <div class="ui-g-12">
+<div class="grid">
+    <div class="grid col-12">
         <form [formGroup]="recomendation">
 
-            <div class="ui-g-12">
+            <div class="col-12">
                 <h5 class="title-header p-mb-2">Recomendaciones</h5>
             </div>
 
-            <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <div class="col-12 md:col-6 lg:col-4">
                 <div class="input-field">
                     <p-dropdown [readonly]="esConsulta" [options]="entit" formControlName="entidadEmitRecomendaciones" class="select-material"  styleClass="select-material">
                     </p-dropdown>
@@ -16,7 +16,7 @@
                 <small *ngIf="entidadEmitRecomendaciones?.errors?.required && entidadEmitRecomendaciones?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
             </div>
 
-            <div class="ui-g-12 ui-md-6 ui-lg-4" *ngIf="recomendation.get('entidadEmitRecomendaciones')?.value == 'Proveedor_de_salud' || recomendation.get('entidadEmitRecomendaciones')?.value == 'EPS' || recomendation.get('entidadEmitRecomendaciones')?.value == 'ARL' || recomendation.get('entidadEmitRecomendaciones')?.value == 'Medicina_Prepagada' ">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="recomendation.get('entidadEmitRecomendaciones')?.value == 'Proveedor_de_salud' || recomendation.get('entidadEmitRecomendaciones')?.value == 'EPS' || recomendation.get('entidadEmitRecomendaciones')?.value == 'ARL' || recomendation.get('entidadEmitRecomendaciones')?.value == 'Medicina_Prepagada' ">
                 <div class="input-field">
                     <p-dropdown [readonly]="esConsulta" [filter]="true" [options]="entity[recomendation.get('entidadEmitRecomendaciones').value]" formControlName="entidadEmitida" class="select-material" styleClass="select-material">
                     </p-dropdown>
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="ui-g-12 ui-md-4 ui-lg-4">
+            <div class="col-12 md:col-4 lg:col-4">
                 <div class="input-field">
                     <p-dropdown [readonly]="esConsulta" [options]="typeList" formControlName="tipo" class="select-material" styleClass="select-material">
                     </p-dropdown>
@@ -34,7 +34,7 @@
 
             </div>
 
-            <div class="ui-g-12 ui-md-4 ui-lg-4">
+            <div class="col-12 md:col-4 lg:col-4">
                 <div class="input-field">
                     <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [yearNavigator]="true" showButtonBar="true" [touchUI]="true" yearRange="2010:2030" [locale]="localeES" formControlName="fechaInicio" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
                     </p-calendar>
@@ -43,7 +43,7 @@
                 <small *ngIf="fechaInicio?.errors?.required && fechaInicio?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
             </div>
 
-            <div class="ui-g-12 ui-md-4 ui-lg-4">
+            <div class="col-12 md:col-4 lg:col-4">
                 <div class="input-field">
                     <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [touchUI]="true" showButtonBar="true" [yearNavigator]="true" yearRange="2010:2030" formControlName="fechaExpiracion" [locale]="localeES" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
                     </p-calendar>
@@ -52,7 +52,7 @@
                 <small *ngIf="fechaExpiracion?.errors?.required && fechaExpiracion?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
             </div>
 
-            <div class="ui-g-12">
+            <div class="col-12">
                 <div class="input-field">
                     <textarea [readonly]="esConsulta" formControlName="recomendaciones" class="textarea-material" pInputTextarea></textarea>
                     <label for="" class="active">Recomendaciones</label>
@@ -62,10 +62,10 @@
         </form>
     </div>
 
-    <div class="ui-g-12">
+    <div class="col-12">
         <h5 class="title-header p-mb-2">Plan de acción</h5>
     </div>
-    <div class="iu-g-12">
+    <div class="col-12">
         <p-table [value]="accions" dataKey="id" editMode="row" styleClass="material-table">
             <ng-template pTemplate="header">
                 <tr>
@@ -181,7 +181,7 @@
         </p-table>
     </div>
 
-    <div class="ui-g-12 p-pt-3">
+    <div class="col-12 p-pt-3">
         <button [disabled]="esConsulta" *sTienePermiso="'SCM_CREATE_CASE_RECO'" pButton type="button" [label]="(recoSelect) ? 'Actualizar' : 'Guardar'" icon="fa fa-plus" (click)="onSubmit()">
 
         </button>

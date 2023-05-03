@@ -14,48 +14,48 @@
     <p-header>
       {{fechaSelect | date: 'yyyy-MM-dd' }}
     </p-header>
-    <div class="ui-g">
-      <div class="ui-g-12 ui-md-4">
+    <div class="grid">
+      <div class="col-12 md:col-4 lg:col-4">
         <label for="numeroInspecciones">Número de inspecciones</label>
       </div>
-      <div class="ui-g-12 ui-md-8">        
+      <div class="col-12 md:col-8 lg:col-8">        
         <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required/>
       </div>
-      <div class="ui-g-12 ui-md-4">
+      <div class="col-12 md:col-4 lg:col-4">
         <label for="listaInsp">Lista de inspección</label>
       </div>
-      <div class="ui-g-12 ui-md-8">
+      <div class="col-12 md:col-8 lg:col-8">
         <p-dropdown id="listaInsp" [options]="listasInspeccionList" [filter]="true" formControlName="listaInspeccionPK" appendTo="body" required></p-dropdown>
       </div>
-      <div class="ui-g-12 ui-md-4">
+      <div class="col-12 md:col-4 lg:col-4">
         <label for="areaResponsable">Ubicación responsable</label>
       </div>
-      <div class="ui-g-12 ui-md-8">
+      <div class="col-12 md:col-8 lg:col-8">
         <area-selector formControlName="area" required  ></area-selector>
       </div>
     </div> 
     <p-panel header="Periodicidad" *ngIf="adicionar">
-      <div class="ui-g">
-        <div class="ui-g-12 ui-md-4">
+      <div class="grid">
+        <div class="col-12 md:col-4 lg:col-4">
           <label for="areaResponsable">Cada</label>
         </div>
-        <div class="ui-g-12 ui-md-4">
+        <div class="col-12 md:col-4 lg:col-4">
           <input pInputText type="number" formControlName="valorFrecuencia" />
         </div>
-        <div class="ui-g-12 ui-md-4">
+        <div class="col-12 md:col-4 lg:col-4">
           <p-dropdown [options]="periodicidadList" formControlName="unidadFrecuencia" appendTo="body"></p-dropdown>
         </div>
-        <div class="ui-g-12 ui-md-4">
+        <div class="col-12 md:col-4 lg:col-4">
           <label for="areaResponsable">Hasta</label>
         </div>
-        <div class="ui-g-12 ui-md-8">
+        <div class="col-12 md:col-8 lg:col-8">
           <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaHasta" appendTo="body" [minDate]="fechaSelect"
             [maxDate]="fechaMaxima" [readonlyInput]="true"></p-calendar>
         </div>
-        <div class="ui-g-12 ui-md-4">
+        <div class="col-12 md:col-4 lg:col-4">
           <label for="areaResponsable">Incluir</label>
         </div>
-        <div class="ui-g-12 ui-md-8">
+        <div class="col-12 md:col-8 lg:col-8">
           <p-checkbox name="weekend" value="1" label="Lunes" [formControl]="form.controls['semana']"></p-checkbox><br/>
           <p-checkbox name="weekend" value="2" label="Martes" [formControl]="form.controls['semana']"></p-checkbox><br/>
           <p-checkbox name="weekend" value="3" label="Miércoles" [formControl]="form.controls['semana']"></p-checkbox><br/>

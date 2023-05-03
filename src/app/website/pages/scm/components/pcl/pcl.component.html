@@ -3,8 +3,8 @@
     <h5 class="title-header p-mb-2">PCL - Origen</h5>
 </div>
 <div class="card">
-    <div class="ui-g">
-        <div class="ui-g-12">
+    <div class="grid">
+        <div class="col-12">
             <p-table [value]="pclList" dataKey="id" editMode="row" styleClass="material-table" selectionMode="single" [(selection)]="pclSelect">
                 <ng-template pTemplate="header">
                     <tr>
@@ -61,13 +61,13 @@
     <p-dialog [header]="(!pclSelect) ? 'Crear PCL - Origen' : (action) ? 'Información de la PCL  - Origen' : 'Editar PCL - Origen'" [(visible)]="modalDianostico" [style]="{width: '75vw'}" [modal]="true" [closable]="false" [draggable]="false" [resizable]="false">
 
         <form [formGroup]="pclForm">
-            <div class="ui-g">
-                <div class="ui-g p-py-2">
-                    <div class="ui-g-12">
+            <div class="grid">
+                <div class="grid p-py-2">
+                    <div class="col-12">
                         <h5 class="title-header p-mb-2">PCL</h5>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6">
+                    <div class="col-12 md:col-6 lg:col-6">
                         <div class="input-field">
                             <p-dropdown [filter]="true" [options]="diagList" class="select-material" formControlName="diag" styleClass="select-material" required="true" [readonly]="action">
                             </p-dropdown>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                    <div class="col-12 md:col-6 lg:col-3">
                         <div class="input-field">
                             <p-dropdown [options]="pclOptionList" formControlName="pcl" class="select-material" styleClass="select-material" [readonly]="action">
                             </p-dropdown>
@@ -83,14 +83,14 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-3">
+                    <div class="col-12 md:col-6 lg:col-3">
                         <div class="input-field">
                             <input type="text" pInputText formControlName="porcentajePcl" placeholder="% de la PCL" class="form-material" id="porcentajePcl" [readonly]="action" />
                             <label for="" class="active">% de la PCL</label>
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="col-12 md:col-6 lg:col-4">
                         <div class="input-field ">
                             <p-calendar [monthNavigator]="true" [touchUI]="true" [yearNavigator]="true" showButtonBar="true" yearRange="2010:2030" [maxDate]="fechaActual" [locale]="localeES" formControlName="emisionPclFecha" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material"
                                 [disabled]="action">
@@ -99,7 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="col-12 md:col-6 lg:col-4">
                         <div class="input-field">
                             <p-dropdown [filter]="true" [options]="emitPclentity" formControlName="entidadEmitePcl" class="select-material" styleClass="select-material" [readonly]="action">
                             </p-dropdown>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-4" *ngIf="pclForm.get('entidadEmitePcl')?.value == 'EPS' || pclForm.get('entidadEmitePcl')?.value == 'ARL' || pclForm.get('entidadEmitePcl')?.value == 'AFP'">
+                    <div class="col-12 md:col-6 lg:col-4" *ngIf="pclForm.get('entidadEmitePcl')?.value == 'EPS' || pclForm.get('entidadEmitePcl')?.value == 'ARL' || pclForm.get('entidadEmitePcl')?.value == 'AFP'">
                         <div class="input-field">
                             <p-dropdown [filter]="true" [options]="entity[pclForm.get('entidadEmitePcl').value]" formControlName="entidadEmitida" class="select-material" styleClass="select-material" [readonly]="action">
                             </p-dropdown>
@@ -115,11 +115,11 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 p-mb-2">
+                    <div class="col-12 p-mb-2">
                         <h5 class="title-header">Origen</h5>
                     </div>
 
-                    <div class="ui-g-12 ui-md-4">
+                    <div class="col-12 ui-md-4">
                         <div class="input-field">
                             <p-dropdown [options]="origenList" formControlName="origen" class="select-material" styleClass="select-material" [readonly]="action">
                             </p-dropdown>
@@ -127,7 +127,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-4 ui-lg-4">
+                    <div class="col-12 ui-md-4 ui-lg-4">
                         <div class="input-field">
                             <p-calendar [monthNavigator]="true" [touchUI]="true" [yearNavigator]="true" showButtonBar="true" [yearRange]="yearRange" [maxDate]="fechaActual" formControlName="fechaCalificacion" [locale]="localeES" dateFormat="dd/mm/yy" styleClass="calendar-material"
                                 inputStyleClass="form-material" [disabled]="action"></p-calendar>
@@ -135,7 +135,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="col-12 md:col-6 lg:col-4">
                         <div class="input-field">
                             <p-dropdown [filter]="true" [options]="pclCalificacionList" formControlName="statusDeCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
                             </p-dropdown>
@@ -143,7 +143,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
+                    <div class="col-12 md:col-6 lg:col-4">
                         <div class="input-field">
                             <p-dropdown [filter]="true" [options]="emitPclentity" formControlName="entidadEmiteCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
                             </p-dropdown>
@@ -151,7 +151,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-4" *ngIf="pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' || pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' || pclForm.get('entidadEmiteCalificacion')?.value == 'AFP'">
+                    <div class="col-12 md:col-6 lg:col-4" *ngIf="pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' || pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' || pclForm.get('entidadEmiteCalificacion')?.value == 'AFP'">
                         <div class="input-field">
                             <p-dropdown [filter]="true" [options]="entity[pclForm.get('entidadEmiteCalificacion').value]" formControlName="entidadEmitidaCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
                             </p-dropdown>
@@ -159,7 +159,7 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12">
+                    <div class="col-12">
                         <div class="input-field">
                             <textarea class="textarea-material" rows="3" pInputTextarea formControlName="observaciones" [readonly]="action"></textarea>
                             <label for="" class="active">Observaciones o diagnósticos calificados</label>

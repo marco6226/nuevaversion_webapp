@@ -7,15 +7,10 @@
 
 <div *ngIf="!finalizado">
 
-    <div class="shadow">
+    <div class="shadow grid">
         <p-panel header="Elaboración listas de inspeccion">
- <!-- <p-header class="ui-panel-title"> 
-        
-        <h2>Elaboración listas de inspeccion</h2>
-    </p-header> -->
-            
 
-        <div class="ui-g-12 ui-sm-12 ui-md-6">
+        <div class="col-12 md:col-6 lg:col-6">
             <form [formGroup]="form">
                 <p-panel>
                     <p-header>
@@ -43,7 +38,7 @@
                 </p-panel>
             </form>
         </div>
-        <div class="ui-g-12 ui-sm-12 ui-md-6">
+        <div class="col-12 md:col-6 lg:col-6">
             <p-panel>
                 <p-header>
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -89,7 +84,7 @@
             </p-panel>
         </div>
 
-        <div class="ui-g-12 ui-sm-12 ui-md-6">
+        <div class="col-12 md:col-6 lg:col-6">
             <p-panel>
                 <p-header>
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -112,11 +107,11 @@
             </p-panel>
         </div>
 
-        <div class="ui-g-12 ui-sm-12 ui-md-12">
+        <div class="col-12">
             <s-formularioConstructor #formularioConstructor></s-formularioConstructor>
         </div>
 
-        <div class="ui-g-12 ui-sm-12 ui-md-12">
+        <div class="col-12">
             <s-lista-inspeccion-form [value]="elementoInspeccionList" [editable]="!consultar"></s-lista-inspeccion-form>
         </div>
         

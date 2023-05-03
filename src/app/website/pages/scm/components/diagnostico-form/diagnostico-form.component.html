@@ -1,6 +1,6 @@
 <p-toast key="diagnostico"></p-toast>
 <form [formGroup]="diagnosticoForm">
-    <div class="ui-g">
+    <div class="grid">
         <div class="row g-2 mb-3 text-center">
             <h5 class="title-header mb-2">Diagnóstico</h5>
         </div>
@@ -88,7 +88,7 @@
             <div class="col-lg"></div>
         </div>
 
-        <div class="ui-g-12 p-d-flex p-jc-center p-py-2">
+        <div class="col-12 p-d-flex p-jc-center p-py-2">
             <button *sTienePermiso="'SCM_CREATE_CASE_DIAG'" [disabled]="esConsulta" pButton type="button" 
             [label]="(diagSelect) ? 'Guardar' : 'Crear'" icon="fa fa-plus" style="margin-right: .5rem;" (click)="onSubmit()"></button>
             <button pButton type="button" [label]="(diagSelect) ? 'Cancelar' : 'Cerrar'" icon="pi pi-times" 

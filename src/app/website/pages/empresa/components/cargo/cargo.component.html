@@ -115,7 +115,7 @@
         <p-header>
           <label title="Click para adicionar perfil educativo" class="clickable" (click)="addPerfilEdu()">Perfil educativo</label>
         </p-header>
-        <div class="ui-g">
+        <div class="grid">
           <table class="table">
             <th style="width: 2.5em;"></th>
             <th style="width: 50%;">Mínima</th>
@@ -165,8 +165,8 @@
         <p-header>
           <label>Experiencia laboral</label>
         </p-header>
-        <div class="ui-g">
-          <div class="ui-g-12 ui-md-6">
+        <div class="grid">
+          <div class="col-12 md:col-6 lg:col-6">
             <span class="ui-float-label">
               <input id="expmin-input" type="number" pInputText style="width: 100px;" formControlName="valorMinimo" />
               <p-radioButton [style]="{'margin-left': '10px'}" name="unidadMinima" value="anios" label="Año(s)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
@@ -175,7 +175,7 @@
             </span>
           </div>
 
-          <div class="ui-g-12 ui-md-6">
+          <div class="col-12 md:col-6 lg:col-6">
             <span class="ui-float-label">
               <input id="expdes-input" type="number" pInputText style="width: 100px;" formControlName="valorDeseable" />
               <p-radioButton [style]="{'margin-left': '10px'}" name="unidadDeseable" value="anios" label="Año(s)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>

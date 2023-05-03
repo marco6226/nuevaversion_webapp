@@ -37,19 +37,17 @@
                       </div>
                   </div>
               </div>
-              <div class="col-2">&nbsp;</div>
-              <div class="col-8">
+              <div class="col-1">&nbsp;</div>
+              <div class="col-9">
                 <div class="grid">
-                      <div class="col">
-                        <div class="grid" style="margin-top: 1px;">
-                            <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
-                        </div>
+                      <div class="col-12 md:col-12 lg:col-4" style="display: flex;">
+                        <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
                       </div>
-                      <div class="col"> 
+                      <div class="col-12 md:col-6 lg:col-4" style="display: flex;"> 
                         <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="event"></mat-icon>
                         <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde0" (ngModelChange)="numeroCasos()"> </p-calendar> 
                       </div>
-                      <div class="col">
+                      <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
                         <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
                         <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta0" (ngModelChange)="numeroCasos()"> </p-calendar>
                       </div>
@@ -125,7 +123,6 @@
           </b></p>
         </div>
 
-        <!-- <div class="ui-g-12">&nbsp;</div> -->
           <div  class="col-8 grid">
             <div class="col-11 grafic">
                 <ngx-charts-bar-vertical-2d 
@@ -454,7 +451,7 @@
             <p-radioButton name="group4" [(ngModel)]="radioButon5"  [value]="2" (onClick)="reset6()" [style]="{'margin-left':'15px'}"></p-radioButton>
             <label for="">Laboral</label>
         </div>
-          <div class="ui-g-12">&nbsp;</div>
+          <div class="col-12">&nbsp;</div>
           <div  class="col-8 grid">
             <div class="col-11 grafic">
                 <ngx-charts-bar-vertical-2d
@@ -512,7 +509,7 @@
             <p-radioButton name="group6" [(ngModel)]="radioButon6"  [value]="2" (onClick)="reset7()" [style]="{'margin-left':'15px'}"></p-radioButton>
             <label for="">Laboral</label>
         </div>
-          <div class="ui-g-12">&nbsp;</div>
+          <div class="col-12">&nbsp;</div>
           <div  class="col-8 grid">
             <div class="col-11 grafic" *ngIf="flagReturnDatos6">
                 <ngx-charts-bar-vertical-2d

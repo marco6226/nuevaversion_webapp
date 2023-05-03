@@ -1,15 +1,15 @@
 <!-- <p-growl [value]="msgs"></p-growl> -->
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <form [formGroup]="verificationForm" (ngSubmit)="onSubmit()">
-    <div class="ui-g">
+    <div class="grid">
 
         <!-- Start general info -->
 
-        <div class="ui-g-12">
+        <div class="col-12">
             <h5 class="title-header p-mb-2">Verificación</h5>
         </div>
 
-        <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="col-12 md:col-6 lg:col-4">
             <div class="input-field">
                 <p-autoComplete styleClass="form-material-autocomplete" #autocomplete placeholder="Digite" formControlName="email" [style]="{'width':'100%'}" (onSelect)="onSelection($event)" [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)" [readonly]="tareaVerify">
                     <ng-template let-empleado pTemplate="item">
@@ -40,14 +40,14 @@
 
         </div>
 
-        <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="col-12 md:col-6 lg:col-4">
             <div class="input-field">
                 <input type="text" pInputText placeholder="Nombres y apellidos" [value]="fullName" class="form-material" [attr.disabled]="true" />
                 <label for="" class="active">Nombres y apellidos</label>
             </div>
         </div>
 
-        <div class="ui-g-12 ui-md-6 ui-lg-4">
+        <div class="col-12 md:col-6 lg:col-4">
             <div class="input-field">
                 <p-calendar formControlName="fechaVerificacion" [monthNavigator]="true" [yearNavigator]="true" [maxDate]="fechaActual" yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy" [disabled]="tareaVerify"></p-calendar>
                 <label for="" class="active">Fecha de verificación</label>
@@ -61,7 +61,7 @@
 
         </div>
 
-        <div class="ui-g-12 ui-md-6">
+        <div class="col-12 md:col-6 lg:col-6">
             <div class="input-field">
                 <textarea pInputTextarea formControlName="observacionesVerificacion" class="form-material" rows="5" required [readOnly]="tareaVerify"></textarea>
                 <label for="" class="active">Descripción de la acción realizada</label>
@@ -79,7 +79,7 @@
 
         <!-- Start evidences -->
 
-        <div class="ui-g-12">
+        <div class="col-12">
             <h5 class="title-header p-mb-2">Evidencias</h5>
         </div>
 

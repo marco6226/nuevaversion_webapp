@@ -149,71 +149,71 @@
                 </div>
             </div>
         </div>
-        <div class="ui-g">
+        <div class="grid">
 
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Razón social
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="text" pInputText formControlName="razonSocial" required maxlength="100" />
             </div>
 
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Nombre comercial
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="text" pInputText formControlName="nombreComercial" required maxlength="100" />
             </div>
 
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Nit
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="text" pInputText formControlName="nit" required maxlength="45" />
             </div>
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Direccion
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="text" pInputText formControlName="direccion" required maxlength="45" />
             </div>
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Telefono
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="text" pInputText formControlName="telefono" required maxlength="45" />
             </div>
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Numero de sedes
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="number" pInputText formControlName="numeroSedes" required maxlength="45" />
             </div>
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Email
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="text" pInputText formControlName="email" required maxlength="45" />
             </div>
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 Web
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <input type="text" pInputText formControlName="web" required maxlength="45" />
             </div>
 
 
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 ARL
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <p-dropdown [options]="arlList" formControlName="arlId" appendTo="body"></p-dropdown>
             </div>
 
-            <div class="ui-g-12 ui-md-3">
+            <div class="col-12 md:col-3 lg:col-3">
                 CIIU
             </div>
-            <div class="ui-g-12 ui-md-9">
+            <div class="col-12 md:col-9 lg:col-9">
                 <p-dropdown [options]="ciiuList" formControlName="ciiuId" appendTo="body" filter="true">
                     <ng-template let-item pTemplate="selectedItem">
                         <div style="max-width: 200px;" [title]="item.label">{{item?.label}}</div>

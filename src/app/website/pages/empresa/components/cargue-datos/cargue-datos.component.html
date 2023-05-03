@@ -3,11 +3,11 @@
 
 
 <p-panel header="Cargue masivo de datos">
-    <div class="ui-g">
-        <div class="ui-g-12 ui-md-2">
+    <div class="grid">
+        <div class="col-12 md:col-2 lg:col-2">
             <p-dropdown [options]="opciones" [(ngModel)]="opcionSelect" disabled="true"></p-dropdown>
         </div>
-        <div class="ui-g-12 ui-md-10">
+        <div class="col-12 md:col-10 lg:col-10">
             <button pButton [disabled]="isCargado || initLoading" type="button" icon="pi pi-upload" (click)="fileInput.click()" pTooltip="Cargar archivo"></button>
             <button pButton [disabled]="!isCargado || initLoading" type="button" icon="fa fa-refresh" (click)="limpiar();" pTooltip="Refrescar"></button>
             <input name="myFile" [(ngModel)]="myFile" type="file" style="visibility: hidden;" #fileInput (input)="onArchivoSelect($event)">

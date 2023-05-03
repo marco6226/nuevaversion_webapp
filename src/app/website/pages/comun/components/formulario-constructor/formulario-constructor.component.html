@@ -5,12 +5,12 @@
             <label class="ui-panel-title">Datos generales</label>
             <a style="float:right;" (click)="adicionarCampo()" title="Adicionar nuevo campo de formulario">Nuevo</a>
         </p-header>
-        <div class="ui-g">
-            <div class="ui-g-12 ui-sm-12 ui-md-6">
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-6">
                 <label class="s-float-label">Nombre formulario</label>
                 <input pInputText id="nombre" [ngModel]="formulario?.nombre" (ngModelChange)="formulario.nombre=$event" />
             </div>
-            <div class="ui-g-12 ui-sm-12 ui-md-6">
+            <div class="col-12 md:col-6 lg:col-6">
                 <label class="s-float-label">Descripción</label>
                 <input pInputText id="descripcion" [ngModel]="formulario?.descripcion" (ngModelChange)="formulario.descripcion=$event" />
             </div>

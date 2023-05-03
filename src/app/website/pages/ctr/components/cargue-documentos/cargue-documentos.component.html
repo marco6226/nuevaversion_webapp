@@ -11,15 +11,15 @@
                 <label for="fechaVencimientoArl">Fecha Vencimiento: </label>
                 <p-calendar required [disabled]="flagConsult" [(ngModel)]="this.fecha_vencimiento_arl" (onSelect)="onSelectArl($event)" [yearNavigator]="true" yearRange="1900:2050" [monthNavigator]="true" [locale]="es" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui" name="fechaVencimientoArl" showButtonBar="true"></p-calendar>    
             </div>
-            <div class="col-6">
-                <div class="ui-g-12 ui-sm-12 ui-md-10">
+            <div class="col-6 grid">
+                <div class="col-12 md:col-10 lg:col-10">
                     <label for="puntaje"> Porcentaje de la certificación de ARL: </label>
                     <input required [disabled]="flagConsult" type="number" name="puntaje" id="" min="0" style="width: 50px;" [(ngModel)]="puntajeARL" (input)="onPuntajeARL()">  
                 </div>
             </div>
         </div>
-        <div class="ui-g" style="margin-top: 10px;">
-            <div class="ui-g-12 ui-sm-12 ui-md-10">
+        <div class="grid" style="margin-top: 10px;">
+            <div class="col-12 md:col-10 lg:col-10">
                 <div *ngFor="let doc of directorios">
                     <table class="dwrapper" *ngIf="doc!.documento.proceso=='arl'">
                         <tr>
@@ -55,8 +55,8 @@
                 <p-calendar required [disabled]="flagConsult" [(ngModel)]="fecha_vencimiento_sst" (onSelect)="onSelectSst($event)" [yearNavigator]="true" yearRange="1900:2050" [monthNavigator]="true" [locale]="es" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui" name="fechaVencimientoSst" showButtonBar="true"></p-calendar>
             </div>
         </div>
-        <div class="ui-g" style="margin-top: 10px;">
-            <div class="ui-g-12 ui-sm-12 ui-md-10">
+        <div class="grid" style="margin-top: 10px;">
+            <div class="col-12 md:col-10 lg:col-10">
                 <div *ngFor="let doc of directorios">
                     <table class="dwrapper" *ngIf="doc!.documento.proceso=='licencia'">
                         <tr>
@@ -93,8 +93,8 @@
                 <p-calendar [disabled]="flagConsult" [(ngModel)]="fecha_vencimiento_cert_ext" (onSelect)="onSelectCertExt($event)" [yearNavigator]="true" yearRange="1900:2050" [monthNavigator]="true" [locale]="es" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui" name="fechaVencimientoCertExterna" showButtonBar="true"></p-calendar>
             </div>
         </div>
-        <div class="ui-g" style="margin-top: 10px;">
-            <div class="ui-g-12 ui-sm-12 ui-md-10">
+        <div class="grid" style="margin-top: 10px;">
+            <div class="col-12 md:col-10 lg:col-10">
                 <div *ngFor="let doc of directorios">
                     <table class="dwrapper" *ngIf="doc!.documento.proceso=='certificacionExterna'">
                         <tr>
@@ -120,7 +120,7 @@
     </p-panel>
 
     <div>
-        <div class="ui-g">
+        <div class="grid">
             
         </div>
         <!-- <button (click)="test()">test</button> -->

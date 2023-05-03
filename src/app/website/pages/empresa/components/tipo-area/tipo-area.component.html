@@ -66,18 +66,18 @@
 
 <p-dialog [(visible)]="visibleForm" width="380" modal="true" responsive="true" header="Datos de tipo de área">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="ui-g">
-        <div class="ui-g-12 ui-md-3">
+      <div class="grid">
+        <div class="col-12 md:col-3 lg:col-3">
           Nombre
         </div>
-        <div class="ui-g-12 ui-md-9">
+        <div class="col-12 md:col-9 lg:col-9">
           <input type="text" pInputText formControlName="nombre" required/>
         </div>
 
-        <div class="ui-g-12 ui-md-3">
+        <div class="col-12 md:col-3 lg:col-3">
           Descripción
         </div>
-        <div class="ui-g-12 ui-md-9">
+        <div class="col-12 md:col-9 lg:col-9">
           <textarea pInputTextarea formControlName="descripcion"></textarea>
         </div>
       </div>

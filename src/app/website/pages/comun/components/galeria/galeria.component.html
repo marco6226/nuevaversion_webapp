@@ -1,4 +1,4 @@
-<div class="ui-g">
+<div class="grid">
     <div style="width: 100%;"><br>
         <button pButton type="button" class="p-button-raised p-button-danger" icon="bi bi-x-lg" (click)="onRemoveClick(image)" *ngIf="!readOnly"></button><br>
         <img [src]="vpselect.source" style="width: 100%;padding: 10px;border: solid thin #ccc;" (click)="onImageClick($event, vpselect)">

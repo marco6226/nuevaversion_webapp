@@ -1,11 +1,11 @@
 <p-toast key="segForm"></p-toast>
-<div class="ui-g">
-    <div class="ui-g-12">
+<div class="grid">
+    <div class="col-12 grid">
         <form [formGroup]="seguimiento">
 
             
 
-            <div class="ui-g-12">
+            <div class="col-12 grid">
                                     <div class="input-field"  style="height: 30px;">
                                     <label for="" class="active">Fecha de seguimiento</label>
                                     <p-calendar [touchUI]="true" [monthNavigator]="true" [touchUI]="true" showButtonBar="true" [yearNavigator]="true" yearRange="2010:2030" formControlName="fechaSeg"
@@ -13,21 +13,21 @@
                                     </p-calendar>
                                     </div>
 
-                                <div class="ui-g-12">
+                                <div class="col-12">
                                     <div class="input-field">
                                         <textarea formControlName="seguimiento" class="textarea-material" pInputTextarea rows="7"></textarea>
                                         <label for="" class="active">Seguimiento</label>
                                     </div>
                                     
                                 </div>
-                                <div class="ui-g-12">
+                                <div class="col-12">
                                     <div class="input-field">
                                         <textarea formControlName="tarea" class="textarea-material" pInputTextarea rows="2"></textarea>
                                         <label for="" class="active">Tarea</label>
                                     </div>
                                     
                                 </div>
-                                <div class="ui-g-6">
+                                <div class="col-6">
                                     <div class="input-field" style="height: 30px;">
                                         <p-autoComplete styleClass="form-material-autocomplete" #autocomplete
                                     placeholder="Digite" [style]="{'width':'100%'}"
@@ -60,13 +60,13 @@
                                     </div>                                    
                                     
                                 </div>
-                                <div class="ui-g-6">
+                                <div class="col-6">
                                     <div class="input-field">
                                         <input formControlName="responsableExterno" style="height: 30px;">
                                         <label for="" class="active">Responsable Externo </label>
                                     </div>                
                                 </div>
-                                <div class="ui-g-6">
+                                <div class="col-6">
                                     <div class="input-field">
                                         <input formControlName="resultado" style="height: 30px;">
                                         <label for="" class="active">Resultado</label>
@@ -83,7 +83,7 @@
         </form>
     </div>
 
-    <div class="ui-g-12 p-pt-3">
+    <div class="col-12 p-pt-3">
         <button *sTienePermiso="'SCM_CREATE_CASE_SEG'" pButton type="button" [label]="(seguiSelect) ? 'Actualizar' : 'Guardar'" icon="fa fa-plus" (click)="onSubmit()">
 
         </button>
