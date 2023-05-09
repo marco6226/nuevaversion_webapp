@@ -19,7 +19,8 @@
 
 .p-paginator-bottom	{
     // background: blue;
-    background: lightskyblue;
+    //background: lightskyblue;
+    background: rgb(243, 188, 86) ;
 
 }
 
@@ -31,12 +32,14 @@
 
 .p-datatable .p-datatable-thead > tr > th{
     font-weight: bold;
-    background: lightskyblue ;
+    // background: lightskyblue ;
+    background: rgb(243, 188, 86) ;
+    // background: linear-gradient(to right, orange, rgb(248, 203, 121))
 }
 
 .p-datatable .p-datatable-tbody > tr{
     font-size: 14px;
-    color: #698baf;
+    color: #09294b;
 }
 
 // font-weight: bold;
