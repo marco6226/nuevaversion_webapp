@@ -61,7 +61,7 @@
     padding-top: 5px;
     mat-icon{
         color: var(--white);
-    }
+     }
 }
 
 .col5{
@@ -197,3 +197,7 @@ p-sidebar{
 
   .button {border-radius: 50%;}
   
+//  ::ng-deep .mat-badge-content {
+//     background: red;
+//     color: white;
+// }

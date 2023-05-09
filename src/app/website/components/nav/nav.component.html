@@ -14,10 +14,10 @@
         </button>       
     </div>
     <div class="col4">
-        <mat-icon matBadge="15"  matBadgeColor="warn" aria-hidden="false" fontIcon="notifications"></mat-icon>        
+        <mat-icon [matBadge]="tareasPendientesTotal" (mouseover)="op.toggle($event)" (mouseover)="cargartareas()" [matBadgeColor]="BadgeColor" aria-hidden="false" fontIcon="notifications"></mat-icon>
     </div>
     <div class="col5" (click)="showDialogSideBar()">
-        <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
+        <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>
         <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
         <label class="text-color-white" for="">{{usuario?.email}}</label>  
     </div>
@@ -112,3 +112,26 @@
         <app-cambio-passwd></app-cambio-passwd>
     </div>
 </p-dialog>
+
+<p-overlayPanel #op>
+    <ng-template pTemplate="content">
+        <div *ngIf="tareasPendientesTotal == 0">
+            <h4>No tiene tareas Pendientes</h4>
+        </div>
+        <div *ngIf="tareasPendientesTotal > 0">
+            <h4>Usted tiene asignadas las siguientes tareas:</h4>
+            <div *ngFor="let datos of tareasPendientes | keyvalue">
+                <label >{{datos.key}}: {{datos.value}}</label>
+                <br/>
+            </div>
+            <br/>
+
+            <button *sTienePermiso="'ADM_POST_PERF'" 
+                        pButton type="button" 
+                        label="ir"
+                        class="p-button-raised p-button-primary margin-right" 
+                        (click)="irtareas()"></button>
+        </div>
+        
+    </ng-template>
+</p-overlayPanel>

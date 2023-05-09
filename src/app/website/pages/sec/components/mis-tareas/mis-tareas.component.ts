@@ -34,8 +34,8 @@ export class MisTareasComponent implements OnInit {
       private seguimientoService: SeguimientosService,
   ) { }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    
       this.loading = true;
 
       let statuses:any = {
@@ -49,14 +49,14 @@ export class MisTareasComponent implements OnInit {
 
 //        let areas: string = this.sesionService.getPermisosMap()['SEC_GET_TAR'].areas;
       // let empleadoid = this.sesionService.getEmpleado().id;
-      let id = this.sesionService!.getUsuario()!.id;
-      this.idEmpresa=this.sesionService.getEmpresa()!.id;
+      let id = await this.sesionService!.getUsuario()!.id;
+      this.idEmpresa= await this.sesionService.getEmpresa()!.id;
       let fq = new FilterQuery();
       fq.count = true;
       fq.filterList = [{ field: 'empResponsable.usuario.id', value1: id, criteria: Criteria.CONTAINS }];
       
              
-      this.tareaService.findByDetailsByEmpleado(id).then(
+      await this.tareaService.findByDetailsByEmpleado(id).then(
           async resp => { 
               console.log(resp)
               this.tareasList = resp;
@@ -104,18 +104,13 @@ export class MisTareasComponent implements OnInit {
 
   devolverEstados (){
       let total =[];
-      const estados = this.tareasList.map((x:any) => x.estado)
+      
+      const estados = this.tareasList.map((x:any)=>x.estado)
       total = estados.reduce(( a:any , d:any ) => (a[d] ? a[d] += 1 : a[d] = 1 , a), { } );
       
       return total;      
       }        
       
-      /*  0: 'N/A',
-          1: 'En seguimiento',
-          2: 'Abierta',
-          3: 'Cerrada en el tiempo',
-          4: 'Cerrada fuera de tiempo',
-          5: 'Vencida',*/
   async verifyStatus(tarea:any) {
 
       let trackings = tarea.trackings
