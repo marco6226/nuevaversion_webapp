@@ -1,0 +1,26 @@
+
+
+.ng-valid[required],
+.ng-valid.required {
+    border-left: 2px solid #73d216 !important;
+    display: block;
+    //border-radius: 5px;
+}
+
+.valid {
+    border-left: 2px solid #73d216 !important;
+    display: block;
+    //border-radius: 5px;
+}
+
+.ng-invalid[required] {
+    border-left: 2px solid #e91224 !important;
+    display: block;
+    //border-radius: 5px;
+}
+
+.invalid {
+    border-left: 2px solid #e91224 !important;
+    display: block;
+    //border-radius: 5px;
+}

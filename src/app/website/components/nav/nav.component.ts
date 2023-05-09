@@ -10,11 +10,13 @@ import { Empresa } from '../../pages/empresa/entities/empresa';
 import { Usuario } from '../../pages/empresa/entities/usuario';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
 import { LayoutComponent } from '../layout/layout.component';
+import { MisTareasComponent } from '../../pages/sec/components/mis-tareas/mis-tareas.component';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss']
+  styleUrls: ['./nav.component.scss'],
+  providers:[MisTareasComponent]
 })
 export class NavComponent implements OnInit {
   
@@ -36,6 +38,9 @@ export class NavComponent implements OnInit {
   imageChangedEvent: any;
   croppedImage: any;
   visbleChangePasw: boolean = false;
+	public tareasPendientes: any;
+  tareasPendientesTotal: number = 0 ;
+  BadgeColor: string = 'null'
 
   constructor(
 		private authService: AuthService,
@@ -43,18 +48,17 @@ export class NavComponent implements OnInit {
     private messageService: MessageService,
     private cambioPasswdService: CambioPasswdService,
 		private sesionService: SesionService,
-    private empresaService: EmpresaService
+    private empresaService: EmpresaService,
+		private mistareas: MisTareasComponent,
     ) {}
 
   async ngOnInit(): Promise<void> {  
     // debugger
     await this.reloadEmpresa.emit();
+    await this.cargartareas()
   }
 
-  test(){
-    console.log(this.empresasItems, this.empresaSelect, this.empresaSelectOld);
-    
-  }
+  
 
 
     showDialog() {
@@ -136,8 +140,46 @@ export class NavComponent implements OnInit {
 
       this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
-  test123(){
-    console.log('test')
+
+  async cargartareas(){//: void {
+		
+		await this.mistareas.ngOnInit();
+        
+		//this.nom= this.mistareas.ngOnInit() as any;
+		// setTimeout(() => {           
+			this.tareasPendientes= await this.mistareas.devolverEstados()
+        // }, 500);
+      var cantidad = Object.values(this.tareasPendientes)
+      this.tareasPendientesTotal = 0;
+      cantidad.forEach((element:any) => {
+        this.tareasPendientesTotal += element
+      });
+
+      if (this.tareasPendientesTotal > 0) {
+        this.BadgeColor = 'warn'
+      } else {
+        this.BadgeColor = 'primary'
+      }
+		
+		
+		return this.tareasPendientes
+	}
+
+	irtareas(): void {
+	this.router.navigate(['app//sec/misTareas']);
+	}
+
+  test(){
+    console.log(this.tareasPendientes)
+    console.log(this.tareasPendientes.length)
+
+    var cantidad = Object.values(this.tareasPendientes)
+    cantidad.forEach((element:any) => {
+      this.tareasPendientesTotal += element
+    });
+    console.log(this.tareasPendientesTotal)
+
+    
   }
 
   dashBoard(){

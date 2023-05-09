@@ -24,6 +24,8 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuModule } from 'primeng/menu';
 import { SpeedDialModule } from 'primeng/speeddial';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { BadgeModule } from 'primeng/badge';
 
 
 const modules=[
@@ -48,7 +50,9 @@ const modules=[
   BreadcrumbModule,
   FullCalendarModule,
   SpeedDialModule,
-  MenuModule
+  MenuModule,
+  OverlayPanelModule,
+  BadgeModule
 ]
 
 
