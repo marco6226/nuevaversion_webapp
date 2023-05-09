@@ -194,7 +194,7 @@ export class ProgramacionComponent implements OnInit {
     ];
 
     this.progLoading = true;
-    debugger
+    // debugger
     try {
       this.programacionService.findByFilter(filterQuery)
       .then((data: any) => {
@@ -276,7 +276,7 @@ export class ProgramacionComponent implements OnInit {
       area: prog.area
     });
     console.log(this.form.value, this.form.valid)
-debugger
+// debugger
     this.btnInspDisable = prog.numeroRealizadas == prog.numeroInspecciones;
     if (prog.numeroRealizadas > 0) {
       this.form.disable();
@@ -309,7 +309,7 @@ debugger
   }
 
   openDlg(event: any) {
-    debugger
+    // debugger
     console.log(event)
     this.visibleDlg = true;
     this.actualizar = false;

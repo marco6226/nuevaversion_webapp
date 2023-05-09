@@ -1,25 +1,25 @@
 <p-toast position="top-center"></p-toast>
 <div class="contenedor">
     <div class="col1">
-        <img src="../../../../assets/svg/logoSigessRedondo2.svg" alt="">
+        <img src="../../../../assets/svg/logoSigessRedondo2.svg" alt=""  (click)="dashBoard()" type="button">
     </div>
     <div class="col2">
-        <img src="../../../../assets/svg/Sigess5.svg" alt="">
+        <img src="../../../../assets/svg/Sigess5.svg" alt=""  (click)="dashBoard()" type="button">
     </div>
     <div class="col3">        
         <img class="logo-Empresa" *ngIf="empresaSelect?.logo" [src]="empresaSelect?.logo" alt="">          
-        <button class="button-round button-white" mat-raised-button color="primary" (click)="showDialog()">  
-            <mat-icon class="logo-Empresa" *ngIf="!empresaSelect?.logo" fontIcon="apartment" style="color: #052f6e;"></mat-icon>
-            <label for="">{{empresaSelect?.nombreComercial}}</label>           
+        <button type="button" class="button-round button-white" mat-raised-button color="primary" (click)="showDialog()">  
+            <mat-icon type="button"  class="logo-Empresa" *ngIf="!empresaSelect?.logo" fontIcon="apartment" style="color: #052f6e;"></mat-icon>
+            <label type="button"  for="">{{empresaSelect?.nombreComercial}}</label>           
         </button>       
     </div>
     <div class="col4">
         <mat-icon matBadge="15"  matBadgeColor="warn" aria-hidden="false" fontIcon="notifications"></mat-icon>        
     </div>
-    <div class="col5" (click)="showDialogSideBar()">
+    <div class="col5" (click)="showDialogSideBar()" type="button">
         <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
         <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
-        <label class="text-color-white" for="">{{usuario?.email}}</label>  
+        <label type="button" class="text-color-white" for="">{{usuario?.email}}</label>  
     </div>
 </div>
 

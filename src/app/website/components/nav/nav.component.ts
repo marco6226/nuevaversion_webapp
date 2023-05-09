@@ -139,6 +139,10 @@ export class NavComponent implements OnInit {
   test123(){
     console.log('test')
   }
+
+  dashBoard(){
+    this.router.navigate([('/app/home')]);
+  }
 }
 
 

@@ -5,7 +5,7 @@ import { TreeNode, Message } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-competencia',
+  selector: 's-competencia',
   templateUrl: './competencia.component.html',
   styleUrls: ['./competencia.component.scss'],
   providers: [CompetenciaService, MessageService]
