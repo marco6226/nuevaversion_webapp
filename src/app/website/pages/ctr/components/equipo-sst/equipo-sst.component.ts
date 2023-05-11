@@ -119,7 +119,7 @@ export class EquipoSstComponent implements OnInit {
     if (this.isResponsable) {
       this.responsableSST = {
         nombre: this.formResponsable.value.nombre,
-        correo: this.formResponsable.value.correo,
+        correo: this.formResponsable.value.correo.toLowerCase(),
         telefono:this.formResponsable.value.telefono,
         licenciaSST: this.formResponsable.value.licenciaSST
       }
@@ -130,7 +130,7 @@ export class EquipoSstComponent implements OnInit {
       this.equipoSST = {
         nombre: this.formEquipo.value.nombre,
         documento: this.formEquipo.value.documento,
-        correo: this.formEquipo.value.correo,
+        correo: this.formEquipo.value.correo.toLowerCase(),
         telefono: this.formEquipo.value.telefono,
         division:this.formEquipo.value.division,
         localidad: JSON.stringify(this.selectedLocalidad),

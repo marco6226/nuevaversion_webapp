@@ -68,7 +68,6 @@ export class SubcontratistasComponent implements OnInit {
     this.fetchSubcontratistasList().then(()=>{
       // console.log(this.subcontratistasList);
     });
-    console.log('h')
   }
 
   createSubcontratista(){

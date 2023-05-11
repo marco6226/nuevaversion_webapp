@@ -16,7 +16,6 @@ export class LocalidadesComponent implements OnInit {
   @Input('selectDivision') 
   set actividadesIn(actividades: string){
     if(actividades != null){
-      console.log(actividades);
       this.selectActividad = JSON.parse(actividades)
       this.agregarActividad()
     }
@@ -25,7 +24,6 @@ export class LocalidadesComponent implements OnInit {
   set localidadesIn(localidades: string){
     // this.loadLocalidades()
     if(localidades != null){
-      console.log(localidades);
       this.selectLocalidades = JSON.parse(localidades)
       this.agregarLocalidad()
     }
@@ -70,7 +68,6 @@ export class LocalidadesComponent implements OnInit {
   }
 
   onAddLocalidad(){
-    console.log(this.locadidadesList);
     this.dataLocalidad.emit(JSON.stringify(this.locadidadesList))
     
   }

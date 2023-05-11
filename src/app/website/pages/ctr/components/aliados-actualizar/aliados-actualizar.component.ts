@@ -80,7 +80,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
   ) {}
   
-  ngOnInit() {
+  async ngOnInit() {
     this.id = this.rutaActiva.snapshot.params['id'];
     this.onEdit = this.rutaActiva.snapshot.params['onEdit'];
     this.flagConsult=this.onEdit=='consultar'?true:false
@@ -111,7 +111,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
         }
     );
 
-    this.loadInformacionAliado();
+    await this.loadInformacionAliado();
   }
 
   async loadInformacionAliado(){
@@ -119,7 +119,6 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     await this.empresaService.getAliadoInformacion(this.id).then((ele: AliadoInformacion[])=>{
       if(ele[0] != undefined){
         this.aliadoInformacion = ele[0];
-        console.log(this.aliadoInformacion);     
       }      
     });
     this.auxAutorizaSubcontratacion = this.aliadoInformacion.autoriza_subcontratacion;
@@ -146,7 +145,6 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
           // console.log(elem);
           this.documentos.push(elem[0]);
         })
-      console.log(this.documentos);
       });      
     }
     
