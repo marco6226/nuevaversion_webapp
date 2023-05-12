@@ -1,11 +1,11 @@
 <!-- <p-growl [value]="msgs"></p-growl> -->
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
-<app-data-not-found *ngIf="(!tareasList || tareasList.length <= 0) && !loading" icon="fa-tasks" message="No se cuenta con registros de tareas generadas">
+<s-dataNotFound *ngIf="(!tareasList || tareasList.length <= 0) && !loading" icon="fa-tasks" message="No se cuenta con registros de tareas generadas">
     <div *sTienePermiso="'SEC_GET_ANADESV'">
         Genera nuevas tareas a partir de un análisis de desviación
         <a (click)="navegar()">aqui</a>
     </div>
-</app-data-not-found>
+</s-dataNotFound>
             
 <p-panel header="Listado de tareas" styleClass="material-panel" [style.display]="(tareasList && tareasList.length > 0) || loading ? 'block':'none'">
     <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>

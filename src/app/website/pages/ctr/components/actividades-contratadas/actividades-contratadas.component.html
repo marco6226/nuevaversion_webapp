@@ -1,9 +1,9 @@
 <div class="shadow">
-    <app-data-not-found *ngIf="!actividadesList || actividadesList?.length <= 0" icon="bi-handshake-o" message="No se encontraron registros de actividades contratadas">
+    <s-dataNotFound *ngIf="!actividadesList || actividadesList?.length <= 0" icon="bi-handshake-o" message="No se encontraron registros de actividades contratadas">
         <button pButton [disabled]="!edit || flagConsult" type="button" (click)="abrirDialogo('crear')" icon="bi bi-plus" label="Agregar Actividad"></button>
         <br><small *ngIf="!flagConsult" class="p-invalid" style="
         font-weight: bold;">Campo obligatorio.</small>
-    </app-data-not-found>
+    </s-dataNotFound>
 
     <p-panel header="Lista de Actividades Contratadas" *ngIf="actividadesList?.length > 0">
         <p-tabView>
@@ -70,9 +70,9 @@
     </p-dialog>
 
 
-    <app-data-not-found *ngIf="!actividadesSubList || actividadesSubList?.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de actividades Subcontratadas">
+    <s-dataNotFound *ngIf="!actividadesSubList || actividadesSubList?.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de actividades Subcontratadas">
         <button [disabled]="!edit || flagConsult" pButton type="button" (click)="abrirDialogoSub('crear')" icon="fa fa-plus" label="Agregar Actividad" requiered></button>
-    </app-data-not-found>
+    </s-dataNotFound>
 
     <p-panel header="Lista de Actividades Subcontratadas" *ngIf="actividadesSubList?.length > 0">
         <p-tabView>

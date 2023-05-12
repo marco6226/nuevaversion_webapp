@@ -1,8 +1,8 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
-<app-data-not-found *ngIf="!responsableList || responsableList.length <= 0" icon="bi-handshake-o" message="Registre el responsable en el SG-SST.">
+<s-dataNotFound *ngIf="!responsableList || responsableList.length <= 0" icon="bi-handshake-o" message="Registre el responsable en el SG-SST.">
     <button [disabled]="flagConsult" pButton type="button" (click)="crearResponsableMiembros()" icon="bi bi-plus" label="Crear"></button>
-</app-data-not-found>
+</s-dataNotFound>
 <div class="shadow">
     <p-panel header="Responsable lider SST" [style.display]="responsableList && responsableList.length > 0 ? 'block':'none'">
         <p-tabView>
@@ -59,9 +59,9 @@
 </div>
 <br>
 
-<app-data-not-found *ngIf="(!equipoList || equipoList.length <= 0) && responsableList.length > 0" icon="bi-handshake-o" message="Si la empresa cuenta con personal asignado a SG-SST, cree los miembros en las diferentes localidades.">
+<s-dataNotFound *ngIf="(!equipoList || equipoList.length <= 0) && responsableList.length > 0" icon="bi-handshake-o" message="Si la empresa cuenta con personal asignado a SG-SST, cree los miembros en las diferentes localidades.">
     <button [disabled]="flagConsult" pButton type="button" (click)="crearMiembros()" icon="bi bi-plus" label="Crear"></button>
-</app-data-not-found>
+</s-dataNotFound>
 
 <br>
 

@@ -1,13 +1,13 @@
 <p-toast key="horasExt"></p-toast>
 <p-confirmDialog></p-confirmDialog>
 
-<app-data-not-found *ngIf="!horasExtraList || horasExtraList.length <= 0" icon="fa-clock-o" message="No se han adicionado horas extra al empleado actual">
+<s-dataNotFound *ngIf="!horasExtraList || horasExtraList.length <= 0" icon="fa-clock-o" message="No se han adicionado horas extra al empleado actual">
   <div *sTienePermiso="'EMP_POST_HEEMPL'">
     Haz click
     <a (click)="adicionarHorasExtra()">aqui</a>
     para adicionarlas
   </div>
-</app-data-not-found>
+</s-dataNotFound>
 
 <p-table #dt styleClass="p-datatable-gridlines" [value]="horasExtraList" autoLayout="true" [style.display]="horasExtraList && horasExtraList.length > 0 ? 'block':'none'">
   <ng-template pTemplate="header">

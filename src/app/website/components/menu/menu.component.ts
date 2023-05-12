@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
   menuToggle: boolean = false;
 
   items!: any[];
-  nombreAUC: string="auc";
+  nombreAUC: string="Observaciones";
   nombreSEC: string="sec";
   nombreCOP: string="cop";
   empresaId!: string;

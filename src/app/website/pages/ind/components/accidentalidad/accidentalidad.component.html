@@ -192,7 +192,7 @@
 
         <div  class="col-8 grid">
           <div class="col-11" *ngIf="tasasNotFound">
-            <app-data-not-found [message]="'No se encontraron registros de Horas Hombre trabajadas'"></app-data-not-found>
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
           </div>
           <div class="col-11 grafic" *ngIf="!tasasNotFound">
               <ngx-charts-bar-vertical-2d 
@@ -276,7 +276,7 @@
 
         <div  class="col-8 grid">
           <div class="col-11" *ngIf="tasasNotFound2">
-            <app-data-not-found [message]="'No se encontraron registros de Horas Hombre trabajadas'"></app-data-not-found>
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
           </div>
           <div class="col-11 grafic" *ngIf="!tasasNotFound2">
             <ngx-charts-bar-vertical-2d
