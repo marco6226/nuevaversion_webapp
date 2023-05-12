@@ -1,9 +1,9 @@
 import { ActividadesContratadas, _actividadesContratadasList } from './../../entities/aliados';
-import { Component, Input, OnInit, Output, EventEmitter,ViewEncapsulation} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter,ViewEncapsulation, AfterViewInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TreeNode } from 'primeng/api';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
-
+import { parse, stringify } from 'flatted';
 @Component({
   selector: 'app-actividades-contratadas',
   templateUrl: './actividades-contratadas.component.html',
@@ -11,14 +11,14 @@ import { EmpresaService } from '../../../empresa/services/empresa.service';
   styleUrls: ['./actividades-contratadas.component.scss'],
   providers: [EmpresaService]
 })
-export class ActividadesContratadasComponent implements OnInit {
+export class ActividadesContratadasComponent implements OnInit, AfterViewInit {
   @Input() flagConsult: boolean=false;
   @Input() flagPress: boolean=false;
   @Input('selectActividad') 
   set actividadesIn(actividades: string){
     if (actividades != null) {
-      this.selectActividad = JSON.parse(actividades,this.dataReviver)[0];
-      this.selectActividadSub = JSON.parse(actividades,this.dataReviver)[1];
+      this.selectActividad = parse(actividades,this.dataReviver)[0];
+      this.selectActividadSub = parse(actividades,this.dataReviver)[1];
       this.agregarActividad();
       this.agregarActividadSub();
     }    
@@ -38,9 +38,10 @@ export class ActividadesContratadasComponent implements OnInit {
   actividadesContratadasList!:TreeNode[];
   actividadesContratadasListSub1!:TreeNode[];
   actividadesContratadasListSub2!:TreeNode[];
+  actividadesContratadasListSub3!: TreeNode[];
   actividadesContratadasList2!:TreeNode[];
-  selectActividad: any;
-  selectActividadSub: any;
+  selectActividad!: any[];
+  selectActividadSub!: any[];
   actividadesList!: any[];
   actividadesSubList!: any[];
 
@@ -53,8 +54,11 @@ export class ActividadesContratadasComponent implements OnInit {
     this.loadActividadesContratadas()
   }
 
+  ngAfterViewInit(): void {
+  }
+
   agregarActividad(){
-    console.log(this.actividadesList)
+    //console.log('agregarActividad()', this.actividadesList);
     if(this.selectActividad != null){
       this.actividadesList = this.selectActividad.map((item: any) => {
         return {nombre: item.data}
@@ -75,7 +79,7 @@ export class ActividadesContratadasComponent implements OnInit {
   }
 
   saveActividad(){
-    this.data.emit(JSON.stringify([this.selectActividad, this.selectActividadSub], this.replacer));
+    this.data.emit(stringify([this.selectActividad, this.selectActividadSub], this.replacer));
   }
 
   replacer(key: any, value: any){
@@ -110,13 +114,15 @@ export class ActividadesContratadasComponent implements OnInit {
     this.actividadesContratadasList2=[]
     this.actividadesContratadasListSub1=[]
     this.actividadesContratadasListSub2=[]
+    this.actividadesContratadasListSub3= []
 
     
     this.empresaService.getActividadesContratadas(this.rutaActiva.snapshot.params['id']).then((element: ActividadesContratadas[]) => {
 
-      console.log(element)
+      // console.log(element)
       let id1
       let id2
+      let id3
       element.forEach(elemen => {
         if(elemen.id==0)
         id1=elemen.id
@@ -129,6 +135,9 @@ export class ActividadesContratadasComponent implements OnInit {
 
         if(elemen.padre_id==15)
         this.actividadesContratadasListSub2.push({key:elemen.id.toString(),label: elemen.actividad,  data: elemen.actividad})
+
+        if(elemen.padre_id==86)
+        this.actividadesContratadasListSub3.push({key: elemen.id.toString(), label: elemen.actividad, data: elemen.actividad});
       });
 
       this.actividadesContratadasListSub1.sort(function(a,b){
@@ -151,8 +160,10 @@ export class ActividadesContratadasComponent implements OnInit {
 
       this.actividadesContratadasList.push({key:id1,label: "SERVICIOS ADMINISTRATIVOS",  data: "SERVICIOS ADMINISTRATIVOS",selectable:false, children:this.actividadesContratadasListSub1})
       this.actividadesContratadasList.push({key:id2,label: "SERVICIOS DE MANTENIMIENTO",  data: "SERVICIOS DE MANTENIMIENTO",selectable:false, children:this.actividadesContratadasListSub2})
+      this.actividadesContratadasList.push({key:id3, label: "TRANSPORTE DE CARGA", data: "TRANSPORTE DE CARGA", selectable:false, children: this.actividadesContratadasListSub3});
       this.actividadesContratadasList2.push({key:id1,label: "SERVICIOS ADMINISTRATIVOS",  data: "SERVICIOS ADMINISTRATIVOS",selectable:false, children:this.actividadesContratadasListSub1})
       this.actividadesContratadasList2.push({key:id2,label: "SERVICIOS DE MANTENIMIENTO",  data: "SERVICIOS DE MANTENIMIENTO",selectable:false, children:this.actividadesContratadasListSub2})
+      this.actividadesContratadasList2.push({key:id3, label: "TRANSPORTE DE CARGA", data: "TRANSPORTE DE CARGA", selectable:false, children: this.actividadesContratadasListSub3})
     });
   }
 

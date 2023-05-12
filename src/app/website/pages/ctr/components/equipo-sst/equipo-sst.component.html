@@ -8,7 +8,7 @@
         <div class="col-lg">
             <label for="" class="active">Correo</label>
             <input required type="text" pInputText formControlName="correo" placeholder="Correo"
-            class="form-control" [ngModel]="correo" (ngModelChange)="correo = $event.toLowerCase()"/>
+            class="form-control" [ngModel]="correo" (ngModelChange)="$event ? $event.toLowerCase() : ''; correo = $event"/>
         </div> 
     </div>  
     <div class="row g-2 mb-3">

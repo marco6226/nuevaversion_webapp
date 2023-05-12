@@ -78,6 +78,5 @@ export class InformacionGeneralComponent implements OnInit {
         });
       }
     );
-    console.log(this.arlList);
   }
 }

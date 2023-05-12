@@ -79,9 +79,9 @@ export class CargueDocumentosComponent implements OnInit {
 
   ngOnInit(): void {
     this.onEdit = this.activatedRoute.snapshot.params['onEdit'];
-    setTimeout(() => {
-      console.log(this.directorios)
-    }, 20000);
+    // setTimeout(() => {
+    //   console.log(this.directorios)
+    // }, 20000);
   }
 
   showDialog(tipo: string) {    

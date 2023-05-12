@@ -1,7 +1,7 @@
 <p-toast key="msgActualizarAliado"></p-toast>
 <div class="shadow">
   <p-panel header="Seguimiento aliados" >
-    <p-tabView [(activeIndex)]="tabIndex">
+    <p-tabView [(activeIndex)]="tabIndex" [scrollable]="true">
       <p-tabPanel header="Información" 
       [headerStyle]=" { 'background-color':'#3ba2dc' }">
         <app-aliados 
