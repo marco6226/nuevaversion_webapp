@@ -164,3 +164,17 @@
         height: 50px;
     }
 }
+
+:host ::ng-deep{
+    .p-dropdown{
+        width: 100%;
+    }
+    .p-calendar{
+        width: 100%;
+    }
+
+}
+
+.col{
+    height: 80px;
+}

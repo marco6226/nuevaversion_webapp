@@ -18,337 +18,348 @@
     </div>
 </div>
 
-<p-panel class="shadow">
+<p-panel class="shadow" header="Creación Seguimiento Caso Medico">
     <p-tabView styleClass="custom-panel">
         <!-- Inicio información general -->
         <ng-container *sTienePermiso="'SCM_GET_PERSONAL'">
             <p-tabPanel header="Información General">
-                <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
-                    <div class="ui-g">
-                        <div class="row">
-                            <h5 class="title-header p-mb-2">Datos del trabajador involucrado</h5>
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb-3">
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Número de identificación</label>
-                                    <p-autoComplete [readonly]="consultar2" styleClass="form-control-autocomplete" #autocomplete placeholder="Digite"
-                                        [style]="{'width':'100%'}" (onSelect)="onSelection($event)"
-                                        [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
-                                        formControlName="numeroIdentificacion" *ngIf="empleado?.id == null" required>
-                                        <ng-template let-empleado pTemplate="item">
-                                            <div class="ui-helper-clearfix">
-                                                <div class="wrapper">
-                                                    <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
-                                                        style="font-size: 48px;" aria-hidden="true"></i>
-                                                    <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
-                                                        style="border-radius: 50%;" #imgAvatar alt="" />
-                                                    <div style="margin-left:20px">
-                                                        <br /> {{empleado?.primerApellido}} {{empleado?.primerNombre}}
-                                                        {{empleado?.segundoNombre}}
-                                                        <br /> {{empleado?.numeroIdentificacion}}
-                                                        <br /> {{empleado?.usuario.email}}
+                <p-panel header="Datos del trabajador involucrado">
+                    <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+                        <div class="container-fluid cew-9">
+                            
+                            <div class="container-fluid cew-9">
+                                <div class="row ">
+                                    <div class="col">
+                                        <div>
+                                            <label for="" class="active">Número de identificación</label>
+                                            <p-autoComplete [readonly]="consultar2" styleClass="form-control-autocomplete" #autocomplete placeholder="Digite"
+                                                [style]="{'width':'100%'}" (onSelect)="onSelection($event)"
+                                                [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)"
+                                                formControlName="numeroIdentificacion" *ngIf="empleado?.id == null" required>
+                                                <ng-template let-empleado pTemplate="item">
+                                                    <div class="ui-helper-clearfix">
+                                                        <div class="wrapper">
+                                                            <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
+                                                                style="font-size: 48px;" aria-hidden="true"></i>
+                                                            <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
+                                                                style="border-radius: 50%;" #imgAvatar alt="" />
+                                                            <div style="margin-left:20px">
+                                                                <br /> {{empleado?.primerApellido}} {{empleado?.primerNombre}}
+                                                                {{empleado?.segundoNombre}}
+                                                                <br /> {{empleado?.numeroIdentificacion}}
+                                                                <br /> {{empleado?.usuario.email}}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                            <small *ngIf="pkUse.errors?.required && pkUse.touched" id="username2-help"
+                                                class="p-invalid">Obligatorio</small>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <div>
+                                                <label for="" class="active">Tipo de identificación</label>
                                             </div>
-                                        </ng-template>
-                                    </p-autoComplete>
-                                    <small *ngIf="pkUse.errors?.required && pkUse.touched" id="username2-help"
-                                        class="p-invalid">Obligatorio</small>
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <div>
-                                        <label for="" class="active">Tipo de identificación</label>
+                                            <div>
+                                                <p-dropdown [readonly]="consultar2" [options]="tipoIdentificacionList" formControlName="tipoIdentificacion"
+                                                [attr.disabled]="true" required styleClass="select-material">
+                                                </p-dropdown>
+                                            </div>                                
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [options]="tipoIdentificacionList" formControlName="tipoIdentificacion"
-                                        [attr.disabled]="true" required styleClass="select-material">
-                                        </p-dropdown>
-                                    </div>                                
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Apellidos y nombres</label>
-                                    <input type="text" pInputText [value]="nameAndLastName" placeholder="Apellidos y nombres"
-                                        class="form-control" id="nameAndLastName" [attr.disabled]="true" />
-                                </div>
-                            </div>
-                            <div class="col-lg" *ngIf="empresaId!='22'">
-                                <div>
-                                    <label for="" class="active">Dirección / Gerencia</label>
-                                    <input type="text" [readonly]="consultar2" pInputText formControlName="direccionGerencia"
-                                        placeholder="Dirección / Gerencia" class="form-control" id="direccionGerencia1" />
-                                </div>
-                            </div>
-                            <div class="col-lg" *ngIf="empresaId=='22'">
-                                <div>
-                                    <label for="" class="active">División/Unidad</label>
-                                    <input readonly type="text" pInputText formControlName="division"
-                                        placeholder="División/Unidad" class="form-control" id="division" />
-                                </div>
-                            </div>  
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb-3">
-                            <div class="col-lg">
-                                <div>
-                                    <div>
-                                        <label for="" class="active">Cargo / Categoría</label>
+                                    <div class="col">
+                                        <div>
+                                            <label for="" class="active">Apellidos y nombres</label>
+                                            <input type="text" pInputText [value]="nameAndLastName" placeholder="Apellidos y nombres"
+                                                class="form-control" id="nameAndLastName" [attr.disabled]="true" />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [filter]="true" [options]="cargoList" formControlName="cargoId"
-                                            class="select-material" styleClass="select-material">
-                                        </p-dropdown>
+                                    <div class="col" *ngIf="empresaId!='22'">
+                                        <div>
+                                            <label for="" class="active">Dirección / Gerencia</label>
+                                            <input type="text" [readonly]="consultar2" pInputText formControlName="direccionGerencia"
+                                                placeholder="Dirección / Gerencia" class="form-control" id="direccionGerencia1" />
+                                        </div>
+                                    </div>
+                                    <div class="col" *ngIf="empresaId=='22'">
+                                        <div>
+                                            <label for="" class="active">División/Unidad</label>
+                                            <input readonly type="text" pInputText formControlName="division"
+                                                placeholder="División/Unidad" class="form-control" id="division" />
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+
+                            
+                            <!-- div -->
+                            <div class="container-fluid cew-9">
+                                <div class="row">
+                                    <div class="col">
+                                        <div>
+                                            <div>
+                                                <label for="" class="active">Cargo / Categoría</label>
+                                            </div>
+                                            <div>
+                                                <p-dropdown [readonly]="consultar2" [filter]="true" [options]="cargoList" formControlName="cargoId"
+                                                    class="select-material" styleClass="select-material">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <div>
+                                                <label for="" class="active">Fecha de vinculación</label>
+                                            </div>
+                                            <div>
+                                                <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                                    [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                    dateFormat="dd/mm/yy" formControlName="fechaIngreso"></p-calendar>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <label for="" class="active">Antigüedad</label>
+                                            <input type="text" pInputText [value]="antiguedad || ''" placeholder="Antigüedad"
+                                                class="form-control" id="antiguedad" [attr.disabled]="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <label for="" class="active">Rango de antigüedad</label>
+                                            <input type="text" pInputText [value]="range || ''" placeholder="Antigüedad"
+                                                class="form-control" id="rango" [attr.disabled]="true" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg">
-                                <div>
+
+                            
+                            <!-- div -->
+                            <div class="row ">
+                                <div class="col">
                                     <div>
-                                        <label for="" class="active">Fecha de vinculación</label>
-                                    </div>
-                                    <div>
+                                        <div>
+                                            <label for="" class="active">Fecha de desvinculación</label>
+                                        </div>
                                         <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                             [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
-                                            dateFormat="dd/mm/yy" formControlName="fechaIngreso"></p-calendar>
-                                    </div>    
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Antigüedad</label>
-                                    <input type="text" pInputText [value]="antiguedad || ''" placeholder="Antigüedad"
-                                        class="form-control" id="antiguedad" [attr.disabled]="true" />
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Rango de antigüedad</label>
-                                    <input type="text" pInputText [value]="range || ''" placeholder="Antigüedad"
-                                        class="form-control" id="rango" [attr.disabled]="true" />
-                                </div>
-                            </div>
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb3">
-                            <div class="col-lg">
-                                <div>
-                                    <div>
-                                        <label for="" class="active">Fecha de desvinculación</label>
-                                    </div>
-                                    <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
-                                        [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
-                                        dateFormat="dd/mm/yy">
-                                    </p-calendar>
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Teléfono corporativo</label>
-                                    <input [readonly]="consultar2" pInputText formControlName="corporativePhone" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Correo corporativo</label>
-                                    <input type="email" pInputText formControlName="email" placeholder="Correo corporativo"
-                                        class="form-control" id="correocorporativo" />
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Ciudad</label>
-                                    <input [readonly]="consultar2" type="text" pInputText formControlName="ciudadGerencia" placeholder="Ciudad"
-                                        class="form-control" id="ciudad" />
-                                </div>
-                            </div>
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb-3 mt-3">
-                            <div class="col-lg" *ngIf="empresaId!='22'">
-                                <div>
-                                    <label for="" class="active">Ubicación</label>
-                                    <area-selector [disabled]="consultar2" formControlName="area"
-                                        [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
-                                    </area-selector>
-                                </div>
-                            </div>
-                            <div class="col-lg" *ngIf="empresaId=='22'">
-                                <div>
-                                    <label for="" class="active">Ubicación</label>
-                                    <area-selector [disabled]="consultar2" (onDivision)="areaChange($event)" formControlName="area"
-                                        [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
-                                    </area-selector>
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Sexo </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <p-radioButton [disabled]="consultar2" name="genero" value="M" label=" Masculino   ." formControlName="genero">
-                                    </p-radioButton>
-                                    <p-radioButton [disabled]="consultar2" name="genero" value="F" label="Femenino" formControlName="genero">
-                                    </p-radioButton>
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <div>
-                                        <label for="" class="active">Fecha de nacimiento</label>
-                                    </div>
-                                    <div>
-                                        <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
-                                            [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
-                                            dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
+                                            dateFormat="dd/mm/yy">
+                                        </p-calendar>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg"></div>
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb-3">
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Edad</label>
-                                    <input [attr.disabled]="true" type="text" pInputText [value]="edad || ''" placeholder="Edad"
-                                        class="form-control" id="Edad" />
-                                </div>
-                            </div>
-                            <div class="col-lg" *ngIf="empresaId!='22'">
-                                <div>
-                                    <label for="" class="active">Regional</label>
-                                    <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText formControlName="regional"
-                                        placeholder="regional" class="form-control" id="regional" />
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <s-ciudadSelector [disabled]="consultar2" formControlName="ciudad" [id]="departamento" class="select-material"
-                                        styleClass="select-material" required>
-                                    </s-ciudadSelector>
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Dirección de residencia</label>
-                                    <input [readonly]="consultar2" pInputText class="form-control" formControlName="direccion"
-                                        styleClass="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Zona de residencia</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <p-radioButton [disabled]="consultar2" name="zonaResidencia" value="U" label=" Urbana   ."
-                                        formControlName="zonaResidencia">
-                                    </p-radioButton>
-                                    <p-radioButton [disabled]="consultar2" name="zonaResidencia" value="R" label="Rural"
-                                        formControlName="zonaResidencia">
-                                    </p-radioButton>
-                                </div>
-                            </div>    
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb-3">
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Teléfono personal</label>
-                                    <input [readonly]="consultar2" pInputText formControlName="telefono1" class="form-control"
-                                        styleClass="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Teléfono de residencia</label>
-                                    <input [readonly]="consultar2" pInputText formControlName="telefono2" class="form-control"
-                                        styleClass="form-control">
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Correo personal</label>
-                                    <input [readonly]="consultar2" type="email" pInputText formControlName="correoPersonal"
-                                        plaholder="Correo personal" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
+                                <div class="col">
                                     <div>
-                                        <label for="" class="active">EPS</label>
-                                    </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
-                                            class="select-material" styleClass="select-material"></p-dropdown>
+                                        <label for="" class="active">Teléfono corporativo</label>
+                                        <input [readonly]="consultar2" pInputText formControlName="corporativePhone" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb-3">
-                            <div class="col-lg">
-                                <div>
+                                <div class="col">
                                     <div>
-                                        <label for="" class="active">AFP</label>
-                                    </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [filter]="true" [options]="afpList" formControlName="afp"
-                                        class="select-material" styleClass="select-material"></p-dropdown>
+                                        <label for="" class="active">Correo corporativo</label>
+                                        <input type="email" pInputText formControlName="email" placeholder="Correo corporativo"
+                                            class="form-control" id="correocorporativo" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">ARL</label>
-                                    <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
-                                        class="form-control" id="arl" />
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Contacto de emergencia</label>
-                                    <input [readonly]="consultar2" type="text" pInputText formControlName="emergencyContact"
-                                        placeholder="Contacto de emergencia" class="form-control" id="emergencyContact" />
-                                </div>
-                            </div>
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Telefono de contacto de emergencia</label>
-                                    <input [readonly]="consultar2" pInputText formControlName="phoneEmergencyContact" class="form-control"
-                                        styleClass="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- div -->
-                        <div class="row g-2 mb-3">
-                            <div class="col-lg">
-                                <div>
-                                    <label for="" class="active">Correo de contacto de emergencia</label>
-                                    <input [readonly]="consultar2" type="email" pInputText formControlName="emailEmergencyContact"
-                                        placeholder="Correo corporativo" class="form-control" id="emailEmergencyContact" />
-                                </div>
-                            </div>
-                            <div class="col-lg"></div>
-                            <div class="col-lg"></div>
-                            <div class="col-lg"></div>
-                        </div>
-                    </div>
-                    <br>
-                    <form [formGroup]="jefeInmediato">
-                        <div class="ui-g">
-                            <div class="row">
-                                <div>
-                                    <h5 class="title-header p-mb-2">Datos del jefe inmediato</h5>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Ciudad</label>
+                                        <input [readonly]="consultar2" type="text" pInputText formControlName="ciudadGerencia" placeholder="Ciudad"
+                                            class="form-control" id="ciudad" />
+                                    </div>
                                 </div>
                             </div>
                             <!-- div -->
-                            <div class="row g-2 mb-3">
-                                <div class="col-lg">
+                            <div class="row  mt-3">
+                                <div class="col" *ngIf="empresaId!='22'">
+                                    <div>
+                                        <label for="" class="active">Ubicación</label>
+                                        <area-selector [disabled]="consultar2" formControlName="area"
+                                            [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
+                                        </area-selector>
+                                    </div>
+                                </div>
+                                <div class="col" *ngIf="empresaId=='22'">
+                                    <div>
+                                        <label for="" class="active">Ubicación</label>
+                                        <area-selector [disabled]="consultar2" (onDivision)="areaChange($event)" formControlName="area"
+                                            [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
+                                        </area-selector>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Sexo </label>
+                                    </div>
+                                    <div class="form-check form-check-inline" style="display: flex; justify-content: space-evenly;">
+                                        <p-radioButton [disabled]="consultar2" name="genero" value="M" label=" Masculino" formControlName="genero">
+                                        </p-radioButton>
+                                        <p-radioButton [disabled]="consultar2" name="genero" value="F" label="Femenino" formControlName="genero">
+                                        </p-radioButton>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <div>
+                                            <label for="" class="active">Fecha de nacimiento</label>
+                                        </div>
+                                        <div>
+                                            <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                                [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col"></div>
+                            </div>
+                            <!-- div -->
+                            <div class="row ">
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Edad</label>
+                                        <input [attr.disabled]="true" type="text" pInputText [value]="edad || ''" placeholder="Edad"
+                                            class="form-control" id="Edad" />
+                                    </div>
+                                </div>
+                                <div class="col" *ngIf="empresaId!='22'">
+                                    <div>
+                                        <label for="" class="active">Regional</label>
+                                        <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText formControlName="regional"
+                                            placeholder="regional" class="form-control" id="regional" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <s-ciudadSelector [disabled]="consultar2" formControlName="ciudad" [id]="departamento" class="select-material"
+                                            styleClass="select-material" required>
+                                        </s-ciudadSelector>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Dirección de residencia</label>
+                                        <input [readonly]="consultar2" pInputText class="form-control" formControlName="direccion"
+                                            styleClass="form-control">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Zona de residencia</label>
+                                    </div>
+                                    <div class="form-check form-check-inline" style="display: flex; justify-content: space-evenly;">
+                                        <p-radioButton [disabled]="consultar2" name="zonaResidencia" value="U" label=" Urbana"
+                                            formControlName="zonaResidencia">
+                                        </p-radioButton>
+                                        <p-radioButton [disabled]="consultar2" name="zonaResidencia" value="R" label="Rural"
+                                            formControlName="zonaResidencia">
+                                        </p-radioButton>
+                                    </div>
+                                </div>    
+                            </div>
+                            <!-- div -->
+                            <div class="row ">
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Teléfono personal</label>
+                                        <input [readonly]="consultar2" pInputText formControlName="telefono1" class="form-control"
+                                            styleClass="form-control">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Teléfono de residencia</label>
+                                        <input [readonly]="consultar2" pInputText formControlName="telefono2" class="form-control"
+                                            styleClass="form-control">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Correo personal</label>
+                                        <input [readonly]="consultar2" type="email" pInputText formControlName="correoPersonal"
+                                            plaholder="Correo personal" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <div>
+                                            <label for="" class="active">EPS</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
+                                                class="select-material" styleClass="select-material"></p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- div -->
+                            <div class="row ">
+                                <div class="col">
+                                    <div>
+                                        <div>
+                                            <label for="" class="active">AFP</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown [readonly]="consultar2" [filter]="true" [options]="afpList" formControlName="afp"
+                                            class="select-material" styleClass="select-material"></p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">ARL</label>
+                                        <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
+                                            class="form-control" id="arl" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Contacto de emergencia</label>
+                                        <input [readonly]="consultar2" type="text" pInputText formControlName="emergencyContact"
+                                            placeholder="Contacto de emergencia" class="form-control" id="emergencyContact" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Telefono de contacto de emergencia</label>
+                                        <input [readonly]="consultar2" pInputText formControlName="phoneEmergencyContact" class="form-control"
+                                            styleClass="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- div -->
+                            <div class="row ">
+                                <div class="col">
+                                    <div>
+                                        <label for="" class="active">Correo de contacto de emergencia</label>
+                                        <input [readonly]="consultar2" type="email" pInputText formControlName="emailEmergencyContact"
+                                            placeholder="Correo corporativo" class="form-control" id="emailEmergencyContact" />
+                                    </div>
+                                </div>
+                                <div class="col"></div>
+                                <div class="col"></div>
+                                <div class="col"></div>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </p-panel>
+                
+                <br>
+                <p-panel header="Datos del jefe inmediato">
+                    <form [formGroup]="jefeInmediato">
+                         <div class="container-fluid cew-9">
+                           <!-- <div class="row">
+                                <div>
+                                    <h5 class="title-header p-mb-2">Datos del jefe inmediato</h5>
+                                </div>
+                            </div> -->
+                            <!-- div -->
+                            <div class="row ">
+                                <div class="col">
                                     <div>
                                         <div>
                                             <label for="" class="active">Número de identificación</label>
@@ -365,7 +376,7 @@
                                                                 style="font-size: 48px;" aria-hidden="true"></i>
                                                             <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
                                                                 style="border-radius: 50%;" #imgAvatar />
-                                                            <div style="margin-left:20px">
+                                                             <div style="margin-left:20px">
                                                                 <br />{{empleado?.primerApellido}} {{empleado?.primerNombre}}
                                                                 {{empleado?.segundoNombre}}
         
@@ -379,14 +390,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>                               
                                         <label for="" class="active">Apellidos y nombres</label>
                                         <input type="text" pInputText [value]="jefeNames" placeholder="Apellidos y nombres"
                                             [attr.disabled]="true" class="form-control" id="jefeNames" />
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <div>
                                             <label for="" class="active">Cargo / Categoría</label>
@@ -398,14 +409,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg" *ngIf="empresaId!='22'">
+                                <div class="col" *ngIf="empresaId!='22'">
                                     <div>
                                         <label for="" class="active">Dirección / Gerencia</label>
                                         <input type="text" pInputText formControlName="direccionGerencia"
                                             placeholder="Dirección / Gerencia" class="form-control" id="direccionGerencia2" />
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <label for="" class="active">Número móvil corporativo</label>
                                         <input  type="text" pInputText formControlName="corporativePhone" class="form-control"
@@ -424,16 +435,18 @@
     
                         
                     </form>
+                </p-panel>
+                 <p-panel header="Datos del Business Partner">
                     <form [formGroup]="bussinessParner" >
-                        <div class="ui-g" *ngIf="empresaId != '22'">
-                            <div class="row">
-                                <div class="row g-2 mb-3">
+                        <div class="container-fluid cew-9" *ngIf="empresaId != '22'">
+                            <!-- <div class="row">
+                                <div class="row ">
                                     <h5 class="title-header mb-2">Datos del Business Partner</h5>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- div -->
-                            <div class="row g-2 mb-3">
-                                <div class="col-lg">
+                            <div class="row ">
+                                <div class="col">
                                     <div>
                                         <label for="" class="active">Número de identificación</label>
                                         <p-autoComplete [readonly]="consultar2" styleClass="form-control-autocomplete" placeholder="Digite"
@@ -459,14 +472,14 @@
                                         </p-autoComplete>
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <label for="" class="active">Apellidos y nombres</label>
                                         <input type="text" pInputText [value]="businessNames" placeholder="Apellidos y nombres"
                                             [attr.disabled]="true" class="form-control" id="businessNames" />
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <div>
                                             <label for="" class="active">Cargo / Categoría</label>
@@ -478,7 +491,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <label for="" class="active">Dirección / Gerencia</label>
                                         <input [readonly]="consultar2" type="text" pInputText formControlName="direccionGerencia"
@@ -487,8 +500,8 @@
                                 </div>
                             </div>
                             <!-- div -->
-                            <div class="row g-2 mb-3">
-                                <div class="col-lg">
+                            <div class="row ">
+                                <div class="col">
                                     <div>
                                         <input [readonly]="consultar2"  type="text" pInputText formControlName="corporativePhone" class="form-control"
                                             styleClass="form-control">
@@ -496,19 +509,20 @@
                                         <label for="" class="active">Número móvil corporativo</label>
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <input [readonly]="consultar2" type="text" pInputText formControlName="email" placeholder="Correo corporativo"
                                             class="form-control" id="emailbussines" />
                                         <label for="" class="active">Correo corporativo</label>
                                     </div>
                                 </div>
-                                <div class="col-lg"></div>
-                                <div class="col-lg"></div>
+                                <div class="col"></div>
+                                <div class="col"></div>
                             </div>
                         </div>
                     </form>
-                </form>
+                 </p-panel>   
+                    
             </p-tabPanel>
         </ng-container>
         <!-- Finaliza información general -->
@@ -518,8 +532,8 @@
             <p-tabPanel header="Información Médica">
     
                 <form *ngIf="createCase || caseSelect" [formGroup]="casoMedicoForm" (ngSubmit)="onSubmit()">
-                    <div class="ui-g">
-                        <div class="row g-2 mb-3">
+                    <div class="container-fluid cew-9">
+                        <div class="row ">
                             <div class="col">
                                 <label for="" class="active">Estado del caso</label>
                                 <input type="text" class="form-control" pInputText [value]="status" [attr.disabled]="true">
@@ -537,7 +551,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg">
+                            <div class="col">
                                 <div>
                                     <label for="" class="active">Observaciones del cierre</label>
                                     <textarea [readonly]="consultar2" class="textarea-material" pInputTextarea
@@ -551,17 +565,17 @@
                             </div>
                         </div>
                         <!-- div -->
-                        <div class="row g-2 mb-3">
+                        <div class="row ">
                             
                         </div>
                         <!-- div -->
                         <div *sTienePermiso="'SCM_GET_CASE_INFO'">
-                            <div class="row g-2 mb-3">
+                            <div class="row ">
                                 <h5 class="title-header">Información del caso</h5>
                             </div>
     
-                            <div class="row g-2 mb-3">
-                                <div class="col-lg">
+                            <div class="row ">
+                                <div class="col">
                                     <div>
                                         <div>
                                             <label for="" class="active">Descripción general del caso</label>
@@ -572,7 +586,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <div>
                                             <label for="" class="active">Descripción del cargo / Funciones actuales</label>
@@ -584,7 +598,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-2 mb-3">
+                            <div class="row ">
                                 <div class="col">
                                     <div>
                                         <div>
@@ -624,11 +638,11 @@
                                 <div class="col-6"></div>
                             </div>
     
-                            <div class="row g-2 mb-3">
+                            <div class="row ">
                                 <h5 class="title-header mb-2">Intervención complementaria</h5>
                             </div>
-                            <div class="row g-2 mb-3">
-                                <div class="col-lg">
+                            <div class="row ">
+                                <div class="col">
                                     <div>
                                         <label for="" class="active">Requiere intervención complementaria</label>
                                     </div>
@@ -638,7 +652,7 @@
                                         </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-lg"
+                                <div class="col"
                                     *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
                                     <div>
                                         <div>
@@ -651,7 +665,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg"
+                                <div class="col"
                                     *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
                                     <div>
                                         <div>
@@ -664,7 +678,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg">
+                                <div class="col">
                                     <div>
                                         <label for="" class="active">Justificación</label>
                                     </div>
@@ -887,8 +901,8 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_DIAG'">
             <p-tabPanel header="Diagnósticos" *ngIf="caseSelect">
     
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Información sobre diagnósticos</h5>
                     </div>
                     <div class="ui-g-12">
@@ -976,8 +990,8 @@
         <!-- Inicio incapacidades -->
         <ng-container *sTienePermiso="'SCM_LIST_CASE_INC'">
             <p-tabPanel header="Incapacidades" *ngIf="caseSelect">
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Información sobre incapacidades</h5>
                     </div>
                     <div class="ui-g-12">
@@ -1053,8 +1067,8 @@
         <ng-container *sTienePermiso="'SCM_LIST_CASE_RECO'">
             <p-tabPanel header="Recomendaciones" *ngIf="caseSelect">
     
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Información sobre recomendaciones</h5>
                     </div>
                     <div class="ui-g-12">
@@ -1187,8 +1201,8 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_SEG'">
             <p-tabPanel header="Seguimiento" *ngIf="caseSelect">
     
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Seguimientos del caso</h5>
                     </div>
                     <div class="ui-g-12">
@@ -1340,8 +1354,8 @@
             <!-- <p-tabPanel header="Reintegro" *ngIf="caseSelect">
             </p-tabPanel> -->
             <p-tabPanel header="PRL" *ngIf="caseSelect">
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Programa de retorno laboral</h5>
                     </div>
                     <div class="ui-g-12">
@@ -1360,8 +1374,8 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_TRAT'">
             <p-tabPanel header="Tratamientos" *ngIf="caseSelect">
     
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Tratamientos en el caso</h5>
                     </div>
                     <div class="ui-g-12">
@@ -1470,8 +1484,8 @@
         <!-- Inicio documentación -->
         <ng-container *sTienePermiso="'SCM_GET_CASE_DOC'">
             <p-tabPanel header="Documentación" *ngIf="caseSelect">
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Documentos asociados al caso médico</h5>
                     </div>
                     <div class="ui-g-12">
@@ -1485,8 +1499,8 @@
         <!-- Inicio Plan de acción -->
         <ng-container *sTienePermiso="'SCM_GET_CASE_PLAN'">
             <p-tabPanel header="Plan de Acción" *ngIf="caseSelect">
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Listado de planes de acción</h5>
                     </div>
                     <div class="ui-g-12">
@@ -1576,8 +1590,8 @@
         <ng-container *sTienePermiso="'SCM_GET_CASE_LOG'">
             <p-tabPanel header="Trazabilidad" *ngIf="caseSelect">
     
-                <div class="ui-g">
-                    <div class="row g-2 mb-3">
+                <div class="container-fluid cew-9">
+                    <div class="row ">
                         <h5 class="title-header p-mb-2">Listado de trazabilidad</h5>
                     </div>
                     <div class="ui-g-12">
