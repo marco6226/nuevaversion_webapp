@@ -358,7 +358,6 @@ export class AnalisisDesviacionComponent implements OnInit {
                 'CopiaTrabajador': this.informacionComplementaria.CopiaTrabajador,
                 'FechaCopia':this.informacionComplementaria.FechaCopia == null ? null : new Date(this.informacionComplementaria.FechaCopia)
               });
-              console.log(this.analisisPeligros.value['Peligro']);
             this.cargarPeligro(this.analisisPeligros.value['Peligro'])
         }
         if(this.informeJson!=null){
@@ -515,26 +514,15 @@ habilitarInforme(){
                           dataFactor = this.dataListFactor.find(ele=> {
                               return ele.nombre == nombre[index] && ele.metodologia == causas[index] && ele.pregunta == preguntas[index]
                           })
-                          console.log(this.dataListFactor)
-                          console.log(causa)
                           if (dataFactor) {
-                              // console.log(dataFactor)
                               dataFactor.accion = 'Con Plan de Accion'                            
                           }
                   }
               }
               else{
-                  //  console.log("algo no es verdad");
                   validador = false
               }
           });
-
-          
-          
-
-          // let dataFactor2 = this.dataListFactor.splice()
-          // console.log(dataFactor2);
-
           
       });     
   }else{
@@ -542,7 +530,6 @@ habilitarInforme(){
   }   
 
   if(this.dataListFactor){
-      // console.log("datalist", this.dataListFactor);
       this.dataListFactor.forEach(element => {
           if(element.accion=="Sin Plan de Accion"){
               validador=false
@@ -757,7 +744,6 @@ getValidator(event:any){
 async changeTab(){
   this.cont=0;
   await this.dataListFactor.forEach( factor =>{
-      console.log(factor.accion)
       this.cont=(factor.accion=='Sin Plan de Accion')?this.cont=this.cont+1:this.cont;
   })
   if (this.cont>0){
@@ -803,8 +789,6 @@ async imprimir() {
   await this.compressImage(this.img.src, pixelX,pixelY).then((compressed:any) => {
       this.img.src = compressed.toString();
     })
-   // console.log(Math.ceil(this.img.width*Math.sqrt(porcentaje/100)),Math.ceil(this.img.height*Math.sqrt(porcentaje/100)))
-
     
   let print = document.getElementById('print');
   let template = document.getElementById('plantilla');
@@ -965,7 +949,6 @@ guardarAnalisis() {
 async modificarAnalisis() {
   this.guardando=true;
   this.disabled=true;
-  console.log(this.analisisPeligros)
   // this.flagModificar=true;
   if(!this.analisisPeligros.invalid){
           if(this.idEmpresa=='22'){await this.tareaList2();}
@@ -998,7 +981,6 @@ async modificarAnalisis() {
           // ad.flow_chart = JSON.stringify(this.flowChartSave);
           ad.flow_chart = this.flowChartSave;
           ad.participantes = JSON.stringify(this.participantes);
-          console.log(this.tareasList)
           ad.tareaDesviacionList = this.tareasList;
 
           ad.jerarquia = this.jerarquia;
@@ -1021,8 +1003,6 @@ async modificarAnalisis() {
               this.adicionar = false;
               this.disabled=false;
           });
-              // this.recargarTareasList()
-          console.log(this.tareasList)
           // }, 1000);
           setTimeout(async () => {
               this.buttonPrint=false;

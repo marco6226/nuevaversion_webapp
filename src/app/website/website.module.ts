@@ -178,7 +178,9 @@ import { CapitalizePipe } from '../website/pages/sec/components/utils/pipes/capi
 import { SeguimientosTareasComponent } from './pages/sec/components/seguimientos-tareas/seguimientos-tareas.component';
 import { FileUploaderComponent } from './pages/comun/components/file-uploader/file-uploader.component';
 import { VerificacionTareaComponent } from './pages/sec/components/verificacion-tarea/verificacion-tarea.component';
-import { ConfiguracionGeneralDirective } from './pages/comun/directives/configuracion-general.directive'
+import { ConfiguracionGeneralDirective } from './pages/comun/directives/configuracion-general.directive';
+import { DocumentoFormComponent } from './pages/ado/components/documento-form/documento-form.component';
+import { ContextMenuModule } from 'primeng/contextmenu';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -327,7 +329,8 @@ import { ConfiguracionGeneralDirective } from './pages/comun/directives/configur
     SeguimientosTareasComponent,
     FileUploaderComponent,
     VerificacionTareaComponent,
-    ConfiguracionGeneralDirective
+    ConfiguracionGeneralDirective,
+    DocumentoFormComponent
   ],
   imports: [
     MatTooltipModule,
@@ -362,7 +365,8 @@ import { ConfiguracionGeneralDirective } from './pages/comun/directives/configur
     NumericTextBoxModule, 
     TextBoxModule, 
     UploaderModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    ContextMenuModule
   ],
   providers: [
     PerfilService,

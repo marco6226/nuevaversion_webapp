@@ -14,9 +14,9 @@ export interface Documento {
     nombresAprobador: string;
     apellidosAprobador: string;
     identificacionAprobador: string;
-    fechaElaboracion: Date;
-    fechaVerificacion: Date;
-    fechaAprobacion: Date;
+    fechaElaboracion: Date | null;
+    fechaVerificacion: Date | null;
+    fechaAprobacion: Date | null;
     ubicacionFisica: string;
     modulo: string;
     public: boolean;

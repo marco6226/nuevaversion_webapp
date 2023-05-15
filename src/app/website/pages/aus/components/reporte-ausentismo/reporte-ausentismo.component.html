@@ -1,1 +1,64 @@
-<p>reporte-ausentismo works!</p>
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
+<p-panel header="REPORTE DE AUSENTISMO">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="grid">
+
+            <div class="col-12">
+                <s-empleadoSelector formControlName="empleado" required [readOnly]="!adicionar && !actualizar">
+                </s-empleadoSelector>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Fecha radicación</label>
+                <p-calendar id="fradicacion-input" [locale]="localeES" dateFormat="dd/mm/yy"
+                    formControlName="fechaRadicacion" required></p-calendar>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Entidad que otorga</label>
+                <input id="eotorga-input" pInputText formControlName="entidadOtorga" required />
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Fecha desde</label>
+                <p-calendar id="fdesde-input" [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaDesde"
+                    required></p-calendar>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Fecha hasta</label>
+                <p-calendar id="fhasta-input" [locale]="localeES" [minDate]="form.get('fechaDesde')!.value"
+                    dateFormat="dd/mm/yy" formControlName="fechaHasta" required></p-calendar>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Dias ausencia</label>
+                <input pInputText type="number" pInputText [value]="daysCount" disabled="true" />
+            </div>
+
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Causa ausentismo</label>
+                <p-dropdown id="causentismo-input" [options]="causasAusentismoList" formControlName="causaAusentismoId"
+                    required> </p-dropdown>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Ciudad</label>
+                <s-ciudadSelector id="ciudad-input" formControlName="ciudad" required></s-ciudadSelector>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4 xl:col-3">
+                <label class="s-float-label">Código CIE</label>
+                <s-cieSelector id="ccide-input" formControlName="cie" [readOnly]="!adicionar && !actualizar">
+                </s-cieSelector>
+            </div>
+            <button pButton *ngIf="backToScm" type="button" icon="fa fa-chevron-left" style="    margin-bottom: 5rem;"
+                class="float-btn" [routerLink]="['/app/scm/list']" title="Volver a listado de casos" sty></button>
+        </div>
+
+        <button pButton type="submit" class="float-btn" [icon]="adicionar ? 'bi bi-save': 'bi bi-pencil-square'
+         " [disabled]="!form.valid" *ngIf="adicionar || actualizar"></button>
+    </form>
+</p-panel>

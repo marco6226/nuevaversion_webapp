@@ -90,8 +90,8 @@ export class DocumentosAnalisisDesviacionComponent implements OnInit {
   onUpload(event: Directorio) {
     if (this.documentos == null)
       this.documentos = [];
-    this.documentos.push(event.documento);
-    this.adicionarAGaleria(event.documento);
+    this.documentos.push(event.documento!);
+    this.adicionarAGaleria(event.documento!);
     this.documentos = this.documentos.slice();
   }
 
