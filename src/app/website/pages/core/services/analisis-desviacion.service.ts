@@ -9,6 +9,21 @@ import { AnalisisDesviacion } from 'src/app/website/pages/comun/entities/analisi
     providedIn: 'root'
   })
 export class AnalisisDesviacionService extends CRUDService<AnalisisDesviacion>{
+  
+  getAnalisisTemporal(idAnalisis: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(`${this.end_point}idanalisis/${idAnalisis}`)
+      .subscribe(
+        res => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err);
+        }
+      );
+    });
+  }
 
   findByTarea(tareaId: string) {
     return new Promise(resolve => {

@@ -179,6 +179,10 @@ import { SeguimientosTareasComponent } from './pages/sec/components/seguimientos
 import { FileUploaderComponent } from './pages/comun/components/file-uploader/file-uploader.component';
 import { VerificacionTareaComponent } from './pages/sec/components/verificacion-tarea/verificacion-tarea.component';
 import { ConfiguracionGeneralDirective } from './pages/comun/directives/configuracion-general.directive'
+import { FormularioAccidenteTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-accidente-temporal/formulario-accidente-temporal.component';
+import { IncapacidadesComplementariaTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-accidente-temporal/incapacidades-complementaria-temporal/incapacidades-complementaria-temporal.component';
+import { ListadoCausasTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-accidente-temporal/listado-causas-temporal/listado-causas-temporal.component';
+import { FormularioIncidenteTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-incidente-temporal/formulario-incidente-temporal.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -327,7 +331,11 @@ import { ConfiguracionGeneralDirective } from './pages/comun/directives/configur
     SeguimientosTareasComponent,
     FileUploaderComponent,
     VerificacionTareaComponent,
-    ConfiguracionGeneralDirective
+    ConfiguracionGeneralDirective,
+    FormularioAccidenteTemporalComponent,
+    IncapacidadesComplementariaTemporalComponent,
+    ListadoCausasTemporalComponent,
+    FormularioIncidenteTemporalComponent
   ],
   imports: [
     MatTooltipModule,

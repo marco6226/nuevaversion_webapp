@@ -73,6 +73,8 @@ export class AliadosComponent implements OnInit {
   @Output() dataFechaCalificacion = new EventEmitter<Date>();
   @Output() dataQuienCalifica = new EventEmitter<string>();
   @Output() dataAutorizaSubcontratacion =new EventEmitter<boolean>();
+  @Output() dataIsTemporal = new EventEmitter<boolean>();
+  @Output() onPermitirReporteAt = new EventEmitter<boolean>();
   @Input('autorizaSubcontratacion')
   set setAutorizaSubcontratacion(data: boolean){
     if(data==null) return;
@@ -80,6 +82,26 @@ export class AliadosComponent implements OnInit {
       this.autorizaSubcontratacion = 'Si';
     }else{
       this.autorizaSubcontratacion = 'No';
+    }
+  }
+  istemporal!:string;
+  @Input('istemporal')
+  set setIstemporal(data: boolean){
+    if(data == null) return;
+    if(data){
+      this.istemporal = 'Si';
+    }else{
+      this.istemporal = 'No';
+    }
+  }
+  istemporalFlag: boolean = false;
+  autorizaRegistroAt!: boolean;
+  @Input('permitirReporteAt')
+  set setPermitirReporteAt(data: boolean){
+    if(data){
+      this.autorizaRegistroAt = data;
+    }else {
+      this.autorizaRegistroAt = false;
     }
   }
   autorizaSubcontratacion!: string;
@@ -269,7 +291,9 @@ export class AliadosComponent implements OnInit {
             fecha_calificacion_aliado: this.formJuridica.value.fecha_calificacion,
             nombre_calificador: this.formJuridica.value.quien_califica,
             arl: null,
-            autoriza_subcontratacion: this.autorizaSubcontratacionflag
+            autoriza_subcontratacion: this.autorizaSubcontratacionflag,
+            istemporal: this.istemporalFlag,
+            permitirReportes: this.autorizaRegistroAt ? this.autorizaRegistroAt : false
           }
 
           this.empresaService.saveAliadoInformacion(aliadoInformacion)
@@ -405,6 +429,20 @@ export class AliadosComponent implements OnInit {
       this.autorizaSubcontratacionflag=false
       this.dataAutorizaSubcontratacion.emit(false);
     }
+  }
+
+  onEsTemporal(){
+    if(this.istemporal == 'Si'){
+      this.istemporalFlag = true;
+      this.dataIsTemporal.emit(true);
+    }else{
+      this.istemporalFlag = false;
+      this.dataIsTemporal.emit(false);
+    }
+  }
+
+  onAutorizaReporteAt(){
+    this.onPermitirReporteAt.emit(this.autorizaRegistroAt);
   }
 }
 

@@ -192,7 +192,7 @@ export class PermisosComponent implements OnInit {
     }
 
     createArbolHijo(nombrePadre:any, dataHijo:any){
-        console.log(dataHijo)
+        // console.log(dataHijo)
         dataHijo.forEach((element:any) => {
             // console.log(element)
             this.areaList.push({label: element.nombre + " - " +  nombrePadre, value : element.id})

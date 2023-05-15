@@ -1,0 +1,341 @@
+
+<p-panel header="FORMULARIO DE ACCIDENTES (FURAT)">
+    
+    <p-accordion [multiple]="true">
+        <form [formGroup]="form">
+            <p-accordionTab header="I. IDENTIFICACIÓN GENERAL DE LA EMPRESA">
+                <div class="container">
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Nombre o razon social</label>
+                            <input pInputText formControlName="razonSocial" readonly/>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Nit.</label>
+                            <input pInputText formControlName="identificacionEmpresa" readonly/>
+                        </div>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <ng-template #blanco2><div class="col-md-6 col-sm-12">
+                &nbsp;
+            </div></ng-template>
+            <ng-template #blanco4><div class="col-ms-6 col-sm-12">
+                &nbsp;
+            </div></ng-template>
+            <p-accordionTab
+                header="II. INFORMACIÓN DE LA PERSONA QUE SE ACCIDENTÓ">
+                <div class="container">
+                    <div class="row mb-3 g-6">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Primer apellido</label>
+                            <input required pInputText formControlName="primerApellidoEmpleado" [readonly]="consultar" required/>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Segundo apellido</label>
+                            <input pInputText formControlName="segundoApellidoEmpleado" [readonly]="consultar"/>
+                        </div>
+                    </div>
+                    <div class="row mb-3 g-6">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Primer nombre</label>
+                            <input required pInputText formControlName="primerNombreEmpleado" required [readonly]="consultar"/>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Segundo nombre</label>
+                            <input pInputText formControlName="segundoNombreEmpleado" [readonly]="consultar"/>
+                        </div>
+                    </div>
+                    <div class="row mb-3 g-6">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Tipo identificación</label>
+                            <p-dropdown appendTo="body" required [options]="tipoIdentificacion" formControlName="tipoIdentificacionEmpleado" [readonly]="consultar"></p-dropdown>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Número identificación</label>
+                            <input required pInputText formControlName="numeroIdentificacionEmpleado" [readonly]="consultar"/>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
+                            <label for="">Fecha nacimiento</label>
+                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado" [disabled]="consultar"></p-calendar>
+                        </div>
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
+                            <label for="">Sexo</label>
+                            <p-radioButton required name="generoEmpleado" label="M" value="M" formControlName="generoEmpleado" [disabled]="consultar">
+                            </p-radioButton>
+                            <p-radioButton required name="generoEmpleado" label="F" value="F" formControlName="generoEmpleado" [disabled]="consultar">
+                            </p-radioButton>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
+                            <label for="">Fecha ingreso</label>
+                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [disabled]="consultar"></p-calendar>
+                        </div>
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
+                            <label for="">Cargo</label>
+                            <p-dropdown appendTo="body" [filter]="true" [options]="cargoList" formControlName="cargoEmpleado" required [readonly]="consultar"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Jornada trabajo habitual</label>
+                            <p-dropdown appendTo="body" required [options]="jornadaTrabajoList" formControlName="jornadaHabitual" [readonly]="consultar"></p-dropdown>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Ubicación</label>
+                            <area-selector required formControlName="areaAccidente" style="width: 350px;"  
+                            [name]="this.reporte ? this.reporte.areaAccidente?.nombre:''"
+                            required>
+                            </area-selector>
+                        </div>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab
+                header="III. INFORMACIÓN SOBRE EL ACCIDENTE">
+                <div class="container">
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Fecha {{visibleCamposAccidente ? 'accidente':'incidente'}}</label>
+                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaAccidente"  required [disabled]="consultar"></p-calendar>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            Hora {{visibleCamposAccidente ? 'accidente':'incidente'}}
+                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaAccidente" requierd [disabled]="consultar"></p-calendar>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Jornada</label>
+                            <p-radioButton required name="jornadaAccidente" label="Normal" value="NORMAL" formControlName="jornadaAccidente" [disabled]="consultar"></p-radioButton>
+                            <p-radioButton required name="jornadaAccidente" label="Extra" value="EXTRA" formControlName="jornadaAccidente" [disabled]="consultar"></p-radioButton>
+                        </div>
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
+                            <label for="">Realizaba labor habitual</label>
+                            <p-radioButton required name="realizandoLaborHabitual" label="Si" [value]="true" formControlName="realizandoLaborHabitual" [disabled]="consultar"></p-radioButton>
+                            <p-radioButton required name="realizandoLaborHabitual" label="No" [value]="false" formControlName="realizandoLaborHabitual" [disabled]="consultar"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm12" *ngIf="visibleCamposAccidente && (form?.value.realizandoLaborHabitual == false);else blanco2">
+                            <label for="">¿Cual?</label>
+                            <input required pInputText formControlName="nombreLaborHabitual" [readonly]="consultar"/>
+                        </div>
+                        <div class="col-md-6 col-sm12" *ngIf="visibleCamposAccidente">
+                            <label for="">Hora de inicio de labores</label>
+                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaInicioLabor" [disabled]="consultar"></p-calendar>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Tipo {{visibleCamposAccidente ? 'accidente':'incidente'}}</label>
+                            <p-dropdown appendTo="body" required [options]="tipoAccidenteList" formControlName="tipoAccidente" [readonly]="consultar"></p-dropdown>
+                        </div>
+    
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Clasificación del evento</label>
+                            <p-dropdown appendTo="body" required [options]="severidadList" formControlName="severidad" required [readonly]="consultar"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Lugar {{visibleCamposAccidente ? 'accidente':'incidente'}}</label>
+                            <p-dropdown appendTo="body" required [options]="lugarList" formControlName="lugarAccidente" [readonly]="consultar"></p-dropdown>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Sitio {{visibleCamposAccidente ? 'accidente':'incidente'}}</label>
+                            <p-dropdown appendTo="body" required [options]="sitioList" formControlName="sitio" [readonly]="consultar"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente && (form?.value.sitio=='OTRO');else blanco2">
+                            <label for="">¿Cual?</label>
+                            <input required pInputText formControlName="cualSitio" placeholder="Sitio del accidente" [readonly]="consultar"/>
+                        </div>
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
+                            <label for="">Tipo lesión</label>
+                            <p-dropdown appendTo="body" required [options]="tipoLesionList" formControlName="tipoLesion" [readonly]="consultar"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente && (form?.value.tipoLesion=='OTRO');else blanco2">
+                            <label for="">¿Cual?</label>
+                            <input required pInputText formControlName="cualTipoLesion" placeholder="Tipo lesión"[readonly]="consultar"/>
+                        </div>
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente ">
+                            <label for="">Agente del accidente</label>
+                            <p-dropdown appendTo="body" required [options]="agenteList" formControlName="agente" [readonly]="consultar"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente && (form?.value.agente=='NO_CLASIFICADOS');else blanco2">
+                            <label for="">¿Cual?</label>
+                            <input required pInputText formControlName="cualAgente" placeholder="Agente" [readonly]="consultar"/>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Mecanismo</label>
+                            <p-dropdown appendTo="body" required [options]="mecanismoList" formControlName="mecanismo" [readonly]="consultar"></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row g-6 mb-3">
+                        <div class="col-md-6 col-sm-12" *ngIf="(form?.value.mecanismo=='OTRO');else blanco2">
+                            <label for="">¿Cual?</label>
+                            <input required pInputText formControlName="cualMecanismo" placeholder="Mecanismo" [readonly]="consultar"/>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="">Parte del cuerpo afectada</label>
+                            <p-dropdown appendTo="body" [options]="parteCuerpoList" formControlName="parteCuerpo" required></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab
+                header="IV. DESCRIPCIÓN PRELIMINAR DEL ACCIDENTE">
+                <div class="container">
+                    <div class="ui-g-12 ui-sm-12">
+                        <label class="col-12">
+                            Describa preliminarmente dentro de la información del {{visibleCamposAccidente ?
+                            'accidente':'incidente'}}, que lo originó
+                            o causó y los demas aspectos relacionados
+                        </label>
+                        <textarea required type="text" pInputText style="width:100%;height: 100px;"
+                            formControlName="descripcion" [readonly]="consultar"></textarea>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab
+                header="V. DÍAS PERDIDOS">
+                <app-incapacidades-complementaria-temporal (listIncapacidades)="getListIncapacidades($event)" [incapacidades]="incapacidadesList" [consultar]="consultar"></app-incapacidades-complementaria-temporal>
+                <ng-container *ngIf="incapacidadesList==null"><small class="p-invalid">Obligatorio</small></ng-container>
+                <ng-container *ngIf="incapacidadesList!=null"><small *ngIf="incapacidadesList.length==0" class="p-invalid">Obligatorio</small></ng-container>
+                
+            </p-accordionTab>
+            <p-accordionTab
+                header="VI. PELIGRO DESCRIPTOR">
+                <div class="container" [formGroup]="analisisPeligros">
+                    <div class="row mb-3 g-6">
+                        <div class="col-md-6 colsm-12">
+                            <label for="">Peligro</label>
+                            <p-dropdown required appendTo="body" [filter]="true" [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" formControlName="Peligro"[readonly]="consultar"></p-dropdown>
+                        </div>
+                        <div class="col-md-6 colsm-12">
+                            <label for="">Descripción del Peligro</label>
+                            <p-dropdown placeholder="Seleccionar Peligro" required appendTo="body" [filter]="true" [options]="this.peligroItemList" formControlName="DescripcionPeligro"[readonly]="consultar"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab
+            header="VII. INFORMACIÓN COMPLEMENTARIA">
+                <div class="ui-g" [formGroup]="analisisPeligros">
+                    <div class="ui-g-12 ui-sm-12 ui-md-2">
+                        Estado del evento ante ARL
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                        <p-dropdown appendTo="body" [options]="ARLfirme" formControlName="EnventoARL" required></p-dropdown>
+                    </div>  
+                </div>
+            </p-accordionTab>
+            <p-accordionTab header="VIII. INVESTIGACIÓN" *ngFor="let data of factorCausal">
+                <div >
+                    <app-factor-causal (dataFC)="setListDataFactor()" (validators2)="getValidator($event)"[factorCausal]="data" [consultar]="consultar"></app-factor-causal>
+                </div>
+            </p-accordionTab>
+            <p-accordionTab header="IX. LISTADO DE CAUSAS">
+                <app-listado-causas-temporal [factores]="dataListFactor"></app-listado-causas-temporal>
+            </p-accordionTab>
+        </form>
+
+        <form [formGroup]="formplanaccion">
+            <p-accordionTab header="X. PLAN DE ACCION">
+                
+                <div class="ui-g">
+
+                    <div class="ui-g-12">
+                        <h5 class="title-header p-mb-3">Plan de acción</h5>
+                    </div>
+    
+                    <div class="ui-g-12 ui-md-6 ui-lg-4">
+                        <div class="input-field">
+                            <input type="number" pInputText placeholder="% de avance"
+                                class="form-material" formControlName="avance" [readonly]="consultar"/>
+                            <!-- <input type="number" pInputText placeholder="% de avance"
+                                class="form-material"/> -->
+                            <label for="" class="active">% de avance</label>
+                        </div>        
+                    </div>
+    
+                    <div class="ui-g-12 ui-md-6 ui-lg-4">
+                        <div class="input-field">
+                            <p-calendar [monthNavigator]="true" [yearNavigator]="true"
+                                yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaCierre" [disabled]="consultar"></p-calendar>
+                            <!-- <p-calendar [monthNavigator]="true" [yearNavigator]="true"
+                                yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar> -->
+                            <label for="" class="active">Fecha de cierre</label>
+                        </div>        
+                    </div>
+    
+                    <div class="ui-g-12 ui-md-6">
+                        <div class="input-field">
+                            <textarea pInputTextarea class="form-material" rows="5" formControlName="descripcion" [readonly]="consultar"></textarea>
+                            <!-- <textarea pInputTextarea class="form-material" rows="5"></textarea> -->
+                            <label for="" class="active">Descripción de la acción realizada</label>
+                        </div>        
+                    </div>
+    
+    
+                    <div class="ui-g-12">
+                        <h5 class="title-header p-mb-3" *ngIf="!adicionar">Evidencias</h5>
+                    </div>
+    
+                    <div class="uploaders">
+                        <div>  
+                            <button *ngIf="!consultar && !adicionar" pButton type="button" (click)="showDialog()" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;"></button>
+                            <!-- <button pButton type="button" (click)="showDialog('foto')" icon="fa fa-trash" style="margin-bottom: 10px; background-color: red;" *ngIf="!readOnly"></button> -->
+                            <s-documentoUpload [(visible)]="visibleDlgExcel" [modParam]="analisisId"  tipoEvidencia="fotografica"  [modulo]="modulo" [temporalesFlag]="temporalesFlag" (onUpload)="onUpload($event)"></s-documentoUpload>
+                        </div>
+                        <div class="ui-g" style="margin-top: 10px;">
+                            <div class="ui-g-12 ui-sm-12 ui-md-10">
+                                <div *ngFor="let doc of documentos">
+                                    <table class="dwrapper" *ngIf="doc.proceso=='fotografica'">
+                                    <tr>
+                                        <td>
+                                        <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
+                                        <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
+                                        </td>
+                                        <td style="text-align: right;">
+                                        <a class="fa fa-pencil" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!consultar"></a>
+                                        <a>&nbsp;</a>
+                                        <a class="fa fa-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!consultar" style="color: red;"></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                        <textarea [disabled]="consultar" pInputTextarea placeholder="Descripción" [(ngModel)]="doc.descripcion" maxlength="253" [ngModelOptions]="{standalone: true}"></textarea>
+                                        </td>
+                                    </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-accordionTab>
+        </form>
+    </p-accordion> 
+</p-panel>
+<ng-container *ngIf="!consultar && adicionar">
+    <button *sTienePermiso="'RAI_POST_REPT'" pButton  (click)="submit1()" icon="fa fa-floppy-o" title="Guardar reporte"
+        class="float-btn" [disabled]="!(form.valid && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
+</ng-container>
+
+<ng-container *ngIf="!consultar && !adicionar">
+    <button *sTienePermiso="'RAI_PUT_REPT'" pButton  (click)="submit1()" icon="fa fa-pencil" title="Actualizar reporte"
+        class="float-btn ui-button-success" [disabled]="!(form.valid  && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
+</ng-container>
+<!-- <button (click)="test()">test</button> -->
+<a style="visibility: hidden" id="dwldLink"></a>
+

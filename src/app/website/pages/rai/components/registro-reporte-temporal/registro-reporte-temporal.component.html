@@ -1,1 +1,10 @@
-<p>registro-reporte-temporal works!</p>
+<p-toast></p-toast>
+
+<br/>
+
+<!-- <app-formulario-accidente-temporal [reporte]="reporteSelect" *ngIf="true " (onSave)="onSave($event) " [consultar]="consultar " [modificar]="modificar " [adicionar]="adicionar "></app-formulario-accidente-temporal> -->
+<app-formulario-accidente-temporal [reporte]="reporteSelect" *ngIf="true " (onSave)="onSave($event) " [consultar]="consultar " [modificar]="modificar " [adicionar]="adicionar "></app-formulario-accidente-temporal>
+
+<br/>
+ 
+<button pButton type="button " class="float-btn " [title]="consultar || modificar ? ' Atras ' : 'Cancelar ' " [icon]="consultar || modificar ? 'fa fa-chevron-left ' : 'fa fa-ban'" (click)="volver() " *ngIf="reporteSelect" style="margin-right:65px; z-index: 100;"> </button>
