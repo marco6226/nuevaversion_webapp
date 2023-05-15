@@ -121,7 +121,7 @@
     </div>
 
     <ng-container *ngIf="downloading != true">
-        <button *sTienePermiso="'INP_GET_CONSINP'" pButton type="button" icon="fa fa-download" label="Descargar" title="Descarga consolidado de inspecciones de la lista seleccionada" (click)="descargarInspecciones()" [disabled]="desde == null || hasta == null"></button>
+        <button *sTienePermiso="'INP_GET_CONSINP'" pButton type="button" icon="pi-download" label="Descargar" title="Descarga consolidado de inspecciones de la lista seleccionada" (click)="descargarInspecciones()" [disabled]="desde == null || hasta == null"></button>
     </ng-container>
 </p-dialog>
 

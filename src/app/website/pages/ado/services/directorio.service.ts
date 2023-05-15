@@ -20,7 +20,7 @@ export class DirectorioService extends CRUDService<Directorio> {
 
     uploadEndPoint: string = endPoints[this.getClassName()] + "upload";
 
-    upload(fileToUpload: File, directorioPadreId: string, modulo: string, modParam: string, caseId: string) {
+    upload(fileToUpload: File, directorioPadreId: string | null, modulo: string, modParam: string, caseId: string | null) {
 
         let endPoint = modulo == 'cop' ? this.end_point + 'cop/upload' : this.end_point + 'upload';
 

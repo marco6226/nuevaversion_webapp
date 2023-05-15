@@ -17,7 +17,7 @@
   <div class="col-12">
     <button pButton type="button" icon="fa fa-plus" label="Adicionar" (click)="addCompetencia()"></button>
     <button pButton type="button" icon="bi bi-pencil-square" class="ui-button-success p-button-success" label="Modificar" (click)="actualizarCompetencia()" [disabled]="nodeSelect == null"></button>
-    <button pButton type="button" icon="fa fa-trash" class="ui-button-danger" label="Eliminar" (click)="removerCompetencia()" [disabled]="nodeSelect == null"></button>
+    <button pButton type="button" icon="pi pi-trash" class="ui-button-danger" label="Eliminar" (click)="removerCompetencia()" [disabled]="nodeSelect == null"></button>
   </div>
   <div class="col-12">
     <p-treeTable [value]="modelo" selectionMode="single" [(selection)]="nodeSelect" dataKey="id" appendTo="body" (onNodeSelect)="nodeSelectAction($event)">

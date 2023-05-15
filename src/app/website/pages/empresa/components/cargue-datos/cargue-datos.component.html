@@ -28,7 +28,7 @@
 
 <p-panel *ngIf="workbookExcel.length>0 && fallidosArray.length==0 ">
     <p-header>
-        <button [disabled]="initLoading || fallidosArray.length>0" pButton type="button" icon="fa fa-check" label="Cargar datos" (click)="cargarDatos()" ></button>
+        <button [disabled]="initLoading || fallidosArray.length>0" pButton type="button" icon="pi pi-check" label="Cargar datos" (click)="cargarDatos()" ></button>
         <button [disabled]="initLoading || fallidosArray.length==0" pButton type="button" label="Revisar errores" class="p-button-danger"
             (click)="descargarFallidos()"></button>
 
@@ -61,7 +61,7 @@
 </p-panel>
 <p-panel *ngIf="fallidosArray.length>0">
     <p-header>
-        <button [disabled]="initLoading || fallidosArray.length>0" pButton type="button" icon="fa fa-check" label="Cargar datos" (click)="cargarDatos()" ></button>
+        <button [disabled]="initLoading || fallidosArray.length>0" pButton type="button" icon="pi pi-check" label="Cargar datos" (click)="cargarDatos()" ></button>
         <button [disabled]="initLoading || fallidosArray.length==0" pButton type="button" label="Revisar errores" class="p-button-danger"
             (click)="descargarFallidos()"></button>
 

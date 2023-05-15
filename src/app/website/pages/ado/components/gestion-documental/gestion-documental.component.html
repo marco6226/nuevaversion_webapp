@@ -1,5 +1,5 @@
 <p-messages [(value)]="growlMsgs" [closable]="true"></p-messages>
-<s-dataNotFound *ngIf="(!directorioList || directorioList.length <= 0)  && !esConsulta" icon="fa-files-o" message="Aún no se cuenta con registros de carpetas o archivos adicionados">
+<s-dataNotFound style="margin: auto;" *ngIf="(!directorioList || directorioList.length <= 0)  && !esConsulta" icon="pi pi-file" message="Aún no se cuenta con registros de carpetas o archivos adicionados">
     <div>
         Adiciona un nuevo:
         <a *sTienePermiso="'ADO_POST_DOCSUP'" (click)="abrirDlgUpload()">Archivo</a> |
@@ -12,14 +12,14 @@
     <p-header>
         <div class="ui-inputgroup" >
             <span class="ui-inputgroup-addon">
-                <i class="fa fa-search"   ></i>
+                <i class="pi pi-search"   ></i>
             </span>
            
             <input type="text" pInputText placeholder="Buscar documento" [(ngModel)]="criterioBusqueda" (keydown)="buscar($event)" />
         </div>
     </p-header>
-    <div class="ui-g">
-        <div class="ui-g-12 ui-md-6 ui-lg-7">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-7">
             <p-breadcrumb [model]="breadCrumbItems" [home]="homeItem"></p-breadcrumb>
             <p-treeTable
                 [value]="directorioList"
@@ -76,7 +76,7 @@
             </p-treeTable>
         </div>
 
-        <div class="ui-g-12 ui-md-6 ui-lg-5 transicion" [class.panel-oculto]="nodeSelect == null" [class.panel-visible]="nodeSelect != null">
+        <div class="col-12 md:col-6 lg:col-5 transicion" [class.panel-oculto]="nodeSelect == null" [class.panel-visible]="nodeSelect != null">
             <div class="header-detail separator">
                 <div class="ui-inputgroup">
                     <span class="ui-inputgroup-addon" style="background-color: #fff">
@@ -84,7 +84,7 @@
                     </span>
                     <input pInputText maxlength="100" [(ngModel)]="nodeSelect?.data.nombre" />
                     <span class="ui-inputgroup-addon check-span" title="Actualizar nombre" (click)="actualizarDirectorio(nodeSelect!)">
-                        <i class="fa fa-check"></i>
+                        <i class="pi pi-check"></i>
                     </span>
                 </div>
                 <p-checkbox #nivelAcceso name="cbxAccessLevel" id="nivAcceso" class="form-check-input" [(ngModel)]="esPrivado" binary="true" label="Privado"></p-checkbox>
@@ -93,21 +93,21 @@
                 <label style="padding-right: 20px">Tipo: {{ nodeSelect?.data.extension.nombre }} ­­­ </label>
 
                 <a (click)="descargar(nodeSelect?.data)" style="float: right" *ngIf="nodeSelect?.data.esDocumento">
-                    <span class="fa fa-download" style="font-size: 14px"></span>
+                    <span class="pi-download" style="font-size: 14px"></span>
                     Descargar
                 </a>
             </p>
             <ng-container *ngIf="nodeSelect?.data.esDocumento">
                 <s-documento-form [documento]="nodeSelect?.data.documento"></s-documento-form>
-                <button [disabled]="esConsulta" *sTienePermiso="'ADO_PUT_DIR'" pButton type="button" class="ui-button-success" (click)="actualizarDocumento(nodeSelect.data)" label="Actualizar" icon="fa fa-pencil"></button>
+                <button [disabled]="esConsulta" *sTienePermiso="'ADO_PUT_DIR'" pButton type="button" class="ui-button-success" (click)="actualizarDocumento(nodeSelect.data)" label="Actualizar" icon="pi pi-pencil"></button>
             </ng-container>
-            <button [disabled]="esConsulta" *sTienePermiso="'ADO_DELETE_DIR'" pButton type="button" (click)="confirmarEliminar()" class="ui-button-danger" label="Eliminar" icon="fa fa-trash"></button>
+            <button [disabled]="esConsulta" *sTienePermiso="'ADO_DELETE_DIR'" pButton type="button" (click)="confirmarEliminar()" class="ui-button-danger" label="Eliminar" icon="pi pi-trash"></button>
         </div>
     </div>
 
     <a style="visibility: hidden" id="dwldLink"></a>
-    <button *sTienePermiso="'ADO_POST_DOCSUP'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgUpload()" icon="fa fa-file" class="float-btn" style="bottom: 90px" title="Subir archivo"></button>
-    <button *sTienePermiso="'ADO_POST_DIR'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgNuevaCarpeta()" icon="fa fa-folder" class="float-btn" style="bottom: 155px" title="Crear carpeta"></button>
+    <button *sTienePermiso="'ADO_POST_DOCSUP'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgUpload()" icon="pi pi-file" class="float-btn" style="bottom: 90px" title="Subir archivo"></button>
+    <button *sTienePermiso="'ADO_POST_DIR'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgNuevaCarpeta()" icon="pi pi-folder" class="float-btn" style="bottom: 155px" title="Crear carpeta"></button>
 </p-panel>
 
 <p-contextMenu #contextMenu [model]="menuItems" appendTo="body"></p-contextMenu>

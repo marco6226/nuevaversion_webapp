@@ -87,7 +87,7 @@
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="fa fa-trash" class="ui-button-danger" label="Eliminar"
+        <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="ui-button-danger" label="Eliminar"
           (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
       </ng-container>
 

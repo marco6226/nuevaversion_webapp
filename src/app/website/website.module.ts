@@ -185,6 +185,7 @@ import { FormularioAccidenteTemporalComponent } from './pages/rai/components/reg
 import { IncapacidadesComplementariaTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-accidente-temporal/incapacidades-complementaria-temporal/incapacidades-complementaria-temporal.component';
 import { ListadoCausasTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-accidente-temporal/listado-causas-temporal/listado-causas-temporal.component';
 import { FormularioIncidenteTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-incidente-temporal/formulario-incidente-temporal.component';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -374,7 +375,8 @@ import { FormularioIncidenteTemporalComponent } from './pages/rai/components/reg
     TextBoxModule, 
     UploaderModule,
     OverlayPanelModule,
-    ContextMenuModule
+    ContextMenuModule,
+    BreadcrumbModule
   ],
   providers: [
     PerfilService,

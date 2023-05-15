@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
   items!: any[];
   nombreAUC: string="Observaciones";
   nombreSEC: string="sec";
-  nombreCOP: string="cop";
+  nombreCOP: string="Copasst";
   empresa: Empresa | null = null;
   canSaveReportCtr: boolean = false;
   isTemporal: boolean = false;
@@ -464,7 +464,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         {
             label: this.nombreCOP,
             icon: 'pi pi-users',
-            codigo: 'COPASST',
+            codigo: 'COP',
             expanded: false,
             items:
                 [

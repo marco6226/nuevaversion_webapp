@@ -294,7 +294,7 @@
                     <div class="uploaders">
                         <div>  
                             <button *ngIf="!consultar && !adicionar" pButton type="button" (click)="showDialog()" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;"></button>
-                            <!-- <button pButton type="button" (click)="showDialog('foto')" icon="fa fa-trash" style="margin-bottom: 10px; background-color: red;" *ngIf="!readOnly"></button> -->
+                            <!-- <button pButton type="button" (click)="showDialog('foto')" icon="pi pi-trash" style="margin-bottom: 10px; background-color: red;" *ngIf="!readOnly"></button> -->
                             <s-documentoUpload [(visible)]="visibleDlgExcel" [modParam]="analisisId"  tipoEvidencia="fotografica"  [modulo]="modulo" [temporalesFlag]="temporalesFlag" (onUpload)="onUpload($event)"></s-documentoUpload>
                         </div>
                         <div class="ui-g" style="margin-top: 10px;">
@@ -307,9 +307,9 @@
                                         <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
                                         </td>
                                         <td style="text-align: right;">
-                                        <a class="fa fa-pencil" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!consultar"></a>
+                                        <a class="pi pi-pencil" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!consultar"></a>
                                         <a>&nbsp;</a>
-                                        <a class="fa fa-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!consultar" style="color: red;"></a>
+                                        <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!consultar" style="color: red;"></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -333,7 +333,7 @@
 </ng-container>
 
 <ng-container *ngIf="!consultar && !adicionar">
-    <button *sTienePermiso="'RAI_PUT_REPT'" pButton  (click)="submit1()" icon="fa fa-pencil" title="Actualizar reporte"
+    <button *sTienePermiso="'RAI_PUT_REPT'" pButton  (click)="submit1()" icon="pi pi-pencil" title="Actualizar reporte"
         class="float-btn ui-button-success" [disabled]="!(form.valid  && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
 </ng-container>
 <!-- <button (click)="test()">test</button> -->

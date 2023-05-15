@@ -42,7 +42,7 @@
                 <span [class]="dir.extension?.icono" [style.color]="dir.extension?.color"></span>
                 <a style="margin-left: 10px;color: blue;" (click)="descargarDocumento(dir.documento)">{{dir.documento.descripcion+' '}}</a>
                 <ng-container *ngIf="selectedSubcontratista">
-                  <a *ngIf="onEdit=='edit' && selectedSubcontratista.nit==rowData.nit" class="fa fa-trash" title="Eliminar documento" (click)="eliminarDocument(dir, selectedSubcontratista.id)" style="color: red;"></a><br>
+                  <a *ngIf="onEdit=='edit' && selectedSubcontratista.nit==rowData.nit" class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(dir, selectedSubcontratista.id)" style="color: red;"></a><br>
                 </ng-container>
                 <label for="">{{dir.fechaCreacion | date:'yyyy-MM-dd'}}</label>
               </div>
