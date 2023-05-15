@@ -41,6 +41,21 @@ export class ReporteService extends CRUDService<Reporte>{
     });
   }
 
+  getReporteAliado(idReporte: number): Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(`${this.end_point}${idReporte}`)
+      .subscribe(
+        (res) => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err)
+        }
+      )
+    })
+  }
+
   getClassName(): string {
     return "ReporteService";
   }

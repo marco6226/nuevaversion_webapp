@@ -201,8 +201,8 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" let-rowData>
-                <button pButton type="button" icon="fa fa-plus" [routerLink]="['/app/ctr/aliado']" label="Crear"></button>    
-                <!-- <button pButton type="button" icon="bi bi-pencil-square" label="Modificar" class="ui-button-success" (click)="onEdit(rowData)" [disabled]="!caseSelect"></button>     -->
+                <button pButton type="button" icon="pi pi-plus" [routerLink]="['/app/ctr/aliado']" label="Crear"></button>    
+                <!-- <button pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success" (click)="onEdit(rowData)" [disabled]="!caseSelect"></button>     -->
                 <button pButton type="button" icon="pi pi-envelope" label="Enviar Correos" class="ui-button-warning" (click)="sendMultiplesEmails()" [disabled]="!caseSelect"></button>
             </ng-template>
             <ng-template pTemplate="emptymessage">

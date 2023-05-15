@@ -70,6 +70,8 @@ export interface AliadoInformacion{
     nombre_calificador: string;
     arl: string | null;
     autoriza_subcontratacion: boolean | null;
+    istemporal?: boolean | null;
+    permitirReportes?: boolean | null;
 }
 
 export const _actividadesContratadasList = [

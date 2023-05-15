@@ -1,6 +1,9 @@
 import { AfterContentInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { SesionService } from '../../pages/core/services/session.service';
+import { EmpresaService } from '../../pages/empresa/services/empresa.service';
+import { AliadoInformacion } from '../../pages/ctr/entities/aliados';
+import { Empresa } from '../../pages/empresa/entities/empresa';
 
 @Component({
   selector: 'app-menu',
@@ -19,20 +22,25 @@ export class MenuComponent implements OnInit, AfterContentInit {
   nombreAUC: string="Observaciones";
   nombreSEC: string="sec";
   nombreCOP: string="cop";
-  empresaId!: string;
+  empresa: Empresa | null = null;
+  canSaveReportCtr: boolean = false;
+  isTemporal: boolean = false;
+  permisosAliados: any[] = [];
 
   constructor(
     private router: Router,
-    private sesionService: SesionService
+    private sesionService: SesionService,
+    private empresaService: EmpresaService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     // this.recargarMenu();
+    this.getEmpresa();
+    await this.getAliadoInformacion().then();
   }
 
   ngAfterContentInit(): void {
     this.recargarMenu();
-    this.getEmpresaId();
   }
 
   toogle(item: any){
@@ -46,8 +54,20 @@ export class MenuComponent implements OnInit, AfterContentInit {
 
   }
 
-  getEmpresaId(): void{
-    this.empresaId = this.sesionService.getEmpresa()!.id!;
+  getEmpresa(): void{
+    this.empresa = this.sesionService.getEmpresa();
+  }
+
+  getAliadoInformacion = async () => {
+    await this.empresaService.getAliadoInformacion(Number(this.empresa?.id))
+    .then((res: AliadoInformacion[]) => {
+        if(res[0]){
+            this.canSaveReportCtr = res[0].permitirReportes ? res[0].permitirReportes : false;
+            this.isTemporal = res[0].istemporal ? res[0].istemporal : false;
+        }
+    }).catch(err => {
+        console.error('Error al obtener información del aliado');
+    })
   }
 
   public recargarMenu(): void{
@@ -244,6 +264,31 @@ export class MenuComponent implements OnInit, AfterContentInit {
     //             ]
     //     }
     //   ];
+
+    if(this.empresa?.idEmpresaAliada){
+        if(this.isTemporal){
+            this.permisosAliados = this.permisosAliados.concat([
+                { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: '/app/rai/registroReporteTemporal', icon: 'bi bi-h-square' },
+                { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: '/app/rai/consultaReportestemporal', icon: 'bi bi-list-task' },
+                { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: '/app/ind/horahombrestrabajada', icon: 'bi bi-clock' },
+            ]);
+        }
+        if(this.canSaveReportCtr){
+            this.permisosAliados = this.permisosAliados.concat([
+                { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: '/app/rai/registroReporteCtr', icon: 'bi bi-h-square' },
+                { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: '/app/rai/consultarReportesAliados', icon: 'bi bi-list-task'}
+            ]);
+        }
+    }else{
+        this.permisosAliados = this.permisosAliados.concat([
+            { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: '/app/rai/registroReporteTemporal', icon: 'bi bi-h-square' },
+            { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: '/app/rai/consultaReportestemporal', icon: 'bi bi-list-task' },
+            { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: '/app/ind/horahombrestrabajada', icon: 'bi bi-clock' },
+            { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: '/app/rai/registroReporteCtr', icon: 'bi bi-h-square' },
+            { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: '/app/rai/consultarReportesAliados', icon: 'bi bi-list-task'}
+        ]);
+    }
+
     this.items = [
         {
             label: 'Administracion',
@@ -284,8 +329,8 @@ export class MenuComponent implements OnInit, AfterContentInit {
                 [
                     { label: 'Nuevo Aliado', codigo: 'CTR_ADM', routerLink: ['/app/ctr/aliado'], icon: 'bi bi-person-badge'},
                     { label: 'Listado de Aliados', codigo: 'CTR_ADM', routerLink: ['/app/ctr/listadoAliados'], icon: 'bi bi-card-list'},
-                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.empresaId}`], icon: 'bi bi-building-gear'},
-                ]
+                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.empresa?.id}`], icon: 'bi bi-building-gear'},
+                ].concat(this.permisosAliados)
         },
         {
             label: 'Seguimiento Casos medicos', 
@@ -436,7 +481,9 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     { label: 'Manuales', codigo: 'CONF_GET_MANUSR', routerLink: ['/app/ayuda/manuales'], icon: 'pi pi-sitemap'}
                 ]
         }
-      ];
+    ];
+    
+    this.permisosAliados = [];
   }
 
   toogleMenu(){

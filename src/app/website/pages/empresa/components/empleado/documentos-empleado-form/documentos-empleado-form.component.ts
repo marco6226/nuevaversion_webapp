@@ -47,7 +47,7 @@ export class DocumentosEmpleadoFormComponent implements OnInit {
   onUpload(event: Directorio) {
     if (this.documentosList == null)
       this.documentosList = [];
-    this.documentosList.push(event.documento);
+    this.documentosList.push(event.documento!);
     this.documentosList = this.documentosList.slice();
   }
 

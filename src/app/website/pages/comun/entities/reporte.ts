@@ -96,4 +96,5 @@ export class Reporte {
   cargoResponsable?: string | null;
   fechaReporte?: Date | null;
   temporal?:string | null;
+  istemporal?: boolean | null;
 }

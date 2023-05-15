@@ -14,12 +14,16 @@
           [quienCalifica]="this.aliadoInformacion.nombre_calificador"
           [documentos]="documentos"
           [autorizaSubcontratacion]="this.aliadoInformacion.autoriza_subcontratacion"
+          [istemporal]="aliadoInformacion.istemporal"
+          [permitirReporteAt]="aliadoInformacion.permitirReportes"
           (dataCalificacion)="onReciveCalificacionAliadoData($event, 'puntaje')"
           (dataFechaCalificacion)="onReciveCalificacionAliadoData($event, 'fecha')"
           (dataQuienCalifica)="onReciveCalificacionAliadoData($event, 'nombre')"
           (idDoc)="reciveIdDoc($event)"
           (onDelete)="deleteDocumento($event)"
           (dataAutorizaSubcontratacion)="onReciveAutorizaSubcontratacion($event)"
+          (dataIsTemporal)="onReceiveIsTemporal($event)"
+          (onPermitirReporteAt)="onReceivePermitirRegistroAt($event)"
           ></app-aliados>
       </p-tabPanel>
       <p-tabPanel header="Información General"  [headerStyle]=" { 'background-color':'#fd9b14' }"> 
@@ -86,10 +90,10 @@
 </p-panel>
 </div>
 <ng-container>
-  <button *ngIf="onEdit && !flagConsult;else btnGuardarAliado" pButton type="button" icon="bi bi-save" title="Guardar información del aliado"
+  <button *ngIf="onEdit && !flagConsult;else btnGuardarAliado" pButton type="button" icon="pi pi-save" title="Guardar información del aliado"
       (click)="actualizarAliado()" class="float-btn" style="bottom: 70px;"></button>
   <ng-template #btnGuardarAliado>
-    <button *ngIf="!flagConsult" pButton type="button" icon="bi bi-save" title="Guardar"
+    <button *ngIf="!flagConsult" pButton type="button" icon="pi pi-save" title="Guardar"
       (click)="actualizarAliado()" class="float-btn" style="bottom: 70px;"></button>
   </ng-template>
 </ng-container>

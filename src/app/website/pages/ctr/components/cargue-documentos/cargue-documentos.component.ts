@@ -108,7 +108,7 @@ export class CargueDocumentosComponent implements OnInit {
     }
     this.directorios.push(event)
     // event.documento.fechaElaboracion = event.fechaCreacion;
-    this.documentos.push(event.documento);
+    this.documentos.push(event.documento!);
     // this.adicionarAGaleria(event.documento);
     this.documentos = this.documentos.slice();
     //console.log(this.documentos)
@@ -168,7 +168,7 @@ export class CargueDocumentosComponent implements OnInit {
               this.directorios = this.directorios.filter(val => val.id !== doc.id);
               let docIds: string[] = []
               this.directorios.forEach(el => {
-                docIds.push(el.id);
+                docIds.push(el.id!);
               });
               this.onDelete.emit(JSON.stringify(docIds));
             }

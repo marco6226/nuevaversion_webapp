@@ -46,6 +46,21 @@ export class DesviacionService extends CRUDService<Desviacion>{
     });
   }
 
+  getDesviacionTemporal(idDesviacion: number | null | undefined){
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(`${this.end_point}desviacionId/${idDesviacion}`)
+      .subscribe(
+        res => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err);
+        }
+      );
+    });
+  }
+
   getClassName(): string {
     return "DesviacionService";
   }

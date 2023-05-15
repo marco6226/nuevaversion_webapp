@@ -9,6 +9,7 @@ import { Directorio } from '../../../ado/entities/directorio';
 import { DirectorioService } from '../../../ado/services/directorio.service';
 import { UsuarioService } from '../../../admin/services/usuario.service';
 import { Criteria, Filter } from '../../../core/entities/filter';
+import { SesionService } from '../../../core/services/session.service';
 
 @Component({
   selector: 'app-aliados-actualizar',
@@ -19,6 +20,7 @@ import { Criteria, Filter } from '../../../core/entities/filter';
 export class AliadosActualizarComponent implements OnInit, OnDestroy {
 
   id: number = -1;
+  idEmpresaAliada!: number | null;
   aliado: Empresa = {
     id: '',
     nombreComercial: '',
@@ -60,17 +62,21 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     fecha_calificacion_aliado: null,
     nombre_calificador: '',
     arl: null,
-    autoriza_subcontratacion: null
+    autoriza_subcontratacion: null,
+    istemporal: null,
+    permitirReportes: null
   }
 
   documentos: Directorio[] = [];
   onEdit: string = '';
   auxAutorizaSubcontratacion!: boolean | null;
+  auxIsTemporal!: boolean;
   impactoV:string='';
   tabIndex:number=0;
   flagPress: boolean=false;
   flagValid:boolean=false;
-  flagConsult:boolean=false
+  flagConsult:boolean=false;
+  teamSstIsComplete: boolean = false;
 
   constructor(
     private rutaActiva: ActivatedRoute,
@@ -78,6 +84,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     private directorioService: DirectorioService,
     private usuarioService: UsuarioService,
     private messageService: MessageService,
+    private sessionService: SesionService
   ) {}
   
   async ngOnInit() {
@@ -93,7 +100,8 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
 
   async loadData(){
     console.log("--------------load data------------");
-    
+    let empresa = this.sessionService.getEmpresa();
+    this.idEmpresaAliada = empresa?.idEmpresaAliada ? empresa.idEmpresaAliada : null;
     let filterQuery = new FilterQuery();
     filterQuery.filterList = [];
 
@@ -122,6 +130,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
       }      
     });
     this.auxAutorizaSubcontratacion = this.aliadoInformacion.autoriza_subcontratacion;
+    this.auxIsTemporal = this.aliadoInformacion.istemporal || false;
 
     await this.loadDocumentos()
 
@@ -264,15 +273,31 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     this.auxAutorizaSubcontratacion = data;
   }
 
+  onReceiveIsTemporal(data: boolean){
+    this.auxIsTemporal = data;
+  }
+
+  onReceivePermitirRegistroAt(data: boolean){
+    this.aliadoInformacion.permitirReportes = data;
+  }
+
   async actualizarAliado(){
     this.mensajesDeValidacion();
 
     this.aliadoInformacion.autoriza_subcontratacion = this.auxAutorizaSubcontratacion;
-    console.log(this.aliadoInformacion.calificacion)
+    this.aliadoInformacion.istemporal = this.auxIsTemporal;
+    this.aliadoInformacion.permitirReportes = this.auxIsTemporal ? false : this.aliadoInformacion.permitirReportes;
+    // console.log(this.aliadoInformacion.calificacion)
     this.saveInformacionAliado();
 
     this.aliado.fechaActualizacion = new Date();
-    this.aliado.estado='Actualizado';
+    
+    if(this.idEmpresaAliada && this.aliadoDataIsValid()){
+      this.aliado.estado='Actualizado';
+    }else if(this.idEmpresaAliada){
+      this.aliado.estado='En proceso';
+    }
+
     this.aliado.calificacion=this.impactoV;
     if(this.aliado.division !== null){
       this.aliado.division = JSON.stringify(this.aliado.division)
@@ -327,6 +352,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
       && (this.aliadoInformacion.fecha_vencimiento_arl != null)
       && (this.aliadoInformacion.fecha_vencimiento_sst != null)
       && (this.aliadoInformacion.puntaje_arl != null)
+      && (this.teamSstIsComplete)
     );
   }
 
@@ -395,6 +421,9 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
       if(this.aliadoInformacion.puntaje_arl == null){
         this.messageService.add({key: 'msgActualizarAliado', severity:'warn', summary: 'Información faltante', detail: 'Debe ingresar el puntaje de su certificado de ARL.', life:6000});
       }
+      if(!this.teamSstIsComplete){
+        this.messageService.add({key: 'msgActualizarAliado', severity: 'warn', summary: 'Información faltante', detail: 'Debe completar el equipo SST.', life: 6000})
+      }
     }
   }
 
@@ -409,8 +438,8 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
   validarDocumentos(): number{
     let contArl = 0, contSst = 0;
     this.documentos.forEach((doc: Directorio) => {
-      if(doc.documento.proceso=='arl') contArl++;
-      if(doc.documento.proceso=='licencia') contSst++;
+      if(doc.documento!.proceso=='arl') contArl++;
+      if(doc.documento!.proceso=='licencia') contSst++;
     });
     /*
     Retornará
@@ -429,5 +458,9 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     this.aliadoInformacion.documentos = documentos;
     await this.saveInformacionAliado();
     this.loadDocumentos();
+  }
+
+  onTeamSstChange(event: boolean){
+    this.teamSstIsComplete = event;
   }
 }
