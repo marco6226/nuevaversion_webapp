@@ -38,7 +38,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>
-                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="fa fa-pencil" (click)="abrirDialogo()" label="Modificar Actividades"></button>    
+                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="bi bi-pencil-square" class="p-button-success" (click)="abrirDialogo()" label="Modificar Actividades"></button>    
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
@@ -107,7 +107,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>
-                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="fa fa-pencil" (click)="abrirDialogoSub()" label="Modificar Actividades"></button>    
+                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="bi bi-pencil-square" class="p-button-success" (click)="abrirDialogoSub()" label="Modificar Actividades"></button>    
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>

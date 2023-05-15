@@ -10,7 +10,7 @@
             <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
           </td>
           <td style="text-align: right;">
-            <a class="fa fa-pencil" title="Actualizar descripción" (click)="actualizarDesc(doc)" *ngIf="!readOnly"></a>
+            <a class="bi bi-pencil-square" title="Actualizar descripción" (click)="actualizarDesc(doc)" *ngIf="!readOnly"></a>
             <a>&nbsp;</a>
             <a class="fa fa-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!readOnly" style="color: red;"></a>
           </td>

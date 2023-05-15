@@ -331,22 +331,22 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'Listas de Inspección', codigo: 'INP_GET_LISTINP', routerLink: ['/app/inspecciones/listasInspeccion'], icon: 'pi pi-sitemap'},
-                    { label: 'Elaboración Listas', codigo: 'INP_POST_LISTINP', routerLink: ['/app/inspecciones/elaboracionLista'], icon: 'pi pi-sitemap'},
-                    { label: 'Programación', codigo: 'INP_GET_PROG', routerLink: ['/app/inspecciones/programacion'], icon: 'pi pi-sitemap'},
-                    { label: 'Inspecciones Realizadas', codigo: 'INP_GET_INP', routerLink: ['/app/inspecciones/consultaInspecciones'], icon: 'pi pi-sitemap'}
+                    { label: 'Listas de Inspección', codigo: 'INP_GET_LISTINP', routerLink: ['/app/inspecciones/listasInspeccion'], icon: 'pi pi-list'},
+                    { label: 'Elaboración Listas', codigo: 'INP_POST_LISTINP', routerLink: ['/app/inspecciones/elaboracionLista'], icon: 'pi pi-cog'},
+                    { label: 'Programación', codigo: 'INP_GET_PROG', routerLink: ['/app/inspecciones/programacion'], icon: 'pi pi-calendar'},
+                    { label: 'Inspecciones Realizadas', codigo: 'INP_GET_INP', routerLink: ['/app/inspecciones/consultaInspecciones'], icon: 'pi pi-check-square'}
                 ]
         },
         {
             label: this.nombreAUC,
-            icon: 'pi pi-sitemap',
+            icon: 'pi pi-eye',
             codigo: 'AUC',
             expanded: false,
             items:
                 [
                     { label: 'Tarjetas', codigo: 'AUC_POST_TARJ', routerLink: ['/app/auc/tarjeta'], icon: 'pi pi-sitemap'},
-                    { label: 'Reportar', codigo: 'AUC_POST_OBS', routerLink: ['/app/auc/observaciones'], icon: 'pi pi-sitemap'},
-                    { label: 'Consultar', codigo: 'AUC_GET_OBS', routerLink: ['/app/auc/consultaObservaciones'], icon: 'pi pi-sitemap'}
+                    { label: 'Reportar', codigo: 'AUC_POST_OBS', routerLink: ['/app/auc/observaciones'], icon: 'pi pi-eye'},
+                    { label: 'Consultar', codigo: 'AUC_GET_OBS', routerLink: ['/app/auc/consultaObservaciones'], icon: 'pi pi-list'}
                 ]
         },
         {
@@ -356,74 +356,74 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'Cargar archivo', codigo: 'RAI_POST_ARCH', routerLink: ['/app/rai/cargaArchivo'], icon: 'pi pi-sitemap'},
-                    { label: 'Registrar reporte', codigo: 'RAI_POST_REP', routerLink: ['/app/rai/registroReporte'], icon: 'pi pi-sitemap'},
-                    { label: 'Consulta reportes', codigo: 'RAI_GET_REP', routerLink: ['/app/rai/consultaReportes'], icon: 'pi pi-sitemap'}
+                    { label: 'Cargar archivo', codigo: 'RAI_POST_ARCH', routerLink: ['/app/rai/cargaArchivo'], icon: 'pi pi-upload'},
+                    { label: 'Registrar reporte', codigo: 'RAI_POST_REP', routerLink: ['/app/rai/registroReporte'], icon: 'pi pi-pencil'},
+                    { label: 'Consulta reportes', codigo: 'RAI_GET_REP', routerLink: ['/app/rai/consultaReportes'], icon: 'pi pi-list'}
                 ]
         },
         {
             label: 'Ausentismo',
-            icon: 'pi pi-sitemap',
+            icon: 'pi pi-user',
             codigo: 'AUS',
             expanded: false,
             items:
                 [
-                    { label: 'Reporte de ausentismo', codigo: 'AUS_POST_REPAUS', routerLink: ['/app/aus/reporteAusentismo'], icon: 'pi pi-sitemap'},
-                    { label: 'Consulta de reportes', codigo: 'AUS_GET_REPAUS', routerLink: ['/app/aus/consultaAusentismo'], icon: 'pi pi-sitemap'},
+                    { label: 'Reporte de ausentismo', codigo: 'AUS_POST_REPAUS', routerLink: ['/app/aus/reporteAusentismo'], icon: 'pi pi-question-circle'},
+                    { label: 'Consulta de reportes', codigo: 'AUS_GET_REPAUS', routerLink: ['/app/aus/consultaAusentismo'], icon: 'pi pi-list'},
                 ]
         },
         {
             label: 'Información Documentada',
-            icon: 'pi pi-sitemap',
+            icon: 'pi pi-folder',
             codigo: 'ADO',
             expanded: false,
             items:
                 [
-                    { label: 'Gestión documental', codigo: 'ADO_GET_DIR', routerLink: ['/app/ado/gestionDocumental'], icon: 'pi pi-sitemap'},
+                    { label: 'Gestión documental', codigo: 'ADO_GET_DIR', routerLink: ['/app/ado/gestionDocumental'], icon: 'pi pi-file'},
                 ]
         },
   
         {
             //label: this.nombreSEC,
             label: 'Seguimiento y Control',
-            icon: 'pi pi-sitemap',
+            icon: 'pi pi-search',
             expanded: false,
             codigo: 'SEC',
             items:
                 [
-                    { label: 'Investigación', codigo: 'SEC_GET_DESV', routerLink: ['/app/sec/desviaciones'], icon: 'pi pi-sitemap'},
-                    { label: 'Tareas asignadas', codigo: 'SEC_GET_TAR', routerLink: ['/app/sec/tareasAsignadas'], icon: 'pi pi-sitemap'},
-                    { label: 'Mis tareas', codigo: 'SEC_GET_MYTAR', routerLink: ['/app/sec/misTareas'], icon: 'pi pi-sitemap'},
+                    { label: 'Investigación', codigo: 'SEC_GET_DESV', routerLink: ['/app/sec/desviaciones'], icon: 'pi pi-info-circle'},
+                    { label: 'Tareas asignadas', codigo: 'SEC_GET_TAR', routerLink: ['/app/sec/tareasAsignadas'], icon: 'pi pi-server'},
+                    { label: 'Mis tareas', codigo: 'SEC_GET_MYTAR', routerLink: ['/app/sec/misTareas'], icon: 'pi pi-bell'},
                 ]
         },
         {
             label: 'Indicadores',
-            icon: 'pi pi-sitemap',
+            icon: 'pi pi-chart-bar',
             codigo: 'IND',
             expanded: false,
             items:
                 [
-                    { label: 'HHT', codigo: 'IND_GET_HHT', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'pi pi-sitemap' },
+                    { label: 'HHT', codigo: 'IND_GET_HHT', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'pi pi-hourglass' },
                     { label: 'Consulta tableros', codigo: 'IND_GET_TAB', routerLink: ['/app/ind/consultaTablero'], icon: 'pi pi-sitemap'},
                     { label: 'Ausentismo', codigo: 'IND_GET_AUS', routerLink: ['/app/ind/ausentismo'], icon: 'pi pi-sitemap'},
                     { label: 'Talento humano', codigo: 'IND_GET_EMP', routerLink: ['/app/ind/emp'], icon: 'pi pi-sitemap'},
                     { label: 'Autoevaluacion', codigo: 'IND_GET_SGE', routerLink: ['/app/ind/sge'], icon: 'pi pi-sitemap'},
                     { label: 'Reporte de accidentes', codigo: 'IND_GET_RAI', routerLink: ['/app/ind/rai'], icon: 'pi pi-sitemap'},
                     { label: 'Inspecciones', codigo: 'IND_GET_INP', routerLink: ['/app/ind/inp'], icon: 'pi pi-sitemap'},
-                    { label: 'Accidentalidad', codigo: 'IND_GET_ACD', routerLink: ['/app/ind/accidentalidad'], icon: 'pi pi-sitemap' },
-                    { label: 'Ind. casos medicos corporativo', codigo: 'IND_GET_SCM', routerLink: ['/app/ind/indcasosmedicos'], icon: 'pi pi-sitemap' },
-                    { label: 'Ind. casos medicos gestión', codigo: 'IND_GET_SCMGESTION', routerLink: ['/app/ind/indcasosmedicosgestion'], icon: 'pi pi-sitemap' },
-                    { label: 'Ind. caracterización', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indcaracterizacion'], icon: 'pi pi-sitemap' }
+                    { label: 'Accidentalidad', codigo: 'IND_GET_ACD', routerLink: ['/app/ind/accidentalidad'], icon: 'pi pi-exclamation-triangle' },
+                    { label: 'Ind. casos medicos corporativo', codigo: 'IND_GET_SCM', routerLink: ['/app/ind/indcasosmedicos'], icon: 'pi pi-heart' },
+                    { label: 'Ind. casos medicos gestión', codigo: 'IND_GET_SCMGESTION', routerLink: ['/app/ind/indcasosmedicosgestion'], icon: 'pi pi-heart' },
+                    { label: 'Ind. caracterización', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indcaracterizacion'], icon: 'pi pi-list' }
                 ]
         },
         {
             label: this.nombreCOP,
-            icon: 'pi pi-sitemap',
-            codigo: 'COP',
+            icon: 'pi pi-users',
+            codigo: 'COPASST',
             expanded: false,
             items:
                 [
-                    { label: 'Actas', codigo: 'COP_GET_ACT', routerLink: ['/app/cop/consultaActas'], icon: 'pi pi-sitemap'}
+                    { label: 'Actas', codigo: 'COP_GET_ACT', routerLink: ['/app/cop/consultaActas'], icon: 'pi pi-book'}
                 ]
         },
         {

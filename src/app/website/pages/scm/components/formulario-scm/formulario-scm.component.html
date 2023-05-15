@@ -999,7 +999,7 @@
                                 
                                 </ng-container>
     
-                                <ng-container *ngIf="consultar2"><button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton type="button" icon="fa fa-search"
+                                <ng-container *ngIf="consultar2"><button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton type="button" icon="bi bi-search"
                                     label="Consultar" class="ui-button-warning" (click)="showModalDiagnostico()"
                                     [disabled]="!diagSelect"></button></ng-container>
     
@@ -1424,7 +1424,8 @@
                     </div>
                 </div>
             </p-tabPanel>
-            <!-- <button pButton *ngIf="solicitando == false || !this.consultar" (click)="saveReintegro()" icon="fa fa-floppy-o"
+            <!-- <button pButton *ngIf="solicitando == false || !this.consultar" (click)="saveReintegro()" icon="bi bi-save
+"
                             class="float-btn" [disabled]="this.consultar" style="bottom: 100px;"
             title="Guardar reintegro"></button> -->
             

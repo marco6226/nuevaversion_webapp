@@ -75,7 +75,7 @@
                                 <p-checkbox name="groupname" binary="true" [(ngModel)]="rowData.requerirDoc" [disabled]="consultar"></p-checkbox>
                             </td>
                             <td style="width:3em;">
-                                <button pButton type="button" icon="fa fa-close" class="soft-icon" (click)="removeOpcionCalificacion(rowData)"></button>
+                                <button pButton type="button" icon="bi bi-x-lg" class="soft-icon" (click)="removeOpcionCalificacion(rowData)"></button>
                             </td>
                         </tr>
                     </ng-template>
@@ -118,7 +118,8 @@
 
 
     <div *ngIf="adicionar">
-        <button *sTienePermiso="'INP_POST_LISTINP'" class="float-btn" pButton type="button" (click)="guardar()" icon="fa fa-floppy-o" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_POST_LISTINP'" class="float-btn" pButton type="button" (click)="guardar()" icon="bi bi-save
+" [disabled]="!form.valid"></button>
     </div>
 
     <div *ngIf="modificar">
@@ -126,7 +127,7 @@
     </div>
 
     <div *ngIf="modificar">
-        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn" pButton type="button" (click)="actualizar(false)" icon="fa fa-pencil" title="Actualizar datos" style="bottom: 100px;" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn p-button-success" pButton type="button" (click)="actualizar(false)" icon="bi bi-pencil-square" title="Actualizar datos" style="bottom: 100px;" [disabled]="!form.valid"></button>
     </div>
 
         </p-panel>

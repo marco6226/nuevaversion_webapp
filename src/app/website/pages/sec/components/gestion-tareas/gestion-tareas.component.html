@@ -71,10 +71,10 @@
                     label="Adicionar actividad"></button>
             </ng-container>
             <ng-container *ngIf="modificar">
-                <button *sTienePermiso="'SEC_PUT_TAR'" pButton type="submit" icon="fa fa-pencil"
+                <button *sTienePermiso="'SEC_PUT_TAR'" pButton type="submit" icon="bi bi-pencil-square" class="p-button-success"
                     [disabled]="!form.valid" label="Actualizar actividad"></button>
             </ng-container>
-            <button pButton type="button" icon="fa fa-close" *ngIf="modificar" class="ui-button-danger"
+            <button pButton type="button" icon="bi bi-x-lg" *ngIf="modificar" class="ui-button-danger"
                 (click)="resetModificar()" style="left: -10px; border-radius: 0px 5px 5px 0px;"></button>
         </div>
     </p-footer>
@@ -107,12 +107,12 @@
             <td>{{tarea?.areaResponsable?.nombre}}</td>
             <td>{{tarea?.empResponsable?.primerNombre}} {{tarea?.empResponsable?.primerApellido}}</td>
             <td *ngIf="!readOnly">
-                <button *sTienePermiso="'SEC_DELETE_TAR'" pButton type="button" icon="fa fa-close" class="soft-icon"
+                <button *sTienePermiso="'SEC_DELETE_TAR'" pButton type="button" icon="bi bi-x-lg" class="soft-icon"
                     (click)="removeTarea(tarea)" [disabled]="tarea.estado != 'NUEVO'"
                     [title]="tarea.estado != 'NUEVO' ? 'La tarea solo puede ser eliminada cuando su estado es NUEVO': 'Eliminar tarea'"></button>
 
                 <button style="margin-left: 3px;" *sTienePermiso="'SEC_PUT_TAR'" pButton type="button"
-                    icon="fa fa-pencil" class="soft-icon" (click)="cargarTarea(tarea)"
+                    icon="bi bi-pencil-square" class="soft-icon p-button-success" (click)="cargarTarea(tarea)"
                     [title]="tarea.estado != 'NUEVO' ? 'La tarea solo puede ser alterada cuando su estado es NUEVO': 'Modificar tarea'"
                     [disabled]="tarea.estado != 'NUEVO'"></button>
             </td>

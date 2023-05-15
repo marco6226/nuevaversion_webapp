@@ -139,6 +139,7 @@
 </div>
 
 <ng-container *ngIf="(formNatural.valid || formJuridica.valid) && isCreate && autorizaSubcontratacion && !guardando">
-    <button *sTienePermiso="'EMP_POST_USU_ALIADO'" pButton type="button" icon="fa fa-floppy-o" title="Guardar Aliado"
+    <button *sTienePermiso="'EMP_POST_USU_ALIADO'" pButton type="button" icon="bi bi-save
+" title="Guardar Aliado"
         (click)="saveAliado()" class="float-btn"></button>
 </ng-container>

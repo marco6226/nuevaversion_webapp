@@ -27,7 +27,7 @@
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
 
-        <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="fa fa-pencil" label="Iniciar Plan de Acción" (click)="crearPlanAccion()" [disabled]="causasListSelect == null || causasListSelect.length <= 0"></button>
+        <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-pencil-square" class="p-button-success" label="Iniciar Plan de Acción" (click)="crearPlanAccion()" [disabled]="causasListSelect == null || causasListSelect.length <= 0"></button>
 
     </ng-template>
 </p-table>

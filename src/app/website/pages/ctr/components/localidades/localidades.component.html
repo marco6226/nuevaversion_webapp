@@ -29,7 +29,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>
-                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="fa fa-pencil" (click)="abrirDialogo()" label="Modificar División"></button>    
+                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="bi bi-pencil-square" class="p-button-success" (click)="abrirDialogo()" label="Modificar División"></button>    
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
@@ -74,7 +74,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>
-                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="fa fa-pencil" (click)="abrirDialogoLocalidades()" label="Modificar localidad"></button>    
+                    <button [disabled]="!edit || flagConsult" pButton type="button" icon="bi bi-pencil-square" class="p-button-success" (click)="abrirDialogoLocalidades()" label="Modificar localidad"></button>    
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>

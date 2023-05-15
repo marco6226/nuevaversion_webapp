@@ -72,11 +72,12 @@
         <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
       </div>
       <ng-container *ngIf="adicionar && loading == false">
-        <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="fa fa-floppy-o" label="Guardar" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="bi bi-save
+" label="Guardar" [disabled]="!form.valid"></button>
       </ng-container>
       
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="fa fa-pencil" label="Modificar" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="bi bi-pencil-square" class="p-button-success" label="Modificar" [disabled]="!form.valid"></button>
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">

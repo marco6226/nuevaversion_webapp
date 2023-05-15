@@ -401,7 +401,7 @@
                                             [disabled]="consultar" maxlength="45" />
                                     </td>
                                     <td>
-                                        <button pButton type="button" icon="fa fa-close" class="soft-icon"
+                                        <button pButton type="button" icon="bi bi-x-lg" class="soft-icon"
                                             (click)="removeParti(i)" *ngIf="!consultar"></button>
                                     </td>
                                 </tr>
@@ -437,13 +437,14 @@
 
 <div class="loader float-btn" *ngIf="guardando" style="position:absolute; top:340px; left:53%; "></div>
 <ng-container *ngIf="adicionar && !consultar">
-    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="fa fa-floppy-o" title="Guardar Análisis"
+    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-save
+" title="Guardar Análisis"
         (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled "></button>
 </ng-container>
 
 <ng-container *ngIf="modificar && !consultar">
-    <button *sTienePermiso="'SEC_PUT_ANADESV'" pButton type="button" icon="fa fa-pencil" title="Modificar Análisis"
-        (click)="modificarAnalisis()" class="ui-button-success float-btn" [disabled]="guardando" style="z-index: 100;"></button>
+    <button *sTienePermiso="'SEC_PUT_ANADESV'" pButton type="button" icon="bi bi-pencil-square" title="Modificar Análisis"
+        (click)="modificarAnalisis()" class="ui-button-success float-btn p-button-success" [disabled]="guardando" style="z-index: 100;"></button>
 </ng-container>
 
 <div style="height: 100px;"></div>

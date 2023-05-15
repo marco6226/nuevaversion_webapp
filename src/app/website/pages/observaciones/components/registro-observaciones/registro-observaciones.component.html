@@ -7,7 +7,7 @@
 <p-panel header="Tarjetas de reporte" *ngIf="!tarjetaSelect" [style.display]="tarjetaList && tarjetaList.length > 0 ? 'block':'none'">
   <div class="grid">
     <ng-template ngFor let-tarjeta [ngForOf]="tarjetaList" let-i="index">
-      <div class="col-12 md:col-3 lg:col-3" class="badge clickable active" (click)="selectTarjeta(tarjeta)">
+      <div class="col-12 md:col-3 lg:col-3" class="badge clickable active" (click)="selectTarjeta(tarjeta)" type="button">
         <h4>{{tarjeta?.nombre}}</h4>
         <h5>{{tarjeta?.codigo}}</h5>
         <p>{{tarjeta?.descripcion}}</p>

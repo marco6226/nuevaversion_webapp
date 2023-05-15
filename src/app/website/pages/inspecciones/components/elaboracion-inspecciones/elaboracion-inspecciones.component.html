@@ -149,11 +149,12 @@
     </p-panel>
     <br>
     <br>
-    <button pButton type="button" icon="fa fa-floppy-o" *ngIf="adicionar && solicitando == false"(click)="onSubmit()"
+    <button pButton type="button" icon="bi bi-save
+" *ngIf="adicionar && solicitando == false"(click)="onSubmit()"
       class="float-btn" data-toggle="tooltip" data-placement="bottom" title="Guardar"></button>
   
-    <button pButton type="button" icon="fa fa-pencil" *ngIf="modificar && solicitando == false" (click)="onSubmit()"
-      class="float-btn ui-button-success" data-toggle="tooltip" data-placement="bottom" title="Modificar"></button>
+    <button pButton type="button" icon="bi bi-pencil-square" *ngIf="modificar && solicitando == false" (click)="onSubmit()"
+      class="float-btn ui-button-success p-button-success" data-toggle="tooltip" data-placement="bottom" title="Modificar"></button>
   
     <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8" [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
   
