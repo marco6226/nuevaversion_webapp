@@ -33,8 +33,12 @@
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
         <br>
-        <button *sTienePermiso="'SCM_CREATE_REINTEGRO'" pButton type="button" icon="fa fa-plus"
-            label="Crear"  (click)="createRetorno()">
+        <button *sTienePermiso="'SCM_CREATE_REINTEGRO'" 
+            pButton type="button" 
+            icon="bi bi-plus" 
+            class="p-button-raised p-button-primary margin-right"
+            label="Crear"   
+            (click)="createRetorno()">
 
         </button>
 

@@ -530,7 +530,7 @@
         <!-- Inicio información médica -->
         <ng-container *ngIf="empleadoSelect">
             <p-tabPanel header="Información Médica">
-    
+                
                 <form *ngIf="createCase || caseSelect" [formGroup]="casoMedicoForm" (ngSubmit)="onSubmit()">
                     <div class="container-fluid cew-9">
                         <div class="row ">
@@ -557,8 +557,8 @@
                                     <textarea [readonly]="consultar2" class="textarea-material" pInputTextarea
                                         formControlName="observaciones" style="width: 100%;"></textarea>
                                 </div>
-                            </div>
-                            <div class="col">
+                            </div>                            
+                            <div class="col" *ngIf="!consultar2">
                                 <div *ngIf="!consultar2" class="mt-4">
                                     <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" type="button" pButton class="ui-button-raised ui-button-warning" label="Cerrar caso" icon="bi bi-arrow-left-right" (click)="cambiarEstado('cerrar')"></button>
                                 </div>
@@ -569,240 +569,247 @@
                             
                         </div>
                         <!-- div -->
-                        <div *sTienePermiso="'SCM_GET_CASE_INFO'">
-                            <div class="row ">
-                                <h5 class="title-header">Información del caso</h5>
-                            </div>
-    
-                            <div class="row ">
-                                <div class="col">
-                                    <div>
+                        <p-panel header="Información del caso">
+                            <div *sTienePermiso="'SCM_GET_CASE_INFO'">
+                                <!-- <div class="row ">
+                                    <h5 class="title-header">Información del caso</h5>
+                                </div> -->
+        
+                                <div class="row ">
+                                    <div class="col">
                                         <div>
-                                            <label for="" class="active">Descripción general del caso</label>
+                                            <div>
+                                                <label for="" class="active">Descripción general del caso</label>
+                                            </div>
+                                            <div style="height: 3rem;">
+                                                <textarea [readonly]="consultar2" pInputTextarea formControlName="descripcionCompletaCaso" rows="5"
+                                                     required></textarea>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="col">
                                         <div>
-                                            <textarea [readonly]="consultar2" pInputTextarea formControlName="descripcionCompletaCaso" rows="5"
-                                                style="width: 100%;" required></textarea>
+                                            <div>
+                                                <label for="" class="active">Descripción del cargo / Funciones actuales</label>
+                                            </div>
+                                            <div style="height: 3rem;">
+                                                <textarea [readonly]="consultar2" pInputTextarea formControlName="descripcionCargo" rows="5"
+                                                    required></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div>
+                                <div class="row ">
+                                    <div class="col">
                                         <div>
-                                            <label for="" class="active">Descripción del cargo / Funciones actuales</label>
-                                        </div>
-                                        <div>
-                                            <textarea [readonly]="consultar2" pInputTextarea formControlName="descripcionCargo" rows="5"
-                                                style="width: 100%;" required></textarea>
+                                            <div>
+                                                <label for="" class="active">Caso de mesa laboral</label>
+                                            </div>
+                                            <div>
+                                                <p-dropdown [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
+                                                    style="width: 100%;">
+                                                </p-dropdown>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <div class="col">
-                                    <div>
+                                    <div class="col">
                                         <div>
-                                            <label for="" class="active">Caso de mesa laboral</label>
+                                            <div>
+                                                <label for="" class="active">Prioridad</label>
+                                            </div>
+                                            <div>
+                                                <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                                    style="width: 100%;">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <div>
+                                                <label for="" class="active">Tipo de caso</label>
+                                            </div>
+                                            <div>
+                                                <p-dropdown [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
+                                                    style="width: 100%;">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6"></div>
+                                </div>
+        
+                                <div class="row ">
+                                    <h5 class="title-header mb-2">Intervención complementaria</h5>
+                                </div>
+                                <div class="row ">
+                                    <div class="col">
+                                        <div>
+                                            <label for="" class="active">Requiere intervención complementaria</label>
                                         </div>
                                         <div>
-                                            <p-dropdown [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
-                                                style="width: 100%;">
+                                            <p-dropdown [readonly]="consultar2" [options]="IntervencionOptionList" formControlName="requiereIntervencion"
+                                                class="select-material" styleClass="select-material">
                                             </p-dropdown>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <div>
+                                    <div class="col"
+                                        *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
                                         <div>
-                                            <label for="" class="active">Prioridad</label>
+                                            <div>
+                                                <label for="" class="active">SVE</label>
+                                            </div>
+                                            <div>
+                                                <p-dropdown [readonly]="consultar2" [options]="sveOptionList" formControlName="sve" class="select-material"
+                                                    styleClass="select-material">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col"
+                                        *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
+                                        <div>
+                                            <div>
+                                                <label for="" class="active">Área profesional</label>
+                                            </div>
+                                            <div>
+                                                <p-dropdown [readonly]="consultar2" [options]="professionalAreaList" formControlName="professionalArea"
+                                                    class="select-material" styleClass="select-material">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <label for="" class="active">Justificación</label>
                                         </div>
                                         <div>
-                                            <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
-                                                style="width: 100%;">
-                                            </p-dropdown>
+                                            <textarea [readonly]="consultar2" class="textarea-material" pInputTextarea  formControlName="justification"
+                                            style="width: 100%;"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div>
-                                        <div>
-                                            <label for="" class="active">Tipo de caso</label>
-                                        </div>
-                                        <div>
-                                            <p-dropdown [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
-                                                style="width: 100%;">
-                                            </p-dropdown>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6"></div>
                             </div>
-    
-                            <div class="row ">
-                                <h5 class="title-header mb-2">Intervención complementaria</h5>
-                            </div>
-                            <div class="row ">
-                                <div class="col">
+                        </p-panel>
+
+                        <p-panel header="Conceptos de rehabilitación">
+                            <div class="principal" *sTienePermiso="'SCM_GET_REHABILITA'">
+                                <!-- <h5 class="title-header">Conceptos de rehabilitación</h5> -->
+                                <div class="id">
+                                    <h2> 1. </h2>
+                                </div>
+                                <div class="concepto">
                                     <div>
-                                        <label for="" class="active">Requiere intervención complementaria</label>
+                                        <label for="" class="active">Concepto de rehabilitación</label>
                                     </div>
                                     <div>
-                                        <p-dropdown [readonly]="consultar2" [options]="IntervencionOptionList" formControlName="requiereIntervencion"
-                                            class="select-material" styleClass="select-material">
+                                        <p-dropdown [readonly]="consultar2" [filter]="true" [options]="conceptoRehabilitacion"
+                                            formControlName="conceptRehabilitacion" class="select-material"
+                                            styleClass="select-material">
                                         </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col"
-                                    *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
-                                    <div>
+                                <div class="fecha">
+                                    <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
                                         <div>
-                                            <label for="" class="active">SVE</label>
+                                            <label for="" class="active">Fecha de concepto de rehabilitación</label>
                                         </div>
                                         <div>
-                                            <p-dropdown [readonly]="consultar2" [options]="sveOptionList" formControlName="sve" class="select-material"
+                                            <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                                [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                                                formControlName="fechaConceptRehabilitacion"></p-calendar>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="entidadp">
+                                    <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
+                                        <div>
+                                            <label for="" class="active">Entidad que emite el concepto de
+                                                rehabilitación</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown [readonly]="consultar2" [filter]="true"
+                                                [options]="entityConceptoRehabilitacion[casoMedicoForm.get('conceptRehabilitacion').value]"
+                                                formControlName="entidadEmiteConcepto" class="select-material"
                                                 styleClass="select-material">
                                             </p-dropdown>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col"
-                                    *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
-                                    <div>
+                                <div class="entidad">
+                                    <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
                                         <div>
-                                            <label for="" class="active">Área profesional</label>
+                                            <label for="" class="active">Entidad</label>
                                         </div>
                                         <div>
-                                            <p-dropdown [readonly]="consultar2" [options]="professionalAreaList" formControlName="professionalArea"
-                                                class="select-material" styleClass="select-material">
+                                            <p-dropdown [readonly]="consultar2" [filter]="true"
+                                                [options]="entity[casoMedicoForm.get('entidadEmiteConcepto').value]"
+                                                formControlName="entidadEmitida" class="select-material"
+                                                styleClass="select-material">
                                             </p-dropdown>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="id">
+                                    <h2> 2. </h2>
+                                </div>
+                                <div class="concepto">
                                     <div>
-                                        <label for="" class="active">Justificación</label>
+                                        <label for="" class="active">Concepto de rehabilitación</label>
                                     </div>
                                     <div>
-                                        <textarea [readonly]="consultar2" class="textarea-material" pInputTextarea  formControlName="justification"
-                                        style="width: 100%;"></textarea>
+                                        <p-dropdown [readonly]="consultar2" [filter]="true" [options]="conceptoRehabilitacion"
+                                            formControlName="conceptRehabilitacionTwo" class="select-material"
+                                            styleClass="select-material">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="fecha">
+                                    <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
+                                        <div>
+                                            <label for="" class="active">Fecha de concepto de rehabilitación</label>
+                                        </div>
+                                        <div>
+                                            <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                                [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                                                formControlName="fechaConceptRehabilitacionTwo"></p-calendar>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="entidadp">
+                                    <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
+                                        <div>
+                                            <label for="" class="active">Entidad que emite el concepto de
+                                                rehabilitación</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown [readonly]="consultar2" [filter]="true"
+                                                [options]="entityConceptoRehabilitacion[casoMedicoForm.get('conceptRehabilitacionTwo').value]"
+                                                formControlName="entidadEmiteConceptoTwo" class="select-material"
+                                                styleClass="select-material">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="entidad">
+                                    <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
+                                        <div>
+                                            <label for="" class="active">Entidad</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown [readonly]="consultar2" [filter]="true"
+                                                [options]="entity[casoMedicoForm.get('entidadEmiteConceptoTwo').value]"
+                                                formControlName="entidadEmitidaTwo" class="select-material"
+                                                styleClass="select-material">
+                                            </p-dropdown>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </p-panel>
+                        
                         <!-- div -->
-                        <div class="principal" *sTienePermiso="'SCM_GET_REHABILITA'">
-                            <h5 class="title-header">Conceptos de rehabilitación</h5>
-                            <div class="id">
-                                <h2> 1. </h2>
-                            </div>
-                            <div class="concepto">
-                                <div>
-                                    <label for="" class="active">Concepto de rehabilitación</label>
-                                </div>
-                                <div>
-                                    <p-dropdown [readonly]="consultar2" [filter]="true" [options]="conceptoRehabilitacion"
-                                        formControlName="conceptRehabilitacion" class="select-material"
-                                        styleClass="select-material">
-                                    </p-dropdown>
-                                </div>
-                            </div>
-                            <div class="fecha">
-                                <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
-                                    <div>
-                                        <label for="" class="active">Fecha de concepto de rehabilitación</label>
-                                    </div>
-                                    <div>
-                                        <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
-                                            [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
-                                            formControlName="fechaConceptRehabilitacion"></p-calendar>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="entidadp">
-                                <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
-                                    <div>
-                                        <label for="" class="active">Entidad que emite el concepto de
-                                            rehabilitación</label>
-                                    </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [filter]="true"
-                                            [options]="entityConceptoRehabilitacion[casoMedicoForm.get('conceptRehabilitacion').value]"
-                                            formControlName="entidadEmiteConcepto" class="select-material"
-                                            styleClass="select-material">
-                                        </p-dropdown>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="entidad">
-                                <div *ngIf="casoMedicoForm.get('conceptRehabilitacion').value != 3">
-                                    <div>
-                                        <label for="" class="active">Entidad</label>
-                                    </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [filter]="true"
-                                            [options]="entity[casoMedicoForm.get('entidadEmiteConcepto').value]"
-                                            formControlName="entidadEmitida" class="select-material"
-                                            styleClass="select-material">
-                                        </p-dropdown>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="id">
-                                <h2> 2. </h2>
-                            </div>
-                            <div class="concepto">
-                                <div>
-                                    <label for="" class="active">Concepto de rehabilitación</label>
-                                </div>
-                                <div>
-                                    <p-dropdown [readonly]="consultar2" [filter]="true" [options]="conceptoRehabilitacion"
-                                        formControlName="conceptRehabilitacionTwo" class="select-material"
-                                        styleClass="select-material">
-                                    </p-dropdown>
-                                </div>
-                            </div>
-                            <div class="fecha">
-                                <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
-                                    <div>
-                                        <label for="" class="active">Fecha de concepto de rehabilitación</label>
-                                    </div>
-                                    <div>
-                                        <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
-                                            [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
-                                            formControlName="fechaConceptRehabilitacionTwo"></p-calendar>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="entidadp">
-                                <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
-                                    <div>
-                                        <label for="" class="active">Entidad que emite el concepto de
-                                            rehabilitación</label>
-                                    </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [filter]="true"
-                                            [options]="entityConceptoRehabilitacion[casoMedicoForm.get('conceptRehabilitacionTwo').value]"
-                                            formControlName="entidadEmiteConceptoTwo" class="select-material"
-                                            styleClass="select-material">
-                                        </p-dropdown>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="entidad">
-                                <div *ngIf="casoMedicoForm.get('conceptRehabilitacionTwo').value != 3">
-                                    <div>
-                                        <label for="" class="active">Entidad</label>
-                                    </div>
-                                    <div>
-                                        <p-dropdown [readonly]="consultar2" [filter]="true"
-                                            [options]="entity[casoMedicoForm.get('entidadEmiteConceptoTwo').value]"
-                                            formControlName="entidadEmitidaTwo" class="select-material"
-                                            styleClass="select-material">
-                                        </p-dropdown>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div style="text-align: center; width: 100%;">
                         <button pButton *ngIf="solicitando == false" type="button" (click)="onCancel.emit()"
@@ -878,16 +885,32 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="summary" let-rowData>
-                        <button *sTienePermiso="'SCM_CREATE_CASE'" (click)="createCaso()" pButton type="button"
-                            icon="fa fa-plus" [routerLink]="['/app/scm/creacion']" label="Crear Caso"></button>
+                        <button *sTienePermiso="'SCM_CREATE_CASE'" 
+                            pButton type="button"    
+                            (click)="createCaso()"
+                            icon="bi bi-plus" 
+                            [routerLink]="['/app/scm/creacion']" 
+                            class="p-button-raised p-button-primary margin-right"
+                            label="Crear Caso"></button>
     
-                        <button *sTienePermiso="'SCM_PUT_CASE'" (click)="modifyCase()" pButton type="button"
-                            icon="fa fa-pencil" label="Modificar" class="ui-button-success"
+                        <button *sTienePermiso="'SCM_PUT_CASE'" 
+                            pButton type="button" 
+                            (click)="modifyCase()"
+                            label="Modificar" 
+                            icon="bi bi-pencil"
+                            class="p-button-raised p-button-success margin-right margin-left"
                             [disabled]="!casoSeleccionado"></button>
     
-                        <button *sTienePermiso="'SCM_LIST_CASE'" (click)="readCase()" pButton type="button"
-                            icon="fa fa-pencil" label="Consultar" class="ui-button-warning"
+                        <button *sTienePermiso="'SCM_LIST_CASE'" 
+                            (click)="readCase()" 
+                            pButton type="button"
+                            icon="bi bi-eye"
+                            label="Consultar" 
+                            class="p-button-info margin-left margin-right"
                             [disabled]="!casoSeleccionado"></button>
+                        
+                        <!-- <button *sTienePermiso="'EMP_PUT_EMPL'" pButton type="button" icon="bi bi-eye" class="p-button-info margin-left margin-right" label="Consultar" (click)="showForm()" [disabled]="!empleadoSelect"></button> -->
+
                         <!--  <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="fa fa-trash" label="Eliminar" class="ui-button-danger"
                     (click)="eliminar()" [disabled]="!usuarioSelect"></button>-->
                     </ng-template>
@@ -950,15 +973,31 @@
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="summary" let-rowData>
-                                <ng-container *ngIf="!consultar2"><button *sTienePermiso="'SCM_CREATE_CASE_DIAG'" pButton [disabled]="diagSelect"
-                                    type="button" icon="fa fa-plus" label="Crear"
-                                    (click)="diagSelect = null; modalDianostico = true" ></button>
-                                <button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton type="button" icon="fa fa-pencil"
-                                    label="Modificar" class="ui-button-success" (click)="showModalDiagnostico()"
-                                    [disabled]="!diagSelect"></button>
-                                <button *sTienePermiso="['SCM_DEL_CASE_DIAG']" pButton type="button" icon="fa fa-trash"
-                                    label="Eliminar" class="ui-button-danger" (click)="deleteDiagnostico(diagSelect.id)"
-                                    [disabled]="!diagSelect"></button></ng-container>
+                                <ng-container *ngIf="!consultar2">
+                                    <button *sTienePermiso="'SCM_CREATE_CASE_DIAG'" 
+                                        pButton [disabled]="diagSelect"
+                                        type="button" 
+                                        icon="bi bi-plus"
+                                        label="Crear"
+                                        class="p-button-raised p-button-primary margin-right"
+                                        (click)="diagSelect = null; 
+                                        modalDianostico = true" ></button>
+                                    <button *sTienePermiso="'SCM_PUT_CASE_DIAG'" 
+                                        pButton type="button" 
+                                        icon="bi bi-pencil"
+                                        label="Modificar"
+                                        class="p-button-raised p-button-success margin-right margin-left"
+                                        (click)="showModalDiagnostico()"
+                                        [disabled]="!diagSelect"></button>
+                                    <button *sTienePermiso="['SCM_DEL_CASE_DIAG']" 
+                                        pButton type="button" 
+                                        icon="bi bi-trash"
+                                        label="Eliminar" 
+                                        class="p-button-raised p-button-danger margin-right margin-left"
+                                        (click)="deleteDiagnostico(diagSelect.id)"
+                                        [disabled]="!diagSelect"></button>
+                                
+                                </ng-container>
     
                                 <ng-container *ngIf="consultar2"><button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton type="button" icon="fa fa-search"
                                     label="Consultar" class="ui-button-warning" (click)="showModalDiagnostico()"
@@ -1169,16 +1208,33 @@
                             </ng-template>
     
                             <ng-template pTemplate="summary" let-rowData>
-                                <button [disabled]="consultar2" *sTienePermiso="'SCM_CREATE_CASE_RECO'" pButton type="button" icon="fa fa-plus"
-                                    label="Crear" (click)="openModalRecomendantions()">
+                                <button *sTienePermiso="'SCM_CREATE_CASE_RECO'"
+                                    [disabled]="consultar2"  
+                                    pButton type="button" 
+                                    icon="bi bi-plus" 
+                                    class="p-button-raised p-button-primary margin-right"
+                                    label="Crear" 
+                                    (click)="openModalRecomendantions()">
                                 </button>
-                                <button pButton type="button" icon="fa fa-pencil" label="Modificar" *sTienePermiso="'SCM_PUT_CASE_RECO'"
-                                    class="ui-button-success" (click)="modalRecomendatios = true"
+                                <button *sTienePermiso="'SCM_PUT_CASE_RECO'"
+                                    pButton type="button" 
+                                    label="Modificar" 
+                                    icon="bi bi-pencil"
+                                    class="p-button-raised p-button-success margin-right margin-left"
+                                    (click)="modalRecomendatios = true"
                                     [disabled]="!recoSelect || consultar2"></button>
-                                <button pButton type="button" icon="fa fa-search" label="Consultar" *ngIf="consultar2"
-                                    class="ui-button-warning" (click)="modalRecomendatios = true"
+                                <button pButton type="button" 
+                                    icon="bi bi-eye"
+                                    label="Consultar" 
+                                    class="p-button-info margin-left margin-right" 
+                                    *ngIf="consultar2"
+                                    (click)="modalRecomendatios = true"
                                     [disabled]="!recoSelect"></button>
-                                <button pButton type="button" icon="fa fa-trash" label="Eliminar" *sTienePermiso="'SCM_DEL_CASE_RECO'" class="ui-button-danger"
+                                <button *sTienePermiso="'SCM_DEL_CASE_RECO'" 
+                                    pButton type="button" 
+                                    icon="bi bi-trash"
+                                    label="Eliminar" 
+                                    class="p-button-raised p-button-danger margin-right margin-left"
                                     (click)="deleteRecomendation(recoSelect.id)" [disabled]="!recoSelect || consultar2"></button>
                             </ng-template>
     
@@ -1336,8 +1392,13 @@
                             </ng-template>
     
                             <ng-template pTemplate="summary" let-rowData>
-                                <button *sTienePermiso="'SCM_CREATE_CASE_SEG'" [disabled]="consultar2" pButton type="button" icon="fa fa-plus"
-                                    label="Crear"  (click)="openModalSeguimientos()">
+                                <button *sTienePermiso="'SCM_CREATE_CASE_SEG'" 
+                                    [disabled]="consultar2" 
+                                    pButton type="button" 
+                                    icon="bi bi-plus" 
+                                    class="p-button-raised p-button-primary margin-right"
+                                    label="Crear"  
+                                    (click)="openModalSeguimientos()">
     
                                 </button>
     
@@ -1469,8 +1530,13 @@
                             </ng-template>
     
                             <ng-template pTemplate="summary" let-rowData>
-                                <button [disabled]="consultar2" *sTienePermiso="'SCM_CREATE_CASE_TRAT'" pButton type="button" icon="fa fa-plus"
-                                    (click)="nuevoTratamiento()" label="Crear">
+                                <button *sTienePermiso="'SCM_CREATE_CASE_TRAT'"
+                                    [disabled]="consultar2"  
+                                    pButton type="button" 
+                                    icon="bi bi-plus" 
+                                    class="p-button-raised p-button-primary margin-right"
+                                    label="Crear"
+                                    (click)="nuevoTratamiento()">
                                 </button>
                             </ng-template>
     
