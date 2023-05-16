@@ -65,6 +65,7 @@ export class LayoutComponent implements OnInit {
 	}
 
 	async loadItems(empresas: Empresa[]) {
+		this.empresasItems=[]
 		empresas.forEach(emp => {
 			this.empresasItems.push({ label: emp.nombreComercial, value: emp });
 		});
