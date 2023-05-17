@@ -172,6 +172,8 @@
 
 	.buttons {
 		text-align: center;
+		display: flex;
+		justify-content: space-evenly;
 	}
 
 	.titulos{
@@ -224,11 +226,12 @@
 
 	.showModal{
 		// right: 10px;
-		left: 10px;
+		// left: 10px;
 		position: absolute;
 		// top: 37%;
 		bottom: 40%;
 		border-radius: 8px;
+		min-width: 30px !important;
 		width: 30px;
 		height: 30px;
 		background: #68BCEC ;

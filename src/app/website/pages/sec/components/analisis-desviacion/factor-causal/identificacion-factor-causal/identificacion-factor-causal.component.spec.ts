@@ -11,7 +11,9 @@ describe('IdentificacionFactorCausalComponent', () => {
       declarations: [ IdentificacionFactorCausalComponent ]
     })
     .compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(IdentificacionFactorCausalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

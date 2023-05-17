@@ -8,14 +8,17 @@ import { Desempeno } from 'src/app/website/pages/comun/entities/factor-causal';
 })
 export class IdentificacionFactoresCausalesComponent implements OnInit {
 
-  @Input()identificacionFc?: Desempeno | null;
+  @Input()identificacionFc!: Desempeno | null;
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   test(){
+    console.log(this.identificacionFc);
+    
+    
   }
 
 }

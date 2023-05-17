@@ -8,15 +8,29 @@ import { Desempeno, IdentificacionFC } from 'src/app/website/pages/comun/entitie
 })
 export class IdentificacionFactorCausalComponent implements OnInit {
 
-  @Input()identificacionFc?: Desempeno | null
-  @Input()factor?: IdentificacionFC | null
+  @Input()identificacionFc!: Desempeno | null
+  @Input()factor!: IdentificacionFC | null
 
   selectedValues: string[] = [];
-  value?: boolean
-  
+  value!: boolean
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  ok(){
+    console.log(this.identificacionFc);
+    console.log(this.selectedValues);
+    console.log(this.value);
+    
+    
+  }
+
+  test(){
+    console.log(this.identificacionFc);
+    console.log(this.factor);
+    
+    
+  }
 }

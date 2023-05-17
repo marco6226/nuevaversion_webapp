@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { MessageService, SelectItem, ConfirmationService } from 'primeng/api';
 import { FormBuilder, FormGroup} from '@angular/forms'
 import { Criteria, Filter } from '../../../../core/entities/filter';
@@ -42,7 +42,7 @@ import { Directorio } from 'src/app/website/pages/ado/entities/directorio';
     TipoPeligroService, PeligroService
 ],
 })
-export class FormularioAccidenteTemporalComponent implements OnInit {
+export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewInit {
 
   reporte: Reporte | null = null;
   @Input('reporte') 
@@ -117,7 +117,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit {
   areasPermiso: string | null = null;
   tempData: listFactores[] = [];
   dataListFactor: listFactores[]=[];
-  factorCausal: FactorCausal[] = [];
+  factorCausal: FactorCausal[] | null = null;
   planAccion:any;
   validators:boolean = true;
   modulo = Modulo.SEC.value;
@@ -280,6 +280,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit {
           fechaReporte: null,
           temporal:null,
       });
+      
       setTimeout(async () => {
         if(!this.modificar && !this.consultar){
           this.setFactorCausal();
@@ -289,6 +290,8 @@ export class FormularioAccidenteTemporalComponent implements OnInit {
       this.cdRef.detectChanges();
       await this.cargarTiposPeligro();
   }
+
+  ngAfterViewInit(): void {}
 
   async cargarReporte(){
     if(this.modificar || this.consultar){
@@ -589,7 +592,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit {
     this.dataListFactor = []
     try {          
       this.tempData = []
-      this.factorCausal.forEach(data => {           
+      this.factorCausal?.forEach(data => {           
         data.seccion?.forEach(data1 => {
           data1.desempeno.forEach(data2 => {   
             if (data2.selected) {
@@ -650,7 +653,8 @@ export class FormularioAccidenteTemporalComponent implements OnInit {
     if (!this.factorCausal) {
       this.factorCausal=[];  
       this.factorCausal.push({id:1, nombre:'contratista'});
-      this.setListDataFactor();}
+      this.setListDataFactor();
+    }
   }
 
   showDialog(){
@@ -670,6 +674,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit {
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
+      key: 'formAccidenteTemporal',
       accept: () => {
           this.onUpdate.emit(doc);
           this.directorioService.eliminarDocumento(doc.id).then(

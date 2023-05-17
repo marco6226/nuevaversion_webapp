@@ -1,6 +1,9 @@
+<!-- <!-- <button (click)="test()">asd</button> -->
+<!-- <button (click)="evidencias()">asd</button> -->
 <table width="85%" style="border-collapse: collapse; margin: auto;">
     <tr>
         <th style="border: 1px solid #c8c8c8; text-align: left" width="21%">Fecha de investigación</th>
+        <!-- <td style="border: 1px solid #c8c8c8; text-align: center"><p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true" inputId="touchui"></p-calendar></td>  -->
         <td style="border: 1px solid #c8c8c8; text-align: left">{{this.infoIn.value['FechaI']  | date: 'dd/MM/yyyy'}}</td> 
     </tr>
 </table>
@@ -114,6 +117,11 @@
         <th style="border: 1px solid #c8c8c8; text-align: center">Responsable empresa </th> 
         <th style="border: 1px solid #c8c8c8; text-align: center">Responsable externo </th> 
     </tr>
+    <!-- <ng-container *ngFor="let a of id; let k = index;let firsta = first;">
+        <ng-container *ngIf="firsta"> -->
+            <!-- <tr *ngFor="let a of id;">
+                <td style="border: 1px solid #c8c8c8; text-align: center">{{a}}</td> 
+            </tr> -->
     <ng-container  *ngFor="let factor of prueba;let indice1=index;" >
         <tr>
             <td style="border: 1px solid #c8c8c8; text-align: center">{{factor.id}}</td> 

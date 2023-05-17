@@ -110,8 +110,18 @@ export class TareaService extends CRUDService<Tarea>{
     getClassName(): string {
         return "TareaService";
     }
-
     
+    getSeguimientoTarea(id: string): Promise<any>{
+        return new Promise((resolve, reject) => {
+            this.httpInt.get(`${this.end_point}seguimiento/${id}`)
+            .subscribe(res => {
+                resolve(res);
+            }, err => {
+                this.manageError(err);
+                reject(err);
+            });
+        });
+    }
 
     getRequestHeaders(headers?: HttpHeaders): any {
         if (headers == null)

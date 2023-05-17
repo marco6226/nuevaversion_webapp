@@ -35,12 +35,14 @@ export class MenuComponent implements OnInit, AfterContentInit {
 
   async ngOnInit() {
     // this.recargarMenu();
-    this.getEmpresa();
-    await this.getAliadoInformacion().then();
   }
 
-  ngAfterContentInit(): void {
-    this.recargarMenu();
+  async ngAfterContentInit() {
+    // this.recargarMenu();
+  }
+
+  getEmpresaId(){
+    return this.empresa?.id;
   }
 
   toogle(item: any){
@@ -70,7 +72,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
     })
   }
 
-  public recargarMenu(): void{
+    public recargarMenu(): void{
     // this.items = [
     //     {
     //         label: 'Administracion',
@@ -264,6 +266,8 @@ export class MenuComponent implements OnInit, AfterContentInit {
     //             ]
     //     }
     //   ];
+    this.getEmpresa();
+    this.getAliadoInformacion();
 
     if(this.empresa?.idEmpresaAliada){
         if(this.isTemporal){
@@ -329,7 +333,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
                 [
                     { label: 'Nuevo Aliado', codigo: 'CTR_ADM', routerLink: ['/app/ctr/aliado'], icon: 'bi bi-person-badge'},
                     { label: 'Listado de Aliados', codigo: 'CTR_ADM', routerLink: ['/app/ctr/listadoAliados'], icon: 'bi bi-card-list'},
-                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.empresa?.id}`], icon: 'bi bi-building-gear'},
+                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.getEmpresaId()}`], icon: 'bi bi-building-gear'},
                 ].concat(this.permisosAliados)
         },
         {
