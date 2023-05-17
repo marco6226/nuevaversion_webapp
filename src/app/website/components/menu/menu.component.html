@@ -79,17 +79,15 @@
  </div> -->
 
  <div id="container" class="container container-hide">
-    <div class="sub-container">
-        <div class="button-slide">
-            <i id="arrow" class="bi bi-caret-right-fill" type="button" (click)="toogleMenu()"></i>
+    <div style="padding-top: 5px;" type="button" (click)="toogleMenu()">
+        <div class="child-item" [pTooltip]="'Expandir/Contraer'" tooltipPosition="right" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <div id="data" class="data-hide">
+                <i class="bi bi-arrow-left-right icon-size" ></i>
+                <span id="text-toggle" class="text-hide">Expandir/Contraer</span>
+            </div>            
         </div>
-        
-        <div class="button-slide child-item" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-label="Toggle navigation" routerLink="/app/home" >
-            <i class="bi bi-columns icon-size"></i>
-            <span id="text-toggle" class="text-hide">Dashboard</span>
-        </div>
-    </div>    
-
+    </div>  
+    <hr>  
     <div *ngFor="let item of items">
         <div class="child-item" [pTooltip]="item.label" tooltipPosition="right" type="button" data-bs-toggle="collapse" [attr.data-bs-target]= "'#'+ item.codigo" aria-expanded="false" aria-label="Toggle navigation">
             <div id="data" class="data-hide">
@@ -99,7 +97,7 @@
         </div>
         <div *ngFor="let children of item.items" [pTooltip]="children.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="children.routerLink">
             <div id="data" class="child-items data-hide">
-                <i [class]="children.icon" class="icon-size"></i>
+                <i [class]="children.icon" class="icon-size-child"></i>
                 <span id="text-toggle" class="text-hide">{{children.label}}</span >
             </div>            
         </div>

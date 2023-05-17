@@ -167,7 +167,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>
-                    <button pButton type="button" icon="bi bi-search" label="Consultar" (click)="onClick()" routerLinkActive="router-link-active" class="ui-button-warning" [disabled]="!tareaSelect"></button>
+                    <button pButton type="button" icon="bi bi-search" label="Consultar" (click)="onClick()" routerLinkActive="router-link-active" class="p-button-warning" [disabled]="!tareaSelect"></button>
                 </ng-template>
             </p-table>
         </div>
@@ -210,7 +210,7 @@
         <div class="col-12 md:col-6 drag-column">
             <ul style="margin:0;padding:0">
                 <li class="ui-helper-clearfix" pDraggable="cars">
-                    <h6>ui-button-success</h6>
+                    <h6>p-button-success</h6>
                 </li>
             </ul>
         </div>
@@ -237,5 +237,5 @@
     </div>
 
     <div pDroppable="dd">Droppable Div</div>
-    <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="pi pi-file-excel-o" class="ui-button-success"></button>
+    <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="pi pi-file-excel-o" class="p-button-success"></button>
 </p-dialog>

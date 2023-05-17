@@ -94,8 +94,8 @@
               (ionChange)="rangoFechaCierreHse($event)"/>
           </div>
           <br>
-          <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check" label="Aceptar" (click)="botonAceptar('HSE')" style="margin-right: 10px;" class="ui-button-success"></button>
-          <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="fa fa-ban" label="Denegar" (click)="botonDenegar('HSE')" class="ui-button-danger"></button>
+          <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check" label="Aceptar" (click)="botonAceptar('HSE')" style="margin-right: 10px;" class="p-button-success"></button>
+          <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="fa fa-ban" label="Denegar" (click)="botonDenegar('HSE')" class="p-button-danger"></button>
         </div>
       </form>
       <div *ngIf="!mostarHseGet">
@@ -139,8 +139,8 @@
               (ionChange)="rangoFechaCierre($event)"/>
           </div>
           <br>
-           <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check" label="Aceptar" (click)="botonAceptar('ING')" style="margin-right: 10px;" class="ui-button-success"></button>
-           <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="fa fa-ban" label="Denegar" (click)="botonDenegar('ING')" class="ui-button-danger"></button>
+           <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check" label="Aceptar" (click)="botonAceptar('ING')" style="margin-right: 10px;" class="p-button-success"></button>
+           <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="fa fa-ban" label="Denegar" (click)="botonDenegar('ING')" class="p-button-danger"></button>
         </div>
       </form> 
       <div *ngIf="!mostarIngGet">
@@ -154,7 +154,7 @@
       class="float-btn" data-toggle="tooltip" data-placement="bottom" title="Guardar"></button>
   
     <button pButton type="button" icon="bi bi-pencil-square" *ngIf="modificar && solicitando == false" (click)="onSubmit()"
-      class="float-btn ui-button-success p-button-success" data-toggle="tooltip" data-placement="bottom" title="Modificar"></button>
+      class="float-btn p-button-success p-button-success" data-toggle="tooltip" data-placement="bottom" title="Modificar"></button>
   
     <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8" [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
   

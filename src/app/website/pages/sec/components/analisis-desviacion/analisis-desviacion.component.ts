@@ -1,6 +1,6 @@
 import { Causa_Raiz, FactorCausal, Incapacidad, listFactores, listPlanAccion} from 'src/app/website/pages/comun/entities/factor-causal';
 import { InformacionComplementaria} from 'src/app/website/pages/comun/entities/informacion_complementaria';
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input ,OnDestroy} from "@angular/core";
 import { Reporte } from 'src/app/website/pages/comun/entities/reporte';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
@@ -235,9 +235,9 @@ export class AnalisisDesviacionComponent implements OnInit {
   async ngOnInit() {
         this.guardando=false;
         this.disabled=true;
-        this.nitEmpresa=this.sesionService.getEmpresa()?.nit;
-        this.nombreEmpresa=this.sesionService.getEmpresa()?.nombreComercial;
-        this.idEmpresa = this.sesionService.getEmpresa()?.id;
+        this.nitEmpresa=this.sesionService.getEmpresa()!.nit;
+        this.nombreEmpresa=this.sesionService.getEmpresa()!.nombreComercial;
+        this.idEmpresa = this.sesionService.getEmpresa()!.id;
         if (this.value == null) {
             switch (this.paramNav.getAccion<string>()) {
                 case "GET":
@@ -324,6 +324,7 @@ export class AnalisisDesviacionComponent implements OnInit {
 		this.usuario = await this.sesionService.getUsuario()!;		
 		this.idUsuario=this.usuario?.id!
   }
+
   async consultarAnalisis(analisisId: string) {
     let fq = new FilterQuery();
     fq.filterList = [

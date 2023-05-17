@@ -3,7 +3,7 @@
 </s-dataNotFound>
 <div class="shadow">
     <p-panel header="Listado de Aliados" [style.display]="aliadosList && aliadosList.length > 0 ? 'block':'none'">
-        <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" label="Exportar a archivo Excel" icon="pi pi-file-excel-o" class="ui-button-success"></button>
+        <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" label="Exportar a archivo Excel" icon="pi pi-file-excel-o" class="p-button-success"></button>
         <button type="reset" pButton (click)="dt.reset();rangeDatesCreacion=null;rangeDatesActualizacion=null" title="Reiniciar Filtros" label="Reiniciar filtros" icon="fa fa-retweet" style="margin-left: 10px;"></button>
         <p-tabView>
         <p-table #dt id="excel-table" 
@@ -187,23 +187,23 @@
                     <td>
                         <button style="margin-left: 5px;" pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success p-mr-2" (click)="onConsult(rowData)" title="Consultar"></button>
                         
-                     <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded ui-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
+                     <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded p-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
                     </td>
                     <td>
                         <button style="margin-left: 5px;" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="onEdit(rowData)" title="Editar"></button>
                         
-                     <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded ui-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
+                     <!--    <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded p-button-warning" (click)="onSendMail(rowData)" title="Enviar correo"></button> -->
                     </td>
                     <td>
-                        <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="rowData.activo" class="p-button-rounded ui-button-success p-mr-2" (click)="onChangeStatusAliado(rowData, 'Desactivar')" title="Desactivar Aliado"></button>
-                        <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="!rowData.activo" class="p-button-rounded ui-button-danger p-mr-2" (click)="onChangeStatusAliado(rowData, 'Activar')" title="Activar Aliado"></button>
+                        <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="rowData.activo" class="p-button-rounded p-button-success p-mr-2" (click)="onChangeStatusAliado(rowData, 'Desactivar')" title="Desactivar Aliado"></button>
+                        <button style="margin-left: 40px;" pButton pRipple icon="pi pi-power-off" *ngIf="!rowData.activo" class="p-button-rounded p-button-danger p-mr-2" (click)="onChangeStatusAliado(rowData, 'Activar')" title="Activar Aliado"></button>
                     </td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" let-rowData>
                 <button pButton type="button" icon="pi pi-plus" [routerLink]="['/app/ctr/aliado']" label="Crear"></button>    
-                <!-- <button pButton type="button" icon="pi pi-pencil" label="Modificar" class="ui-button-success" (click)="onEdit(rowData)" [disabled]="!caseSelect"></button>     -->
-                <button pButton type="button" icon="pi pi-envelope" label="Enviar Correos" class="ui-button-warning" (click)="sendMultiplesEmails()" [disabled]="!caseSelect"></button>
+                <!-- <button pButton type="button" icon="pi pi-pencil" label="Modificar" class="p-button-success" (click)="onEdit(rowData)" [disabled]="!caseSelect"></button>     -->
+                <button pButton type="button" icon="pi pi-envelope" label="Enviar Correos" class="p-button-warning" (click)="sendMultiplesEmails()" [disabled]="!caseSelect"></button>
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>

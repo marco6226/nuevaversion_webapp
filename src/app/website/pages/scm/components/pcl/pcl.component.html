@@ -197,7 +197,7 @@
         <p-footer>
             <button *ngIf="pclSelect && !action" pButton type="button" label="Guardar" [icon]="(loadingForm) ? 'pi pi-spin pi-spinner' : 'fa fa-plus'" [disabled]="loadingForm" (click)="onSubmit(true)"></button>
             <button *ngIf="!pclSelect && !action" pButton type="button" label="Crear" [icon]="(loadingForm) ? 'pi pi-spin pi-spinner' : 'fa fa-plus'" [disabled]="loadingForm" (click)="onSubmit()"></button>
-            <button pButton type="button" [label]="(action) ? 'Cerrar' : 'Cancelar'" icon="pi pi-times" class="ui-button-danger" [disabled]="loadingForm" (click)="onCancel()"></button>
+            <button pButton type="button" [label]="(action) ? 'Cerrar' : 'Cancelar'" icon="pi pi-times" class="p-button-danger" [disabled]="loadingForm" (click)="onCancel()"></button>
         </p-footer>
         <!-- End footer -->
     </p-dialog>

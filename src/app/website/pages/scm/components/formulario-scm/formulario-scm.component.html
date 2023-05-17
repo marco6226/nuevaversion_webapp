@@ -14,7 +14,7 @@
         </div>
     </div>
     <div *ngIf="consultar2 && status=='Cerrado'" style="margin-left: 2rem;">
-        <button pButton *sTienePermiso="'SCM_PUT_ABRIR_CASO'" class="ui-button-raised ui-button-danger" label="Abrir caso" icon="fa fa-exchange" (click)="cambiarEstado()"></button>
+        <button pButton *sTienePermiso="'SCM_PUT_ABRIR_CASO'" class="ui-button-raised p-button-danger" label="Abrir caso" icon="fa fa-exchange" (click)="cambiarEstado()"></button>
     </div>
 </div>
 
@@ -560,7 +560,7 @@
                             </div>                            
                             <div class="col" *ngIf="!consultar2">
                                 <div *ngIf="!consultar2" class="mt-4">
-                                    <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" type="button" pButton class="ui-button-raised ui-button-warning" label="Cerrar caso" icon="bi bi-arrow-left-right" (click)="cambiarEstado('cerrar')"></button>
+                                    <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" type="button" pButton class="ui-button-raised p-button-warning" label="Cerrar caso" icon="bi bi-arrow-left-right" (click)="cambiarEstado('cerrar')"></button>
                                 </div>
                             </div>
                         </div>
@@ -911,7 +911,7 @@
                         
                         <!-- <button *sTienePermiso="'EMP_PUT_EMPL'" pButton type="button" icon="bi bi-eye" class="p-button-info margin-left margin-right" label="Consultar" (click)="showForm()" [disabled]="!empleadoSelect"></button> -->
 
-                        <!--  <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="pi pi-trash" label="Eliminar" class="ui-button-danger"
+                        <!--  <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="pi pi-trash" label="Eliminar" class="p-button-danger"
                     (click)="eliminar()" [disabled]="!usuarioSelect"></button>-->
                     </ng-template>
                 </p-table>
@@ -1000,7 +1000,7 @@
                                 </ng-container>
     
                                 <ng-container *ngIf="consultar2"><button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton type="button" icon="bi bi-search"
-                                    label="Consultar" class="ui-button-warning" (click)="showModalDiagnostico()"
+                                    label="Consultar" class="p-button-warning" (click)="showModalDiagnostico()"
                                     [disabled]="!diagSelect"></button></ng-container>
     
                             </ng-template>
@@ -1382,11 +1382,11 @@
                                             class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
                                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-times" (click)="onRowEditCancel(seguimiento, ri)"
-                                            class="p-button-rounded p-button-text ui-button-danger"></button>
+                                            class="p-button-rounded p-button-text p-button-danger"></button>
     
                                         <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-trash" (click)="deleteSeguimiento(seguimiento.id)"
-                                            title="Borrar Seguimiento" class="ui-button-danger"></button>
+                                            title="Borrar Seguimiento" class="p-button-danger"></button>
                                     </td>
                                 </tr>
                             </ng-template>
@@ -1517,7 +1517,7 @@
                                             <!-- *sTienePermiso="'SCM_DEL_CASE_TRAT'" -->
                                         <button *ngIf="!editing" [disabled]="consultar2" pButton pRipple type="button" icon="pi pi-trash"  title="Eliminar Tratamiento"
                                             (click)="confirm(tratamiento,ri)"
-                                            class="p-button-rounded p-button-text ui-button-danger">
+                                            class="p-button-rounded p-button-text p-button-danger">
                                         </button>
                                         <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
                                             icon="pi pi-check" (click)="onRowEditSave(tratamiento,'tratamiento')"
@@ -1525,7 +1525,7 @@
                                             class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
                                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-times" (click)="onRowEditCancel(tratamiento, ri)"
-                                            class="p-button-rounded p-button-text ui-button-danger"></button>
+                                            class="p-button-rounded p-button-text p-button-danger"></button>
                                     </td>
                                 </tr>
                             </ng-template>

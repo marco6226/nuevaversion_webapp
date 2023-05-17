@@ -4,7 +4,7 @@
     // width: 350px;
     // padding-left: 14px;
     padding-bottom: 12px;
-    border-radius: 20px
+    border-radius: 20px;
 }
 
 .container-show{
@@ -27,6 +27,11 @@
 
 .icon-size{
     color: var(--yellow-d4);
+    font-size: 1.7rem;
+}
+
+.icon-size-child{
+    color: var(--gray2);
     font-size: 1.7rem;
 }
 

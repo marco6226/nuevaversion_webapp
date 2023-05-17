@@ -86,7 +86,7 @@
       <ng-template pTemplate="summary" let-rowData>
         <button *sTienePermiso="'AUC_GET_OBS'" pButton type="button" icon="fa fa-plus" label="Consultar" (click)="navToConsultar()"
           [disabled]="!observacionSelect"></button>
-        <button *sTienePermiso="'AUC_PUT_OBS'" pButton type="button" icon="bi bi-pencil-square" class="p-button-success" label="Gestionar" class="ui-button-success"
+        <button *sTienePermiso="'AUC_PUT_OBS'" pButton type="button" icon="bi bi-pencil-square" class="p-button-success" label="Gestionar" class="p-button-success"
           [disabled]="!observacionSelect" (click)="navToGestionar()"></button>
       </ng-template>
       <ng-template pTemplate="emptymessage">

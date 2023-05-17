@@ -159,10 +159,10 @@
                     </td>
                     <td class="p-text-center">
                         <button *ngIf="!editing" [disabled]="esConsulta" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(pAccion)" class="p-button-rounded ui-table-btn p-button-text p-mr-2"> </button>
-                        <button *ngIf="!editing" [disabled]="esConsulta" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash" (click)="onRowDelete(ri)" class="p-button-rounded ui-table-btn ui-button-danger p-button-text">
+                        <button *ngIf="!editing" [disabled]="esConsulta" pButton pRipple type="button" pInitEditableRow icon="pi pi-trash" (click)="onRowDelete(ri)" class="p-button-rounded ui-table-btn p-button-danger p-button-text">
                         </button>
                         <button *ngIf="editing" [disabled]="esConsulta" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(pAccion)" class="p-button-rounded ui-table-btn p-button-text p-button-success p-mr-2"></button>
-                        <button *ngIf="editing" [disabled]="esConsulta" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(pAccion, ri)" class="p-button-rounded ui-button-danger ui-table-btn p-button-text p-button-danger"></button>
+                        <button *ngIf="editing" [disabled]="esConsulta" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(pAccion, ri)" class="p-button-rounded p-button-danger ui-table-btn p-button-text p-button-danger"></button>
                     </td>
                 </tr>
             </ng-template>

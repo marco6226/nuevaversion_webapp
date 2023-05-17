@@ -336,7 +336,7 @@
 
 <ng-container *ngIf="!consultar && !adicionar">
     <button *sTienePermiso="'RAI_PUT_REPT'" pButton  (click)="submit1()" icon="pi pi-pencil" title="Actualizar reporte"
-        class="float-btn ui-button-success" [disabled]="!(form.valid  && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
+        class="float-btn p-button-success" [disabled]="!(form.valid  && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
 </ng-container>
 <!-- <button (click)="test()">test</button> -->
 <a style="visibility: hidden" id="dwldLink"></a>

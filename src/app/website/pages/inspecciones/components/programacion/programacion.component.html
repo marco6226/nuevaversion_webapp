@@ -81,13 +81,13 @@
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="fa fa-list-ol" class="ui-button-success" label="Inspeccion"
+        <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="fa fa-list-ol" class="p-button-success" label="Inspeccion"
           (click)="irInspeccion2()" [disabled]="btnInspDisable">
         </button>
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="ui-button-danger" label="Eliminar"
+        <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="p-button-danger" label="Eliminar"
           (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
       </ng-container>
 

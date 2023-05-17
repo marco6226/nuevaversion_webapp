@@ -40,6 +40,7 @@
     "flatted": "^3.2.7",
     "i": "^0.3.7",
     "moment": "^2.29.4",
+    "ng-circle-progress": "^1.7.1",
     "ngx-image-cropper": "^6.3.2",
     "node-xlsx": "^0.21.0",
     "npm": "^9.4.0",

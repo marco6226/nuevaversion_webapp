@@ -86,7 +86,7 @@
     
     <p-panel  *ngIf="visiblePnlDenegada">
       <p-header>
-        <button pButton type="button" icon="fa fa-ban" label="Denegar" *ngIf="!consultar" (click)="guardarDenegar()" class="ui-button-danger"
+        <button pButton type="button" icon="fa fa-ban" label="Denegar" *ngIf="!consultar" (click)="guardarDenegar()" class="p-button-danger"
           [disabled]="motivo == null || motivo.length == 0"></button>
       </p-header>
       <strong>Observaciones</strong>
@@ -96,7 +96,7 @@
     </p-panel>
     <p-panel  *ngIf="visiblePnlAceptada">
       <p-header>
-        <button pButton type="button" icon="pi pi-check" label="Aceptar" *ngIf="!consultar" (click)="guardarAceptar()" class="ui-button-success"
+        <button pButton type="button" icon="pi pi-check" label="Aceptar" *ngIf="!consultar" (click)="guardarAceptar()" class="p-button-success"
           [disabled]="motivo == null || motivo.length == 0"></button>
       </p-header>
       <strong>Observaciones</strong>
@@ -108,10 +108,10 @@
     
   
     <ng-container *ngIf="!consultar && observacion.tipoObservacion != EstadoSeg">
-      <button *sTienePermiso="'AUC_PUT_OBSACEPT'" pButton type="button" icon="pi pi-check" title="Gestionar observación" class="float-btn ui-button-success"
+      <button *sTienePermiso="'AUC_PUT_OBSACEPT'" pButton type="button" icon="pi pi-check" title="Gestionar observación" class="float-btn p-button-success"
         style="right: 100px;" (click)="aceptar()"></button>
   
-      <button *sTienePermiso="'AUC_PUT_OBSDENEG'" pButton type="button" icon="fa fa-ban" title="Denegar observación" class="float-btn ui-button-danger"
+      <button *sTienePermiso="'AUC_PUT_OBSDENEG'" pButton type="button" icon="fa fa-ban" title="Denegar observación" class="float-btn p-button-danger"
         (click)="denegar()"></button>
     </ng-container>
   

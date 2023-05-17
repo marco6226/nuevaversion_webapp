@@ -1,1 +1,146 @@
-<sg-charts></sg-charts>
+<!-- <sg-charts></sg-charts> -->
+<ng-container *ngIf="idEmpresa!='22'" class="grid">
+<!-- <ng-container class="grid"> -->
+    <p-card class="col-12"   >
+       
+        <div class="p-grid  p-mt-3 p-jc-evenly colorsitos" style="padding: 2px 2px;">
+
+    <circle-progress
+      [percent]="this.inptotal"
+      [radius]="50"
+      [outerStrokeWidth]="10"
+      [innerStrokeWidth]="8"
+      [outerStrokeColor]="'#78C000'"
+      [innerStrokeColor]="'#C7E596'"
+      [animation]="true"
+      [animationDuration]="300"
+      *sTienePermiso="'INP'"
+      
+    ></circle-progress>
+    
+    <circle-progress
+    [percent]="this.inptotalat"
+    [radius]="50"
+    [outerStrokeWidth]="10"
+    [innerStrokeWidth]="8"
+    [outerStrokeColor]="'#5132db'"
+    [innerStrokeColor]="'#96d3e5'"
+    [animation]="true"
+    [animationDuration]="300"
+    *sTienePermiso="'RAI'"
+    ></circle-progress>
+    
+    <circle-progress
+    [percent]="this.inptotalauc"
+    [radius]="50"
+    [outerStrokeWidth]="10"
+    [innerStrokeWidth]="8"
+    [outerStrokeColor]="'#db328f'"
+    [innerStrokeColor]="'#e596d8'"
+    [animation]="true"
+    [animationDuration]="300"
+    *sTienePermiso="'AUC'"
+    ></circle-progress>
+    
+    
+    <div class="col-12 md:col-3 lg:col-3 mid-border">
+        <div class="grid p-jc-evenly">
+            
+           
+            <div class="grid"  *sTienePermiso="'INP'"><p class="col-4" [style.background-color]="'#8fb56f'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Inspecciones</p></div>     
+            <div class="grid"  *sTienePermiso="'RAI'"><p class="col-4" [style.background-color]="'#65afc4'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Investigación de AT/IT</p></div>
+            <div class="grid"  *sTienePermiso="'AUC'"><p class="col-4" [style.background-color]="'#a4719b'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Reporte de condiciones</p></div>
+    
+    
+        </div>
+        </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 mid-border">
+                <div class="p-d-flex p-jc-evenly">
+                    
+    
+                    <div class="p-d-flex"><p class="p-m-0">Area : </p> <area-selectorind  *ngIf="show" ngDefaultControl [(ngModel)]="areaSelected" (onAreaSelect)="actualizarArea($event)"   ></area-selectorind></div>
+                  <div class="p-d-flex">  
+                      <i style="font-size:24px" class="fa">&#xf073;</i>   
+                      <p-calendar [locale]="localeES" (onSelect)="selecFromDate($event)"  dateFormat="dd/mm/yy" value="this.desde"   placeholder="Desde" appendTo="body" ngDefaultControl [(ngModel)]="this.desde"  > </p-calendar> 
+                    </div>
+                     
+                    <div class="p-d-flex"> 
+                      <i style="font-size:24px" class="fa">&#xf073;</i> 
+                      <p-calendar [locale]="localeES" (onSelect)="selectToDate($event)"   dateFormat="dd/mm/yy" value="this.hasta"   placeholder="Hasta" appendTo="body"  ngDefaultControl [(ngModel)]="this.hasta"> </p-calendar>
+    
+                    </div>
+                    
+                   
+                    
+    
+                </div>
+            </div>
+    
+            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'INP'">           
+               <ng-container *ngIf="this.data">
+                <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                <div *ngIf="showData">
+                    <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+                </div>
+               </ng-container>
+                
+            </div>
+            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'INP'">
+                <ng-container *ngIf="this.data2">
+                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                <div *ngIf="showData">
+                    <p-chart type="bar"  [data]="data2" [options]="options2" ></p-chart>
+                </div>
+            </ng-container>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4" *sTienePermiso="'INP'">
+                <ng-container *ngIf="this.data">
+                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                    <div *ngIf="showData">
+                    <p-chart type="bar" [data]="data3" [options]="options3"></p-chart>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'RAI'">
+                <ng-container *ngIf="this.data4">
+                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                    <div *ngIf="showData">
+                        <p-chart type="bar" [data]="data4" [options]="options4"></p-chart>
+                    </div>
+                   </ng-container>
+            </div>
+            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'AUC'"> 
+                <ng-container *ngIf="this.data5">
+                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                    <div *ngIf="showData">
+                        <p-chart type="bar" [data]="data5" [options]="options5"></p-chart>
+                    </div>
+                   </ng-container>
+            </div>
+            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'RAI'">
+                <ng-container *ngIf="this.data6">
+                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                    <div *ngIf="showData">
+                        <p-chart type="bar" [data]="data6" [options]="options6"></p-chart>
+                    </div>
+                   </ng-container>
+            </div>
+    
+            
+        </div>
+       
+    
+    </p-card>
+
+     
+    <div *ngIf="!testing" style="width: 100%; display: flex;
+    flex-direction: column-reverse;"> 
+        
+        <div class="center"><img src="../../../../../../assets/gif/tenor.gif" alt=""  style="overflow: hidden"></div>
+    
+    </div>
+    </ng-container>
+    <ng-container *ngIf="idEmpresa=='22'">
+        <app-dashboard-corona></app-dashboard-corona>
+    </ng-container>

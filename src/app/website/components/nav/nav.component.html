@@ -38,7 +38,7 @@
                 <img *ngIf="usuario?.icon" [src]="usuario.icon"/> -->
 
                 <div>
-                    <i *ngIf="!usuario.avatar" class="fa fa-user-circle" style="font-size: 128px;color:#3ba2dc;"
+                    <i *ngIf="!usuario.avatar" class="pi pi-user" style="font-size: 128px;color:#3ba2dc;"
                         aria-hidden="true"></i>
                     <img *ngIf="usuario.avatar" [src]="usuario.avatar" style="border-radius: 50%; height: 128px; width: 128px; margin-right: -3px;" #imgAvatar />
                     <div class="img-select" (click)="abrirDlg()">

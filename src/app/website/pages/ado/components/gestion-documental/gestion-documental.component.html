@@ -99,9 +99,9 @@
             </p>
             <ng-container *ngIf="nodeSelect?.data.esDocumento">
                 <s-documento-form [documento]="nodeSelect?.data.documento"></s-documento-form>
-                <button [disabled]="esConsulta" *sTienePermiso="'ADO_PUT_DIR'" pButton type="button" class="ui-button-success" (click)="actualizarDocumento(nodeSelect.data)" label="Actualizar" icon="pi pi-pencil"></button>
+                <button [disabled]="esConsulta" *sTienePermiso="'ADO_PUT_DIR'" pButton type="button" class="p-button-success" (click)="actualizarDocumento(nodeSelect.data)" label="Actualizar" icon="pi pi-pencil"></button>
             </ng-container>
-            <button [disabled]="esConsulta" *sTienePermiso="'ADO_DELETE_DIR'" pButton type="button" (click)="confirmarEliminar()" class="ui-button-danger" label="Eliminar" icon="pi pi-trash"></button>
+            <button [disabled]="esConsulta" *sTienePermiso="'ADO_DELETE_DIR'" pButton type="button" (click)="confirmarEliminar()" class="p-button-danger" label="Eliminar" icon="pi pi-trash"></button>
         </div>
     </div>
 

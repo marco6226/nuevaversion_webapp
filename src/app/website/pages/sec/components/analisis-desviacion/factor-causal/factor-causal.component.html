@@ -1,18 +1,18 @@
 <p-toast></p-toast>
 <form class="container">
-    <div id="msform" class="row">
+    <div id="msform" class="row grid">
         <h1 *ngIf="factorCausal.nombre!='contratista'">Nombre Etapa: {{factorCausal.nombre}}</h1>
         <h1 *ngIf="factorCausal.nombre=='contratista'">Seleccione causa raiz</h1>
-        <div class="ui-g-12 ui-sm-12 ui-md-12">
+        <div class="col-12">
           <p-steps [model]="steps" [(activeIndex)]="pasoSelect"></p-steps>
         </div>
-        <div class="ui-g-12 ui-sm-12 ui-md-12">
+        <div class="col-12">
           <button class="next action-button" *ngIf="pasoSelect>0" (click)="back()">Volver</button>
           <button class="next action-button" *ngIf="pasoSelect < steps.length-1" (click)="next()">Siguiente</button>
         </div>
 
         <ng-container *ngFor="let items of factorCausal?.seccion" >
-          <div class="col-md-4 col-sm-12" *ngIf="pasoSelect==0">          
+          <div class="col-12 md:col-4 lg:col4" *ngIf="pasoSelect==0">          
             <h2 class="titulos"><b>{{items.tipoDesempeno}}</b></h2>
             <fieldset  *ngFor="let item of items.desempeno" >
               <div *ngIf="item.selected">

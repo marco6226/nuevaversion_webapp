@@ -1,0 +1,33 @@
+.active-no-hover {
+    background-color: $active-color;
+}
+
+.active {
+    background-color: $active-color;
+}
+
+.warning {
+    background-color: $warning-color;
+    color: $warning-font-color;
+}
+
+.fatal {
+    background-color: $fatal-color;
+}
+
+.success {
+    background-color: $success-color;
+}
+
+.active-no-hover {
+    background-color: $active-color !important;
+    color: $white-color !important;
+}
+
+.inactive {
+    background-color: $inactive-color;
+}
+
+.novalid {
+    background-color: $danger-color;
+}

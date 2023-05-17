@@ -187,6 +187,9 @@ import { ListadoCausasTemporalComponent } from './pages/rai/components/registro-
 import { FormularioIncidenteTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-incidente-temporal/formulario-incidente-temporal.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-usuario.component';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -378,7 +381,18 @@ import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-us
     UploaderModule,
     OverlayPanelModule,
     ContextMenuModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    ScrollPanelModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      radius: 100,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: "#78C000",
+      innerStrokeColor: "#C7E596",
+      animationDuration: 300,
+      
+    })
   ],
   providers: [
     PerfilService,

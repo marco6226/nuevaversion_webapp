@@ -1,1 +1,208 @@
-<p>dashboard-corona works!</p>
+
+    <div style="width: 100%;">
+        <p-panel header="RESUMEN ACCIDENTALIDAD" style="text-align:center;">
+            <div class="grid colorsitos colorfondo">
+                <div class="col-12 ">
+                    <div class="grid ">
+                        <div class="col-12 md:col-6 lg:col-3">
+                            <div class="card l-bg-blue1-dark">
+                              <div style="text-align:left;">
+                                  <h3>Numero de ATs</h3>
+                              </div>
+                              <div style="text-align:right;">
+                                  <span class="tamañotexto">{{this.NoEventos || 0}}</span>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-6 lg:col-3">
+                            <div class="card l-bg-blue2-dark">
+                              <div style="text-align:left;">
+                                  <h3>Dias perdidos</h3>
+                              </div>
+                              <div  style="text-align:right;">
+                                  <span class="tamañotexto">{{this.diasPerdidos || 0}}</span>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-6 lg:col-3">
+                            <div class={{colorIli}}>
+                              <div style="text-align:left;">
+                                  <h3>ILI</h3>
+                              </div>
+                              <div  style="text-align:right;">
+                                  <span class="tamañotexto">{{ili || 0}}</span>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-12 md:col-6 lg:col-3">
+                            <div class="card l-bg-blue3-dark">
+                                <div style="text-align:left;">
+                                    <h3>Meta</h3>
+                                </div>
+                                <div style="text-align:right;">
+                                    <span class="tamañotexto">{{metaIli || 0}}</span>
+                                </div>                                     
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 grid mid-border">
+                  <div class="col-12 md:col-6 lg:col-3"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" [(ngModel)]="selectedDivisionResumen" placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen()"></p-dropdown></div>
+                  <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
+                    <p style="margin: 10px!important;">Año:</p>
+                    <p-dropdown [style]="{'width':'100%'}" [options]="yearRange"
+                    placeholder="Seleccione un año"
+                    [(ngModel)]="anioActualResumen"
+                    (onChange)="loadResumen()">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
+                    <p style="margin-right: 10px!important;">Desde:</p>
+                      <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
+                    <p-calendar [locale]="localeES" view="month"
+                    dateFormat="MM" placeholder="Seleccione" appendTo="body" 
+                    [(ngModel)]="fechaInicioResumen" showButtonBar="true" 
+                    (onSelect)="loadResumen()" (onClearClick)="loadResumen()"
+                    (onTodayClick)="loadResumen()">
+                    </p-calendar>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
+                    <p style="margin-right: 10px!important;">Hasta:</p>
+                      <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                      <p-calendar [locale]="localeES" view="month" dateFormat="MM" 
+                      placeholder="Seleccione" appendTo="body" showButtonBar="true" 
+                      [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
+                      (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()">
+                      </p-calendar>
+                  </div>
+                </div>
+            </div>
+        </p-panel>
+      <br>
+      <p-panel header="RESUMEN CARACTERIZACIÓN">
+        <div class="grid colorsitos colorfondo">
+            <div class="col-12" >
+                <p-radioButton name="group1" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+                <label for="">Total</label>
+                <p-radioButton name="group1" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+                <label for="">Temporales</label>
+                <p-radioButton name="group1" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+                <label for="">Directos</label>
+            </div>
+            <div class="col-12 ">
+                <div class="grid ">
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="card l-bg-blue1-dark">
+                            <div  style="text-align:left;">
+                                <h3>Leve</h3>
+                            </div>
+                            <div  style="text-align:right;">
+                                <span class="tamañotexto">{{this.ContLeve}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="card l-bg-blue2-dark">
+                            <div  style="text-align:left;">
+                                <h3>Grave</h3>
+                            </div>
+                            <div  style="text-align:right;">
+                                <span class="tamañotexto">{{this.ContGrave}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="card l-bg-blue3-dark">
+                            <div  style="text-align:left;">
+                                <h3>Severo</h3>
+                            </div>
+                            <div  style="text-align:right;">
+                                <span class="tamañotexto">{{this.ContSevero}}</span>
+                            </div>                                     
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="card l-bg-blue4-dark">
+                            <div  style="text-align:left;">
+                                <h3>Mortal</h3>
+                            </div>
+                            <div  style="text-align:right;">
+                                <span class="tamañotexto">{{this.ContMortal}}</span>
+                            </div>                                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 grid">
+                <div class="col-2">&nbsp;</div>
+                <div style="display: flex;" class="col-3"><p>Area: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="CardsClasificacion()" [(ngModel)]="selectArea"></p-dropdown></div>
+                &nbsp;
+                <div style="display: flex;" class="col-3">  
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
+                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+                </div>
+                &nbsp;
+                <div style="display: flex;" class="col-3"> 
+                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+                </div>
+            </div>
+        </div>
+        </p-panel>
+      <br>
+      <p-panel header="RESUMEN CASOS MEDICOS" style="text-align:center;">
+        <div class="grid colorfondo" style="margin:0px auto;">
+          <!-- <div class="col-md-1">&nbsp;</div> -->
+            <div class="col-12" >
+                <div class="grid">
+                    <div class="col-12 md:col-6 lg:col-4">
+                        <div class="card l-bg-blue1-dark">
+                              <div style="text-align:left;">
+                                  <h1 >Numero de casos</h1>
+                              </div>
+                              <div style="text-align:right;">
+                                  <span class="tamañotexto" >{{this.numCasos}}</span>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-4">
+                        <div class="card l-bg-blue2-dark">
+                              <div style="text-align:left;">
+                                  <h1 >Casos abiertos</h1>
+                              </div>
+                              <div style="text-align:right;">
+                                  <span class="tamañotexto">{{this.casosAbiertos}}</span>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-4">
+                        <div class="card l-bg-blue3-dark">
+                              <div style="text-align:left;">
+                                  <h1>Casos cerrados</h1>
+                              </div>
+                              <div style="text-align:right;">
+                                  <span class="tamañotexto">{{this.casosCerrados}}</span>
+                              </div>                                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">&nbsp;</div>
+            <div class="col-9">
+              <div class="grid">
+                    <div class="col-12 md:col-12 lg:col-4" style="display: flex;">
+                      <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-4" style="display: flex;"> 
+                      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="event"></mat-icon>
+                      <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde0" (ngModelChange)="numeroCasos()"> </p-calendar> 
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
+                      <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
+                      <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta0" (ngModelChange)="numeroCasos()"> </p-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+</div>
