@@ -1,4 +1,4 @@
-<p-toast value="msgs"></p-toast>
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <div class="shadow">
   <p-panel header="CARGA ARCHIVO REPORTES AT">
     <p-radioButton name="tipoReporte" value="ACCIDENTE" label="Accidente" [(ngModel)]="tipoReporte" required></p-radioButton>

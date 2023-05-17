@@ -116,8 +116,7 @@ export class CargoComponent implements OnInit {
       this.visibleForm = true;
       this.isUpdate = true;
 
-
-      let ficha = JSON.parse(this.cargoSelect.ficha || '');
+      let ficha = JSON.parse(this.cargoSelect.ficha!);
       if (ficha != null) {
         this.formacionList = ficha.formacion;
         this.perfilEducativoList = ficha.perfilEducativo;

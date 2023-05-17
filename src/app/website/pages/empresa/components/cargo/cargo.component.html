@@ -74,20 +74,20 @@
 </p-dialog>
 
 
-<p-dialog header="Datos de cargo" [(visible)]="visibleForm" modal="true" [maximizable]="true" responsive="true">
+<p-dialog header="Datos de cargo" [(visible)]="visibleForm" [contentStyle]="{'max-height':'70%'}" [style]="{width: '80%'}">
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div>
       <div class="grid">
-        <div class="col-4">
-          <span class="form-floating">
+        <div class="col-6">
+          <span class="p-float-label">
             <input id="cnombre-input" type="text" pInputText formControlName="nombre" required/>
             <label for="cnombre-input">Nombre</label>
           </span>
         </div>
 
-        <div class="col-4">
-          <span class="form-floating">
+        <div class="col-6">
+          <span class="p-float-label">
             <textarea id="cdescripcion-input" pInputTextarea formControlName="descripcion"></textarea>
             <label for="cdescripcion-input">Descripción</label>
           </span>
@@ -166,22 +166,22 @@
           <label>Experiencia laboral</label>
         </p-header>
         <div class="grid">
-          <div class="col-12 md:col-6 lg:col-6">
-            <span class="ui-float-label">
+          <div class="col-12 md:col-6 lg:col-6" style="display: flex;">
+            <span class="p-float-label">
               <input id="expmin-input" type="number" pInputText style="width: 100px;" formControlName="valorMinimo" />
-              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadMinima" value="anios" label="Año(s)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
-              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadMinima" value="meses" label="Mes(es)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
               <label for="expmin-input">Mínima</label>
             </span>
+            <p-radioButton [style]="{'margin-left': '10px'}" name="unidadMinima" value="anios" label="Año(s)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
+            <p-radioButton [style]="{'margin-left': '10px'}" name="unidadMinima" value="meses" label="Mes(es)" formControlName="unidadMinima" ngDefaultControl ></p-radioButton>
           </div>
 
-          <div class="col-12 md:col-6 lg:col-6">
-            <span class="ui-float-label">
+          <div class="col-12 md:col-6 lg:col-6"  style="display: flex;">
+            <span class="p-float-label">
               <input id="expdes-input" type="number" pInputText style="width: 100px;" formControlName="valorDeseable" />
-              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadDeseable" value="anios" label="Año(s)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
-              <p-radioButton [style]="{'margin-left': '10px'}" name="unidadDeseable" value="meses" label="Mes(es)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
               <label for="expdes-input">Deseable</label>
             </span>
+            <p-radioButton [style]="{'margin-left': '10px'}" name="unidadDeseable" value="anios" label="Año(s)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
+            <p-radioButton [style]="{'margin-left': '10px'}" name="unidadDeseable" value="meses" label="Mes(es)" formControlName="unidadDeseable" ngDefaultControl ></p-radioButton>
           </div>
         </div>
       </p-fieldset>

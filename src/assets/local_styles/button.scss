@@ -33,6 +33,10 @@
     justify-content: space-evenly;
 }
 
+.p-button:disabled {    
+    background-color:rgba(173, 173, 173, 1) !important;
+}
+
 .p-button-success:disabled {    
     background: #C5E1A5 !important;
     opacity: 1 !important;

@@ -267,7 +267,7 @@
 	// 	}
 	// }
 
-
+	
 
 
 
@@ -345,4 +345,19 @@
 
 	.rigth{
 		padding-left: 15px;
+	}
+
+	.grid {
+		padding-top: 10px;
+		display: flex;
+		margin-right: -0.5rem;
+		margin-left: -0.5rem;
+		margin-top: -0.5rem;
+		justify-content: space-evenly;
+	}
+	.col-2{
+		text-align: center;
+	}
+	label{
+		font-size: large;
 	}

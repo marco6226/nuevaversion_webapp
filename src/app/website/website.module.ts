@@ -186,6 +186,7 @@ import { IncapacidadesComplementariaTemporalComponent } from './pages/rai/compon
 import { ListadoCausasTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-accidente-temporal/listado-causas-temporal/listado-causas-temporal.component';
 import { FormularioIncidenteTemporalComponent } from './pages/rai/components/registro-reporte-temporal/formulario-incidente-temporal/formulario-incidente-temporal.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-usuario.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -339,7 +340,8 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
     IncapacidadesComplementariaTemporalComponent,
     ListadoCausasTemporalComponent,
     FormularioIncidenteTemporalComponent,
-    DocumentoFormComponent
+    DocumentoFormComponent,
+    MensajeUsuarioComponent
   ],
   imports: [
     MatTooltipModule,

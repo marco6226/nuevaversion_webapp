@@ -1,7 +1,21 @@
+//local
 let protocol = "http";
 let host = "localhost";
 let port = "8080";
 let path = protocol + "://" + host + ":" + port + "/sigess/api/"; 
+
+// //Demo
+// let protocol = 'https';
+// let host = 'demo.sigess.app'
+// let port = '5858';
+// let path = protocol + "://" + host + ":" + port + "/sigess/api/";
+
+//Produccion
+// let protocol = 'https';
+// let host = 'sigess.app';
+// let port = '5858';
+// let path = protocol + "://" + host + ":" + port + "/sigess/api/";
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.

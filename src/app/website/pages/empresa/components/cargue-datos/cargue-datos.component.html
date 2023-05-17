@@ -1,15 +1,15 @@
-<p-toast value="msgs"></p-toast>
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <div class="spinner" *ngIf="initLoading"><img src="assets/images/icons-invert/cargando.gif" alt=""  style="overflow: hidden"></div>
 
 
 <p-panel header="Cargue masivo de datos">
     <div class="grid">
         <div class="col-12 md:col-2 lg:col-2">
-            <p-dropdown [options]="opciones" [(ngModel)]="opcionSelect" disabled="true"></p-dropdown>
+            <p-dropdown [options]="opciones" [(ngModel)]="opcionSelect" [disabled]="true"></p-dropdown>
         </div>
         <div class="col-12 md:col-10 lg:col-10">
             <button pButton [disabled]="isCargado || initLoading" type="button" icon="pi pi-upload" (click)="fileInput.click()" pTooltip="Cargar archivo"></button>
-            <button pButton [disabled]="!isCargado || initLoading" type="button" icon="fa fa-refresh" (click)="limpiar();" pTooltip="Refrescar"></button>
+            <button pButton [disabled]="!isCargado || initLoading" type="button" icon="pi pi-sync" (click)="limpiar();" pTooltip="Refrescar"></button>
             <input name="myFile" [(ngModel)]="myFile" type="file" style="visibility: hidden;" #fileInput (input)="onArchivoSelect($event)">
         </div>
         <ng-template ngFor let-opt [ngForOf]="modelo[opcionSelect]" let-i="index">
