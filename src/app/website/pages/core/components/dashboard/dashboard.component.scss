@@ -122,3 +122,17 @@
      color: #fff !important;
      position: fixed;
   }
+
+  .flex-pieGraf{
+    display: flex;
+  }
+
+  .col-12{
+    justify-content: space-evenly;
+  }
+
+  .colum-centrada{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }

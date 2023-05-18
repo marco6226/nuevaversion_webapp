@@ -1,146 +1,227 @@
 <!-- <sg-charts></sg-charts> -->
 <ng-container *ngIf="idEmpresa!='22'" class="grid">
 <!-- <ng-container class="grid"> -->
-    <p-card class="col-12"   >
+    <p-card>
        
-        <div class="p-grid  p-mt-3 p-jc-evenly colorsitos" style="padding: 2px 2px;">
+        <div class="grid  p-mt-3 p-jc-evenly colorsitos" style="padding: 2px 2px;">
 
-    <circle-progress
-      [percent]="this.inptotal"
-      [radius]="50"
-      [outerStrokeWidth]="10"
-      [innerStrokeWidth]="8"
-      [outerStrokeColor]="'#78C000'"
-      [innerStrokeColor]="'#C7E596'"
-      [animation]="true"
-      [animationDuration]="300"
-      *sTienePermiso="'INP'"
-      
-    ></circle-progress>
+  
+            <div class="col-12 grid">
+
+                <div class="col-12 md:col-4 lg:col-4 colum-centrada" *sTienePermiso="'INP'">
+                    <circle-progress
+                    [percent]="this.inptotal"
+                    [radius]="50"
+                    [outerStrokeWidth]="10"
+                    [innerStrokeWidth]="8"
+                    [outerStrokeColor]="'#78C000'"
+                    [innerStrokeColor]="'#C7E596'"
+                    [animation]="true"
+                    [animationDuration]="300"
+                    ></circle-progress>
+                    <p  [style.background-color]="'#8fb56f'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Inspecciones</p>
+                </div> 
+                <div class="col-12 md:col-4 lg:col-4 colum-centrada"  *sTienePermiso="'RAI'">
+                    <circle-progress 
+                    [percent]="this.inptotalat"
+                    [radius]="50"
+                    [outerStrokeWidth]="10"
+                    [innerStrokeWidth]="8"
+                    [outerStrokeColor]="'#5132db'"
+                    [innerStrokeColor]="'#96d3e5'"
+                    [animation]="true"
+                    [animationDuration]="300"
+                    ></circle-progress>
+                    <p  [style.background-color]="'#65afc4'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Investigación de AT/IT</p>
+                </div> 
+
+                <div class="col-12 md:col-4 lg:col-4 colum-centrada"  *sTienePermiso="'AUC'">
+                    <circle-progress 
+                    [percent]="this.inptotalauc"
+                    [radius]="50"
+                    [outerStrokeWidth]="10"
+                    [innerStrokeWidth]="8"
+                    [outerStrokeColor]="'#db328f'"
+                    [innerStrokeColor]="'#e596d8'"
+                    [animation]="true"
+                    [animationDuration]="300"
+                    ></circle-progress> 
+                    <p  [style.background-color]="'#a4719b'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Reporte de condiciones</p>
+                </div> 
+            </div>
+
     
-    <circle-progress
-    [percent]="this.inptotalat"
-    [radius]="50"
-    [outerStrokeWidth]="10"
-    [innerStrokeWidth]="8"
-    [outerStrokeColor]="'#5132db'"
-    [innerStrokeColor]="'#96d3e5'"
-    [animation]="true"
-    [animationDuration]="300"
-    *sTienePermiso="'RAI'"
-    ></circle-progress>
-    
-    <circle-progress
-    [percent]="this.inptotalauc"
-    [radius]="50"
-    [outerStrokeWidth]="10"
-    [innerStrokeWidth]="8"
-    [outerStrokeColor]="'#db328f'"
-    [innerStrokeColor]="'#e596d8'"
-    [animation]="true"
-    [animationDuration]="300"
-    *sTienePermiso="'AUC'"
-    ></circle-progress>
-    
-    
-    <div class="col-12 md:col-3 lg:col-3 mid-border">
-        <div class="grid p-jc-evenly">
-            
-           
-            <div class="grid"  *sTienePermiso="'INP'"><p class="col-4" [style.background-color]="'#8fb56f'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Inspecciones</p></div>     
-            <div class="grid"  *sTienePermiso="'RAI'"><p class="col-4" [style.background-color]="'#65afc4'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Investigación de AT/IT</p></div>
-            <div class="grid"  *sTienePermiso="'AUC'"><p class="col-4" [style.background-color]="'#a4719b'" style="color:rgb(7, 7, 7);font-size:15px; border-radius: 40px; padding: 10px 10px;">Cumplimiento Reporte de condiciones</p></div>
-    
-    
-        </div>
-        </div>
-    
-            <div class="col-12 md:col-4 lg:col-4 mid-border">
-                <div class="p-d-flex p-jc-evenly">
-                    
-    
-                    <div class="p-d-flex"><p class="p-m-0">Area : </p> <area-selectorind  *ngIf="show" ngDefaultControl [(ngModel)]="areaSelected" (onAreaSelect)="actualizarArea($event)"   ></area-selectorind></div>
-                  <div class="p-d-flex">  
-                      <i style="font-size:24px" class="fa">&#xf073;</i>   
-                      <p-calendar [locale]="localeES" (onSelect)="selecFromDate($event)"  dateFormat="dd/mm/yy" value="this.desde"   placeholder="Desde" appendTo="body" ngDefaultControl [(ngModel)]="this.desde"  > </p-calendar> 
+            <div class="col-9 col-offset-1 mid-border">
+                <div class="flex-pieGraf grid">
+                    <div class="flex-pieGraf col-12 md:col-4 lg:col-4"><p class="p-m-0">Area : </p> <area-selector  *ngIf="show" ngDefaultControl [(ngModel)]="areaSelected" (onAreaSelect)="actualizarArea($event)"   ></area-selector></div>
+                    <div class="flex-pieGraf col-12 md:col-4 lg:col-4">  
+                      <i style="font-size:24px" class="pi pi-calendar ">&#xf073;</i>   
+                      <p-calendar (onSelect)="selecFromDate($event)" dateFormat="dd/mm/yy" value="this.desde"   placeholder="Desde" appendTo="body" ngDefaultControl [(ngModel)]="this.desde"  > </p-calendar> 
                     </div>
                      
-                    <div class="p-d-flex"> 
-                      <i style="font-size:24px" class="fa">&#xf073;</i> 
-                      <p-calendar [locale]="localeES" (onSelect)="selectToDate($event)"   dateFormat="dd/mm/yy" value="this.hasta"   placeholder="Hasta" appendTo="body"  ngDefaultControl [(ngModel)]="this.hasta"> </p-calendar>
-    
+                    <div class="flex-pieGraf col-12 md:col-4 lg:col-4">
+                      <i style="font-size:24px" class="pi pi-calendar">&#xf073;</i> 
+                      <p-calendar (onSelect)="selectToDate($event)" dateFormat="dd/mm/yy" value="this.hasta"   placeholder="Hasta" appendTo="body"  ngDefaultControl [(ngModel)]="this.hasta"> </p-calendar>
                     </div>
-                    
-                   
-                    
-    
                 </div>
             </div>
-    
-            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'INP'">           
-               <ng-container *ngIf="this.data">
-                <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
-                <div *ngIf="showData">
-                    <p-chart type="bar" [data]="data" [options]="options"></p-chart>
-                </div>
-               </ng-container>
-                
-            </div>
-            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'INP'">
-                <ng-container *ngIf="this.data2">
-                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
-                <div *ngIf="showData">
-                    <p-chart type="bar"  [data]="data2" [options]="options2" ></p-chart>
-                </div>
-            </ng-container>
-            </div>
-            <div class="col-12 md:col-6 lg:col-4" *sTienePermiso="'INP'">
+
+            <div class="col-12 grid" >
+                <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'INP'">           
                 <ng-container *ngIf="this.data">
                     <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
-                    <div *ngIf="showData">
-                    <p-chart type="bar" [data]="data3" [options]="options3"></p-chart>
+                    <div *ngIf="showData" style="height: 5cm;">
+                        <ngx-charts-bar-vertical-2d 
+                        [scheme]="colorScheme"
+                        [animations]="false"
+                        [results]="data"
+                        [gradient]="true"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [legend]="false"
+                        [showXAxisLabel]="false"
+                        [showYAxisLabel]="false"
+                        [xAxisLabel]="'Divisiones'"
+                        [yAxisLabel]="'Indicadores'"
+                        [barPadding]=3
+                        [groupPadding]=3
+                        [showDataLabel]="true"
+                        [tooltipDisabled]="false">
+                        </ngx-charts-bar-vertical-2d>
                     </div>
                 </ng-container>
-            </div>
-            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'RAI'">
-                <ng-container *ngIf="this.data4">
-                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
-                    <div *ngIf="showData">
-                        <p-chart type="bar" [data]="data4" [options]="options4"></p-chart>
-                    </div>
-                   </ng-container>
-            </div>
-            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'AUC'"> 
-                <ng-container *ngIf="this.data5">
-                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
-                    <div *ngIf="showData">
-                        <p-chart type="bar" [data]="data5" [options]="options5"></p-chart>
-                    </div>
-                   </ng-container>
-            </div>
-            <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'RAI'">
-                <ng-container *ngIf="this.data6">
-                    <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
-                    <div *ngIf="showData">
-                        <p-chart type="bar" [data]="data6" [options]="options6"></p-chart>
-                    </div>
-                   </ng-container>
-            </div>
-    
-            
+                    
+                </div>
+                <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'INP'">
+                    <ng-container *ngIf="this.data2">
+                        <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                        <div *ngIf="showData"  style="height: 5cm;">
+                            <ngx-charts-bar-vertical 
+                            [scheme]="colorScheme2"
+                            [animations]="false"
+                            [results]="data2"
+                            [gradient]="true"
+                            [xAxis]="true"
+                            [yAxis]="true"
+                            [legend]="false"
+                            [showXAxisLabel]="false"
+                            [showYAxisLabel]="false"
+                            [xAxisLabel]="'Divisiones'"
+                            [yAxisLabel]="'Indicadores'"
+                            [barPadding]=3
+                            [groupPadding]=3
+                            [showDataLabel]="true"
+                            [tooltipDisabled]="false">
+                            </ngx-charts-bar-vertical>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'INP'">
+                    <ng-container *ngIf="this.data">
+                        <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                        <div *ngIf="showData"  style="height: 5cm;">
+                        <ngx-charts-bar-vertical-2d 
+                        [scheme]="colorScheme3"
+                        [animations]="false"
+                        [results]="data3"
+                        [gradient]="true"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [legend]="false"
+                        [showXAxisLabel]="false"
+                        [showYAxisLabel]="false"
+                        [xAxisLabel]="'Divisiones'"
+                        [yAxisLabel]="'Indicadores'"
+                        [barPadding]=3
+                        [groupPadding]=3
+                        [showDataLabel]="true"
+                        [tooltipDisabled]="false">
+                        </ngx-charts-bar-vertical-2d>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'RAI'">
+                    <ng-container *ngIf="this.data4">
+                        <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                        <div *ngIf="showData"  style="height: 5cm;">
+                            <ngx-charts-bar-vertical-2d 
+                            [scheme]="colorScheme4"
+                            [animations]="false"
+                            [results]="data4"
+                            [gradient]="true"
+                            [xAxis]="true"
+                            [yAxis]="true"
+                            [legend]="false"
+                            [showXAxisLabel]="false"
+                            [showYAxisLabel]="false"
+                            [xAxisLabel]="'Divisiones'"
+                            [yAxisLabel]="'Indicadores'"
+                            [barPadding]=3
+                            [groupPadding]=3
+                            [showDataLabel]="true"
+                            [tooltipDisabled]="false">
+                            </ngx-charts-bar-vertical-2d>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'AUC'"> 
+                    <ng-container *ngIf="this.data5">
+                        <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                        <div *ngIf="showData"  style="height: 5cm;">
+                            <ngx-charts-bar-vertical-2d 
+                            [scheme]="colorScheme5"
+                            [animations]="false"
+                            [results]="data5"
+                            [gradient]="true"
+                            [xAxis]="true"
+                            [yAxis]="true"
+                            [legend]="false"
+                            [showXAxisLabel]="false"
+                            [showYAxisLabel]="false"
+                            [xAxisLabel]="'Divisiones'"
+                            [yAxisLabel]="'Indicadores'"
+                            [barPadding]=3
+                            [groupPadding]=3
+                            [showDataLabel]="true"
+                            [tooltipDisabled]="false">
+                            </ngx-charts-bar-vertical-2d>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-12 md:col-6 lg:col-6" *sTienePermiso="'RAI'">
+                    <ng-container *ngIf="this.data6">
+                        <p-progressSpinner *ngIf="!showData"></p-progressSpinner>
+                        <div *ngIf="showData"  style="height: 5cm;">
+                            <ngx-charts-bar-vertical-2d 
+                            [scheme]="colorScheme6"
+                            [animations]="false"
+                            [results]="data6"
+                            [gradient]="true"
+                            [xAxis]="true"
+                            [yAxis]="true"
+                            [legend]="false"
+                            [showXAxisLabel]="false"
+                            [showYAxisLabel]="false"
+                            [xAxisLabel]="'Divisiones'"
+                            [yAxisLabel]="'Indicadores'"
+                            [barPadding]=3
+                            [groupPadding]=3
+                            [showDataLabel]="true"
+                            [tooltipDisabled]="false">
+                            </ngx-charts-bar-vertical-2d>
+
+                        </div>
+                    </ng-container>
+                </div>
+            </div>              
         </div>
-       
-    
     </p-card>
 
      
-    <div *ngIf="!testing" style="width: 100%; display: flex;
-    flex-direction: column-reverse;"> 
-        
+    <div *ngIf="!testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
         <div class="center"><img src="../../../../../../assets/gif/tenor.gif" alt=""  style="overflow: hidden"></div>
-    
     </div>
-    </ng-container>
-    <ng-container *ngIf="idEmpresa=='22'">
-        <app-dashboard-corona></app-dashboard-corona>
-    </ng-container>
+</ng-container>
+<ng-container *ngIf="idEmpresa=='22'">
+    <app-dashboard-corona></app-dashboard-corona>
+</ng-container>

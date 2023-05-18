@@ -5,6 +5,7 @@ import { ConfiguracionJornada } from '../../../entities/configuracion-jornada';
 import { Empleado } from '../../../entities/empleado';
 import { Jornada } from '../../../entities/jornada';
 import { ConfiguracionJornadaService } from '../../../services/configuracion-jornada.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 's-jornadaForm',
@@ -17,13 +18,16 @@ export class JornadaFormComponent implements OnInit {
   @Input("value") empleado!: Empleado;
   configuracionJornadaList!: ConfiguracionJornada[];
   fechaActual = new Date();
+  localeES: any = locale_es;
 
   constructor(
     private configuracionJornadaService: ConfiguracionJornadaService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private config: PrimeNGConfig
   ) { }
 
   ngOnInit() {
+    this.config.setTranslation(this.localeES);
     this.configuracionJornadaList = [];
     if (this.empleado.configuracionJornadaList != null) {
       this.empleado.configuracionJornadaList.forEach(conf => {

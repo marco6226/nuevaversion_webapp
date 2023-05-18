@@ -11,7 +11,7 @@
 
             <div class="col-12 md:col-6 lg:col-4 xl:col-3">
                 <label class="s-float-label">Fecha radicación</label>
-                <p-calendar id="fradicacion-input" [locale]="localeES" dateFormat="dd/mm/yy"
+                <p-calendar id="fradicacion-input" dateFormat="dd/mm/yy"
                     formControlName="fechaRadicacion" required></p-calendar>
             </div>
 
@@ -22,13 +22,13 @@
 
             <div class="col-12 md:col-6 lg:col-4 xl:col-3">
                 <label class="s-float-label">Fecha desde</label>
-                <p-calendar id="fdesde-input" [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaDesde"
+                <p-calendar id="fdesde-input" dateFormat="dd/mm/yy" formControlName="fechaDesde"
                     required></p-calendar>
             </div>
 
             <div class="col-12 md:col-6 lg:col-4 xl:col-3">
                 <label class="s-float-label">Fecha hasta</label>
-                <p-calendar id="fhasta-input" [locale]="localeES" [minDate]="form.get('fechaDesde')!.value"
+                <p-calendar id="fhasta-input" [minDate]="form.get('fechaDesde')!.value"
                     dateFormat="dd/mm/yy" formControlName="fechaHasta" required></p-calendar>
             </div>
 

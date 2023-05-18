@@ -32,6 +32,7 @@ import { Peligro } from 'src/app/website/pages/comun/entities/peligro';
 import { Empresa } from 'src/app/website/pages/empresa/entities/empresa';
 import { AnalisisDesviacion } from 'src/app/website/pages/comun/entities/analisis-desviacion';
 import { Directorio } from 'src/app/website/pages/ado/entities/directorio';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-formulario-accidente-temporal',
@@ -136,7 +137,8 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
       private confirmationService: ConfirmationService,
       private directorioService: DirectorioService,
       private cargoService: CargoService,
-      private messageService: MessageService
+      private messageService: MessageService,
+      private config: PrimeNGConfig
   ) {
       let defaultItem = <SelectItem[]>[{ label: '--seleccione--', value: null }];
       this.tipoVinculacionList = defaultItem.concat(<SelectItem[]>tipo_vinculacion);
@@ -164,6 +166,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
   }
   
   async ngOnInit() {
+    this.config.setTranslation(this.localeES);
     this.cargoService.findByEmpresa().then((resp) => {
       this.cargoList = [];
       this.cargoList.push({ label: '--Seleccione--', value: null });

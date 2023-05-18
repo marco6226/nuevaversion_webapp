@@ -8,6 +8,8 @@ import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 import { Criteria } from 'src/app/website/pages/core/entities/filter';
 import * as XLSX from 'xlsx'; 
+import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/website/pages/rai/entities/reporte-enumeraciones';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-consulta-desviacion',
@@ -15,6 +17,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./consulta-desviacion.component.scss']
 })
 export class ConsultaDesviacionComponent implements OnInit {
+  localeES: any = locale_es;
   desviacionesList?: Desviacion[];
   desviacionesListSelect?: Desviacion[];
   opcionesModulos = [
@@ -59,9 +62,11 @@ export class ConsultaDesviacionComponent implements OnInit {
     private desviacionService: DesviacionService,
     private paramNav: ParametroNavegacionService,
     private router: Router,
+    private config: PrimeNGConfig
   ) { }
 
   ngOnInit(): void {
+    this.config.setTranslation(this.localeES);
     this.areasPermiso = this.sesionService.getPermisosMap()['SEC_GET_DESV'].areas;
     let areasPermiso =this.areasPermiso?.replace('{','');
     areasPermiso =areasPermiso?.replace('}','');

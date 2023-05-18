@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { listFactores, ValorCausas } from 'src/app/website/pages/comun/entities/factor-causal';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-informe',
@@ -28,10 +29,13 @@ export class InformeComponent implements OnInit {
 
   canvas = document.createElement('canvas');
 
-  constructor() {
+  constructor(
+    private config: PrimeNGConfig
+  ) {
   }
 
   ngOnInit() {
+    this.config.setTranslation(this.localeES);
     this.numerarCausal()
     this.evidencias()
   }

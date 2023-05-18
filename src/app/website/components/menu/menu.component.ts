@@ -325,7 +325,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
                 ]
         },
         {
-            label: 'Contratistas',
+            label: 'Aliados',
             icon: 'bi bi-person-video2',
             codigo: 'CTR',
             expanded: false,

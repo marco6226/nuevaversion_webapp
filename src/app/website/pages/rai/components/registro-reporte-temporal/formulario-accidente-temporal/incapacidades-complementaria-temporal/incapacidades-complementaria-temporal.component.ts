@@ -3,6 +3,7 @@ import { ConfirmationService } from 'primeng/api';
 import * as moment from 'moment';
 import { Incapacidad } from 'src/app/website/pages/comun/entities/factor-causal';
 import { locale_es } from '../../../../entities/reporte-enumeraciones';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-incapacidades-complementaria-temporal',
@@ -39,10 +40,12 @@ export class IncapacidadesComplementariaTemporalComponent implements OnInit {
   ]
 
   constructor(
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private config: PrimeNGConfig
   ){}
 
   ngOnInit() {
+    this.config.setTranslation(this.localeES);
     if (this.incapacidades==null) {
       this.incapacidades = [];
     }

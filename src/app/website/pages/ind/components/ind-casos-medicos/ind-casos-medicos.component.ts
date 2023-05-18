@@ -628,7 +628,7 @@ export class IndCasosMedicosComponent implements OnInit {
     }
 
 
-    //Grafica sieto
+    //Grafica siete
     reset7(){
       this.selectDivisiones6=[]
       this.selectUbicacion6=[]

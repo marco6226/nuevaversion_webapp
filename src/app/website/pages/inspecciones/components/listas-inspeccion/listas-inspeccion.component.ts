@@ -9,6 +9,8 @@ import { ParametroNavegacionService } from '../../../core/services/parametro-nav
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
 import { InspeccionService } from '../../services/inspeccion.service';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
+import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/website/pages/rai/entities/reporte-enumeraciones';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-listas-inspeccion',
@@ -17,6 +19,7 @@ import { ListaInspeccionService } from '../../services/lista-inspeccion.service'
 })
 export class ListasInspeccionComponent implements OnInit {
 
+  localeES: any = locale_es;
   listaInspeccionList!: ListaInspeccion[];
   listaInpSelect!: ListaInspeccion;
   loading!: boolean;
@@ -44,9 +47,11 @@ export class ListasInspeccionComponent implements OnInit {
     private router: Router,
     private confirmationService: ConfirmationService,
     private inspeccionService: InspeccionService,
+    private config: PrimeNGConfig
   ) { }
 
   ngOnInit(): void {
+    this.config.setTranslation(this.localeES);
     this.loading = true;
   }
 

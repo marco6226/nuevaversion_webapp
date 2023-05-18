@@ -47,8 +47,8 @@
                     </div>
                 </div>
                 <div class="col-12 grid mid-border">
-                  <div class="col-12 md:col-6 lg:col-3"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" [(ngModel)]="selectedDivisionResumen" placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen()"></p-dropdown></div>
-                  <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
+                  <div class="sm:col-12 md:col-6 lg:col-3"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" [(ngModel)]="selectedDivisionResumen" placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen()"></p-dropdown></div>
+                  <div class="sm:col-12 md:col-6 lg:col-2"  style="display: flex;">
                     <p style="margin: 10px!important;">Año:</p>
                     <p-dropdown [style]="{'width':'100%'}" [options]="yearRange"
                     placeholder="Seleccione un año"
@@ -56,24 +56,28 @@
                     (onChange)="loadResumen()">
                     </p-dropdown>
                   </div>
-                  <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
+                  <div class="sm:col-12 md:col-5 lg:col-2"  style="display: flex;">
                     <p style="margin-right: 10px!important;">Desde:</p>
-                      <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
-                    <p-calendar [locale]="localeES" view="month"
+                      <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>  
+                    <p-calendar  view="month"
                     dateFormat="MM" placeholder="Seleccione" appendTo="body" 
                     [(ngModel)]="fechaInicioResumen" showButtonBar="true" 
                     (onSelect)="loadResumen()" (onClearClick)="loadResumen()"
                     (onTodayClick)="loadResumen()">
                     </p-calendar>
                   </div>
-                  <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
+                  <div class="sm:col-12 md:col-5 lg:col-2" style="display: flex;">
                     <p style="margin-right: 10px!important;">Hasta:</p>
-                      <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
-                      <p-calendar [locale]="localeES" view="month" dateFormat="MM" 
+                    <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div> 
+                      <p-calendar  view="month" dateFormat="MM" 
                       placeholder="Seleccione" appendTo="body" showButtonBar="true" 
                       [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
                       (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()">
                       </p-calendar>
+                  </div>
+                  <div class="sm:col-12 md:col-2 lg:col-2">
+                    <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
+                    (click)="IndicadoresAccidentalidad()"></button>
                   </div>
                 </div>
             </div>
@@ -134,18 +138,23 @@
                 </div>
             </div>
             <div class="col-12 grid">
-                <div class="col-2">&nbsp;</div>
-                <div style="display: flex;" class="col-3"><p>Area: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="CardsClasificacion()" [(ngModel)]="selectArea"></p-dropdown></div>
+                <div class="col-12 md:col-12 lg:col-2">&nbsp;</div>
+                <div style="display: flex;" class="col-12 md:col-6 lg:col-3"><p>Area: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="CardsClasificacion()" [(ngModel)]="selectArea"></p-dropdown></div>
                 &nbsp;
-                <div style="display: flex;" class="col-3">  
-                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+                <div style="display: flex;" class="col-12 md:col-6 lg:col-3">  
+                    <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>  
+                    <p-calendar  view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
                 </div>
                 &nbsp;
-                <div style="display: flex;" class="col-3"> 
-                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
-                    <p-calendar [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+                <div style="display: flex;" class="col-12 md:col-6 lg:col-3"> 
+                    <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>
+                    <p-calendar  view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+                    <div style="padding-left: 10px;">
+                        <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
+                        (click)="IndicadoresCaracterizacion()"></button>
+                    </div>
                 </div>
+
             </div>
         </div>
         </p-panel>
@@ -187,19 +196,23 @@
                     </div>
                 </div>
             </div>
-            <div class="col-1">&nbsp;</div>
-            <div class="col-9">
-              <div class="grid">
-                    <div class="col-12 md:col-12 lg:col-4" style="display: flex;">
-                      <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-4" style="display: flex;"> 
-                      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="event"></mat-icon>
-                      <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde0" (ngModelChange)="numeroCasos()"> </p-calendar> 
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
-                      <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
-                      <p-calendar [showButtonBar]="true" [locale]="localeES" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta0" (ngModelChange)="numeroCasos()"> </p-calendar>
+            <div class="col-12 grid">
+                <div class="col-12 md:col-12 lg:col-2">&nbsp;</div>
+                <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
+                    <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
+                </div>
+                &nbsp;
+                <div class="col-12 md:col-6 lg:col-3" style="display: flex;"> 
+                    <div><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="event"></mat-icon></div>
+                    <p-calendar [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="fechaDesde0" (ngModelChange)="numeroCasos()"> </p-calendar> 
+                </div>
+                &nbsp;
+                <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
+                    <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>
+                    <p-calendar [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="fechaHasta0" (ngModelChange)="numeroCasos()"> </p-calendar>
+                    <div style="padding-left: 10px;">
+                        <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
+                        (click)="IndicadoresCasosMedicos()"></button>
                     </div>
                 </div>
             </div>

@@ -66,7 +66,7 @@
       </div>
       <div class="col-12 md:col-6 legendcol-6">
         <span class="ui-float-label">
-          <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [ngModel]="documento.fechaElaboracion" [monthNavigator]="true" (ngModelChange)="documento.fechaElaboracion=$event"
+          <p-calendar dateFormat="dd/mm/yy" [ngModel]="documento.fechaElaboracion" [monthNavigator]="true" (ngModelChange)="documento.fechaElaboracion=$event"
             appendTo="body"></p-calendar>
           <label for="fechaElaboracion-input">Fecha elaboración</label>
         </span>
@@ -92,7 +92,7 @@
       </div>
       <div class="col-12 md:col-6 legendcol-6">
         <span class="ui-float-label">
-          <p-calendar id="fechaVerificacion" [locale]="localeES" dateFormat="dd/mm/yy" [ngModel]="documento?.fechaVerificacion" (ngModelChange)="documento.fechaVerificacion=$event"
+          <p-calendar id="fechaVerificacion" dateFormat="dd/mm/yy" [ngModel]="documento?.fechaVerificacion" (ngModelChange)="documento.fechaVerificacion=$event"
             appendTo="body"></p-calendar>
           <label for="fechaVerificacion-input">Fecha verificación</label>
         </span>
@@ -118,7 +118,7 @@
       </div>
       <div class="col-12 md:col-6 legendcol-6">
         <span class="ui-float-label">
-          <p-calendar id="fechaAprobacion" [locale]="localeES" dateFormat="dd/mm/yy" [ngModel]="documento?.fechaAprobacion" (ngModelChange)="documento.fechaAprobacion=$event"
+          <p-calendar id="fechaAprobacion" dateFormat="dd/mm/yy" [ngModel]="documento?.fechaAprobacion" (ngModelChange)="documento.fechaAprobacion=$event"
             appendTo="body"></p-calendar>
           <label for="fechaAprobacion-input">Fecha aprobación</label>
         </span>

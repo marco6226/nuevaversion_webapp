@@ -3,6 +3,8 @@ import { ConfirmationService, MessageService } from 'primeng/api'
 import { Empleado } from '../../../entities/empleado';
 import { HorasExtra } from '../../../entities/horas-extra';
 import { HorasExtraService } from '../../../services/horas-extra.service';
+import { PrimeNGConfig } from 'primeng/api';
+import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/website/pages/rai/entities/reporte-enumeraciones';
 
 
 @Component({
@@ -15,14 +17,16 @@ export class HorasExtraFormComponent implements OnInit {
 
   @Input("value") empleado!: Empleado;
   horasExtraList!: HorasExtra[];
-
+  localeES: any = locale_es;
   constructor(
     private horasExtraService: HorasExtraService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private config: PrimeNGConfig
   ) { }
 
   ngOnInit() {
+    this.config.setTranslation(this.localeES);
     this.horasExtraList = [];
     if (this.empleado.horasExtraList != null) {
       this.empleado.horasExtraList.forEach(he => {

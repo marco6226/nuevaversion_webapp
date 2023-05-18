@@ -70,7 +70,7 @@
                 <label for="fechaInicio">Fecha Inicio</label>
                 <!-- <input type="date" required autofocus [(ngModel)]="fechaInicio" /> -->
                 <p-calendar [(ngModel)]="fechaInicio" [touchUI]="true"
-                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" [locale]="localeES" required> 
+                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"  required> 
                 </p-calendar>
                 <small class="p-invalid" *ngIf="submitted && !fechaInicio">is required.</small>            
             </div>
@@ -78,7 +78,7 @@
                 <label for="fechaFin">Fecha Fin</label>
                 <!-- <input type="date" required autofocus [(ngModel)]="fechaFin" /> -->
                 <p-calendar [(ngModel)]="fechaFin"  [touchUI]="true"
-                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" [locale]="localeES" required>
+                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"  required>
                 </p-calendar>
                 <small class="p-invalid" *ngIf="submitted && !fechaFin">is required.</small>
 

@@ -8,6 +8,7 @@ import { EmpleadoBasic } from 'src/app/website/pages/empresa/entities/empleado-b
 import { Reporte } from 'src/app/website/pages/comun/entities/reporte';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
 import { TareaService } from 'src/app/website/pages/core/services/tarea.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-plan-accion',
@@ -61,6 +62,7 @@ export class PlanAccionComponent implements OnInit, AfterViewInit {
     private confirmationService: ConfirmationService,
     private tareaService: TareaService,
     private router: Router,
+    private config: PrimeNGConfig
   ) { 
     this.formEspecifico = fb.group({
       nombreAccionCorrectiva: [null, Validators.required],
@@ -72,7 +74,7 @@ export class PlanAccionComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log(this.planAcciones);
+    this.config.setTranslation(this.localeES);
     this.planAcciones.eficaz!.fechaVencimiento = (this.planAcciones.eficaz?.fechaVencimiento)? new Date(this.planAcciones.eficaz?.fechaVencimiento):null;
     this.planAcciones.medible!.fechaVencimiento = (this.planAcciones.medible?.fechaVencimiento)? new Date(this.planAcciones.medible?.fechaVencimiento):null;
     this.planAcciones.especifico.fechaVencimiento = (this.planAcciones.especifico.fechaVencimiento)? new Date(this.planAcciones.especifico.fechaVencimiento):null;

@@ -5,6 +5,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
 import { SelectItem } from 'primeng/api';
 import { CasosMedicosService } from 'src/app/website/pages/core/services/casos-medicos.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-reintegro',
@@ -78,6 +79,7 @@ export class ReintegroComponent implements OnInit {
   constructor(
     private casosMedicosService: CasosMedicosService,
     public fb: FormBuilder,
+    private config: PrimeNGConfig
   ) {    
     this.form = fb.group({
       tipo_retorno: [null, /*Validators.required*/],
@@ -91,7 +93,9 @@ export class ReintegroComponent implements OnInit {
     })
    }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.config.setTranslation(this.localeES);
+  }
 
   async saveReintegro(){
     this.form.value.pk_case=this.idCase

@@ -1,6 +1,6 @@
 <p-toast></p-toast>
     <p-panel *ngIf="process=='ESPECIFICO'">
-        <p-header>
+        <p-header style="width: 100%;">
             <div class="ui-helper-clearfix">
                 <div class="ui-panel-title">
                     <span>ESPECÍFICO</span>
@@ -27,8 +27,8 @@
         </div>
         <div class="p-field">
             <label>Fecha Vencimiento</label>
-            <!-- <p-calendar [defaultDate]="fechaActual" [minDate]="fechaActual" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true" [(ngModel)]="planAcciones.especifico.fechaVencimiento" required autofocus [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar> -->
-            <p-calendar [defaultDate]="fechaActual" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true" [(ngModel)]="planAcciones.especifico.fechaVencimiento" required autofocus [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar>
+            <!-- <p-calendar [defaultDate]="fechaActual" [minDate]="fechaActual" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true" [(ngModel)]="planAcciones.especifico.fechaVencimiento" required autofocus  dateFormat="dd/mm/yy"></p-calendar> -->
+            <p-calendar [defaultDate]="fechaActual" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true" [(ngModel)]="planAcciones.especifico.fechaVencimiento" required autofocus  dateFormat="dd/mm/yy"></p-calendar>
         </div>
         <div class="p-field">
             <label>Responsable Empresa</label>
@@ -41,7 +41,7 @@
     </p-panel>
 
     <p-panel *ngIf="process=='RAZONABLE'">
-        <p-header>
+        <p-header style="width: 100%;">
             <div class="ui-helper-clearfix">
                 <span class="ui-panel-title">RAZONABLE</span>
             </div>
@@ -53,7 +53,7 @@
     </p-panel>
 
     <p-panel *ngIf="process=='MEDIBLE'">
-        <p-header>
+        <p-header style="width: 100%;">
             <div class="ui-helper-clearfix">
                 <div class="ui-panel-title">
                     <span>MEDIBLE</span>
@@ -79,7 +79,7 @@
         </div>
         <div class="p-field">
             <label>Fecha Vencimiento</label>
-            <p-calendar [defaultDate]="planAcciones.especifico.fechaVencimiento" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true" [locale]="localeES" [minDate]="planAcciones.especifico.fechaVencimiento" [(ngModel)]="planAcciones.medible.fechaVencimiento" dateFormat="dd/mm/yy" required></p-calendar>
+            <p-calendar [defaultDate]="planAcciones.especifico.fechaVencimiento" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [touchUI]="true"  [minDate]="planAcciones.especifico.fechaVencimiento" [(ngModel)]="planAcciones.medible.fechaVencimiento" dateFormat="dd/mm/yy" required></p-calendar>
         </div>
         <div class="p-field">
             <label>Plan de Verificación</label>
@@ -88,7 +88,7 @@
     </p-panel>
 
     <p-panel *ngIf="process=='EFICAZ'">
-        <p-header>
+        <p-header style="width: 100%;">
             <div class="ui-helper-clearfix">
                 <div class="ui-panel-title">
                     <span>EFICAZ</span>
@@ -114,7 +114,7 @@
         </div>
         <div class="p-field">
             <label>Fecha Vencimiento</label>
-            <p-calendar [defaultDate]="planAcciones.medible.fechaVencimiento" [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [touchUI]="true" [locale]="localeES" [minDate]="planAcciones.medible.fechaVencimiento" [(ngModel)]="planAcciones.eficaz.fechaVencimiento" dateFormat="dd/mm/yy" required></p-calendar>
+            <p-calendar [defaultDate]="planAcciones.medible.fechaVencimiento" [yearNavigator]="true" yearRange="1900:2030" [monthNavigator]="true" [touchUI]="true"  [minDate]="planAcciones.medible.fechaVencimiento" [(ngModel)]="planAcciones.eficaz.fechaVencimiento" dateFormat="dd/mm/yy" required></p-calendar>
         </div>
         <div class="p-field">
             <label>Plan de Validación</label>
@@ -123,7 +123,7 @@
     </p-panel>
 
     <p-panel *ngIf="process=='REVISADO'">
-        <p-header>
+        <p-header style="width: 100%;">
             <div class="ui-helper-clearfix">
                 <span class="ui-panel-title">REVISADO</span>
             </div>

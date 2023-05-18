@@ -190,6 +190,7 @@ import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-us
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 
+
 @NgModule({
   declarations: [
     CapitalizePipe,

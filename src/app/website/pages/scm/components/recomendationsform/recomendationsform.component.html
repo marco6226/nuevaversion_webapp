@@ -36,7 +36,7 @@
 
             <div class="col-12 md:col-4 lg:col-4">
                 <div class="input-field">
-                    <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [yearNavigator]="true" showButtonBar="true" [touchUI]="true" yearRange="2010:2030" [locale]="localeES" formControlName="fechaInicio" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
+                    <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [yearNavigator]="true" showButtonBar="true" [touchUI]="true" yearRange="2010:2030"  formControlName="fechaInicio" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
                     </p-calendar>
                     <label for="" class="active">Fecha Inicial</label>
                 </div>
@@ -45,7 +45,7 @@
 
             <div class="col-12 md:col-4 lg:col-4">
                 <div class="input-field">
-                    <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [touchUI]="true" showButtonBar="true" [yearNavigator]="true" yearRange="2010:2030" formControlName="fechaExpiracion" [locale]="localeES" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
+                    <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [touchUI]="true" showButtonBar="true" [yearNavigator]="true" yearRange="2010:2030" formControlName="fechaExpiracion"  dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
                     </p-calendar>
                     <label for="" class="active">Fecha Final</label>
                 </div>
@@ -110,7 +110,7 @@
                                 <p-calendar [disabled]="esConsulta" [touchUI]="true" [(ngModel)]="pAccion.fechaProyectada"
                                  dateFormat="dd/mm/yy"  
                                   [monthNavigator]="true"  [yearNavigator]="true" showButtonBar="true" yearRange="2010:2030" styleClass="calendar-material"
-                                    inputStyleClass="form-material" [locale]="localeES">
+                                    inputStyleClass="form-material" >
                                 </p-calendar>
 
                             </ng-template>

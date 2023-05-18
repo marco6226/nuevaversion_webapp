@@ -12,6 +12,7 @@ import { FilterQuery } from '../../../core/entities/filter-query';
 import { Criteria } from '../../../core/entities/filter';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-reporte-ausentismo',
@@ -35,6 +36,7 @@ export class ReporteAusentismoComponent implements OnInit {
       private paramNavService: ParametroNavegacionService,
       private activatedRoute: ActivatedRoute,
       private fb: FormBuilder,
+      private config: PrimeNGConfig
   ) {
       this.form = this.fb.group({
           id: [null],
@@ -94,6 +96,7 @@ export class ReporteAusentismoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.config.setTranslation(this.localeES);
       this.activatedRoute.queryParams.subscribe(async params => {
           if (params['case']) {
               this.backToScm = true;

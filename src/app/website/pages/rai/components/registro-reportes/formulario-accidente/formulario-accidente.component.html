@@ -296,11 +296,11 @@
                         Fecha nacimiento
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado" required>
+                        <p-calendar  dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado" required>
                         </p-calendar>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado">
+                        <p-calendar  dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado">
                         </p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
@@ -346,11 +346,11 @@
                         Fecha ingreso
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" required>
+                        <p-calendar  dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" required>
                         </p-calendar>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange">
+                        <p-calendar  dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange">
                         </p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
@@ -455,18 +455,18 @@
                         Fecha {{visibleCamposAccidente ? 'accidente':'incidente'}}
                     </div>
                     <div class="col-12 md:col-4 lg:col-4">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaAccidente" (onSelect)="changeCalendar()" required>
+                        <p-calendar  dateFormat="dd/mm/yy" formControlName="fechaAccidente" (onSelect)="changeCalendar()" required>
                         </p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Hora {{visibleCamposAccidente ? 'accidente':'incidente'}}
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa == '22'">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true"
+                        <p-calendar  dateFormat="dd/mm/yy" [timeOnly]="true"
                             formControlName="horaAccidente" required></p-calendar>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa != '22'">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true"
+                        <p-calendar  dateFormat="dd/mm/yy" [timeOnly]="true"
                             formControlName="horaAccidente"></p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
@@ -517,11 +517,11 @@
                         Hora de inicio de labores
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf=" idEmpresa =='22'">
-                    <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true"
+                    <p-calendar  dateFormat="dd/mm/yy" [timeOnly]="true"
                             formControlName="horaInicioLabor" required></p-calendar>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
-                        <p-calendar [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true"
+                        <p-calendar  dateFormat="dd/mm/yy" [timeOnly]="true"
                                 formControlName="horaInicioLabor"></p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">

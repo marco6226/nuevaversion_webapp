@@ -13,12 +13,13 @@ import { DataArea, DataHht, Hht } from "src/app/website/pages/empresa/entities/h
 import { ParametroNavegacionService } from 'src/app/website/pages/core/services/parametro-navegacion.service';
 import {CaracterizacionViewService} from "src/app/website/pages/core/services/caracterizacion-view.service"
 import {ViewscmcoService} from "src/app/website/pages/core/services/indicador-scmco.service"
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard-corona',
   templateUrl: './dashboard-corona.component.html',
   styleUrls: ['./dashboard-corona.component.scss'],
-  providers: [HhtService, SesionService,CaracterizacionViewService], 
+  providers: [HhtService, SesionService,CaracterizacionViewService,ReporteAtService], 
 })
 export class DashboardCoronaComponent implements OnInit {
 
@@ -106,6 +107,7 @@ export class DashboardCoronaComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.config.setTranslation(this.localeES);
     //Primera grafica
     this.dataPrimeraGrafica()
 
@@ -124,6 +126,7 @@ export class DashboardCoronaComponent implements OnInit {
     private sessionService: SesionService,
     private caracterizacionViewService: CaracterizacionViewService,
     private viewscmcoService: ViewscmcoService,
+    private config: PrimeNGConfig
   ){}
 
   dataPrimeraGrafica(){
@@ -284,7 +287,6 @@ export class DashboardCoronaComponent implements OnInit {
             });
           });
         }
-        // console.log('hhtEmpresa: ', hhtEmpresa);
       }else{
         console.error('No se obtuvieron registros hht de la empresa.');
       }
@@ -355,7 +357,6 @@ export class DashboardCoronaComponent implements OnInit {
     let IF = (accidentesConDiasPerdidos / (totalHhtEmpresa + totalHHtTemporales)) * 240000;
     let IS = (totalDiasSeveridad / (totalHhtEmpresa + totalHHtTemporales)) * 240000;
     let ILI = (IF * IS) / 1000;
-    // console.log(accidentesConDiasPerdidos, totalHhtEmpresa, totalHHtTemporales, totalDiasSeveridad, IF, IS, ILI);
     this.ili = Number(ILI.toFixed(6));
     if(this.ili === Infinity){
       console.log('es infinito');
@@ -397,7 +398,6 @@ export class DashboardCoronaComponent implements OnInit {
 
 
   IndicadoresAccidentalidad(){
-    console.log('accidentalidad')
     this.paramNav.redirect('app/ind/accidentalidad');
   }
 
@@ -486,7 +486,6 @@ export class DashboardCoronaComponent implements OnInit {
   }
 
   IndicadoresCaracterizacion(){
-    console.log('Caracterización')
     this.paramNav.redirect('app/ind/indcaracterizacion');
   }
 
@@ -570,7 +569,6 @@ export class DashboardCoronaComponent implements OnInit {
     return datos0
   }
   IndicadoresCasosMedicos(){
-    console.log('CasosMedicos')
     this.paramNav.redirect('app/ind/indcasosmedicos');
   }
 

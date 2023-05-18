@@ -7,6 +7,7 @@ import { Empleado } from "../../../empresa/entities/empleado";
 import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 import { CasosMedicosService } from "../../../core/services/casos-medicos.service";
 import { EmpleadoService } from "../../../empresa/services/empleado.service";
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: "app-seguimientosform",
@@ -37,7 +38,8 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
     constructor(fb: FormBuilder,
         private scmService: CasosMedicosService,
         private empleadoService: EmpleadoService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private config: PrimeNGConfig
     ) {
         this.seguimiento = fb.group({
 
@@ -63,6 +65,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
     get resultado() { return this.seguimiento.get('resultado'); }
 
     async ngOnInit() {
+        this.config.setTranslation(this.localeES);
         if (this.seguiSelect) {
             this.patchFormValues()
         } else {

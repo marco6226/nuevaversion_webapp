@@ -59,7 +59,7 @@
                     <div class="row g-6 mb-3">
                         <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
                             <label for="">Fecha nacimiento</label>
-                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado" [disabled]="consultar"></p-calendar>
+                            <p-calendar required  dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado" [disabled]="consultar"></p-calendar>
                         </div>
                         <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
                             <label for="">Sexo</label>
@@ -72,7 +72,7 @@
                     <div class="row g-6 mb-3">
                         <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
                             <label for="">Fecha ingreso</label>
-                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [disabled]="consultar"></p-calendar>
+                            <p-calendar required  dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [disabled]="consultar"></p-calendar>
                         </div>
                         <div class="col-md-6 col-sm-12" *ngIf="visibleCamposAccidente">
                             <label for="">Cargo</label>
@@ -100,11 +100,11 @@
                     <div class="row g-6 mb-3">
                         <div class="col-md-6 col-sm-12">
                             <label for="">Fecha {{visibleCamposAccidente ? 'accidente':'incidente'}}</label>
-                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaAccidente"  required [disabled]="consultar"></p-calendar>
+                            <p-calendar required  dateFormat="dd/mm/yy" formControlName="fechaAccidente"  required [disabled]="consultar"></p-calendar>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             Hora {{visibleCamposAccidente ? 'accidente':'incidente'}}
-                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaAccidente" requierd [disabled]="consultar"></p-calendar>
+                            <p-calendar required  dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaAccidente" requierd [disabled]="consultar"></p-calendar>
                         </div>
                     </div>
                     <div class="row g-6 mb-3">
@@ -115,7 +115,7 @@
                         </div>
                         <div class="col-md-6 col-sm12" *ngIf="visibleCamposAccidente">
                             <label for="">Hora de inicio de labores</label>
-                            <p-calendar required [locale]="localeES" dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaInicioLabor" [disabled]="consultar"></p-calendar>
+                            <p-calendar required  dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaInicioLabor" [disabled]="consultar"></p-calendar>
                         </div>
                     </div>
                     <div class="row g-6 mb-3">
@@ -273,9 +273,9 @@
                     <div class="ui-g-12 ui-md-6 ui-lg-4">
                         <div class="input-field">
                             <p-calendar [monthNavigator]="true" [yearNavigator]="true"
-                                yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaCierre" [disabled]="consultar"></p-calendar>
+                                yearRange="2010:2030"  dateFormat="dd/mm/yy" formControlName="fechaCierre" [disabled]="consultar"></p-calendar>
                             <!-- <p-calendar [monthNavigator]="true" [yearNavigator]="true"
-                                yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar> -->
+                                yearRange="2010:2030"  dateFormat="dd/mm/yy"></p-calendar> -->
                             <label for="" class="active">Fecha de cierre</label>
                         </div>        
                     </div>

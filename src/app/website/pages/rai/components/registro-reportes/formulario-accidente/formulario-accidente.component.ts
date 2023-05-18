@@ -27,6 +27,7 @@ import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query'
 import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
 import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado.service'
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado'
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 's-form-accidente',
@@ -72,6 +73,7 @@ export class FormularioAccidenteComponent implements OnInit {
     private empresaService: EmpresaService,
     private sesionService: SesionService,
     private empleadoService: EmpleadoService,
+    private config: PrimeNGConfig
   ) { 
     let defaultItem = <SelectItem[]>[{ label: '--seleccione--', value: null }];
     this.tipoVinculacionList = defaultItem.concat(<SelectItem[]>tipo_vinculacion);
@@ -89,6 +91,7 @@ export class FormularioAccidenteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.config.setTranslation(this.localeES);
     this.idEmpresa = this.sesionService.getEmpresa()?.id;
         if(this.reporte)
         if(this.reporte.fechaIngresoEmpleado != null && this.reporte.fechaAccidente != null){

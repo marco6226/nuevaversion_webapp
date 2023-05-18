@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 's-rangoFechaSelector',
@@ -22,9 +23,12 @@ export class RangoFechaSelectorComponent implements OnInit {
   desde!: Date;
   hasta!: Date;
 
-  constructor() { }
+  constructor(
+    private config: PrimeNGConfig
+  ) { }
 
   ngOnInit() {
+    this.config.setTranslation(this.es);
   }
 
   onSelect(event: any) {

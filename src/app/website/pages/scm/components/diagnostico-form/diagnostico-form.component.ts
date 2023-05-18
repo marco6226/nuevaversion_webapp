@@ -6,6 +6,7 @@ import { ComunService } from '../../../comun/services/comun.service';
 import { CasosMedicosService } from '../../../core/services/casos-medicos.service';
 import { SesionService } from '../../../core/services/session.service';
 import { Usuario } from '../../../empresa/entities/usuario';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: 'app-diagnostico-form',
@@ -58,7 +59,8 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         private scmService: CasosMedicosService,
         private sesionService: SesionService,
         private comunService: ComunService,
-        private messageServices: MessageService
+        private messageServices: MessageService,
+        private config: PrimeNGConfig
     ) {
         this.usuario = this.sesionService.getUsuario();
         this.diagnosticoForm = fb.group({
@@ -81,6 +83,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     get origen() { return this.diagnosticoForm.get('origen'); }
 
     async ngOnInit() {
+        this.config.setTranslation(this.localeES);
         this.idEmpresa =this.sesionService.getEmpresa()?.id!;
         this.createOrigenList()
         let resp: any = await this.scmService.getSistemasAFectados();

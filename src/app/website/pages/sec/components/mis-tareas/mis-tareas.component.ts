@@ -9,6 +9,7 @@ import { Filter, Criteria } from '../../../core/entities/filter';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import * as moment from "moment";
 import { SeguimientosService } from 'src/app/website/pages/core/services/seguimientos.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-mis-tareas',
@@ -32,6 +33,7 @@ export class MisTareasComponent implements OnInit {
       private sesionService: SesionService,
       private paramNav: ParametroNavegacionService,
       private seguimientoService: SeguimientosService,
+      private config: PrimeNGConfig
   ) { }
 
   async ngOnInit() {
@@ -88,7 +90,7 @@ export class MisTareasComponent implements OnInit {
           today: 'Hoy',
           clear: 'Borrar'
       }
-
+      this.config.setTranslation(this.es);
       // FilterUtils['dateFilter'] = (value:any, filter:any):boolean => {
       //     if (filter === undefined || filter === null) return true;
 

@@ -19,6 +19,7 @@ import { Eps } from 'src/app/website/pages/comun/entities/eps';
 import { Area } from '../../../entities/area';
 import { Usuario, UsuarioEmpresa } from '../../../entities/usuario';
 import { MessageService, SelectItem } from 'primeng/api';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: 's-empleadoForm',
@@ -97,7 +98,8 @@ export class EmpleadoFormComponent implements OnInit {
         private domSanitizer: DomSanitizer,
         private directorioService: DirectorioService,
         private _sanitizer: DomSanitizer,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private config: PrimeNGConfig
     ) {
         let defaultItem = <SelectItem[]>[{ label: '--seleccione--', value: null }];
         this.tipoIdentificacionList = defaultItem.concat(<SelectItem[]>tipo_identificacion);
@@ -190,6 +192,7 @@ export class EmpleadoFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.config.setTranslation(this.localeES);
       //  console.log(this.empleadoSelect);
       //  console.log(this.empleadoSelect.nit,this.empleadoSelect.primerNombre);
         this.isUpdate ? this.form.controls['email'].disable() : ''; //this for disabled email in case of update

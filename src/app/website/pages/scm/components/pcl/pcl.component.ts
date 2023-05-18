@@ -7,6 +7,7 @@ import { CasosMedicosService } from '../../../core/services/casos-medicos.servic
 import { ConfirmService } from '../../../core/services/confirm.service';
 import { SesionService } from '../../../core/services/session.service';
 import { epsorarl } from '../../entities/eps-or-arl';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: 'app-pcl',
@@ -53,8 +54,8 @@ export class PclComponent implements OnInit {
         private cd: ChangeDetectorRef,
         private confirmService: ConfirmService,
         private sesionService: SesionService,
-        private messageService: MessageService
-
+        private messageService: MessageService,
+        private config: PrimeNGConfig
     ) {
         this.differ = differs.find({}).create();
 
@@ -78,6 +79,7 @@ export class PclComponent implements OnInit {
     }
 
     async ngOnInit() {
+        this.config.setTranslation(this.localeES);
         this.idEmpresa =this.sesionService.getEmpresa()?.id!;
         this.createOrigenList()
         this.loadDiagnostics();

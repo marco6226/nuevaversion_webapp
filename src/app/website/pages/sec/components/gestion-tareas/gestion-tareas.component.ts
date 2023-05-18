@@ -6,6 +6,8 @@ import { ConfirmationService } from 'primeng/api';
 import { Desviacion } from 'src/app/website/pages/comun/entities/desviacion';
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado';
 import { Usuario } from 'src/app/website/pages/empresa/entities/usuario';
+import { PrimeNGConfig } from 'primeng/api';
+
 @Component({
   selector: 's-gestionTareas',
   templateUrl: './gestion-tareas.component.html',
@@ -26,6 +28,7 @@ export class GestionTareasComponent implements OnInit {
   constructor(
     private confirmationService: ConfirmationService,
     public fb: FormBuilder,
+    private config: PrimeNGConfig
   ) { 
     this.form = fb.group({
       'id': [null],
@@ -49,6 +52,7 @@ export class GestionTareasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.config.setTranslation(this.es);
     this.adicionar = !this.readOnly;
     this.modificar = false;
   }

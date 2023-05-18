@@ -30,6 +30,7 @@ import { Cargo } from "../../../empresa/entities/cargo";
 import { Perfil } from "../../../empresa/entities/perfil";
 import { Area } from "../../../empresa/entities/area";
 import { Usuario, UsuarioEmpresa } from "../../../empresa/entities/usuario";
+import { PrimeNGConfig } from 'primeng/api';
 
 export interface TreeNode {
     data?: any;
@@ -274,7 +275,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private confirmationService: ConfirmationService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private config: PrimeNGConfig
     ) {
 
         this.empresa = this.sesionService.getEmpresa();
@@ -406,6 +408,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        this.config.setTranslation(this.localeES);
         this.colsActionList = [
             { field: 'status', header: 'Estado' },
             { field: 'recomendaciones', header: 'Nombre de la recomendacion' },

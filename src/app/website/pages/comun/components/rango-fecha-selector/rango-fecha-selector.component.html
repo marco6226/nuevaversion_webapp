@@ -1,12 +1,12 @@
 <div class="btn-group" role="group">
   <div class="col-6" style="padding:0px;">
     <p-calendar appendTo="body" placeholder="Desde" [(ngModel)]="desde" dateFormat="dd/mm/yy" (onSelect)="onSelect($event)" (onClearClick)="onSelect($event)"
-      showButtonBar="true" [locale]="es">
+      showButtonBar="true">
     </p-calendar>
   </div>
   <div class="col-6" style="padding:0px;">
     <p-calendar appendTo="body" placeholder="Hasta" [(ngModel)]="hasta" dateFormat="dd/mm/yy" (onSelect)="onSelect($event)" (onClearClick)="onSelect($event)"
-      showButtonBar="true" [locale]="es">
+      showButtonBar="true">
     </p-calendar>
   </div>
 </div>

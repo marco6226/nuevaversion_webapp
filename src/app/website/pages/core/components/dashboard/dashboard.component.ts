@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ParametroNavegacionService } from '../../services/parametro-navegacion.service';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,8 +23,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 })
 export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  data: any;
-  options: any;
+
   desde: Date;
   desdes: String;
   hastas: String;
@@ -36,6 +36,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   options6: any;
   showData:boolean = false;
   testing :boolean= false;
+
+  data:any;
   data2: any;
   data3: any;
   data4: any;
@@ -46,6 +48,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   data9: any;
   data10: any;
   data11: any;
+
   planeadas: any;
   ejecutadas: any;
   inptotal: any;
@@ -64,11 +67,32 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   localeES = locale_es;
   value?: Date;
   idEmpresa?:string | null;
+
+  colorScheme = {
+    domain: ['#00BCD4', '#37474F']
+  };
+  colorScheme2 = {
+    domain: ['#efb810', '#81D8D0']
+  };
+  colorScheme3 = {
+    domain: ['#747874', '#6CA752']
+  };
+  colorScheme4 = {
+    domain: ['#d9c077', '#09A0B6']
+  };
+  colorScheme5 = {
+    domain: ['#377DC0', '#FF60CA']
+  };
+  colorScheme6= {
+    domain: ['#d9c077', '#7790d9']
+  };
+
   constructor(
       private usuarioService: UsuarioService,
       private indicadorService: ModeloGraficaService,
       private areaService: AreaService,
       private sesionService: SesionService,
+      private config: PrimeNGConfig
   ) {
 
       var date = new Date();
@@ -83,192 +107,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.desdes = moment(this.desde).utc().format('YYYY-MM-DD');
       this.hastas = moment(this.hasta).utc().format('YYYY-MM-DD');
 
-
-
-      this.data = {
-          labels: ['CENTRAL', 'CARIBE', 'NOROCCIDENTAL', 'EJE CAFETERO', 'CENTRO SUR', 'NORORIENTAL', 'DEL PACIFICO', 'ORINOQUIA'],
-          datasets: [
-              {
-                  label: 'Inspecciones programadas',
-                  backgroundColor: '#00BCD4',
-                  borderColor: '#1E88E5',
-                  data: []
-              },
-              {
-                  label: 'Inspecciones realizadas',
-                  backgroundColor: '#37474F',
-                  borderColor: '#7CB342',
-                  data: []
-              }
-          ],
-          options: {
-              scales: {
-                  yAxes: [{
-                      stacked: false,
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }],
-                  xAxes: [{
-                      stacked: false,
-                  }]
-              }
-          }
-      };
-      this.data2 = {
-        labels: [''],
-        datasets: [
-            {
-                label: 'Sedes programadas',
-                backgroundColor: '#efb810',
-                borderColor: '#1E88E5',
-                data: []
-            },
-            {
-                label: 'Sedes Inspeccionadas',
-                backgroundColor: '#81D8D0',
-                borderColor: '#7CB342',
-                data: []
-            }
-        ],
-        scales: {
-            yAxes: [{
-                stacked: false,
-                ticks: {
-                    min: 0,
-                    beginAtZero: true
-
-                }
-            }],
-            xAxes: [{
-                stacked: false
-            }]
-        },
-        type: 'horizontal bar',
-    };
-      this.data3 = {
-          labels: ['CENTRAL', 'CARIBE', 'NOROCCIDENTAL', 'EJE CAFETERO', 'CENTRO SUR', 'NORORIENTAL', 'DEL PACIFICO', 'ORINOQUIA'],
-          datasets: [
-              {
-                  label: 'Hallazgos encontrados',
-                  backgroundColor: '#747874',
-                  borderColor: '#1E88E5',
-                  data: []
-              },
-              {
-                  label: 'Hallazgos gestionados',
-                  backgroundColor: '#6CA752',
-                  borderColor: '#7CB342',
-                  data: []
-              }
-          ],
-          options: {
-              scales: {
-                  yAxes: [{
-                      stacked: false,
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }],
-                  xAxes: [{
-                      stacked: false,
-                  }]
-              }
-          }
-      }
-      this.data4 = {
-          labels: ['CENTRAL', 'CARIBE', 'NOROCCIDENTAL', 'EJE CAFETERO', 'CENTRO SUR', 'NORORIENTAL', 'DEL PACIFICO', 'ORINOQUIA'],
-          datasets: [
-              {
-                  label: 'AT ocurridos',
-                  backgroundColor: '#d9c077',
-                  borderColor: '#1E88E5',
-                  data: []
-              },
-              {
-                  label: 'AT investigados',
-                  backgroundColor: '#09A0B6',
-                  borderColor: '#7CB342',
-                  data: []
-              }
-          ],
-          options: {
-              scales: {
-                  yAxes: [{
-                      stacked: false,
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }],
-                  xAxes: [{
-                      stacked: false,
-                  }]
-              }
-          }
-      };
-      this.data5 = {
-          labels: ['CENTRAL', 'CARIBE', 'NOROCCIDENTAL', 'EJE CAFETERO', 'CENTRO SUR', 'NORORIENTAL', 'DEL PACIFICO', 'ORINOQUIA'],
-          datasets: [
-              {
-                  label: 'Observaciones reportadas',
-                  backgroundColor: '#377DC0',
-                  borderColor: '#1E88E5',
-                  data: []
-              },
-              {
-                  label: 'Observaciones aceptadas',
-                  backgroundColor: '#FF60CA',
-                  borderColor: '#7CB342',
-                  data: []
-              }
-          ],
-          options: {
-              scales: {
-                  yAxes: [{
-                      stacked: false,
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }],
-                  xAxes: [{
-                      stacked: false,
-                  }]
-              }
-          }
-      }
       setTimeout(() => {
           this.testing = true;
       }, 3000);
-      this.data6 = {
-          labels: ['CENTRAL', 'CARIBE', 'NOROCCIDENTAL', 'EJE CAFETERO', 'CENTRO SUR', 'NORORIENTAL', 'DEL PACIFICO', 'ORINOQUIA'],
-          datasets: [
-              {
-                  label: 'Tareas planeadas',
-                  backgroundColor: '#d9c077',
-                  borderColor: '#1E88E5',
-                  data: []
-              },
-              {
-                  label: 'Tareas gestionadas',
-                  backgroundColor: '#7790d9',
-                  borderColor: '#7CB342',
-                  data: []
-              }
-          ],
-          options: {
-              scales: {
-                  yAxes: [{
-                      stacked: false,
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }],
-                  xAxes: [{
-                      stacked: false,
-                  }]
-              }
-          }
-      }
+    
       this.data7 = {
           labels: ['CENTRAL', 'CARIBE', 'NOROCCIDENTAL', 'EJE CAFETERO', 'CENTRO SUR', 'NORORIENTAL', 'DEL PACIFICO', 'ORINOQUIA'],
           datasets: [
@@ -345,7 +187,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
   async ngOnInit() {
-      
+    this.config.setTranslation(this.localeES);
 
       setTimeout(() => {
           this.idEmpresa = this.sesionService.getEmpresa()!.id;
@@ -353,7 +195,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.show = true
           this.showData = true;            
           this.loadAreas();
-      }, 2000);
+      }, 2000); 
       //let arrtest = [1, 2, 4, 5, 4];
 
 
@@ -390,21 +232,30 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async updateCharts() {
       this.showData = false;
-      this.data.labels = [];
-      this.data.datasets.forEach((element:any, index:any) => {
-          this.data.datasets[index].data = [];
-      });
 
       let data: any = await this.indicadorService.findInpN(this.arrayIds, this.desdes, this.hastas)
       let date = new Date();
 
       // if (data.length < 0) return false;
-
+      this.data=[]
+      let datauno:any=[]
       for (const iterator of data) {
 
-          this.data.labels.push(iterator[2])
-          this.data.datasets[0].data.push(iterator[1])
-          this.data.datasets[1].data.push(iterator[0])
+        datauno=
+          {
+            "name": iterator[2],
+            "series": [
+              {
+                "name": 'Inspecciones programadas',
+                "value": iterator[1]
+              },
+              {
+                "name": 'Inspecciones realizadas',
+                "value": iterator[0]
+              }
+            ]
+          }
+          this.data.push(datauno)
       }
 
       this.showData = true;
@@ -420,7 +271,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.inptotal = (this.ejecutadas / this.planeadas) * 100;
           
 
-      } else {
+      } else { 
           this.data7 == null;
           this.inptotal = 0;
           
@@ -461,107 +312,143 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   async updateCharts2() {
       this.showData = false;
-    console.log(this.data2)
-      this.data2.datasets.forEach((element:any, index:any) => {
-          this.data2.datasets[index].data = [];
-      });
+
 
       let data2: any = await this.indicadorService.findInpCobertura(this.arrayIds, this.desdes, this.hastas)
 
 
       // if (data2.length < 0) return false;
 
-      {
-          this.data2.datasets[0].data.push(data2[0]);
-          this.data2.datasets[1].data.push(data2[1]);
+      
+      this.data2=[
+      
+          {
+            "name": 'Sedes programadas',
+            "value": data2[0]
+          },
+          {
+            "name": 'Sedes Inspeccionadas',
+            "value": data2[1]
+          }]
 
-          this.showData = true;
-      }
+      this.showData = true;
+
   }
   async updateCharts3() {
       this.showData = false;
-      this.data3.labels = [];
-      this.data3.datasets.forEach((element:any, index:any) => {
-          this.data3.datasets[index].data = [];
-      });
 
       let data3: any = await this.indicadorService.findInpEfectividad(this.arrayIds, this.desdes, this.hastas)
 
-
+      this.data3=[]
+      let datauno:any=[]
       // if (data3.length < 0) return false;
       for (const iterator of data3) {
 
+        datauno=
+        {
+          "name": iterator[2],
+          "series": [
+            {
+              "name": 'Hallazgos encontrados',
+              "value": iterator[1]
+            },
+            {
+              "name": 'Hallazgos gestionados',
+              "value": iterator[0]
+            }
+          ]
+        }
+        this.data3.push(datauno)
+         
 
-          this.data3.labels.push(iterator[2]);
-          this.data3.datasets[0].data.push(iterator[1]);
-          this.data3.datasets[1].data.push(iterator[0]);
-
-          this.showData = true;
+        this.showData = true;
       }
   }
   async updateCharts4() {
       this.showData = false;
-      this.data4.labels = [];
-      this.data4.datasets.forEach((element:any, index:any) => {
-          this.data4.datasets[index].data = [];
-      });
 
       let data4: any = await this.indicadorService.findInpCoberturaAt(this.arrayIds, this.desdes, this.hastas)
 
+      this.data4=[]
+      let datauno:any=[]
       // if (data4.length < 0) return false;
       for (const iterator of data4) {
+        datauno=
+        {
+          "name": iterator[2],
+          "series": [
+            {
+              "name": 'AT ocurridos',
+              "value": iterator[1]
+            },
+            {
+              "name": 'AT investigados',
+              "value": iterator[0]
+            }
+          ]
+        }
+        this.data4.push(datauno)
 
-
-
-          this.data4.labels.push(iterator[2]);
-          this.data4.datasets[0].data.push(iterator[1]);
-          this.data4.datasets[1].data.push(iterator[0]);
-
-          this.showData = true;
+        this.showData = true;
       }
       
   }
   async updateCharts5() {
       this.showData = false;
-      this.data5.labels = [];
-      this.data5.datasets.forEach((element:any, index:any) => {
-          this.data5.datasets[index].data = [];
-      });
 
       let data5: any = await this.indicadorService.findInpEficaciaAuc(this.arrayIds, this.desdes, this.hastas)
 
-
+      this.data5=[]
+      let datauno:any=[]
 
       // if (data5.length < 0) return false;
       for (const iterator of data5) {
           
+        datauno=
+        {
+          "name": iterator[2],
+          "series": [
+            {
+              "name": 'Observaciones reportadas',
+              "value": iterator[1]
+            },
+            {
+              "name": 'Observaciones aceptadas',
+              "value": iterator[0]
+            }
+          ]
+        }
+        this.data5.push(datauno)
 
-          this.data5.labels.push(iterator[2]);
-          this.data5.datasets[0].data.push(iterator[1]);
-          this.data5.datasets[1].data.push(iterator[0]);
-
-          this.showData = true;
+        this.showData = true;
       }
   }
 
   async updateCharts6() {
       this.showData = false;
-      this.data6.labels = [];
-      this.data6.datasets.forEach((element:any, index:any) => {
-          this.data6.datasets[index].data = [];
-      });
 
       let data6: any = await this.indicadorService.findInpEfectividadAt(this.arrayIds, this.desdes, this.hastas)
-
+      this.data6=[]
+      let datauno:any=[]
       // if (data6.length < 0) return false;
       for (const iterator of data6) {
-          
+        datauno=
+        {
+          "name": iterator[2],
+          "series": [
+            {
+              "name": 'Tareas planeadas',
+              "value": iterator[1]
+            },
+            {
+              "name": 'Tareas gestionadas',
+              "value": iterator[0]
+            }
+          ]
+        }
+        this.data6.push(datauno)
 
-          this.data6.labels.push(iterator[2]);
-          this.data6.datasets[0].data.push(iterator[1]);
-          this.data6.datasets[1].data.push(iterator[0]);
-
-          this.showData = true;
+        this.showData = true;
       }
   }
 

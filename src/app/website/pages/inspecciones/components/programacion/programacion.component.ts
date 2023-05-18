@@ -16,6 +16,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import esLocale from '@fullcalendar/core/locales/es';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-programacion',
@@ -23,7 +24,8 @@ import esLocale from '@fullcalendar/core/locales/es';
   styleUrls: ['./programacion.component.scss']
 })
 export class ProgramacionComponent implements OnInit {
-
+  
+  localeES: any = locale_es;
   anioSelect!: number;
   mesSelect!: number;
   matriz?: MatrizList[] = [];
@@ -66,6 +68,7 @@ export class ProgramacionComponent implements OnInit {
     private listaInspeccionService: ListaInspeccionService,
     private fb: FormBuilder,
     private messageService: MessageService,
+    private config: PrimeNGConfig
   ) {
     this.form = this.fb.group({
       id: null,
@@ -80,6 +83,7 @@ export class ProgramacionComponent implements OnInit {
    }
 
   async ngOnInit() {
+    this.config.setTranslation(this.localeES);
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       initialDate: new Date(),

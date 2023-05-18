@@ -218,10 +218,10 @@
                 <div class="col-12 md:col-6 lg:col-4">
                     <div class="input-field">
                         <p-calendar formControlName="fechaCierre" [monthNavigator]="true" [yearNavigator]="true"
-                            [maxDate]="fechaActual" yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy"
+                            [maxDate]="fechaActual" yearRange="2010:2030"  dateFormat="dd/mm/yy"
                             [disabled]="tareaClose" *sTienePermiso="'SEC_CHANGE_FECHACIERRE'" required="true"></p-calendar>
                             <p-calendar formControlName="fechaCierre" 
-                            [maxDate]="fechaActual" [minDate]="fechaActual"  [locale]="localeES" dateFormat="dd/mm/yy"
+                            [maxDate]="fechaActual" [minDate]="fechaActual"   dateFormat="dd/mm/yy"
                             [disabled]="tareaClose" *ngIf="!fechavisible" required="true"></p-calendar>
                            
 

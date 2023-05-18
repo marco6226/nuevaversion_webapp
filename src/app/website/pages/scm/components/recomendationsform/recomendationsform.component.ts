@@ -7,6 +7,7 @@ import { Empleado } from "../../../empresa/entities/empleado";
 import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 import { CasosMedicosService } from "../../../core/services/casos-medicos.service";
 import { EmpleadoService } from "../../../empresa/services/empleado.service";
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
     selector: "app-recomendationsform",
@@ -62,7 +63,8 @@ export class RecomendationsformComponent implements OnInit, OnChanges {
     constructor(fb: FormBuilder,
         private scmService: CasosMedicosService,
         private empleadoService: EmpleadoService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private config: PrimeNGConfig
 
     ) {
         this.recomendation = fb.group({
@@ -109,6 +111,7 @@ test(){
     get actionPlanList() { return this.recomendation.get('actionPlanList'); }
 
     async ngOnInit() {
+        this.config.setTranslation(this.localeES);
         if (this.recoSelect) {
             this.patchFormValues()
         } else {

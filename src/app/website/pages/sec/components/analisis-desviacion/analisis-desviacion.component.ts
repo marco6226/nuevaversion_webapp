@@ -53,6 +53,7 @@ import {
 import {FlowchartService} from 'src/app/website/pages/core/services/flowchart.service'
 import { Usuario } from 'src/app/website/pages/empresa/entities/usuario'
 import { EmpresaService } from 'src/app/website/pages/empresa/services/empresa.service'
+import { PrimeNGConfig } from 'primeng/api';
 
 Diagram.Inject(UndoRedo, DiagramContextMenu,PrintAndExport);
 @Component({
@@ -205,6 +206,7 @@ export class AnalisisDesviacionComponent implements OnInit {
     private comp: FlowChartComponent,
     private FlowchartService:FlowchartService,
     private empresaService: EmpresaService,
+    private config: PrimeNGConfig,
     fb: FormBuilder,
   ) { 
     this.analisisPeligros = fb.group({
@@ -233,6 +235,7 @@ export class AnalisisDesviacionComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.config.setTranslation(this.localeES);
         this.guardando=false;
         this.disabled=true;
         this.nitEmpresa=this.sesionService.getEmpresa()!.nit;

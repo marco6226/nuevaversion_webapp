@@ -116,7 +116,7 @@
                                             </div>
                                             <div>
                                                 <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
-                                                    [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                    [yearRange]="yearRange" [maxDate]="fechaActual" 
                                                     dateFormat="dd/mm/yy" formControlName="fechaIngreso"></p-calendar>
                                             </div>    
                                         </div>
@@ -147,7 +147,7 @@
                                             <label for="" class="active">Fecha de desvinculación</label>
                                         </div>
                                         <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
-                                            [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                            [yearRange]="yearRange" [maxDate]="fechaActual" 
                                             dateFormat="dd/mm/yy">
                                         </p-calendar>
                                     </div>
@@ -209,7 +209,7 @@
                                         </div>
                                         <div>
                                             <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
-                                                [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                [yearRange]="yearRange" [maxDate]="fechaActual" 
                                                 dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
                                         </div>
                                     </div>
@@ -545,9 +545,9 @@
                                     </div>
                                     <div>
                                         <p-calendar  formControlName="fechaFinal" [disabled]="consultar2" *sTienePermiso="'SCM_PUT_CAMBIAR_FECHAFIN'" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
-                                        [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar>
+                                        [maxDate]="fechaActual"  dateFormat="dd/mm/yy"></p-calendar>
                                         <p-calendar formControlName="fechaFinal" [disabled]="consultar2" *ngIf="!permisoFechaCierre()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
-                                            [maxDate]="fechaActual" [minDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar>
+                                            [maxDate]="fechaActual" [minDate]="fechaActual"  dateFormat="dd/mm/yy"></p-calendar>
                                     </div>
                                 </div>
                             </div>
@@ -716,7 +716,7 @@
                                         </div>
                                         <div>
                                             <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
-                                                [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                                                [maxDate]="fechaActual"  dateFormat="dd/mm/yy"
                                                 formControlName="fechaConceptRehabilitacion"></p-calendar>
                                         </div>
                                     </div>
@@ -771,7 +771,7 @@
                                         </div>
                                         <div>
                                             <p-calendar [disabled]="consultar2" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
-                                                [maxDate]="fechaActual" [locale]="localeES" dateFormat="dd/mm/yy"
+                                                [maxDate]="fechaActual"  dateFormat="dd/mm/yy"
                                                 formControlName="fechaConceptRehabilitacionTwo"></p-calendar>
                                         </div>
                                     </div>
@@ -1281,7 +1281,7 @@
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
                                                 <p-calendar [disabled]="consultar2" [touchUI]="true" [(ngModel)]="seguimiento.fechaSeg"
-                                                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" [locale]="localeES">
+                                                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" >
                                                 </p-calendar>
     
                             </ng-template>
@@ -1498,7 +1498,7 @@
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
                                                 <p-calendar [touchUI]="true" [(ngModel)]="tratamiento.fecha"
-                                                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" [locale]="localeES">
+                                                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy" >
                                                 </p-calendar>
     
                                             </ng-template>
