@@ -30,13 +30,10 @@
     <!-- </ng-template> -->
 </p-dialog>
 
-<p-sidebar [(visible)]="displaySideBar" position="right" autoZIndex="true" baseZIndex="1">
+<p-sidebar [(visible)]="displaySideBar" position="right" autoZIndex="true" baseZIndex="1" appendTo="body">
     <ng-template pTemplate="content" >
         <div>
             <div>
-                <!-- <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>      
-                <img *ngIf="usuario?.icon" [src]="usuario.icon"/> -->
-
                 <div>
                     <i *ngIf="!usuario.avatar" class="pi pi-user" style="font-size: 128px;color:#3ba2dc;"
                         aria-hidden="true"></i>
@@ -66,7 +63,6 @@
             
             
             <div>
-                <!-- <button type="button" pButton icon="pi pi-check" (click)="logout()" label="Cerar Sesión"></button> -->
                 <button pButton type="button" 
                         icon="bi bi-box-arrow-left" 
                         label="Cerrar Sesión" 

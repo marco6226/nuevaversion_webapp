@@ -6146,7 +6146,7 @@ textarea.e-input:hover:not(.e-success):not(.e-warning):not(.e-error):not([disabl
 
 .e-treeview.e-drag-item {
   overflow: visible;
-  z-index: 10000;
+  z-index: 1000;
 }
 
 .e-treeview.e-drag-item .e-text-content {

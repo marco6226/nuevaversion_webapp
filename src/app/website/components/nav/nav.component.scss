@@ -10,6 +10,19 @@
     height: 86% !important;
 }
 
+// .p-sidebar-content{
+//     height: 86% !important;
+// }
+
+// :host ::ng-deep.p-sidebar-right {
+//     z-index: 2000000 !important;
+// }
+
+// :host ::ng-deep.p-component-overlay {
+//     background-color: rgba(0, 0, 0, 0.4);
+//     transition-duration: 0.2s;
+//     z-index: 1 !important;
+// }
 .col1{
     align-items: center;
     display: flex;
@@ -201,3 +214,15 @@ p-sidebar{
 //     background: red;
 //     color: white;
 // }
+
+.contentSidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
