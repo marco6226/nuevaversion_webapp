@@ -1,20 +1,18 @@
 <!-- <button (click)="test()">test</button> -->
 <s-mensaje-usuario></s-mensaje-usuario>
 <div>
-    <div id="main-header">
+    <!-- <div class="main-header"> -->
+    <div>
         <app-nav [usuario]="usuario" [empresasItems]="empresasItems" [empresaSelect]="empresaSelect" [empresaSelectOld]="empresaSelectOld" (reloadEmpresa)="reloadEmpresa()"></app-nav>
     </div>
     <div class="contenedor-ppal">
-        <!-- <p-scrollPanel [style]="{ width: '100%', height: 'calc(100% - 100px)' }"> -->
-        <app-layout-menu></app-layout-menu>
+        <app-layout-menu [statusMenuIn]="statusMenu"></app-layout-menu>
 
         <ng-content select="app-menu"></ng-content>
-        <!-- </p-scrollPanel>
-        <p-scrollPanel [style]="{ width: '100%',height: 'calc(100% - 100px)' }"> -->
         <div style="width: 96%; padding: 10px; ">   
             <router-outlet></router-outlet>
         </div>
-        <!-- </p-scrollPanel> -->
+
     </div>
     <app-idle-timeout></app-idle-timeout>
 </div>

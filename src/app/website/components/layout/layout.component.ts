@@ -14,7 +14,7 @@ import { Usuario } from '../../pages/empresa/entities/usuario';
 import { EmpleadoService } from '../../pages/empresa/services/empleado.service';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
 import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
-
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-layout',
@@ -24,6 +24,10 @@ import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
 export class LayoutComponent implements OnInit {
 
 	@ViewChild(LayoutMenuComponent) layoutMenuComp!: LayoutMenuComponent;
+	statusMenu: boolean=false;
+    
+	
+
 	openMenu: boolean = false;
 	usuario!: Usuario | null;
 	empresasItems: SelectItem[] = [];
@@ -41,7 +45,7 @@ export class LayoutComponent implements OnInit {
 		private confGenService: ConfiguracionGeneralService,
 		private permisoService: PermisoService,
 		private empleadoService: EmpleadoService,
-		//private router: Router,
+		private router: Router,
 		private authService: AuthService
 	) { }
 
@@ -51,6 +55,7 @@ export class LayoutComponent implements OnInit {
 				if(msg === 'actualizarPermisos'){
 					this.reloadEmpresa();
 					this.helperService.changeMessage('En espera...');
+					this.reloadMenu();
 				}
 			}
 		);
@@ -111,15 +116,12 @@ export class LayoutComponent implements OnInit {
 		this.empresaService.findByUsuario(this.usuario!.id).then(
 			resp => this.loadItems(<Empresa[]>resp)
 		);
+
+
 	}
-	OutopenMenu(e:boolean){
-		console.log(e)
-		if(e){
-			this.menu="open-menu";
-			this.contenedor="open-contenedor";
-		}else{
-			this.menu="closed-menu";
-			this.contenedor="closed-contenedor";
-		}
+
+	reloadMenu(){
+		// this.router.navigateByUrl('/app/ctr/app-layout-menu');
+		this.statusMenu=!this.statusMenu;
 	}
 }

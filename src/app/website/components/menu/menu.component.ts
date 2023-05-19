@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterContentInit, Component, EventEmitter, OnInit, Output ,Input} from '@angular/core';
 import { Router } from '@angular/router';
 import { SesionService } from '../../pages/core/services/session.service';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
@@ -13,9 +13,15 @@ import { Empresa } from '../../pages/empresa/entities/empresa';
 })
 export class MenuComponent implements OnInit, AfterContentInit {
 
-  @Output() statusMenu = new EventEmitter<boolean>();
-
-
+//   @Output() statusMenu = new EventEmitter<boolean>();
+  @Input('statusMenuIn') set sStatusMenu(statusMenu: boolean) {
+    if(this.statusMenu)
+    setTimeout(() => {
+        this.toogleMenu();    
+    }, 300);
+    this.statusMenu=true
+  }
+  statusMenu: boolean = false;
   menuToggle: boolean = false;
 
   items!: any[];
@@ -34,11 +40,11 @@ export class MenuComponent implements OnInit, AfterContentInit {
   ) { }
 
   async ngOnInit() {
-    // this.recargarMenu();
+        // this.toogleMenu();
   }
 
   async ngAfterContentInit() {
-    // this.recargarMenu();
+    // this.toogleMenu();
   }
 
   getEmpresaId(){
@@ -495,12 +501,10 @@ export class MenuComponent implements OnInit, AfterContentInit {
     const childLabels = document.querySelectorAll("[id='text-toggle']");
     const arrow = document.getElementById('arrow');
     const container = document.getElementById('container');
-    const data = document.querySelectorAll("[id='data']");
- 
+    const data = document.querySelectorAll("[id='data']"); 
     
 
     if(this.menuToggle){
-
         arrow?.classList.add('bi-caret-left-fill')
         arrow?.classList.remove('bi-caret-right-fill')
 

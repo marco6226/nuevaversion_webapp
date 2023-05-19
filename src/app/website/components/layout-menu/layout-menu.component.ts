@@ -10,6 +10,7 @@ export class LayoutMenuComponent implements OnInit {
 
 	@ViewChild(MenuComponent) menuComp!: MenuComponent;
   @Output() openMenu = new EventEmitter<boolean>();
+  @Input('statusMenuIn') statusMenuIn: boolean=false
 
 
   container = document.getElementById('container');
