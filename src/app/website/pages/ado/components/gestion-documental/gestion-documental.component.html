@@ -106,8 +106,8 @@
     </div>
 
     <a style="visibility: hidden" id="dwldLink"></a>
-    <button *sTienePermiso="'ADO_POST_DOCSUP'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgUpload()" icon="pi pi-file" class="float-btn" style="bottom: 90px" title="Subir archivo"></button>
-    <button *sTienePermiso="'ADO_POST_DIR'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgNuevaCarpeta()" icon="pi pi-folder" class="float-btn" style="bottom: 155px" title="Crear carpeta"></button>
+    <button *sTienePermiso="'ADO_POST_DOCSUP'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgUpload()" icon="pi pi-file" class="float-btn" style="bottom: 180px" title="Subir archivo"></button>
+    <button *sTienePermiso="'ADO_POST_DIR'" [disabled]="esConsulta" pButton type="button" (click)="abrirDlgNuevaCarpeta()" icon="pi pi-folder" class="float-btn" style="bottom: 245px" title="Crear carpeta"></button>
 </p-panel>
 
 <p-contextMenu #contextMenu [model]="menuItems" appendTo="body"></p-contextMenu>
@@ -115,8 +115,17 @@
 <p-dialog header="Nueva carpeta" [(visible)]="visibleDlgNuevaCarpeta" modal="true">
     <input pInputText maxlength="55" size="45" [(ngModel)]="nombreCarpeta" />
     <p-footer>
-        <button pButton type="button" (click)="crearNuevaCarpeta()" label="Crear" [disabled]="!nombreCarpeta"></button>
-        <button pButton type="button" (click)="cerrarDlgNuevaCarpeta()" class="ui-button-secondary" label="Cancelar"></button>
+        <button pButton type="button" 
+            (click)="crearNuevaCarpeta()" 
+            icon="bi bi-plus"
+            class="p-button-raised p-button-primary margin-right"
+            label="Crear" 
+            [disabled]="!nombreCarpeta"></button>
+        <button pButton type="button" 
+            (click)="cerrarDlgNuevaCarpeta()" 
+            class="p-button-raised p-button-danger margin-right margin-left"
+            icon="pi pi-times" 
+            label="Cancelar"></button>
     </p-footer>
 </p-dialog>
 

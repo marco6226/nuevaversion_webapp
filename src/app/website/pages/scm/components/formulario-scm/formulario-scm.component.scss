@@ -183,3 +183,7 @@ textarea{
     width: 100%; 
     height: 100%;
 }
+
+::ng-deep .p-tabview .p-tabview-panels{
+    min-height: 70vh;
+}

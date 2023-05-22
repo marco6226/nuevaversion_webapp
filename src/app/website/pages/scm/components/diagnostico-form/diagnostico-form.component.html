@@ -1,11 +1,22 @@
 <p-toast key="diagnostico"></p-toast>
 <form [formGroup]="diagnosticoForm">
-    <div class="grid">
+    <div class="">
         <div class="row g-2 mb-3 text-center">
             <h5 class="title-header mb-2">Diagnóstico</h5>
         </div>
         <!-- div -->
-        <div class="row g-2 mb-3">
+        <!-- <div class="row" style="margin: 10px">
+            <div class="col" style="width: 50px; height: 50px; background: blue; margin: 10px"></div>
+            <div class="col" style="width: 50px; height: 50px; background: blue; margin: 10px"></div>
+            <div class="col" style="width: 50px; height: 50px; background: blue; margin: 10px"></div>
+        </div>
+        <div class="row" style="margin: 10px">
+            <div class="col" style="width: 50px; height: 50px; background: red; margin: 10px"></div>
+            <div class="col" style="width: 50px; height: 50px; background: red; margin: 10px"></div>
+            <div class="col" style="width: 50px; height: 50px; background: red; margin: 10px"></div>
+        </div> -->
+
+        <div class="row">
             <div class="col">
                 <div class="input-field">
                     <label class="active">Código CIE 10</label>
@@ -15,6 +26,8 @@
                 </div>
                 <small *ngIf="codigo?.errors?.required && codigo?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
             </div>
+            <br>
+            
             <div class="col">
                 <div class="input-field">
                     <div>
@@ -30,7 +43,7 @@
             </div>
         </div>
         <!-- div -->
-        <div class="row g-2 mb-3">
+        <div class="row">
             
             <div class="col">
                 <div class="input-field">
@@ -61,7 +74,7 @@
             </div>
         </div>
         <!-- div -->
-        <div class="row g-2 mb-3">
+        <div class="row">
             <div class="col">
                 <div class="input-field">
                     <div>
@@ -85,12 +98,12 @@
                 </div>
                 <small *ngIf="detalle?.errors?.required && detalle?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
             </div>
-            <div class="col-lg"></div>
         </div>
 
         <div class="col-12 p-d-flex p-jc-center p-py-2">
+            
             <button *sTienePermiso="'SCM_CREATE_CASE_DIAG'" [disabled]="esConsulta" pButton type="button" 
-            [label]="(diagSelect) ? 'Guardar' : 'Crear'" icon="fa fa-plus" style="margin-right: .5rem;" (click)="onSubmit()"></button>
+            [label]="(diagSelect) ? 'Guardar' : 'Crear'" icon="bi bi-save" style="margin-right: .5rem;" (click)="onSubmit()"></button>
             <button pButton type="button" [label]="(diagSelect) ? 'Cancelar' : 'Cerrar'" icon="pi pi-times" 
             class="p-button-danger" (click)="close()"></button>
         </div>

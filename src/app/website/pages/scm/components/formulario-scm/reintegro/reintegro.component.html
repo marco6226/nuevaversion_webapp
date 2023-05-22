@@ -38,8 +38,8 @@
             <textarea name="" id="" cols="30" rows="8" [(ngModel)]="isEdit.descripcion" formControlName="descripcion" required></textarea>
         </div>
         <div class="input-field">
-            <p-dropdown *ngIf="form.value.tipo_retorno!='Reconversión'" appendTo="body" [options]="temporals" [(ngModel)]="isEdit.permanencia" formControlName="permanencia" placeholder="Seleccione" required></p-dropdown>
             <label class="active" for="">Permanencia</label>
+            <p-dropdown *ngIf="form.value.tipo_retorno!='Reconversión'" appendTo="body" [options]="temporals" [(ngModel)]="isEdit.permanencia" formControlName="permanencia" placeholder="Seleccione" required></p-dropdown>
         </div>
         <div class="input-field" *ngIf="form.value.permanencia">
             <label class="active" for="">Periodo seguimiento</label>
@@ -98,13 +98,22 @@
     </div> -->
     <!-- *ngIf="form.valid && !onEdit" -->
     <div class="button"  *ngIf="form.valid && !onEdit">
-        <button *sTienePermiso="'SCM_CREATE_REINTEGRO'" pButton type="button" icon="fa fa-plus"
-        label="Crear"  (click)="saveReintegro()" [disabled]="!form.valid">
+        <button *sTienePermiso="'SCM_CREATE_REINTEGRO'" 
+            pButton type="button" 
+            icon="bi bi-plus"
+            label="Crear"  
+            (click)="saveReintegro()" 
+            class="p-button-raised p-button-primary margin-right"
+            [disabled]="!form.valid">
         </button>
     </div>
     <div class="button" *ngIf="form.valid && onEdit">
-        <button pButton type="button" icon="bi bi-pencil-square" class="p-button-success"
-        label="Guardar"  (click)="editReintegro()" [disabled]="!form.valid">
+        <button pButton type="button" 
+            icon="bi bi-save" 
+            class="p-button-raised p-button-success margin-right margin-left"
+            label="Guardar"  
+            (click)="editReintegro()" 
+            [disabled]="!form.valid">
         </button>
     </div>
     

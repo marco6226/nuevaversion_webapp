@@ -814,9 +814,9 @@
                     <div style="text-align: center; width: 100%;">
                         <button pButton *ngIf="solicitando == false" type="button" (click)="onCancel.emit()"
                             icon="bi bi-arrow-left-right" class="float-btn" (click)="closeForm()"
-                            title="Volver a listado de empleados" style="bottom: 70px;"></button>
+                            title="Volver a listado de empleados" style="bottom: 190px;"></button>
                         <button pButton *ngIf="solicitando == false && !this.consultar2" type="submit" icon="bi bi-save"
-                            class="float-btn" [disabled]="this.consultar" style="bottom: 140px;"
+                            class="float-btn" [disabled]="this.consultar" style="bottom: 260px;"
                             title="Guardar datos medicos"></button>
                         <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
                             [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
@@ -1721,7 +1721,7 @@
 </p-dialog>
 
 <p-dialog [header]="(!diagSelect) ? 'Crear Diagnóstico' : 'Editar Diagnóstico'" [(visible)]="modalDianostico" 
-    [modal]="true" [closable]="false" [draggable]="false" [resizable]="false" [responsive]="true">
+    [modal]="true" [closable]="false" [draggable]="false" [resizable]="false" [responsive]="true" [style]="{width: '50vw'}">
 
     <app-diagnostico-form *ngIf="caseSelect" [diagSelect]="diagSelect" [id]="caseSelect.pkUser.id"
         [caseId]="caseSelect.id" (eventClose)="onCloseModalDianostico()" (closeModal)="closeModalDiagnostico()">
