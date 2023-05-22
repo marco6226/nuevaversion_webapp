@@ -7,10 +7,16 @@
     <div  [formGroup]="inpForm2" class="grid">
       <div class="col-12">
         <div  style="margin-right: 25px;">
-          <s-elemento-inspeccion-node *ngIf="value" [value]="value" [editable]="editable" [opciones]="opciones" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
-            [diligenciable]="diligenciable" (onElementoClick)="elementoClick($event)" [tiposHallazgo]="tipoHallazgoList"></s-elemento-inspeccion-node>
-  
-          <a   (click)="adicionarElementoInp()" *ngIf="editable" title="Adicionar nuevo elemento">Nuevo elemento</a>
+          <app-elemento-inspeccion-node *ngIf="value" [value]="value" [editable]="editable" [opciones]="opciones" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
+            [diligenciable]="diligenciable" (onElementoClick)="elementoClick($event)" [tiposHallazgo]="tipoHallazgoList"></app-elemento-inspeccion-node>
+            <button *ngIf="editable"
+                    class="p-button-raised p-button-primary margin-right" 
+                    pButton type="button" 
+                    icon="bi bi-plus" 
+                    label="Nuevo elemento"
+                    title="Adicionar nuevo elemento" 
+                    (click)="adicionarElementoInp()"></button>
+          <!-- <a   (click)="adicionarElementoInp()" *ngIf="editable " title="Adicionar nuevo elemento">Nuevo elemento</a> -->
         </div>
       </div>
     </div>

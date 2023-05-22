@@ -104,15 +104,19 @@
     </p-panel>
 </div>
 
-<p-dialog [(visible)]="visibleDlg" modal="true">
-    <div class="grid">
-        <div class="col-6">
-            <label class="s-float-label">Desde</label>
-            <p-calendar dateFormat="dd/mm/yy" [ngModel]="desde" (ngModelChange)="desde=$event" appendTo="body"></p-calendar>
+<p-dialog [(visible)]="visibleDlg" modal="true" header="Descarga de inspecciones">
+    <div class="row">
+        <div class="col">
+            <div>
+                <label >Desde</label>
+                <p-calendar dateFormat="dd/mm/yy" [ngModel]="desde" (ngModelChange)="desde=$event" appendTo="body"></p-calendar>                
+            </div>
         </div>
-        <div class="col-6">
-            <label class="s-float-label">Hasta</label>
-            <p-calendar dateFormat="dd/mm/yy" [ngModel]="hasta" (ngModelChange)="hasta=$event" appendTo="body"></p-calendar>
+        <div class="col">
+            <div>
+                <label >Hasta</label>
+                <p-calendar dateFormat="dd/mm/yy" [ngModel]="hasta" (ngModelChange)="hasta=$event" appendTo="body"></p-calendar>
+            </div>            
         </div>
     </div>
     <div *ngIf="downloading == true">
@@ -121,7 +125,14 @@
     </div>
 
     <ng-container *ngIf="downloading != true">
-        <button *sTienePermiso="'INP_GET_CONSINP'" pButton type="button" icon="pi-download" label="Descargar" title="Descarga consolidado de inspecciones de la lista seleccionada" (click)="descargarInspecciones()" [disabled]="desde == null || hasta == null"></button>
+        <button *sTienePermiso="'INP_GET_CONSINP'" 
+                pButton type="button" 
+                icon="bi bi-download" 
+                label="Descargar" 
+                class="p-button-raised p-button-secondary margin-left"
+                title="Descarga consolidado de inspecciones de la lista seleccionada" 
+                (click)="descargarInspecciones()" 
+                [disabled]="desde == null || hasta == null"></button>
     </ng-container>
 </p-dialog>
 

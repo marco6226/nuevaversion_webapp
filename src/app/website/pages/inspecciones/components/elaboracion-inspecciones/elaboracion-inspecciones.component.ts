@@ -30,7 +30,9 @@ import { ListaInspeccionFormComponent } from '../lista-inspeccion-form/lista-ins
 @Component({
   selector: 'app-elaboracion-inspecciones',
   templateUrl: './elaboracion-inspecciones.component.html',
-  styleUrls: ['./elaboracion-inspecciones.component.scss']
+  styleUrls: ['./elaboracion-inspecciones.component.scss'],
+  providers: [DirectorioService,DatePipe]
+
 })
 export class ElaboracionInspeccionesComponent implements OnInit {
 

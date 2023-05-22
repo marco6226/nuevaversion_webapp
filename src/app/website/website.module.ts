@@ -189,6 +189,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-usuario.component';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { ElementoInspeccionNodeComponent } from './pages/inspecciones/components/lista-inspeccion-form/elemento-inspeccion-node/elemento-inspeccion-node.component';
 
 
 @NgModule({
@@ -345,7 +346,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     ListadoCausasTemporalComponent,
     FormularioIncidenteTemporalComponent,
     DocumentoFormComponent,
-    MensajeUsuarioComponent
+    MensajeUsuarioComponent,
+    ElementoInspeccionNodeComponent
   ],
   imports: [
     MatTooltipModule,

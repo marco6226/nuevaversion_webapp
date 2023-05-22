@@ -226,11 +226,17 @@ export class ProgramacionComponent implements OnInit {
         // debugger
           this.matriz?.push(matrizData);
 
+          var _color = '#007AD9';
+          if(element.numeroRealizadas == element.numeroInspecciones){
+            _color = 'green';            
+          }
+
           this.event = {
             id: element.id,
             title: element.numeroRealizadas + '/' + element.numeroInspecciones + 'Insp. en ' + element.area.nombre,
             start: new Date(element.fecha),
             end: new Date(element.fecha + 3600000),
+            color: _color,
           }
           this.events.push(this.event)
         });
@@ -509,9 +515,6 @@ export class ProgramacionComponent implements OnInit {
     this.openProg(this.programacionList.find((x) => x.id == event.event.id))
   }
 
-  test2(){
-    console.log(this.form)
-  }
 
 }
 
@@ -522,6 +525,8 @@ export interface EventList{
   start: Date,
   end?: Date | null,
   description?: string | null,
+  textColor?: string | null,
+  color?: string | null
 }
 
 export interface MatrizList{

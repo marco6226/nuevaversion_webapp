@@ -9,7 +9,12 @@
     <p-panel>
       <p-header>
         <div style="float: left;">
-          <button *ngIf="!adicionar" pButton icon="fa fa-print" (click)="imprimirImagen()" class="soft-icon"></button>
+          <button 
+            *ngIf="!adicionar" pButton 
+            class="p-button-raised p-button-success margin-right margin-left" 
+            icon="bi bi-printer" 
+            (click)="imprimirImagen()" 
+            ></button>
           {{listaInspeccion?.nombre}}
   
         </div>      
@@ -34,9 +39,9 @@
     <br/>
     <s-formulario *ngIf="listaInspeccion?.formulario" [formularioModel]="listaInspeccion?.formulario" (onValidChange)="actualizarValidacion($event)"></s-formulario>
     <br/>
-    <s-lista-inspeccion-form [value]="listaInspeccion?.elementoInspeccionList" [opciones]="listaInspeccion?.opcionCalificacionList"
+    <app-lista-inspeccion-form [value]="listaInspeccion?.elementoInspeccionList" [opciones]="listaInspeccion?.opcionCalificacionList"
       [editable]="false" [disabled]="consultar" [nivelRiesgoList]="nivelRiesgoList" diligenciable="true" #listaInspeccionForm
-      [usarNivelRiesgo]="listaInspeccion?.usarNivelRiesgo" [usarTipoHallazgo]="listaInspeccion?.usarTipoHallazgo"></s-lista-inspeccion-form>
+      [usarNivelRiesgo]="listaInspeccion?.usarNivelRiesgo" [usarTipoHallazgo]="listaInspeccion?.usarTipoHallazgo"></app-lista-inspeccion-form>
       <!-- (elementoSelect)="onElementoClick($event)" -->
     <br>
     <p-panel *sTienePermiso="'INP_GET_ESTADO'">
@@ -58,6 +63,8 @@
             ></textarea>      
     </div>
     </p-panel>
+
+    <br/>
     
     <p-panel *ngIf="permisoHse">
       <p-header>
@@ -94,8 +101,21 @@
               (ionChange)="rangoFechaCierreHse($event)"/>
           </div>
           <br>
-          <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check" label="Aceptar" (click)="botonAceptar('HSE')" style="margin-right: 10px;" class="p-button-success"></button>
-          <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="fa fa-ban" label="Denegar" (click)="botonDenegar('HSE')" class="p-button-danger"></button>
+          <button *ngIf="FormHseq.invalid" 
+                  [disabled]="isEmpleadoValid" 
+                  pButton type="button" 
+                  icon="pi pi-check"
+                  label="Aceptar" 
+                  (click)="botonAceptar('HSE')" 
+                  class="p-button-raised p-button-success margin-right margin-left" 
+                  style="margin-right: 10px;"></button>
+          <button *ngIf="FormHseq.invalid" 
+                  [disabled]="isEmpleadoValid" 
+                  pButton type="button" 
+                  class="p-button-raised p-button-danger margin-right margin-left"
+                  icon="bi bi-x-lg" 
+                  label="Denegar" 
+                  (click)="botonDenegar('HSE')"></button>
         </div>
       </form>
       <div *ngIf="!mostarHseGet">
@@ -139,8 +159,21 @@
               (ionChange)="rangoFechaCierre($event)"/>
           </div>
           <br>
-           <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check" label="Aceptar" (click)="botonAceptar('ING')" style="margin-right: 10px;" class="p-button-success"></button>
-           <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="fa fa-ban" label="Denegar" (click)="botonDenegar('ING')" class="p-button-danger"></button>
+           <button *ngIf="FormIng.invalid" 
+                  [disabled]="isEmpleadoValid" 
+                  pButton type="button" 
+                  icon="pi pi-check" 
+                  label="Aceptar" 
+                  (click)="botonAceptar('ING')" 
+                  class="p-button-raised p-button-success margin-right margin-left" 
+                  style="margin-right: 10px;"></button>
+           <button *ngIf="FormIng.invalid" 
+                  [disabled]="isEmpleadoValid" 
+                  pButton type="button" 
+                  class="p-button-raised p-button-danger margin-right margin-left"
+                  icon="bi bi-x-lg" 
+                  label="Denegar" 
+                  (click)="botonDenegar('ING')"></button>
         </div>
       </form> 
       <div *ngIf="!mostarIngGet">

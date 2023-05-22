@@ -1,9 +1,20 @@
 <div class="shadow">
     <p-panel>
         <p-header>
-            <i class="fa fa-cog" aria-hidden="true"></i>
-            <label class="ui-panel-title">Datos generales</label>
-            <a style="float:right;" (click)="adicionarCampo()" title="Adicionar nuevo campo de formulario">Nuevo</a>
+            <div class="center">
+                <div>
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                    <label class="ui-panel-title">Datos generales</label>
+                </div>                
+                <button *sTienePermiso="'ADM_POST_USR'" 
+                        class="p-button-raised p-button-primary margin-right" 
+                        pButton type="button" 
+                        icon="bi bi-plus" 
+                        title="Adicionar nuevo campo de formulario"
+                        label="Nuevo" 
+                        (click)="adicionarCampo()"></button>
+            </div>            
+            <!-- <a type="button" style="float:right;" (click)="adicionarCampo()" title="Adicionar nuevo campo de formulario">Nuevo</a> -->
         </p-header>
         <div class="grid">
             <div class="col-12 md:col-6 lg:col-6">

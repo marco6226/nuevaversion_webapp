@@ -1,12 +1,11 @@
-
 <p-panel header="PROGRAMACIÓN DE INSPECCIONES">
 
-    <ng-template pTemplate="body" let-reporte>
-      <full-calendar [options]="calendarOptions" [events]="events"></full-calendar>
-    </ng-template>
+  <ng-template pTemplate="body" let-reporte>
+    <full-calendar [options]="calendarOptions" [events]="events"></full-calendar>
+  </ng-template>
 
 </p-panel>
-  
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
   <p-dialog [style]="{width: '50%'}" [(visible)]="visibleDlg" [responsive]="true" [modal]="true">
@@ -18,22 +17,23 @@
       <div class="col-12 md:col-4 lg:col-4">
         <label for="numeroInspecciones">Número de inspecciones</label>
       </div>
-      <div class="col-12 md:col-8 lg:col-8">        
-        <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required/>
+      <div class="col-12 md:col-8 lg:col-8">
+        <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required />
       </div>
       <div class="col-12 md:col-4 lg:col-4">
         <label for="listaInsp">Lista de inspección</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
-        <p-dropdown id="listaInsp" [options]="listasInspeccionList" [filter]="true" formControlName="listaInspeccionPK" appendTo="body" required></p-dropdown>
+        <p-dropdown id="listaInsp" [options]="listasInspeccionList" [filter]="true" formControlName="listaInspeccionPK"
+          appendTo="body" required></p-dropdown>
       </div>
       <div class="col-12 md:col-4 lg:col-4">
         <label for="areaResponsable">Ubicación responsable</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
-        <area-selector formControlName="area" required  ></area-selector>
+        <area-selector formControlName="area" required></area-selector>
       </div>
-    </div> 
+    </div>
     <p-panel header="Periodicidad" *ngIf="adicionar">
       <div class="grid">
         <div class="col-12 md:col-4 lg:col-4">
@@ -49,19 +49,24 @@
           <label for="areaResponsable">Hasta</label>
         </div>
         <div class="col-12 md:col-8 lg:col-8">
-          <p-calendar  dateFormat="dd/mm/yy" formControlName="fechaHasta" appendTo="body" [minDate]="fechaSelect"
+          <p-calendar dateFormat="dd/mm/yy" formControlName="fechaHasta" appendTo="body" [minDate]="fechaSelect"
             [maxDate]="fechaMaxima" [readonlyInput]="true"></p-calendar>
         </div>
         <div class="col-12 md:col-4 lg:col-4">
           <label for="areaResponsable">Incluir</label>
         </div>
         <div class="col-12 md:col-8 lg:col-8">
-          <p-checkbox name="weekend" value="1" label="Lunes" [formControl]="form.controls['semana']"></p-checkbox><br/>
-          <p-checkbox name="weekend" value="2" label="Martes" [formControl]="form.controls['semana']"></p-checkbox><br/>
-          <p-checkbox name="weekend" value="3" label="Miércoles" [formControl]="form.controls['semana']"></p-checkbox><br/>
-          <p-checkbox name="weekend" value="4" label="Jueves" [formControl]="form.controls['semana']"></p-checkbox><br/>
-          <p-checkbox name="weekend" value="5" label="Viernes" [formControl]="form.controls['semana']"></p-checkbox><br/>
-          <p-checkbox name="weekend" value="6" label="Sábado" [formControl]="form.controls['semana']"></p-checkbox><br/>
+          <p-checkbox name="weekend" value="1" label="Lunes" [formControl]="form.controls['semana']"></p-checkbox><br />
+          <p-checkbox name="weekend" value="2" label="Martes"
+            [formControl]="form.controls['semana']"></p-checkbox><br />
+          <p-checkbox name="weekend" value="3" label="Miércoles"
+            [formControl]="form.controls['semana']"></p-checkbox><br />
+          <p-checkbox name="weekend" value="4" label="Jueves"
+            [formControl]="form.controls['semana']"></p-checkbox><br />
+          <p-checkbox name="weekend" value="5" label="Viernes"
+            [formControl]="form.controls['semana']"></p-checkbox><br />
+          <p-checkbox name="weekend" value="6" label="Sábado"
+            [formControl]="form.controls['semana']"></p-checkbox><br />
           <p-checkbox name="weekend" value="0" label="Domingo" [formControl]="form.controls['semana']"></p-checkbox>
         </div>
       </div>
@@ -75,24 +80,25 @@
         <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="bi bi-save
 " label="Guardar" [disabled]="!form.valid"></button>
       </ng-container>
-      
+
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="bi bi-pencil-square" class="p-button-success" label="Modificar" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="bi bi-pencil-square"
+          class="p-button-success" label="Modificar" [disabled]="!form.valid"></button>
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="fa fa-list-ol" class="p-button-success" label="Inspeccion"
-          (click)="irInspeccion2()" [disabled]="btnInspDisable">
+        <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="fa fa-list-ol" class="p-button-success"
+          label="Inspeccion" (click)="irInspeccion2()" [disabled]="btnInspDisable">
         </button>
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="p-button-danger" label="Eliminar"
-          (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="p-button-danger"
+          label="Eliminar" (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
       </ng-container>
 
     </p-footer>
   </p-dialog>
 </form>
 
-  <!-- <button (click)="test2()">test</button> -->
+<!-- <button (click)="test2()">test</button> -->
