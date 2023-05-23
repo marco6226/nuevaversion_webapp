@@ -228,7 +228,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     })
     this.areasPermiso='{'+filteredArea?.toString()+'}';
 
-    this.permisoSeguimiento = (<Map<string, boolean>>this.sesionService.getPermisosMap()).get('RAI_PUT_REP_ALIADO_SEG') ?? null;
+    this.permisoSeguimiento = this.sesionService.getPermisosMap()['RAI_PUT_REP_ALIADO_SEG'] ?? null;
 
     let empresaId = this.sesionService.getEmpresa()?.idEmpresaAliada ?
     this.sesionService.getEmpresa()?.idEmpresaAliada : this.sesionService.getEmpresa()?.id;

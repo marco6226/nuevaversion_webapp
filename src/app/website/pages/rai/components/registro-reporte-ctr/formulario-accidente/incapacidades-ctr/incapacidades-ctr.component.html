@@ -40,8 +40,10 @@
 <p-dialog [(visible)]="isVisibleDialog" [style]="{width: '450px'}" [positionTop]="100" [draggable]="true" header="Agregar incapacidad" [modal]="true" styleClass="p-fluid">
   <div class="p-field">
       <label for="tipo">El evento generó incapacidad?</label>
-      <p-radioButton [name]="" [value]="true" label="Si" [(ngModel)]="generoIncapacidad"></p-radioButton>
-      <p-radioButton [name]="" [value]="false" label="No" [(ngModel)]="generoIncapacidad"></p-radioButton>
+      <div>
+        <p-radioButton [name]="" [value]="true" label="Si" [(ngModel)]="generoIncapacidad" required></p-radioButton>
+        <p-radioButton [name]="" [value]="false" label="No" [(ngModel)]="generoIncapacidad" required></p-radioButton>
+      </div>
   </div>
   <ng-container *ngIf="generoIncapacidad">
     <div class="p-field">
@@ -75,15 +77,20 @@
       <input type="number" autofocus [value]="daysCount" disabled="true"/>
   </div>
 
-  <button *ngIf="isNewIncapacidad" [disabled]="!formIncapacidadIsValid() && generoIncapacidad" 
-  pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveIncapacidad()"
-  style="margin-right: 10px;"></button>
-
-  <button *ngIf="isUpdateIncapacidad" [disabled]="!formIncapacidadIsValid() && generoIncapacidad"
-  pButton pRipple label="Editar" icon="pi pi-pencil" class="p-button-text" (click)="saveIncapacidad()" 
-  style="margin-right: 10px;"></button>
+  <div class="row mb-3 g-6">
+    <div class="col-sm-6">
+      <button *ngIf="isNewIncapacidad" [disabled]="!formIncapacidadIsValid() && generoIncapacidad" 
+      pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveIncapacidad()"
+      style="margin-right: 10px;"></button>
   
-  <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
-  (click)="hideDialog()"></button>
+      <button *ngIf="isUpdateIncapacidad" [disabled]="!formIncapacidadIsValid() && generoIncapacidad"
+      pButton pRipple label="Editar" icon="pi pi-pencil" class="p-button-text" (click)="saveIncapacidad()" 
+      style="margin-right: 10px;"></button>
+    </div>
+    <div class="col-sm-6">
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+      (click)="hideDialog()"></button>
+    </div>
+  </div>
 
 </p-dialog>

@@ -78,9 +78,9 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
-      <button pButton icon="fa fa-plus" label="Consultar" (click)="consultarReporte()" 
+      <button pButton icon="pi pi-plus" label="Consultar" (click)="consultarReporte()" 
       [ngStyle]="{'margin-right': '10px'}" [disabled]="!reporteSelect"></button>
-      <button *sTienePermiso="'RAI_PUT_REPCTR'" pButton icon="fa fa-pencil" class="ui-button-success"
+      <button *sTienePermiso="'RAI_PUT_REPCTR'" pButton icon="pi pi-pencil" class="p-button-success"
       label="Modificar" [disabled]="!reporteSelect" (click)="editarReporte()"></button>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -96,7 +96,8 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft" let-state style="margin-top: 50%;">
-      <span>Mostrando {{ reportesList.length || 0 }} de {{state.totalRecords}}</span>
+      <span style="margin-left: 10px;">Mostrando {{ reportesList.length || 0 }} de {{state.totalRecords}}</span>
     </ng-template>
+    <ng-template pTemplate="paginatorright"></ng-template>
   </p-table>
 </p-panel>

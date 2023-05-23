@@ -53,9 +53,9 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">
-    <button pButton type="button" [disabled]="(selectedSubcontratista!=null) || onEdit!='edit'" icon="bi bi-plus" label="Crear" (click)="createSubcontratista();selectedSubcontratista=null"></button>
-    <button pButton type="button" icon="bi bi-pencil" label="Modificar" [disabled]="selectedSubcontratista==null || onEdit!='edit'" class="p-button-success" (click)="editSubcontratista()"></button>
-    <button pButton type="button" (click)="showDialogCarta()" [disabled]="selectedSubcontratista==null || onEdit!='edit'" icon="bi bi-cloud-upload" label="Adjuntar soporte" class="p-button-warning"></button>
+    <button pButton type="button" style="margin-left: 10px;" [disabled]="(selectedSubcontratista!=null) || onEdit!='edit'" icon="bi bi-plus" label="Crear" (click)="createSubcontratista();selectedSubcontratista=null"></button>
+    <button pButton type="button" style="margin-left: 10px;" icon="bi bi-pencil" label="Modificar" [disabled]="selectedSubcontratista==null || onEdit!='edit'" class="p-button-success" (click)="editSubcontratista()"></button>
+    <button pButton type="button" style="margin-left: 10px;" (click)="showDialogCarta()" [disabled]="selectedSubcontratista==null || onEdit!='edit'" icon="bi bi-cloud-upload" label="Adjuntar soporte" class="p-button-warning"></button>
     <s-documentoUpload [(visible)]="dialogCarta" [modParam]="aliadoId" [modulo]="modulo" [tipoEvidencia]="'cartaAutorizacion'" (onUpload)="onUpload($event, selectedSubcontratista.id)" [contratistasFlag]="contratistasFlag"></s-documentoUpload>
   </ng-template>
   <ng-template pTemplate="emptymessage">
@@ -65,6 +65,6 @@
   </ng-template>
 </p-table>
 
-<p-dialog header="Crear subcontratista" [closable]="false" [modal]="true" [style]="{'width':'60%'}" [(visible)]="displayDialog">
+<p-dialog header="Crear subcontratista" [closable]="false" [modal]="true" [style]="{'width':'60%'}" [(visible)]="displayDialog" appendTo="body">
   <app-form-subcontratista [loadSubcontratista]="selectedSubcontratista" [aliadoId]="aliadoId" (cancelarFormulario)="closeFormSubcontratista($event);selectedSubcontratista=null"></app-form-subcontratista>
 </p-dialog>

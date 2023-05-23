@@ -99,12 +99,13 @@ export class IncapacidadesCtrComponent implements OnInit {
     this.isVisibleDialog = true;
     this.isUpdateIncapacidad = true;
     let incapacidad = this.incapacidades.find(incapacidad => incapacidad.id === incapacidadId);
+    console.log(incapacidad);
     if(incapacidad){
       this.id = incapacidad.id ?? null;
-      this.generoIncapacidad = Boolean(incapacidad.generoIncapacidad);
+      this.generoIncapacidad = JSON.parse(incapacidad.generoIncapacidad!);
       this.tipo = incapacidad.tipo ?? null;
       this.cie10 = incapacidad.cie10;
-      this.cie10.nombre = incapacidad.cie10 ? incapacidad.cie10.nombre : null;
+      this.cie10.nombre = incapacidad.cie10 ? incapacidad.cie10.nombre ? incapacidad.cie10.nombre : null : null;
       this.fechaInicio = incapacidad.fechaInicio ? new Date(incapacidad.fechaInicio) : null;
       this.fechaFin = incapacidad.fechaFin ? new Date(incapacidad.fechaFin) : null;
       this.diasAusencia = incapacidad.diasAusencia ?? null;

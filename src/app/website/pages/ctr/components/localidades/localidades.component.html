@@ -88,10 +88,10 @@
 </div>
 
 
-<p-dialog header="Lista de Divisiones" [(visible)]="visibleDlg" [style]="{width: '20vw'}">
+<p-dialog header="Lista de Divisiones" [(visible)]="visibleDlg" [style]="{width: '20vw'}" appendTo="body">
     
     <div class="input-field">
-        <label for="" class="active">Divisiones</label>
+        <label for="">Divisiones</label>
     </div>
 
     <div class="grid" style="width:250px;margin-bottom:10px" *ngFor="let data of divisionList">
@@ -106,10 +106,10 @@
     </p-footer>
 </p-dialog>
 
-<p-dialog header="Lista de Localidades" [(visible)]="visibleDlgLocalidades" [style]="{width: '30vw'}">
+<p-dialog header="Lista de Localidades" [(visible)]="visibleDlgLocalidades" [style]="{width: '30vw'}" appendTo="body">
     
     <div class="input-field">
-        <label for="" class="active">Localidades</label>
+        <label for="">Localidades</label>
     </div>
 
     <div class="grid" style="width:350px;margin-bottom:10px" *ngFor="let data of locadidadList">

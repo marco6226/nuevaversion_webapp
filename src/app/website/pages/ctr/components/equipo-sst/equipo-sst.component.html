@@ -1,24 +1,24 @@
 <div [formGroup]="formResponsable" *ngIf="isResponsable">
     <div class="row g-2 mb-3">
         <div class="col-lg">
-            <label for="" class="active">Nombre</label>  
+            <label for="">Nombre</label>  
             <input required type="text" pInputText formControlName="nombre" placeholder="Nombre"
                 class="form-control"/>          
         </div>
         <div class="col-lg">
-            <label for="" class="active">Correo</label>
+            <label for="">Correo</label>
             <input required type="text" pInputText formControlName="correo" placeholder="Correo"
             class="form-control" [ngModel]="correo" (ngModelChange)="$event ? $event.toLowerCase() : ''; correo = $event"/>
         </div> 
     </div>  
     <div class="row g-2 mb-3">
         <div class="col-lg">
-            <label for="" class="active">Telefono</label>
+            <label for="">Telefono</label>
             <input required type="number" pInputText formControlName="telefono" placeholder="Telefono"
             class="form-control"/>
         </div> 
         <div class="col-lg">
-            <label for="" class="active">Licencia SST / Resolución</label>
+            <label for="">Licencia SST / Resolución</label>
             <input required type="text" pInputText formControlName="licenciaSST" placeholder="LicenciaSST"
             class="form-control"/>
         </div> 
@@ -28,48 +28,48 @@
 <div [formGroup]="formEquipo" *ngIf="!isResponsable">
     <div class="row g-2 mb-3">
         <div class="col-lg">
-            <label for="" class="active">Nombre</label> 
+            <label for="">Nombre</label> 
             <input required type="text" pInputText formControlName="nombre" placeholder="Nombre"
                 class="form-control"/>           
         </div>
         <div class="col-lg">
-            <label for="" class="active">Documento</label>
+            <label for="">Documento</label>
             <input required type="number" pInputText formControlName="documento" placeholder="documento"
             class="form-control"/>
         </div> 
     </div>  
     <div class="row g-2 mb-3">
         <div class="col-lg">
-            <label for="" class="active">Correo</label>
+            <label for="">Correo</label>
             <input required type="email" pInputText formControlName="correo" placeholder="Correo"
             class="form-control"/>
         </div>   
         <div class="col-lg">
-            <label for="" class="active">Telefono</label>
+            <label for="">Telefono</label>
             <input required type="number" pInputText formControlName="telefono" placeholder="Telefono"
             class="form-control"/>
         </div>
     </div>
     <div class="row g-2 mb-3">
         <div class="col-lg">
-            <label for="" class="active">División</label>
+            <label for="">División</label>
             <p-multiSelect required appendTo="body" class="form-control"  defaultLabel="--seleccione division--" 
             [options]="divisionList" formControlName="division"> </p-multiSelect>
         </div>   
         <div class="col-lg">
-            <label for="" class="active">Localidad</label>
+            <label for="">Localidad</label>
             <p-multiSelect class="form-control" required appendTo="body" [options]="localidadesList" [(ngModel)]="selectedLocalidad" 
             defaultLabel="--seleccione localidad--" formControlName="localidad" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
         </div> 
     </div>  
     <div class="row g-2 mb-3">
         <div class="col-lg">
-            <label for="" class="active">Rol o Cargo</label>
+            <label for="">Rol o Cargo</label>
             <input required type="text" pInputText formControlName="cargo" placeholder="cargo"
             class="form-control"/>
         </div> 
         <div class="col-lg">
-            <label for="" class="active">Licencia SST / Resolución</label>
+            <label for="">Licencia SST / Resolución</label>
             <input required type="text" pInputText formControlName="licenciaSST" placeholder="LicenciaSST"
             class="form-control"/>
         </div> 
@@ -78,12 +78,12 @@
 
 <div class="button-container">
     <!-- <button pButton type="button" icon="fa fa-plus" label="Cancelar"></button>     -->
-    <button pButton icon="bi bi-times" class="p-button-rounded p-button-danger p-mr-2" (click)="CloseDialog()" label="Cancelar"></button>
+    <button pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-mr-2" (click)="CloseDialog()" label="Cancelar"></button>
 
-    <button pButton icon="bi bi-plus" class="rigth-button p-button-rounded p-mr-2" [disabled]="formResponsable.invalid" (click)="agregar()" *ngIf="isResponsable && !isEdtMiembro" label="Agregar"></button>    
-    <button pButton icon="bi bi-plus" class="rigth-button p-button-rounded p-mr-2" [disabled]="formEquipo.invalid" (click)="agregar()" *ngIf="!isResponsable && !isEdtMiembro" label="Agregar"></button> 
-    <button pButton icon="bi bi-pencil" class="rigth-button p-button-rounded p-mr-2" [disabled]="formResponsable.invalid" (click)="actualizar()" *ngIf="isEdtMiembro == 'encargado'" title="Guardar encargado" label="Guardar"></button>
-    <button pButton icon="bi bi-pencil" class="rigth-button p-button-rounded p-mr-2" [disabled]="formEquipo.invalid" (click)="actualizar()" *ngIf="isEdtMiembro == 'equipo'" title="Guardar miembro SST" label="Guardar"></button>   
+    <button pButton icon="pi pi-plus" class="rigth-button p-button-rounded p-mr-2" [disabled]="formResponsable.invalid" (click)="agregar()" *ngIf="isResponsable && !isEdtMiembro" label="Agregar"></button>    
+    <button pButton icon="pi pi-plus" class="rigth-button p-button-rounded p-mr-2" [disabled]="formEquipo.invalid" (click)="agregar()" *ngIf="!isResponsable && !isEdtMiembro" label="Agregar"></button> 
+    <button pButton icon="pi pi-pencil" class="rigth-button p-button-rounded p-mr-2" [disabled]="formResponsable.invalid" (click)="actualizar()" *ngIf="isEdtMiembro == 'encargado'" title="Guardar encargado" label="Guardar"></button>
+    <button pButton icon="pi pi-pencil" class="rigth-button p-button-rounded p-mr-2" [disabled]="formEquipo.invalid" (click)="actualizar()" *ngIf="isEdtMiembro == 'equipo'" title="Guardar miembro SST" label="Guardar"></button>   
 </div>
 
 <!-- <button (click)="test()">test</button> -->
