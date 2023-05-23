@@ -254,71 +254,66 @@
         <form [formGroup]="formplanaccion">
             <p-accordionTab header="X. PLAN DE ACCION">
                 
-                <div class="ui-g">
-
-                    <div class="ui-g-12">
+                <div class="container">
+                    <div class="row mb-3">
                         <h5 class="title-header p-mb-3">Plan de acción</h5>
                     </div>
-    
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <div class="input-field">
-                            <input type="number" pInputText placeholder="% de avance"
-                                class="form-material" formControlName="avance" [readonly]="consultar"/>
-                            <!-- <input type="number" pInputText placeholder="% de avance"
-                                class="form-material"/> -->
-                            <label for="" class="active">% de avance</label>
-                        </div>        
+                    <div class="row mb-3 g-6">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="input-field">
+                                <input type="number" pInputText placeholder="% de avance"
+                                    class="form-material" formControlName="avance" [readonly]="consultar"/>
+                                <!-- <input type="number" pInputText placeholder="% de avance"
+                                    class="form-material"/> -->
+                                <label for="" class="active">% de avance</label>
+                            </div>        
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="input-field">
+                                <p-calendar [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy" formControlName="fechaCierre" [disabled]="consultar"></p-calendar>
+                                <!-- <p-calendar [monthNavigator]="true" [yearNavigator]="true"
+                                    yearRange="2010:2030" [locale]="localeES" dateFormat="dd/mm/yy"></p-calendar> -->
+                                <label for="" class="active">Fecha de cierre</label>
+                            </div>        
+                        </div>
                     </div>
-    
-                    <div class="ui-g-12 ui-md-6 ui-lg-4">
-                        <div class="input-field">
-                            <p-calendar [monthNavigator]="true" [yearNavigator]="true"
-                                yearRange="2010:2030"  dateFormat="dd/mm/yy" formControlName="fechaCierre" [disabled]="consultar"></p-calendar>
-                            <!-- <p-calendar [monthNavigator]="true" [yearNavigator]="true"
-                                yearRange="2010:2030"  dateFormat="dd/mm/yy"></p-calendar> -->
-                            <label for="" class="active">Fecha de cierre</label>
-                        </div>        
-                    </div>
-    
-                    <div class="ui-g-12 ui-md-6">
+                    <div class="row mb-3 g-6">
                         <div class="input-field">
                             <textarea pInputTextarea class="form-material" rows="5" formControlName="descripcion" [readonly]="consultar"></textarea>
                             <!-- <textarea pInputTextarea class="form-material" rows="5"></textarea> -->
                             <label for="" class="active">Descripción de la acción realizada</label>
                         </div>        
                     </div>
-    
-    
-                    <div class="ui-g-12">
+                    <div class="row mb-3">
                         <h5 class="title-header p-mb-3" *ngIf="!adicionar">Evidencias</h5>
                     </div>
-    
                     <div class="uploaders">
                         <div>  
                             <button *ngIf="!consultar && !adicionar" pButton type="button" (click)="showDialog()" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;"></button>
                             <!-- <button pButton type="button" (click)="showDialog('foto')" icon="pi pi-trash" style="margin-bottom: 10px; background-color: red;" *ngIf="!readOnly"></button> -->
                             <s-documentoUpload [(visible)]="visibleDlgExcel" [modParam]="analisisId"  tipoEvidencia="fotografica"  [modulo]="modulo" [temporalesFlag]="temporalesFlag" (onUpload)="onUpload($event)"></s-documentoUpload>
                         </div>
-                        <div class="ui-g" style="margin-top: 10px;">
-                            <div class="ui-g-12 ui-sm-12 ui-md-10">
+                        <div class="container" style="margin-top: 10px;">
+                            <div class="col-md-10 col-sm-12">
                                 <div *ngFor="let doc of documentos">
-                                    <table class="dwrapper" *ngIf="doc.proceso=='fotografica'">
-                                    <tr>
-                                        <td>
-                                        <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
-                                        <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
-                                        </td>
-                                        <td style="text-align: right;">
-                                        <a class="pi pi-pencil" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!consultar"></a>
-                                        <a>&nbsp;</a>
-                                        <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!consultar" style="color: red;"></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                        <textarea [disabled]="consultar" pInputTextarea placeholder="Descripción" [(ngModel)]="doc.descripcion" maxlength="253" [ngModelOptions]="{standalone: true}"></textarea>
-                                        </td>
-                                    </tr>
+                                    <table class="dwrapper" style="margin-bottom: 15px;" *ngIf="doc.proceso=='fotografica'">
+                                        <tr>
+                                            <td>
+                                            <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
+                                            <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
+                                            </td>
+                                            <td style="text-align: right;">
+                                            <a class="pi pi-pencil" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!consultar"></a>
+                                            <a>&nbsp;</a>
+                                            <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!consultar" style="color: red;"></a>
+                                            </td>
+                                        </tr>
+                                        <tr >
+                                            <td colspan="2">
+                                                <textarea [disabled]="consultar" pInputTextarea placeholder="Descripción" [(ngModel)]="doc.descripcion" maxlength="253" [ngModelOptions]="{standalone: true}"></textarea>
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>
@@ -335,7 +330,7 @@
 </ng-container>
 
 <ng-container *ngIf="!consultar && !adicionar">
-    <button *sTienePermiso="'RAI_PUT_REPT'" pButton  (click)="submit1()" icon="pi pi-pencil" title="Actualizar reporte"
+    <button *sTienePermiso="'RAI_PUT_REPT'" pButton (click)="submit1()" icon="pi pi-pencil" title="Actualizar reporte"
         class="float-btn p-button-success" [disabled]="!(form.valid  && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
 </ng-container>
 <!-- <button (click)="test()">test</button> -->

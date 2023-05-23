@@ -57,7 +57,7 @@ export interface Causa_Raiz{
 }
 
 export interface Incapacidad{
-  id?:number;
+  id?: number | null;
   generoIncapacidad?: string | null;
   cie10?: Cie;
   diagnostico?: string;

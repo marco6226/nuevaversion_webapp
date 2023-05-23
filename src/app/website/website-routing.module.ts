@@ -67,6 +67,8 @@ import { SgeFormComponent } from './pages/sg/components/sge-form/sge-form.compon
 import { SistemaGestionComponent } from './pages/sg/components/sistema-gestion/sistema-gestion.component';
 import {IndCasosMedicosComponent} from 'src/app/website/pages/ind/components/ind-casos-medicos/ind-casos-medicos.component';
 import {IndCasosMedicosGestionComponent} from 'src/app/website/pages/ind/components/ind-casos-medicos-gestion/ind-casos-medicos-gestion.component';
+import { RegistroReporteCtrComponent } from './pages/rai/components/registro-reporte-ctr/registro-reporte-ctr.component';
+import { ConsultaReportesAliadoComponent } from './pages/rai/components/consulta-reportes-aliado/consulta-reportes-aliado.component';
 
 const routes: Routes = [
   {
@@ -166,7 +168,11 @@ const routes: Routes = [
           { path: 'registroReporte', component: RegistroReportesComponent },
           { path: 'registroReporteTemporal', component: RegistroReporteTemporalComponent },
           { path: 'consultaReportes', component: ConsultaReportesComponent },
-          { path: 'consultaReportestemporal', component: ConsultarReporteTemporalComponent }
+          { path: 'consultaReportestemporal', component: ConsultarReporteTemporalComponent },
+          { path: 'registroReporteCtr', component: RegistroReporteCtrComponent },
+          { path: 'actualizarReporteCtr/:id', component: RegistroReporteCtrComponent},
+          { path: 'consultarReportesAliados', component: ConsultaReportesAliadoComponent},
+          { path: 'consultarReporteCtr/:id', component: RegistroReporteCtrComponent}
         ]
       },
       {

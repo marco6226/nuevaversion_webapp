@@ -190,6 +190,10 @@ import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-us
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ElementoInspeccionNodeComponent } from './pages/inspecciones/components/lista-inspeccion-form/elemento-inspeccion-node/elemento-inspeccion-node.component';
+import { ConsultaReportesAliadoComponent } from './pages/rai/components/consulta-reportes-aliado/consulta-reportes-aliado.component';
+import { RegistroReporteCtrComponent } from './pages/rai/components/registro-reporte-ctr/registro-reporte-ctr.component';
+import { FormularioAccidenteCtrComponent } from './pages/rai/components/registro-reporte-ctr/formulario-accidente/formulario-accidente-ctr.component';
+import { IncapacidadesCtrComponent } from './pages/rai/components/registro-reporte-ctr/formulario-accidente/incapacidades-ctr/incapacidades-ctr.component';
 
 
 @NgModule({
@@ -347,7 +351,11 @@ import { ElementoInspeccionNodeComponent } from './pages/inspecciones/components
     FormularioIncidenteTemporalComponent,
     DocumentoFormComponent,
     MensajeUsuarioComponent,
-    ElementoInspeccionNodeComponent
+    ElementoInspeccionNodeComponent,
+    ConsultaReportesAliadoComponent,
+    RegistroReporteCtrComponent,
+    FormularioAccidenteCtrComponent,
+    IncapacidadesCtrComponent
   ],
   imports: [
     MatTooltipModule,

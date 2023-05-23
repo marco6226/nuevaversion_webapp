@@ -80,7 +80,7 @@ export class AnalisisDesviacionComponent implements OnInit {
   formtp?: FormGroup;
   formp?: FormGroup;
   analisisPeligros: FormGroup;
-  tareasList?: Tarea[];
+  tareasList?: Tarea[] | null;
   // tareasList2: Tarea[];
   flowChart:any;
   flowChartSave?: string;
@@ -104,16 +104,16 @@ export class AnalisisDesviacionComponent implements OnInit {
   causaInmediataAnalisisList?: CausaInmediata[];
   reporteSelect?: Reporte[];
 
-  desviacionesList?: Desviacion[];
+  desviacionesList?: Desviacion[] | null;
   severidad?: string;
   severidadFlag?:boolean;
   analisisCosto: AnalisisCosto = new AnalisisCosto();
   participantes?: any[];
-  documentos?: Documento[];
-  observacion?: string;
-  jerarquia?: string;
+  documentos?: Documento[] | null;
+  observacion?: string | null;
+  jerarquia?: string | null;
   informacion_complementaria?: string;
-  analisisId?: string;
+  analisisId?: string | null;
   Peligro1?: string;
   tPeligro1?: string;
   msgs: Message[] = [];
@@ -911,17 +911,17 @@ guardarAnalisis() {
       ad.causaRaizList = this.buildList(this.causaRaizListSelect);
       ad.causaInmediataList = this.buildList(this.causaInmediataListSelect);
       ad.causasAdminList = this.buildList(this.causaAdminListSelect);
-      ad.desviacionesList = this.desviacionesList;
+      ad.desviacionesList = this.desviacionesList ?? null;
       ad.analisisCosto = this.analisisCosto;
-      ad.observacion = this.observacion;
+      ad.observacion = this.observacion ?? null;
       ad.participantes = JSON.stringify(this.participantes);
-      ad.flow_chart = this.flowChartSave;
+      ad.flow_chart = this.flowChartSave ?? null;
       ad.factor_causal= JSON.stringify(this.factorCusal);
       this.setListDataFactor();
       ad.incapacidades= JSON.stringify(this.incapacidadesList);
       ad.plan_accion= JSON.stringify(this.listPlanAccion);
       ad.miembros_equipo= JSON.stringify(this.miembros);
-      ad.tareaDesviacionList = this.tareasList;
+      ad.tareaDesviacionList = this.tareasList ?? null;
       if  (ad.tareaDesviacionList && this.desviacionesList) {
       for (let i = 0; i < ad.tareaDesviacionList.length; i++) {
           ad.tareaDesviacionList[i].modulo = this.desviacionesList[0].modulo;
@@ -971,23 +971,23 @@ async modificarAnalisis() {
               this.informeJson.Diagrama=this.imgIN;}
           }
           let ad = new AnalisisDesviacion();
-          ad.id = this.analisisId;
+          ad.id = this.analisisId ?? null;
           ad.causaRaizList = this.buildList(this.causaRaizListSelect);
           ad.causaInmediataList = this.buildList(this.causaInmediataListSelect);
           ad.causasAdminList = this.buildList(this.causaAdminListSelect);
-          ad.desviacionesList = this.desviacionesList;
+          ad.desviacionesList = this.desviacionesList ?? null;
           ad.analisisCosto = this.analisisCosto;
-          ad.observacion = this.observacion;
+          ad.observacion = this.observacion ?? null;
           ad.factor_causal= JSON.stringify(this.factorCusal);
           ad.incapacidades= JSON.stringify(this.incapacidadesList);
           ad.plan_accion= JSON.stringify(this.listPlanAccion);
           this.setListDataFactor();
           // ad.flow_chart = JSON.stringify(this.flowChartSave);
-          ad.flow_chart = this.flowChartSave;
+          ad.flow_chart = this.flowChartSave ?? null;
           ad.participantes = JSON.stringify(this.participantes);
-          ad.tareaDesviacionList = this.tareasList;
+          ad.tareaDesviacionList = this.tareasList ?? null;
 
-          ad.jerarquia = this.jerarquia;
+          ad.jerarquia = this.jerarquia ?? null;
           ad.complementaria=JSON.stringify(this.informacionComplementaria);
           ad.informe=JSON.stringify(this.informeJson);
 

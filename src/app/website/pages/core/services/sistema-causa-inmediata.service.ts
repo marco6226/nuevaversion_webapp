@@ -22,6 +22,21 @@ export class SistemaCausaInmediataService extends CRUDService<SistemaCausaInmedi
     });
   }
 
+  findDefault2(idEmpresa: number){
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(this.end_point + "seleccionado2/" + idEmpresa)
+      .subscribe(
+        res => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err);
+        }
+      )
+    })
+  }
+
   getClassName(): string {
     return "SistemaCausaInmediataService";
   }
