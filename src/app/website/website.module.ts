@@ -194,6 +194,8 @@ import { ConsultaReportesAliadoComponent } from './pages/rai/components/consulta
 import { RegistroReporteCtrComponent } from './pages/rai/components/registro-reporte-ctr/registro-reporte-ctr.component';
 import { FormularioAccidenteCtrComponent } from './pages/rai/components/registro-reporte-ctr/formulario-accidente/formulario-accidente-ctr.component';
 import { IncapacidadesCtrComponent } from './pages/rai/components/registro-reporte-ctr/formulario-accidente/incapacidades-ctr/incapacidades-ctr.component';
+import { ChipsModule } from 'primeng/chips';
+import { FormularioComponent } from './pages/comun/components/formulario/formulario.component';
 
 
 @NgModule({
@@ -355,7 +357,8 @@ import { IncapacidadesCtrComponent } from './pages/rai/components/registro-repor
     ConsultaReportesAliadoComponent,
     RegistroReporteCtrComponent,
     FormularioAccidenteCtrComponent,
-    IncapacidadesCtrComponent
+    IncapacidadesCtrComponent,
+    FormularioComponent
   ],
   imports: [
     MatTooltipModule,
@@ -394,6 +397,7 @@ import { IncapacidadesCtrComponent } from './pages/rai/components/registro-repor
     ContextMenuModule,
     BreadcrumbModule,
     ScrollPanelModule,
+    ChipsModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

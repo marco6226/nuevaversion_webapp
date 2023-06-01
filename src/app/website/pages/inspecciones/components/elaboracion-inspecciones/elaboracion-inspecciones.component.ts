@@ -120,8 +120,6 @@ export class ElaboracionInspeccionesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get("id"))
-
     this.empleado = this.sesionService.getEmpleado()!;
     let filterQuery = new FilterQuery();
     let filter = new Filter();
@@ -129,17 +127,22 @@ export class ElaboracionInspeccionesComponent implements OnInit {
     filter.field = 'seleccionado';
     filter.value1 = 'true';
     filterQuery.filterList = [filter];
-    this.sistemaNivelRiesgoService.findByFilter(filterQuery).then(
-        (resp: any) => (<SistemaNivelRiesgo>resp['data'][0]).nivelRiesgoList.forEach((element: any) => {
-            this.nivelRiesgoList.push({ label: element.nombre, value: element.id });
-        })
-    );
+    try {
+        this.sistemaNivelRiesgoService.findByFilter(filterQuery).then(
+            (resp: any) => (<SistemaNivelRiesgo>resp['data'][0]).nivelRiesgoList.forEach((element: any) => {
+                this.nivelRiesgoList.push({ label: element.nombre, value: element.id });
+            })
+        );
+    } catch (error) {
+        console.error('Error en sistema nivel de riesgo service: ', error);
+    }
     
     this.accion = this.paramNav.getAccion<string>();
     if (this.accion == 'POST') {
         this.redireccion = '/app/inspecciones/programacion';
         this.adicionar = true;
         this.programacion = this.paramNav.getParametro<Programacion>();
+        // console.log(this.programacion);
         this.listaInspeccion = this.programacion == null ? this.inspeccion.listaInspeccion : this.programacion.listaInspeccion;
         this.area = this.programacion == null ? this.inspeccion.area : this.programacion.area;
        
@@ -806,8 +809,8 @@ async imprimir() {
 }
 
 async getTareaEvidences(lista_id: number, version_id: number) {
-    console.log(lista_id)
-    console.log(version_id)
+    // console.log(lista_id)
+    // console.log(version_id)
     try {
         let res: any = await this.listaInspeccionService.getInspeccionImagen(lista_id, version_id);
         // console.log(res)
@@ -821,7 +824,7 @@ async getTareaEvidences(lista_id: number, version_id: number) {
                 reader.onloadend = (res: any) => {
                     if (ev) {
                         this.listaEvidence.push(reader.result);
-                        console.log(reader.result)
+                        // console.log(reader.result)
                     } else {
                         throw new Error("Ocurrió un problema al consultar las evidencias de la tarea");
                     }
@@ -832,7 +835,7 @@ async getTareaEvidences(lista_id: number, version_id: number) {
     } catch (e) {
         
     }
-    console.log(this.evidencias)
+    // console.log(this.evidencias)
 }
 
 async vistoPermisos(){

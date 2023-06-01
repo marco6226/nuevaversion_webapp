@@ -16,7 +16,7 @@
                     <form [formGroup]="form">
                         <p-panel>
                             <p-header>
-                                <i class="fa fa-list" aria-hidden="true"></i> Información lista de inspección
+                                <i class="pi pi-list" aria-hidden="true"></i> Información lista de inspección
                             </p-header>
                             <label class="s-float-label">Código</label>
                             <input type="text" pInputText formControlName="codigo" required/>
@@ -126,14 +126,13 @@
         </div>
 
         <div class="col-12">
-            <app-lista-inspeccion-form [value]="elementoInspeccionList" [editable]="!consultar"></app-lista-inspeccion-form>
+            <app-lista-inspeccion-form [value]="elementoInspeccionList" [editable]="!consultar" [tipoLista]="form.value.tipoLista"></app-lista-inspeccion-form>
         </div>
         
 
 
     <div *ngIf="adicionar">
-        <button *sTienePermiso="'INP_POST_LISTINP'" class="float-btn" pButton type="button" (click)="guardar()" icon="bi bi-save
-" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_POST_LISTINP'" class="float-btn" pButton type="button" (click)="guardar()" icon="pi pi-save" [disabled]="!form.valid"></button>
     </div>
 
     <div *ngIf="modificar">
@@ -141,7 +140,7 @@
     </div>
 
     <div *ngIf="modificar">
-        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn p-button-success" pButton type="button" (click)="actualizar(false)" icon="bi bi-pencil-square" title="Actualizar datos" style="bottom: 100px;" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn p-button-success" pButton type="button" (click)="actualizar(false)" icon="pi pi-pencil" title="Actualizar datos" style="bottom: 100px;" [disabled]="!form.valid"></button>
     </div>
 
         </p-panel>

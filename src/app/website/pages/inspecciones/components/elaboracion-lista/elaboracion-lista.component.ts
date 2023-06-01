@@ -11,6 +11,7 @@ import { ParametroNavegacionService } from '../../../core/services/parametro-nav
 import { Perfil } from '../../../empresa/entities/perfil';
 import { ElementoInspeccion } from '../../entities/elemento-inspeccion';
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
+import { ListaInspeccionPK } from '../../entities/lista-inspeccion-pk';
 import { OpcionCalificacion } from '../../entities/opcion-calificacion';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 
@@ -64,6 +65,7 @@ export class ElaboracionListaComponent implements OnInit {
       { label: 'Seguridad', value: 'Seguridad' },
       { label: 'Teletrabajo', value: 'Teletrabajo' },
       { label: 'Transporte', value: 'Transporte' },
+      { label: 'Ciclo corto', value: 'Ciclo corto'}
   ];
 
 
@@ -201,6 +203,7 @@ async guardar() {
     let listInp = {} as ListaInspeccion;
     listInp.nombre = this.form.value.nombre;
     listInp.codigo = this.form.value.codigo;
+    listInp.listaInspeccionPK = {} as ListaInspeccionPK;
     listInp.listaInspeccionPK.version = this.form.value.version;
     listInp.tipoLista = this.form.value.tipoLista;
     listInp.fkPerfilId = JSON.stringify(this.form.value.perfilesId);
@@ -237,7 +240,8 @@ actualizarProfile(actualizarVersion: boolean) {
 }
 
 actualizar(actualizarVersion: boolean) {
-    let listInp = {} as ListaInspeccion;        
+    let listInp = {} as ListaInspeccion;
+    listInp.listaInspeccionPK = {} as ListaInspeccionPK;
     listInp.listaInspeccionPK = this.form.value.id;
     let versiondato = listInp.listaInspeccionPK.version;
     listInp.nombre = this.form.value.nombre;

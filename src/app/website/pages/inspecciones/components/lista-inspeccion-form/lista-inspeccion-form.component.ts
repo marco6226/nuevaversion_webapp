@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Message } from 'primeng/api';
+import { Message, SelectItem } from 'primeng/api';
 import { DirectorioService } from '../../../ado/services/directorio.service';
 import { NivelRiesgo } from '../../../core/entities/nivel-riesgo';
 import { SesionService } from '../../../core/services/session.service';
@@ -31,6 +31,7 @@ export class ListaInspeccionFormComponent implements OnInit {
     @Input("diligenciable") diligenciable!: boolean;
     @Input("usarNivelRiesgo") usarNivelRiesgo!: boolean;
     @Input("usarTipoHallazgo") usarTipoHallazgo!: boolean;
+    @Input('tipoLista') tipoLista?: SelectItem;
     visibleDlg!: boolean;
     empresa: Empresa;
     contadorElem: number = 0;
@@ -95,7 +96,8 @@ adicionarElementoInp() {
       tipoHallazgoList: [],
       criticidad: '',
       numero: 0,
-      calificacion: {} as Calificacion
+      calificacion: {} as Calificacion,
+      peso: null
     };
     elemento.numero = ++this.contadorElem;
     elemento.codigo = JSON.stringify(this.value.length + 1);
