@@ -49,6 +49,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             fechaSeg: [null, Validators.required],
             responsable: [null],            
             responsableExterno: [null],
+            proxfechaSeg: [null]
            
 
         });
@@ -90,9 +91,10 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             resultado,            
             responsable,
             responsableExterno,
+            proxfechaSeg
             
         } = this.seguimiento.value;
-
+console.log(this.seguimiento.value)
         if (this.accions.length > 0) {
             this.accions.forEach((act: any) => {
                 if (typeof act.responsable != 'number') {
@@ -108,6 +110,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             resultado,
             responsable,
             responsableExterno,
+            proxfechaSeg,
             pkCase: this.id,
         }
 
@@ -116,6 +119,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             if (this.seguiSelect) {
                 res = await this.scmService.updateSeguimiento(body);
             } else {
+                console.log(body)
                 res = await this.scmService.createSeguimiento(body);
             }
 
@@ -146,10 +150,10 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
          if (this.seguiSelect) {
              this.accions.map((act: any) => act.responsable = this.onSelectionResponsable(act.responsableEmpresa))
              this.seguimiento.patchValue({
-                fechaSeg: this.seguiSelect.fechaSeg == null ? null : new Date(this.seguiSelect.fechaSeg),
-                responsableExterno: this.seguiSelect.responsableExterno,
-                responsable: this.seguiSelect.responsable.id,
-                resultado: this.seguiSelect.resultado,
+                 fechaSeg: this.seguiSelect.fechaSeg == null ? null : new Date(this.seguiSelect.fechaSeg),
+                 responsableExterno: this.seguiSelect.responsableExterno,
+                 responsable: this.seguiSelect.responsable.id,
+                 resultado: this.seguiSelect.resultado,
                  tarea: this.seguiSelect.tarea,
                  seguimiento: this.seguiSelect.seguimiento
              })

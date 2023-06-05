@@ -195,7 +195,7 @@ import { FormularioAccidenteCtrComponent } from './pages/rai/components/registro
 import { IncapacidadesCtrComponent } from './pages/rai/components/registro-reporte-ctr/formulario-accidente/incapacidades-ctr/incapacidades-ctr.component';
 import { ConsultaReportesAliadoComponent } from './pages/rai/components/consulta-reportes-aliado/consulta-reportes-aliado.component';
 import { RegistroReporteCtrComponent } from './pages/rai/components/registro-reporte-ctr/registro-reporte-ctr.component';
-
+import { SeguimientosgenericoformComponent } from './pages/scm/components/seguimientosgenericoform/seguimientosgenericoform.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -357,7 +357,8 @@ import { RegistroReporteCtrComponent } from './pages/rai/components/registro-rep
     FormularioAccidenteCtrComponent,
     IncapacidadesCtrComponent,
     ConsultaReportesAliadoComponent,
-    RegistroReporteCtrComponent
+    RegistroReporteCtrComponent,
+    SeguimientosgenericoformComponent
   ],
   imports: [
     MatTooltipModule,
