@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { endPoints } from 'src/environments/environment'
 
 import { CRUDService } from 'src/app/website/pages/core/services/crud.service'
 import { AnalisisDesviacion } from 'src/app/website/pages/comun/entities/analisis-desviacion'
