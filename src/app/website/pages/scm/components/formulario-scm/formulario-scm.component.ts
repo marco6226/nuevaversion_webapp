@@ -402,11 +402,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             'cargo': [null],
             'textoseguimiento': [null]
           })
-<<<<<<< .mine
-        // console.log(this.casoMedicoForm)
-=======
 
->>>>>>> .theirs
         this.status = this.caseStatus.find(sta => sta.value == this.casoMedicoForm.get("statusCaso")?.value)?.label
     }
 
