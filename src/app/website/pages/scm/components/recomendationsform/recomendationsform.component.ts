@@ -8,6 +8,7 @@ import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 import { CasosMedicosService } from "../../../core/services/casos-medicos.service";
 import { EmpleadoService } from "../../../empresa/services/empleado.service";
 import { PrimeNGConfig } from 'primeng/api';
+import { Message } from "primeng/api";
 
 @Component({
     selector: "app-recomendationsform",
@@ -19,6 +20,7 @@ export class RecomendationsformComponent implements OnInit, OnChanges {
 
     epsList!: SelectItem[];
     afpList!: SelectItem[];
+    
     responsableEmpresaNombre = "";
     empleado!: Empleado;
     @Output() eventClose = new EventEmitter<any>()
@@ -286,6 +288,10 @@ test(){
     nuevaActividad() {
         let actv = { actividad: "", descripcionAct: "", responsableExterno: null, responsableEmpresa: null, fechaProyectada: new Date() }
         this.accions.push(actv)
+    }
+
+    onRowEditCancel(product:any, index: number) {
+
     }
 }
 

@@ -157,7 +157,7 @@ import { DiagnosticoFormComponent } from './pages/scm/components/diagnostico-for
 import { ReintegroComponent } from './pages/scm/components/formulario-scm/reintegro/reintegro.component';
 import { ReintegroListComponent } from './pages/scm/components/formulario-scm/reintegro-list/reintegro-list.component';
 import { PclComponent } from './pages/scm/components/pcl/pcl.component';
-import { RecomendationsformComponent } from './pages/scm/components/recomendationsform/recomendationsform.component';
+import { RecomendationsformComponent,RecomendationStatusPipe} from './pages/scm/components/recomendationsform/recomendationsform.component';
 import { ScmComponent } from './pages/scm/components/scm/scm.component';
 import { ScmpermisosComponent } from './pages/scm/components/scmpermisos/scmpermisos.component';
 import { SeguimientosformComponent } from './pages/scm/components/seguimientosform/seguimientosform.component';
@@ -190,6 +190,7 @@ import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-us
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { ElementoInspeccionNodeComponent } from './pages/inspecciones/components/lista-inspeccion-form/elemento-inspeccion-node/elemento-inspeccion-node.component';
+import { RemisionComponent } from './pages/scm/components/formulario-scm/remision/remision.component';
 
 
 @NgModule({
@@ -315,6 +316,7 @@ import { ElementoInspeccionNodeComponent } from './pages/inspecciones/components
     LogmodalComponent,
     PclComponent,
     RecomendationsformComponent,
+    RecomendationStatusPipe,
     ScmComponent,
     ScmpermisosComponent,
     SeguimientosformComponent,
@@ -347,7 +349,8 @@ import { ElementoInspeccionNodeComponent } from './pages/inspecciones/components
     FormularioIncidenteTemporalComponent,
     DocumentoFormComponent,
     MensajeUsuarioComponent,
-    ElementoInspeccionNodeComponent
+    ElementoInspeccionNodeComponent,
+    RemisionComponent
   ],
   imports: [
     MatTooltipModule,

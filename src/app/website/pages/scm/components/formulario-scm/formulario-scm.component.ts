@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild, OnDestroy } from "@angular/core";
+import { Component, Input, OnInit, Output, EventEmitter, ElementRef, ViewChild, OnDestroy,LOCALE_ID,Inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MessageService, SelectItem } from "primeng/api";
 import * as moment from "moment";
@@ -31,6 +31,7 @@ import { Perfil } from "../../../empresa/entities/perfil";
 import { Area } from "../../../empresa/entities/area";
 import { Usuario, UsuarioEmpresa } from "../../../empresa/entities/usuario";
 import { PrimeNGConfig } from 'primeng/api';
+import {formatDate} from '@angular/common';
 
 export interface TreeNode {
     data?: any;
@@ -70,6 +71,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     casoMedicoForm: FormGroup;
     bussinessParner: FormGroup;
     jefeInmediato: FormGroup;
+    jefeInmediatoName?:string;
+    jefeInmediatoName0?:string;
     cedula: string = "";
     cargoDescripcion!: string;
     actualizar!: boolean;
@@ -200,6 +203,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     solicitando: boolean = false;
     departamento: any;
     entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [] };
+    anexo6Form?:FormGroup
     tipoOptionList: SelectItem[] = [
         { label: "--Seleccione--", value: null },
         { label: "Medico", value: "Medico" },
@@ -261,7 +265,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         { label: "En Firme", value: "2" },
         { label: "En Apelación", value: "0" }
     ]
-
+    idCase?:string;
     constructor(
         private empleadoService: EmpleadoService,
         fb: FormBuilder,
@@ -276,7 +280,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         private router: Router,
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
-        private config: PrimeNGConfig
+        private config: PrimeNGConfig,
+        @Inject(LOCALE_ID) private locale: string,
     ) {
 
         this.empresa = this.sesionService.getEmpresa();
@@ -307,6 +312,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             direccionGerencia: [{ value: "", disabled: true }]
 
         });
+
         this.empleadoForm = fb.group({
             'id': [null],
             'primerNombre': [null, Validators.required],
@@ -388,6 +394,14 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             prioridadCaso: [null, /*Validators.required*/],
             descripcionCargo: [null]
         });
+        this.anexo6Form=fb.group({
+            'fecha': [null],
+            'nombreApellidos': [null],
+            'cedula': [null],
+            'ubicacion': [null],
+            'cargo': [null],
+            'textoseguimiento': [null]
+          })
         // console.log(this.casoMedicoForm)
         this.status = this.caseStatus.find(sta => sta.value == this.casoMedicoForm.get("statusCaso")?.value)?.label
     }
@@ -425,6 +439,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             res.forEach((sve: any) => {
                 this.sveOptionList.push({ label: sve.nombre, value: sve.id.toString() });
             });
+            this.idCase=this.route.snapshot.params["id"];
+            console.log(this.idCase)
             this.caseSelect = await this.scmService.getCase(this.route.snapshot.params["id"]);
             this.onLoadInit();
             this.modifyCase();
@@ -706,6 +722,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     // Component methods
     buscarEmpleado(event: any) {
+        console.log(event)
         this.empleadoService
             .buscar(event.query)
             .then((data) => (this.empleadosList = <Empleado[]>data));
@@ -750,7 +767,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
 
         if (this.empleadoSelect.jefeInmediato) {
+            console.log(this.empleadoSelect.jefeInmediato)
             this.onSelectionJefeInmediato(this.empleadoSelect.jefeInmediato);
+            this.jefeInmediatoName=this.jefeInmediatoName0
         }
 
         await this.usuarioPermisos()
@@ -856,7 +875,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.solicitando = true;
         empleado.usuario.id = this.empleadoSelect?.usuario.id;
         empleado.usuario.ipPermitida = this.empleadoSelect?.usuario.ipPermitida
-        console.log(this.empleadoSelect?.usuario)
 
         this.usuarioService.update(empleado.usuario)
             .then(resp => {
@@ -867,7 +885,10 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             });
 
         this.empleadoService.update(empleado)
-            .then(data => {
+            .then(async data => {
+                this.jefeInmediatoName=this.jefeInmediatoName0
+                console.log(this.jefeInmediatoName)
+
                 this.messageService.add({
                     key: 'formScm',
                     severity: "success",
@@ -894,15 +915,15 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
 
     async onCloseModalrecomendation() {
-        this.recomendationList = await this.scmService.getRecomendations(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_LIST_CASE_RECO"])this.recomendationList = await this.scmService.getRecomendations(this.caseSelect.id);
         this.modalRecomendatios = false;
         this.recoSelect = null;
         this.logsList = await this.scmService.getLogs(this.caseSelect.id);
     }
 
     async onCloseModalseguimiento() {
-        this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
-        this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
 
         this.modalSeguimientos = false;
         this.seguiSelect = null;
@@ -911,7 +932,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async onCloseModalDianostico() {
-        this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_DIAG"])this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
         this.modalDianostico = false;
         this.diagSelect = null;
         this.logsList = await this.scmService.getLogs(this.caseSelect.id);
@@ -934,7 +955,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             email: [empleado.usuario.email],
         });
     }
-
+    
     /** MÉTODOS JORNADA */
     onSelectionJefeInmediato(event: any) {
         let empleado = <Empleado>event;
@@ -952,6 +973,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             cargoId: empleado.cargo.id,
             email: [empleado.usuario.email],
         });
+        this.jefeInmediatoName0=(empleado.primerNombre || "") + " " + (empleado.segundoNombre || "") + " " + (empleado.primerApellido || "") + " " + (empleado.segundoApellido || " ")
+        console.log(this.jefeInmediato)
     }
 
     private markFormGroupTouched(formGroup: FormGroup) {
@@ -978,12 +1001,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         });
 
         try {
-            this.recomendationList = await this.scmService.getRecomendations(this.caseSelect.id);
-            this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_LIST_CASE_RECO"])this.recomendationList = await this.scmService.getRecomendations(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
             this.cargoDescripcion = this.caseSelect.descripcionCargo;
-            this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_GET_CASE_DIAG"])this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
             this.fechaSeg()
-            this.tratamientos = await this.scmService.getTratamientos(this.caseSelect.id)
+            if(this.sesionService.getPermisosMap()["SCM_GET_CASE_TRAT"])this.tratamientos = await this.scmService.getTratamientos(this.caseSelect.id)
             this.empresaId = this.sesionService.getEmpresa()?.id;
             this.aonRegisters();
             this.status = (this.casoMedicoForm.get("statusCaso")?.value !== null) ? this.caseStatus.find(sta => sta.value == this.casoMedicoForm.get("statusCaso")?.value)?.label : 'N/A'
@@ -1006,10 +1029,10 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         });
 
         try {
-            this.recomendationList = await this.scmService.getRecomendations(this.caseSelect.id);
-            this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_LIST_CASE_RECO"])this.recomendationList = await this.scmService.getRecomendations(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
             this.cargoDescripcion = this.caseSelect.descripcionCargo;
-            this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_GET_CASE_DIAG"])this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
             this.fechaSeg()
             this.aonRegisters();
             this.logsList = await this.scmService.getLogs(this.caseSelect.id);
@@ -1192,11 +1215,42 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
     }
 
+    anexo6seguimiento(seguimiento:any){
+        console.log(seguimiento)
+        console.log(this.empleadoSelect)
+        let template = document.getElementById('plantillaAnexo6');
+        template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
+        
+        template!.querySelector('#P_fechaseguiminto')!.textContent = formatDate(
+        seguimiento.fechaSeg,
+        "dd/MM/yyyy",
+        this.locale
+        );
+
+        template!.querySelector('#P_nombreApellidos')!.textContent = (this.empleadoSelect?.primerNombre?this.empleadoSelect?.primerNombre:'')+" "+(this.empleadoSelect?.segundoNombre?this.empleadoSelect?.segundoNombre:'')+" "+(this.empleadoSelect?.primerApellido?this.empleadoSelect?.primerApellido:'')+" "+(this.empleadoSelect?.segundoApellido?this.empleadoSelect?.segundoApellido:'')
+        template!.querySelector('#P_cedula')!.textContent = this.empleadoSelect?.numeroIdentificacion!
+        template!.querySelector('#P_ubicacion')!.textContent = this.empleadoSelect?.area.nombre!
+        template!.querySelector('#P_cargo')!.textContent = this.empleadoSelect?.cargo.nombre!
+
+        template!.querySelector('#P_textseguimiento')!.textContent = seguimiento.seguimiento
+
+         var WinPrint = window.open('', '_blank'); 
+
+         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
+         WinPrint?.document.write(template?.innerHTML!);
+      
+         WinPrint?.document.close();
+         WinPrint?.focus();
+         WinPrint?.print();
+
+    }
+
     async nuevoSeguimiento() {
         try {
             let seg = { pkCase: this.caseSelect.id }
             let resp = await this.scmService.createSeguimiento(seg);
             this.seguimientos.push(resp)
+
         } catch (error) {
             console.error(error);
         }
@@ -1215,7 +1269,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async fechaSeg() {
-        this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
         this.seguimientos.map((seg, idx) => {
             if (seg.fechaSeg) {
                 this.seguimientos[idx].fechaSeg = moment(seg.fechaSeg).toDate()
@@ -1224,7 +1278,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async fechaTrat() {
-        this.tratamientos = await this.scmService.getTratamientos(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_TRAT"])this.tratamientos = await this.scmService.getTratamientos(this.caseSelect.id);
         this.tratamientos.map((trat, idx) => {
             if (trat.fecha) {
                 this.tratamientos[idx].fecha = moment(trat.fecha).toDate()

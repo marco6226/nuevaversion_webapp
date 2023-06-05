@@ -136,9 +136,13 @@ export class ScmpermisosComponent implements OnInit {
     }
 
     actualizarPermiso(recurso: any) {
+        setTimeout(() => {
+            
+        }, 1000);
         this.isOnEdit=true;
         let permiso = new Permiso();
-        permiso.valido = recurso.selected;
+        permiso.valido = recurso.selected? false : true;
+        recurso.selected = recurso.selected ? false : true;
         permiso.recurso = new Recurso();
         permiso.recurso.id = recurso.id;
         permiso.perfil = new Perfil();

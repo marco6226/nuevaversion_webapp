@@ -58,6 +58,8 @@ export const endPoints: string | any = {
   HhtService: path + "hht/",
   emp_perfil: path + "perfil/",
 
+  anexoSCM:path + "anexscm/",
+
   departamento: path + "departamento/",
   ciudad: path + "ciudad/",
 

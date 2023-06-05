@@ -1,0 +1,549 @@
+<p-messages [(value)]="msgs" ></p-messages>
+<div  style="width: 97%;margin: auto;">
+    <div>
+        <h5>Anexos {{anexo}}</h5>
+    </div>
+    <p-table [value]="anexo5list" dataKey="id" editMode="row" styleClass="material-table" selectionMode="single" [(selection)]="anexo5Select">
+        <ng-template pTemplate="header">
+            <tr>
+                <th scope="col" pSortableColumn="pk_case" style="width: 10%;">Id Anexo {{anexo}}</th>
+                <th scope="col" pSortableColumn="fecha_creacion">Fecha creación</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-anex5 let-editing="editing" let-ri="rowIndex">
+
+            <tr [pSelectableRow]="anex5" class="table-row table-row-selectable">
+
+                <td class="p-text-center">{{ anex5.id }}</td>
+                <td class="p-text-center">{{ anex5.fecha_creacion | date: 'dd/MM/yyyy' }}</td>
+
+            </tr>
+
+        </ng-template>
+
+        <ng-template pTemplate="summary" let-rowData>
+            <button
+                *ngIf="anexo!='6'"
+                pButton type="button" 
+                icon="bi bi-plus" 
+                class="p-button-raised p-button-primary margin-right"
+                label="Crear"
+                (click)="crearAnexo()"
+                ></button>
+            <button
+                *ngIf="anexo=='6'"
+                pButton type="button" 
+                icon="bi bi-plus" 
+                class="p-button-raised p-button-primary margin-right"
+                label="Crear"
+                (click)="GuardarAnexo()"
+                ></button>
+            <button 
+                [disabled]="(anexo5Select)?false:true"
+                pButton type="button" 
+                label="Modificar" 
+                icon="bi bi-pencil"
+                class="p-button-raised p-button-success margin-right margin-left" 
+                (click)="modificarAnexo5()"
+                ></button>
+            <button 
+                [disabled]="(anexo5Select)?false:true"
+                pButton type="button" 
+                icon="bi bi-eye"
+                label="Consultar" 
+                class="p-button-info margin-left margin-right"  
+                (click)="consultarAnexo5()"
+                ></button>
+            <button 
+                [disabled]="(anexo5Select)?false:true"
+                pButton type="button" 
+                [icon]="(action) ? 'pi pi-spin pi-spinner' : 'bi bi-trash'" 
+                label="Eliminar" 
+                class="p-button-raised p-button-danger margin-right margin-left"
+                (click)="eliminarAnexo5()"
+                ></button>
+            <button 
+                [disabled]="(anexo5Select)?false:true"
+                pButton type="button" 
+                [icon]="'pi pi-print'" 
+                label="Imprimir" 
+                (click)="imprimirAnexo5()"
+                class="p-button-raised p-button-primary margin-left"
+                ></button>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8" class="p-text-center" *ngIf="loading">
+                    <em class="pi pi-spin pi-spinner" style="font-size: 2rem"></em>
+                </td>
+                <td colspan="8" class="p-text-center" *ngIf="!loading && anexo5list.length === 0">
+                    No hay anexos {{anexo}} registrados en este caso médico
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>
+
+<p-dialog header="Anexo 5" [(visible)]="dialogAnexo5" [style]="{width: '75vw'}" [modal]="true" [draggable]="false" [resizable]="false">
+    <form [formGroup]="anexo5Form">
+        <div class="grid" >
+            <div class="col-12">
+                &nbsp;
+            </div>
+            <div class="col-12 ">
+                Institución hacia donde se remite:
+            </div>
+            <div class="col-6 ">
+                <input type="text" formControlName="instituto" required  [readonly]="flagConsultarAnexo5">
+            </div>
+            <div class="col-6 ">
+                &nbsp;
+            </div>
+
+            <div class="col-12" style="display: flex;">
+                Tel: 
+            </div>
+            <div class="col-6">
+                <input type="number" required formControlName="tel"  [readonly]="flagConsultarAnexo5">
+            </div>
+            <div class="col-6 ">
+                &nbsp;
+            </div>
+
+            <div class="col-12">
+                Motivo de la remisión:
+            </div>
+            <div class="col-12">
+                <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
+                placeholder="Motivo de la remisión" formControlName="motivo" required  [readonly]="flagConsultarAnexo5"></textarea>
+            </div>
+            <div class="col-12">
+                Complementarios:
+            </div>
+            <div class="col-12">
+                <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
+                placeholder="Complementarios" formControlName="complementarios" required  [readonly]="flagConsultarAnexo5"></textarea>
+            </div>
+            <div class="col-12">
+                Solicitud especifica:
+            </div>
+            <div class="col-12">
+                <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
+                placeholder="Solicitud especifica" formControlName="solicitud" required  [readonly]="flagConsultarAnexo5"></textarea>
+            </div>
+        </div>
+    </form>
+    <p-footer>
+        <button *ngIf="!flagConsultarAnexo5"
+            [disabled]="!anexo5Form!.valid" 
+            pButton type="button" 
+            label="Guardar" 
+            [icon]="'bi bi-save'" 
+            class="p-button-raised p-button-primary margin-right"
+            (click)="GuardarAnexo()"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Anexo 1" [(visible)]="dialogAnexo1" [style]="{width: '75vw'}" [modal]="true" [draggable]="false" [resizable]="false">
+    <form [formGroup]="anexo1Form">
+        <div class="grid" >
+            <div class="col-12">
+                &nbsp;
+            </div>
+            <div class="col-12 ">
+                Localidad:
+            </div>
+            <div class="col-6 ">
+                <p-dropdown appendTo="body" [style]="{'width':'100%'}" appendTo="body" [options]="this.locadidadList" placeholder="Seleccionar localidad" formControlName="localidad" required [readonly]="flagConsultarAnexo1"></p-dropdown>
+            </div>
+            <div class="col-6 ">
+                &nbsp;
+            </div>
+
+            <div class="col-12" style="display: flex;">
+                Ajustes: 
+            </div>
+            <div class="col-3">
+                <p-radioButton name="ajustesIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="ajustesIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <label for="">Sí</label>
+                <p-radioButton name="ajustesIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="ajustesIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <label for="">No</label>
+            </div>
+            <div class="col-12 " *ngIf="anexo1Form!.value.ajustesIf==1">
+                Descripción:&nbsp; <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
+                required formControlName="ajustes" [readonly]="flagConsultarAnexo1"></textarea>
+            </div>
+            <div class="col-8 " *ngIf="anexo1Form!.value.ajustesIf==0">
+                &nbsp;
+            </div>
+
+            <div class="col-12" style="display: flex;">
+                Cambio puesto trabajo: 
+            </div>
+            <div class="col-3">
+                <p-radioButton  appendTo="body" name="cambiopuestotrabajoIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="cambiopuestotrabajoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <label for="">Sí</label>
+                <p-radioButton  appendTo="body" name="cambiopuestotrabajoIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="cambiopuestotrabajoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <label for="">No</label>
+            </div>
+            <div class="col-12 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==1">
+                Descripción:&nbsp; <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
+                required formControlName="cambiopuestotrabajo" [readonly]="flagConsultarAnexo1"></textarea>
+            </div>
+            <div class="col-8 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==0">
+                &nbsp;
+            </div>
+
+            <div class="col-12" style="display: flex;">
+                Requiere entrenamiento: 
+            </div>
+            <div class="col-3">
+                <p-radioButton name="requiereentrenamientoIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="requiereentrenamientoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <label for="">Sí</label>
+                <p-radioButton name="requiereentrenamientoIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="requiereentrenamientoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <label for="">No</label>
+            </div>
+            <div class="col-12 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==1">
+                Descripción:&nbsp;  <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
+                required formControlName="requiereentrenamiento" [readonly]="flagConsultarAnexo1"></textarea>
+            </div>
+            <div class="col-8 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==0">
+                &nbsp;
+            </div>
+
+            <div class="col-12" style="display: flex;">
+                Observaciones: 
+            </div>
+            <div class="col-12">
+                <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
+                placeholder="Observaciones"  required formControlName="observaciones" [readonly]="flagConsultarAnexo1"></textarea>
+            </div>
+
+            <div class="col-12 ">
+                Próximo seguimiento:
+            </div>
+            <div class="col-12">
+                <p-calendar dateFormat="dd/mm/yy"
+                formControlName="proximoseguimiento" required></p-calendar>
+            </div>
+
+           
+        </div>
+    </form>
+    <p-footer>
+        <button *ngIf="!flagConsultarAnexo1"
+            [disabled]="!anexo1Form!.valid" 
+            pButton type="button" 
+            label="Guardar" 
+            [icon]="'bi bi-save'" 
+            class="p-button-raised p-button-primary margin-right"
+            (click)="GuardarAnexo()"></button>
+    </p-footer>
+</p-dialog>
+
+<div id="plantillaAnexo5" style="display: none;">
+
+    <!-- Encabezado -->
+    <table width="90%" style="border-collapse: collapse; margin: auto;">
+        <tr>
+            <th rowspan="4" style="border: 1px solid #c8c8c8; text-align: center;width: 20%"><img style="width:80%;" id="P_empresa_logo" /></th>
+            <th style="border-top: 1px solid #c8c8c8; text-align: center">ANEXO 5</th>
+            <td style="border: 1px solid #c8c8c8;text-align: left">Código</td> 
+            <td style="border: 1px solid #c8c8c8;text-align: left ">SST-PR-03-A5</td> 
+        </tr>
+        <tr>
+            <th style=" text-align: center">FORMATO DE REMISIÓN</th>
+            <td style="border: 1px solid #c8c8c8; ">Vigente desde</td> 
+            <td style="border: 1px solid #c8c8c8; ">{{this.dateToday  | date: 'dd/MM/yyyy'}}</td>  
+        </tr>
+        <tr>
+            <th style=" text-align: center">&nbsp;</th>
+            <td style="border: 1px solid #c8c8c8; ">Versión</td> 
+            <td style="border: 1px solid #c8c8c8; ">0</td>  
+        </tr>
+        <tr>
+            <th style="border-bottom: 1px solid #c8c8c8; text-align: center">SEGURIDAD Y SALUD EN EL TRABAJO</th>
+            <td style="border: 1px solid #c8c8c8; ">Página</td> 
+            <td style="border: 1px solid #c8c8c8; ">1 de 1</td>  
+        </tr>
+    </table>
+    <br>
+    <table width="85%" style="border-collapse: collapse; margin: auto;">
+        <br>
+
+        <tr>
+            <td>Fecha:&nbsp; <label id="P_fecha"></label></td>
+            <td>Hora:&nbsp; <label id="P_hora"></label></td>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="3">INSTITUCIÓN HACIA DONDE SE REMITE: &nbsp; <label id="P_instituto"></label></td>
+        </tr>
+
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="3">NOMBRES Y APELLIDOS:&nbsp; <label id="P_nombreApellidos"></label></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td>CÉDULA:&nbsp; <label id="P_cedula"></label></td>
+            <td>EDAD:&nbsp; <label id="P_edad"></label></td>
+            <td>TEL:&nbsp; <label id="P_tel"></label></td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td>PROCESO:&nbsp; <label id="P_proceso"></label></td>
+            <td>OFICIO:&nbsp; <label id="P_oficio"></label></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="2">MOTIVO DE LA REMISION: </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <label id="P_motivo"></label>
+            </td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="2">COMPLEMENTARIOS: </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <label id="P_complementarios"></label>
+            </td>
+        </tr>
+
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="2">SOLICITUD ESPECIFICA:</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <label id="P_solicitud"></label>
+
+            </td>
+        </tr>
+
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td style="border-bottom: 1px solid #c8c8c8;">
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td style="border-bottom: 1px solid #c8c8c8;">
+                &nbsp;
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                RESPONSABLE Y CARGO
+            </td>
+            <td colspan="2">
+                USUARIO
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="plantillaAnexo1" style="display: none;">
+
+    <!-- Encabezado -->
+    <table width="90%" style="border-collapse: collapse; margin: auto;">
+        <tr>
+            <th rowspan="4" style="border: 1px solid #c8c8c8; text-align: center;width: 20%"><img style="width:80%;" id="P_empresa_logo" /></th>
+            <th style="border-top: 1px solid #c8c8c8; text-align: center">ANEXO 1</th>
+            <td style="border: 1px solid #c8c8c8;text-align: left">Código</td> 
+            <td style="border: 1px solid #c8c8c8;text-align: left ">SST-PR-11-A2</td> 
+        </tr>
+        <tr>
+            <th style=" text-align: center">FORMATO DE APLICACIÓN DE</th>
+            <td style="border: 1px solid #c8c8c8; ">Vigente desde</td> 
+            <td style="border: 1px solid #c8c8c8; ">{{this.dateToday  | date: 'dd/MM/yyyy'}}</td>  
+        </tr>
+        <tr>
+            <th style=" text-align: center">RECOMENDACIONES LABORALES</th>
+            <td style="border: 1px solid #c8c8c8; ">Versión</td> 
+            <td style="border: 1px solid #c8c8c8; ">3</td>  
+        </tr>
+        <tr>
+            <th style="border-bottom: 1px solid #c8c8c8; text-align: center">SEGURIDAD Y SALUD EN EL TRABAJO</th>
+            <td style="border: 1px solid #c8c8c8; ">Página</td> 
+            <td style="border: 1px solid #c8c8c8; ">1 de 1</td>  
+        </tr>
+    </table>
+    <br>
+    <table width="85%" style="border-collapse: collapse; margin: auto;">
+        <br>
+
+        <tr>
+            <td>Fecha:&nbsp; <label id="P_fecha"></label></td>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="2">NIT:&nbsp; <label id="P_nit"></label></td>
+            <td colspan="2">DIVISIÓN:&nbsp; <label id="P_Division"></label></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td>LOCALIDAD:&nbsp; <label id="P_localidad"></label></td>
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="3">Nombre y Apellidos:&nbsp; <label id="P_nombreApellidos"></label></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="3">Cédula:&nbsp; <label id="P_cedula"></label></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="2">Área de trabajo:&nbsp; <label id="P_area"></label></td>
+            <td colspan="2">Cargo u oficio:&nbsp; <label id="P_cargo"></label></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td colspan="3">Jefé inmediato:&nbsp; <label id="P_jefeinmediato"></label></td>
+        </tr>
+
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4">El colaborador&nbsp;<label id="P_colaborador"></label>&nbsp;quien se desempeña en el cargo de 
+                &nbsp;<label id="P_fecha"></label>, posterior a valoración medico laboral y revisado su puesto de trabajo, se define lo siguiente:</td>
+        </tr>
+    </table>
+    <br>
+    <table width="85%" style="border-collapse: collapse; margin: auto;">
+        <tr>
+            <td style="border: 1px solid #c8c8c8; width: 30%;">RECOMENDACIONES 
+            MEDICO LABORALES</td>
+            <td style="border: 1px solid #c8c8c8; " colspan="3"><label id="P_recomendaciones"></label></td>
+        </tr>
+
+        <tr>
+            <td style="border: 1px solid #c8c8c8; ">AJUSTES AL PUESTO DE TRABAJO (SI / NO EXPLIQUE)</td>
+            <td style="border: 1px solid #c8c8c8; " colspan="3"><label id="P_ajustepuesto"></label></td>
+        </tr>
+
+        <tr>
+            <td style="border: 1px solid #c8c8c8; ">CAMBIO DE PUESTO DE TRABAJO
+                (SI / NO EXPLIQUE INDICANDO LAS FUNCIONES ASIGNADAS PARA EL CUMPLIMIENO DE LAS RECOMENDACIONES, CUANDO APLIQUE)
+                </td>
+            <td style="border: 1px solid #c8c8c8; " colspan="3"><label id="P_cambiopuesto"></label></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #c8c8c8; ">REQUERIMIENTO DE ENTRENAMIENTO ADICIONAL (DETALLE EL ENTRENAMIENTO Y DURACION, SI LO REQUIERE)</td>
+            <td style="border: 1px solid #c8c8c8; " colspan="3"><label id="P_requerimientoadicional"></label></td>
+        </tr>
+
+        <tr>
+            <td style="border: 1px solid #c8c8c8; ">OBSERVACIONES / COMPROMISOS ADMINISTRATIVOS</td>
+            <td style="border: 1px solid #c8c8c8; " colspan="3"><label id="P_observaciones"></label></td>
+        </tr>
+
+        <tr>
+            <td style="border-left: 1px solid #c8c8c8;border-bottom: 1px solid #c8c8c8;" colspan="2">PROXIMO SEGUIMIENTO CON SOPORTES DE GESTION:</td>
+            <td style="border-right: 1px solid #c8c8c8;border-bottom: 1px solid #c8c8c8;" colspan="2"><label id="P_fechaproximoseguimiento"></label></td>
+        </tr>
+    </table>
+    <br>
+    <table width="85%" style="border-collapse: collapse; margin: auto;">
+        <tr>
+            <td colspan="2">Fecha Inicio de Recomendación &nbsp;<label id="P_fechainicio"></label></td>
+            <td colspan="2">Fecha Finalización:  &nbsp;<label id="P_fechafin"></label></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4">Yo, &nbsp;<label id="P_nombreApellidos2"></label>&nbsp;comprendí las explicaciones sobre aspectos de mi salud dadas por el equipo interdisciplinario, acepto las recomendaciones dadas y me comprometo a cumplir las recomendaciones, manteniendo una actitud de autocuidado intra y extralaboral mente.</td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                Firma del trabajador:
+            </td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                Firma Jefe inmediato:
+            </td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                Firma de Gestión Integral:
+            </td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                Firma de SST:
+            </td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                Firma del Medico:
+            </td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4">
+                NOTA: Archivar en Historia clínica Ocupacional la copia firmada por todos los participantes en el proceso
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+
