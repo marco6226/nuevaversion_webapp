@@ -29,9 +29,6 @@ export class ObservacionService extends CRUDService<Observacion> {
     }
 
     denegarObservacion(observacion: Observacion) {
-        console.log(
-            "denegarObservacion(" + observacion.usuarioReporta!.email + ")"
-        );
 
         let body = JSON.stringify(observacion);
         return new Promise((resolve) => {

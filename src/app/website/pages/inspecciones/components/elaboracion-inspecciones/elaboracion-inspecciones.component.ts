@@ -142,7 +142,6 @@ export class ElaboracionInspeccionesComponent implements OnInit {
         this.redireccion = '/app/inspecciones/programacion';
         this.adicionar = true;
         this.programacion = this.paramNav.getParametro<Programacion>();
-        // console.log(this.programacion);
         this.listaInspeccion = this.programacion == null ? this.inspeccion.listaInspeccion : this.programacion.listaInspeccion;
         this.area = this.programacion == null ? this.inspeccion.area : this.programacion.area;
        
@@ -220,7 +219,6 @@ export class ElaboracionInspeccionesComponent implements OnInit {
             .catch(err => {
                 this.initLoading = false;
             });;
-            console.log(this.inspeccion)
     }
     else{
         this.consultar=true;
@@ -411,10 +409,8 @@ async onSubmit() {
                 });
         }
         if(this.accion === 'POST'){
-            console.log(inspeccion)
 
         this.inspeccion = inspeccion;
-        console.log(this.inspeccion)
         }
     } catch (error: any) {
         this.messageService.add({ severity: 'warn', detail: error });
@@ -428,7 +424,6 @@ async onSubmit() {
     nocumple = nocumple.filter(function(element) {
         return element.opcionCalificacion.valor === 0;
     });
-    console.log(nocumple)
      
       let arrraynocumple: any = [];
       
@@ -489,7 +484,6 @@ let dato = this.inspeccion.listaInspeccion.formulario.campoList.filter(item=>{
 
   let numeroeconomico: string ;
   let ubicacion: string;
-  console.log (dato);
 
 if(dato.length > 0){
   let idnumeroeconomico = dato[0].id;
@@ -499,7 +493,6 @@ if(dato.length > 0){
 let dato2 = this.inspeccion.respuestasCampoList.filter(item=>{
     return item.campoId.toString().includes(idnumeroeconomico.toString())
   })
-  console.log(dato2[0].valor);
   numeroeconomico = dato2[0].valor;
 
 }
@@ -518,7 +511,6 @@ let dato2 = this.inspeccion.respuestasCampoList.filter(item=>{
 let dato4 = this.inspeccion.respuestasCampoList.filter(item=>{
     return item.campoId.toString().includes(idubicacion.toString());
   })
-  console.log(dato4[0].valor)
 ubicacion = dato4[0].valor;
 
 }else{
@@ -534,8 +526,6 @@ ubicacion = dato4[0].valor;
             this.inspeccion.id,
             arrayResultadoVar1, numeroeconomico, ubicacion);
         }
-        console.log(arrayResultadoVar1.length);
-      console.log(this.finalizado);
       }, 10000);
     
 
@@ -561,7 +551,6 @@ private manageResponse(insp: Inspeccion) {
         detail: 'Se ha ' + (this.adicionar ? 'creado' : 'modificado') + ' correctamente la inspección' + ' INP-' + insp.id
     });
     this.finalizado = true;
-    console.log(this.finalizado);
     
 }
 
@@ -658,13 +647,10 @@ validarDescripcion(elementoSelect: ElementoInspeccion) {
                 })
                 .catch(err => {
                     this.imagenesList.push({});
-                    console.log('error descarga')
                 });
             })   
-            console.log(element.documentosList)      
         }
     });
-    console.log(this.x)
     
     
 }
@@ -687,8 +673,6 @@ private extraerCalificaciones(elemList: ElementoInspeccion[], calificacionList: 
                         calif.elementoInspeccion.id = elemList[i].id;
                         calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
                         calificacionList.push(calif);
-                        console.log(elemList);
-                        console.log(calif);
                         if( this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i]) ){}
                 }
             }
@@ -740,7 +724,6 @@ agregarElementos(nodoPlant: HTMLElement, elemInspList: ElementoInspeccion[]) {
     });
 }
 test(){
-    console.log(this.x)
 }
 async imprimir() {
     
@@ -809,11 +792,8 @@ async imprimir() {
 }
 
 async getTareaEvidences(lista_id: number, version_id: number) {
-    // console.log(lista_id)
-    // console.log(version_id)
     try {
         let res: any = await this.listaInspeccionService.getInspeccionImagen(lista_id, version_id);
-        // console.log(res)
         if (res) {
             res.files.forEach(async (evidence: string) => {
                 let ev: any = await this.directorioService.download(evidence);
@@ -824,7 +804,6 @@ async getTareaEvidences(lista_id: number, version_id: number) {
                 reader.onloadend = (res: any) => {
                     if (ev) {
                         this.listaEvidence.push(reader.result);
-                        // console.log(reader.result)
                     } else {
                         throw new Error("Ocurrió un problema al consultar las evidencias de la tarea");
                     }
@@ -835,13 +814,11 @@ async getTareaEvidences(lista_id: number, version_id: number) {
     } catch (e) {
         
     }
-    // console.log(this.evidencias)
 }
 
 async vistoPermisos(){
 
   this.isEmpleadoValid = this.sesionService.getEmpleado() == null;
-  console.log(this.isEmpleadoValid)
 
   if(this.consultar && this.inspeccion.conceptohse == null){
        this.mostarHseGet = false;

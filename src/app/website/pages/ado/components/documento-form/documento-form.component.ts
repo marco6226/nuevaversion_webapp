@@ -20,7 +20,6 @@ export class DocumentoFormComponent implements OnInit {
 
   ngOnInit() {
     this.config.setTranslation(this.localeES);
-      console.log(this.documento);
   }
 
 }

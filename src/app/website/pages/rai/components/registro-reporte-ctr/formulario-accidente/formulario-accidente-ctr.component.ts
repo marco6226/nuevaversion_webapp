@@ -267,7 +267,6 @@ export class FormularioAccidenteCtrComponent implements OnInit {
 
         await this.cargarSubcontratistas();
         this.selectedSubcontratista = this.reporte.subcontratista;
-        console.log(this.subcontratistas, this.selectedSubcontratista);
         this.esReportePropio = this.selectedSubcontratista == null ? true : false;
 
         this.infPersonaAccidentada.get('primerNombre')?.setValue(this.reporte.primerNombreEmpleado);
@@ -696,7 +695,6 @@ export class FormularioAccidenteCtrComponent implements OnInit {
       }
       this.analisisDesviacion.seguimiento = JSON.stringify(this.seguimiento);
       if(this.infoAccidenteIsValid()){
-        // console.log(this.reporte);
         this.reporteService.create(this.reporte)
         .then((res: any) => {
           this.esNuevo = false;
@@ -780,11 +778,9 @@ export class FormularioAccidenteCtrComponent implements OnInit {
         }
       }).catch(err => {
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo guardar el reporte'});
-        console.log('Error al actualizar analisis desviación', err);
       });
     }).catch(err => {
       this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo guardar el reporte'});
-      console.error('Error al actualizar reporte', err);
     });
   }
 

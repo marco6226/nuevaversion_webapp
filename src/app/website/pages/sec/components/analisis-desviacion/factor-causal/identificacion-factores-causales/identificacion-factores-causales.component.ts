@@ -15,10 +15,6 @@ export class IdentificacionFactoresCausalesComponent implements OnInit {
   ngOnInit() {
   }
 
-  test(){
-    console.log(this.identificacionFc);
-    
-    
-  }
+
 
 }

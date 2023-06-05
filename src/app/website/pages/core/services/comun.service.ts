@@ -209,7 +209,6 @@ export class ComunService {
     }
 
     manageError(err: any) {
-        //console.log(err);
         let msg: MensajeUsuario;
         try {
             msg = <MensajeUsuario>err;

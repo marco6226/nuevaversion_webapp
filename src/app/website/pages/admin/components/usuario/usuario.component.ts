@@ -114,7 +114,6 @@ export class UsuarioComponent implements OnInit {
     );
   }
 onClick(){
-    //console.log(this.form.value);
   }
   abrirDlg(isUpdate: boolean) {
     this.isUpdate = isUpdate;
@@ -132,7 +131,6 @@ onClick(){
         (resp:any) => {
           let perfilesId: any[] = [];
           resp['data'].forEach((ident:any) => perfilesId.push(ident.id));
-          //console.log(resp['data']);
           this.form.patchValue({
             'id': this.usuarioSelect.id,
             'email': this.usuarioSelect.email,
@@ -155,7 +153,6 @@ onClick(){
   buildPerfilesIdList(usuario: Usuario) {
     let perfilesIdList:any[] = [];
     usuario.usuarioEmpresaList!.forEach((ue:UsuarioEmpresa) => {
-      //console.log(ue);
       perfilesIdList.push(ue.perfil!.id);
     });
     return perfilesIdList;
@@ -213,7 +210,6 @@ onClick(){
 
     this.solicitando = true;
     if (this.isUpdate) {
-      console.log(usuario);
       this.usuarioService.update(usuario)
         .then(resp => {
           this.manageResponse(<Usuario>resp, true);

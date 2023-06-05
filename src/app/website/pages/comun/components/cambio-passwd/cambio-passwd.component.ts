@@ -50,7 +50,6 @@ export class CambioPasswdComponent implements OnInit {
       resp => {
         this.form.reset();
         this.visible = false;
-        // this.cambioPasswdService.onSubmit(resp);
       }
     );
   }
@@ -59,11 +58,9 @@ export class CambioPasswdComponent implements OnInit {
 		if (this.password === 'password') {
 		  this.password = 'text';
 		  this.show = true;
-		  console.log(this.password);
 		} else {
 		  this.password = 'password';	
 		  this.show = false;
-		  console.log(this.password);
 		}
 	  }
 
@@ -71,11 +68,9 @@ export class CambioPasswdComponent implements OnInit {
       if (this.passwordNew === 'password') {
         this.passwordNew = 'text';
         this.showNew = true;
-        console.log(this.passwordNew);
       } else {
         this.passwordNew = 'password';	
         this.showNew = false;
-        console.log(this.passwordNew);
       }
       }
 
@@ -83,11 +78,9 @@ export class CambioPasswdComponent implements OnInit {
         if (this.passwordConfirm === 'password') {
           this.passwordConfirm = 'text';
           this.showConfirm = true;
-          console.log(this.passwordConfirm);
         } else {
           this.passwordConfirm = 'password';	
           this.showConfirm = false;
-          console.log(this.passwordConfirm);
         }
         }
 

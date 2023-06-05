@@ -161,7 +161,6 @@ export class IncapacidadesComplementariaTemporalComponent implements OnInit {
 
   editProduct(product: Incapacidad) {
     this.GuardadoEdicion=false;
-    console.log(product);
     
     this.flagIncapacidad = (product.generoIncapacidad)?product.generoIncapacidad:'true'
     this.tipo = product.tipo ?? null;
@@ -178,11 +177,7 @@ export class IncapacidadesComplementariaTemporalComponent implements OnInit {
 
   editarProduct(){
     this.submitted = true;
-    console.log("save");
-    console.log(this.cie10);
-    
-
-    
+      
     this.flagIncapacidad == null ? this.incapacidad?.generoIncapacidad : this.flagIncapacidad;
     this.tipo == null ? this.incapacidad?.tipo : this.tipo
     this.cie10.codigo == null ?  this.incapacidad?.cie10 : this.cie10.codigo
@@ -210,7 +205,6 @@ export class IncapacidadesComplementariaTemporalComponent implements OnInit {
   }
 
   deleteProduct(product: Incapacidad) {
-    console.log(product);
     let mensajeAux = product.cie10 ? product.cie10?.nombre : '';
     this.confirmationService.confirm({
       message: '¿Estás seguro de que quieres eliminar ' + mensajeAux + '?',

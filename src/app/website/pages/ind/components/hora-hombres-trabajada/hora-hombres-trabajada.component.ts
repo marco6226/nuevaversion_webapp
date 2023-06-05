@@ -321,16 +321,13 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   }
 
   calcularTotalesPorArea(mesIndex:number, areaIndex: number){
-    // console.log(mesIndex, areaIndex);
     let totalPersonas = 0;
     let totalHHT = 0;
     this.dataHHT[mesIndex].Areas![areaIndex].Plantas!
     .forEach((planta, index) => {
-      // console.log(totalPersonas, planta.NumPersonasPlanta);
       totalPersonas += planta.NumPersonasPlanta == null ? 0 : planta.NumPersonasPlanta;
       totalHHT += planta.HhtPlanta == null ? 0 : planta.HhtPlanta;
     });
-    // console.log(totalPersonas, totalHHT);
     this.dataHHT[mesIndex].Areas![areaIndex].NumPersonasArea = totalPersonas;
     this.dataHHT[mesIndex].Areas![areaIndex].HhtArea = totalHHT;
     this.calcularTotalesMes(mesIndex);
@@ -341,7 +338,6 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   }
 
   setMetaPorArea(indiceArea: number, meta: number){
-    // console.log(indiceArea, meta);
     this.meses.forEach((mes, index) => {
       this.dataHHT![index].Areas![indiceArea].ILIArea = meta;
     });

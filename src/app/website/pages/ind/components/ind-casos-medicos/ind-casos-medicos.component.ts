@@ -249,7 +249,6 @@ export class IndCasosMedicosComponent implements OnInit {
 
     await this.viewscmcoService.findByEmpresaId().then((resp:any)=>{
       this.datos=resp
-      console.log(this.datos)
     })
 
     if(this.radioButon2==0){this.opcion2=this.StatusList;}
@@ -897,7 +896,6 @@ export class IndCasosMedicosComponent implements OnInit {
       datos=this.order(datos)
       datosReturn.push({name:resp['name'],series:datos})
     })
-    // console.log(datosReturn)
     return datosReturn
   }
 

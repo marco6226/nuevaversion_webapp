@@ -39,17 +39,7 @@ export class PermisosComponent implements OnInit {
 
     ngOnInit() {
         
-        // this.areaService.findAll().then(
-        //     resp => (<Area[]>resp['data']).forEach(area => this.areaList.push({ label: area.nombre, value: area.id }))
-        //     // resp => (<Area[]>resp['data']).forEach(area=>{
-        //     //     if(area.areaPadre.nombre == undefined || area.areaPadre.nombre == null){
-        //     //         this.areaList.push({label: area.nombre +" - "+ area.areaPadre.toString(),value : area.id})
-        //     //     }else{
-        //     //         this.areaList.push({label: area.nombre  +" - "+ area.areaPadre.nombre,value: area.id})
-        //     //     }
-        //     // })
-        // );
-        console.log(this.areaList);
+       
         this.selectArea_areaPadre();
 
         this.perfilesList.push({ label: '--Seleccione--', value: null });
@@ -141,7 +131,6 @@ export class PermisosComponent implements OnInit {
     }
 
     actualizarPermiso(recurso: Recurso) {
-        // console.log('recurso: '+recurso.selected);
         this.isOnEdit=true;
         let permiso = new Permiso();
         permiso.valido = recurso.selected ? false : true;
@@ -150,9 +139,6 @@ export class PermisosComponent implements OnInit {
         permiso.recurso.id = recurso.id;
         permiso.perfil = new Perfil();
         permiso.perfil.id = this.perfilSelect.id;
-        // if (recurso['validacionArea']) {
-        //     permiso.areas = '{' + recurso['areas'].toString() + '}';
-        // }
         this.permisoService.update(permiso).then(
             resp => {
                 this.messageService.add({ summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success', key:'permisos' });
@@ -179,22 +165,17 @@ export class PermisosComponent implements OnInit {
       })
     }
 
-    createArbol(data: any){        
-        console.log(data)
+    createArbol(data: any){  
         data.data.forEach((element: any) => {
-            // console.log(element)
             this.areaList.push({label: element.nombre, value : element.id})
             if(element.areaList.length > 0){
                 this.createArbolHijo(element.nombre,element.areaList)
             }
         });
-        console.log('lista',this.areaList)
     }
 
     createArbolHijo(nombrePadre:any, dataHijo:any){
-        // console.log(dataHijo)
         dataHijo.forEach((element:any) => {
-            // console.log(element)
             this.areaList.push({label: element.nombre + " - " +  nombrePadre, value : element.id})
             if(element.areaList.length > 0){
                 this.createArbolHijo(element.nombre,element.areaList)

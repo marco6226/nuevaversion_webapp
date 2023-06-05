@@ -99,7 +99,6 @@ export class IncapacidadesCtrComponent implements OnInit {
     this.isVisibleDialog = true;
     this.isUpdateIncapacidad = true;
     let incapacidad = this.incapacidades.find(incapacidad => incapacidad.id === incapacidadId);
-    console.log(incapacidad);
     if(incapacidad){
       this.id = incapacidad.id ?? null;
       this.generoIncapacidad = JSON.parse(incapacidad.generoIncapacidad!);

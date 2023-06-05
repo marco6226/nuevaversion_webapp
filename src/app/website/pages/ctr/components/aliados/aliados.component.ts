@@ -181,9 +181,6 @@ export class AliadosComponent implements OnInit {
 
   async saveAliado(){
     this.formJuridica.value.tipo_persona = this.formNatural.value.tipo_persona = this.seleccion
-    // console.log(this.formNatural.value);
-
-    // console.log(this.formJuridica.value);
 
     let createEmpresa: Empresa;
     this.messageService.add({severity:'info', summary: 'Guardando aliado', detail: 'Espere un momento', life:3000});
@@ -243,10 +240,9 @@ export class AliadosComponent implements OnInit {
     
     this.guardando = true;
     this.empresaService.createEmpresaAliada(createEmpresa!).then((ele:Empresa)=>{
-      // console.log(ele);
+      
       this.messageService.add({severity:'success', summary: 'Creación Aliado', detail: 'Se agrego un Aliado nuevo, será redirigido a la lista de aliados.', life:6000});
       if (this.formJuridica.valid) {
-        console.log('creando empresa');
         
         let ue = new UsuarioEmpresa();
       
@@ -300,14 +296,13 @@ export class AliadosComponent implements OnInit {
             .then((e: AliadoInformacion) => {            
               this.router.navigate(['/app/ctr/listadoAliados']);
               this.guardando = false;
-              console.log('h')
             });
         });
       }
     }).catch(error=>{
       this.guardando = false;
       this.messageService.add({severity:'error', summary: 'Error', detail: 'No se pudo crear el Aliado, intente de nuevo'});
-      console.log('h')
+      
     })
   }
 

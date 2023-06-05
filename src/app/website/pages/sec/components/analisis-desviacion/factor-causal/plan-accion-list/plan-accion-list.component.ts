@@ -49,7 +49,6 @@ export class PlanAccionListComponent implements OnInit {
         this.habilitar()
       },
 			reject: () => {
-				console.log(this.planAccionList[i].causaRaiz)
 			},
     });
     this.actualizar.emit()
@@ -79,12 +78,9 @@ export class PlanAccionListComponent implements OnInit {
 
 
   habilitar(){
-    // console.log(this.planAccionList);
     this.display = false
     this.planAccionList.forEach(element => {
-      // console.log(element);
       element.causaRaiz.forEach((elementIn: any) => {
-        // console.log(elementIn);
         if(elementIn.especifico.accionCorrectiva!=null && elementIn.especifico.accionCorrectiva != ""){
           elementIn.especifico.isComplete = true;
         }
@@ -114,13 +110,11 @@ export class PlanAccionListComponent implements OnInit {
         }
 
         if(elementIn.revisado.revisado!=null && elementIn.revisado.revisado != ""){
-          console.log(elementIn);
           elementIn.revisado.isComplete = true
         }
         else{
           elementIn.revisado.isComplete = false;
         }
-        console.log(elementIn);
       });
       
       

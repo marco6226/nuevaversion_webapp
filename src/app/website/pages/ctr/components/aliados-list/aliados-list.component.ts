@@ -88,14 +88,12 @@ export class AliadosListComponent implements OnInit {
                 this.aliadosList.push(element) 
               });
           });
-          console.log(this.aliadosList);
         }
     );
     
   }
 
   onEdit(event: any){
-    console.log(event.id);
     // localStorage.setItem('actualizarAliado',JSON.stringify([event.id, 'edit']));
     this.router.navigate([`/app/ctr/actualizarAliado/${event.id}/${'edit'}`]);
   }
@@ -106,12 +104,10 @@ export class AliadosListComponent implements OnInit {
   }
 
   async onSendMail(event: any){
-    console.log(event);
     await this.usuarioService.sendMailAliadoActualizar(event.email,event.id);
   }
 
   onChangeStatusAliado(row: any, tipo: any){
-    console.log(row);
     
     if (tipo=='Activar') {
       this.confirmationService.confirm({
@@ -145,12 +141,6 @@ export class AliadosListComponent implements OnInit {
     this.selectedList.forEach(element => {
       this.onSendMail(element)
     });
-  }
-
-  test(){
-    console.log(this.caseSelect);
-    console.log(this.selectedList);   
-    
   }
   
   async exportexcel(): Promise<void> 

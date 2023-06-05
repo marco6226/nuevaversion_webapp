@@ -125,7 +125,6 @@ export class TipoAreaComponent implements OnInit {
 
   onDelete() {
     if (this.tiposAreaList != null) {
-      console.log('fa')
       this.confirmationService.confirm({
         header: 'Eliminar tipo de área "' + this.tipoAreaSelect?.nombre + '"',
         message: '¿Esta seguro de borrar este tipo de área?',

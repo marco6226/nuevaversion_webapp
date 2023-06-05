@@ -70,7 +70,6 @@ export class SeguimientosTareasComponent implements OnInit {
         let changes = this.differ.diff(this.tarea);
 
         if (changes) {
-            console.log('changes detected');
             setTimeout(() => {
                 this.getSeg();
             }, 1500);
@@ -93,12 +92,10 @@ export class SeguimientosTareasComponent implements OnInit {
         this.trackings = await this.seguimientoService.getSegByTareaID(this.tareaId);
 
         if (this.trackings.length > 0) {
-            console.log('Se ejecuta el emit')
             this.cd.markForCheck();
             this.isFollowExist.emit(true);
         }
     } catch (e) {
-        console.log(e);
         this.msgs.push({
             severity: "error",
             summary: "Mensaje del sistema",
@@ -140,12 +137,10 @@ export class SeguimientosTareasComponent implements OnInit {
             summary: "Mensaje del sistema",
             detail: "Ha ocurrido un error al obtener las evidencias de esta tarea",
         });
-        console.log(e);
     }
   }
 
   async onSelection(event:any) {
-    console.log(event);
     this.fullName = null;
     this.empleado = null;
     let emp = <Empleado>event;
@@ -165,7 +160,6 @@ export class SeguimientosTareasComponent implements OnInit {
   }
 
   addImage(file:any) {
-    console.log('Form: ',  this.trackingForm.value)
     let evidences = this.trackingForm!.get('evidences')!.value;
     let obj = {
         ruta: file,
@@ -187,7 +181,6 @@ export class SeguimientosTareasComponent implements OnInit {
             summary: "Mensaje del sistema",
             detail: "Por favor revise todos los campos obligatorios",
         });
-        console.log('Data: ', this.trackingForm.value);
         return;
     }
 
@@ -220,7 +213,6 @@ export class SeguimientosTareasComponent implements OnInit {
             }, 3500);
         }
     } catch (e) {
-        console.log(e);
         this.cargando = false;
         this.msgs.push({
             severity: "error",

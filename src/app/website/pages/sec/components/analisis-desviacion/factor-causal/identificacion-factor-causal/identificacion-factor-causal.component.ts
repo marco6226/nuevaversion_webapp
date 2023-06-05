@@ -19,18 +19,5 @@ export class IdentificacionFactorCausalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  ok(){
-    console.log(this.identificacionFc);
-    console.log(this.selectedValues);
-    console.log(this.value);
-    
-    
-  }
-
-  test(){
-    console.log(this.identificacionFc);
-    console.log(this.factor);
-    
-    
-  }
+ 
 }

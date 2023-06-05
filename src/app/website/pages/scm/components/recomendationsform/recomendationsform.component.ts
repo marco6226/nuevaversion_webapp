@@ -88,7 +88,6 @@ export class RecomendationsformComponent implements OnInit, OnChanges {
 
     }
 test(){
-    console.log(this.accions)
 }
     ngOnChanges(changes: SimpleChanges) {
         this.patchFormValues();
@@ -150,7 +149,6 @@ test(){
         if (this.accions.length > 0) {
             this.accions.forEach((act: any) => {
                 if (typeof act.responsableEmpresa != 'number') {
-                    console.log("Aqui entro");
                     act.responsableEmpresa = null;
                 }
             })
@@ -230,7 +228,6 @@ test(){
     }
 
     onSelectionResponsable(event: any) {
-        console.log(event)
         if (!event) return;
         let empleado = <Empleado>event;
         this.responsableEmpresaNombre = (empleado.primerApellido || "") + " " + (empleado.primerNombre || "");

@@ -87,9 +87,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     let elemento = {} as ElementoInspeccion;
     elemento.numero = ++this.contadorElem;
     elemento.codigo = elemPadre.codigo + "." + (elemPadre.elementoInspeccionList.length + 1);
-    console.log(elemPadre);
     elemPadre.elementoInspeccionList.push(elemento);
-    console.log(this.value);
   }
 
   removeElemento(elementoList: ElementoInspeccion[], elemento: ElementoInspeccion) {
@@ -107,8 +105,6 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   }
 
   get conPeso(): boolean{
-    // console.log(this.tipoLista);
-    // console.log(this.tipoLista && this.tipoLista === 'Ciclo corto' ? true : false);
     return this.tipoLista && this.listasConPeso.includes(this.tipoLista) ? true : false;
   }
 

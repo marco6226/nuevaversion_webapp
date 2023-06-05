@@ -444,12 +444,9 @@ export class AnalisisDesviacionComponent implements OnInit {
             );
             this.habilitarInforme()
     });
-    // setTimeout(() => {
         this.tareaList3()
         this.disabled=false;
-    // }, 1000);
     
-    // console.log(this.tareasList)
 }
 buildTreeNode(
   list: any[],
@@ -1021,7 +1018,6 @@ async modificarAnalisis() {
               this.tareaList3()
           }, 1000);
           
-          // console.log(ad.flow_chart);
       }, 2000);
       this.flagBotonModificar()
   }else{

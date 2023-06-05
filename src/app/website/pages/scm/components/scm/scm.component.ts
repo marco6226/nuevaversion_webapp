@@ -82,9 +82,7 @@ export class ScmComponent implements OnInit {
             });
         });
         this.idEmpresa = this.sesionService.getEmpresa()?.id!;
-        setTimeout(() => {
-            console.log(this.idEmpresa)
-        }, 2000);
+        
     }
 
     openCase() {
@@ -125,7 +123,6 @@ export class ScmComponent implements OnInit {
         filterQuery.fieldList = this.fields;
         filterQuery.filterList = [filterEliminado];        
         filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-        console.log(event.filters);
         try {
             let res: any = await this.scmService.findByFilter(filterQuery);
             this.casosList = res.data;

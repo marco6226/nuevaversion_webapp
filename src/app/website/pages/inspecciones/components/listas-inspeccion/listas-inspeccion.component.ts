@@ -90,12 +90,10 @@ export class ListasInspeccionComponent implements OnInit {
           obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
          try {
            for (const profile of userParray.data) {
-            console.log(profile.id)
 
             let perfilArray = JSON.parse(obj.fkPerfilId)
 
             perfilArray.forEach((perfil: any) => {
-              console.log(perfil);
               if (perfil===profile.id) {
                 if(!this.listaInspeccionList.find(element=>element==obj)){
                   this.listaInspeccionList.push(obj);
