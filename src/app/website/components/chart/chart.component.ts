@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
-import {  Chart, ChartItem, registerables } from 'chart.js';
+import {  Chart, registerables } from 'chart.js';
 // import Chart from 'chart.js/auto';
 
 Chart.register(...registerables);
@@ -58,10 +58,5 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.myChart.update();
   }
 
-  test(){
-    console.log(this.myChart);
-    console.log(this.myChart.config.type);
-    
-  }
 
 }

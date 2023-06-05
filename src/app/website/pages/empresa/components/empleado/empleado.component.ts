@@ -82,7 +82,6 @@ export class EmpleadoComponent implements OnInit {
     showUpdateForm() {
         if (this.empleadoSelect != null) {
             this.isUpdate = true;
-            //console.log("FIX");
             this.visibleForm = true;
         } else {
             this.messageService.add({key: 'empleado', severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
@@ -94,7 +93,6 @@ export class EmpleadoComponent implements OnInit {
             this.isUpdate = false;
             this.isEditable = false;
             this.show = true;
-            //console.log("FIX");
             this.visibleForm = true;
         } else {
             this.messageService.add({key: 'empleado', severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });

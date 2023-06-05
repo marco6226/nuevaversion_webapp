@@ -60,7 +60,6 @@ export class MisTareasComponent implements OnInit {
              
       await this.tareaService.findByDetailsByEmpleado(id).then(
           async resp => { 
-              console.log(resp)
               this.tareasList = resp;
               this.tareasList = await Promise.all(this.tareasList.map(async (tarea:any) => {
                   let status:any = await this.verifyStatus(tarea);

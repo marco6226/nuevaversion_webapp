@@ -373,7 +373,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         this.divisiones2.push({label:'Corona total',value:'Corona total'})
       }
     );
-      // console.log(this.divisiones2)
       this.reporteTabla=[]
       this.reporteTabla2=[]
       this.totalDiasPerdidosDv=[]
@@ -414,7 +413,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     let hhtTemp: Hht[] = [];
     let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).map((at:any) => at);
 
-    // console.log(this.fechaInicioResumen, this.fechaFinalResumen);
     
     filterQueryCorona.sortOrder = SortOrder.ASC;
     filterQueryCorona.sortField = "id";
@@ -476,7 +474,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             });
           });
         }
-        // console.log('hhtEmpresa: ', hhtEmpresa);
       }else{
         console.error('No se obtuvieron registros hht de la empresa.');
       }
@@ -488,7 +485,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     .then(async (res: any) => {
       if(res.data.length > 0){
         hhtTemp = Array.from(res.data);
-        // console.log(hhtTemp);
       }else{
         console.error('No se obtuvieron registros hht de las temporales');
       }
@@ -548,7 +544,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     let IF = (accidentesConDiasPerdidos / (totalHhtEmpresa + totalHHtTemporales)) * 240000;
     let IS = (totalDiasSeveridad / (totalHhtEmpresa + totalHHtTemporales)) * 240000;
     let ILI = (IF * IS) / 1000;
-    console.log(accidentesConDiasPerdidos, totalHhtEmpresa, totalHHtTemporales, totalDiasSeveridad, IF, IS, ILI);
     this.ili = Number(ILI.toFixed(6));
 
     if(this.ili<=this.metaIli){
@@ -674,11 +669,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     }else if(filter === 'hasta'){
       this.filtroFechaAt![1] = event;
     }
-    // console.log();
     
     if(this.filtroFechaAt![0] && this.filtroFechaAt![1]){
       let dataEv1Dona: any[] = JSON.parse(localStorage.getItem('reporteAtList')!);
-      // console.log(dataEv1Dona)
       let listaDivisiones: any[] = dataEv1Dona.map(at => at.padreNombre);
       let divisiones: any[] = listaDivisiones.filter((item, index) => {
         return listaDivisiones.indexOf(item) === index;
@@ -785,7 +778,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     
     if(this.filtroFechaDiasPerdidos[0] && this.filtroFechaDiasPerdidos[1]){
       let dataDiasPerdidosAtList: any[] = JSON.parse(localStorage.getItem('diasPerdidosAtList')!);
-      // console.log(dataDiasPerdidosAtList)
       let listaDivisiones: any[] = dataDiasPerdidosAtList.map(at => at.padreNombre);
       let divisiones: any[] = listaDivisiones.filter((item, index) => {
         return listaDivisiones.indexOf(item) === index;
@@ -858,7 +850,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       ];
       
       this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
-        // console.log(res)
         let hhtTemp: Array<Hht>;
         let filterQuery2 = new FilterQuery();
         filterQuery2.sortField = "id";
@@ -870,11 +861,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         await this.hhtService.findByFilter(filterQuery2)
         .then((res: any) => {
           hhtTemp = Array.from(res.data);
-          // console.log(hhtTemp)
         }).catch((err: any) => {
           console.error('Error al leer hht de temporales', err);
         });
-        // console.log(hhtTemp);
 
         if(res.data.length > 0 && hhtTemp!) {
           let trabajadoresTotalesMes=0
@@ -985,7 +974,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               name: 'Proporción AT mortal',
               value: PAT === Infinity ? 0 : PAT
             });
-            // console.log(TF, TS, PAT, ' : ', totalAt, diasPerdidos, AtMortales, trabajadoresTotales, totalTrabajadoresTemp);
             
             tasaFrecuencia1.push(data);
           });
@@ -1040,8 +1028,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   filtroTasas1_1() {
     let tasaFrecuencia1: any[] = JSON.parse(localStorage.getItem('tasaFrecuencia1')!);
     if(this.selectDivisiones1.length > 0){
-      // console.log(this.selectDivisiones1);
-      // let divisiones = this.selectDivisiones1.map(div => div.value);
       tasaFrecuencia1 = tasaFrecuencia1.filter(tasasXDivision => this.selectDivisiones1.includes(tasasXDivision.name));
     }
     if(this.selectIndicarores1.length > 0){
@@ -1076,7 +1062,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       
       if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total') reportesAt = reportesAt
       .filter(at => this.filtroDivisionesTasa_2 === at.padreNombre);
-      // console.log(reportesAt);
 
       filterQuery.sortOrder = SortOrder.ASC;
       filterQuery.sortField = "id";
@@ -1137,8 +1122,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
                 trabajadoresTotales2 += trabajadoresPorArea;
               }
             });
-            // console.log(trabajadoresTotales2);
-            // debugger
             let totalTrabajadoresTemp = 0;
             hhtTemp.forEach((hht, index) => {
               let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
@@ -1158,7 +1141,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
                 }
               }
             });
-            // console.log(totalTrabajadoresTemp);
 
             totalAt = reportesAt.filter(at => index === new Date(at.fechaReporte).getMonth()).length;
             
@@ -1186,7 +1168,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               name: 'Proporción AT mortal',
               value: isNaN(proporcionAtMortal) || proporcionAtMortal === Infinity ? 0.0 : proporcionAtMortal 
             });
-            // console.log(totalAt, diasPerdidos, atMortales, ' : ', tasaFrecuencia, tasaSeveridad, proporcionAtMortal, totalTrabajadoresTemp);
             
             tasaFrecuencia2.push(data);
           });
@@ -1278,7 +1259,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           }
           return false;
         }).length;
-        // console.log('div:',division,'numat:', numeroAt,'dperd:', diasPerdidos,'atmort:', atMortales,'atcero:', atCeroDias);
         numAtTotal += numeroAt;
         diasPerdidosTotal += diasPerdidos;
         atMortalesTotales += atMortales;
@@ -1543,7 +1523,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         });
 
         let hhtTemp = 0;
-        // console.log(listaHhtTemp);
         listaHhtTemp.forEach((hht, index) => {
           let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
           if(this.filtroMesesIli_1.length > 0){
@@ -1563,14 +1542,12 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             })
           }
         });
-        // console.log(division.nombre, hhtCorona);
         let totalDiasSeveridad = reportesAt.filter(at => at.padreNombre === division.nombre && at.incapacidades !== 'null' && at.incapacidades !== null)
                                           .reduce((count, at) => {
                                             return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidades:any) => {
                                               return count2 + incapacidades.diasAusencia;
                                             }, 0);
                                           }, 0);
-        // console.log('adp:',accidentesConDiasPerdidos,'hht:',hhtCorona,'tds:',totalDiasSeveridad, 'hhtTemp:', hhtTemp);
 
         let IF = (accidentesConDiasPerdidos/(hhtCorona + hhtTemp)) * 240000;
         let IS = (totalDiasSeveridad/(hhtCorona + hhtTemp)) * 240000;
@@ -1580,7 +1557,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         hhtTotalEmpresa += hhtCorona;
         hhtTotalTemp += hhtTemp;
         diasSeveridadTotalEmp += totalDiasSeveridad;
-        // console.log('if: ',IF,'is:',IS,'ILI:',ILI);
         
         dataIli_1.datasets[1].data.push(isNaN(ILI) ? 0.00 : ILI === Infinity ? 0.00 : Number(ILI.toFixed(6)));
         dataIli_1.datasets[0].data.push(metaCorona);
@@ -1654,9 +1630,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
     ];
     this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
-      // console.log(this.selectDivisionesILI2);
       if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'Corona total'){
-        // console.log('filtrando ats');
         reportesAt = reportesAt.filter(at => this.selectDivisionesILI2 === at.padreNombre);
       }
 
@@ -1744,7 +1718,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let IF = (accidentesConDiasPerdidos / (hhtCorona + hhtTemp)) * 240000;
         let IS = (totalDiasSeveridad / (hhtCorona + hhtTemp)) * 240000;
         let ILI = (IF*IS)/1000;
-        // console.log(accidentesConDiasPerdidos, hhtCorona, hhtTemp, totalDiasSeveridad, IF, IS, ILI);
         
         let ILIAux = (isNaN(ILI) ? 0.0 : ILI === Infinity ? 0.0 : Number(ILI.toFixed(6)));
         dataIli_2.datasets[1].data.push(ILIAux);

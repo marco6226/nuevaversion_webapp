@@ -101,22 +101,17 @@ export class ConsultaInspeccionesComponent implements OnInit {
     var x:any[]=[];
 
         this.userParray.data.forEach((element: any) => {
-            console.log(element.id);
             x.push(element.id)
         });
-        console.log("{"+x+"}");
         
         var y:string = "["+x+"]";
         let z : string ="{"+x+"}"
-        console.log(y);
-        console.log(z);
         
     //    filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: 'listaInspeccion.fkPerfilId', value1: z });
 
         this.inspeccionService.findByFilter(filterQuery).then(
             (resp: any) => {
                 this.totalRecordsNoProg = resp['count'];
-                console.log(resp);
                 
                 this.loadingNoProg = false;
                 this.inspeccionNoProgList = [];
@@ -136,7 +131,6 @@ export class ConsultaInspeccionesComponent implements OnInit {
                         }
                         });
                       }
-                      console.log(this.inspeccionNoProgList.length);
                       
                       } catch (error) {
                         

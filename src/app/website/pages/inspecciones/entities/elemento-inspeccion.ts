@@ -14,4 +14,5 @@ export interface ElementoInspeccion {
   numero: number;
   calificacion: Calificacion;
   data2?:any[];
+  peso: number | null;
 }

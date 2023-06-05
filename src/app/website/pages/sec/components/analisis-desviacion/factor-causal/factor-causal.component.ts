@@ -96,28 +96,20 @@ export class FactorCausalComponent implements OnInit, AfterViewInit {
 
   validator() {
     this.validators2.emit(this.validators)
-    console.log(this.validators)
   }
   ngAfterViewInit() {
 
     if (!this.factorCausal.seccion) {
       this.addDataFC();
-      console.log("------------------------------------->");
     }
 
     if (!this.factorCausal.causa_Raiz) {
-      // this.data1=[this.datos[0]]
-      // this.data2=[this.datos[1]]
       this.factorCausal.causa_Raiz = this.datos
     }
-    // else{
-    //   this.data1=[this.datos[0]]
-    //   this.data2=[this.datos[1]]
-    // }
+
   }
 
   addDataFC() {
-    console.log(this.factorCausal);
 
     let datos: seccion[] = [
       { tipoDesempeno: 'Desempeño individual', desempeno: this.questionIndividual },
@@ -132,20 +124,16 @@ export class FactorCausalComponent implements OnInit, AfterViewInit {
 
 
   next() {
-    console.log("hola");
     this.validacion();
     if (this.validators) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Faltan campos por responder' });
     } else {
-      console.log(this.factorCausal);
       this.pasoSelect++;
     }
-    console.log(this.pasoSelect, this.steps.length);
 
   }
 
   back() {
-    console.log(this.factorCausal);
     this.pasoSelect--;
   }
 
@@ -205,16 +193,8 @@ export class FactorCausalComponent implements OnInit, AfterViewInit {
       this.validators = false;
     }
 
-    console.log(this.validators);
   }
 
-  ok() {
-    console.log(this.cx);
-    console.log(this.selectedValue);
-
-
-
-  }
 
   confirm() {
     this.confirmationService.confirm({
@@ -227,13 +207,10 @@ export class FactorCausalComponent implements OnInit, AfterViewInit {
 
   showDialog(item: any) {
     this.isSelectionable = false;
-    console.log(item);
     this.selectIdentificacionFC = item;
     this.display = true;
   }
-  //   showModalDialog() {
-  //     this.displayModal = true;
-  // }
+
 
 
   onNodeSelect(event: any) {
@@ -273,14 +250,8 @@ export class FactorCausalComponent implements OnInit, AfterViewInit {
 
   cancelCheck() {
     this.display = false
-    console.log(this.selectIdentificacionFC)
     this.selectIdentificacionFC!.selected = false;
 
   }
 
-  test() {
-    //  console.log("---->", this.factorCausal);
-    console.log("---->", this.selectIdentificacionFC);
-
-  }
 }

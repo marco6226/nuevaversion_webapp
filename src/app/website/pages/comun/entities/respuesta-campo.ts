@@ -1,5 +1,5 @@
-export interface RespuestaCampo {
-    id: string;
+export class RespuestaCampo {
+    id!: string;
     valor: any;
-    campoId: string;
+    campoId!: string;
 }

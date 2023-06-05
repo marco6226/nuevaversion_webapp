@@ -13,7 +13,6 @@ export class ConfirmService {
       icon = "pi pi-exclamation-triangle"
     } = {}): Promise<boolean> {
       return new Promise(resolve => {
-        console.log(
           this.confirmationService.confirm({
             message,
             header,
@@ -25,7 +24,6 @@ export class ConfirmService {
               resolve(false);
             }
           })
-        );
       });
   }
 
@@ -34,8 +32,7 @@ export class ConfirmService {
       header = "Confirmación",
       icon = "pi pi-exclamation-triangle"
     } = {}): Promise<boolean> {
-      return new Promise(resolve => {
-        console.log(
+      return new Promise(resolve => {       
           this.confirmationService.confirm({
             message,
             header,
@@ -47,7 +44,6 @@ export class ConfirmService {
               resolve(false);
             }
           })
-        );
       });
   }
 
@@ -57,7 +53,6 @@ export class ConfirmService {
       icon = "pi pi-exclamation-triangle"
     } = {}): Promise<boolean> {
       return new Promise(resolve => {
-        console.log(
           this.confirmationService.confirm({
             message,
             header,
@@ -69,7 +64,6 @@ export class ConfirmService {
               resolve(false);
             }
           })
-        );
       });
   }
 
@@ -79,7 +73,6 @@ export class ConfirmService {
       icon = "pi pi-exclamation-triangle"
     } = {}): Promise<boolean> {
       return new Promise(resolve => {
-        console.log(
           this.confirmationService.confirm({
             message,
             header,
@@ -91,7 +84,6 @@ export class ConfirmService {
               resolve(false);
             }
           })
-        );
       });
   }
 
@@ -101,7 +93,6 @@ export class ConfirmService {
       icon = "pi pi-exclamation-triangle"
     } = {}): Promise<boolean> {
       return new Promise(resolve => {
-        console.log(
           this.confirmationService.confirm({
             message,
             header,
@@ -113,7 +104,6 @@ export class ConfirmService {
               resolve(false);
             }
           })
-        );
       });
   }
 }

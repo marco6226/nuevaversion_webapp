@@ -87,7 +87,6 @@ export class VerificacionTareaComponent implements OnInit {
         this.msgs = [];
 
         if (!this.verificationForm.valid) {
-            console.log('Data: ', this.verificationForm.value);
             this.cargando = false;
             this.msgs.push({
                 severity: "info",
@@ -116,7 +115,6 @@ export class VerificacionTareaComponent implements OnInit {
             }
 
         } catch (e) {
-            console.log(e);
             this.submitted = false;
             this.cargando = false;
             this.msgs.push({
@@ -145,7 +143,6 @@ export class VerificacionTareaComponent implements OnInit {
                 summary: "Mensaje del sistema",
                 detail: "Ha ocurrido un error al obtener las evidencias de verificación de esta tarea",
             });
-            console.log(e);
         }
     }
 

@@ -58,7 +58,6 @@ export class ActividadesContratadasComponent implements OnInit, AfterViewInit {
   }
 
   agregarActividad(){
-    //console.log('agregarActividad()', this.actividadesList);
     if(this.selectActividad != null){
       this.actividadesList = this.selectActividad.map((item: any) => {
         return {nombre: item.data}
@@ -119,7 +118,6 @@ export class ActividadesContratadasComponent implements OnInit, AfterViewInit {
     
     this.empresaService.getActividadesContratadas(this.rutaActiva.snapshot.params['id']).then((element: ActividadesContratadas[]) => {
 
-      // console.log(element)
       let id1
       let id2
       let id3

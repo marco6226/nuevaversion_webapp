@@ -7,22 +7,22 @@
   
   <div *ngIf="!finalizado && initLoading == false" id="contenedor">
     <p-panel>
-      <p-header>
-        <div style="float: left;">
-          <button 
+      <p-header class="container">
+        <div class="row">
+          <div class="col-md-9 col-sm-12 mb-3">
+            <button 
             *ngIf="!adicionar" pButton 
             class="p-button-raised p-button-success margin-right margin-left" 
             icon="bi bi-printer" 
-            (click)="imprimirImagen()" 
-            ></button>
-          {{listaInspeccion?.nombre}}
-  
-        </div>      
-        <div style="float: right;">
-          INP-{{inspeccion?.id}} |
-          {{listaInspeccion?.codigo}} | Versión: {{listaInspeccion?.listaInspeccionPK.version}}
-           <p> Ubicacion: {{inspeccion?.area.nombre}}</p>
-  
+            (click)="imprimirImagen()"></button>
+            {{listaInspeccion?.nombre}}
+          </div>
+          <div class="col-md-3 col-sm-12">
+            <p *ngIf="inspeccion?.id">INP{{'-'+inspeccion?.id}}</p>
+            <p>{{listaInspeccion?.codigo}}</p>
+            <p>Versión: {{listaInspeccion?.listaInspeccionPK.version}}</p>
+            <p> Ubicacion: {{inspeccion?.area.nombre}}</p>
+          </div>
         </div>
       </p-header>
       
@@ -41,7 +41,7 @@
     <br/>
     <app-lista-inspeccion-form [value]="listaInspeccion?.elementoInspeccionList" [opciones]="listaInspeccion?.opcionCalificacionList"
       [editable]="false" [disabled]="consultar" [nivelRiesgoList]="nivelRiesgoList" diligenciable="true" #listaInspeccionForm
-      [usarNivelRiesgo]="listaInspeccion?.usarNivelRiesgo" [usarTipoHallazgo]="listaInspeccion?.usarTipoHallazgo"></app-lista-inspeccion-form>
+      [usarNivelRiesgo]="listaInspeccion?.usarNivelRiesgo" [usarTipoHallazgo]="listaInspeccion?.usarTipoHallazgo" [tipoLista]="listaInspeccion?.tipoLista"></app-lista-inspeccion-form>
       <!-- (elementoSelect)="onElementoClick($event)" -->
     <br>
     <p-panel *sTienePermiso="'INP_GET_ESTADO'">
@@ -51,10 +51,10 @@
       </p-header>
       <div>
         <div class="input-field">
-            <p-dropdown [disabled]="accion=='GET'" [options]="EstadoOptionList"
-                class="select-material" styleClass="select-material" [(ngModel)]="equipo" >
-            </p-dropdown>
-            <label for="" class="active">Estado</label>
+          <label for="">Estado</label>
+          <p-dropdown [disabled]="accion=='GET'" [options]="EstadoOptionList"
+            class="select-material" styleClass="select-material" [(ngModel)]="equipo" >
+          </p-dropdown>
         </div>
     </div>
       <label>Observaciones</label>
@@ -182,7 +182,7 @@
     </p-panel>
     <br>
     <br>
-    <button pButton type="button" icon="bi bi-save
+    <button pButton type="button" icon="pi pi-save
 " *ngIf="adicionar && solicitando == false"(click)="onSubmit()"
       class="float-btn" data-toggle="tooltip" data-placement="bottom" title="Guardar"></button>
   

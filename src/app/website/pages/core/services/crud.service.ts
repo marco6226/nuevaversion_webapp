@@ -225,7 +225,6 @@ export abstract class CRUDService<T> {
   }
 
   manageError(errResp: any) {
-    //console.log("managing error...");
     let msg: MensajeUsuario;
     try {
       msg = <MensajeUsuario>errResp.error;

@@ -77,17 +77,16 @@
         <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
       </div>
       <ng-container *ngIf="adicionar && loading == false">
-        <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="bi bi-save
-" label="Guardar" [disabled]="!form.valid"></button>
+        <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="pi pi-save" label="Guardar" [disabled]="!form.valid"></button>
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="bi bi-pencil-square"
+        <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="pi pi-pencil"
           class="p-button-success" label="Modificar" [disabled]="!form.valid"></button>
       </ng-container>
 
       <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="fa fa-list-ol" class="p-button-success"
+        <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="pi pi-list" class="p-button-success"
           label="Inspeccion" (click)="irInspeccion2()" [disabled]="btnInspDisable">
         </button>
       </ng-container>

@@ -80,11 +80,9 @@ export class ConsultaDesviacionComponent implements OnInit {
 
   async exportexcel(event: any): Promise<void> 
   {
-     /* table id is passed over here */   
-     console.log('ok')
+     /* table id is passed over here */
      let element = document.getElementById('excel-table'); 
      element?.getElementsByClassName
-    //  console.log(element, element.classList);
      
     let datos = await this.cargarDatosExcel(event);
 
@@ -102,7 +100,6 @@ export class ConsultaDesviacionComponent implements OnInit {
   cargarDatosExcel(event : any){
     let getDatosDesv: Desviacion[];
 
-    // console.log(event)
     this.loading = true;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;   
@@ -194,7 +191,6 @@ export class ConsultaDesviacionComponent implements OnInit {
   }
 
   analizarDesviacion() {
-    console.log(this.desviacionesListSelect)
     this.paramNav.setParametro<Desviacion[]>(this.desviacionesListSelect!);
     this.paramNav.setAccion<string>('POST');
     this.router.navigate(

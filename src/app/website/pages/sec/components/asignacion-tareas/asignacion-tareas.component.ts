@@ -134,25 +134,10 @@ export class AsignacionTareasComponent implements OnInit {
   exportexcel(): void 
   {
 
-      // let input = event.files;
-      // let reader: FileReader = new FileReader();
-      // reader.readAsText(input);
-      // reader.onload = (e) => {
-      //   let csv: any = (reader.result)?.toString();
-      //   alert(csv);
-      //   console.log(csv);
-      // }
-
-     /* table id is passed over here */   
-     console.log(1)
      let element = document.getElementById('excel-table');
-     console.log(element) 
      element?.getElementsByClassName
-     console.log(element) 
      const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
-     console.log(ws) 
      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-     console.log(wb) 
      XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
 
      /* save to file */

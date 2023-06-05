@@ -168,9 +168,5 @@ export class EquipoSstComponent implements OnInit {
     this.CloseDialog();
   }
 
-  test(){
-    console.log(this.isResponsable);
-    
-  }
 
 }

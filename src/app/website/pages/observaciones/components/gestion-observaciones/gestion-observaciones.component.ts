@@ -87,10 +87,8 @@ EstadoSeg: string = "Positivas";
               }
               if (this.visiblePnlAceptada) {
                   this.motivo = this.observacion!.motivo;
-                  console.log(this.motivo);
               } else if (this.visiblePnlDenegada) {
                   this.motivo = this.observacion!.motivo;
-                  console.log(this.motivo);
               }
           });
   }

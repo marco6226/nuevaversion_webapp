@@ -3,9 +3,7 @@ import { Area } from 'src/app/website/pages/empresa/entities/area'
 import { Tarea } from 'src/app/website/pages/comun/entities/tarea'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ConfirmationService } from 'primeng/api';
-import { Desviacion } from 'src/app/website/pages/comun/entities/desviacion';
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado';
-import { Usuario } from 'src/app/website/pages/empresa/entities/usuario';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({

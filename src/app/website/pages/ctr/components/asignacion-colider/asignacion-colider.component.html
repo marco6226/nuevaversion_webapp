@@ -37,7 +37,7 @@
             </ng-template>
         </p-table>
     </div>
-    <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Gestor o interventor" [modal]="true" styleClass="p-fluid">
+    <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Gestor o interventor" [modal]="true" styleClass="p-fluid" appendTo="body">
             <div class="p-field">
                 <label>Gestor o interventor</label>
                 <s-empleadoBasicSelector [(ngModel)]="gestorInter.gestor" (onSelect)="onData()" required autofocus></s-empleadoBasicSelector>

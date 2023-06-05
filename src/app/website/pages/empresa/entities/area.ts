@@ -14,7 +14,8 @@ export class Area{
     areaList!: Area[];
     contacto!: string;  
     numero!: number;  
-    nombreTipoArea!: TipoArea["nombre"];    
+    nombreTipoArea!: TipoArea["nombre"];
+    padreNombre!: string;
   }
   
   export enum Estructura {

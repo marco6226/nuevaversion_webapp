@@ -40,7 +40,6 @@ export class IdleTimeoutComponent implements OnInit {
   }
 
   startTimer() {
-    // console.log(this.timeoutID)
     this.timeoutID = window.setTimeout(() => { this.goInactive() }, this.timeOut);
   }
 
@@ -50,7 +49,6 @@ export class IdleTimeoutComponent implements OnInit {
   }
 
   async countInterval() {
-    console.log(this.countDown)
     this.countDown = this.countDown + 1;
     // this.divBar['nativeElement'].style.width = this.countDown + '%';
     

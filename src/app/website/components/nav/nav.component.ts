@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { isNullOrUndefined } from '@syncfusion/ej2/base';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MessageService } from 'primeng/api';
 import { CambioPasswdService } from '../../pages/comun/services/cambio-passwd.service';
@@ -9,7 +8,6 @@ import { SesionService } from '../../pages/core/services/session.service';
 import { Empresa } from '../../pages/empresa/entities/empresa';
 import { Usuario } from '../../pages/empresa/entities/usuario';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
-import { LayoutComponent } from '../layout/layout.component';
 import { MisTareasComponent } from '../../pages/sec/components/mis-tareas/mis-tareas.component';
 
 @Component({
@@ -73,18 +71,6 @@ export class NavComponent implements OnInit {
 
     async confirmEmpresa(event: SelectItem){
       
-
-      // this.empresaService.findByUsuario(this.usuario!.id).then(
-      //   resp => this.loadItems(<Empresa[]>resp)
-      // );
-      // var x = this.empresasItems.find(x=>x.)
-      await this.empresaService.findByUsuario(this.usuario!.id).then(
-        resp => {
-          console.log(resp);
-        }       
-      );
-
-      
       await this.empresaService.findByUsuario(this.usuario!.id).then((resp: any)=>{
         resp.find((element: Empresa)=>{
           if (element.nombreComercial == event.label) {
@@ -110,13 +96,11 @@ export class NavComponent implements OnInit {
     }
     
     abrirCambioPasswd(){
-      // this.cambioPasswdService.setVisible(true);
       this.visbleChangePasw = true
     }
 
     abrirDlg() {
       this.visibleDlg = true;
-      // (<any>this.inputFile).nativeElement.click();
     }
 
     aceptarImg() {
@@ -168,19 +152,6 @@ export class NavComponent implements OnInit {
 	irtareas(): void {
 	this.router.navigate(['app//sec/misTareas']);
 	}
-
-  test(){
-    console.log(this.tareasPendientes)
-    console.log(this.tareasPendientes.length)
-
-    var cantidad = Object.values(this.tareasPendientes)
-    cantidad.forEach((element:any) => {
-      this.tareasPendientesTotal += element
-    });
-    console.log(this.tareasPendientesTotal)
-
-    
-  }
 
   dashBoard(){
     this.router.navigate([('/app/home')]);

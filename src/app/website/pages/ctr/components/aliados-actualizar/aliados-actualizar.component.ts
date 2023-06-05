@@ -99,7 +99,6 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
   }
 
   async loadData(){
-    console.log("--------------load data------------");
     let empresa = this.sessionService.getEmpresa();
     this.idEmpresaAliada = empresa?.idEmpresaAliada ? empresa.idEmpresaAliada : null;
     let filterQuery = new FilterQuery();
@@ -142,8 +141,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
   }
 
   async saveInformacionAliado(){
-    await this.empresaService.saveAliadoInformacion(this.aliadoInformacion).then((ele)=>{      
-      console.log('saveInformacionAliado');
+    await this.empresaService.saveAliadoInformacion(this.aliadoInformacion).then((ele)=>{ 
     });
   }
 
@@ -151,7 +149,6 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     if(this.aliadoInformacion.documentos){
       JSON.parse(this.aliadoInformacion.documentos).forEach(async (element: any) => {
         await this.directorioService.buscarDocumentosById(element).then((elem: Directorio[])=>{
-          // console.log(elem);
           this.documentos.push(elem[0]);
         })
       });      
@@ -212,7 +209,6 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
       default:
         break;
     }
-    // console.log(this.aliadoInformacion);
   }
 
   reciveIdDoc(event: string){
@@ -287,7 +283,6 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     this.aliadoInformacion.autoriza_subcontratacion = this.auxAutorizaSubcontratacion;
     this.aliadoInformacion.istemporal = this.auxIsTemporal;
     this.aliadoInformacion.permitirReportes = this.auxIsTemporal ? false : this.aliadoInformacion.permitirReportes;
-    // console.log(this.aliadoInformacion.calificacion)
     this.saveInformacionAliado();
 
     this.aliado.fechaActualizacion = new Date();

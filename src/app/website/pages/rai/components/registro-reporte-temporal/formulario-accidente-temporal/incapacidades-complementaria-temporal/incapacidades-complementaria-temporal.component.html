@@ -1,8 +1,8 @@
-<button *ngIf="!consultar" pButton pRipple label="Nuevo" icon="pi pi-plus" (click)="openNew()"></button>
-<button *ngIf="!consultar" pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"
-    (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
 <p-confirmDialog></p-confirmDialog>
-<div>
+<div class="container">
+    <button *ngIf="!consultar" pButton pRipple label="Nuevo" icon="pi pi-plus" (click)="openNew()"></button>
+    <button *ngIf="!consultar" pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger"
+        (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
     <p-table #dt [value]="incapacidades" [rows]="10" [paginator]="true"
         [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProducts"
         [rowHover]="true" dataKey="id">

@@ -17,6 +17,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import { PrimeNGConfig } from 'primeng/api';
+import { CalendarOptions } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-programacion',
@@ -47,7 +48,7 @@ export class ProgramacionComponent implements OnInit {
   permiso:boolean = false;;
   totalRecords!: number;
   
-  calendarOptions!: any;
+  calendarOptions!: CalendarOptions;
   // events!: any[];
   events: EventList[] = [];
   event!: EventList;
@@ -174,13 +175,7 @@ export class ProgramacionComponent implements OnInit {
   }
 
   async actualizarEventos(){
-    // debugger
-
-    // this.matriz!.forEach(element => {
-    //   console.log(element)
-    // });
-
-
+ 
     let filterQuery = new FilterQuery();
 
     filterQuery.filterList = [
@@ -198,20 +193,16 @@ export class ProgramacionComponent implements OnInit {
     ];
 
     this.progLoading = true;
-    // debugger
     try {
       this.programacionService.findByFilter(filterQuery)
       .then((data: any) => {
         
-        console.log(data);
         let array = <any[]>data['data'];
         let objArray: any[] = [];
         
         array.forEach(dto => {
           objArray.push(FilterQuery.dtoToObject(dto));
         });
-        console.log(objArray)
-        // this.buildUI(anio, mes, objArray);
 
         this.matriz = [];
         this.events = [];
@@ -241,17 +232,13 @@ export class ProgramacionComponent implements OnInit {
           this.events.push(this.event)
         });
 
-        console.log(this.matriz, this.events)
   
-
-
         this.progLoading = false;
       })
       .catch(err => {
         this.progLoading = false;
       });
     } catch (error) {
-      console.log(error)
     }
     
       
@@ -285,8 +272,6 @@ export class ProgramacionComponent implements OnInit {
       listaInspeccionPK: prog.listaInspeccion.listaInspeccionPK,
       area: prog.area
     });
-    console.log(this.form.value, this.form.valid)
-// debugger
     this.btnInspDisable = prog.numeroRealizadas == prog.numeroInspecciones;
     if (prog.numeroRealizadas > 0) {
       this.form.disable();
@@ -319,8 +304,6 @@ export class ProgramacionComponent implements OnInit {
   }
 
   openDlg(event: any) {
-    // debugger
-    console.log(event)
     this.visibleDlg = true;
     this.actualizar = false;
     this.adicionar = true;
@@ -503,12 +486,12 @@ export class ProgramacionComponent implements OnInit {
   irInspeccion2() {
     let programacionId = this.form.value.id;    
     let matrizValue = this.findMatrizValue(this.fechaSelect);
-    console.log(matrizValue)
    
+    this.paramNav.setParametro<Programacion>(this.programacionList.find(prog => prog.id === this.form.value.id)!);
     this.paramNav.setAccion<string>('POST');
+    this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones/' + this.form.value.listaInspeccionPK.id + "/" + this.form.value.listaInspeccionPK.version);
     let fecha : Date;
             fecha= new Date;
-            console.log(fecha)
   }
 
   eventListener(event: any){

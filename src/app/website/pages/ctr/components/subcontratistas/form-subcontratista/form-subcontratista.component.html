@@ -1,22 +1,22 @@
 <form [formGroup]="formSubcontratista">
   <div class="row g-2 mb-3">
     <div class="col-lg">
-      <label for="nit" class="active">Nit/Documento</label>
+      <label for="nit">Nit/Documento</label>
       <input type="number" required name="nit" class="form-control" formControlName="nit">
     </div>
     <div class="col-lg">
-      <label for="nombre" class="active">Razón social/Nombre</label>
+      <label for="nombre">Razón social/Nombre</label>
       <input type="text" required name="nombre" class="form-control" formControlName="nombre">
     </div>
   </div>
   <div class="row g-2 mb-3">
     <div class="col-lg">
-      <label for="actividades_riesgo" class="active">Actividades de alto riesgo</label> <br>
+      <label for="actividades_riesgo">Actividades de alto riesgo</label> <br>
       <p-multiSelect appendTo="body" required [options]="actividadesRiesgoList" 
       formControlName="actividades_riesgo" defaultLabel="Seleccione las actividades" optionLabel="name"></p-multiSelect>
     </div>
     <div class="col-lg">
-      <label for="tipo_persona" class="active">Tipo de persona</label><br>
+      <label for="tipo_persona">Tipo de persona</label><br>
       <p-radioButton name="tipo_persona" (click)="selectTipoPersona('Natural')" required value="Natural" label="Natural" 
       formControlName="tipo_persona"></p-radioButton>
       <p-radioButton name="tipo_persona" (click)="selectTipoPersona('Jurídica')" required value="Jurídica" label="Jurídica" 
@@ -25,11 +25,11 @@
   </div>
   <div class="row g-2 mb-3">
     <div *ngIf="formSubcontratista.value.tipo_persona == 'Jurídica'" class="col-lg">
-      <label for="porcentaje_certificacion" class="active">Porcentaje de certificación de ARL</label>
+      <label for="porcentaje_certificacion">Porcentaje de certificación de ARL</label>
       <input type="number" required name="porcentaje_certificacion" class="form-control" formControlName="porcentaje_certificacion">
     </div>
     <div class="col-lg">
-      <label for="estado" class="active">Estado</label><br>
+      <label for="estado">Estado</label><br>
       <p-dropdown appendTo="body" required [options]="estadosList" formControlName="estado" 
       optionLabel="name" placeholder="Seleccione el estado"></p-dropdown>
     </div>

@@ -103,7 +103,6 @@ export class LayoutComponent implements OnInit {
 		await this.empleadoService.findempleadoByUsuario(this.usuario!.id!).then(
 			(resp: Empleado | any) => {
 				this.empleado = <Empleado>(resp);
-				// console.log(this.empleado);
 				this.sesionService.setEmpleado(this.empleado);
 			}
 		);

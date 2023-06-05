@@ -24,8 +24,13 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   @Input("nivelRiesgoList") nivelRiesgoList: any;
   @Input("diligenciable") diligenciable?: boolean;
   @Input("tiposHallazgo") tiposHallazgo?:TipoHallazgo[];
+  @Input('tipoLista') tipoLista?: string;
   nivel?: any;
   contadorElem: number = 0;
+
+  listasConPeso: string[] = [
+    'Ciclo corto'
+  ]
 
   @Input() nodeOpts: any = {
     0: { color: 'transparent', contraste: '' },
@@ -82,7 +87,6 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     let elemento = {} as ElementoInspeccion;
     elemento.numero = ++this.contadorElem;
     elemento.codigo = elemPadre.codigo + "." + (elemPadre.elementoInspeccionList.length + 1);
-    console.log(elemPadre);
     elemPadre.elementoInspeccionList.push(elemento);
   }
 
@@ -98,6 +102,10 @@ export class ElementoInspeccionNodeComponent implements OnInit {
 
   emitirEventoSelecElemento(elem: ElementoInspeccion) {
     this.onElementoClick.emit(elem);
+  }
+
+  get conPeso(): boolean{
+    return this.tipoLista && this.listasConPeso.includes(this.tipoLista) ? true : false;
   }
 
 }

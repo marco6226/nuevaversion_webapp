@@ -17,7 +17,7 @@ export class EnumeracionesService {
           resolve(res);
         }
         ,
-        err => console.log(err)
+        err => err
         )
     });
   }
@@ -30,7 +30,7 @@ export class EnumeracionesService {
           resolve(res);
         }
         ,
-        err => console.log(err)
+        err => err
         )
     });
   }
@@ -44,7 +44,7 @@ export class EnumeracionesService {
           resolve(res);
         }
         ,
-        err => console.log(err)
+        err => err
         )
     });
   }

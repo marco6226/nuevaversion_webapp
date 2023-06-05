@@ -23,6 +23,7 @@ export class EmpleadoBasicSelectorComponent implements OnInit, ControlValueAcces
 
   @Input() _value!: EmpleadoBasic | null;
   @Input("readOnly") disabled!: boolean;
+  @Input("empresaEmpleadora") empEmpleadora: number | null = null;
   @Output("onSelect") onSelect = new EventEmitter<EmpleadoBasic | null>();
   propagateChange = (_: any) => { };
   empleadosList: EmpleadoBasic[] = [];
@@ -82,6 +83,13 @@ export class EmpleadoBasicSelectorComponent implements OnInit, ControlValueAcces
       }else{
         filterQuery.filterList.push({ criteria: Criteria.LIKE, field: 'usuarioBasic.email', value1: '%'+event.query+'%'});
       }
+
+      if(this.empEmpleadora){
+        filterQuery.filterList.push(
+          {criteria: Criteria.EQUALS, field: 'cargo.empresa.id', value1: this.empEmpleadora.toString()}
+        );
+      }
+
       let terminarBusqueda = false;
       await this.empleadoService.findByFilter(filterQuery).then(
         (data: any) => {

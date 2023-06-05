@@ -52,10 +52,10 @@
 </div>
 <div class="shadow">
     <br>
-    <p-dialog header="Lista de Actividades" [(visible)]="visibleDlg" [contentStyle]="{'max-height':'70%'}" [style]="{width: '50%', height: '70%'}">
+    <p-dialog header="Lista de Actividades" [(visible)]="visibleDlg" [contentStyle]="{'max-height':'70%'}" [style]="{width: '50%', height: '70%'}" appendTo="body">
         
         <div >
-            <label for="" class="active">Actividades contratadas</label>
+            <label for="">Actividades contratadas</label>
         </div>
 
         <div>
@@ -119,10 +119,10 @@
         </p-tabView>
     </p-panel>
 
-    <p-dialog header="Lista de Actividades Subcontratadas" [(visible)]="visibleDlgSub" [contentStyle]="{'max-height':'70%'}" [style]="{width: '50%', height: '70%'}">
+    <p-dialog header="Lista de Actividades Subcontratadas" [(visible)]="visibleDlgSub" [contentStyle]="{'max-height':'70%'}" [style]="{width: '50%', height: '70%'}" appendTo="body">
         
         <div class="input-field">
-            <label for="" class="active">Actividades subcontratadas</label>
+            <label for="">Actividades subcontratadas</label>
         </div>
         <div>
             <p-tree  [filter]="true" [value]="actividadesContratadasList2" selectionMode="checkbox" [(selection)]="selectActividadSub" layout="vertical"></p-tree>
