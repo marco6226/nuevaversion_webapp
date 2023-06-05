@@ -187,24 +187,18 @@ export class EmpleadoFormComponent implements OnInit {
                 resp["data"].forEach((ident:any) => {
                     this.usuarioP.push(ident.id);
                 });
-                console.log(this.usuarioP)
         });
     }
 
     ngOnInit() {
         this.config.setTranslation(this.localeES);
-      //  console.log(this.empleadoSelect);
-      //  console.log(this.empleadoSelect.nit,this.empleadoSelect.primerNombre);
         this.isUpdate ? this.form.controls['email'].disable() : ''; //this for disabled email in case of update
         if (this.empleadoSelect != null) {
             let fq = new FilterQuery();
             fq.filterList = [{ criteria: Criteria.EQUALS, field: 'id', value1: this.empleadoSelect.id, value2: null }];
-            //console.log(fq,this.empleadoSelect.id);
             this.empleadoService.findByFilter(fq).then(async (resp:any) => {
-                console.log(resp);
                 this.empleadoSelect = <Empleado>resp['data'][0];
                 this.loaded = true;
-                console.log(this.empleadoSelect);
                 if (this.empleadoSelect.businessPartner) {
                     this.onSelectionBP(this.empleadoSelect.businessPartner);
                 }
@@ -255,7 +249,6 @@ export class EmpleadoFormComponent implements OnInit {
         else {
             this.loaded = true;
             let area: any;
-            //console.log("new register");
             this.form.patchValue({ area: area });
             this.editable = true;
         }
@@ -299,7 +292,6 @@ export class EmpleadoFormComponent implements OnInit {
     }
 
     async buildPerfilesIdList() {
-        ////console.log(this.empleadoSelect.id, "181");
         let filterQuery = new FilterQuery();
 
         filterQuery.filterList = [
@@ -317,14 +309,12 @@ export class EmpleadoFormComponent implements OnInit {
             let perfilesId: any[] = [];
             resp['data'].forEach((ident:any) => perfilesId.push(ident.id));
 
-            console.log(resp['data']);
             this.form.patchValue({ perfilesId: perfilesId });
         });
     }
 
     onSubmit() {
         let empleado: Empleado = new Empleado();
-        // console.log(this.form.value, 'asdlasdñad');
         empleado.id = this.form.value.id;
         empleado.primerNombre = this.form.value.primerNombre;
         empleado.segundoNombre = this.form.value.segundoNombre;
@@ -372,7 +362,6 @@ export class EmpleadoFormComponent implements OnInit {
             empleado.jefeInmediato = this.form.value.jefeInmediato.id;
         }
         empleado!.direccionGerencia = this.form.value.direccionGerencia;
-        console.log(this.form.value.jefeInmediato);
 
         empleado!.usuario.ipPermitida = [];
         empleado!.usuario.usuarioEmpresaList = [];
@@ -386,11 +375,9 @@ export class EmpleadoFormComponent implements OnInit {
         this.solicitando = true;
         if (this.isUpdate) {
             empleado!.usuario.id = this.empleadoSelect?.usuario.id;
-            console.log(empleado!.usuario);
             this.usuarioService
                 .update(empleado!.usuario)
                 .then((resp) => {
-                    console.log(resp);
                     this.solicitando = false;
                 })
                 .catch((err) => {
@@ -476,7 +463,6 @@ export class EmpleadoFormComponent implements OnInit {
     onSelectionJefeInmediato(event: any) {
         let empleado = <Empleado>event;
         this.form.patchValue({ jefeInmediato: empleado });
-        console.log(this.form.value);
         this.jefeInmediatoForm.patchValue({
             id: empleado.id,
             primerNombre: empleado.primerNombre,
@@ -517,54 +503,38 @@ export class EmpleadoFormComponent implements OnInit {
         let urlData = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
         this.imagenesList.push({ source: urlData, file: file });
         this.imagenesList = this.imagenesList.slice();
-        console.log(this.imagenesList);
     }
 
     async getTareaEvidences() {
         try {
             let res: any = await this.empleadoService.getFirma(this.empleadoSelect?.id);
-            console.log(res);
             if (res) {
                 res.files.forEach(async (evidence: any) => {
                     let ev: any = await this.directorioService.download(evidence);
-                    console.log(ev);
-                    console.log("evidence",evidence);
                     let blob = new Blob([ev]);
                     let reader = new FileReader();
                     reader.readAsDataURL(blob);
                    
                     reader.onloadend = () => {
                         if (ev) {
-                            console.log(reader.result);
                             this.avatar=reader.result;
-                            console.log("avatar",this.avatar);
                             this.listaEvidence.push(reader.result);
 
 
                             if (this.imagenesList == null) this.imagenesList = [];
                             this.imagenesList = this.imagenesList.slice();
                             this.imagenesPath = this._sanitizer.bypassSecurityTrustResourceUrl(this.avatar);
-                            console.log("limpia",this.imagenesPath);
                         } else {
                             throw new Error('Ocurrió un problema al consultar la firma del empleado');
                         }
-                        console.log(this.imagenesList);
                     };
                 });
             }
         } catch (e) {
-            console.log(e);
         }
     }
 
-    test(){
-        console.log(this.empresaSelect2);
-        console.log(this.empleado);
-        console.log(this.empresaForm.value);
-        console.log(this.empleadoSelect);
-        
-        
-    }
+    
 
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MensajeUsuarioService } from 'src/app/website/pages/comun/services/mensaje-usuario.service';
 import { MensajeUsuario } from 'src/app/website/pages/comun/entities/mensaje-usuario';

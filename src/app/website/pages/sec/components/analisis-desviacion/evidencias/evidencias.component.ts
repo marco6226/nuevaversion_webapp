@@ -44,7 +44,6 @@ export class EvidenciasComponent implements OnInit {
   ngOnInit(): void {
   }
   showDialog(tipo: string) {
-    console.log("hola");
     
     switch (tipo) {
       case 'foto':
@@ -101,8 +100,6 @@ export class EvidenciasComponent implements OnInit {
     );
   }
   eliminarDocument(doc: Documento) {
-    console.log(doc)
-    console.log(this.documentos)
     this.confirmationService.confirm({
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
       header: 'Confirmar',
@@ -112,7 +109,6 @@ export class EvidenciasComponent implements OnInit {
           this.directorioService.eliminarDocumento(doc.id).then(
             data => {
               this.documentos = this.documentos?.filter(val => val.id !== doc.id);
-              console.log(this.documentos)
             }
           );
       }

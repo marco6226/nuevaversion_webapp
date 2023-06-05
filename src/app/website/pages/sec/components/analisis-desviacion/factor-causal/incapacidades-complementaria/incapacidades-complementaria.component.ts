@@ -49,10 +49,7 @@ export class IncapacidadesComplementariaComponent implements OnInit {
     if (this.incapacidades==null) {
       this.incapacidades = [];
     }
-    console.log(this.incapacidades)
-    // else{
-    // this.incapacidad.fechaInicio= new Date(this.incapacidad.fechaInicio);
-    // this.incapacidad.fechaFin= new Date(this.incapacidad.fechaFin);}
+
   }
 
   
@@ -96,9 +93,6 @@ export class IncapacidadesComplementariaComponent implements OnInit {
 
   saveProduct(){
     this.submitted = true;
-    console.log("save");
-    console.log(this.incapacidad);
-    console.log(this.flagIncapacidad)
     
 
     if(this.flagIncapacidad=='false'){
@@ -107,12 +101,7 @@ export class IncapacidadesComplementariaComponent implements OnInit {
       this.fechaInicio=null
       this.fechaFin=null
     }
-      // this.tipo == null ? this.incapacidad.tipo:this.tipo
-      // this.cie10.codigo == null ?  this.incapacidad.cie10: this.cie10.codigo
-      // this.cie10.nombre == null ?  this.incapacidad.diagnostico:this.cie10.nombre
-      // this.fechaInicio == null ?  this.incapacidad.fechaInicio:this.fechaInicio
-      // this.fechaFin == null ?  this.incapacidad.fechaFin:this.fechaFin
-      // this.diasAusencia == null ?  this.incapacidad.diasAusencia:this.diasAusencia
+
       this.incapacidad.generoIncapacidad=this.flagIncapacidad
       this.incapacidad.tipo = this.tipo
       this.incapacidad.cie10 = (this.cie10)?this.cie10:null;
@@ -121,7 +110,6 @@ export class IncapacidadesComplementariaComponent implements OnInit {
       this.incapacidad.fechaFin = this.fechaFin?this.fechaFin:null
       this.incapacidad.diasAusencia = this.diasAusencia;
 
-    console.log(this.incapacidad);
 
     if(this.id){
       let x = this.incapacidades.find(ele=>{
@@ -178,7 +166,6 @@ export class IncapacidadesComplementariaComponent implements OnInit {
 
   editProduct(product: Incapacidad) {
     this.GuardadoEdicion=false;
-    console.log(product);
     
     this.flagIncapacidad = (product.generoIncapacidad)?product.generoIncapacidad:'true'
     this.tipo = product.tipo ?? null;
@@ -195,9 +182,7 @@ export class IncapacidadesComplementariaComponent implements OnInit {
 
 editarProduct(){
   this.submitted = true;
-  console.log("save");
-  console.log(this.cie10);
-  
+ 
 
   this.flagIncapacidad == null?this.incapacidad.generoIncapacidad:this.flagIncapacidad
   this.tipo == null ? this.incapacidad.tipo:this.tipo
@@ -233,14 +218,11 @@ deleteProduct(product: Incapacidad) {
         key: 'incComplementaria',
         accept: () => {
             this.incapacidades.splice((product.id! - 1), 1);
-            // console.log(this.incapacidades);
             let tempid=0;
             this.incapacidades.forEach(element => {
-                console.log(element);
                 tempid++
                 element.id = tempid;
             });
-            // console.log(this.incapacidades);
             this.listIncapacidades.emit(this.incapacidades);
             this.incapacidad = {};
             // this.messageService.add({severity:'success', summary: 'Successful', detail: 'miembro Deleted', life: 3000});

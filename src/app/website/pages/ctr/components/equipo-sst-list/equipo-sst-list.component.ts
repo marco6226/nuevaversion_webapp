@@ -97,7 +97,6 @@ export class EquipoSstListComponent implements OnInit {
     };
 
     this.onCreateEquipo(dataSST);
-    console.log(event);
   }
 
 
@@ -209,7 +208,6 @@ export class EquipoSstListComponent implements OnInit {
   }
 
   actualizarMiembro(sst: SST){
-    console.log(sst);
 
     this.empresaService.updateEquipoSST(sst)
     .then((res: SST) => {

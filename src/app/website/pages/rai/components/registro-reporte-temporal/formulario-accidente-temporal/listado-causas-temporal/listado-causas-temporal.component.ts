@@ -25,8 +25,4 @@ export class ListadoCausasTemporalComponent implements OnInit {
   ngOnInit() {
   }
 
-  test(){
-    console.log(this.factores);
-    this.causasListSelect=[]
-  }
 }

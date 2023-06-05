@@ -68,7 +68,6 @@ export class MiembrosEquipoComponent implements OnInit {
 }
 
 editProduct(product: MiembroEquipo) {
-  console.log(product);
   this.cedula = product.cedula;
   this.nombre = product.nombre;
   this.cargo = product.cargo;
@@ -89,14 +88,11 @@ deleteProduct(product: MiembroEquipo) {
       accept: () => {
           // this.miembrosList = this.miembrosList.filter(val => val.id !== product.id);
           this.miembrosList.splice((product.id!-1),1)
-          console.log(this.miembrosList);
           let tempid=0;
           this.miembrosList.forEach(element => {
-              console.log(element);
               tempid++
               element.id = tempid;
           });
-          console.log(this.miembrosList);
           this.miembro = {};
           this.messageService.add({severity:'success', summary: 'Successful', detail: 'miembro Deleted', life: 3000});
       }
@@ -110,7 +106,6 @@ hideDialog() {
 
 saveProduct() {
   this.submitted = true;
-  console.log("save");
 
   if (!this.cedula || !this.nombre || !this.cargo || !this.division || !this.localidad) {
       this.messageService.add({severity:'error', summary: 'Error', detail: 'Falta diligenciar todos los campos'});

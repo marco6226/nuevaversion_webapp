@@ -156,9 +156,7 @@ elementoClick(elem: ElementoInspeccion) {
     }
     this.visibleDlg = true;
 }
-test(){
-console.log(this.imgMap)   
-}
+
 onArchivoSelect(event: any) {
     let file = event.target.files[0];
     if (file.type != "image/jpeg" && file.type != "image/png") {

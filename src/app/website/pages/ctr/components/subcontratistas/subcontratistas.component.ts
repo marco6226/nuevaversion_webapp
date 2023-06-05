@@ -66,7 +66,6 @@ export class SubcontratistasComponent implements OnInit {
 
   ngOnInit() {
     this.fetchSubcontratistasList().then(()=>{
-      // console.log(this.subcontratistasList);
     });
   }
 
@@ -79,8 +78,6 @@ export class SubcontratistasComponent implements OnInit {
   }
 
   closeFormSubcontratista(onCancelar: boolean){
-    // console.log('onCancelar: '+ onCancelar);
-    // this.selectedSubcontratista = null;
     if(onCancelar){
       this.displayDialog = false;
     }else{
@@ -154,7 +151,6 @@ export class SubcontratistasComponent implements OnInit {
                     id_aliado_creador: item2.id_aliado_creador,
                   }
                 })[0];
-    // console.log(subc);
     this.empresaService
       .updateSubcontratista(subc)
       .then(()=>{
@@ -196,7 +192,6 @@ export class SubcontratistasComponent implements OnInit {
   }
 
   testFunction(data: any){
-    console.log(data);
   }
 
   eliminarDocument(doc: Documento, id: number) {

@@ -125,7 +125,6 @@ export class PclComponent implements OnInit {
             let changes = this.differ.diff(this.diagnosticos);
 
             if (changes) {
-                console.log('changes detected');
                 changes.forEachChangedItem((r: any) => {
                     this.cd.markForCheck();
                     this.loadDiagnostics();
@@ -143,7 +142,6 @@ export class PclComponent implements OnInit {
     }
 
     onRowEditSave(pcl: any) {
-        console.log("Deberia guardar");
         this.onSubmit(pcl);
     }
 

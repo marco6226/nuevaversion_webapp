@@ -102,7 +102,6 @@ export class FormSubcontratistaComponent implements OnInit {
             }
           );
       }else{
-        // console.log('updateSubcontratista');
         this.subcontratistaData = {
           id: this.subcontratistaData.id,
           nit: this.formSubcontratista.value.nit,

@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpInt } from 'src/app/httpInt'
-import { endPoints } from 'src/environments/environment'
-
 import { CRUDService } from 'src/app/website/pages/core/services/crud.service'
 import { SistemaCausaRaiz } from 'src/app/website/pages/comun/entities/sistema-causa-raiz'
 

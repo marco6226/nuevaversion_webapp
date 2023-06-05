@@ -79,9 +79,6 @@ export class CargueDocumentosComponent implements OnInit {
 
   ngOnInit(): void {
     this.onEdit = this.activatedRoute.snapshot.params['onEdit'];
-    // setTimeout(() => {
-    //   console.log(this.directorios)
-    // }, 20000);
   }
 
   showDialog(tipo: string) {    
@@ -107,12 +104,8 @@ export class CargueDocumentosComponent implements OnInit {
       this.directorios = []
     }
     this.directorios.push(event)
-    // event.documento.fechaElaboracion = event.fechaCreacion;
     this.documentos.push(event.documento!);
-    // this.adicionarAGaleria(event.documento);
     this.documentos = this.documentos.slice();
-    //console.log(this.documentos)
-    //console.log(this.directorios);
     this.idDoc.emit(event.id)
     
   }
@@ -177,10 +170,5 @@ export class CargueDocumentosComponent implements OnInit {
   });
   }
  
-  test(){
-    console.log(this.directorios);
-    let dwldLink = document.getElementById("dwldLink");    
-    this.idDoc.emit('777')
-  }
 
 }

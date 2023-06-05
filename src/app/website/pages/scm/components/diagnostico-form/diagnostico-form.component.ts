@@ -93,7 +93,6 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         resp.forEach((sistema: any, index: any) => {
             this.sistemaAfectado.push({ label: sistema.name, value: sistema.id })
         });
-        console.log(this.sistemaAfectado);
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -103,7 +102,6 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     }
 
     async patchFormValues() {
-        console.log(this.diagSelect);
         if (this.diagSelect) {
             this.diagnosticoForm.patchValue({
                 codigoCie10: this.diagSelect.codigoCie10,
@@ -119,14 +117,12 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
             );
         } else {
             this.clearInputs();
-            console.log(this.diagnosticoForm.value);
         }
 
     }
 
     async onSubmit() {
-        // console.log(this.diagnosticoForm);
-        // console.log(this.usuario);
+
         if (!this.diagnosticoForm.valid) {
             return this.markFormGroupTouched(this.diagnosticoForm);
         }

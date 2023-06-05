@@ -990,10 +990,8 @@ filtroGraEve3(){
   let datosGrafica1:any=[]
 
   if(this.selectEv3.length==0 && this.selectDiv3.length>0){
-    // console.log(this.datosGrafica3Top)
     this.datosGrafica3=this.contTotal(this.datosGrafica3)
     this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
-    // console.log(this.datosGrafica3Top)
     this.datosGrafica3Top=this.top(this.datosGrafica3,5)
 
     if(this.selectDiv3.length>0){
@@ -2238,7 +2236,6 @@ DatosGrafica6(){
       datos=this.order(datos)
       datosReturn.push({name:resp['name'],series:datos})
     })
-    // console.log(datosReturn)
     return datosReturn
   }
 

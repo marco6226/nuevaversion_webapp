@@ -83,7 +83,6 @@ export class OpcionesFormularioService {
             procesos = procesosCorona?.map(proc => {
               return { label: proc, value: proc };
             });
-            console.log(procesos);
             return procesos;
           } catch (error) {
             console.error('Error al obtener procesos');

@@ -728,8 +728,4 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
     return ele
   }
 
-  test(){
-    console.log(this.analisisPeligros.valid)
-    console.log(this.form?.valid)
-  }
 }

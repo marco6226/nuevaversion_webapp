@@ -1,18 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { UsuarioService } from '../../../admin/services/usuario.service';
 import { Area, Estructura } from 'src/app/website/pages/empresa/entities/area';
 import { ModeloGraficaService } from 'src/app/website/pages/core/services/modelo-grafica.service';
-import { range, Observable } from 'rxjs';
 import { FilterQuery } from '../../entities/filter-query';
 import { Criteria } from '../../entities/filter';
 import { AreaService } from 'src/app/website/pages/empresa/services/area.service';
 import { TreeNode } from 'primeng/api';
 import { locale_es } from 'src/app/website/pages/rai/entities/reporte-enumeraciones';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
-import { ParametroNavegacionService } from '../../services/parametro-navegacion.service';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
-import { NgCircleProgressModule } from 'ng-circle-progress';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -493,7 +489,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       ];
       this.areaService.findByFilter(filterAreaQuery)
           .then(data => {
-            console.log(data)
               let root: TreeNode = {
                   label: '',
                   selectable: false,
@@ -541,7 +536,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       ];
       this.areaService.findByFilter(filterSedesQuery)
           .then(data => {
-            console.log(data)
               let root: TreeNode = {
                   label: '',
                   selectable: false,

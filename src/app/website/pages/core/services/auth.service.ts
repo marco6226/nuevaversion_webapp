@@ -42,7 +42,6 @@ export class AuthService {
     try {
         return CryptoJS.SHA256(value);
     } catch (e) {
-        //console.log(e);
         return "";
     }
   }
@@ -134,7 +133,6 @@ sendNotificationhallazgosCriticos(id: string | number, nocumplecriticos: Element
   });
 }
 sendNotificationObservacionDenegada(email: string, observacion:any) {
-    console.log("Enviar notificacion a: (" + email + ")");
     let body = observacion;
     let endpoint = this.authEndPoint + "enviarCorreoDenegada/" + email;
     return new Promise((resolve, reject) => {
@@ -144,7 +142,6 @@ sendNotificationObservacionDenegada(email: string, observacion:any) {
                 (res) => resolve(res),
                 (err) => reject(err)
             );
-        console.log("Enviada a:" + email);
     });
 }
 }

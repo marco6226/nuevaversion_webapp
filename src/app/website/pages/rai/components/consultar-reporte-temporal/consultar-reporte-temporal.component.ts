@@ -67,7 +67,6 @@ export class ConsultarReporteTemporalComponent implements OnInit {
       (<any[]>resp['data']).forEach(dto => {
         this.reportesList.push(FilterQuery.dtoToObject(dto));
       });
-      console.log(resp)
     })
   }
 
@@ -79,7 +78,6 @@ export class ConsultarReporteTemporalComponent implements OnInit {
         this.loading = false;
         this.reportesList = [];
         (<any[]>resp['data']).forEach(dto => {
-          console.log(dto)
           this.reportesList.push(FilterQuery.dtoToObject(dto));
         });
       }

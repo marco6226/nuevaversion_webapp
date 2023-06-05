@@ -82,14 +82,7 @@ export class PlanAccionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if(this.planAcciones){
-      //console.log("treae datos");
-      
-    }
-    if(!this.planAcciones){
-      //console.log("nop trae datos");
-      
-    }
+
   }
 
   
@@ -156,7 +149,6 @@ export class PlanAccionComponent implements OnInit, AfterViewInit {
         return item
       }, {});
     }).catch(err => {
-      console.log('Error al obtener seguimiento de la tarea: ', err);
     });
 
     let isFollow = (seguimientoTarea.tracking > 0) ? true : false;

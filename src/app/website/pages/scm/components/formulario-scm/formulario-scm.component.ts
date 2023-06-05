@@ -388,7 +388,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             prioridadCaso: [null, /*Validators.required*/],
             descripcionCargo: [null]
         });
-        // console.log(this.casoMedicoForm)
         this.status = this.caseStatus.find(sta => sta.value == this.casoMedicoForm.get("statusCaso")?.value)?.label
     }
 
@@ -417,7 +416,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
         this.consultar = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
         this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
-        console.log(this.consultar2)
 
         try {
             let res: any = await this.scmService.getSvelist();
@@ -429,7 +427,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.onLoadInit();
             this.modifyCase();
         } catch (e) {
-            console.log(e);
         }
 
 
@@ -470,7 +467,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 this.arlList.push({ label: arl.nombre, value: arl.id });
             });
             this.entity.ARL = this.arlList;
-            console.log(this.arlList);
         });
 
         await this.comunService.findAllPrepagadas().then((data) => {
@@ -480,7 +476,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 this.prepagadasList.push({ label: prepagadas.nombre, value: prepagadas.id });
             });
             this.entity.Medicina_Prepagada = this.prepagadasList;
-            console.log(this.prepagadasList);
         });
 
         await this.comunService.findAllProvSalud().then((data) => {
@@ -489,7 +484,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             (<Proveedor[]>data).forEach((prov) => {
                 this.provsaludList.push({ label: prov.nombre, value: prov.id });
             });
-            console.log(this.provsaludList);
             this.entity.Proveedor_de_salud = this.provsaludList;
         });
 
@@ -509,11 +503,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             (<Perfil[]>resp["data"]).forEach((perfil) => {
                 this.perfilList.push({ label: perfil.nombre, value: perfil.id });
             });
-            console.log('perfilService')
             if (this.isUpdate === true || this.show === true)
                 setTimeout(() => {
-                    console.log(this.isUpdate)
-                    console.log(this.show)
                     this.buildPerfilesIdList();
                 }, 500);
         });
@@ -642,12 +633,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.actualizar = true;
             this.adicionar = false;
 
-
-            setTimeout((res) => {
-                // this.closeForm();
-                // this.router.navigate(["/app/scm/list"]);
-                // this.router.navigateByUrl("/app/scm/list");
-            }, 3000);
+           
             this.caseSelect.id = status;
             this.casocreado = true;
         }
@@ -682,7 +668,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             let perfilesId: any = [];
             resp["data"].forEach((ident: any) => perfilesId.push(ident.id));
             this.empleadoForm.patchValue({ perfilesId: perfilesId });
-            console.log(resp["data"])
         });
     }
 
@@ -856,7 +841,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.solicitando = true;
         empleado.usuario.id = this.empleadoSelect?.usuario.id;
         empleado.usuario.ipPermitida = this.empleadoSelect?.usuario.ipPermitida
-        console.log(this.empleadoSelect?.usuario)
 
         this.usuarioService.update(empleado.usuario)
             .then(resp => {
@@ -1050,7 +1034,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     onRowDelete(product: any, index: any) {
         product.eliminado = true;
-        console.log(product);
         this.tratamientos.slice(index, 1);
         this.onRowEditSave(product, "tratamiento");
     }

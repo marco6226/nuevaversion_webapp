@@ -1,4 +1,3 @@
-import { NumericTextBoxAllModule } from "@syncfusion/ej2-angular-inputs";
 import { Cie } from "src/app/website/pages/comun/entities/cie";
 import { Empleado } from "src/app/website/pages/empresa/entities/empleado";
 

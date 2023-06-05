@@ -19,7 +19,7 @@ export class AreaService extends CRUDService<Area>{
           resolve(res);
         }
         ,
-        err => console.log(err)
+        err => err
         )
     });
   }

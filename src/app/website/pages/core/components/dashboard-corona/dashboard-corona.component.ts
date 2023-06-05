@@ -359,7 +359,6 @@ export class DashboardCoronaComponent implements OnInit {
     let ILI = (IF * IS) / 1000;
     this.ili = Number(ILI.toFixed(6));
     if(this.ili === Infinity){
-      console.log('es infinito');
       this.ili = null;
       this.mensajeILI = 'Debe cargar horas hombre trabajadas.';
       this.colorIli = 'card l-bg-gray-dark';

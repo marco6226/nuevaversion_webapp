@@ -138,12 +138,10 @@ export class ReintegroComponent implements OnInit {
     }
     this.form.reset();
     this.isCreate.emit()
-    console.log(this.form.value);
     
   }
   
   clear() {
-    console.log(this.form.value.tipo_retorno)
     if (this.form.value.tipo_retorno=='Reconversión') {
         this.form.patchValue({
           periodo_seguimiento: [null, /*Validators.required*/],
