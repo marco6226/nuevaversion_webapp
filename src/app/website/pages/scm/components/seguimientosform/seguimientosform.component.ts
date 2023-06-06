@@ -25,6 +25,25 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
     @Input() entity!: epsorarl;
     @Input() recoSelect: any;
     @Input() seguiSelect: any;
+    @Input('prioridad') 
+    set prioridadIn(prioridad: any){
+        console.log('entre')
+        switch (prioridad) {
+            case 'Baja':
+                this.fechaProximaDate=new Date(this.fechaActual!.getTime() + (1000 * 60 * 60 * 24*365))//un año
+                break;
+            case 'Media':
+                this.fechaProximaDate=new Date(this.fechaActual!.getTime() + (1000 * 60 * 60 * 24*183))// un semestre
+                break;
+            case 'Alta':
+                this.fechaProximaDate=new Date(this.fechaActual!.getTime() + (1000 * 60 * 60 * 24*60))// un bimestre
+                break;
+            default:
+                break;
+        }
+        console.log(this.fechaActual)
+        console.log(this.fechaProximaDate)
+    }
 
     empleadosList: Empleado[] = [];
     fechaActual = new Date();
@@ -34,6 +53,8 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
     yearRange: string = "1900:" + this.fechaActual.getFullYear();
     localeES: any = locale_es;
     accions: any = [];
+
+    fechaProximaDate?:Date
 
     constructor(fb: FormBuilder,
         private scmService: CasosMedicosService,

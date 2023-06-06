@@ -54,7 +54,8 @@ export class ScmComponent implements OnInit {
         'prioridadCaso',
         'tipoCaso',
         'tipoReporte',
-        'diagnostico'
+        'diagnostico',
+        'proximoseguimiento'
     ];
     estadosList: SelectItem[] = [
         { value: 'ACTIVO', label: 'ACTIVO' },
@@ -127,6 +128,7 @@ export class ScmComponent implements OnInit {
             let res: any = await this.scmService.findByFilter(filterQuery);
             this.casosList = res.data;
             this.totalRecords = res.count;
+
         } catch (error) {
             console.error(error)
         }

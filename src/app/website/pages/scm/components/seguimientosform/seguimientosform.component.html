@@ -79,22 +79,13 @@
                         <input formControlName="resultado" style="height: 30px;">
                     </div>
                 </div>
-
-                <div class="col">
-                    <div class="input-field">
-                        <label for="" class="active">Fecha próximo seguimiento</label>
-                        <p-calendar dateFormat="dd/mm/yy" [monthNavigator]="true" formControlName="proxfechaSeg"
-                        placeholder="dd/MM/yyyy" appendTo="body"></p-calendar>
-                    </div>
-                </div>
-
             </div>
             <div class="row">
                 <div class="col">
                     <div class="input-field">
                         <label for="" class="active">Fecha próximo seguimiento</label>
                         <p-calendar dateFormat="dd/mm/yy" [monthNavigator]="true" formControlName="proxfechaSeg"
-                        placeholder="dd/MM/yyyy" appendTo="body"></p-calendar>
+                        placeholder="dd/MM/yyyy" appendTo="body" [minDate]="fechaActual" [maxDate]="fechaProximaDate"></p-calendar>
                     </div>
                 </div>
             </div>

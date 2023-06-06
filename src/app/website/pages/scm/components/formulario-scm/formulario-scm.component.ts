@@ -151,7 +151,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     @Input() empleadoSelect!: Empleado | null;
     @Output() onEmpleadoUpdate = new EventEmitter();
     @Output() onCancel = new EventEmitter();
-    @Input() caseSelect!: any;
+    @Input('caseSelect')caseSelect?: any;
     @Input() isUpdate!: boolean;
     @Input() show!: boolean;
     @Input() consultar: boolean = false;
@@ -439,7 +439,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 this.sveOptionList.push({ label: sve.nombre, value: sve.id.toString() });
             });
             this.idCase=this.route.snapshot.params["id"];
-            console.log(this.idCase)
             this.caseSelect = await this.scmService.getCase(this.route.snapshot.params["id"]);
             this.onLoadInit();
             this.modifyCase();

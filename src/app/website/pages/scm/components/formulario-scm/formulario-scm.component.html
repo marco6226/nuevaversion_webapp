@@ -1762,7 +1762,7 @@
 <p-dialog *ngIf="caseSelect" [header]="(seguiSelect) ? 'Editar seguimiento' : 'Crear seguimiento'"
     [(visible)]="modalSeguimientos" [style]="{width: '75vw'}" [modal]="true" [closable]="true" [draggable]="false"
     [resizable]="false">
-    <app-seguimientosform [id]="caseSelect.id" [recoSelect]="seguiSelect" [entity]="entity"
+    <app-seguimientosform [id]="caseSelect.id" [prioridad]="caseSelect.prioridadCaso" [recoSelect]="seguiSelect" [entity]="entity"
         (eventClose)="onCloseModalseguimiento()">
     </app-seguimientosform>
 </p-dialog>
