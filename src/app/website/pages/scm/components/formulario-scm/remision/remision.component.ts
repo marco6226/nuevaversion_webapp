@@ -69,15 +69,16 @@ export class RemisionComponent implements OnInit {
 
   editAnexo:boolean=false
 
+  anexolist: any[] = [];
+  maxIdAnexo?:number;
+
   anexo5:any;
-  anexo5list: any[] = [];
   anexo5Select: any;
   anexo5Form?:FormGroup
   dialogAnexo5:boolean=false;
   flagConsultarAnexo5:boolean=true
 
   anexo1:any;
-  anexo1list: any[] = [];
   anexo1Select: any;
   anexo1Form?:FormGroup
   dialogAnexo1:boolean=false;
@@ -166,9 +167,23 @@ export class RemisionComponent implements OnInit {
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "tipo", value1: this.anexo });
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "eliminado", value1: 'false' });
     await this.anexoSCM.getAnexWithFilter(filterQuery).then((resp:any)=>{
-      this.anexo5list=resp.data
+      this.anexolist=resp.data
+      this.anexolist.sort(function(a,b){
+        if(a.label > b.label){
+          return 1
+        }else if(a.label < b.label){
+          return -1;
+        }
+          return 0;
+        });
+        if(this.anexolist.length>0)this.maxIdAnexo=this.anexolist[this.anexolist.length-1].id
+        console.log(this.maxIdAnexo)
+      // this.anexolist.forEach(element => {
+      //   console.log(element)
+      // });
     })
     this.loading=false
+
   }
   
   async imprimirAnexo5() {
@@ -280,8 +295,8 @@ export class RemisionComponent implements OnInit {
       ax5.id=this.selectId
       ax5.fecha_creacion=this.anexo5Select.fecha_creacion
       this.anexoSCM.update(ax5).then((resp:any)=>{
-        const id = this.anexo5list.findIndex((el:any) => el.id == resp.id )
-        this.anexo5list[id]['informacion'] = resp.informacion
+        const id = this.anexolist.findIndex((el:any) => el.id == resp.id )
+        this.anexolist[id]['informacion'] = resp.informacion
         this.msgs = [];
         this.msgs.push({ severity: 'success', summary: 'Anexo actualizado', detail: 'Se ha actualizado correctamente el anexo'+this.anexo })
       })
@@ -383,7 +398,7 @@ export class RemisionComponent implements OnInit {
         'requiereentrenamientoIf': anexo1.requiereentrenamientoIf,
         'requiereentrenamiento': anexo1.requiereentrenamiento,
         'observaciones': anexo1.observaciones,
-        'proximoseguimiento': anexo1.proximoseguimiento,
+        'proximoseguimiento': new Date(anexo1.proximoseguimiento),
         'fechainicial': anexo1.fechainicial,
         'fechafinal': anexo1.fechafinal,
         'nit' : this.empleadoSelect?.nit
@@ -430,7 +445,7 @@ export class RemisionComponent implements OnInit {
         'requiereentrenamientoIf': anexo1.requiereentrenamientoIf,
         'requiereentrenamiento': anexo1.requiereentrenamiento,
         'observaciones': anexo1.observaciones,
-        'proximoseguimiento': anexo1.proximoseguimiento,
+        'proximoseguimiento': new Date(anexo1.proximoseguimiento),
         'fechainicial': anexo1.fechainicial,
         'fechafinal': anexo1.fechafinal,
         'nit' : anexo1.nit
@@ -456,7 +471,7 @@ export class RemisionComponent implements OnInit {
         ax5.fecha_creacion=this.anexo5Select.fecha_creacion
     
         this.anexoSCM.update(ax5).then((resp:any)=>{
-          this.anexo5list=this.anexo5list.filter(resp1=>{
+          this.anexolist=this.anexolist.filter(resp1=>{
             return resp1.id != resp.id
           })
           this.msgs = [];

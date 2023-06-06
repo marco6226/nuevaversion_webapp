@@ -3,7 +3,7 @@
     <div>
         <h5>Anexos {{anexo}}</h5>
     </div>
-    <p-table [value]="anexo5list" dataKey="id" editMode="row" styleClass="material-table" selectionMode="single" [(selection)]="anexo5Select">
+    <p-table [value]="anexolist" dataKey="id" editMode="row" styleClass="material-table" selectionMode="single" [(selection)]="anexo5Select">
         <ng-template pTemplate="header">
             <tr>
                 <th scope="col" pSortableColumn="pk_case" style="width: 10%;">Id Anexo {{anexo}}</th>
@@ -40,7 +40,7 @@
                 (click)="GuardarAnexo()"
                 ></button>
             <button 
-                [disabled]="(anexo5Select)?false:true"
+                [disabled]="(anexo5Select && anexo5Select.id==this.maxIdAnexo)?false:true"
                 pButton type="button" 
                 label="Modificar" 
                 icon="bi bi-pencil"
@@ -78,7 +78,7 @@
                 <td colspan="8" class="p-text-center" *ngIf="loading">
                     <em class="pi pi-spin pi-spinner" style="font-size: 2rem"></em>
                 </td>
-                <td colspan="8" class="p-text-center" *ngIf="!loading && anexo5list.length === 0">
+                <td colspan="8" class="p-text-center" *ngIf="!loading && anexolist.length === 0">
                     No hay anexos {{anexo}} registrados en este caso médico
                 </td>
             </tr>
@@ -157,7 +157,7 @@
                 Localidad:
             </div>
             <div class="col-6 ">
-                <p-dropdown appendTo="body" [style]="{'width':'100%'}" appendTo="body" [options]="this.locadidadList" placeholder="Seleccionar localidad" formControlName="localidad" required [readonly]="flagConsultarAnexo1"></p-dropdown>
+                <p-dropdown [filter]="true" appendTo="body" [style]="{'width':'100%'}" appendTo="body" [options]="this.locadidadList" placeholder="Seleccionar localidad" formControlName="localidad" required [readonly]="flagConsultarAnexo1"></p-dropdown>
             </div>
             <div class="col-6 ">
                 &nbsp;
@@ -227,7 +227,7 @@
             </div>
             <div class="col-12">
                 <p-calendar dateFormat="dd/mm/yy"
-                formControlName="proximoseguimiento" required></p-calendar>
+                formControlName="proximoseguimiento" required [disabled]="flagConsultarAnexo1" appendTo="body"></p-calendar>
             </div>
 
            
