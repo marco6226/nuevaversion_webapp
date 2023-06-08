@@ -58,9 +58,11 @@ export class AreaComponent implements OnInit {
   }
 
   async loadAreas() {
+    
     this.tipoAreaService.findAll().then(
       (data: any) => (<TipoArea[]>data['data']).forEach(ta => this.tiposAreaList.push({ label: ta.nombre, value: ta.id }))
     );
+    console.log( this.tiposAreaList)
     let filterAreaQuery = new FilterQuery();
     filterAreaQuery.filterList = [
       { field: 'areaPadre', criteria: Criteria.IS_NULL, value1: null, value2: null },
@@ -301,6 +303,15 @@ export class AreaComponent implements OnInit {
     this.visibleFilterArea = true;
   }
 
+test(){
+  console.log(this.areasNodes)
+}
 
+nodeSelect(event: any){
+  console.log(event)
+  if(event.node.children.length>0){
+    event.node.expanded = true;
+  }
+}
   
 }

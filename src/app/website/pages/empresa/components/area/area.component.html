@@ -1,5 +1,5 @@
 <div class="shadow">
-  <p-panel header="Organización">
+  <p-panel header="Organizacióndd">
     <p-tabView>
         <p-tabPanel header="Organigrama">
             <s-dataNotFound *ngIf="!areasNodes[0] || areasNodes[0].children!.length <= 0" icon="fa-sitemap" message="No se cuenta con registro de áreas">
@@ -17,8 +17,18 @@
 
               </div>
               <br>
-
-              <p-tree  [value]="areasNodes" [filter]="true" filterPlaceholder="Filtro" *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+              <p-tree  [value]="areasNodes" [filter]="true" filterPlaceholder="Filtro" 
+              *ngIf="visibleTree" layout="horizontal" selectionMode="single" [(selection)]="areaSelected" 
+              (onNodeSelect)="nodeSelect($event)">
+                <!-- <ng-template let-node pTemplate="default" (dblclick)="test()">
+                  <div  *ngIf="!showText" >
+                    <b>{{ node.label }}</b>
+                  </div>
+                  <div *ngIf="showText">
+                  <input type="text" [value]="node.label" />
+                </div>
+                </ng-template> -->
+              </p-tree>
             </div>
             <br/>
             <div class="d-flex justify-content-center">

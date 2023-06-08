@@ -7,3 +7,42 @@
 @import "../node_modules/primeicons/primeicons.css";
 @import "../node_modules/primeflex/primeflex.css";
 @import '../node_modules/primeflex/themes/saga-blue.css';
+
+
+.p-tree.p-tree-horizontal .p-treenode .p-treenode-content{
+    background: var(--blue) !important;
+    color: var(--white);
+}
+
+.p-tree.p-tree-horizontal .p-treenode:hover .p-treenode-content{
+    background: var(--blue-d2) !important;
+    color: var(--white);
+}
+
+.p-tree.p-tree-horizontal .p-treenode .p-treenode-content.p-treenode-selectable:not(.p-highlight):hover{
+    color: var(--white);
+
+}
+
+.p-tree.p-tree-horizontal .p-treenode .p-treenode-content .p-tree-toggler{
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+content: "\e909";
+
+}
+
+.p-treenode-label{
+    margin: 5px !important;
+}
+
+.p-treenode-label:hover{
+    margin: 5px !important;
+    color: var(--white);
+
+}
+
+.p-tree.p-tree-horizontal .p-treenode .p-treenode-content.p-highlight{
+    background: var(--yellow) !important;
+
+}
+
