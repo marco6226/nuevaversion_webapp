@@ -168,6 +168,7 @@ export class EmpleadoFormComponent implements OnInit {
             jefeInmediato: [''],
             correoPersonal: [null],
             ciudadGerencia: [null],
+            enviacorreo:[null],
         });
     }
     usuarioP:any;
@@ -353,6 +354,7 @@ export class EmpleadoFormComponent implements OnInit {
         empleado.cargo.id = this.form.value.cargoId;
         empleado.usuario.email = this.form.value.email;
         empleado.ciudadGerencia = this.form.value.ciudadGerencia;
+        empleado.enviacorreo = this.form.value.enviacorreo;
         (empleado.regional = this.form.value.regional), (empleado.correoPersonal = this.form.value.correoPersonal);
 
         if (this.form.value.businessPartner) {

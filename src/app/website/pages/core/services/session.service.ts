@@ -19,7 +19,7 @@ export class SesionService {
   ) { }
 
   getAppVersion(): any {
-    return "1.0.243";
+    return "1.0.249";
   }
 
   public getUsuario(): Usuario | null{
