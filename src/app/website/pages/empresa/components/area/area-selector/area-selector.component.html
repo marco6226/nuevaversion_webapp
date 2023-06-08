@@ -26,11 +26,13 @@
         </div>
         <br>
 
-        <p-tree  [value]="areasNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+        <p-tree  [value]="areasNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"
+            (onNodeSelect)="nodeSelect($event)"></p-tree>
       </p-tabPanel>
   
       <p-tabPanel header="Estructura física">
-        <p-tree  [value]="sedesNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+        <p-tree  [value]="sedesNodes" *ngIf="displayDialog" layout="horizontal" selectionMode="single" [(selection)]="areaSelected"
+          (onNodeSelect)="nodeSelect($event)"></p-tree>
       </p-tabPanel>
   
     </p-tabView>
@@ -44,7 +46,8 @@
 
   <div class="card flex justify-content-center">
     <p-dialog header="Organigrama Filtro" [(visible)]="visibleFilterArea" [style]="{width: '50vw'}">
-          <p-tree [value]="areasNodes" [filter]="true" filterPlaceholder="Filtro" selectionMode="single" [(selection)]="areaSelected"></p-tree>
+          <p-tree [value]="areasNodes" [filter]="true" filterPlaceholder="Filtro" selectionMode="single" [(selection)]="areaSelected"
+            (onNodeSelect)="nodeSelect($event)"></p-tree>
     </p-dialog>
   </div>
   

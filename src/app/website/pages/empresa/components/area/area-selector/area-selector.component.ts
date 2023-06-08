@@ -80,7 +80,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
       .then((data: any) => {
         let root: TreeNode = {
           label: this.sesionService.getEmpresa()!.razonSocial,
-          selectable: false,
+          selectable: true,
           expanded: false,
           key: this.sesionService.getEmpresa()!.razonSocial
         };
@@ -252,6 +252,12 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
   showDialogFilter(){
     this.visibleFilterArea = true;
 
+  }
+
+  nodeSelect(event: any){
+    if(event.node.children.length>0){
+      event.node.expanded = true;
+    }
   }
 }
 

@@ -12,6 +12,11 @@
 .p-tree.p-tree-horizontal .p-treenode .p-treenode-content{
     background: var(--blue) !important;
     color: var(--white);
+    .p-treenode-label:hover{
+        margin: 5px !important;
+        color: var(--white);
+    
+    }
 }
 
 .p-tree.p-tree-horizontal .p-treenode:hover .p-treenode-content{
@@ -35,11 +40,7 @@ content: "\e909";
     margin: 5px !important;
 }
 
-.p-treenode-label:hover{
-    margin: 5px !important;
-    color: var(--white);
 
-}
 
 .p-tree.p-tree-horizontal .p-treenode .p-treenode-content.p-highlight{
     background: var(--yellow) !important;

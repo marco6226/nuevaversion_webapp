@@ -72,7 +72,7 @@ export class AreaComponent implements OnInit {
       (data: any) => {
         let root: TreeNode = {
           label: this.sesionService.getEmpresa()!.razonSocial,
-          selectable: false,
+          selectable: true,
           expanded: true,
           key: this.sesionService.getEmpresa()!.razonSocial
         };
@@ -303,15 +303,10 @@ export class AreaComponent implements OnInit {
     this.visibleFilterArea = true;
   }
 
-test(){
-  console.log(this.areasNodes)
-}
-
-nodeSelect(event: any){
-  console.log(event)
-  if(event.node.children.length>0){
-    event.node.expanded = true;
+  nodeSelect(event: any){
+    if(event.node.children.length>0){
+      event.node.expanded = true;
+    }
   }
-}
   
 }
