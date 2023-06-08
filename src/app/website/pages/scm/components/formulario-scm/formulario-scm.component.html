@@ -64,7 +64,7 @@
                                             </div>
                                             <div>
                                                 <p-dropdown [readonly]="consultar2" [options]="tipoIdentificacionList" formControlName="tipoIdentificacion"
-                                                [attr.disabled]="true" required styleClass="select-material">
+                                                [attr.disabled]="true" required styleClass="select-material" required>
                                                 </p-dropdown>
                                             </div>                                
                                         </div>
@@ -115,9 +115,16 @@
                                                 <label for="" class="active">Fecha de vinculación</label>
                                             </div>
                                             <div>
-                                                <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                                <!-- <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                                     [yearRange]="yearRange" [maxDate]="fechaActual" 
-                                                    dateFormat="dd/mm/yy" formControlName="fechaIngreso" appendTo="body"></p-calendar>
+                                                    dateFormat="dd/mm/yy" formControlName="fechaIngreso" appendTo="body"></p-calendar> -->
+
+                                                <p-calendar *ngIf="empresaId!=22" [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                                    [yearRange]="yearRange" [maxDate]="fechaActual"
+                                                    dateFormat="dd/mm/yy" formControlName="fechaIngreso" ></p-calendar>
+                                                <p-calendar *ngIf="empresaId==22" required [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                                    [yearRange]="yearRange" [maxDate]="fechaActual"
+                                                    dateFormat="dd/mm/yy" formControlName="fechaIngreso" ></p-calendar>
                                             </div>    
                                         </div>
                                     </div>
@@ -208,9 +215,15 @@
                                             <label for="" class="active">Fecha de nacimiento</label>
                                         </div>
                                         <div>
-                                            <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                            <p-calendar *ngIf="empresaId==22" required [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                                [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
+                                            <p-calendar *ngIf="empresaId!=22" [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
+                                                [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
+                                            <!-- <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                                 [yearRange]="yearRange" [maxDate]="fechaActual" 
-                                                dateFormat="dd/mm/yy" formControlName="fechaNacimiento" appendTo="body"></p-calendar>
+                                                dateFormat="dd/mm/yy" formControlName="fechaNacimiento" appendTo="body"></p-calendar> -->
                                         </div>
                                     </div>
                                 </div>
@@ -289,7 +302,11 @@
                                             <label for="" class="active">EPS</label>
                                         </div>
                                         <div>
-                                            <p-dropdown [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
+                                            <!-- <p-dropdown [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
+                                                class="select-material" styleClass="select-material"></p-dropdown> -->
+                                            <p-dropdown *ngIf="empresaId==22" required [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
+                                                class="select-material" styleClass="select-material"></p-dropdown>
+                                            <p-dropdown *ngIf="empresaId!=22" [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
                                                 class="select-material" styleClass="select-material"></p-dropdown>
                                         </div>
                                     </div>
@@ -303,16 +320,24 @@
                                             <label for="" class="active">AFP</label>
                                         </div>
                                         <div>
-                                            <p-dropdown [readonly]="consultar2" [filter]="true" [options]="afpList" formControlName="afp"
-                                            class="select-material" styleClass="select-material"></p-dropdown>
+                                            <!-- <p-dropdown [readonly]="consultar2" [filter]="true" [options]="afpList" formControlName="afp"
+                                            class="select-material" styleClass="select-material"></p-dropdown> -->
+                                            <p-dropdown *ngIf="empresaId==22" required [readonly]="consultar2" [filter]="true" [options]="afpList" formControlName="afp"
+                                                class="select-material" styleClass="select-material"></p-dropdown>
+                                            <p-dropdown *ngIf="empresaId!=22" [readonly]="consultar2" [filter]="true" [options]="afpList" formControlName="afp"
+                                                class="select-material" styleClass="select-material"></p-dropdown>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div>
                                         <label for="" class="active">ARL</label>
-                                        <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
-                                            class="form-control" id="arl" />
+                                        <!-- <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
+                                            class="form-control" id="arl" /> -->
+                                        <input *ngIf="empresaId==22" required [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
+                                            class="form-material" id="arl" />
+                                        <input *ngIf="empresaId!=22" [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
+                                            class="form-material" id="arl" />
                                     </div>
                                 </div>
                                 <div class="col">
@@ -436,9 +461,10 @@
                         
                     </form>
                 </p-panel>
-                 <p-panel header="Datos del Business Partner">
+                <br>
+                 <p-panel header="Datos del Business Partner" *ngIf="empresaId != '22'">
                     <form [formGroup]="bussinessParner" >
-                        <div class="container-fluid cew-9" *ngIf="empresaId != '22'">
+                        <div class="container-fluid cew-9" >
                             <!-- <div class="row">
                                 <div class="row ">
                                     <h5 class="title-header mb-2">Datos del Business Partner</h5>
@@ -522,7 +548,23 @@
                         </div>
                     </form>
                  </p-panel>   
-                    
+                 <br>
+                 <p-panel header="Datos de la empresa" *ngIf="empresaId == '22'">
+                    <form [formGroup]="empresaForm" >
+                        <div class="row ">
+                            <div class="col">
+                                <label for="" class="active">Nombre Comercial</label>
+                                <p-dropdown appendTo="body" [options]="empresaList2" optionLabel="label" formControlName="empresa" [(ngModel)]="empresaSelect2"
+                                    class="select-material" styleClass="select-material" >
+                                </p-dropdown>
+                            </div>
+                            <div class="col">
+                                <label for="nit" class="active">Nit</label>
+                                <input type="text" id="nit" class="form-control" pInputText optionLabel="nit" formControlName="nit" [value]="empresaSelect2?.nit"  readonly=true/>
+                            </div>
+                        </div>
+                    </form>
+                </p-panel>  
             </p-tabPanel>
         </ng-container>
         <!-- Finaliza información general -->
@@ -606,8 +648,14 @@
                                                 <label for="" class="active">Caso de mesa laboral</label>
                                             </div>
                                             <div>
-                                                <p-dropdown [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
+                                                <!-- <p-dropdown [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
                                                     style="width: 100%;">
+                                                </p-dropdown> -->
+                                                <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
+                                                    class="select-material" styleClass="select-material">
+                                                </p-dropdown>
+                                                <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
+                                                    class="select-material" styleClass="select-material">
                                                 </p-dropdown>
                                             </div>
                                         </div>
@@ -618,8 +666,14 @@
                                                 <label for="" class="active">Prioridad</label>
                                             </div>
                                             <div>
-                                                <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                                <!-- <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
                                                     style="width: 100%;">
+                                                </p-dropdown> -->
+                                                <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                                    class="select-material" styleClass="select-material">
+                                                </p-dropdown>
+                                                <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                                    class="select-material" styleClass="select-material">
                                                 </p-dropdown>
                                             </div>
                                         </div>
@@ -630,8 +684,14 @@
                                                 <label for="" class="active">Tipo de caso</label>
                                             </div>
                                             <div>
-                                                <p-dropdown [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
+                                                <!-- <p-dropdown [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
                                                     style="width: 100%;">
+                                                </p-dropdown> -->
+                                                <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
+                                                    class="select-material" styleClass="select-material">
+                                                </p-dropdown>
+                                                <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
+                                                    class="select-material" styleClass="select-material">
                                                 </p-dropdown>
                                             </div>
                                         </div>
@@ -816,7 +876,7 @@
                             icon="bi bi-arrow-left-right" class="float-btn" (click)="closeForm()"
                             title="Volver a listado de empleados" style="bottom: 190px;"></button>
                         <button pButton *ngIf="solicitando == false && !this.consultar2" type="submit" icon="bi bi-save"
-                            class="float-btn" [disabled]="this.consultar" style="bottom: 260px;"
+                            class="float-btn" [disabled]="(this.consultar || this.flagGuardado || !this.empleadoForm.valid)" style="bottom: 260px;"
                             title="Guardar datos medicos"></button>
                         <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
                             [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
@@ -1384,12 +1444,12 @@
                                     </td>
                                     <td class="p-text-center" *ngIf="!this.consultar">
                                         <!-- *sTienePermiso="'SCM_PUT_CASE_SEG'" -->
-                                        <button *ngIf="!editing" [disabled]="consultar2" pButton pRipple type="button" pInitEditableRow
+                                        <button *ngIf="!editing  && idUltimoSeguimiento==seguimiento.id" [disabled]="consultar2" pButton pRipple type="button" pInitEditableRow
                                             icon="pi pi-pencil" (click)="onRowEditInit(seguimiento)"
                                             title="Editar Seguimiento" 
                                             class="p-button-rounded p-button-text p-mr-2"></button>
                                             <!-- *sTienePermiso="'SCM_PUT_CASE_SEG'" -->
-                                        <button *ngIf="!editing" [disabled]="consultar2" pButton pRipple type="button" icon="pi pi-copy"
+                                        <button *ngIf="!editing  && idUltimoSeguimiento==seguimiento.id" [disabled]="consultar2" pButton pRipple type="button" icon="pi pi-copy"
                                             (click)="onRowCloneInit(seguimiento)" title="Clonar Seguimiento" 
                                             class="p-button-rounded p-button-text p-mr-2"></button>
                                         <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
@@ -1401,9 +1461,11 @@
                                         <button pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
                                             title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
-                                        <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton pRipple type="button" pCancelEditableRow
-                                            icon="pi pi-trash" (click)="deleteSeguimiento(seguimiento.id)"
-                                            title="Borrar Seguimiento" class="p-button-danger"></button>
+                                        <ng-container *ngIf="idUltimoSeguimiento==seguimiento.id">
+                                            <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton pRipple type="button" pCancelEditableRow
+                                                icon="pi pi-trash" (click)="deleteSeguimiento(seguimiento.id)"
+                                                title="Borrar Seguimiento" class="p-button-danger"></button>
+                                        </ng-container>
 
                                     </td>
                                 </tr>
@@ -1730,7 +1792,7 @@
 <div *ngIf="!consultar2" style="text-align: center; width: 100%;">
     <button pButton *ngIf="solicitando == false" (click)="submitEmp()" type="submit"
         icon="pi pi-save" class="float-btn" style="bottom: 140px;height: 50px;"
-        title="Guardar datos de Empleado"></button>
+        title="Guardar datos de Empleado" [disabled]="!this.empleadoForm.valid"></button>
 
     <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
         [style]="{width: '35px', height: '35px'}"></p-progressSpinner>

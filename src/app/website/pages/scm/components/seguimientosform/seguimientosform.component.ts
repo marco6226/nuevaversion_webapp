@@ -41,8 +41,6 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             default:
                 break;
         }
-        console.log(this.fechaActual)
-        console.log(this.fechaProximaDate)
     }
 
     empleadosList: Empleado[] = [];
@@ -64,10 +62,10 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
     ) {
         this.seguimiento = fb.group({
 
-            seguimiento: [null, Validators.required],
+            seguimiento: [null],
             tarea: [""],
-            resultado: [null, Validators.required],
-            fechaSeg: [null, Validators.required],
+            resultado: [null],
+            fechaSeg: [null],
             responsable: [null],            
             responsableExterno: [null],
             proxfechaSeg: [null]

@@ -1,0 +1,22 @@
+<div style="width: 100%; height: 100%; margin-top: 1px; display: flex;flex-direction: column;">
+    <!-- <div class="contenedorcanvas">
+        <canvas #canvas id="lienzo2" width="1200%" height="605%" (touchstart)="startDrawing($event)" (touchmove)="moved($event)"></canvas>
+    </div> -->
+    <div class="contenedorcanvas">
+        <canvas id="tamcanvas" #canvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)" width="1200" height="600"></canvas>
+    </div>
+    <div class="contenedor grid">
+        <div class="logo" style="width: 20%;">
+            <img src="../../../../assets/svg/logoSigessRedondo2.svg" alt="">
+        </div>
+        <div style="width: 20%;">
+            &nbsp;
+            <!-- <img class="logo-Empresa" *ngIf="empresaSelect?.logo" [src]="empresaSelect?.logo" alt=""> -->
+        </div>
+        <div style="align-items: center; width: 58%;">
+            <button class="p-button-danger" label="Borrar" pButton type="button" (click)="clearPad()"></button>
+            <button class="p-button-success" label="Guardar" pButton type="button" (click)="savePad()"></button>
+        </div>
+    </div>
+</div>
+<!-- <img src='{{ signatureImg }}' /> -->

@@ -93,6 +93,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     empleadosList!: Empleado[];
     diagnosticoList: any[] = [];
     modifyDiag: boolean = false;
+    idUltimoSeguimiento?:any;
     seguimientos: any[] = [];
     tratamientos: any[] = [];
     products2: any[] = [];
@@ -147,8 +148,36 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         { label: "Psicólogos", value: "Psicólogos" },
         { label: "Terapia ocupacional", value: "Terapia ocupacional" }
     ]
+    empresaSelect2!: empresaNit;
+    empresaList2: empresaNit[] = [
+        { label: "--Seleccione--", empresa: null, nit: null },
+        { label: "Agromil S.A.S", empresa: "Agromil S.A.S", nit:"830511745" },
+        { label: "Almacenes Corona", empresa: "Almacenes Corona", nit:"860500480-8" },
+        { label: "Compañía Colombiana de Ceramica S.A.S", empresa: "Compañía Colombiana de Ceramica S.A.S",nit:"860002536-5" },
+        { label: "Corlanc S.A.S", empresa: "Corlanc S.A.S",nit:"900481586-1" },
+        { label: "Corona Industrial", empresa: "Corona Industrial",nit:"900696296-4" },
+        { label: "Despachadora internacional de Colombia S.A.S", empresa: "Despachadora internacional de Colombia S.A.S",nit:"860068121-6" },
+        { label: "Electroporcelana Gamma", empresa: "Electroporcelana Gamma",nit:"890900121-4" },
+        { label: "Locería Colombiana S.A.S", empresa: "Locería Colombiana S.A.S",nit:"890900085-7" },
+        { label: "Minerales Industriales S.A", empresa: "Minerales Industriales S.A",nit:"890917398-1" },
+        { label: "Nexentia S.A.S", empresa: "Nexentia S.A.S",nit:"900596618-3" },
+        { label: "Suministros de Colombia S.A.S", empresa: "Suministros de Colombia S.A.S",nit:"890900120-7" },
+        { label: "Organización corona", empresa: "Organización corona",nit:"860002688-6" }
+	]
+    // @Input() empleadoSelect!: Empleado | null;
 
-    @Input() empleadoSelect!: Empleado | null;
+    empleadoSelect?: Empleado | null;
+    // @Input('empleadoSelect') 
+    // set empleadoSelectInput(empleadoInput: Empleado){
+    //     console.log(empleadoInput);
+    //     this.empresaForm!.reset()
+    //     if(empleadoInput){
+    //         this.empleadoSelect = empleadoInput
+    //         this.empresaForm!.value.nit = this.empleadoSelect.nit
+    //         this.empresaSelect2 = this.empresaForm!.value.empresa = {nit:this.empleadoSelect.nit, label:this.empleadoSelect.empresa, empresa:this.empleadoSelect.empresa}
+    //     }
+    // }
+    empresaForm?: FormGroup;
     @Output() onEmpleadoUpdate = new EventEmitter();
     @Output() onCancel = new EventEmitter();
     @Input('caseSelect')caseSelect?: any;
@@ -266,6 +295,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         { label: "En Apelación", value: "0" }
     ]
     idCase?:string;
+    flagGuardado:boolean=false
+    
     constructor(
         private empleadoService: EmpleadoService,
         fb: FormBuilder,
@@ -402,6 +433,10 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             'cargo': [null],
             'textoseguimiento': [null]
           })
+          this.empresaForm = fb.group({            
+            empresa:[null, Validators.required],
+            nit:[null, Validators.required],
+        });
 
         this.status = this.caseStatus.find(sta => sta.value == this.casoMedicoForm.get("statusCaso")?.value)?.label
     }
@@ -577,7 +612,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async onSubmit() {
-
+        this.flagGuardado=true
         if (!this.casoMedicoForm.valid) {
             this.messageService.add({
                 key: 'formScm',
@@ -593,7 +628,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 this.messageService.add({
                     key: 'formScm',
                     severity: 'error',
-                    detail: 'Debe actualizar la <b>ubicación</b> del trabajador involucrado en la pestaña <b>Información General</b>',
+                    detail: 'Debe actualizar la ubicación del trabajador involucrado en la pestaña Información General',
                     life: 6000,
                 });
                 return;
@@ -603,7 +638,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.messageService.add({
                 key: 'formScm',
                 severity: "error",
-                detail: 'Por favor revise los campos <b>ciudad de residencia</b> en la pestaña <b>información general</b>.',
+                detail: 'Por favor revise los campos ciudad de residencia en la pestaña información general.',
                 life: 6000,
             });
             return this.markFormGroupTouched(this.empleadoForm);
@@ -624,7 +659,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
 
 
-        let status;
+        let status: any;
         if (this.casocreado == true) {
             this.createCase = false;
         }
@@ -649,7 +684,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.actualizar = true;
             this.adicionar = false;
 
-           
+            this.caseSelect = await this.scmService.getCase(status);
             this.caseSelect.id = status;
             this.casocreado = true;
         }
@@ -666,6 +701,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             });
             this.createCase = false;
         }
+        this.flagGuardado=true
     }
 
     async buildPerfilesIdList() {
@@ -720,6 +756,15 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let emp = <Empleado>this.value;
         this.casosList = await this.scmService.getCaseList(emp.id!);
         this.empleadoSelect = emp;
+        console.log(this.empleadoSelect)
+        this.empresaForm!.reset()
+        if(this.empleadoSelect){
+            console.log(this.empresaForm)
+            this.empresaForm!.value.nit = this.empleadoSelect.nit
+            this.empresaForm!.value.empresa = {label:this.empleadoSelect.empresa, empresa:this.empleadoSelect.empresa, nit:this.empleadoSelect.nit}
+            this.empresaSelect2 = this.empresaForm!.value.empresa
+            console.log(this.empresaForm)
+        }
         this.loaded = true;
         this.nameAndLastName = (this.empleadoSelect.primerApellido || "") + " " + (this.empleadoSelect.segundoApellido || "") + " " + (this.empleadoSelect.primerNombre || "") + " " + (this.empleadoSelect.segundoNombre || " ");
         let fecha = moment(this.empleadoSelect.fechaIngreso);
@@ -791,7 +836,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             ciudadGerencia: this.empleadoSelect.ciudadGerencia,
             // division: this.empleadoSelect.area['padreNombre'],
             division: this.empleadoSelect.area.areaPadre?.nombre,
-            'email': [this.empleadoSelect.usuario.email]
+            'email': [this.empleadoSelect.usuario.email],
+        });
+
+        this.empresaForm?.patchValue({
+            'nit':this.empleadoSelect.nit,
+            'empresa':{label:this.empleadoSelect.empresa, empresa:this.empleadoSelect.empresa, nit:this.empleadoSelect.nit}
         });
     }
 
@@ -860,6 +910,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.solicitando = true;
         empleado.usuario.id = this.empleadoSelect?.usuario.id;
         empleado.usuario.ipPermitida = this.empleadoSelect?.usuario.ipPermitida
+        empleado.empresa = this.empresaForm!.value.empresa == null ? null : this.empresaForm!.value.empresa.label;
+        empleado.nit = this.empresaForm!.value.empresa == null ? 0 : this.empresaForm!.value.empresa.nit;
 
         this.usuarioService.update(empleado.usuario)
             .then(resp => {
@@ -909,6 +961,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     async onCloseModalseguimiento() {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
+        this.idUltimoSeguimiento=this.seguimientos[0].id
 
         this.modalSeguimientos = false;
         this.seguiSelect = null;
@@ -1200,8 +1253,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     anexo6seguimiento(seguimiento:any){
-        console.log(seguimiento)
-        console.log(this.empleadoSelect)
         let template = document.getElementById('plantillaAnexo6');
         template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
         
@@ -1234,6 +1285,15 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             let seg = { pkCase: this.caseSelect.id }
             let resp = await this.scmService.createSeguimiento(seg);
             this.seguimientos.push(resp)
+            this.seguimientos.sort(function(a:any,b:any){
+                if(a.id < b.id){
+                  return 1
+                }else if(a.id > b.id){
+                  return -1;
+                }
+                  return 0;
+                });
+            this.idUltimoSeguimiento=this.seguimientos[0].id
 
         } catch (error) {
             console.error(error);
@@ -1254,9 +1314,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     async fechaSeg() {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
+        this.idUltimoSeguimiento=this.seguimientos[0].id
         this.seguimientos.map((seg, idx) => {
             if (seg.fechaSeg) {
                 this.seguimientos[idx].fechaSeg = moment(seg.fechaSeg).toDate()
+                this.seguimientos[idx].proxfechaSeg = moment(seg.proxfechaSeg).toDate()
             }
         });
     }
@@ -1374,3 +1436,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         return false;
     }
 }
+interface empresaNit{
+    label: string;
+    empresa: string | null;
+    nit: string | null;
+   }
+     

@@ -10,6 +10,10 @@ import { SesionService } from '../../../core/services/session.service';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { Criteria, Filter, SortOrder } from '../../../core/entities/filter';
 import { Cargo } from '../../../empresa/entities/cargo';
+import * as XLSX from 'xlsx';
+import { ViewscmInformeService } from 'src/app/website/pages/core/services/view-informescm.service';
+import { PrimeNGConfig } from 'primeng/api';
+import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 
 @Component({
     selector: 'app-scm',
@@ -19,6 +23,7 @@ import { Cargo } from '../../../empresa/entities/cargo';
 })
 
 export class ScmComponent implements OnInit {
+    localeES:any = locale_es;
     reintegroList: Reintegro[] =[]
     idEmpresa!: string | null;
     valor2!: string;
@@ -37,6 +42,7 @@ export class ScmComponent implements OnInit {
     solicitando: boolean = false;
     loading: boolean = false;;
     totalRecords!: number;
+    excel:any=[]
     fields: string[] = [
         'id',
         'fechaCreacion',
@@ -62,15 +68,22 @@ export class ScmComponent implements OnInit {
         { value: 'INACTIVO', label: 'INACTIVO' },
     ];
 
+    rangeDatesInforme: any;
+    visibleDlgInforme:boolean=false
+    flagInforme:boolean=true
+
     constructor(
         private scmService: CasosMedicosService,
         private cargoService: CargoService,
         private router: Router,
         private sesionService: SesionService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private viewscmInformeService: ViewscmInformeService,
+        private config: PrimeNGConfig
     ) { }
 
     async ngOnInit() {
+        this.config.setTranslation(this.localeES);
         let cargofiltQuery = new FilterQuery();
         cargofiltQuery.sortOrder = SortOrder.ASC;
         cargofiltQuery.sortField = "nombre";
@@ -122,8 +135,10 @@ export class ScmComponent implements OnInit {
         filterEliminado.value1 = 'false';
 
         filterQuery.fieldList = this.fields;
-        filterQuery.filterList = [filterEliminado];        
+        // filterQuery.filterList = [filterEliminado];        
+        // filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
         filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+        filterQuery.filterList.push(filterEliminado);      
         try {
             let res: any = await this.scmService.findByFilter(filterQuery);
             this.casosList = res.data;
@@ -132,5 +147,50 @@ export class ScmComponent implements OnInit {
         } catch (error) {
             console.error(error)
         }
+    }
+
+    async exportexcel(): Promise<void> 
+    {
+        await this.datosExcel()
+        this.excel.forEach((el:any) => delete el.empresaId)
+        let excel=this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<=new Date(this.rangeDatesInforme[1])})
+        excel.map((resp:any)=>{
+            if(resp.estadoCaso==1){resp.estadoCaso='Abierto'}
+            if(resp.estadoCaso==0){resp.estadoCaso='Cerrado'}
+        })
+        const readyToExport = excel;
+ 
+       const workBook = XLSX.utils.book_new(); // create a new blank book
+ 
+       const workSheet = XLSX.utils.json_to_sheet(readyToExport);
+ 
+       XLSX.utils.book_append_sheet(workBook, workSheet, 'Informe'); // add the worksheet to the book
+ 
+       XLSX.writeFile(workBook, 'Informe casos medicos.xlsx'); // initiate a file download in browser
+        
+       this.cerrarDialogo();
+    }
+
+
+    async datosExcel(): Promise<void>{
+        this.excel=[]
+        await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
+            this.excel=resp
+            this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
+        })
+    }
+    cerrarDialogo(){
+    this.visibleDlgInforme = false;
+    }
+
+    abrirDialogo(){
+    this.visibleDlgInforme = true;
+    }
+    habilitarindSCM(){
+        if(this.rangeDatesInforme[0] && this.rangeDatesInforme[1]){this.flagInforme=false}
+        else{this.flagInforme=true}
+    }
+    onResetDate(){
+        this.flagInforme=true
     }
 }

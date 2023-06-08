@@ -140,6 +140,8 @@ export const endPoints: string | any = {
   ActaService: path + "acta/",
   ContactoService: path + "contacto/",
 
+  ViewscmInformeService: path + "viewinfoscm/",
+
   ManualService: path + "manual/",
   tareaService: path,
 };

@@ -113,6 +113,8 @@ export const endPoints: string | any = {
     SistemaCausaAdministrativaService: path + "sistemaCausaAdministrativa/",
     ActaService: path + "acta/",
     ContactoService: path + "contacto/",
+
+    ViewscmInformeService: path + "viewinfoscm/",
   
     ManualService: path + "manual/",
     tareaService: path,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './website/pages/core/components/login/login.component';
+import { FirmaComponent } from './website/pages/comun/components/firma/firma.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
     },
     
   },
+  { path: 'firma', component: FirmaComponent,}
 ];
 
 @NgModule({
