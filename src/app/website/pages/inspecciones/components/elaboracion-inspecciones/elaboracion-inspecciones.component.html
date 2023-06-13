@@ -1,437 +1,444 @@
 <div *ngIf="finalizado" style="margin: 20px;">
-    <h2>Inspección finalizada</h2>
-    <br/>
-    <a (click)="volver()">Volver</a>
-  </div>
-  <p-progressBar *ngIf="initLoading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
-  
-  <div *ngIf="!finalizado && initLoading == false" id="contenedor">
-    <p-panel>
-      <p-header class="container">
-        <div class="row">
-          <div class="col-md-9 col-sm-12 mb-3">
-            <button 
-            *ngIf="!adicionar" pButton 
-            class="p-button-raised p-button-success margin-right margin-left" 
-            icon="bi bi-printer" 
-            (click)="imprimirImagen()"></button>
-            {{listaInspeccion?.nombre}}
-          </div>
-          <div class="col-md-3 col-sm-12">
-            <p *ngIf="inspeccion?.id">INP{{'-'+inspeccion?.id}}</p>
-            <p>{{listaInspeccion?.codigo}}</p>
-            <p>Versión: {{listaInspeccion?.listaInspeccionPK.version}}</p>
-            <p> Ubicacion: {{area?.nombre}}</p>
-          </div>
-        </div>
-      </p-header>
-      
-      <p>
-        {{listaInspeccion?.descripcion}}
-      </p>
-      <br>
-      <div class="uploaders"  *ngIf="listaEvidence.length > 0 ">
-        <app-file-uploader *ngFor="let evidence of listaEvidence; let i = index" [img]="evidence" [index]="i"
-            [show]="true">
-        </app-file-uploader>
-      </div> 
-    </p-panel>
-    <br/>
-    <s-formulario *ngIf="listaInspeccion?.formulario" [formularioModel]="listaInspeccion?.formulario" (onValidChange)="actualizarValidacion($event)"></s-formulario>
-    <br/>
-    <app-lista-inspeccion-form [value]="listaInspeccion?.elementoInspeccionList" [opciones]="listaInspeccion?.opcionCalificacionList"
-      [editable]="false" [disabled]="consultar" [nivelRiesgoList]="nivelRiesgoList" diligenciable="true" #listaInspeccionForm
-      [usarNivelRiesgo]="listaInspeccion?.usarNivelRiesgo" [usarTipoHallazgo]="listaInspeccion?.usarTipoHallazgo" [tipoLista]="listaInspeccion?.tipoLista"></app-lista-inspeccion-form>
-      <!-- (elementoSelect)="onElementoClick($event)" -->
-    <br>
-    <p-panel *sTienePermiso="'INP_GET_ESTADO'">
-      <p-header>
-        <i class="fa fa-th-list" aria-hidden="true"></i>
-        <label class="ui-panel-title">Estado de la maquina</label>
-      </p-header>
-      <div>
-        <div class="input-field">
-          <label for="">Estado</label>
-          <p-dropdown [disabled]="accion=='GET'" [options]="EstadoOptionList"
-            class="select-material" styleClass="select-material" [(ngModel)]="equipo" >
-          </p-dropdown>
-        </div>
-    </div>
-      <label>Observaciones</label>
-      <div class="input-field">
-        <textarea [readOnly]="accion=='GET'" pInputTextarea [(ngModel)]="observacion" [value]="observacion" rows="3"
-            ></textarea>      
-    </div>
-    </p-panel>
+  <h2>Inspección finalizada</h2>
+  <br />
+  <a (click)="volver()">Volver</a>
+</div>
+<p-progressBar *ngIf="initLoading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
 
-    <br/>
-    
-    <p-panel *ngIf="permisoHse">
-      <p-header>
-        <i class="fa fa-th-list" aria-hidden="true"></i>
-        <label class="ui-panel-title">Visto Bueno Maquinaria</label>
-      </p-header>
-      <form [formGroup]="FormHseq" *ngIf="mostarHseGet">
-        <div>
-          <i class="pi pi-check-circle aceptar" *ngIf="FormHseq.value.concepto=='Aceptado'"></i>
-          <i class="pi pi-minus-circle denegar" *ngIf="FormHseq.value.concepto=='Denegado'"></i>
-          <label>Concepto</label>
-          <div>
-            <input type="text" formControlName="concepto" [(ngModel)]="FormHseq.value.concepto" [value]="FormHseq.value.concepto" readOnly="true"/>
-          </div>
-          <label>Usuario que Gestiona</label>
-          <div>
-            <input type="text" formControlName="usuarioGestiona" [(ngModel)]="FormHseq.value.usuarioGestiona" [value]="FormHseq.value.usuarioGestiona" readOnly="true"/>
-          </div>
-          <label>Cargo</label>
-          <div>
-            <input type="text" [(ngModel)]="FormHseq.value.cargo" formControlName="cargo" readOnly="true"/>
-          </div>
-          <label>Fecha</label>
-          <div>
-            <input 
-              [readOnly]="!FormHseq.invalid"
-              type="date" 
-              formControlName="fecha" 
-              [value]="selectDateHse|date:'yyyy-MM-dd':'GMT'" 
-              [min]="minDateHse|date:'yyyy-MM-dd'" 
-              [max]="maxDateHse | date:'yyyy-MM-dd'" 
-              style="width: 20%;"
-              [(ngModel)]="selectDateHse"
-              (ionChange)="rangoFechaCierreHse($event)"/>
-          </div>
-          <br>
-          <button *ngIf="FormHseq.invalid" 
-                  [disabled]="isEmpleadoValid" 
-                  pButton type="button" 
-                  icon="pi pi-check"
-                  label="Aceptar" 
-                  (click)="botonAceptar('HSE')" 
-                  class="p-button-raised p-button-success margin-right margin-left" 
-                  style="margin-right: 10px;"></button>
-          <button *ngIf="FormHseq.invalid" 
-                  [disabled]="isEmpleadoValid" 
-                  pButton type="button" 
-                  class="p-button-raised p-button-danger margin-right margin-left"
-                  icon="bi bi-x-lg" 
-                  label="Denegar" 
-                  (click)="botonDenegar('HSE')"></button>
+<div *ngIf="!finalizado && initLoading == false" id="contenedor">
+  <p-panel>
+    <p-header class="container">
+      <div class="row">
+        <div class="col-md-9 col-sm-12 mb-3">
+          <button *ngIf="!adicionar" pButton class="p-button-raised p-button-success margin-right margin-left"
+            icon="bi bi-printer" (click)="imprimirImagen()"></button>
+          {{listaInspeccion?.nombre}}
         </div>
-      </form>
-      <div *ngIf="!mostarHseGet">
-        <h2>No posee visto bueno</h2>
-      </div> 
-    </p-panel>
-    
-    <br>
-    <p-panel *ngIf="permisoIngenieria">
-      <p-header>
-        <i class="fa fa-th-list" aria-hidden="true"></i>
-        <label class="ui-panel-title">Visto Bueno Area encargada</label>
-      </p-header>
-      <form [formGroup]="FormIng" *ngIf="mostarIngGet">
-        <div>
-          <i class="pi pi-check-circle aceptar" *ngIf="FormIng.value.concepto=='Aceptado'"></i>
-          <i class="pi pi-minus-circle denegar" *ngIf="FormIng.value.concepto=='Denegado'"></i>
-          <label>Concepto</label>
-          <div>
-            <input type="text" formControlName="concepto" [(ngModel)]="FormIng.value.concepto" [value]="FormIng.value.concepto" readOnly="true"/>
-          </div>
-          <label>Usuario que Gestiona</label>
-          <div>
-            <input type="text" formControlName="usuarioGestiona" [(ngModel)]="FormIng.value.usuarioGestiona" [value]="FormIng.value.usuarioGestiona" readOnly="true"/>
-          </div>
-          <label>Cargo</label>
-          <div>
-            <input type="text" [(ngModel)]="FormIng.value.cargo" formControlName="cargo" readOnly="true"/>
-          </div>
-          <label>Fecha</label>
-          <div>
-            <input 
-              [readOnly]="!FormIng.invalid"
-              type="date" 
-              formControlName="fecha" 
-              [value]="selectDateIngenieria|date:'yyyy-MM-dd':'GMT'" 
-              [min]="minDateIngenieria|date:'yyyy-MM-dd'" 
-              [max]="maxDateIngenieria | date:'yyyy-MM-dd'" 
-              style="width: 20%;"
-              [(ngModel)]="selectDateIngenieria"
-              (ionChange)="rangoFechaCierre($event)"/>
-          </div>
-          <br>
-           <button *ngIf="FormIng.invalid" 
-                  [disabled]="isEmpleadoValid" 
-                  pButton type="button" 
-                  icon="pi pi-check" 
-                  label="Aceptar" 
-                  (click)="botonAceptar('ING')" 
-                  class="p-button-raised p-button-success margin-right margin-left" 
-                  style="margin-right: 10px;"></button>
-           <button *ngIf="FormIng.invalid" 
-                  [disabled]="isEmpleadoValid" 
-                  pButton type="button" 
-                  class="p-button-raised p-button-danger margin-right margin-left"
-                  icon="bi bi-x-lg" 
-                  label="Denegar" 
-                  (click)="botonDenegar('ING')"></button>
+        <div class="col-md-3 col-sm-12">
+          <p *ngIf="inspeccion?.id">INP{{'-'+inspeccion?.id}}</p>
+          <p>{{listaInspeccion?.codigo}}</p>
+          <p>Versión: {{listaInspeccion?.listaInspeccionPK.version}}</p>
+          <p> Ubicacion: {{area?.nombre}}</p>
         </div>
-      </form> 
-      <div *ngIf="!mostarIngGet">
-        <h2>No posee visto bueno</h2>
-      </div> 
-    </p-panel>
+      </div>
+    </p-header>
+
+    <p>
+      {{listaInspeccion?.descripcion}}
+    </p>
     <br>
-    <br>
-    <button pButton type="button" icon="pi pi-save
-" *ngIf="adicionar && solicitando == false"(click)="onSubmit()"
-      class="float-btn" data-toggle="tooltip" data-placement="bottom" title="Guardar"></button>
-  
-    <button pButton type="button" icon="bi bi-pencil-square" *ngIf="modificar && solicitando == false" (click)="onSubmit()"
-      class="float-btn p-button-success p-button-success" data-toggle="tooltip" data-placement="bottom" title="Modificar"></button>
-  
-    <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8" [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
-  
-  </div>
-  
-  <div id="plantilla" style="display: none;">
-    <div style="background-color: white">
-      <table width="100%" style="border-collapse: collapse;">
-        <tr>
-          <td rowspan="2" style="width: 30%;border:solid thin #ccc;text-align: center">
-            <img style="width:100%;" id="P_empresa_logo" />
-          </td>        
-          <td style="width: 55%;border:solid thin #ccc;text-align: center">
-            SISTEMA DE GESTION DE SEGURIDAD Y SALUD EN EL TRABAJO
-          </td>
-          <td style="width: 15%;border:solid thin #ccc;text-align: center">
-            Código:<label id="P_codigo"></label><br><br>INP-<label id="P_numero"></label>
-          </td>
-          
-        </tr>
-        <tr>
-          <td style="border:solid thin #ccc;text-align: center">
-            <label id="P_lista_nombre"></label>
-          </td>
-          <td style="border:solid thin #ccc;text-align: center">
-            Versión: <label id="P_version"></label>
-          </td>
-        </tr>
-        <tr>
-          
-          <td  colspan="3" style="width: 30%;border:solid thin #ccc;text-align: center">      
-            <div>
-              <app-file-uploader *ngFor="let evidence of listaEvidence; let i = index" [img]="evidence" [index]="i"
-                  [show]="true" style="display:block;" width="20%" >
-              </app-file-uploader>          
-            </div>
-          </td>        
-          
-        </tr>
-        <tr>
-         <td colspan="3" style="background-color:#eee;border:solid thin #ccc;padding: 8px;">
-            <label id="P_formulario_nombre"></label>
-          </td> 
-        </tr>
-        <tr id="L_campos_formulario">
-          <td style="border:solid thin #ccc;padding: 8px;">
-  
-          </td>
-          <td style="border:solid thin #ccc;padding: 8px;" colspan="2">
-  
-          </td> 
-        </tr>
-      </table>
-  
-      <table width="100%" style="border-collapse: collapse;">
-        <tr id="L_elementos_lista">
-          <td id="C_codigo" style="border:solid thin #ccc;padding: 8px;">
-  
-          </td>
-          <td id="C_nombre" style="border:solid thin #ccc;padding: 8px;">
-  
-          </td>
-          <td id="C_opciones" style="border:solid thin #ccc;padding: 8px;">
-  
-          </td>
-          <td id="C_recomendacion" style="border:solid thin #ccc;padding: 8px;">
-  
-          </td>
-        </tr>
-      </table>
-      
-      <table width="100%" style="border-collapse: collapse;">
-        <tr>
-  
-        </tr>
-        <tr>
-          <td  colspan="1" style="width: 30%;border:solid thin #ccc;text-align: center">
-            Diligenciado por: <label id="P_version"></label>
-          </td>             
-           
-          <td rowspan="2" style="width: 200px;border:solid thin #ccc;text-align: center">
-                
-            <label id="P_firma"></label>
-            <label id="P_cargo"></label>
-          </td>
-          
-        </tr>
-        
-      </table>
-      <table width="100%" style="border-collapse: collapse;"  *ngIf="permisoHse">
-        <tr>
-          <td  colspan="4" style="background-color:#eee;border:solid thin #ccc;padding: 8px;">
-            Visto Bueno Maquinaria
-          </td>
-          
-         
-        </tr>
-        <tr> 
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label>Concepto</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label id="P_conceptohse">{{inspeccion?.conceptohse}}</label>
-          
-          </td>
-          
-        </tr>
-        <tr>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label>Usuario que gestiona</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label>{{inspeccion?.empleadohse?.primerNombre}} {{inspeccion?.empleadohse?.primerApellido}}</label>
-          
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label>Cargo</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label>{{inspeccion?.empleadohse?.cargo.nombre}}</label>
-          
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label >Fecha</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label >{{inspeccion?.fechavistohse | date:'dd/MM/yyyy HH:mm'}}</label>
-          
-          </td>
-          
-        </tr>
-      </table>
-      <table width="100%" style="border-collapse: collapse;" *ngIf="permisoIngenieria">
-        <tr>
-          <td  colspan="4" style="background-color:#eee;border:solid thin #ccc;padding: 8px;">
-            Visto Bueno Area encargada
-          </td>
-          
-         
-        </tr>
-        <tr> 
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label>Concepto</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label>{{inspeccion?.conceptoing}}</label>
-          
-          </td>
-          
-        </tr>
-        <tr>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label>Usuario que gestiona</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label>{{inspeccion?.empleadoing?.primerNombre}} {{inspeccion?.empleadoing?.primerApellido}}</label>
-          
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label>Cargo</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label>{{inspeccion?.empleadoing?.cargo.nombre}}</label>
-          
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
-                
-          <label >Fecha</label>
-          
-          </td>
-          <td colspan="2" style="width: 200px;border:solid thin #ccc;">
-                
-          <label >{{inspeccion?.fechavistoing | date:'dd/MM/yyyy HH:mm'}}</label>
-          
-          </td>
-        </tr>
-      </table>
-  
+    <div class="uploaders" *ngIf="listaEvidence.length > 0 ">
+      <app-file-uploader *ngFor="let evidence of listaEvidence; let i = index" [img]="evidence" [index]="i"
+        [show]="true">
+      </app-file-uploader>
     </div>
-  
-    <p style="page-break-after: always" *ngIf="flagImprimir"></p>
-    <div *ngIf="flagImprimir"><h1><strong><u>Anexos:</u></strong></h1></div>
-  
-    <br/> 
-    <ng-container *ngFor="let a of x; let index1 = index">
-    <table width="100%" style="border-collapse: collapse;margin: auto;" >
-      
-      <!-- <p style="page-break-after: always" *ngIf="index1>0"></p> -->
-      <tr>  
-        <td style="text-align: left">
-        <h3>{{a.codigo+" "+a.nombre}}:</h3>
-        </td>
-      </tr>   
+  </p-panel>
+  <br />
+  <s-formulario *ngIf="listaInspeccion?.formulario" [formularioModel]="listaInspeccion?.formulario"
+    (onValidChange)="actualizarValidacion($event)"></s-formulario>
+  <br />
+  <app-lista-inspeccion-form [value]="listaInspeccion?.elementoInspeccionList"
+    [opciones]="listaInspeccion?.opcionCalificacionList" [editable]="false" [disabled]="consultar"
+    [nivelRiesgoList]="nivelRiesgoList" diligenciable="true" #listaInspeccionForm
+    [usarNivelRiesgo]="listaInspeccion?.usarNivelRiesgo" [usarTipoHallazgo]="listaInspeccion?.usarTipoHallazgo"
+    [tipoLista]="listaInspeccion?.tipoLista"></app-lista-inspeccion-form>
+  <!-- (elementoSelect)="onElementoClick($event)" -->
+  <br>
+  <p-panel *sTienePermiso="'INP_GET_ESTADO'">
+    <p-header>
+      <i class="fa fa-th-list" aria-hidden="true"></i>
+      <label class="ui-panel-title">Estado de la maquina</label>
+    </p-header>
+    <div>
+      <div class="input-field">
+        <label for="">Estado</label>
+        <p-dropdown [disabled]="accion=='GET'" [options]="EstadoOptionList" class="select-material"
+          styleClass="select-material" [(ngModel)]="equipo">
+        </p-dropdown>
+      </div>
+    </div>
+    <label>Observaciones</label>
+    <div class="input-field">
+      <textarea [readOnly]="accion=='GET'" pInputTextarea [(ngModel)]="observacion" [value]="observacion"
+        rows="3"></textarea>
+    </div>
+  </p-panel>
+
+  <br />
+
+  <p-panel *ngIf="permisoHse">
+    <p-header>
+      <i class="fa fa-th-list" aria-hidden="true"></i>
+      <label class="ui-panel-title">Visto Bueno Maquinaria</label>
+    </p-header>
+    <form [formGroup]="FormHseq" *ngIf="mostarHseGet">
+      <div>
+        <i class="pi pi-check-circle aceptar" *ngIf="FormHseq.value.concepto=='Aceptado'"></i>
+        <i class="pi pi-minus-circle denegar" *ngIf="FormHseq.value.concepto=='Denegado'"></i>
+        <label>Concepto</label>
+        <div>
+          <input type="text" formControlName="concepto" [(ngModel)]="FormHseq.value.concepto"
+            [value]="FormHseq.value.concepto" readOnly="true" />
+        </div>
+        <label>Usuario que Gestiona</label>
+        <div>
+          <input type="text" formControlName="usuarioGestiona" [(ngModel)]="FormHseq.value.usuarioGestiona"
+            [value]="FormHseq.value.usuarioGestiona" readOnly="true" />
+        </div>
+        <label>Cargo</label>
+        <div>
+          <input type="text" [(ngModel)]="FormHseq.value.cargo" formControlName="cargo" readOnly="true" />
+        </div>
+        <label>Fecha</label>
+        <div>
+          <input [readOnly]="!FormHseq.invalid" type="date" formControlName="fecha"
+            [value]="selectDateHse|date:'yyyy-MM-dd':'GMT'" [min]="minDateHse|date:'yyyy-MM-dd'"
+            [max]="maxDateHse | date:'yyyy-MM-dd'" style="width: 20%;" [(ngModel)]="selectDateHse"
+            (ionChange)="rangoFechaCierreHse($event)" />
+        </div>
+        <br>
+        <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check"
+          label="Aceptar" (click)="botonAceptar('HSE')"
+          class="p-button-raised p-button-success margin-right margin-left" style="margin-right: 10px;"></button>
+        <button *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" pButton type="button"
+          class="p-button-raised p-button-danger margin-right margin-left" icon="bi bi-x-lg" label="Denegar"
+          (click)="botonDenegar('HSE')"></button>
+      </div>
+    </form>
+    <div *ngIf="!mostarHseGet">
+      <h2>No posee visto bueno</h2>
+    </div>
+  </p-panel>
+
+  <br>
+  <p-panel *ngIf="permisoIngenieria">
+    <p-header>
+      <i class="fa fa-th-list" aria-hidden="true"></i>
+      <label class="ui-panel-title">Visto Bueno Area encargada</label>
+    </p-header>
+    <form [formGroup]="FormIng" *ngIf="mostarIngGet">
+      <div>
+        <i class="pi pi-check-circle aceptar" *ngIf="FormIng.value.concepto=='Aceptado'"></i>
+        <i class="pi pi-minus-circle denegar" *ngIf="FormIng.value.concepto=='Denegado'"></i>
+        <label>Concepto</label>
+        <div>
+          <input type="text" formControlName="concepto" [(ngModel)]="FormIng.value.concepto"
+            [value]="FormIng.value.concepto" readOnly="true" />
+        </div>
+        <label>Usuario que Gestiona</label>
+        <div>
+          <input type="text" formControlName="usuarioGestiona" [(ngModel)]="FormIng.value.usuarioGestiona"
+            [value]="FormIng.value.usuarioGestiona" readOnly="true" />
+        </div>
+        <label>Cargo</label>
+        <div>
+          <input type="text" [(ngModel)]="FormIng.value.cargo" formControlName="cargo" readOnly="true" />
+        </div>
+        <label>Fecha</label>
+        <div>
+          <input [readOnly]="!FormIng.invalid" type="date" formControlName="fecha"
+            [value]="selectDateIngenieria|date:'yyyy-MM-dd':'GMT'" [min]="minDateIngenieria|date:'yyyy-MM-dd'"
+            [max]="maxDateIngenieria | date:'yyyy-MM-dd'" style="width: 20%;" [(ngModel)]="selectDateIngenieria"
+            (ionChange)="rangoFechaCierre($event)" />
+        </div>
+        <br>
+        <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button" icon="pi pi-check"
+          label="Aceptar" (click)="botonAceptar('ING')"
+          class="p-button-raised p-button-success margin-right margin-left" style="margin-right: 10px;"></button>
+        <button *ngIf="FormIng.invalid" [disabled]="isEmpleadoValid" pButton type="button"
+          class="p-button-raised p-button-danger margin-right margin-left" icon="bi bi-x-lg" label="Denegar"
+          (click)="botonDenegar('ING')"></button>
+      </div>
+    </form>
+    <div *ngIf="!mostarIngGet">
+      <h2>No posee visto bueno</h2>
+    </div>
+  </p-panel>
+
+  <p-panel *ngIf="listaInspeccion && esListaConPeso">
+    <p-header>
+      <i class="pi pi-chart-bar" style="margin-right: 10px;" aria-hidden="true"></i>
+      <span style="font-size: 1.2rem;">Resultado inspección de campo</span>
+    </p-header>
+    <table class="table table-striped-columns">
+      <thead>
+        <tr class="table-info">
+          <th>TÍTULO</th>
+          <th>DESCRIPCIÓN</th>
+          <th>CALIFICACIÓN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let elemInp of listaInspeccion?.elementoInspeccionList">
+          <td> {{elemInp?.nombre}} </td>
+          <td> {{elemInp?.descripcion}} </td>
+          <td> {{calcularCalificacion(elemInp.elementoInspeccionList)}} </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"><b>TOTAL</b></td>
+          <td class="table-info">{{calcularTotalCumplimiento(listaInspeccion)}}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </p-panel>
+
+  <br>
+  <br>
+  <button pButton type="button" icon="pi pi-save
+" *ngIf="adicionar && solicitando == false" (click)="onSubmit()" class="float-btn" data-toggle="tooltip"
+    data-placement="bottom" title="Guardar"></button>
+
+  <button pButton type="button" icon="bi bi-pencil-square" *ngIf="modificar && solicitando == false"
+    (click)="onSubmit()" class="float-btn p-button-success p-button-success" data-toggle="tooltip"
+    data-placement="bottom" title="Modificar"></button>
+
+  <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
+    [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
+
+</div>
+
+<div id="plantilla" style="display: none;">
+  <div style="background-color: white">
+    <table width="100%" style="border-collapse: collapse;">
       <tr>
-        <td  style="text-align: center"  *ngFor="let i of a.data2; let index2 = index">
+        <td rowspan="2" style="width: 30%;border:solid thin #ccc;text-align: center">
+          <img style="width:100%;" id="P_empresa_logo" />
+        </td>
+        <td style="width: 55%;border:solid thin #ccc;text-align: center">
+          SISTEMA DE GESTION DE SEGURIDAD Y SALUD EN EL TRABAJO
+        </td>
+        <td style="width: 15%;border:solid thin #ccc;text-align: center">
+          Código:<label id="P_codigo"></label><br><br>INP-<label id="P_numero"></label>
+        </td>
+
+      </tr>
+      <tr>
+        <td style="border:solid thin #ccc;text-align: center">
+          <label id="P_lista_nombre"></label>
+        </td>
+        <td style="border:solid thin #ccc;text-align: center">
+          Versión: <label id="P_version"></label>
+        </td>
+      </tr>
+      <tr>
+
+        <td colspan="3" style="width: 30%;border:solid thin #ccc;text-align: center">
+          <div>
+            <app-file-uploader *ngFor="let evidence of listaEvidence; let i = index" [img]="evidence" [index]="i"
+              [show]="true" style="display:block;" width="20%">
+            </app-file-uploader>
+          </div>
+        </td>
+
+      </tr>
+      <tr>
+        <td colspan="3" style="background-color:#eee;border:solid thin #ccc;padding: 8px;">
+          <label id="P_formulario_nombre"></label>
+        </td>
+      </tr>
+      <tr id="L_campos_formulario">
+        <td style="border:solid thin #ccc;padding: 8px;">
+
+        </td>
+        <td style="border:solid thin #ccc;padding: 8px;" colspan="2">
+
+        </td>
+      </tr>
+    </table>
+
+    <table width="100%" style="border-collapse: collapse;">
+      <tr id="L_elementos_lista">
+        <td id="C_codigo" style="border:solid thin #ccc;padding: 8px;">
+
+        </td>
+        <td id="C_nombre" style="border:solid thin #ccc;padding: 8px;">
+
+        </td>
+        <td id="C_opciones" style="border:solid thin #ccc;padding: 8px;">
+
+        </td>
+        <td id="C_recomendacion" style="border:solid thin #ccc;padding: 8px;">
+
+        </td>
+      </tr>
+    </table>
+
+    <table width="100%" style="border-collapse: collapse;">
+      <tr>
+
+      </tr>
+      <tr>
+        <td colspan="1" style="width: 30%;border:solid thin #ccc;text-align: center">
+          Diligenciado por: <label id="P_version"></label>
+        </td>
+
+        <td rowspan="2" style="width: 200px;border:solid thin #ccc;text-align: center">
+
+          <label id="P_firma"></label>
+          <label id="P_cargo"></label>
+        </td>
+
+      </tr>
+
+    </table>
+    <table width="100%" style="border-collapse: collapse;" *ngIf="permisoHse">
+      <tr>
+        <td colspan="4" style="background-color:#eee;border:solid thin #ccc;padding: 8px;">
+          Visto Bueno Maquinaria
+        </td>
+
+
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Concepto</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label id="P_conceptohse">{{inspeccion?.conceptohse}}</label>
+
+        </td>
+
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Usuario que gestiona</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label>{{inspeccion?.empleadohse?.primerNombre}} {{inspeccion?.empleadohse?.primerApellido}}</label>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Cargo</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label>{{inspeccion?.empleadohse?.cargo.nombre}}</label>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Fecha</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label>{{inspeccion?.fechavistohse | date:'dd/MM/yyyy HH:mm'}}</label>
+
+        </td>
+
+      </tr>
+    </table>
+    <table width="100%" style="border-collapse: collapse;" *ngIf="permisoIngenieria">
+      <tr>
+        <td colspan="4" style="background-color:#eee;border:solid thin #ccc;padding: 8px;">
+          Visto Bueno Area encargada
+        </td>
+
+
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Concepto</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label>{{inspeccion?.conceptoing}}</label>
+
+        </td>
+
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Usuario que gestiona</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label>{{inspeccion?.empleadoing?.primerNombre}} {{inspeccion?.empleadoing?.primerApellido}}</label>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Cargo</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label>{{inspeccion?.empleadoing?.cargo.nombre}}</label>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;padding: 8px;">
+
+          <label>Fecha</label>
+
+        </td>
+        <td colspan="2" style="width: 200px;border:solid thin #ccc;">
+
+          <label>{{inspeccion?.fechavistoing | date:'dd/MM/yyyy HH:mm'}}</label>
+
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+  <p style="page-break-after: always" *ngIf="flagImprimir"></p>
+  <div *ngIf="flagImprimir">
+    <h1><strong><u>Anexos:</u></strong></h1>
+  </div>
+
+  <br />
+  <ng-container *ngFor="let a of x; let index1 = index">
+    <table width="100%" style="border-collapse: collapse;margin: auto;">
+
+      <!-- <p style="page-break-after: always" *ngIf="index1>0"></p> -->
+      <tr>
+        <td style="text-align: left">
+          <h3>{{a.codigo+" "+a.nombre}}:</h3>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center" *ngFor="let i of a.data2; let index2 = index">
           <img [src]="i.source" style="max-height: 350px;max-width: 250px;width:100%">
         </td>
       </tr>
       <tr>
         <td style="text-align: center">
-          {{a.calificacion}}        
+          {{a.calificacion}}
         </td>
-      </tr> 
-  
+      </tr>
+
     </table>
-    <table width="90%"  style="margin: auto;">
-      <tr >
-        <td style="text-align: center" >
-            {{y[index1]}}
+    <table width="90%" style="margin: auto;">
+      <tr>
+        <td style="text-align: center">
+          {{y[index1]}}
         </td>
       </tr>
     </table>
     <p style="page-break-after: always" *ngIf="(index1%2)!=0 && index1>0"></p>
-    <ng-container *ngIf="(index1%2)==0 && index1>1" ><br/></ng-container>
+    <ng-container *ngIf="(index1%2)==0 && index1>1"><br /></ng-container>
   </ng-container>
-  
-  </div>
-  
+
+</div>
