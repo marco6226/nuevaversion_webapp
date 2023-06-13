@@ -14,7 +14,7 @@ const routes: Routes = [
     },
     
   },
-  { path: 'firma', component: FirmaComponent,}
+  { path: 'firma/:id', component: FirmaComponent,}
 ];
 
 @NgModule({

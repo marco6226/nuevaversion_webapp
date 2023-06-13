@@ -13,6 +13,8 @@ import { EmpresaService } from 'src/app/website/pages/empresa/services/empresa.s
 import { Localidades} from 'src/app/website/pages/ctr/entities/aliados';
 import { PrimeNGConfig } from 'primeng/api';
 import { locale_es } from "src/app/website/pages/comun/entities/reporte-enumeraciones";
+import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
+import{firma} from 'src/app/website/pages/comun/entities/firma'
 
 
 @Component({
@@ -95,6 +97,7 @@ export class RemisionComponent implements OnInit {
   
 
   constructor(
+    private firmaservice:firmaservice,
     private sesionService: SesionService,
     private anexoSCM: anexoSCM,
     private confirmationService: ConfirmationService,
@@ -275,7 +278,6 @@ export class RemisionComponent implements OnInit {
 
 
   async GuardarAnexo(){
-
     let ax5 = new anexo5SCM();
     ax5.pk_case=Number(this.idCase)
     ax5.eliminado=false
@@ -286,10 +288,17 @@ export class RemisionComponent implements OnInit {
     if(!this.editAnexo){
 
       ax5.fecha_creacion=new Date()
-      await this.anexoSCM.create(ax5).then(async resp=>{
+      await this.anexoSCM.create(ax5).then(async (resp:any)=>{
         await this.cargarAnexo()
         this.msgs = [];
-        this.msgs.push({ severity: 'success', summary: 'Anexo creado', detail: 'Se ha creado correctamente el anexo'+this.anexo });})
+        this.msgs.push({ severity: 'success', summary: 'Anexo creado', detail: 'Se ha creado correctamente el anexo'+this.anexo });
+        console.log(resp)
+        let firm= new firma();
+        firm.idempresa=this.idEmpresa
+        firm.fechacreacion=new Date()
+        firm.idrelacionado=resp.id
+        this.firmaservice.create(firm).then(resp=>console.log(resp))
+      })
 
     }else{
       ax5.id=this.selectId
