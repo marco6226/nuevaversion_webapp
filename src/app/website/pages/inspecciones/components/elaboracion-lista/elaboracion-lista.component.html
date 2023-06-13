@@ -1,14 +1,14 @@
 <div *ngIf="finalizado" style="margin: 20px;">
     <h2>Inspección finalizada</h2>
 
-    <br/>
+    <br />
     <a (click)="resetAll()">Crear nueva lista de inspeccion</a>
 </div>
 <p-toast key="elaboracionLista"></p-toast>
 <div *ngIf="!finalizado">
 
     <div class="shadow ">
-        
+
         <p-panel header="Elaboración listas de inspeccion">
 
             <div class="row">
@@ -19,22 +19,25 @@
                                 <i class="pi pi-list" aria-hidden="true"></i> Información lista de inspección
                             </p-header>
                             <label class="s-float-label">Código</label>
-                            <input type="text" pInputText formControlName="codigo" required/>
-        
+                            <input type="text" pInputText formControlName="codigo" required />
+
                             <label class="s-float-label">Nombre</label>
-                            <input type="text" pInputText formControlName="nombre" required/>
+                            <input type="text" pInputText formControlName="nombre" required />
                             <label class="s-float-label">Versión</label>
-                            <input type="number" pInputText formControlName="version" required/>
-        
+                            <input type="number" pInputText formControlName="version" required />
+
                             <label class="s-float-label">Tipo lista</label>
-                            <p-dropdown [options]="tipoListaOpts" formControlName="tipoLista" editable="true" placeholder="--Seleccione--" required></p-dropdown>
-        
+                            <p-dropdown [options]="tipoListaOpts" formControlName="tipoLista" editable="true"
+                                placeholder="--Seleccione--" required></p-dropdown>
+
                             <label class="s-float-label">Perfiles</label>
-                            <p-multiSelect [options]="perfilList" formControlName="perfilesId" defaultLabel="--Perfiles--" required></p-multiSelect>
+                            <p-multiSelect [options]="perfilList" formControlName="perfilesId"
+                                defaultLabel="--Perfiles--" required></p-multiSelect>
                             <div *ngIf="modificar">
-                                <button  pButton type="button" (click)="actualizarProfile(false)" icon="pi pi-sync" title="Actualizar perfiles" [disabled]="!form.valid"></button>
+                                <button pButton type="button" (click)="actualizarProfile(false)" icon="pi pi-sync"
+                                    title="Actualizar perfiles" [disabled]="!form.valid"></button>
                             </div>
-        
+
                             <label class="s-float-label">Descripción</label>
                             <textarea pInputTextarea formControlName="descripcion"></textarea>
                         </p-panel>
@@ -42,109 +45,119 @@
                 </div>
                 <div class="col">
                     <div class="row">
-                    <div class="col">
-                        <p-panel>
-                            <p-header>
-                                <i class="pi pi-check-square-o" aria-hidden="true"></i>
-                                <label class="ui-panel-title">Opciones respuesta</label>
-                                <a style="float:right;" *ngIf="!consultar" (click)="addOpcionRespuesta()" title="Adicionar nueva opción de respuesta">Nuevo</a>
-                            </p-header>
-            
-                            <p-table #dt [value]="opcionesCalifList" autoLayout="true">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th>Valor</th>
-                                        <th>Despreciable</th>
-                                        <th>Obligar foto</th>
-                                        <th></th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-rowData>
-                                    <tr>
-                                        <td>
-                                            <input type="text" pInputText [(ngModel)]="rowData.nombre" />
-                                        </td>
-                                        <td>
-                                            <input type="text" pInputText [(ngModel)]="rowData.descripcion" />
-                                        </td>
-                                        <td>
-                                            <input type="number" pInputText [(ngModel)]="rowData.valor" />
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <p-checkbox name="groupname" binary="true" [(ngModel)]="rowData.despreciable" [disabled]="consultar"></p-checkbox>
-                                        </td>
-                                        <td style="text-align: center;">
-                                            <p-checkbox name="groupname" binary="true" [(ngModel)]="rowData.requerirDoc" [disabled]="consultar"></p-checkbox>
-                                        </td>
-                                        <td style="width:3em;">
-                                            <button pButton type="button" icon="bi bi-x-lg" class="soft-icon" (click)="removeOpcionCalificacion(rowData)"></button>
-                                        </td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-            
-                        </p-panel>
+                        <div class="col">
+                            <p-panel>
+                                <p-header>
+                                    <i class="pi pi-check-square-o" aria-hidden="true"></i>
+                                    <label class="ui-panel-title">Opciones respuesta</label>
+                                    <a style="float:right;" *ngIf="!consultar" (click)="addOpcionRespuesta()"
+                                        title="Adicionar nueva opción de respuesta">Nuevo</a>
+                                </p-header>
+
+                                <p-table #dt [value]="opcionesCalifList" autoLayout="true">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Descripción</th>
+                                            <th>Valor</th>
+                                            <th>Despreciable</th>
+                                            <th>Obligar foto</th>
+                                            <th></th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData>
+                                        <tr>
+                                            <td>
+                                                <input type="text" pInputText [(ngModel)]="rowData.nombre" />
+                                            </td>
+                                            <td>
+                                                <input type="text" pInputText [(ngModel)]="rowData.descripcion" />
+                                            </td>
+                                            <td>
+                                                <input type="number" pInputText [(ngModel)]="rowData.valor" />
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <p-checkbox name="groupname" binary="true"
+                                                    [(ngModel)]="rowData.despreciable"
+                                                    [disabled]="consultar"></p-checkbox>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <p-checkbox name="groupname" binary="true"
+                                                    [(ngModel)]="rowData.requerirDoc"
+                                                    [disabled]="consultar"></p-checkbox>
+                                            </td>
+                                            <td style="width:3em;">
+                                                <button pButton type="button" icon="bi bi-x-lg" class="soft-icon"
+                                                    (click)="removeOpcionCalificacion(rowData)"></button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+
+                            </p-panel>
+                        </div>
                     </div>
-                </div>
 
                     <div class="row">
-                    <div class="col">
-                        <p-panel>
-                            <p-header>
-                                <i class="pi pi-check-square-o" aria-hidden="true"></i>
-                                <label class="ui-panel-title"> Registro gráfico</label>
-                            </p-header> 
-                            <p-messages [(value)]="msgs"></p-messages>
-                            <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus" label="Adjuntar imágen" *ngIf="form.valid && listaEvidence.length == 0" ></button>
-                            <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus" label="Cambiar imágen " *ngIf="form.valid && listaEvidence.length > 0" ></button>
-                            <input name="myFile" type="file" style="visibility: hidden;" #fileInput (change)="onArchivoSelect($event, true)">
-                            
-            
-                            <s-galeria *ngIf="imagenesList?.length > 0 && form.valid" [images]="imagenesList"  ></s-galeria>
-                            
-                            <div class="uploaders" *ngIf="listaEvidence.length > 0 && cambiarImagenAnterior">
-                                <app-file-uploader *ngFor="let evidence of listaEvidence; let i = index" [img]="evidence" [index]="i"
-                                    [show]="true">
-                                </app-file-uploader>
-                            </div>
-            
-                        </p-panel>
+                        <div class="col">
+                            <p-panel>
+                                <p-header>
+                                    <i class="pi pi-check-square-o" aria-hidden="true"></i>
+                                    <label class="ui-panel-title"> Registro gráfico</label>
+                                </p-header>
+                                <p-messages [(value)]="msgs"></p-messages>
+                                <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus"
+                                    label="Adjuntar imágen" *ngIf="form.valid && listaEvidence.length == 0"></button>
+                                <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus"
+                                    label="Cambiar imágen " *ngIf="form.valid && listaEvidence.length > 0"></button>
+                                <input name="myFile" type="file" style="visibility: hidden;" #fileInput
+                                    (change)="onArchivoSelect($event, true)">
+
+
+                                <s-galeria *ngIf="imagenesList?.length > 0 && form.valid"
+                                    [images]="imagenesList"></s-galeria>
+
+                                <div class="uploaders" *ngIf="listaEvidence.length > 0 && cambiarImagenAnterior">
+                                    <app-file-uploader *ngFor="let evidence of listaEvidence; let i = index"
+                                        [img]="evidence" [index]="i" [show]="true">
+                                    </app-file-uploader>
+                                </div>
+
+                            </p-panel>
+                        </div>
                     </div>
-                </div>
-            
+
                 </div>
             </div>
 
-            
-
-        
-        
-        <div class="col-12">
-            <app-formulario-constructor #formularioConstructor></app-formulario-constructor>
-        </div>
-
-        <div class="col-12">
-            <app-lista-inspeccion-form [value]="elementoInspeccionList" [editable]="!consultar" [tipoLista]="form.value.tipoLista"></app-lista-inspeccion-form>
-        </div>
-        
 
 
-    <div *ngIf="adicionar">
-        <button *sTienePermiso="'INP_POST_LISTINP'" class="float-btn" pButton type="button" (click)="guardar()" icon="pi pi-save" [disabled]="!form.valid"></button>
-    </div>
 
-    <div *ngIf="modificar">
-        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn" pButton type="button" (click)="actualizar(true)" icon="pi pi-sync" title="Crear nueva versión de la lista" [disabled]="!form.valid"></button>
-    </div>
 
-    <div *ngIf="modificar">
-        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn p-button-success" pButton type="button" (click)="actualizar(false)" icon="pi pi-pencil" title="Actualizar datos" style="bottom: 100px;" [disabled]="!form.valid"></button>
-    </div>
+            <div class="col-12">
+                <app-formulario-constructor #formularioConstructor></app-formulario-constructor>
+            </div>
 
+            <div class="col-12">
+                <app-lista-inspeccion-form [value]="elementoInspeccionList" [editable]="!consultar"
+                    [tipoLista]="form.value.tipoLista"></app-lista-inspeccion-form>
+            </div>
         </p-panel>
     </div>
-        
-   
+    <div *ngIf="adicionar">
+        <button *sTienePermiso="'INP_POST_LISTINP'" class="float-btn" pButton type="button" (click)="guardar()"
+            icon="pi pi-save" [disabled]="!form.valid"></button>
+    </div>
+
+    <div *ngIf="modificar">
+        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn p-button-warning" pButton type="button"
+            (click)="actualizar(true)" icon="pi pi-sync" title="Crear nueva versión de la lista"
+            [disabled]="!form.valid"></button>
+    </div>
+
+    <div *ngIf="modificar">
+        <button *sTienePermiso="'INP_PUT_LISTINP'" class="float-btn p-button-success" pButton type="button"
+            (click)="actualizar(false)" icon="pi pi-pencil" title="Actualizar datos" style="bottom: 100px;"
+            [disabled]="!form.valid"></button>
+    </div>
 </div>

@@ -186,11 +186,11 @@
 
   <br>
   <br>
-  <button pButton type="button" icon="pi pi-save
-" *ngIf="adicionar && solicitando == false" (click)="onSubmit()" class="float-btn" data-toggle="tooltip"
-    data-placement="bottom" title="Guardar"></button>
+  <button pButton type="button" icon="pi pi-save" 
+    *ngIf="adicionar && solicitando == false" (click)="onSubmit()" class="float-btn"
+    data-toggle="tooltip" data-placement="bottom" title="Guardar"></button>
 
-  <button pButton type="button" icon="bi bi-pencil-square" *ngIf="modificar && solicitando == false"
+  <button pButton type="button" icon="pi pi-pencil" *ngIf="modificar && solicitando == false"
     (click)="onSubmit()" class="float-btn p-button-success p-button-success" data-toggle="tooltip"
     data-placement="bottom" title="Modificar"></button>
 
