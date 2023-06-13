@@ -144,4 +144,15 @@ sendNotificationObservacionDenegada(email: string, observacion:any) {
             );
     });
 }
+
+    async resetPasswd(email: string) {
+        return new Promise(async (resolve, reject) => {
+            await this.httpInt
+                .get(this.authEndPoint + "recuperarPasswd/" + email)
+                .subscribe(
+                    (res) => resolve(res),
+                    (err) => reject(err)
+                );
+        });
+    }
 }
