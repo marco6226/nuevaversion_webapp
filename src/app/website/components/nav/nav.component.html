@@ -17,8 +17,8 @@
         <mat-icon [matBadge]="tareasPendientesTotal" (mouseover)="op.toggle($event)" (mouseover)="cargartareas()" [matBadgeColor]="BadgeColor" aria-hidden="false" fontIcon="notifications"></mat-icon>
     </div>
     <div class="col5" (click)="showDialogSideBar()" type="button">
-        <mat-icon *ngIf="!usuario?.icon" aria-hidden="false" fontIcon="account_circle"></mat-icon>
-        <img *ngIf="usuario?.icon" [src]="usuario.icon"/>
+        <mat-icon *ngIf="!usuario?.avatar" aria-hidden="false" fontIcon="account_circle"></mat-icon>
+        <img *ngIf="usuario?.avatar" [src]="usuario.avatar"/>
         <label type="button" class="text-color-white" for="">{{usuario?.email}}</label>  
     </div>
 </div>
