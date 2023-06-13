@@ -27,6 +27,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   @Input('tipoLista') tipoLista?: string;
   nivel?: any;
   contadorElem: number = 0;
+  elemConEtiqueta: number[] = [];
 
   listasConPeso: string[] = [
     'Ciclo corto'
@@ -106,6 +107,27 @@ export class ElementoInspeccionNodeComponent implements OnInit {
 
   get conPeso(): boolean{
     return this.tipoLista && this.listasConPeso.includes(this.tipoLista) ? true : false;
+  }
+
+  porcentajeCumplimiento(elementoInspeccionList: ElementoInspeccion[], opciones: OpcionCalificacion[]): string{
+    let cumplimiento: number = 0;
+    let obtenido = 0;
+    let esperado = 0;
+
+    elementoInspeccionList.forEach(elem => {
+      if(elem.calificacion.opcionCalificacion.id){
+        let valorSeleccion = opciones.find(item => item.id === elem.calificacion.opcionCalificacion.id && !item.despreciable)?.valor;
+        if(typeof valorSeleccion !== 'undefined'){
+          obtenido += (valorSeleccion * elem.peso!);
+          esperado += elem.peso!;
+        }
+      }
+    });
+
+    // console.log(obtenido, esperado);
+    cumplimiento = (obtenido / esperado) * 100;
+
+    return !isNaN(cumplimiento) || cumplimiento === Infinity ? cumplimiento.toFixed(2) : '0';
   }
 
 }

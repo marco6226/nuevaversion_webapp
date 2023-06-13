@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MessageService } from 'primeng/api';
@@ -9,12 +9,13 @@ import { Empresa } from '../../pages/empresa/entities/empresa';
 import { Usuario } from '../../pages/empresa/entities/usuario';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
 import { MisTareasComponent } from '../../pages/sec/components/mis-tareas/mis-tareas.component';
+import { UsuarioService } from '../../pages/admin/services/usuario.service';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
-  providers:[MisTareasComponent]
+  providers:[MisTareasComponent, UsuarioService]
 })
 export class NavComponent implements OnInit {
   
@@ -25,7 +26,7 @@ export class NavComponent implements OnInit {
   @Output() reloadEmpresa = new EventEmitter();
   @ViewChild('imgAvatar', { static: false }) imgAvatar!: HTMLImageElement;
   @ViewChild('inputFile', { static: false }) inputFile!: HTMLInputElement;
-  
+
   uploadedFiles: any[] = [];
 
   selectedItem!: SelectItem;
@@ -39,6 +40,7 @@ export class NavComponent implements OnInit {
 	public tareasPendientes: any;
   tareasPendientesTotal: number = 0 ;
   BadgeColor: string = 'null'
+  canvas: any;
 
   constructor(
 		private authService: AuthService,
@@ -47,8 +49,14 @@ export class NavComponent implements OnInit {
     private cambioPasswdService: CambioPasswdService,
 		private sesionService: SesionService,
     private empresaService: EmpresaService,
+    private sessionService: SesionService,
+    private usuarioService: UsuarioService,
 		private mistareas: MisTareasComponent,
-    ) {}
+    ) {
+      this.canvas = document.createElement('canvas');
+      this.canvas.width = 48;
+      this.canvas.height = 48;
+    }
 
   async ngOnInit(): Promise<void> {  
     // debugger
@@ -106,6 +114,7 @@ export class NavComponent implements OnInit {
     aceptarImg() {
       this.visibleDlg = false;
       this.usuario.avatar = this.croppedImage;
+      this.actualizarUsuario();
     }
 
     fileChangeEvent(event: any): void {
@@ -155,6 +164,24 @@ export class NavComponent implements OnInit {
 
   dashBoard(){
     this.router.navigate([('/app/home')]);
+  }
+
+  async actualizarUsuario() {
+    
+    let ctx = await this.canvas.getContext("2d");
+    ctx.drawImage(await (<any>this.imgAvatar!).nativeElement, 0, 0, 48, 48);
+    this.usuario.icon = this.canvas.toDataURL();
+    debugger
+    this.usuarioService.edit(this.usuario).then(
+      async resp => {
+        let usuario = await this.sessionService.getUsuario();
+        usuario!.email = this.usuario.email;
+        usuario!.avatar = this.usuario.avatar;
+        usuario!.icon = this.usuario.icon;
+        this.sessionService.setUsuario(usuario!);
+        this.messageService.add({ summary: 'Usuario actualizado', detail: 'Se han actualizado correctamente los datos de usuario', severity: 'success' });
+      }
+    );
   }
 }
 

@@ -5,6 +5,8 @@ export interface ElementoInspeccion {
   id: string;
   codigo: string;
   nombre: string;
+  tieneEtiqueta: boolean;
+  etiqueta: string | null;
   descripcion: string;
   elementoInspeccionPadre: ElementoInspeccion;
   elementoInspeccionList: ElementoInspeccion[];

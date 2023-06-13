@@ -1,27 +1,26 @@
 <p-panel>
-    <p-header>
-      <i class="fa fa-th-list" aria-hidden="true"></i>
-      <label class="ui-panel-title">Elementos de inspección</label>
-    </p-header>
-  
-    <div  [formGroup]="inpForm2" class="grid">
-      <div class="col-12">
-        <div  style="margin-right: 25px;">
-          <app-elemento-inspeccion-node *ngIf="value" [value]="value" [editable]="editable" [opciones]="opciones" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
-            [diligenciable]="diligenciable" (onElementoClick)="elementoClick($event)" [tiposHallazgo]="tipoHallazgoList" [tipoLista]="tipoLista"></app-elemento-inspeccion-node>
-            <button *ngIf="editable"
-                    class="p-button-raised p-button-primary margin-right" 
-                    pButton type="button" 
-                    icon="pi pi-plus" 
-                    label="Nuevo elemento"
-                    title="Adicionar nuevo elemento" 
-                    (click)="adicionarElementoInp()"
-                    style="margin: 10px;"></button>
-          <!-- <a   (click)="adicionarElementoInp()" *ngIf="editable " title="Adicionar nuevo elemento">Nuevo elemento</a> -->
-        </div>
+  <p-header>
+    <i class="pi pi-list" aria-hidden="true" style="margin-right: 10px;"></i>
+    <b><label style="font-size: 1.2em;">Elementos de inspección</label></b>
+  </p-header>
+
+  <p-scrollPanel [style]="{'width': '100%', height: 'auto', display: 'grid'}" styleClass="custombar1">
+    <div [formGroup]="inpForm2">
+      <div>
+        <app-elemento-inspeccion-node *ngIf="value" [value]="value" [editable]="editable" [opciones]="opciones" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
+          [diligenciable]="diligenciable" (onElementoClick)="elementoClick($event)" [tiposHallazgo]="tipoHallazgoList" [tipoLista]="tipoLista"></app-elemento-inspeccion-node>
+          <button *ngIf="editable"
+                  class="p-button-raised p-button-primary margin-right" 
+                  pButton type="button" 
+                  icon="pi pi-plus" 
+                  label="Nuevo elemento"
+                  title="Adicionar nuevo elemento" 
+                  (click)="adicionarElementoInp()"
+                  style="margin: 10px;"></button>
+        <!-- <a   (click)="adicionarElementoInp()" *ngIf="editable " title="Adicionar nuevo elemento">Nuevo elemento</a> -->
       </div>
     </div>
-  
+  </p-scrollPanel>
 </p-panel>
 
 <p-dialog [(visible)]="visibleDlg" [draggable]="true" [resizable]="true" [responsive]="true" appendTo="body" [maximizable]="true"

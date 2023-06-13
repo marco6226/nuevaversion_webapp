@@ -17,7 +17,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import { PrimeNGConfig } from 'primeng/api';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions, EventSourceInput } from '@fullcalendar/core';
 
 @Component({
   selector: 'app-programacion',
@@ -25,7 +25,7 @@ import { CalendarOptions } from '@fullcalendar/core';
   styleUrls: ['./programacion.component.scss']
 })
 export class ProgramacionComponent implements OnInit {
-  
+
   localeES: any = locale_es;
   anioSelect!: number;
   mesSelect!: number;
@@ -45,16 +45,16 @@ export class ProgramacionComponent implements OnInit {
   areasPerm!: string;
   loading: boolean = false;
   progLoading: boolean = false;
-  permiso:boolean = false;;
+  permiso: boolean = false;;
   totalRecords!: number;
-  
+
   calendarOptions!: CalendarOptions;
   // events!: any[];
   events: EventList[] = [];
   event!: EventList;
 
   programacionList: Programacion[] = []
-  
+
   periodicidadList: SelectItem[] = [
     { label: 'Dia(s)', value: 'diario' },
     { label: 'Semana(s)', value: 'semana' },
@@ -80,8 +80,8 @@ export class ProgramacionComponent implements OnInit {
       valorFrecuencia: null,
       fechaHasta: null,
       semana: null
-    }); 
-   }
+    });
+  }
 
   async ngOnInit() {
     this.config.setTranslation(this.localeES);
@@ -91,26 +91,26 @@ export class ProgramacionComponent implements OnInit {
       locale: esLocale,
       dateClick: this.openDlg.bind(this),
       headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },      
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
       eventClick: this.eventListener.bind(this),
       editable: true,
       selectable: true,
       selectMirror: true,
       dayMaxEvents: true
-  };
+    };
 
- 
-    let permiso = this.sesionService.getPermisosMap()['INP_PUT_PROG'];  
+
+    let permiso = this.sesionService.getPermisosMap()['INP_PUT_PROG'];
     // // let empresa = this.sesionService.getEmpresa();     
 
     if (permiso != null && permiso.valido == true) {
       this.permiso = true;
     }
 
-    let user:any = JSON.parse(localStorage.getItem('session')!);
+    let user: any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();
 
 
@@ -120,15 +120,15 @@ export class ProgramacionComponent implements OnInit {
       value1: user.usuario.id,
       value2: null
     }];
-     
+
     const userP = await this.userService.findByFilter(filterQuery);
 
-    let userParray:any = userP;   
-   
+    let userParray: any = userP;
+
     this.areasPerm = this.sesionService.getPermisosMap()['INP_GET_PROG'].areas;
 
-     filterQuery = new FilterQuery();
-     filterQuery.filterList= [{
+    filterQuery = new FilterQuery();
+    filterQuery.filterList = [{
       field: 'estado',
       criteria: Criteria.NOT_EQUALS,
       value1: 'inactivo',
@@ -145,37 +145,37 @@ export class ProgramacionComponent implements OnInit {
           try {
             userParray.data.forEach((profile: any) => {
               let perfilArray = JSON.parse(obj.fkPerfilId)
-              
-              if(perfilArray.find((x: any)=> x == profile.id)!= undefined){
-                if(!this.listaInspeccionList.find(element=>element==obj)){
+
+              if (perfilArray.find((x: any) => x == profile.id) != undefined) {
+                if (!this.listaInspeccionList.find(element => element == obj)) {
                   this.listaInspeccionList.push(obj);
-                  this.listasInspeccionList.push({ label: obj.codigo + ' - ' + obj.nombre + ' v' + obj.listaInspeccionPK.version, value: obj.listaInspeccionPK } );
-                                  
-                }    
+                  this.listasInspeccionList.push({ label: obj.codigo + ' - ' + obj.nombre + ' v' + obj.listaInspeccionPK.version, value: obj.listaInspeccionPK });
+
+                }
               }
-              
+
             });
 
-          } 
-          catch (error){          
-              
-          } 
+          }
+          catch (error) {
+
+          }
         });
-        
+
       });
-    
+
     let fechaActual = new Date();
-    
+
     // await this.actualizarFecha(fechaActual.getFullYear(), fechaActual.getMonth());
-    
+
     this.form.controls['area'].disabled
 
     await this.actualizarEventos();
 
   }
 
-  async actualizarEventos(){
- 
+  async actualizarEventos() {
+
     let filterQuery = new FilterQuery();
 
     filterQuery.filterList = [
@@ -195,54 +195,54 @@ export class ProgramacionComponent implements OnInit {
     this.progLoading = true;
     try {
       this.programacionService.findByFilter(filterQuery)
-      .then((data: any) => {
-        
-        let array = <any[]>data['data'];
-        let objArray: any[] = [];
-        
-        array.forEach(dto => {
-          objArray.push(FilterQuery.dtoToObject(dto));
+        .then((data: any) => {
+
+          let array = <any[]>data['data'];
+          let objArray: any[] = [];
+
+          array.forEach(dto => {
+            objArray.push(FilterQuery.dtoToObject(dto));
+          });
+
+          this.matriz = [];
+          this.events = [];
+
+          this.programacionList = objArray;
+
+          objArray.forEach(element => {
+            let matrizData: MatrizList = {
+              dia: new Date,
+              programacionList: []
+            }
+            // debugger
+            this.matriz?.push(matrizData);
+
+            var _color = '#007AD9';
+            if (element.numeroRealizadas == element.numeroInspecciones) {
+              _color = 'green';
+            }
+
+            this.event = {
+              id: element.id,
+              title: element.numeroRealizadas + '/' + element.numeroInspecciones + 'Insp. en ' + element.area.nombre,
+              start: new Date(element.fecha),
+              end: new Date(element.fecha + 3600000),
+              color: _color,
+            }
+            this.events.push(this.event)
+          });
+
+
+          this.progLoading = false;
+        })
+        .catch(err => {
+          this.progLoading = false;
         });
-
-        this.matriz = [];
-        this.events = [];
-
-        this.programacionList = objArray;
-
-        objArray.forEach(element => {
-          let matrizData : MatrizList = {
-            dia: new Date,
-            programacionList: []
-          }
-        // debugger
-          this.matriz?.push(matrizData);
-
-          var _color = '#007AD9';
-          if(element.numeroRealizadas == element.numeroInspecciones){
-            _color = 'green';            
-          }
-
-          this.event = {
-            id: element.id,
-            title: element.numeroRealizadas + '/' + element.numeroInspecciones + 'Insp. en ' + element.area.nombre,
-            start: new Date(element.fecha),
-            end: new Date(element.fecha + 3600000),
-            color: _color,
-          }
-          this.events.push(this.event)
-        });
-
-  
-        this.progLoading = false;
-      })
-      .catch(err => {
-        this.progLoading = false;
-      });
     } catch (error) {
     }
-    
-      
-      
+
+
+
 
 
     this.event = {
@@ -251,11 +251,11 @@ export class ProgramacionComponent implements OnInit {
       start: new Date('1/1/1990'),
       description: ''
     }
-    
+
     this.events = []
     this.events.push(this.event)
   }
-  
+
 
   esBisiesto(year: number) {
     return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) ? true : false;
@@ -279,7 +279,7 @@ export class ProgramacionComponent implements OnInit {
       this.form.enable();
     }
 
-    if(!this.permiso)this.form.disable();
+    if (!this.permiso) this.form.disable();
   }
 
   openProg2(prog: Programacion) {
@@ -300,7 +300,7 @@ export class ProgramacionComponent implements OnInit {
       this.form.enable();
     }
 
-    if(!this.permiso)this.form.disable();
+    if (!this.permiso) this.form.disable();
   }
 
   openDlg(event: any) {
@@ -316,11 +316,11 @@ export class ProgramacionComponent implements OnInit {
       valorFrecuencia: 1,
       semana: this.semanaLaboral
     });
-    this.actualizarEventos();
+    // this.actualizarEventos();
   }
 
   onSubmit() {
-    
+
     this.loading = true;
     if (this.adicionar) {
       if (this.form.value.unidadFrecuencia == null || this.form.value.valorFrecuencia == null || this.form.value.fechaHasta == null) {
@@ -361,6 +361,9 @@ export class ProgramacionComponent implements OnInit {
           })
           .catch(err => {
             this.loading = false;
+          })
+          .finally(() => {
+            this.actualizarEventos();
           });
       });
     } else {
@@ -373,6 +376,8 @@ export class ProgramacionComponent implements OnInit {
         })
         .catch(err => {
           this.loading = false;
+        }).finally(() => {
+          this.actualizarEventos();
         });
     }
 
@@ -420,7 +425,7 @@ export class ProgramacionComponent implements OnInit {
 
 
   findMatrizValue(fecha: Date) {
-    
+
     for (let i = 0; i < this.matriz!.length; i++) {
       // for (let j = 0; j < this.matriz![i].length; j++) {
       //   // if (this.matriz![i][j] != null && this.matriz![i][j].dia.valueOf() === fecha.valueOf()) {
@@ -471,6 +476,9 @@ export class ProgramacionComponent implements OnInit {
       })
       .catch(err => {
         this.loading = false;
+      })
+      .finally(() => {
+        this.actualizarEventos();
       });
   }
 
@@ -484,17 +492,17 @@ export class ProgramacionComponent implements OnInit {
   }
 
   irInspeccion2() {
-    let programacionId = this.form.value.id;    
+    let programacionId = this.form.value.id;
     let matrizValue = this.findMatrizValue(this.fechaSelect);
-   
+
     this.paramNav.setParametro<Programacion>(this.programacionList.find(prog => prog.id === this.form.value.id)!);
     this.paramNav.setAccion<string>('POST');
     this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones/' + this.form.value.listaInspeccionPK.id + "/" + this.form.value.listaInspeccionPK.version);
-    let fecha : Date;
-            fecha= new Date;
+    let fecha: Date;
+    fecha = new Date;
   }
 
-  eventListener(event: any){
+  eventListener(event: any) {
     this.openProg(this.programacionList.find((x) => x.id == event.event.id))
   }
 
@@ -502,7 +510,7 @@ export class ProgramacionComponent implements OnInit {
 }
 
 
-export interface EventList{
+export interface EventList {
   id: number,
   title: string,
   start: Date,
@@ -512,7 +520,7 @@ export interface EventList{
   color?: string | null
 }
 
-export interface MatrizList{
-  dia: Date, 
-  programacionList: Programacion[] 
+export interface MatrizList {
+  dia: Date,
+  programacionList: Programacion[]
 }
