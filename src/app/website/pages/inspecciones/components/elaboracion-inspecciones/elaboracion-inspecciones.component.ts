@@ -101,6 +101,10 @@ export class ElaboracionInspeccionesComponent implements OnInit {
         { label: "Operativo", value: "Operativo" },
     ];
 
+    listasConPeso: Set<string> = new Set([
+        'Ciclo corto'
+    ]);
+
     constructor(
         private router: Router,
         private route: ActivatedRoute,
@@ -881,4 +885,41 @@ export class ElaboracionInspeccionesComponent implements OnInit {
         }
     }
 
+    get esListaConPeso(): boolean{
+        return this.listasConPeso.has(this.listaInspeccion.tipoLista);
+    }
+
+    calcularCalificacion(elementoInspeccionList: ElementoInspeccion[]): number | string{
+        let cumplimiento: number | string = 0;
+        let obtenido = 0;
+        let esperado = 0;
+        elementoInspeccionList.forEach(elem => {
+            this.listaInspeccion.opcionCalificacionList
+            if(elem.calificacion?.opcionCalificacion.id){
+                let valorSeleccion = this.listaInspeccion.opcionCalificacionList
+                .find(item => item.id === elem.calificacion.opcionCalificacion.id && !item.despreciable)?.valor;
+                if(typeof valorSeleccion !== 'undefined'){
+                    obtenido += (valorSeleccion * (elem.peso ?? 0));
+                    esperado += elem.peso ?? 0;
+                }
+            }
+        });
+        cumplimiento = (obtenido / esperado) * 100;
+        return !isNaN(cumplimiento) && cumplimiento !== Infinity ? cumplimiento.toFixed(2) : 'NA';
+    }
+
+    calcularTotalCumplimiento(listaInspeccion: ListaInspeccion): string | number {
+        let total: number = 0;
+        let porcAcum = 0;
+        let contElementos = 0;
+        for(let elemento of listaInspeccion?.elementoInspeccionList){
+            let calificacion: string | number = this.calcularCalificacion(elemento.elementoInspeccionList);
+            if(calificacion !== 'NA'){
+                porcAcum += Number(calificacion);
+                contElementos++;
+            }
+        }
+        total = porcAcum / contElementos;
+        return !isNaN(total) && total !== Infinity ? total.toFixed(2) : 'NA';
+    }
 }

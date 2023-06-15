@@ -127,7 +127,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     // console.log(obtenido, esperado);
     cumplimiento = (obtenido / esperado) * 100;
 
-    return !isNaN(cumplimiento) || cumplimiento === Infinity ? cumplimiento.toFixed(2) : '0';
+    return !isNaN(cumplimiento) && cumplimiento !== Infinity ? cumplimiento.toFixed(2) : 'NA';
   }
 
 }
