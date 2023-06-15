@@ -5,6 +5,8 @@ import { SesionService } from '../../../core/services/session.service';
 import { ActivatedRoute } from "@angular/router";
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
 import{firma} from 'src/app/website/pages/comun/entities/firma'
+import {formatDate} from '@angular/common';
+
 
 @Component({
   selector: 'app-firma',
@@ -17,8 +19,11 @@ export class FirmaComponent implements OnInit{
   @ViewChild('canvas') canvasEl?: ElementRef;
   signatureImg?: string;
   empresaSelect?: Empresa | null;
-  datosFirma?:any;
+  datosFirma?:any=[];
+  estadoFirma?:string
+
   firma?:any;
+  visibleDlg:boolean =true
 
   constructor(
     private sesionService: SesionService,
@@ -26,12 +31,36 @@ export class FirmaComponent implements OnInit{
     private firmaservice:firmaservice
   ) { }
   public async ngOnInit(){
-    this.lenghtWidows()
-    console.log(this.route.snapshot.params["id"])
-
-    this.firmaservice.findById(this.route.snapshot.params["id"]).then((resp:any)=>{
+    this.estadoFirma='noexiste'
+    await this.firmaservice.findById(this.route.snapshot.params["id"]).then((resp:any)=>{
       this.datosFirma=resp
-      console.log(resp)})
+
+      if(this.datosFirma.terminoscondiciones!=null){
+        if(!this.datosFirma.terminoscondiciones){
+          this.estadoFirma='noterminos'
+          return
+        }else{
+          this.visibleDlg=false
+        }
+      }
+
+      if(!this.datosFirma.firma){
+        let dateToday=new Date()
+        dateToday=new Date(formatDate(new Date(), 'yyyy/MM/dd', 'en'))
+
+        if(new Date(this.datosFirma.fechacreacion) < dateToday){
+          this.estadoFirma='firmavencida'
+          return
+        }
+        this.estadoFirma='firmar'
+        setTimeout(() => {
+          this.lenghtWidows()
+          this.signaturePad = new SignaturePad(this.canvasEl!.nativeElement);
+        }, 1000);
+      }else{
+        this.estadoFirma='firmado'
+      }
+    })
   }
 
   lenghtWidows(){
@@ -41,7 +70,7 @@ export class FirmaComponent implements OnInit{
     document.getElementById('tamcanvas')!.setAttribute("width", windowWidth);
   }
   ngAfterViewInit() {
-    this.signaturePad = new SignaturePad(this.canvasEl!.nativeElement);
+    
   }
 
   startDrawing(event: Event) {
@@ -73,5 +102,26 @@ export class FirmaComponent implements OnInit{
 
     this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
       console.log(er))
+  }
+
+  terminosyCondiciones(flagTerminos:boolean){
+    this.firma = this.signaturePad!.toDataURL();
+    let firm = new firma()
+    firm.id =this.datosFirma.id
+    firm.idempresa=this.datosFirma.idempresa;
+    firm.fechacreacion=this.datosFirma.fechacreacion;
+    firm.idrelacionado=this.datosFirma.idrelacionado;
+    firm.email=this.datosFirma.email;
+    firm.idusuario=this.datosFirma.idusuario;
+    firm.terminoscondiciones=flagTerminos;
+    console.log(firm)
+
+    this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
+      console.log(er))
+
+    if(!flagTerminos){
+      this.estadoFirma='noterminos'
+    }
+    this.visibleDlg=false
   }
 }

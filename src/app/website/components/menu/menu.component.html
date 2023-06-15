@@ -9,17 +9,19 @@
     </div>  
     <!-- <hr>   -->
     <div *ngFor="let item of items">
-        <div class="child-item" [pTooltip]="item.label" tooltipPosition="right" type="button" data-bs-toggle="collapse" [attr.data-bs-target]= "'#'+ item.codigo" aria-expanded="false" aria-label="Toggle navigation">
+        <div *sTienePermiso="item.codigo" class="child-item" [pTooltip]="item.label" tooltipPosition="right" type="button" data-bs-toggle="collapse" [attr.data-bs-target]= "'#'+ item.codigo" aria-expanded="false" aria-label="Toggle navigation">
             <div id="data" class="data-hide">
                 <i [class]="item.icon" class="icon-size"></i>
                 <span id="text-toggle" class="text-hide">{{item.label}}</span>
             </div>            
         </div>
-        <div *ngFor="let children of item.items" [pTooltip]="children.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="children.routerLink">
-            <div id="data" class="child-items data-hide">
-                <i [class]="children.icon" class="icon-size-child"></i>
-                <span id="text-toggle" class="text-hide">{{children.label}}</span >
-            </div>            
-        </div>
+        <ng-template ngFor let-subItem [ngForOf]="item.items">
+            <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem.routerLink">
+                <div id="data" class="child-items data-hide">
+                    <i [class]="subItem.icon" class="icon-size-child"></i>
+                    <span id="text-toggle" class="text-hide">{{subItem.label}}</span >
+                </div>            
+            </div>
+        </ng-template>
     </div>
  </div>

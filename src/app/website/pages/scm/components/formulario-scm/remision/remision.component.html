@@ -97,7 +97,8 @@
                 Institución hacia donde se remite:
             </div>
             <div class="col-6 ">
-                <input type="text" formControlName="instituto" required  [readonly]="flagConsultarAnexo5">
+                <p-dropdown appendTo="body" [options]="instituto" formControlName="instituto"></p-dropdown>
+                <!-- <input type="text" formControlName="instituto" required  [readonly]="flagConsultarAnexo5"> -->
             </div>
             <div class="col-6 ">
                 &nbsp;
@@ -299,7 +300,7 @@
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
             <td>PROCESO:&nbsp; <label id="P_proceso"></label></td>
-            <td>OFICIO:&nbsp; <label id="P_oficio"></label></td>
+            <td>OFICIO ACTUAL:&nbsp; <label id="P_oficio"></label></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>
@@ -418,7 +419,8 @@
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
             <td colspan="2">Área de trabajo:&nbsp; <label id="P_area"></label></td>
-            <td colspan="2">Cargo u oficio:&nbsp; <label id="P_cargo"></label></td>
+            <!-- <td colspan="2">Cargo u oficio:&nbsp; <label id="P_cargo"></label></td> -->
+            <td colspan="2">&nbsp;</td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
@@ -429,7 +431,7 @@
 
         <tr>
             <td colspan="4">El colaborador&nbsp;<label id="P_colaborador"></label>&nbsp;quien se desempeña en el cargo de 
-                &nbsp;<label id="P_fecha"></label>, posterior a valoración medico laboral y revisado su puesto de trabajo, se define lo siguiente:</td>
+                &nbsp;<label id="P_cargo"></label>, posterior a valoración medico laboral y revisado su puesto de trabajo, se define lo siguiente:</td>
         </tr>
     </table>
     <br>
@@ -475,7 +477,7 @@
         <tr><td colspan="4">&nbsp;</td></tr>
 
         <tr>
-            <td colspan="4">Yo, &nbsp;<label id="P_nombreApellidos2"></label>&nbsp;comprendí las explicaciones sobre aspectos de mi salud dadas por el equipo interdisciplinario, acepto las recomendaciones dadas y me comprometo a cumplir las recomendaciones, manteniendo una actitud de autocuidado intra y extralaboral mente.</td>
+            <td colspan="4">Procurando el cuidado integral de mi salud, una vez comprendidas las recomendaciones medico laborales dadas, me comprometo a cumplirlas intra y extralaboralmente.</td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
 
@@ -510,7 +512,7 @@
         </tr>
         <tr>
             <td colspan="4">
-                Firma de Gestión Integral:
+                Firma de Gestión Humana Integral:
             </td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>

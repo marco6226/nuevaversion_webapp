@@ -155,6 +155,32 @@ export class RemisionComponent implements OnInit {
 
   msgs?: Message[];
 
+  instituto:any=[
+    { label: "--Seleccione--", value: null },
+    { label: "Cardiologia", value: "Cardiologia" },
+    { label: "Cirugia", value: "Cirugia" },
+    { label: "Cirugia vascular periferica", value: "Cirugia vascular periferica" },
+    { label: "Dermatologia", value: "Dermatologia" },
+    { label: "Fisiatria", value: "Fisiatria" },
+    { label: "Ginecologia", value: "Ginecologia" },
+    { label: "Medicina deportiva", value: "Medicina deportiva" },
+    { label: "Medicina interna", value: "Medicina interna" },
+    { label: "Neumologia", value: "Neumologia" },
+    { label: "Neurocirugia", value: "Neurocirugia" },
+    { label: "Neurologia", value: "Neurologia" },
+    { label: "Nutrición y dietetica", value: "Nutrición y dietetica" },
+    { label: "Odontologia", value: "Odontologia" },
+    { label: "Oftalmologia", value: "Oftalmologia" },
+    { label: "Optometria", value: "Optometria" },
+    { label: "Ortopedia", value: "Ortopedia" },
+    { label: "Psicologia", value: "Psicologia" },
+    { label: "Urologia", value: "Urologia" }
+  ]
+  firmasAnexo5:any=[
+    'responsable',
+    'usuario'
+  ]
+  firmasAnexo5Link:any=[]
   ngOnInit(): void {
     this.config.setTranslation(this.localeES);
     this.idEmpresa=Number(this.sesionService.getEmpresa()?.id!)
@@ -234,7 +260,7 @@ export class RemisionComponent implements OnInit {
         template!.querySelector('#P_Division')!.textContent = anexo1.division
         template!.querySelector('#P_localidad')!.textContent = anexo1.localidad
         template!.querySelector('#P_nombreApellidos')!.textContent = anexo1.nombreApellidos
-        template!.querySelector('#P_nombreApellidos2')!.textContent = anexo1.nombreApellidos
+        // template!.querySelector('#P_nombreApellidos2')!.textContent = anexo1.nombreApellidos
         template!.querySelector('#P_cedula')!.textContent = anexo1.cedula
         template!.querySelector('#P_area')!.textContent = anexo1.area
         template!.querySelector('#P_cargo')!.textContent = anexo1.cargo
@@ -297,7 +323,13 @@ export class RemisionComponent implements OnInit {
         firm.idempresa=this.idEmpresa
         firm.fechacreacion=new Date()
         firm.idrelacionado=resp.id
-        this.firmaservice.create(firm).then(resp=>console.log(resp))
+        if(this.anexo=='5'){
+          this.firmasAnexo5.forEach((resp1:any) => {
+            console.log(resp1)
+            this.firmaservice.create(firm).then(resp2=>console.log(resp2))
+          });
+          
+        }
       })
 
     }else{
