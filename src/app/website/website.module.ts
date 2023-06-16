@@ -198,6 +198,9 @@ import { RegistroReporteCtrComponent } from './pages/rai/components/registro-rep
 import { SeguimientosgenericoformComponent } from './pages/scm/components/seguimientosgenericoform/seguimientosgenericoform.component';
 import { FirmaComponent } from './pages/comun/components/firma/firma.component';
 import { ResetPasswordComponent } from './pages/core/components/reset-password/reset-password.component';
+import { FormularioComponent } from './pages/comun/components/formulario/formulario.component';
+import { ChipsModule } from 'primeng/chips';
+
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -362,7 +365,8 @@ import { ResetPasswordComponent } from './pages/core/components/reset-password/r
     RegistroReporteCtrComponent,
     SeguimientosgenericoformComponent,
     FirmaComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    FormularioComponent
   ],
   imports: [
     MatTooltipModule,
@@ -401,6 +405,7 @@ import { ResetPasswordComponent } from './pages/core/components/reset-password/r
     ContextMenuModule,
     BreadcrumbModule,
     ScrollPanelModule,
+    ChipsModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
