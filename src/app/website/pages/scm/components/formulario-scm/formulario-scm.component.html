@@ -1461,6 +1461,9 @@
                                         <button pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
                                             title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
+                                        <button pButton pRipple type="button" pCancelEditableRow
+                                            icon="bi bi-link-45deg" (click)="anexo6seguimiento(seguimiento)"
+                                            title="Copiar link para firmar anexo" class="p-button-rounded p-button-text p-mr-2"></button>
                                         <ng-container *ngIf="idUltimoSeguimiento==seguimiento.id">
                                             <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton pRipple type="button" pCancelEditableRow
                                                 icon="pi pi-trash" (click)="deleteSeguimiento(seguimiento.id)"
@@ -1871,7 +1874,7 @@
         <br>
 
         <tr>
-            <td>Fecha:&nbsp; <label id="P_fechaseguiminto"></label></td>
+            <td>Fecha del seguimiento:&nbsp; <label id="P_fechaseguiminto"></label></td>
             <td colspan="3">&nbsp;</td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
@@ -1886,7 +1889,6 @@
             <td colspan="2">Oficio:&nbsp; <label id="P_cargo"></label></td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
-
     </table>
     <div style="margin: auto; width: 85%;">
         
@@ -1894,4 +1896,25 @@
             <label id="P_textseguimiento"></label>
         </div>
     </div>
+    <br>
+    <br>
+    <table width="85%" style="border-collapse: collapse; margin: auto;">
+        <tr>
+            <td colspan="2" style="border-bottom: 1px solid #c8c8c8; width: 50%;">
+                &nbsp;
+            </td>
+            <td colspan="2">
+                &nbsp;
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                Firma usuario que aprueba el seguimiento:
+            </td>
+            <td colspan="2">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
 </div>

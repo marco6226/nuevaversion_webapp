@@ -8,6 +8,15 @@
             <tr>
                 <th scope="col" pSortableColumn="pk_case" style="width: 10%;">Id Anexo {{anexo}}</th>
                 <th scope="col" pSortableColumn="fecha_creacion">Fecha creación</th>
+                <th *ngIf="anexo==5" scope="col" pSortableColumn="firmas" style="width: 5%;">Firma responsable</th>
+                <th *ngIf="anexo==5" scope="col" pSortableColumn="firmas" style="width: 5%;">Firma usuario</th>
+
+                <th *ngIf="anexo==1" scope="col" pSortableColumn="firmas" style="width: 5%;">Firma trabajador</th>
+                <th *ngIf="anexo==1" scope="col" pSortableColumn="firmas" style="width: 5%;">Firma jefe inmediato</th>
+                <th *ngIf="anexo==1" scope="col" pSortableColumn="firmas" style="width: 5%;">Firma gestion humana</th>
+                <th *ngIf="anexo==1" scope="col" pSortableColumn="firmas" style="width: 5%;">Firma sst</th>
+                <th *ngIf="anexo==1" scope="col" pSortableColumn="firmas" style="width: 5%;">Firma medico</th>
+
             </tr>
         </ng-template>
 
@@ -17,7 +26,58 @@
 
                 <td class="p-text-center">{{ anex5.id }}</td>
                 <td class="p-text-center">{{ anex5.fecha_creacion | date: 'dd/MM/yyyy' }}</td>
+                <td *ngIf="anexo==5" class="p-text-center"><button
+                    pButton type="button" 
+                    icon="bi bi-link-45deg" 
+                    class="p-button-primary"
+                    pTooltip="Copiar link"
+                    (click)="copiarLink(anex5.firmas,'responsable')"
+                    ></button></td>
+                <td *ngIf="anexo==5"class="p-text-center"><button
+                    pButton type="button" 
+                    icon="bi bi-link-45deg" 
+                    class="p-button-primary"
+                    pTooltip="Copiar link"
+                    (click)="copiarLink(anex5.firmas,'usuario')"
+                    ></button></td>
 
+                <td *ngIf="anexo==1" class="p-text-center"><button
+                    pButton type="button" 
+                    icon="bi bi-link-45deg" 
+                    class="p-button-primary"
+                    pTooltip="Copiar link"
+                    (click)="copiarLink(anex5.firmas,'trabajador')"
+                    ></button></td>
+                <td *ngIf="anexo==1"class="p-text-center"><button
+                    pButton type="button" 
+                    icon="bi bi-link-45deg" 
+                    class="p-button-primary"
+                    pTooltip="Copiar link"
+                    (click)="copiarLink(anex5.firmas,'jefe')"
+                    ></button></td>
+
+                <td *ngIf="anexo==1" class="p-text-center"><button
+                    pButton type="button" 
+                    icon="bi bi-link-45deg" 
+                    class="p-button-primary"
+                    pTooltip="Copiar link"
+                    (click)="copiarLink(anex5.firmas,'gestion')"
+                    ></button></td>
+                <td *ngIf="anexo==1"class="p-text-center"><button
+                    pButton type="button" 
+                    icon="bi bi-link-45deg" 
+                    class="p-button-primary"
+                    pTooltip="Copiar link"
+                    (click)="copiarLink(anex5.firmas,'sst')"
+                    ></button></td>
+
+                <td *ngIf="anexo==1" class="p-text-center"><button
+                    pButton type="button" 
+                    icon="bi bi-link-45deg" 
+                    class="p-button-primary"
+                    pTooltip="Copiar link"
+                    (click)="copiarLink(anex5.firmas,'medico')"
+                    ></button></td>
             </tr>
 
         </ng-template>
@@ -97,7 +157,7 @@
                 Institución hacia donde se remite:
             </div>
             <div class="col-6 ">
-                <p-dropdown appendTo="body" [options]="instituto" formControlName="instituto"></p-dropdown>
+                <p-dropdown [filter]="true" appendTo="body" [options]="instituto" formControlName="instituto"></p-dropdown>
                 <!-- <input type="text" formControlName="instituto" required  [readonly]="flagConsultarAnexo5"> -->
             </div>
             <div class="col-6 ">

@@ -6,4 +6,5 @@ export class anexo5SCM{
     fecha_creacion?: Date;
     tipo?: number;
     idempresa?:number;
+    firmas?:string;
 }

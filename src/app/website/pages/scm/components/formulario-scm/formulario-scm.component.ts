@@ -743,7 +743,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     // Component methods
     buscarEmpleado(event: any) {
-        console.log(event)
         this.empleadoService
             .buscar(event.query)
             .then((data) => (this.empleadosList = <Empleado[]>data));
@@ -756,14 +755,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let emp = <Empleado>this.value;
         this.casosList = await this.scmService.getCaseList(emp.id!);
         this.empleadoSelect = emp;
-        console.log(this.empleadoSelect)
         this.empresaForm!.reset()
         if(this.empleadoSelect){
-            console.log(this.empresaForm)
             this.empresaForm!.value.nit = this.empleadoSelect.nit
             this.empresaForm!.value.empresa = {label:this.empleadoSelect.empresa, empresa:this.empleadoSelect.empresa, nit:this.empleadoSelect.nit}
             this.empresaSelect2 = this.empresaForm!.value.empresa
-            console.log(this.empresaForm)
         }
         this.loaded = true;
         this.nameAndLastName = (this.empleadoSelect.primerApellido || "") + " " + (this.empleadoSelect.segundoApellido || "") + " " + (this.empleadoSelect.primerNombre || "") + " " + (this.empleadoSelect.segundoNombre || " ");
@@ -797,7 +793,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
 
         if (this.empleadoSelect.jefeInmediato) {
-            console.log(this.empleadoSelect.jefeInmediato)
             this.onSelectionJefeInmediato(this.empleadoSelect.jefeInmediato);
             this.jefeInmediatoName=this.jefeInmediatoName0
         }
@@ -924,7 +919,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.empleadoService.update(empleado)
             .then(async data => {
                 this.jefeInmediatoName=this.jefeInmediatoName0
-                console.log(this.jefeInmediatoName)
 
                 this.messageService.add({
                     key: 'formScm',
@@ -1012,7 +1006,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             email: [empleado.usuario.email],
         });
         this.jefeInmediatoName0=(empleado.primerNombre || "") + " " + (empleado.segundoNombre || "") + " " + (empleado.primerApellido || "") + " " + (empleado.segundoApellido || " ")
-        console.log(this.jefeInmediato)
     }
 
     private markFormGroupTouched(formGroup: FormGroup) {

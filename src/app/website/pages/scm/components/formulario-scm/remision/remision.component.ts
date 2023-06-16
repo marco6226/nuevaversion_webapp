@@ -180,7 +180,14 @@ export class RemisionComponent implements OnInit {
     'responsable',
     'usuario'
   ]
-  firmasAnexo5Link:any=[]
+  firmasAnexo1:any=[
+    'trabajador',
+    'jefe',
+    'gestion',
+    'sst',
+    'medico'
+  ]
+  firmasAnexoLink:any=[]
   ngOnInit(): void {
     this.config.setTranslation(this.localeES);
     this.idEmpresa=Number(this.sesionService.getEmpresa()?.id!)
@@ -206,13 +213,9 @@ export class RemisionComponent implements OnInit {
           return 0;
         });
         if(this.anexolist.length>0)this.maxIdAnexo=this.anexolist[this.anexolist.length-1].id
-        console.log(this.maxIdAnexo)
-      // this.anexolist.forEach(element => {
-      //   console.log(element)
-      // });
+        this.anexolist.map(ele=>ele.firmas=JSON.parse(ele.firmas))
     })
     this.loading=false
-
   }
   
   async imprimirAnexo5() {
@@ -304,38 +307,53 @@ export class RemisionComponent implements OnInit {
 
 
   async GuardarAnexo(){
-    let ax5 = new anexo5SCM();
-    ax5.pk_case=Number(this.idCase)
-    ax5.eliminado=false
-    if(this.anexo=='5')ax5.informacion=JSON.stringify(this.anexo5Form?.value)
-    if(this.anexo=='1'){ax5.informacion=JSON.stringify(this.anexo1Form?.value)}
-    ax5.tipo=Number(this.anexo)
-    ax5.idempresa=this.idEmpresa
+    let ax = new anexo5SCM();
+    ax.pk_case=Number(this.idCase)
+    ax.eliminado=false
+    if(this.anexo=='5')ax.informacion=JSON.stringify(this.anexo5Form?.value)
+    if(this.anexo=='1'){ax.informacion=JSON.stringify(this.anexo1Form?.value)}
+    ax.tipo=Number(this.anexo)
+    ax.idempresa=this.idEmpresa
     if(!this.editAnexo){
 
-      ax5.fecha_creacion=new Date()
-      await this.anexoSCM.create(ax5).then(async (resp:any)=>{
+      ax.fecha_creacion=new Date()
+      await this.anexoSCM.create(ax).then(async (resp:any)=>{
+        ax.id=resp.id
         await this.cargarAnexo()
         this.msgs = [];
         this.msgs.push({ severity: 'success', summary: 'Anexo creado', detail: 'Se ha creado correctamente el anexo'+this.anexo });
-        console.log(resp)
         let firm= new firma();
         firm.idempresa=this.idEmpresa
         firm.fechacreacion=new Date()
         firm.idrelacionado=resp.id
+        this.firmasAnexoLink=[]
+        let i=0
         if(this.anexo=='5'){
-          this.firmasAnexo5.forEach((resp1:any) => {
-            console.log(resp1)
-            this.firmaservice.create(firm).then(resp2=>console.log(resp2))
-          });
-          
+          i=this.firmasAnexo5.length
+          this.firmasAnexo5.forEach(async (resp1:any) => {
+            await this.firmaservice.create(firm).then((resp2:any)=>{
+              this.firmasAnexoLink.push({quienfirma:resp1,link:'http://localhost:4200/firma/'+resp2.id})
+              ax.firmas=JSON.stringify(this.firmasAnexoLink)
+              if(this.firmasAnexo5[i-1]==resp1)this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+            })
+          });          
+        }
+        if(this.anexo=='1'){
+          i=this.firmasAnexo1.length
+          this.firmasAnexo1.forEach(async (resp1:any) => {
+            await this.firmaservice.create(firm).then((resp2:any)=>{
+              this.firmasAnexoLink.push({quienfirma:resp1,link:'http://localhost:4200/firma/'+resp2.id})
+              ax.firmas=JSON.stringify(this.firmasAnexoLink)
+              if(this.firmasAnexo1[i-1]==resp1)this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+            })
+          });          
         }
       })
 
     }else{
-      ax5.id=this.selectId
-      ax5.fecha_creacion=this.anexo5Select.fecha_creacion
-      this.anexoSCM.update(ax5).then((resp:any)=>{
+      ax.id=this.selectId
+      ax.fecha_creacion=this.anexo5Select.fecha_creacion
+      this.anexoSCM.update(ax).then((resp:any)=>{
         const id = this.anexolist.findIndex((el:any) => el.id == resp.id )
         this.anexolist[id]['informacion'] = resp.informacion
         this.msgs = [];
@@ -502,16 +520,16 @@ export class RemisionComponent implements OnInit {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        let ax5 = new anexo5SCM();
-        ax5.pk_case=Number(this.idCase)
-        ax5.eliminado=true
-        ax5.informacion=JSON.stringify(this.anexo5Form?.value)
-        ax5.tipo=Number(this.anexo)
-        ax5.idempresa=this.idEmpresa
-        ax5.id=this.selectId
-        ax5.fecha_creacion=this.anexo5Select.fecha_creacion
+        let ax = new anexo5SCM();
+        ax.pk_case=Number(this.idCase)
+        ax.eliminado=true
+        ax.informacion=JSON.stringify(this.anexo5Form?.value)
+        ax.tipo=Number(this.anexo)
+        ax.idempresa=this.idEmpresa
+        ax.id=this.selectId
+        ax.fecha_creacion=this.anexo5Select.fecha_creacion
     
-        this.anexoSCM.update(ax5).then((resp:any)=>{
+        this.anexoSCM.update(ax).then((resp:any)=>{
           this.anexolist=this.anexolist.filter(resp1=>{
             return resp1.id != resp.id
           })
@@ -544,5 +562,11 @@ export class RemisionComponent implements OnInit {
     }
       return 0;
     });
+  }
+
+  copiarLink(firma:any,user:string){
+    const firm=firma
+    let firmas = firm.find((ele:any)=>ele.quienfirma==user)
+    navigator.clipboard.writeText(firmas.link)
   }
 }

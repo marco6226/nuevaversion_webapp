@@ -27,7 +27,6 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
     @Input() seguiSelect: any;
     @Input('prioridad') 
     set prioridadIn(prioridad: any){
-        console.log('entre')
         switch (prioridad) {
             case 'Baja':
                 this.fechaProximaDate=new Date(this.fechaActual!.getTime() + (1000 * 60 * 60 * 24*365))//un año
