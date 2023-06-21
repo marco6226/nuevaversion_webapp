@@ -32,6 +32,8 @@ import { Area } from "../../../empresa/entities/area";
 import { Usuario, UsuarioEmpresa } from "../../../empresa/entities/usuario";
 import { PrimeNGConfig } from 'primeng/api';
 import {formatDate} from '@angular/common';
+import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
+import { endPoints } from 'src/environments/environment';
 
 export interface TreeNode {
     data?: any;
@@ -233,6 +235,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     departamento: any;
     entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [] };
     anexo6Form?:FormGroup
+    nombreSesion?:string
     tipoOptionList: SelectItem[] = [
         { label: "--Seleccione--", value: null },
         { label: "Medico", value: "Medico" },
@@ -312,6 +315,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
         private config: PrimeNGConfig,
+        private firmaservice:firmaservice,
         @Inject(LOCALE_ID) private locale: string,
     ) {
 
@@ -457,6 +461,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        let primerNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerNombre?this.sesionService.getEmpleado()!.primerNombre:''):''
+        let segundoNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoNombre?this.sesionService.getEmpleado()!.segundoNombre:''):''
+        let primerApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerApellido?this.sesionService.getEmpleado()!.primerApellido:''):''
+        let segundoApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoApellido?this.sesionService.getEmpleado()!.segundoApellido:''):''
+        this.nombreSesion=primerNombre+' '+segundoNombre+' '+primerApellido+' '+segundoApellido
+
         this.config.setTranslation(this.localeES);
         this.colsActionList = [
             { field: 'status', header: 'Estado' },
@@ -559,7 +569,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                     this.buildPerfilesIdList();
                 }, 500);
         });
-
 
     }
 
@@ -963,6 +972,15 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     }
 
+    async copiarLinkSeguimiento(idSeguimiento:number){
+        let filterQuery = new FilterQuery();
+        filterQuery.filterList = []
+        filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: idSeguimiento.toString() });
+        let firm:any
+        await this.firmaservice.getfirmWithFilter(filterQuery).then((ele:any)=>firm=ele['data'][0])
+        navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
+    }
+
     async onCloseModalDianostico() {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_DIAG"])this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
         this.modalDianostico = false;
@@ -1245,31 +1263,45 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
     }
 
-    anexo6seguimiento(seguimiento:any){
+    async anexo6seguimiento(seguimiento:any){
+
+        let ele:any
+        let filterQuery = new FilterQuery();
+        filterQuery.filterList = []
+        filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: seguimiento.id.toString() });
+        await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
+        ele=elem
+        })
+
         let template = document.getElementById('plantillaAnexo6');
-        template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
         
+        template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
+        template?.querySelector('#P_firma')?.setAttribute('src', ele['data'][0].firma);
         template!.querySelector('#P_fechaseguiminto')!.textContent = formatDate(
         seguimiento.fechaSeg,
         "dd/MM/yyyy",
         this.locale
         );
+        setTimeout(() => {
+            template!.querySelector('#P_nombreApellidos')!.textContent = (this.empleadoSelect?.primerNombre?this.empleadoSelect?.primerNombre:'')+" "+(this.empleadoSelect?.segundoNombre?this.empleadoSelect?.segundoNombre:'')+" "+(this.empleadoSelect?.primerApellido?this.empleadoSelect?.primerApellido:'')+" "+(this.empleadoSelect?.segundoApellido?this.empleadoSelect?.segundoApellido:'')
+            template!.querySelector('#P_cedula')!.textContent = this.empleadoSelect?.numeroIdentificacion!
+            template!.querySelector('#P_ubicacion')!.textContent = this.empleadoSelect?.area.nombre!
+            template!.querySelector('#P_cargo')!.textContent = this.empleadoSelect?.cargo.nombre!
 
-        template!.querySelector('#P_nombreApellidos')!.textContent = (this.empleadoSelect?.primerNombre?this.empleadoSelect?.primerNombre:'')+" "+(this.empleadoSelect?.segundoNombre?this.empleadoSelect?.segundoNombre:'')+" "+(this.empleadoSelect?.primerApellido?this.empleadoSelect?.primerApellido:'')+" "+(this.empleadoSelect?.segundoApellido?this.empleadoSelect?.segundoApellido:'')
-        template!.querySelector('#P_cedula')!.textContent = this.empleadoSelect?.numeroIdentificacion!
-        template!.querySelector('#P_ubicacion')!.textContent = this.empleadoSelect?.area.nombre!
-        template!.querySelector('#P_cargo')!.textContent = this.empleadoSelect?.cargo.nombre!
+            template!.querySelector('#P_textseguimiento')!.textContent = seguimiento.seguimiento
+            template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion!
+            
 
-        template!.querySelector('#P_textseguimiento')!.textContent = seguimiento.seguimiento
+            var WinPrint = window.open('', '_blank'); 
 
-         var WinPrint = window.open('', '_blank'); 
-
-         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
-         WinPrint?.document.write(template?.innerHTML!);
-      
-         WinPrint?.document.close();
-         WinPrint?.focus();
-         WinPrint?.print();
+            WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
+            WinPrint?.document.write(template?.innerHTML!);
+        
+            WinPrint?.document.close();
+            WinPrint?.focus();
+            WinPrint?.print();
+        }, 2000);
+        
 
     }
 

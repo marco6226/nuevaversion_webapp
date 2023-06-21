@@ -14,7 +14,9 @@ import { Localidades} from 'src/app/website/pages/ctr/entities/aliados';
 import { PrimeNGConfig } from 'primeng/api';
 import { locale_es } from "src/app/website/pages/comun/entities/reporte-enumeraciones";
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
-import{firma} from 'src/app/website/pages/comun/entities/firma'
+import{firma} from 'src/app/website/pages/comun/entities/firma';
+import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado.service';
+import { endPoints } from 'src/environments/environment';
 
 
 @Component({
@@ -98,6 +100,7 @@ export class RemisionComponent implements OnInit {
 
   constructor(
     private firmaservice:firmaservice,
+    private empleadoService: EmpleadoService,
     private sesionService: SesionService,
     private anexoSCM: anexoSCM,
     private confirmationService: ConfirmationService,
@@ -141,6 +144,7 @@ export class RemisionComponent implements OnInit {
       'proximoseguimiento': [null],
       'fechainicial': [null],
       'fechafinal': [null],
+      'nombrecomercial':[null],
       'nit': [null]
     })
     this.anexo6Form=fb.group({
@@ -188,10 +192,18 @@ export class RemisionComponent implements OnInit {
     'medico'
   ]
   firmasAnexoLink:any=[]
-  ngOnInit(): void {
+  nombreSesion!:string
+  async ngOnInit(): Promise<void> {
+    console.log('aqui: '+endPoints.firma)
     this.config.setTranslation(this.localeES);
     this.idEmpresa=Number(this.sesionService.getEmpresa()?.id!)
     this.loadLocalidades()
+
+    let primerNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerNombre?this.sesionService.getEmpleado()!.primerNombre:''):''
+    let segundoNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoNombre?this.sesionService.getEmpleado()!.segundoNombre:''):''
+    let primerApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerApellido?this.sesionService.getEmpleado()!.primerApellido:''):''
+    let segundoApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoApellido?this.sesionService.getEmpleado()!.segundoApellido:''):''
+    this.nombreSesion=primerNombre+' '+segundoNombre+' '+primerApellido+' '+segundoApellido
   }
 
 //Anexo5
@@ -221,45 +233,74 @@ export class RemisionComponent implements OnInit {
   async imprimirAnexo5() {
     if(this.anexo=='5'){
     let anexo5=JSON.parse(this.anexo5Select.informacion)
-    setTimeout(() => {
+
+    let filterQuery = new FilterQuery();
+    filterQuery.filterList = []
+    filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
+    let ele:any
+    await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{
+      ele=elem})
+
       let template = document.getElementById('plantillaAnexo5');
+      template?.querySelector('#P_firma_responable')?.setAttribute('src', ele['data'][0].firma);
+      template?.querySelector('#P_firma_usuario')?.setAttribute('src', ele['data'][1].firma);
+
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(
         anexo5.fecha,
         "dd/MM/yyyy",
         this.locale
       );
-      template!.querySelector('#P_hora')!.textContent = anexo5.hora
-      template!.querySelector('#P_instituto')!.textContent = anexo5.instituto
-      template!.querySelector('#P_nombreApellidos')!.textContent = anexo5.nombreApellidos
-      template!.querySelector('#P_cedula')!.textContent = anexo5.cedula
-      template!.querySelector('#P_edad')!.textContent = anexo5.edad
-      template!.querySelector('#P_tel')!.textContent = anexo5.tel
-      template!.querySelector('#P_proceso')!.textContent = anexo5.proceso
-      template!.querySelector('#P_oficio')!.textContent = anexo5.oficio
-      template!.querySelector('#P_motivo')!.textContent = anexo5.motivo
-      template!.querySelector('#P_complementarios')!.textContent = anexo5.complementarios
-      template!.querySelector('#P_solicitud')!.textContent = anexo5.solicitud
+      setTimeout(() => {
+        template!.querySelector('#P_hora')!.textContent = anexo5.hora
+        template!.querySelector('#P_instituto')!.textContent = anexo5.instituto
+        template!.querySelector('#P_nombreApellidos')!.textContent = anexo5.nombreApellidos
+        template!.querySelector('#P_cedula')!.textContent = anexo5.cedula
+        template!.querySelector('#P_edad')!.textContent = anexo5.edad
+        template!.querySelector('#P_tel')!.textContent = anexo5.tel
+        template!.querySelector('#P_proceso')!.textContent = anexo5.proceso
+        template!.querySelector('#P_oficio')!.textContent = anexo5.oficio
+        template!.querySelector('#P_motivo')!.textContent = anexo5.motivo
+        template!.querySelector('#P_complementarios')!.textContent = anexo5.complementarios
+        template!.querySelector('#P_solicitud')!.textContent = anexo5.solicitud
+        template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion
 
-      var WinPrint = window.open('', '_blank');
+        var WinPrint = window.open('', '_blank');
+        WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
+        WinPrint?.document.write(template?.innerHTML!);
+        // WinPrint?.document.write('<footer>Usuario que imprime</footer>');
 
-      WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
-      WinPrint?.document.write(template?.innerHTML!);
+        WinPrint?.document.close();
+        WinPrint?.focus();
+        WinPrint?.print();
+      }, 2000);
       
-      WinPrint?.document.close();
-      WinPrint?.focus();
-      WinPrint?.print();
-    }, 2000);}
+    }
     if(this.anexo=='1'){
       let anexo1=JSON.parse(this.anexo5Select.informacion)
+
+      let ele:any =[]
+      let filterQuery = new FilterQuery();
+      filterQuery.filterList = []
+      filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
+      await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
+        ele=elem
+        console.log(ele)
+      })
+      let template = document.getElementById('plantillaAnexo1');
+      template?.querySelector('#P_firma_trabajador')?.setAttribute('src', ele['data'][0].firma);
+      template?.querySelector('#P_firma_jefe')?.setAttribute('src', ele['data'][1].firma);
+      template?.querySelector('#P_firma_gestion')?.setAttribute('src', ele['data'][2].firma);
+      template?.querySelector('#P_firma_sst')?.setAttribute('src', ele['data'][3].firma);
+      template?.querySelector('#P_firma_medico')?.setAttribute('src', ele['data'][4].firma);
+      
+      template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
+      template!.querySelector('#P_fecha')!.textContent = formatDate(
+        anexo1.fecha,
+        "dd/MM/yyyy",
+        this.locale
+      );
       setTimeout(() => {
-        let template = document.getElementById('plantillaAnexo1');
-        template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
-        template!.querySelector('#P_fecha')!.textContent = formatDate(
-          anexo1.fecha,
-          "dd/MM/yyyy",
-          this.locale
-        );
         template!.querySelector('#P_Division')!.textContent = anexo1.division
         template!.querySelector('#P_localidad')!.textContent = anexo1.localidad
         template!.querySelector('#P_nombreApellidos')!.textContent = anexo1.nombreApellidos
@@ -274,6 +315,7 @@ export class RemisionComponent implements OnInit {
         template!.querySelector('#P_cambiopuesto')!.textContent = anexo1.cambiopuestotrabajo
         template!.querySelector('#P_requerimientoadicional')!.textContent = anexo1.requiereentrenamiento
         template!.querySelector('#P_observaciones')!.textContent = anexo1.observaciones
+        template!.querySelector('#P_nombrecomercial')!.textContent = anexo1.nombrecomercial
         template!.querySelector('#P_nit')!.textContent = anexo1.nit
         template!.querySelector('#P_fechaproximoseguimiento')!.textContent = formatDate(
           anexo1.proximoseguimiento,
@@ -291,17 +333,20 @@ export class RemisionComponent implements OnInit {
           "dd/MM/yyyy",
           this.locale
         );
+        template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion
 
 
         var WinPrint = window.open('', '_blank');
-  
         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
         WinPrint?.document.write(template?.innerHTML!);
+        // WinPrint?.document.write('<footer>Usuario que imprime</footer>');        
         
         WinPrint?.document.close();
         WinPrint?.focus();
         WinPrint?.print();
-      }, 2000);}
+      }, 2000);
+
+    }
 
   }
 
@@ -332,9 +377,24 @@ export class RemisionComponent implements OnInit {
           i=this.firmasAnexo5.length
           this.firmasAnexo5.forEach(async (resp1:any) => {
             await this.firmaservice.create(firm).then((resp2:any)=>{
-              this.firmasAnexoLink.push({quienfirma:resp1,link:'http://localhost:4200/firma/'+resp2.id})
-              ax.firmas=JSON.stringify(this.firmasAnexoLink)
-              if(this.firmasAnexo5[i-1]==resp1)this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+              this.firmasAnexoLink.push({id:resp2.id,quienfirma:resp1,link:endPoints.firma+btoa(resp2.id)})
+              
+              if(this.firmasAnexo5[i-1]==resp1){
+                this.firmasAnexoLink.sort(function(a:any,b:any){
+                  if(a.id > b.id){
+                    return 1
+                  }else if(a.id < b.id){
+                    return -1;
+                  }
+                    return 0;
+                  });
+                let j=0
+                this.firmasAnexo5.forEach(async (ele:any) => {
+                  this.firmasAnexoLink[j].quienfirma=ele
+                  j++
+                })
+                ax.firmas=JSON.stringify(this.firmasAnexoLink)
+                this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())}
             })
           });          
         }
@@ -342,9 +402,24 @@ export class RemisionComponent implements OnInit {
           i=this.firmasAnexo1.length
           this.firmasAnexo1.forEach(async (resp1:any) => {
             await this.firmaservice.create(firm).then((resp2:any)=>{
-              this.firmasAnexoLink.push({quienfirma:resp1,link:'http://localhost:4200/firma/'+resp2.id})
-              ax.firmas=JSON.stringify(this.firmasAnexoLink)
-              if(this.firmasAnexo1[i-1]==resp1)this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+              this.firmasAnexoLink.push({id:resp2.id,quienfirma:'',link:endPoints.firma+btoa(resp2.id)})
+              
+              if(this.firmasAnexo1[i-1]==resp1){
+                this.firmasAnexoLink.sort(function(a:any,b:any){
+                  if(a.id > b.id){
+                    return 1
+                  }else if(a.id < b.id){
+                    return -1;
+                  }
+                    return 0;
+                  });
+                let j=0
+                this.firmasAnexo1.forEach(async (ele:any) => {
+                  this.firmasAnexoLink[j].quienfirma=ele
+                  j++
+                })
+                ax.firmas=JSON.stringify(this.firmasAnexoLink)
+                this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())}
             })
           });          
         }
@@ -410,6 +485,7 @@ export class RemisionComponent implements OnInit {
           'recomendaciones': this.recomendationList.length>0?this.recomendationList[0].recomendaciones:null,
           'fechainicial': this.recomendationList.length>0?new Date(this.recomendationList[0].fechaInicio):null,
           'fechafinal': this.recomendationList.length>0?new Date(this.recomendationList[0].fechaExpiracion):null,
+          'nombrecomercial':this.empleadoSelect?.empresa,
           'nit' : this.empleadoSelect?.nit
         })
         this.dialogAnexo1=true }
@@ -460,6 +536,7 @@ export class RemisionComponent implements OnInit {
         'proximoseguimiento': new Date(anexo1.proximoseguimiento),
         'fechainicial': anexo1.fechainicial,
         'fechafinal': anexo1.fechafinal,
+        'nombrecomercial':anexo1?.nombrecomercial,
         'nit' : this.empleadoSelect?.nit
       })
       this.dialogAnexo1=true }
@@ -507,6 +584,7 @@ export class RemisionComponent implements OnInit {
         'proximoseguimiento': new Date(anexo1.proximoseguimiento),
         'fechainicial': anexo1.fechainicial,
         'fechafinal': anexo1.fechafinal,
+        'nombrecomercial':anexo1.nombrecomercial,
         'nit' : anexo1.nit
       })
       this.dialogAnexo1=true}
