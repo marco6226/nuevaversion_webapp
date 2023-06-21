@@ -8,6 +8,9 @@ import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 import { CasosMedicosService } from "../../../core/services/casos-medicos.service";
 import { EmpleadoService } from "../../../empresa/services/empleado.service";
 import { PrimeNGConfig } from 'primeng/api';
+import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
+import { SesionService } from 'src/app/website/pages/core/services/session.service';
+import{firma} from 'src/app/website/pages/comun/entities/firma'
 
 @Component({
     selector: "app-seguimientosform",
@@ -20,6 +23,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
     afpList!: SelectItem[];
     responsableEmpresaNombre = "";
     empleado!: Empleado;
+    idEmpresa?:number=Number(this.sesionService.getEmpresa()?.id!)
     @Output() eventClose = new EventEmitter<any>()
     @Input() id: any;
     @Input() entity!: epsorarl;
@@ -57,7 +61,9 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
         private scmService: CasosMedicosService,
         private empleadoService: EmpleadoService,
         private messageService: MessageService,
-        private config: PrimeNGConfig
+        private config: PrimeNGConfig,
+        private firmaservice:firmaservice,
+        private sesionService: SesionService,
     ) {
         this.seguimiento = fb.group({
 
@@ -138,7 +144,14 @@ console.log(this.seguimiento.value)
                 res = await this.scmService.updateSeguimiento(body);
             } else {
                 console.log(body)
-                res = await this.scmService.createSeguimiento(body);
+                let firm= new firma();
+                firm.idempresa=this.idEmpresa
+                firm.fechacreacion=new Date()
+                await this.scmService.createSeguimiento(body).then(async (ele:any)=>{
+                    firm.idrelacionado=ele.id
+                    await this.firmaservice.create(firm)
+                    res=ele
+                })
             }
 
             if (res) {
@@ -205,7 +218,15 @@ console.log(this.seguimiento.value)
     async onRowCloneInit(pseg: any, type?: any) {
         let { id, tarea, responsable, resultado, responsableExterno, ...product } = pseg;
         try {
-            let resp = await this.scmService.createSeguimiento(product);
+            let resp
+            let firm= new firma();
+            firm.idempresa=this.idEmpresa
+            firm.fechacreacion=new Date()
+            await this.scmService.createSeguimiento(product).then(async (ele:any)=>{
+                firm.idrelacionado=ele.id
+                await this.firmaservice.create(firm)
+                resp=ele
+            })
             this.messageService.add({
                 severity: "success",
                 summary: "Mensaje del sistema",

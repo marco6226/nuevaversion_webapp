@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild,OnInit } from '@angular/core';
 import SignaturePad from 'signature_pad';
 import { Empresa } from '../../../empresa/entities/empresa';
 import { SesionService } from '../../../core/services/session.service';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute,Router } from "@angular/router";
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
 import{firma} from 'src/app/website/pages/comun/entities/firma'
 import {formatDate} from '@angular/common';
@@ -28,11 +28,13 @@ export class FirmaComponent implements OnInit{
   constructor(
     private sesionService: SesionService,
     private route: ActivatedRoute,
+    private router:Router,
     private firmaservice:firmaservice
   ) { }
   public async ngOnInit(){
+    
     this.estadoFirma='noexiste'
-    await this.firmaservice.findById(this.route.snapshot.params["id"]).then((resp:any)=>{
+    await this.firmaservice.findById(atob(this.route.snapshot.params["id"])).then((resp:any)=>{
       this.datosFirma=resp
 
       if(this.datosFirma.terminoscondiciones!=null){
@@ -98,7 +100,7 @@ export class FirmaComponent implements OnInit{
     firm.email=this.datosFirma.email;
     firm.idusuario=this.datosFirma.idusuario;
     firm.terminoscondiciones=this.datosFirma.terminoscondiciones;
-    console.log(firm)
+    firm.fechaterminos=this.datosFirma.terminoscondiciones
 
     this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
       console.log(er))
@@ -114,7 +116,7 @@ export class FirmaComponent implements OnInit{
     firm.email=this.datosFirma.email;
     firm.idusuario=this.datosFirma.idusuario;
     firm.terminoscondiciones=flagTerminos;
-    console.log(firm)
+    firm.fechaterminos=new Date()
 
     this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
       console.log(er))

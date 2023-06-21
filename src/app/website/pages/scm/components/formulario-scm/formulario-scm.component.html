@@ -1462,7 +1462,7 @@
                                             icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
                                             title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
                                         <button pButton pRipple type="button" pCancelEditableRow
-                                            icon="bi bi-link-45deg" (click)="anexo6seguimiento(seguimiento)"
+                                            icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id)"
                                             title="Copiar link para firmar anexo" class="p-button-rounded p-button-text p-mr-2"></button>
                                         <ng-container *ngIf="idUltimoSeguimiento==seguimiento.id">
                                             <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton pRipple type="button" pCancelEditableRow
@@ -1901,7 +1901,7 @@
     <table width="85%" style="border-collapse: collapse; margin: auto;">
         <tr>
             <td colspan="2" style="border-bottom: 1px solid #c8c8c8; width: 50%;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma" />
             </td>
             <td colspan="2">
                 &nbsp;
@@ -1916,5 +1916,11 @@
                 &nbsp;
             </td>
         </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tfoot>
+            <tr>
+              <td colspan="4">Usuario que imprime: &nbsp;<label id="P_usuariosesion"></label></td>
+            </tr>
+        </tfoot>
     </table>
 </div>
