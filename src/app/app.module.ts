@@ -31,7 +31,7 @@ declare global {
   ],
   providers: [
     HttpInt,
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
         // {
         //     provide: HTTP_INTERCEPTORS,
         //     useClass: HttpAuthInterceptorService,
