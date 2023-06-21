@@ -7,4 +7,5 @@ export class firma{
     idusuario?: number;
     terminoscondiciones?:boolean;
     firma?:string;
+    fechaterminos?:Date;
 }

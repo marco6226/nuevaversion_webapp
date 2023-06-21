@@ -100,7 +100,7 @@ export class FirmaComponent implements OnInit{
     firm.email=this.datosFirma.email;
     firm.idusuario=this.datosFirma.idusuario;
     firm.terminoscondiciones=this.datosFirma.terminoscondiciones;
-    console.log(firm)
+    firm.fechaterminos=this.datosFirma.terminoscondiciones
 
     this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
       console.log(er))
@@ -116,7 +116,7 @@ export class FirmaComponent implements OnInit{
     firm.email=this.datosFirma.email;
     firm.idusuario=this.datosFirma.idusuario;
     firm.terminoscondiciones=flagTerminos;
-    console.log(firm)
+    firm.fechaterminos=new Date()
 
     this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
       console.log(er))
