@@ -1272,11 +1272,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
         ele=elem
         })
-
+        console.log(ele)
         let template = document.getElementById('plantillaAnexo6');
         
         template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
-        template?.querySelector('#P_firma')?.setAttribute('src', ele['data'][0].firma);
+        template?.querySelector('#P_firma')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+        if(ele['data'].length>0)if(ele['data'][0].firma)template?.querySelector('#P_firma')?.setAttribute('src', ele['data'][0].firma);
         template!.querySelector('#P_fechaseguiminto')!.textContent = formatDate(
         seguimiento.fechaSeg,
         "dd/MM/yyyy",

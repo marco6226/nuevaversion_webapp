@@ -1310,7 +1310,7 @@
                     </div>
                 </div>
                 <br>
-                <ng-container>
+                <ng-container *ngIf="recomendationList.length>0">
                     <app-remision *ngIf="empresaId=='22'" [empleadoSelect]="empleadoSelect" [idCase]="idCase" [anexo]="'1'" [recomendationList]="recomendationList" [jefeInmediatoName]="jefeInmediatoName"></app-remision>
                 </ng-container>
             </p-tabPanel>
@@ -1336,7 +1336,7 @@
                                     <th>Responsable Externo</th>
                                     <th>Resultado</th>
                                     <th>Fecha próximo seguimiento</th>
-                                    <th style="width:10rem"></th>
+                                    <th style="width:15rem"></th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-seguimiento let-editing="editing" let-ri="rowIndex">
@@ -1849,7 +1849,7 @@
         <tr>
             <th style=" text-align: center">FORMATO SEGUIMIENTO MEDICO</th>
             <td style="border: 1px solid #c8c8c8; ">Vigente desde</td> 
-            <td style="border: 1px solid #c8c8c8; ">{{this.fechaActual | date: 'dd/MM/yyyy'}}</td>  
+            <td style="border: 1px solid #c8c8c8; ">Junio de 2016</td>  
         </tr>
         <tr>
             <th style=" text-align: center">HISTORIA CLINICA OCUPACIONAL</th>
@@ -1917,10 +1917,10 @@
             </td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
-        <tfoot>
+        <!-- <tfoot> -->
             <tr>
               <td colspan="4">Usuario que imprime: &nbsp;<label id="P_usuariosesion"></label></td>
             </tr>
-        </tfoot>
+        <!-- </tfoot> -->
     </table>
 </div>

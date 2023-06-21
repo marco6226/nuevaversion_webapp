@@ -73,6 +73,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             fechaSeg: [null],
             responsable: [null],            
             responsableExterno: [null],
+            generico: [false],
             proxfechaSeg: [null]
            
 
@@ -115,6 +116,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             resultado,            
             responsable,
             responsableExterno,
+            generico,
             proxfechaSeg
             
         } = this.seguimiento.value;
@@ -134,6 +136,7 @@ console.log(this.seguimiento.value)
             resultado,
             responsable,
             responsableExterno,
+            generico:false,
             proxfechaSeg,
             pkCase: this.id,
         }

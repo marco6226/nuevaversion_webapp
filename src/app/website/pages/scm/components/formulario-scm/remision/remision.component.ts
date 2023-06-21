@@ -31,6 +31,7 @@ export class RemisionComponent implements OnInit {
   @Input('recomendationList')
   set recomendationListIn(recomendationList :any)
   {
+    console.log(recomendationList)
     this.recomendationList=recomendationList
     this.recomendationList.sort(function(a:any,b:any){
       if(a.id < b.id){
@@ -194,7 +195,6 @@ export class RemisionComponent implements OnInit {
   firmasAnexoLink:any=[]
   nombreSesion!:string
   async ngOnInit(): Promise<void> {
-    console.log('aqui: '+endPoints.firma)
     this.config.setTranslation(this.localeES);
     this.idEmpresa=Number(this.sesionService.getEmpresa()?.id!)
     this.loadLocalidades()
@@ -235,6 +235,8 @@ export class RemisionComponent implements OnInit {
     let anexo5=JSON.parse(this.anexo5Select.informacion)
 
     let filterQuery = new FilterQuery();
+    filterQuery.sortField = "id";
+    filterQuery.sortOrder = -1;
     filterQuery.filterList = []
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
     let ele:any
@@ -242,8 +244,10 @@ export class RemisionComponent implements OnInit {
       ele=elem})
 
       let template = document.getElementById('plantillaAnexo5');
-      template?.querySelector('#P_firma_responable')?.setAttribute('src', ele['data'][0].firma);
-      template?.querySelector('#P_firma_usuario')?.setAttribute('src', ele['data'][1].firma);
+      template?.querySelector('#P_firma_responable')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele['data'].length>0)if(ele['data'][0].firma)template?.querySelector('#P_firma_responable')?.setAttribute('src', ele['data'][0].firma);
+      template?.querySelector('#P_firma_usuario')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele['data'].length>0)if(ele['data'][1].firma)template?.querySelector('#P_firma_usuario')?.setAttribute('src', ele['data'][1].firma);
 
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(
@@ -281,18 +285,24 @@ export class RemisionComponent implements OnInit {
 
       let ele:any =[]
       let filterQuery = new FilterQuery();
+      filterQuery.sortField = "id";
+      filterQuery.sortOrder = -1;
       filterQuery.filterList = []
       filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
       await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
         ele=elem
-        console.log(ele)
       })
       let template = document.getElementById('plantillaAnexo1');
-      template?.querySelector('#P_firma_trabajador')?.setAttribute('src', ele['data'][0].firma);
-      template?.querySelector('#P_firma_jefe')?.setAttribute('src', ele['data'][1].firma);
-      template?.querySelector('#P_firma_gestion')?.setAttribute('src', ele['data'][2].firma);
-      template?.querySelector('#P_firma_sst')?.setAttribute('src', ele['data'][3].firma);
-      template?.querySelector('#P_firma_medico')?.setAttribute('src', ele['data'][4].firma);
+      template?.querySelector('#P_firma_trabajador')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele['data'].length>0)if(ele['data'][0].firma)template?.querySelector('#P_firma_trabajador')?.setAttribute('src', ele['data'][0].firma);
+      template?.querySelector('#P_firma_jefe')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele['data'].length>0)if(ele['data'][1].firma)template?.querySelector('#P_firma_jefe')?.setAttribute('src', ele['data'][1].firma);
+      template?.querySelector('#P_firma_gestion')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele['data'].length>0)if(ele['data'][2].firma)template?.querySelector('#P_firma_gestion')?.setAttribute('src', ele['data'][2].firma);
+      template?.querySelector('#P_firma_sst')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele['data'].length>0)if(ele['data'][3].firma)template?.querySelector('#P_firma_sst')?.setAttribute('src', ele['data'][3].firma);
+      template?.querySelector('#P_firma_medico')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele['data'].length>0)if(ele['data'][4].firma)template?.querySelector('#P_firma_medico')?.setAttribute('src', ele['data'][4].firma);
       
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(

@@ -6,6 +6,7 @@ import { ActivatedRoute,Router } from "@angular/router";
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
 import{firma} from 'src/app/website/pages/comun/entities/firma'
 import {formatDate} from '@angular/common';
+import { Message } from 'primeng/api';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class FirmaComponent implements OnInit{
   empresaSelect?: Empresa | null;
   datosFirma?:any=[];
   estadoFirma?:string
+  msgs?: Message[];
 
   firma?:any;
   visibleDlg:boolean =true
@@ -100,9 +102,12 @@ export class FirmaComponent implements OnInit{
     firm.email=this.datosFirma.email;
     firm.idusuario=this.datosFirma.idusuario;
     firm.terminoscondiciones=this.datosFirma.terminoscondiciones;
-    firm.fechaterminos=this.datosFirma.terminoscondiciones
+    firm.fechaterminos= new Date(this.datosFirma.terminoscondiciones)
 
-    this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
+    this.firmaservice.update(firm).then(resp=>{
+      this.msgs = [];
+      this.msgs.push({ severity: 'success', summary: 'Firma guardada', detail: 'Se ha guardado correctamente la firma' });
+    }).catch(er=>
       console.log(er))
   }
 

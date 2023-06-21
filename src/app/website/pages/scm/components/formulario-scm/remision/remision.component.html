@@ -29,14 +29,14 @@
                 <td *ngIf="anexo==5" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'responsable')"
                     ></button></td>
                 <td *ngIf="anexo==5"class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'usuario')"
                     ></button></td>
@@ -44,14 +44,14 @@
                 <td *ngIf="anexo==1" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'trabajador')"
                     ></button></td>
                 <td *ngIf="anexo==1"class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'jefe')"
                     ></button></td>
@@ -59,14 +59,14 @@
                 <td *ngIf="anexo==1" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'gestion')"
                     ></button></td>
                 <td *ngIf="anexo==1"class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'sst')"
                     ></button></td>
@@ -74,7 +74,7 @@
                 <td *ngIf="anexo==1" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'medico')"
                     ></button></td>
@@ -318,7 +318,7 @@
         <tr>
             <th style=" text-align: center">FORMATO DE REMISIÓN</th>
             <td style="border: 1px solid #c8c8c8; ">Vigente desde</td>
-            <td style="border: 1px solid #c8c8c8; ">{{this.dateToday  | date: 'dd/MM/yyyy'}}</td>
+            <td style="border: 1px solid #c8c8c8; ">Enero de 2018</td>
         </tr>
         <tr>
             <th style=" text-align: center">&nbsp;</th>
@@ -337,8 +337,8 @@
 
         <tr>
             <td>Fecha:&nbsp; <label id="P_fecha"></label></td>
-            <td>Hora:&nbsp; <label id="P_hora"></label></td>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="2">Hora:&nbsp; <label id="P_hora"></label></td>
+            <td>&nbsp;</td>
         </tr>
 
         <tr><td colspan="4">&nbsp;</td></tr>
@@ -353,16 +353,12 @@
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
             <td>CÉDULA:&nbsp; <label id="P_cedula"></label></td>
-            <td>EDAD:&nbsp; <label id="P_edad"></label></td>
-            <td>TEL:&nbsp; <label id="P_tel"></label></td>
-            <td>&nbsp;</td>
+            <td colspan="3">EDAD:&nbsp; <label id="P_edad"></label> &nbsp;&nbsp;TEL:&nbsp; <label id="P_tel"></label></td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
             <td>PROCESO:&nbsp; <label id="P_proceso"></label></td>
-            <td>OFICIO ACTUAL:&nbsp; <label id="P_oficio"></label></td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td colspan="3">OFICIO ACTUAL:&nbsp; <label id="P_oficio"></label></td>
         </tr>
 
         <tr><td colspan="4">&nbsp;</td></tr>
@@ -422,11 +418,19 @@
             </td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
-        <tfoot>
+
+        <tr>
+            <td colspan="4">
+                NOTA: Dejar copia en la Historia Ocupacional
+            </td>
+        </tr>
+        
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <!-- <tfoot> -->
             <tr>
               <td colspan="4">Usuario que imprime: &nbsp;<label id="P_usuariosesion"></label></td>
             </tr>
-        </tfoot>
+        <!-- </tfoot> -->
     </table>
 </div>
 
@@ -443,7 +447,7 @@
         <tr>
             <th style=" text-align: center">FORMATO DE APLICACIÓN DE</th>
             <td style="border: 1px solid #c8c8c8; ">Vigente desde</td> 
-            <td style="border: 1px solid #c8c8c8; ">{{this.dateToday  | date: 'dd/MM/yyyy'}}</td>  
+            <td style="border: 1px solid #c8c8c8; ">Julio de 2017</td>  
         </tr>
         <tr>
             <th style=" text-align: center">RECOMENDACIONES LABORALES</th>
@@ -618,11 +622,11 @@
             </td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
-        <tfoot>
+        <!-- <tfoot> -->
             <tr>
               <td colspan="4">Usuario que imprime: &nbsp;<label id="P_usuariosesion"></label></td>
             </tr>
-        </tfoot>
+        <!-- </tfoot> -->
     </table>
 
 
