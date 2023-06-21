@@ -11,6 +11,7 @@ import { ElementoInspeccion } from '../../inspecciones/entities/elemento-inspecc
 })
 export class AuthService {
 
+  private loginSubmitSubject = new Subject<any>();
   private loginSubject = new Subject<any>();
   authEndPoint = endPoints.auth;
 
@@ -155,4 +156,49 @@ sendNotificationObservacionDenegada(email: string, observacion:any) {
                 );
         });
     }
+
+    refreshToken(): Observable<any> {
+        // Verifica si se posee el refresh_token para refrescar el token de acceso
+        let refreshToken = this.sesionService.getRefreshToken();
+        if (refreshToken != null && refreshToken != "undefined") {
+            this.requestRefresh(refreshToken)
+                .then((resp) => this.onLogin(resp))
+                .catch((error) => {
+                    this.setLoginFormVisible(true);
+                });
+                this.logout();
+
+            return this.loginSubmitSubject.asObservable();
+        } else {
+            // Si no se posee passwd, visualiza el formulario de login
+            this.setLoginFormVisible(true);
+            return this.loginSubmitSubject.asObservable();
+        }
+    }
+
+    requestRefresh(token: string) {
+        let body = token;
+        console.log("paso por aca");
+        let endpoint = this.authEndPoint + "refrescarToken";
+        return new Promise((resolve, reject) => {
+            this.httpInt
+                .post(endpoint, body)
+                .subscribe(
+                    (res) => {
+                        this.setSession(res, false);
+                        resolve(res);
+                    },
+                    (err) => reject(err)
+                );
+        });
+    }
+
+    onLogin(res: any) {
+        this.loginSubmitSubject.next(res);
+    }
+
+    setLoginFormVisible(visible: boolean) {
+        this.loginSubject.next(visible);
+    }
+
 }
