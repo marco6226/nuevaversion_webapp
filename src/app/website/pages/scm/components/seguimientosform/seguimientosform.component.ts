@@ -120,7 +120,6 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             proxfechaSeg
             
         } = this.seguimiento.value;
-console.log(this.seguimiento.value)
         if (this.accions.length > 0) {
             this.accions.forEach((act: any) => {
                 if (typeof act.responsable != 'number') {
@@ -152,6 +151,7 @@ console.log(this.seguimiento.value)
                 firm.fechacreacion=new Date()
                 await this.scmService.createSeguimiento(body).then(async (ele:any)=>{
                     firm.idrelacionado=ele.id
+                    await this.firmaservice.create(firm)
                     await this.firmaservice.create(firm)
                     res=ele
                 })
@@ -227,6 +227,7 @@ console.log(this.seguimiento.value)
             firm.fechacreacion=new Date()
             await this.scmService.createSeguimiento(product).then(async (ele:any)=>{
                 firm.idrelacionado=ele.id
+                await this.firmaservice.create(firm)
                 await this.firmaservice.create(firm)
                 resp=ele
             })

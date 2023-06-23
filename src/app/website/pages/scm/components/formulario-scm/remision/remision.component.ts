@@ -217,9 +217,9 @@ export class RemisionComponent implements OnInit {
     await this.anexoSCM.getAnexWithFilter(filterQuery).then((resp:any)=>{
       this.anexolist=resp.data
       this.anexolist.sort(function(a,b){
-        if(a.label > b.label){
+        if(a.id < b.id){
           return 1
-        }else if(a.label < b.label){
+        }else if(a.id > b.id){
           return -1;
         }
           return 0;
@@ -241,13 +241,16 @@ export class RemisionComponent implements OnInit {
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
     let ele:any
     await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{
-      ele=elem})
+      ele=elem['data']})
 
       let template = document.getElementById('plantillaAnexo5');
       template?.querySelector('#P_firma_responable')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-      if(ele['data'].length>0)if(ele['data'][0].firma)template?.querySelector('#P_firma_responable')?.setAttribute('src', ele['data'][0].firma);
+      if(ele.length>0)if(ele[0].firma)template?.querySelector('#P_firma_responable')?.setAttribute('src', ele[0].firma);
       template?.querySelector('#P_firma_usuario')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-      if(ele['data'].length>0)if(ele['data'][1].firma)template?.querySelector('#P_firma_usuario')?.setAttribute('src', ele['data'][1].firma);
+      if(ele.length>0)if(ele[1].firma)template?.querySelector('#P_firma_usuario')?.setAttribute('src', ele[1].firma);
+
+      template!.querySelector('#P_nombre_responable')!.textContent = ele[0].nombre
+      template!.querySelector('#P_nombre_usuario')!.textContent = ele[1].nombre
 
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(
@@ -290,19 +293,25 @@ export class RemisionComponent implements OnInit {
       filterQuery.filterList = []
       filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
       await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
-        ele=elem
+        ele=elem['data']
       })
       let template = document.getElementById('plantillaAnexo1');
       template?.querySelector('#P_firma_trabajador')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-      if(ele['data'].length>0)if(ele['data'][0].firma)template?.querySelector('#P_firma_trabajador')?.setAttribute('src', ele['data'][0].firma);
+      if(ele.length>0)if(ele[0].firma)template?.querySelector('#P_firma_trabajador')?.setAttribute('src', ele[0].firma);
       template?.querySelector('#P_firma_jefe')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-      if(ele['data'].length>0)if(ele['data'][1].firma)template?.querySelector('#P_firma_jefe')?.setAttribute('src', ele['data'][1].firma);
+      if(ele.length>0)if(ele[1].firma)template?.querySelector('#P_firma_jefe')?.setAttribute('src', ele[1].firma);
       template?.querySelector('#P_firma_gestion')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-      if(ele['data'].length>0)if(ele['data'][2].firma)template?.querySelector('#P_firma_gestion')?.setAttribute('src', ele['data'][2].firma);
+      if(ele.length>0)if(ele[2].firma)template?.querySelector('#P_firma_gestion')?.setAttribute('src', ele[2].firma);
       template?.querySelector('#P_firma_sst')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-      if(ele['data'].length>0)if(ele['data'][3].firma)template?.querySelector('#P_firma_sst')?.setAttribute('src', ele['data'][3].firma);
+      if(ele.length>0)if(ele[3].firma)template?.querySelector('#P_firma_sst')?.setAttribute('src', ele[3].firma);
       template?.querySelector('#P_firma_medico')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-      if(ele['data'].length>0)if(ele['data'][4].firma)template?.querySelector('#P_firma_medico')?.setAttribute('src', ele['data'][4].firma);
+      if(ele.length>0)if(ele[4].firma)template?.querySelector('#P_firma_medico')?.setAttribute('src', ele[4].firma);
+
+      template!.querySelector('#P_nombre_trabajador')!.textContent = ele[0].nombre
+      template!.querySelector('#P_nombre_jefe')!.textContent = ele[1].nombre
+      template!.querySelector('#P_nombre_gestion')!.textContent = ele[2].nombre
+      template!.querySelector('#P_nombre_sst')!.textContent = ele[3].nombre
+      template!.querySelector('#P_nombre_medico')!.textContent = ele[4].nombre
       
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(
@@ -652,9 +661,46 @@ export class RemisionComponent implements OnInit {
     });
   }
 
-  copiarLink(firma:any,user:string){
-    const firm=firma
+  async copiarLink(firma1:any,user:string){
+    const firm=firma1
     let firmas = firm.find((ele:any)=>ele.quienfirma==user)
+
+    let filterQuery = new FilterQuery();
+    filterQuery.filterList = []
+    filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "id", value1: firmas.id.toString() });
+    let firmaExiste
+    await this.firmaservice.getfirmWithFilter(filterQuery).then(async (elem:any)=>{
+      firmaExiste=elem['data'][0].firma
+      let fir = new firma()
+      fir.id =elem['data'][0].id
+      fir.firma=elem['data'][0].firma
+      fir.idempresa=elem['data'][0].idempresa
+      fir.fechacreacion=elem['data'][0].fechacreacion
+      fir.idrelacionado=elem['data'][0].idrelacionado
+      fir.email=elem['data'][0].email
+      fir.idusuario=elem['data'][0].idusuario
+      fir.terminoscondiciones=elem['data'][0].terminoscondiciones
+      fir.fechaterminos= elem['data'][0].fechaterminos
+      fir.nombre=elem['data'][0].nombre
+
+      if(new Date(new Date(elem['data'][0].fechacreacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+        if(elem['data'][0].fecharenovacion){
+          if(new Date(new Date(elem['data'][0].fecharenovacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+            fir.fecharenovacion=new Date()
+            await this.firmaservice.update(fir)
+          }
+        }else{
+          fir.fecharenovacion=new Date()
+          await this.firmaservice.update(fir)
+        }
+      }
+    })
+    if(firmaExiste){
+      this.msgs = [];
+      this.msgs.push({ severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
+    }
     navigator.clipboard.writeText(firmas.link)
+    
+
   }
 }

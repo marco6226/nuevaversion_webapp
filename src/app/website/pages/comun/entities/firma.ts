@@ -8,4 +8,6 @@ export class firma{
     terminoscondiciones?:boolean;
     firma?:string;
     fechaterminos?:Date;
+    fecharenovacion?:Date;
+    nombre?:string;
 }

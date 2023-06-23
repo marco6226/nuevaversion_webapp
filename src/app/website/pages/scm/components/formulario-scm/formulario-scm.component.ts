@@ -34,6 +34,8 @@ import { PrimeNGConfig } from 'primeng/api';
 import {formatDate} from '@angular/common';
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
 import { endPoints } from 'src/environments/environment';
+import{firma} from 'src/app/website/pages/comun/entities/firma';
+import { Message } from 'primeng/api';
 
 export interface TreeNode {
     data?: any;
@@ -51,6 +53,7 @@ export interface TreeNode {
 })
 export class FormularioScmComponent implements OnInit, OnDestroy {
 
+    msgs?: Message[];
     listaPCL: any;
     itemInPCL: boolean = false;
     empresasList!: Empresa[];
@@ -972,12 +975,55 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     }
 
-    async copiarLinkSeguimiento(idSeguimiento:number){
+    async copiarLinkSeguimiento(idSeguimiento:number, usuario:string){
+        console.log(this.seguimientos)
         let filterQuery = new FilterQuery();
         filterQuery.filterList = []
         filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: idSeguimiento.toString() });
         let firm:any
-        await this.firmaservice.getfirmWithFilter(filterQuery).then((ele:any)=>firm=ele['data'][0])
+        let firmaExiste
+        await this.firmaservice.getfirmWithFilter(filterQuery).then(async (ele:any)=>{
+            console.log(ele)
+            let datosFirma=ele['data']
+            datosFirma.sort(function(a:any,b:any){
+                if(a.id > b.id){
+                  return 1
+                }else if(a.id < b.id){
+                  return -1;
+                }
+                  return 0;
+                });
+            if(usuario=='aprueba')firm=datosFirma[0]
+            if(usuario=='medico')firm=datosFirma[1]
+            firmaExiste=firm.firma
+            let fir = new firma()
+            fir.id =firm.id
+            fir.firma=firm.firma
+            fir.idempresa=firm.idempresa
+            fir.fechacreacion=firm.fechacreacion
+            fir.idrelacionado=firm.idrelacionado
+            fir.email=firm.email
+            fir.idusuario=firm.idusuario
+            fir.terminoscondiciones=firm.terminoscondiciones
+            fir.fechaterminos= firm.fechaterminos
+            fir.nombre=firm.nombre
+      
+            if(new Date(new Date(firm.fechacreacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+              if(firm.fecharenovacion){
+                if(new Date(new Date(firm.fecharenovacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+                  fir.fecharenovacion=new Date()
+                  await this.firmaservice.update(fir)
+                }
+              }else{
+                fir.fecharenovacion=new Date()
+                await this.firmaservice.update(fir)
+              }
+            }
+        })
+        if(firmaExiste){
+            this.msgs = [];
+            this.msgs.push({ severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
+          }
         navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
     }
 
@@ -1270,19 +1316,31 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         filterQuery.filterList = []
         filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: seguimiento.id.toString() });
         await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
-        ele=elem
+        ele=elem['data']
         })
+        ele.sort(function(a:any,b:any){
+            if(a.id > b.id){
+              return 1
+            }else if(a.id < b.id){
+              return -1;
+            }
+              return 0;
+            });
         console.log(ele)
         let template = document.getElementById('plantillaAnexo6');
         
         template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
-        template?.querySelector('#P_firma')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
-        if(ele['data'].length>0)if(ele['data'][0].firma)template?.querySelector('#P_firma')?.setAttribute('src', ele['data'][0].firma);
+        template?.querySelector('#P_firma_aprueba')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+        if(ele.length>0)if(ele[0].firma)template?.querySelector('#P_firma_aprueba')?.setAttribute('src', ele[0].firma);
+        template?.querySelector('#P_firma_medico')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+        if(ele.length>0)if(ele[1].firma)template?.querySelector('#P_firma_medico')?.setAttribute('src', ele[1].firma);
         template!.querySelector('#P_fechaseguiminto')!.textContent = formatDate(
         seguimiento.fechaSeg,
         "dd/MM/yyyy",
         this.locale
         );
+        template!.querySelector('#P_nombre_aprueba')!.textContent = ele[0].nombre
+        template!.querySelector('#P_nombre_medico')!.textContent = ele[1].nombre
         setTimeout(() => {
             template!.querySelector('#P_nombreApellidos')!.textContent = (this.empleadoSelect?.primerNombre?this.empleadoSelect?.primerNombre:'')+" "+(this.empleadoSelect?.segundoNombre?this.empleadoSelect?.segundoNombre:'')+" "+(this.empleadoSelect?.primerApellido?this.empleadoSelect?.primerApellido:'')+" "+(this.empleadoSelect?.segundoApellido?this.empleadoSelect?.segundoApellido:'')
             template!.querySelector('#P_cedula')!.textContent = this.empleadoSelect?.numeroIdentificacion!

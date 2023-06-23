@@ -1320,7 +1320,7 @@
         <!-- Inicio seguimiento -->
         <ng-container *sTienePermiso="'SCM_GET_CASE_SEG'">
             <p-tabPanel header="Seguimiento" *ngIf="caseSelect">
-    
+                <p-messages [(value)]="msgs" ></p-messages>
                 <div class="container-fluid cew-9">
                     <div class="row ">
                         <h5 class="title-header p-mb-2">Seguimientos del caso</h5>
@@ -1461,9 +1461,12 @@
                                         <button pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
                                             title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
-                                        <button pButton pRipple type="button" pCancelEditableRow
-                                            icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id)"
-                                            title="Copiar link para firmar anexo" class="p-button-rounded p-button-text p-mr-2"></button>
+                                        <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
+                                            icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'aprueba')"
+                                            title="Copiar link usuario que aprueba" class="p-button-rounded p-button-text p-mr-2"></button>
+                                        <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
+                                            icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'medico')"
+                                            title="Copiar link medico" class="p-button-rounded p-button-text p-mr-2"></button>
                                         <ng-container *ngIf="idUltimoSeguimiento==seguimiento.id">
                                             <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton pRipple type="button" pCancelEditableRow
                                                 icon="pi pi-trash" (click)="deleteSeguimiento(seguimiento.id)"
@@ -1900,6 +1903,38 @@
     <br>
     <table width="85%" style="border-collapse: collapse; margin: auto;">
         <tr>
+            <td style="border-bottom: 1px solid #c8c8c8;">
+                <img style="width:300px;" id="P_firma_aprueba" />
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td style="border-bottom: 1px solid #c8c8c8;">
+                <img style="width:300px;" id="P_firma_medico" />
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                Firma usuario que aprueba el seguimiento:
+            </td>
+            <td colspan="2">
+                Firma medico:
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Nombre:&nbsp; <label id="P_nombre_aprueba"></label>
+            </td>
+            <td colspan="2">
+                Nombre:&nbsp; <label id="P_nombre_medico"></label>
+            </td>
+        </tr>
+
+        <!-- <tr>
             <td colspan="2" style="border-bottom: 1px solid #c8c8c8; width: 50%;">
                 <img style="width:300px;" id="P_firma" />
             </td>
@@ -1915,7 +1950,7 @@
             <td colspan="2">
                 &nbsp;
             </td>
-        </tr>
+        </tr> -->
         <tr><td colspan="4">&nbsp;</td></tr>
         <!-- <tfoot> -->
             <tr>
