@@ -120,5 +120,6 @@ export const endPoints: string | any = {
   ManualService: path + "manual/",
   tareaService: path,
 
-  firmaservice: path + "firm/"
+  firmaservice: path + "firm/",
+  firma: 'https://sigess.app/firma/'
 };

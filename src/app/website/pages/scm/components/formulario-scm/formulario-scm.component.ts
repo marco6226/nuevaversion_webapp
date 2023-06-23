@@ -32,6 +32,10 @@ import { Area } from "../../../empresa/entities/area";
 import { Usuario, UsuarioEmpresa } from "../../../empresa/entities/usuario";
 import { PrimeNGConfig } from 'primeng/api';
 import {formatDate} from '@angular/common';
+import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
+import { endPoints } from 'src/environments/environment';
+import{firma} from 'src/app/website/pages/comun/entities/firma';
+import { Message } from 'primeng/api';
 
 export interface TreeNode {
     data?: any;
@@ -49,6 +53,7 @@ export interface TreeNode {
 })
 export class FormularioScmComponent implements OnInit, OnDestroy {
 
+    msgs?: Message[];
     listaPCL: any;
     itemInPCL: boolean = false;
     empresasList!: Empresa[];
@@ -233,6 +238,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     departamento: any;
     entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [] };
     anexo6Form?:FormGroup
+    nombreSesion?:string
     tipoOptionList: SelectItem[] = [
         { label: "--Seleccione--", value: null },
         { label: "Medico", value: "Medico" },
@@ -312,6 +318,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
         private config: PrimeNGConfig,
+        private firmaservice:firmaservice,
         @Inject(LOCALE_ID) private locale: string,
     ) {
 
@@ -457,6 +464,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        let primerNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerNombre?this.sesionService.getEmpleado()!.primerNombre:''):''
+        let segundoNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoNombre?this.sesionService.getEmpleado()!.segundoNombre:''):''
+        let primerApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerApellido?this.sesionService.getEmpleado()!.primerApellido:''):''
+        let segundoApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoApellido?this.sesionService.getEmpleado()!.segundoApellido:''):''
+        this.nombreSesion=primerNombre+' '+segundoNombre+' '+primerApellido+' '+segundoApellido
+
         this.config.setTranslation(this.localeES);
         this.colsActionList = [
             { field: 'status', header: 'Estado' },
@@ -559,7 +572,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                     this.buildPerfilesIdList();
                 }, 500);
         });
-
 
     }
 
@@ -963,6 +975,58 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     }
 
+    async copiarLinkSeguimiento(idSeguimiento:number, usuario:string){
+        console.log(this.seguimientos)
+        let filterQuery = new FilterQuery();
+        filterQuery.filterList = []
+        filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: idSeguimiento.toString() });
+        let firm:any
+        let firmaExiste
+        await this.firmaservice.getfirmWithFilter(filterQuery).then(async (ele:any)=>{
+            console.log(ele)
+            let datosFirma=ele['data']
+            datosFirma.sort(function(a:any,b:any){
+                if(a.id > b.id){
+                  return 1
+                }else if(a.id < b.id){
+                  return -1;
+                }
+                  return 0;
+                });
+            if(usuario=='aprueba')firm=datosFirma[0]
+            if(usuario=='medico')firm=datosFirma[1]
+            firmaExiste=firm.firma
+            let fir = new firma()
+            fir.id =firm.id
+            fir.firma=firm.firma
+            fir.idempresa=firm.idempresa
+            fir.fechacreacion=firm.fechacreacion
+            fir.idrelacionado=firm.idrelacionado
+            fir.email=firm.email
+            fir.idusuario=firm.idusuario
+            fir.terminoscondiciones=firm.terminoscondiciones
+            fir.fechaterminos= firm.fechaterminos
+            fir.nombre=firm.nombre
+      
+            if(new Date(new Date(firm.fechacreacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+              if(firm.fecharenovacion){
+                if(new Date(new Date(firm.fecharenovacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+                  fir.fecharenovacion=new Date()
+                  await this.firmaservice.update(fir)
+                }
+              }else{
+                fir.fecharenovacion=new Date()
+                await this.firmaservice.update(fir)
+              }
+            }
+        })
+        if(firmaExiste){
+            this.msgs = [];
+            this.msgs.push({ severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
+          }
+        navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
+    }
+
     async onCloseModalDianostico() {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_DIAG"])this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
         this.modalDianostico = false;
@@ -1245,31 +1309,58 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
     }
 
-    anexo6seguimiento(seguimiento:any){
+    async anexo6seguimiento(seguimiento:any){
+
+        let ele:any
+        let filterQuery = new FilterQuery();
+        filterQuery.filterList = []
+        filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: seguimiento.id.toString() });
+        await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
+        ele=elem['data']
+        })
+        ele.sort(function(a:any,b:any){
+            if(a.id > b.id){
+              return 1
+            }else if(a.id < b.id){
+              return -1;
+            }
+              return 0;
+            });
+        console.log(ele)
         let template = document.getElementById('plantillaAnexo6');
-        template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
         
+        template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
+        template?.querySelector('#P_firma_aprueba')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+        if(ele.length>0)if(ele[0].firma)template?.querySelector('#P_firma_aprueba')?.setAttribute('src', ele[0].firma);
+        template?.querySelector('#P_firma_medico')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+        if(ele.length>0)if(ele[1].firma)template?.querySelector('#P_firma_medico')?.setAttribute('src', ele[1].firma);
         template!.querySelector('#P_fechaseguiminto')!.textContent = formatDate(
         seguimiento.fechaSeg,
         "dd/MM/yyyy",
         this.locale
         );
+        template!.querySelector('#P_nombre_aprueba')!.textContent = ele[0].nombre
+        template!.querySelector('#P_nombre_medico')!.textContent = ele[1].nombre
+        setTimeout(() => {
+            template!.querySelector('#P_nombreApellidos')!.textContent = (this.empleadoSelect?.primerNombre?this.empleadoSelect?.primerNombre:'')+" "+(this.empleadoSelect?.segundoNombre?this.empleadoSelect?.segundoNombre:'')+" "+(this.empleadoSelect?.primerApellido?this.empleadoSelect?.primerApellido:'')+" "+(this.empleadoSelect?.segundoApellido?this.empleadoSelect?.segundoApellido:'')
+            template!.querySelector('#P_cedula')!.textContent = this.empleadoSelect?.numeroIdentificacion!
+            template!.querySelector('#P_ubicacion')!.textContent = this.empleadoSelect?.area.nombre!
+            template!.querySelector('#P_cargo')!.textContent = this.empleadoSelect?.cargo.nombre!
 
-        template!.querySelector('#P_nombreApellidos')!.textContent = (this.empleadoSelect?.primerNombre?this.empleadoSelect?.primerNombre:'')+" "+(this.empleadoSelect?.segundoNombre?this.empleadoSelect?.segundoNombre:'')+" "+(this.empleadoSelect?.primerApellido?this.empleadoSelect?.primerApellido:'')+" "+(this.empleadoSelect?.segundoApellido?this.empleadoSelect?.segundoApellido:'')
-        template!.querySelector('#P_cedula')!.textContent = this.empleadoSelect?.numeroIdentificacion!
-        template!.querySelector('#P_ubicacion')!.textContent = this.empleadoSelect?.area.nombre!
-        template!.querySelector('#P_cargo')!.textContent = this.empleadoSelect?.cargo.nombre!
+            template!.querySelector('#P_textseguimiento')!.textContent = seguimiento.seguimiento
+            template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion!
+            
 
-        template!.querySelector('#P_textseguimiento')!.textContent = seguimiento.seguimiento
+            var WinPrint = window.open('', '_blank'); 
 
-         var WinPrint = window.open('', '_blank'); 
-
-         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
-         WinPrint?.document.write(template?.innerHTML!);
-      
-         WinPrint?.document.close();
-         WinPrint?.focus();
-         WinPrint?.print();
+            WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
+            WinPrint?.document.write(template?.innerHTML!);
+        
+            WinPrint?.document.close();
+            WinPrint?.focus();
+            WinPrint?.print();
+        }, 2000);
+        
 
     }
 

@@ -251,16 +251,7 @@
                         <label for="ciugerencia">Ciudad</label>
                         <input type="text" id="ciugerencia" class="form-control" pInputText formControlName="ciudadGerencia" placeholder="Ciudad" />
                     </div>
-                    <div class="col-lg">
-                        <label for="enviacorreo">Enviar correo de creación</label>
-                        
-                        <div class="field-radiobutton">
-                            <p-radioButton name="enviacorreo" value=true label="Si" style="margin-right: 10px;" formControlName="enviacorreo" checked>
-                            </p-radioButton>
-                            <p-radioButton name="enviacorreo" value=false label="No" formControlName="enviacorreo" required>
-                            </p-radioButton>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="row g-2 mb-3">
                     <div class="col-lg" *ngIf="empresaId =='8';else blanco2">

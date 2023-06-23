@@ -1,6 +1,6 @@
 
-
 <div style="width: 100%; height: 100%; margin-top: 1px; display: flex;flex-direction: column;" *ngIf="estadoFirma=='firmar'">
+    <p-messages [(value)]="msgs" ></p-messages>
     <div class="contenedorcanvas">
         <canvas id="tamcanvas" #canvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)" width="1200" height="600"></canvas>
     </div>
@@ -20,13 +20,13 @@
     <p-dialog [closable]="false" [(visible)]="visibleDlg" modal="true" [style]="{width: '90%'}">
         <div class="content">
             <p style="margin-top:0px;text-align: center;font-weight: bold; margin: auto;">
-              A continuación encontrará nuestra política de tratamiento de datos personales. Por favor leala cuidadosamente y después especifique
-              si acepta los términos
+              A continuación encontrará nuestra política de tratamiento de datos personales. Por favor léala cuidadosamente y después especifique
+              si acepta los términos:
             </p>
             <br>
             <div style="width: 90%; text-align: justify; margin: auto;">
                 De conformidad con lo dispuesto en las normas vigentes sobre protección de datos personales
-                Ley 1581 de 2012, autorizo libre, expresa e inequívocamente a LER PREVENCION/SIGESS&#174;, para 
+                Ley 1581 de 2012, yo <input type="text" style="width: 25%;" [(ngModel)]="nombre"> autorizo libre, expresa e inequívocamente a LER PREVENCION/SIGESS&#174;, para 
                 que realice la recolección y tratamiento de datos que suministro de manera veraz y completa, 
                 los cuales serán utilizados para los diferentes aspectos relacionados con la gestión del SG-SST en
                 SIGESS&#174;.
@@ -35,8 +35,8 @@
             </iframe> -->
             <div style="margin-top:10px;">
               ¿Acepta los términos?
-              <button (click)="terminosyCondiciones(true)" pButton label="SI"></button>
-              <button (click)="terminosyCondiciones(false)" pButton class="p-button-secondary" label="NO"></button>
+              <button (click)="terminosyCondiciones(true)" pButton label="SI" [disabled]="!nombre"></button>
+              <button (click)="terminosyCondiciones(false)" pButton class="p-button-secondary" label="NO" [disabled]="!nombre"></button>
             </div>
           </div>
     </p-dialog>

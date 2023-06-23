@@ -10,23 +10,23 @@ import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
   })
 export class firmaservice extends CRUDService<firma>{
 
-    // getAnexWithFilter(filterQuery?: FilterQuery){
-    //     return new Promise((resolve, reject) => {
-    //       this.httpInt.get(this.end_point + 'firmaFilter/?' + this.buildUrlParams(filterQuery!))
-    //       .subscribe(
-    //         res => {
-    //           resolve(res);
-    //         },
-    //         err => {
-    //           this.manageError(err);
-    //           reject(err);
-    //         }
-    //       )
-    //     });
-    //   }
-    // public getSegByTareaID(id:any) {
-    //   return this.httpInt.get(`${endPoints.firmaservice}/${id}`).toPromise();
-    // }
+    getfirmWithFilter(filterQuery?: FilterQuery){
+        return new Promise((resolve, reject) => {
+          this.httpInt.get(this.end_point + 'firmaFilter/?' + this.buildUrlParams(filterQuery!))
+          .subscribe(
+            res => {
+              resolve(res);
+            },
+            err => {
+              this.manageError(err);
+              reject(err);
+            }
+          )
+        });
+      }
+    public getSegByTareaID(id:any) {
+      return this.httpInt.get(`${endPoints.firmaservice}/${id}`).toPromise();
+    }
 
     findById(id: string) {
       return new Promise(resolve => {

@@ -2,10 +2,11 @@ import { Component, ElementRef, ViewChild,OnInit } from '@angular/core';
 import SignaturePad from 'signature_pad';
 import { Empresa } from '../../../empresa/entities/empresa';
 import { SesionService } from '../../../core/services/session.service';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute,Router } from "@angular/router";
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
 import{firma} from 'src/app/website/pages/comun/entities/firma'
 import {formatDate} from '@angular/common';
+import { Message } from 'primeng/api';
 
 
 @Component({
@@ -21,18 +22,23 @@ export class FirmaComponent implements OnInit{
   empresaSelect?: Empresa | null;
   datosFirma?:any=[];
   estadoFirma?:string
+  msgs?: Message[];
 
   firma?:any;
   visibleDlg:boolean =true
 
+  nombre?:string;
+
   constructor(
     private sesionService: SesionService,
     private route: ActivatedRoute,
+    private router:Router,
     private firmaservice:firmaservice
   ) { }
   public async ngOnInit(){
+    
     this.estadoFirma='noexiste'
-    await this.firmaservice.findById(this.route.snapshot.params["id"]).then((resp:any)=>{
+    await this.firmaservice.findById(atob(this.route.snapshot.params["id"])).then((resp:any)=>{
       this.datosFirma=resp
 
       if(this.datosFirma.terminoscondiciones!=null){
@@ -47,10 +53,16 @@ export class FirmaComponent implements OnInit{
       if(!this.datosFirma.firma){
         let dateToday=new Date()
         dateToday=new Date(formatDate(new Date(), 'yyyy/MM/dd', 'en'))
-
-        if(new Date(this.datosFirma.fechacreacion) < dateToday){
-          this.estadoFirma='firmavencida'
-          return
+        if(new Date(new Date(this.datosFirma.fechacreacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+          if(this.datosFirma.fecharenovacion){
+            if(new Date(new Date(this.datosFirma.fecharenovacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+              this.estadoFirma='firmavencida'
+              return
+            }
+          }else{
+            this.estadoFirma='firmavencida'
+            return
+          }
         }
         this.estadoFirma='firmar'
         setTimeout(() => {
@@ -88,6 +100,8 @@ export class FirmaComponent implements OnInit{
   }
 
   savePad() {
+    console.log(this.datosFirma)
+
     this.firma = this.signaturePad!.toDataURL();
     let firm = new firma()
     firm.id =this.datosFirma.id
@@ -98,9 +112,14 @@ export class FirmaComponent implements OnInit{
     firm.email=this.datosFirma.email;
     firm.idusuario=this.datosFirma.idusuario;
     firm.terminoscondiciones=this.datosFirma.terminoscondiciones;
-    console.log(firm)
+    firm.fechaterminos= this.datosFirma.fechaterminos
+    firm.nombre=this.datosFirma.nombre
+    firm.fecharenovacion=this.datosFirma.fecharenovacion
 
-    this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
+    this.firmaservice.update(firm).then(resp=>{
+      this.msgs = [];
+      this.msgs.push({ severity: 'success', summary: 'Firma guardada', detail: 'Se ha guardado correctamente la firma' });
+    }).catch(er=>
       console.log(er))
   }
 
@@ -114,9 +133,11 @@ export class FirmaComponent implements OnInit{
     firm.email=this.datosFirma.email;
     firm.idusuario=this.datosFirma.idusuario;
     firm.terminoscondiciones=flagTerminos;
-    console.log(firm)
+    firm.fechaterminos=new Date()
+    firm.nombre=this.nombre
+    firm.fecharenovacion=this.datosFirma.fecharenovacion
 
-    this.firmaservice.update(firm).then(resp=>console.log(resp)).catch(er=>
+    this.firmaservice.update(firm).then(resp=>this.datosFirma=resp).catch(er=>
       console.log(er))
 
     if(!flagTerminos){

@@ -14,7 +14,9 @@ import { Localidades} from 'src/app/website/pages/ctr/entities/aliados';
 import { PrimeNGConfig } from 'primeng/api';
 import { locale_es } from "src/app/website/pages/comun/entities/reporte-enumeraciones";
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
-import{firma} from 'src/app/website/pages/comun/entities/firma'
+import{firma} from 'src/app/website/pages/comun/entities/firma';
+import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado.service';
+import { endPoints } from 'src/environments/environment';
 
 
 @Component({
@@ -29,6 +31,7 @@ export class RemisionComponent implements OnInit {
   @Input('recomendationList')
   set recomendationListIn(recomendationList :any)
   {
+    console.log(recomendationList)
     this.recomendationList=recomendationList
     this.recomendationList.sort(function(a:any,b:any){
       if(a.id < b.id){
@@ -98,6 +101,7 @@ export class RemisionComponent implements OnInit {
 
   constructor(
     private firmaservice:firmaservice,
+    private empleadoService: EmpleadoService,
     private sesionService: SesionService,
     private anexoSCM: anexoSCM,
     private confirmationService: ConfirmationService,
@@ -141,6 +145,7 @@ export class RemisionComponent implements OnInit {
       'proximoseguimiento': [null],
       'fechainicial': [null],
       'fechafinal': [null],
+      'nombrecomercial':[null],
       'nit': [null]
     })
     this.anexo6Form=fb.group({
@@ -188,10 +193,17 @@ export class RemisionComponent implements OnInit {
     'medico'
   ]
   firmasAnexoLink:any=[]
-  ngOnInit(): void {
+  nombreSesion!:string
+  async ngOnInit(): Promise<void> {
     this.config.setTranslation(this.localeES);
     this.idEmpresa=Number(this.sesionService.getEmpresa()?.id!)
     this.loadLocalidades()
+
+    let primerNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerNombre?this.sesionService.getEmpleado()!.primerNombre:''):''
+    let segundoNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoNombre?this.sesionService.getEmpleado()!.segundoNombre:''):''
+    let primerApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerApellido?this.sesionService.getEmpleado()!.primerApellido:''):''
+    let segundoApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoApellido?this.sesionService.getEmpleado()!.segundoApellido:''):''
+    this.nombreSesion=primerNombre+' '+segundoNombre+' '+primerApellido+' '+segundoApellido
   }
 
 //Anexo5
@@ -205,9 +217,9 @@ export class RemisionComponent implements OnInit {
     await this.anexoSCM.getAnexWithFilter(filterQuery).then((resp:any)=>{
       this.anexolist=resp.data
       this.anexolist.sort(function(a,b){
-        if(a.label > b.label){
+        if(a.id < b.id){
           return 1
-        }else if(a.label < b.label){
+        }else if(a.id > b.id){
           return -1;
         }
           return 0;
@@ -221,45 +233,93 @@ export class RemisionComponent implements OnInit {
   async imprimirAnexo5() {
     if(this.anexo=='5'){
     let anexo5=JSON.parse(this.anexo5Select.informacion)
-    setTimeout(() => {
+
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = "id";
+    filterQuery.sortOrder = -1;
+    filterQuery.filterList = []
+    filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
+    let ele:any
+    await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{
+      ele=elem['data']})
+
       let template = document.getElementById('plantillaAnexo5');
+      template?.querySelector('#P_firma_responable')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele.length>0)if(ele[0].firma)template?.querySelector('#P_firma_responable')?.setAttribute('src', ele[0].firma);
+      template?.querySelector('#P_firma_usuario')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele.length>0)if(ele[1].firma)template?.querySelector('#P_firma_usuario')?.setAttribute('src', ele[1].firma);
+
+      template!.querySelector('#P_nombre_responable')!.textContent = ele[0].nombre
+      template!.querySelector('#P_nombre_usuario')!.textContent = ele[1].nombre
+
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(
         anexo5.fecha,
         "dd/MM/yyyy",
         this.locale
       );
-      template!.querySelector('#P_hora')!.textContent = anexo5.hora
-      template!.querySelector('#P_instituto')!.textContent = anexo5.instituto
-      template!.querySelector('#P_nombreApellidos')!.textContent = anexo5.nombreApellidos
-      template!.querySelector('#P_cedula')!.textContent = anexo5.cedula
-      template!.querySelector('#P_edad')!.textContent = anexo5.edad
-      template!.querySelector('#P_tel')!.textContent = anexo5.tel
-      template!.querySelector('#P_proceso')!.textContent = anexo5.proceso
-      template!.querySelector('#P_oficio')!.textContent = anexo5.oficio
-      template!.querySelector('#P_motivo')!.textContent = anexo5.motivo
-      template!.querySelector('#P_complementarios')!.textContent = anexo5.complementarios
-      template!.querySelector('#P_solicitud')!.textContent = anexo5.solicitud
+      setTimeout(() => {
+        template!.querySelector('#P_hora')!.textContent = anexo5.hora
+        template!.querySelector('#P_instituto')!.textContent = anexo5.instituto
+        template!.querySelector('#P_nombreApellidos')!.textContent = anexo5.nombreApellidos
+        template!.querySelector('#P_cedula')!.textContent = anexo5.cedula
+        template!.querySelector('#P_edad')!.textContent = anexo5.edad
+        template!.querySelector('#P_tel')!.textContent = anexo5.tel
+        template!.querySelector('#P_proceso')!.textContent = anexo5.proceso
+        template!.querySelector('#P_oficio')!.textContent = anexo5.oficio
+        template!.querySelector('#P_motivo')!.textContent = anexo5.motivo
+        template!.querySelector('#P_complementarios')!.textContent = anexo5.complementarios
+        template!.querySelector('#P_solicitud')!.textContent = anexo5.solicitud
+        template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion
 
-      var WinPrint = window.open('', '_blank');
+        var WinPrint = window.open('', '_blank');
+        WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
+        WinPrint?.document.write(template?.innerHTML!);
+        // WinPrint?.document.write('<footer>Usuario que imprime</footer>');
 
-      WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
-      WinPrint?.document.write(template?.innerHTML!);
+        WinPrint?.document.close();
+        WinPrint?.focus();
+        WinPrint?.print();
+      }, 2000);
       
-      WinPrint?.document.close();
-      WinPrint?.focus();
-      WinPrint?.print();
-    }, 2000);}
+    }
     if(this.anexo=='1'){
       let anexo1=JSON.parse(this.anexo5Select.informacion)
+
+      let ele:any =[]
+      let filterQuery = new FilterQuery();
+      filterQuery.sortField = "id";
+      filterQuery.sortOrder = -1;
+      filterQuery.filterList = []
+      filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: this.anexo5Select.id.toString() });
+      await this.firmaservice.getfirmWithFilter(filterQuery).then((elem:any)=>{      
+        ele=elem['data']
+      })
+      let template = document.getElementById('plantillaAnexo1');
+      template?.querySelector('#P_firma_trabajador')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele.length>0)if(ele[0].firma)template?.querySelector('#P_firma_trabajador')?.setAttribute('src', ele[0].firma);
+      template?.querySelector('#P_firma_jefe')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele.length>0)if(ele[1].firma)template?.querySelector('#P_firma_jefe')?.setAttribute('src', ele[1].firma);
+      template?.querySelector('#P_firma_gestion')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele.length>0)if(ele[2].firma)template?.querySelector('#P_firma_gestion')?.setAttribute('src', ele[2].firma);
+      template?.querySelector('#P_firma_sst')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele.length>0)if(ele[3].firma)template?.querySelector('#P_firma_sst')?.setAttribute('src', ele[3].firma);
+      template?.querySelector('#P_firma_medico')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
+      if(ele.length>0)if(ele[4].firma)template?.querySelector('#P_firma_medico')?.setAttribute('src', ele[4].firma);
+
+      template!.querySelector('#P_nombre_trabajador')!.textContent = ele[0].nombre
+      template!.querySelector('#P_nombre_jefe')!.textContent = ele[1].nombre
+      template!.querySelector('#P_nombre_gestion')!.textContent = ele[2].nombre
+      template!.querySelector('#P_nombre_sst')!.textContent = ele[3].nombre
+      template!.querySelector('#P_nombre_medico')!.textContent = ele[4].nombre
+      
+      template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
+      template!.querySelector('#P_fecha')!.textContent = formatDate(
+        anexo1.fecha,
+        "dd/MM/yyyy",
+        this.locale
+      );
       setTimeout(() => {
-        let template = document.getElementById('plantillaAnexo1');
-        template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
-        template!.querySelector('#P_fecha')!.textContent = formatDate(
-          anexo1.fecha,
-          "dd/MM/yyyy",
-          this.locale
-        );
         template!.querySelector('#P_Division')!.textContent = anexo1.division
         template!.querySelector('#P_localidad')!.textContent = anexo1.localidad
         template!.querySelector('#P_nombreApellidos')!.textContent = anexo1.nombreApellidos
@@ -274,6 +334,7 @@ export class RemisionComponent implements OnInit {
         template!.querySelector('#P_cambiopuesto')!.textContent = anexo1.cambiopuestotrabajo
         template!.querySelector('#P_requerimientoadicional')!.textContent = anexo1.requiereentrenamiento
         template!.querySelector('#P_observaciones')!.textContent = anexo1.observaciones
+        template!.querySelector('#P_nombrecomercial')!.textContent = anexo1.nombrecomercial
         template!.querySelector('#P_nit')!.textContent = anexo1.nit
         template!.querySelector('#P_fechaproximoseguimiento')!.textContent = formatDate(
           anexo1.proximoseguimiento,
@@ -291,17 +352,20 @@ export class RemisionComponent implements OnInit {
           "dd/MM/yyyy",
           this.locale
         );
+        template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion
 
 
         var WinPrint = window.open('', '_blank');
-  
         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
         WinPrint?.document.write(template?.innerHTML!);
+        // WinPrint?.document.write('<footer>Usuario que imprime</footer>');        
         
         WinPrint?.document.close();
         WinPrint?.focus();
         WinPrint?.print();
-      }, 2000);}
+      }, 2000);
+
+    }
 
   }
 
@@ -332,9 +396,24 @@ export class RemisionComponent implements OnInit {
           i=this.firmasAnexo5.length
           this.firmasAnexo5.forEach(async (resp1:any) => {
             await this.firmaservice.create(firm).then((resp2:any)=>{
-              this.firmasAnexoLink.push({quienfirma:resp1,link:'http://localhost:4200/firma/'+resp2.id})
-              ax.firmas=JSON.stringify(this.firmasAnexoLink)
-              if(this.firmasAnexo5[i-1]==resp1)this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+              this.firmasAnexoLink.push({id:resp2.id,quienfirma:resp1,link:endPoints.firma+btoa(resp2.id)})
+              
+              if(this.firmasAnexo5[i-1]==resp1){
+                this.firmasAnexoLink.sort(function(a:any,b:any){
+                  if(a.id > b.id){
+                    return 1
+                  }else if(a.id < b.id){
+                    return -1;
+                  }
+                    return 0;
+                  });
+                let j=0
+                this.firmasAnexo5.forEach(async (ele:any) => {
+                  this.firmasAnexoLink[j].quienfirma=ele
+                  j++
+                })
+                ax.firmas=JSON.stringify(this.firmasAnexoLink)
+                this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())}
             })
           });          
         }
@@ -342,9 +421,24 @@ export class RemisionComponent implements OnInit {
           i=this.firmasAnexo1.length
           this.firmasAnexo1.forEach(async (resp1:any) => {
             await this.firmaservice.create(firm).then((resp2:any)=>{
-              this.firmasAnexoLink.push({quienfirma:resp1,link:'http://localhost:4200/firma/'+resp2.id})
-              ax.firmas=JSON.stringify(this.firmasAnexoLink)
-              if(this.firmasAnexo1[i-1]==resp1)this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+              this.firmasAnexoLink.push({id:resp2.id,quienfirma:'',link:endPoints.firma+btoa(resp2.id)})
+              
+              if(this.firmasAnexo1[i-1]==resp1){
+                this.firmasAnexoLink.sort(function(a:any,b:any){
+                  if(a.id > b.id){
+                    return 1
+                  }else if(a.id < b.id){
+                    return -1;
+                  }
+                    return 0;
+                  });
+                let j=0
+                this.firmasAnexo1.forEach(async (ele:any) => {
+                  this.firmasAnexoLink[j].quienfirma=ele
+                  j++
+                })
+                ax.firmas=JSON.stringify(this.firmasAnexoLink)
+                this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())}
             })
           });          
         }
@@ -410,6 +504,7 @@ export class RemisionComponent implements OnInit {
           'recomendaciones': this.recomendationList.length>0?this.recomendationList[0].recomendaciones:null,
           'fechainicial': this.recomendationList.length>0?new Date(this.recomendationList[0].fechaInicio):null,
           'fechafinal': this.recomendationList.length>0?new Date(this.recomendationList[0].fechaExpiracion):null,
+          'nombrecomercial':this.empleadoSelect?.empresa,
           'nit' : this.empleadoSelect?.nit
         })
         this.dialogAnexo1=true }
@@ -460,6 +555,7 @@ export class RemisionComponent implements OnInit {
         'proximoseguimiento': new Date(anexo1.proximoseguimiento),
         'fechainicial': anexo1.fechainicial,
         'fechafinal': anexo1.fechafinal,
+        'nombrecomercial':anexo1?.nombrecomercial,
         'nit' : this.empleadoSelect?.nit
       })
       this.dialogAnexo1=true }
@@ -507,6 +603,7 @@ export class RemisionComponent implements OnInit {
         'proximoseguimiento': new Date(anexo1.proximoseguimiento),
         'fechainicial': anexo1.fechainicial,
         'fechafinal': anexo1.fechafinal,
+        'nombrecomercial':anexo1.nombrecomercial,
         'nit' : anexo1.nit
       })
       this.dialogAnexo1=true}
@@ -564,9 +661,46 @@ export class RemisionComponent implements OnInit {
     });
   }
 
-  copiarLink(firma:any,user:string){
-    const firm=firma
+  async copiarLink(firma1:any,user:string){
+    const firm=firma1
     let firmas = firm.find((ele:any)=>ele.quienfirma==user)
+
+    let filterQuery = new FilterQuery();
+    filterQuery.filterList = []
+    filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "id", value1: firmas.id.toString() });
+    let firmaExiste
+    await this.firmaservice.getfirmWithFilter(filterQuery).then(async (elem:any)=>{
+      firmaExiste=elem['data'][0].firma
+      let fir = new firma()
+      fir.id =elem['data'][0].id
+      fir.firma=elem['data'][0].firma
+      fir.idempresa=elem['data'][0].idempresa
+      fir.fechacreacion=elem['data'][0].fechacreacion
+      fir.idrelacionado=elem['data'][0].idrelacionado
+      fir.email=elem['data'][0].email
+      fir.idusuario=elem['data'][0].idusuario
+      fir.terminoscondiciones=elem['data'][0].terminoscondiciones
+      fir.fechaterminos= elem['data'][0].fechaterminos
+      fir.nombre=elem['data'][0].nombre
+
+      if(new Date(new Date(elem['data'][0].fechacreacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+        if(elem['data'][0].fecharenovacion){
+          if(new Date(new Date(elem['data'][0].fecharenovacion)!.getTime() + (1000 * 60 * 60 * 24)) < new Date()){
+            fir.fecharenovacion=new Date()
+            await this.firmaservice.update(fir)
+          }
+        }else{
+          fir.fecharenovacion=new Date()
+          await this.firmaservice.update(fir)
+        }
+      }
+    })
+    if(firmaExiste){
+      this.msgs = [];
+      this.msgs.push({ severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
+    }
     navigator.clipboard.writeText(firmas.link)
+    
+
   }
 }

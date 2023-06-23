@@ -29,14 +29,14 @@
                 <td *ngIf="anexo==5" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'responsable')"
                     ></button></td>
                 <td *ngIf="anexo==5"class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'usuario')"
                     ></button></td>
@@ -44,14 +44,14 @@
                 <td *ngIf="anexo==1" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'trabajador')"
                     ></button></td>
                 <td *ngIf="anexo==1"class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'jefe')"
                     ></button></td>
@@ -59,14 +59,14 @@
                 <td *ngIf="anexo==1" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'gestion')"
                     ></button></td>
                 <td *ngIf="anexo==1"class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'sst')"
                     ></button></td>
@@ -74,7 +74,7 @@
                 <td *ngIf="anexo==1" class="p-text-center"><button
                     pButton type="button" 
                     icon="bi bi-link-45deg" 
-                    class="p-button-primary"
+                    class="p-button-rounded p-button-text p-mr-2"
                     pTooltip="Copiar link"
                     (click)="copiarLink(anex5.firmas,'medico')"
                     ></button></td>
@@ -147,7 +147,7 @@
     </p-table>
 </div>
 
-<p-dialog header="Anexo 5" [(visible)]="dialogAnexo5" [style]="{width: '75vw'}" [modal]="true" [draggable]="false" [resizable]="false">
+<p-dialog header="Anexo 5" [(visible)]="dialogAnexo5" [style]="{width: '75vw'}" [modal]="true" [draggable]="true" [resizable]="false">
     <form [formGroup]="anexo5Form">
         <div class="grid" >
             <div class="col-12">
@@ -208,7 +208,7 @@
     </p-footer>
 </p-dialog>
 
-<p-dialog header="Anexo 1" [(visible)]="dialogAnexo1" [style]="{width: '75vw'}" [modal]="true" [draggable]="false" [resizable]="false">
+<p-dialog header="Anexo 1" [(visible)]="dialogAnexo1" [style]="{width: '75vw'}" [modal]="true" [draggable]="true" [resizable]="false">
     <form [formGroup]="anexo1Form">
         <div class="grid" >
             <div class="col-12">
@@ -312,18 +312,18 @@
         <tr>
             <th rowspan="4" style="border: 1px solid #c8c8c8; text-align: center;width: 20%"><img style="width:80%;" id="P_empresa_logo" /></th>
             <th style="border-top: 1px solid #c8c8c8; text-align: center">ANEXO 5</th>
-            <td style="border: 1px solid #c8c8c8;text-align: left">Código</td> 
-            <td style="border: 1px solid #c8c8c8;text-align: left ">SST-PR-03-A5</td> 
+            <td style="border: 1px solid #c8c8c8;text-align: left">Código</td>
+            <td style="border: 1px solid #c8c8c8;text-align: left ">SST-PR-03-A5</td>
         </tr>
         <tr>
             <th style=" text-align: center">FORMATO DE REMISIÓN</th>
-            <td style="border: 1px solid #c8c8c8; ">Vigente desde</td> 
-            <td style="border: 1px solid #c8c8c8; ">{{this.dateToday  | date: 'dd/MM/yyyy'}}</td>  
+            <td style="border: 1px solid #c8c8c8; ">Vigente desde</td>
+            <td style="border: 1px solid #c8c8c8; ">Enero de 2018</td>
         </tr>
         <tr>
             <th style=" text-align: center">&nbsp;</th>
-            <td style="border: 1px solid #c8c8c8; ">Versión</td> 
-            <td style="border: 1px solid #c8c8c8; ">0</td>  
+            <td style="border: 1px solid #c8c8c8; ">Versión</td>
+            <td style="border: 1px solid #c8c8c8; ">0</td>
         </tr>
         <tr>
             <th style="border-bottom: 1px solid #c8c8c8; text-align: center">SEGURIDAD Y SALUD EN EL TRABAJO</th>
@@ -337,8 +337,8 @@
 
         <tr>
             <td>Fecha:&nbsp; <label id="P_fecha"></label></td>
-            <td>Hora:&nbsp; <label id="P_hora"></label></td>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="2">Hora:&nbsp; <label id="P_hora"></label></td>
+            <td>&nbsp;</td>
         </tr>
 
         <tr><td colspan="4">&nbsp;</td></tr>
@@ -353,16 +353,12 @@
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
             <td>CÉDULA:&nbsp; <label id="P_cedula"></label></td>
-            <td>EDAD:&nbsp; <label id="P_edad"></label></td>
-            <td>TEL:&nbsp; <label id="P_tel"></label></td>
-            <td>&nbsp;</td>
+            <td colspan="3">EDAD:&nbsp; <label id="P_edad"></label> &nbsp;&nbsp;TEL:&nbsp; <label id="P_tel"></label></td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
             <td>PROCESO:&nbsp; <label id="P_proceso"></label></td>
-            <td>OFICIO ACTUAL:&nbsp; <label id="P_oficio"></label></td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td colspan="3">OFICIO ACTUAL:&nbsp; <label id="P_oficio"></label></td>
         </tr>
 
         <tr><td colspan="4">&nbsp;</td></tr>
@@ -400,13 +396,13 @@
         
         <tr>
             <td style="border-bottom: 1px solid #c8c8c8;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma_responable" />
             </td>
             <td>
                 &nbsp;
             </td>
             <td style="border-bottom: 1px solid #c8c8c8;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma_usuario" />
             </td>
             <td>
                 &nbsp;
@@ -421,6 +417,28 @@
                 USUARIO
             </td>
         </tr>
+        <tr>
+            <td colspan="2">
+                Nombre:&nbsp; <label id="P_nombre_responable"></label>
+            </td>
+            <td colspan="2">
+                Nombre:&nbsp; <label id="P_nombre_usuario"></label>
+            </td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+
+        <tr>
+            <td colspan="4">
+                NOTA: Dejar copia en la Historia Ocupacional
+            </td>
+        </tr>
+        
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <!-- <tfoot> -->
+            <tr>
+              <td colspan="4">Usuario que imprime: &nbsp;<label id="P_usuariosesion"></label></td>
+            </tr>
+        <!-- </tfoot> -->
     </table>
 </div>
 
@@ -437,7 +455,7 @@
         <tr>
             <th style=" text-align: center">FORMATO DE APLICACIÓN DE</th>
             <td style="border: 1px solid #c8c8c8; ">Vigente desde</td> 
-            <td style="border: 1px solid #c8c8c8; ">{{this.dateToday  | date: 'dd/MM/yyyy'}}</td>  
+            <td style="border: 1px solid #c8c8c8; ">Julio de 2017</td>  
         </tr>
         <tr>
             <th style=" text-align: center">RECOMENDACIONES LABORALES</th>
@@ -460,8 +478,13 @@
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
+            <td colspan="2">Nombre comercial:&nbsp; <label id="P_nombrecomercial"></label></td>
             <td colspan="2">NIT:&nbsp; <label id="P_nit"></label></td>
-            <td colspan="2">DIVISIÓN:&nbsp; <label id="P_Division"></label></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <tr>
+            <td>DIVISIÓN:&nbsp; <label id="P_Division"></label></td>
+            <td colspan="3">&nbsp;</td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
         <tr>
@@ -543,7 +566,7 @@
 
         <tr>
             <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma_trabajador" />
             </td>
         </tr>
         <tr>
@@ -551,11 +574,16 @@
                 Firma del trabajador:
             </td>
         </tr>
+        <tr>
+            <td colspan="4">
+                Nombre:&nbsp; <label id="P_nombre_trabajador"></label>
+            </td>
+        </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
 
         <tr>
             <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma_jefe" />
             </td>
         </tr>
         <tr>
@@ -563,11 +591,16 @@
                 Firma Jefe inmediato:
             </td>
         </tr>
+        <tr>
+            <td colspan="4">
+                Nombre:&nbsp; <label id="P_nombre_jefe"></label>
+            </td>
+        </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
 
         <tr>
             <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma_gestion" />
             </td>
         </tr>
         <tr>
@@ -575,11 +608,16 @@
                 Firma de Gestión Humana Integral:
             </td>
         </tr>
+        <tr>
+            <td colspan="4">
+                Nombre:&nbsp; <label id="P_nombre_gestion"></label>
+            </td>
+        </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
 
         <tr>
             <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma_sst" />
             </td>
         </tr>
         <tr>
@@ -587,16 +625,26 @@
                 Firma de SST:
             </td>
         </tr>
+        <tr>
+            <td colspan="4">
+                Nombre:&nbsp; <label id="P_nombre_sst"></label>
+            </td>
+        </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
 
         <tr>
             <td colspan="4" style="border-bottom: 1px solid #c8c8c8;">
-                &nbsp;
+                <img style="width:300px;" id="P_firma_medico" />
             </td>
         </tr>
         <tr>
             <td colspan="4">
                 Firma del Medico:
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                Nombre:&nbsp; <label id="P_nombre_medico"></label>
             </td>
         </tr>
         <tr><td colspan="4">&nbsp;</td></tr>
@@ -606,6 +654,12 @@
                 NOTA: Archivar en Historia clínica Ocupacional la copia firmada por todos los participantes en el proceso
             </td>
         </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        <!-- <tfoot> -->
+            <tr>
+              <td colspan="4">Usuario que imprime: &nbsp;<label id="P_usuariosesion"></label></td>
+            </tr>
+        <!-- </tfoot> -->
     </table>
 
 
