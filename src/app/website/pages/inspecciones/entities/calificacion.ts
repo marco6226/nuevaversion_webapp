@@ -11,5 +11,6 @@ export interface Calificacion {
     opcionCalificacion: OpcionCalificacion;
     nivelRiesgo: NivelRiesgo;
     documentosList: Documento[];
-    tipoHallazgo:TipoHallazgo;
+    tipoHallazgo:TipoHallazgo | null;
+    calcularCumplimiento: boolean;
 }

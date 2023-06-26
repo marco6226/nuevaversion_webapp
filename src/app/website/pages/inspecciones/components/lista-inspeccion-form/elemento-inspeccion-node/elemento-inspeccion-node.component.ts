@@ -6,6 +6,7 @@ import { OpcionCalificacion } from '../../../entities/opcion-calificacion';
 import { TipoHallazgo } from '../../../entities/tipo-hallazgo';
 import { Calificacion } from '../../../entities/calificacion';
 import { NivelRiesgo } from 'src/app/website/pages/core/entities/nivel-riesgo';
+import { InputSwitchOnChangeEvent } from 'primeng/inputswitch';
 
 @Component({
   selector: 'app-elemento-inspeccion-node',
@@ -109,14 +110,14 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     return this.tipoLista && this.listasConPeso.includes(this.tipoLista) ? true : false;
   }
 
-  porcentajeCumplimiento(elementoInspeccionList: ElementoInspeccion[], opciones: OpcionCalificacion[]): string{
+  porcentajeCumplimiento(elementoInspeccionList: ElementoInspeccion[]): string{
     let cumplimiento: number = 0;
     let obtenido = 0;
     let esperado = 0;
 
     elementoInspeccionList.forEach(elem => {
       if(elem.calificacion.opcionCalificacion.id){
-        let valorSeleccion = opciones.find(item => item.id === elem.calificacion.opcionCalificacion.id && !item.despreciable)?.valor;
+        let valorSeleccion = this.opciones?.find(item => item.id === elem.calificacion.opcionCalificacion.id && !item.despreciable)?.valor;
         if(typeof valorSeleccion !== 'undefined'){
           obtenido += (valorSeleccion * elem.peso!);
           esperado += elem.peso!;
@@ -128,6 +129,22 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     cumplimiento = (obtenido / esperado) * 100;
 
     return !isNaN(cumplimiento) && cumplimiento !== Infinity ? cumplimiento.toFixed(2) : 'NA';
+  }
+
+  onChangeCalcularCumplimiento(changeEvent: InputSwitchOnChangeEvent, elem: ElementoInspeccion){
+    let optDespreciable = this.opciones?.find(opt => opt.despreciable);
+    elem.calificacion.opcionCalificacion = optDespreciable!;
+    elem?.elementoInspeccionList.forEach(item => {
+      item.calificacion.opcionCalificacion.id = optDespreciable?.id!;
+    });
+    console.log(changeEvent.checked, elem);
+  }
+
+  getValueCalcularCumplimiento(elem: ElementoInspeccion): boolean{
+    // console.log(elem);
+    return elem.calificacion.calcularCumplimiento === null
+          || typeof elem.calificacion.calcularCumplimiento === 'undefined'
+          || elem.calificacion.calcularCumplimiento === true ? false : true;
   }
 
 }

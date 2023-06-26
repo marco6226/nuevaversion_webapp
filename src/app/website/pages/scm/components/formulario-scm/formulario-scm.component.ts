@@ -95,6 +95,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     recomendationList!: TreeNode[];
     seguimientosList!: TreeNode[];
     logsList: any = []
+    seguimientosgenericoList?: TreeNode[];
     empleadosList!: Empleado[];
     diagnosticoList: any[] = [];
     modifyDiag: boolean = false;
@@ -210,6 +211,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     recoSelect: any;
     diagSelect: any;
     seguiSelect: any;
+    seguigenericoSelect: any;
+    seguimientosgenerico: any[] = [];
+    modalSeguimientosgenerico: boolean = false;
     yearRange: string = "1900:" + this.fechaActual.getFullYear();
     localeES: any = locale_es;
     tipoIdentificacionList: SelectItem[];
@@ -974,6 +978,16 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.logsList = await this.scmService.getLogs(this.caseSelect.id);
 
     }
+    
+    async onCloseModalseguimientogenerico() {       
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG_GENERICO"])this.seguimientosgenericoList = await this.scmService.getSeguimientosgenerico(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG_GENERICO"])this.seguimientosgenerico = await this.scmService.getSeguimientosgenerico(this.caseSelect.id); 
+
+        this.modalSeguimientosgenerico = false;
+        this.seguigenericoSelect = null;
+        this.logsList = await this.scmService.getLogs(this.caseSelect.id);
+
+    }
 
     async copiarLinkSeguimiento(idSeguimiento:number, usuario:string){
         console.log(this.seguimientos)
@@ -1309,6 +1323,28 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
     }
 
+    async deleteSeguimientogenerico(id: number) {
+        try {
+            if (await this.confirmService.confirmSeguimiento()) {
+                console.log(typeof id, id)
+                let resp = await this.scmService.deleteSeguimiento(id);
+                if (resp) {
+                    this.messageService.add({
+                        severity: "error",
+                        summary: "Mensaje del sistema",
+                        detail: `Su seguimiento se eliminó exitosamente`,
+                    });
+                    this.fechaSeg()
+                }
+            }
+            else {
+                this.messageService.add({ severity: "info", summary: "Cancelado", detail: "usted cancelo la eliminación" });
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
     async anexo6seguimiento(seguimiento:any){
 
         let ele:any
@@ -1384,6 +1420,17 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
     }
 
+    async nuevoSeguimientoGenerico(){
+        try {
+            let seg = { pkCase: this.caseSelect.id }
+            let resp = await this.scmService.createSeguimientogenerico(seg);
+
+            this.seguimientosgenerico.push(resp)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async nuevoTratamiento() {
         try {
             let seg = { pkCase: this.caseSelect.id }
@@ -1402,9 +1449,18 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.seguimientos.map((seg, idx) => {
             if (seg.fechaSeg) {
                 this.seguimientos[idx].fechaSeg = moment(seg.fechaSeg).toDate()
+            }
+            if (seg.proxfechaSeg) {
                 this.seguimientos[idx].proxfechaSeg = moment(seg.proxfechaSeg).toDate()
             }
         });
+
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG_GENERICO"])this.seguimientosgenerico = await this.scmService.getSeguimientosgenerico(this.caseSelect.id);
+        this.seguimientosgenerico.map((seg, idx) => {
+            if (seg.fechaSeg) {
+                this.seguimientosgenerico[idx].fechaSeg = moment(seg.fechaSeg).toDate()
+            }
+        })
     }
 
     async fechaTrat() {
@@ -1426,6 +1482,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.modalSeguimientos = true;
     }
 
+    openModalSeguimientosgenerico() {
+        console.log("entro")
+        this.seguigenericoSelect = false;
+        this.modalSeguimientosgenerico = true;
+    }
 
     recibirPCL(event: any) {
         this.listaPCL = event

@@ -103,10 +103,17 @@ export class CasosMedicosService {
         return this.http.post(`${endPoints.scm}seguimiento/`, seg, this.getRequestHeaders(this.headers)).toPromise();
 
     }
+    
+    createSeguimientogenerico(seg: any) {
+        return this.http.post(`${endPoints.scm}seguimiento/`, seg, this.getRequestHeaders(this.headers)).toPromise();
+    }
 
     updateSeguimiento(seguimientoCase: any) {
         return this.http.put(`${endPoints.scm}seguimiento/`, seguimientoCase, this.getRequestHeaders(this.headers)).toPromise();
+    }
 
+    updateSeguimientogenerico(seguimientoCase: any) {
+        return this.http.put(`${endPoints.scm}seguimiento/`, seguimientoCase, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     deleteSeguimiento(id: string | number) {
@@ -115,6 +122,10 @@ export class CasosMedicosService {
 
     getSeguimientos(documento: string | number): any {
         return this.http.get<any[]>(`${endPoints.scm}seguimiento/${documento}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+
+    getSeguimientosgenerico(documento: any): any {
+        return this.http.get<any[]>(`${endPoints.scm}seguimiento/generico/${documento}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     /// Tratamientos

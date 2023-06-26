@@ -200,6 +200,7 @@ import { FirmaComponent } from './pages/comun/components/firma/firma.component';
 import { ResetPasswordComponent } from './pages/core/components/reset-password/reset-password.component';
 import { FormularioComponent } from './pages/comun/components/formulario/formulario.component';
 import { ChipsModule } from 'primeng/chips';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -406,6 +407,7 @@ import { ChipsModule } from 'primeng/chips';
     BreadcrumbModule,
     ScrollPanelModule,
     ChipsModule,
+    InputSwitchModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
