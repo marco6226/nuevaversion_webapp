@@ -168,7 +168,6 @@ export class ConsultaInspeccionesComponent implements OnInit {
       (resp: any) => {
         this.totalRecords = resp['count'];
         this.inspeccionesList = [];
-        // console.log(resp);
         (<any[]>resp['data']).forEach(dto => {
           let obj = FilterQuery.dtoToObject(dto)
           obj['hash'] = obj.listaInspeccion.listaInspeccionPK.id + '.' + obj.listaInspeccion.listaInspeccionPK.version;
@@ -178,7 +177,6 @@ export class ConsultaInspeccionesComponent implements OnInit {
               perfilArray.forEach((perfil: any) => {
                 if (perfil === profile.id) {
                   if (!this.inspeccionesList.find(element => element == obj)) {
-                    // console.log(obj);
                     this.inspeccionesList.push(obj);
                   }
                 }
@@ -186,7 +184,6 @@ export class ConsultaInspeccionesComponent implements OnInit {
             }
           } catch (error) { }
           this.loading = false;
-          // console.log(this.inspeccionesList);
         });
       }
     );

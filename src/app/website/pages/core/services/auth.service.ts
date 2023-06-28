@@ -178,7 +178,6 @@ sendNotificationObservacionDenegada(email: string, observacion:any) {
 
     requestRefresh(token: string) {
         let body = token;
-        console.log("paso por aca");
         let endpoint = this.authEndPoint + "refrescarToken";
         return new Promise((resolve, reject) => {
             this.httpInt

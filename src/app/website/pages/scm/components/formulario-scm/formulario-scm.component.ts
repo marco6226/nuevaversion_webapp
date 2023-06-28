@@ -175,7 +175,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     empleadoSelect?: Empleado | null;
     // @Input('empleadoSelect') 
     // set empleadoSelectInput(empleadoInput: Empleado){
-    //     console.log(empleadoInput);
     //     this.empresaForm!.reset()
     //     if(empleadoInput){
     //         this.empleadoSelect = empleadoInput
@@ -990,14 +989,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async copiarLinkSeguimiento(idSeguimiento:number, usuario:string){
-        console.log(this.seguimientos)
         let filterQuery = new FilterQuery();
         filterQuery.filterList = []
         filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: idSeguimiento.toString() });
         let firm:any
         let firmaExiste
         await this.firmaservice.getfirmWithFilter(filterQuery).then(async (ele:any)=>{
-            console.log(ele)
             let datosFirma=ele['data']
             datosFirma.sort(function(a:any,b:any){
                 if(a.id > b.id){
@@ -1326,7 +1323,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     async deleteSeguimientogenerico(id: number) {
         try {
             if (await this.confirmService.confirmSeguimiento()) {
-                console.log(typeof id, id)
                 let resp = await this.scmService.deleteSeguimiento(id);
                 if (resp) {
                     this.messageService.add({
@@ -1341,7 +1337,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 this.messageService.add({ severity: "info", summary: "Cancelado", detail: "usted cancelo la eliminación" });
             }
         } catch (error) {
-            console.log(error)
         }
     }
     
@@ -1362,7 +1357,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             }
               return 0;
             });
-        console.log(ele)
         let template = document.getElementById('plantillaAnexo6');
         
         template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
@@ -1427,7 +1421,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
             this.seguimientosgenerico.push(resp)
         } catch (error) {
-            console.log(error)
         }
     }
 
@@ -1483,7 +1476,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     openModalSeguimientosgenerico() {
-        console.log("entro")
         this.seguigenericoSelect = false;
         this.modalSeguimientosgenerico = true;
     }

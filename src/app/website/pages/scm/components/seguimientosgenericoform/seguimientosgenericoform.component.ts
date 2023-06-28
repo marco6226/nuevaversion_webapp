@@ -103,7 +103,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
             pkCase: this.id,
         }
         
-        console.log('llega al try');
         try {
             let res: any;
             if (this.seguigenericoSelect) {
@@ -157,11 +156,9 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
         } else {
             this.clearInputs();
         }
-        // console.log(this.seguigenericoSelect);
     }
 
     onSelectionResponsable(event: Empleado) {
-        // console.log(event)
         if (!event) return;
         let empleado = <Empleado>event;
         this.responsableEmpresaNombre = (empleado.primerApellido || "") + " " + (empleado.primerNombre || "");
@@ -185,7 +182,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
     }
 
     onRowEditInit(product: any, type?: any) {
-        console.log(this.accions);
     }
 
     async onRowCloneInit(pseg: any, type?: any) {
@@ -200,7 +196,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
             });
             //  this.fechaSeg();
         } catch (error) {
-            console.log(error);
             this.messageService.add({
                 severity: "danger",
                 summary: "Mensaje del sistema",
@@ -211,7 +206,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
     }
 
     async onRowEditSave(product: any, index: any) {
-        // console.log(product, index);
         this.accions[index] = product;
     }
 

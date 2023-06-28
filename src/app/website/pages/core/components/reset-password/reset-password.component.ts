@@ -27,7 +27,6 @@ export class ResetPasswordComponent {
   }
 
   async reset(value: any){
-    console.log(value)
     this.messageService.add({ severity: 'info', detail: 'Ha solicitado restaurar su contraseña, por favor espere ', summary: 'Solicitando...' });
     
     let email = value.correo;

@@ -125,7 +125,6 @@ export class ElementoInspeccionNodeComponent implements OnInit {
       }
     });
 
-    // console.log(obtenido, esperado);
     cumplimiento = (obtenido / esperado) * 100;
 
     return !isNaN(cumplimiento) && cumplimiento !== Infinity ? cumplimiento.toFixed(2) : 'NA';
@@ -137,11 +136,9 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     elem?.elementoInspeccionList.forEach(item => {
       item.calificacion.opcionCalificacion.id = optDespreciable?.id!;
     });
-    console.log(changeEvent.checked, elem);
   }
 
   getValueCalcularCumplimiento(elem: ElementoInspeccion): boolean{
-    // console.log(elem);
     return elem.calificacion.calcularCumplimiento === null
           || typeof elem.calificacion.calcularCumplimiento === 'undefined'
           || elem.calificacion.calcularCumplimiento === true ? false : true;

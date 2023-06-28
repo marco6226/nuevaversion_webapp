@@ -62,7 +62,6 @@ export class AreaComponent implements OnInit {
     this.tipoAreaService.findAll().then(
       (data: any) => (<TipoArea[]>data['data']).forEach(ta => this.tiposAreaList.push({ label: ta.nombre, value: ta.id }))
     );
-    console.log( this.tiposAreaList)
     let filterAreaQuery = new FilterQuery();
     filterAreaQuery.filterList = [
       { field: 'areaPadre', criteria: Criteria.IS_NULL, value1: null, value2: null },

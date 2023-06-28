@@ -31,7 +31,6 @@ export class RemisionComponent implements OnInit {
   @Input('recomendationList')
   set recomendationListIn(recomendationList :any)
   {
-    console.log(recomendationList)
     this.recomendationList=recomendationList
     this.recomendationList.sort(function(a:any,b:any){
       if(a.id < b.id){
