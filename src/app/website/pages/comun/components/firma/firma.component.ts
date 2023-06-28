@@ -117,7 +117,7 @@ export class FirmaComponent implements OnInit{
     this.firmaservice.update(firm).then(resp=>{
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: 'Firma guardada', detail: 'Se ha guardado correctamente la firma' });
-    }).catch(er=>)
+    }).catch(er=>{})
   }
 
   terminosyCondiciones(flagTerminos:boolean){
@@ -134,8 +134,7 @@ export class FirmaComponent implements OnInit{
     firm.nombre=this.nombre
     firm.fecharenovacion=this.datosFirma.fecharenovacion
 
-    this.firmaservice.update(firm).then(resp=>this.datosFirma=resp).catch(er=>
-      )
+    this.firmaservice.update(firm).then(resp=>this.datosFirma=resp).catch(er=>{})
 
     if(!flagTerminos){
       this.estadoFirma='noterminos'
