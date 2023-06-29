@@ -201,6 +201,7 @@ import { ResetPasswordComponent } from './pages/core/components/reset-password/r
 import { FormularioComponent } from './pages/comun/components/formulario/formulario.component';
 import { ChipsModule } from 'primeng/chips';
 import { FileSizePipe } from './pages/comun/pipes/file-size.pipe'
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -408,6 +409,7 @@ import { FileSizePipe } from './pages/comun/pipes/file-size.pipe'
     BreadcrumbModule,
     ScrollPanelModule,
     ChipsModule,
+    InputSwitchModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

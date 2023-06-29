@@ -284,6 +284,8 @@ export class ElaboracionInspeccionesComponent implements OnInit {
     private cargarCalificaciones(elemList: ElementoInspeccion[], calificacionList: Calificacion[]) {
         for (let i = 0; i < elemList.length; i++) {
             if (elemList[i].elementoInspeccionList != null && elemList[i].elementoInspeccionList.length > 0) {
+                let calif = this.buscarCalificacion(elemList[i], calificacionList);
+                if(calif !== null) elemList[i].calificacion = calif;
                 this.cargarCalificaciones(elemList[i].elementoInspeccionList, calificacionList);
             } else {
                 let calif = this.buscarCalificacion(elemList[i], calificacionList)!;
@@ -294,7 +296,7 @@ export class ElaboracionInspeccionesComponent implements OnInit {
 
     private buscarCalificacion(elem: ElementoInspeccion, calificacionList: Calificacion[]): Calificacion | null {
         for (let i = 0; i < calificacionList.length; i++) {
-            if (calificacionList[i].elementoInspeccion.id === elem.id) {
+            if (calificacionList[i].elementoInspeccion.id === elem.id) {                
                 return calificacionList[i];
             }
         }
@@ -638,6 +640,14 @@ export class ElaboracionInspeccionesComponent implements OnInit {
         for (let i = 0; i < elemList.length; i++) {
             if (elemList[i].elementoInspeccionList != null && elemList[i].elementoInspeccionList.length > 0) {
                 this.extraerCalificaciones(elemList[i].elementoInspeccionList, calificacionList);
+                let calif = elemList[i].calificacion;
+                if(calif.opcionCalificacion.id && calif.calcularCumplimiento !== null){
+                    calif.elementoInspeccion = {} as ElementoInspeccion;
+                    calif.elementoInspeccion.id = elemList[i].id;
+                    calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
+                    calif.tipoHallazgo = null;
+                    calificacionList.push(calif);
+                }
             } else {
 
                 if (elemList[i].calificacion.opcionCalificacion.id == null) {

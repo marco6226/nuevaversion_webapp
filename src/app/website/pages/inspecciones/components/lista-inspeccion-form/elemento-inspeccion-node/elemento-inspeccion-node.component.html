@@ -1,9 +1,24 @@
 <div *ngFor="let elem of value; let i = index" st style="margin-top: 5px;">
   <div class="container" *ngIf="conPeso && elem?.elementoInspeccionList?.length > 0 && router.url !== '/app/inspecciones/elaboracionLista'; else tableInspeccion">
     <p-panel>
-      <p-header>
-        <div class="row">
-          <b><label>{{elem.codigo}}&nbsp;&nbsp;&nbsp;{{elem.nombre}}&nbsp;&nbsp;&nbsp;{{elem.descripcion}}</label></b>
+      <p-header [style]="{'width': '100%'}">
+        <div class="flex justify-content-between flex-wrap">
+          <div class="flex mb-2">
+            <b>
+              <label>{{elem.codigo}}&nbsp;&nbsp;&nbsp;{{elem.nombre}}&nbsp;&nbsp;&nbsp;{{elem.descripcion}}</label>
+            </b>
+          </div>
+          <div class="flex">
+            <ul class="horizontal-list">
+              <li>
+                No Aplica
+              </li>
+              <li>
+                <p-inputSwitch [(ngModel)]="elem.calificacion.calcularCumplimiento"
+                (onChange)="onChangeCalcularCumplimiento($event, elem)" [disabled]="disabled"></p-inputSwitch>
+              </li>
+            </ul>
+          </div>
         </div>
       </p-header>
       <div>
@@ -41,7 +56,7 @@
           </tr>
           <tr *ngIf="conPeso && elem.elementoInspeccionList" style="height: 35px; background-color: #eeeeee; color: #333333; text-align: right;">
             <td style=" padding-right: 10px; font-size: large;">
-              Porcentaje de cumplimiento {{ porcentajeCumplimiento(elem.elementoInspeccionList, opciones) }}
+              Porcentaje de cumplimiento {{ porcentajeCumplimiento(elem.elementoInspeccionList) }}
             </td>
           </tr>
         </table>
@@ -113,7 +128,7 @@
               <label *ngIf="!elem.calificable">{{opc.nombre}}</label>
               <p-radioButton #radiobutton [id]="elem.id + '_' + opc.id" [name]="elem.codigo + elem.nombre"
                 [value]="opc.id" [label]="" [disabled]="disabled" [(ngModel)]="elem.calificacion?.opcionCalificacion.id"
-                [pTooltip]="opc.descripcion" tooltipPosition="left" *ngIf="elem.calificable"></p-radioButton>
+                pTooltip="{{opc.descripcion}}" tooltipPosition="left" *ngIf="elem.calificable"></p-radioButton>
             </td>
           </ng-template>
         </tr>

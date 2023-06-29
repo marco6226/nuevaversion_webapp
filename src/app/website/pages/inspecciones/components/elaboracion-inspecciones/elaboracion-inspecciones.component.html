@@ -1,7 +1,7 @@
 <div *ngIf="finalizado" style="margin: 20px;">
   <h2>Inspección finalizada</h2>
   <br />
-  <a (click)="volver()">Volver</a>
+  <p-button label="Volver" (click)="volver()" styleClass="p-button-success"></p-button>
 </div>
 <p-progressBar *ngIf="initLoading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
 
@@ -169,11 +169,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let elemInp of listaInspeccion?.elementoInspeccionList">
-          <td> {{elemInp?.nombre}} </td>
-          <td> {{elemInp?.descripcion}} </td>
-          <td> {{calcularCalificacion(elemInp.elementoInspeccionList)}} </td>
-        </tr>
+        <ng-container *ngFor="let elemInp of listaInspeccion?.elementoInspeccionList">
+          <tr *ngIf="!elemInp?.calificacion?.calcularCumplimiento">
+            <td> {{elemInp?.nombre}} </td>
+            <td> {{elemInp?.descripcion}} </td>
+            <td> {{calcularCalificacion(elemInp.elementoInspeccionList)}} </td>
+          </tr>
+        </ng-container>
       </tbody>
       <tfoot>
         <tr>

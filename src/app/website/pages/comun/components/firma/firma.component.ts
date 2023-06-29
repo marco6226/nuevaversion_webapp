@@ -101,7 +101,6 @@ export class FirmaComponent implements OnInit{
   }
 
   savePad() {
-    console.log(this.datosFirma)
 
     this.firma = this.signaturePad!.toDataURL();
     let firm = new firma()
@@ -121,8 +120,7 @@ export class FirmaComponent implements OnInit{
     this.firmaservice.update(firm).then(resp=>{
       this.msgs = [];
       this.msgs.push({ severity: 'success', summary: 'Firma guardada', detail: 'Se ha guardado correctamente la firma' });
-    }).catch(er=>
-      console.log(er))
+    }).catch(er=>{})
   }
 
   terminosyCondiciones(flagTerminos:boolean){
@@ -142,8 +140,7 @@ export class FirmaComponent implements OnInit{
     firm.cedula=this.cedula
     firm.fecharenovacion=this.datosFirma.fecharenovacion
 
-    this.firmaservice.update(firm).then(resp=>this.datosFirma=resp).catch(er=>
-      console.log(er))
+    this.firmaservice.update(firm).then(resp=>this.datosFirma=resp).catch(er=>{})
 
     if(!flagTerminos){
       this.estadoFirma='noterminos'

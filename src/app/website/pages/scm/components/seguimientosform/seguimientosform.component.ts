@@ -145,7 +145,6 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             if (this.seguiSelect) {
                 res = await this.scmService.updateSeguimiento(body);
             } else {
-                console.log(body)
                 let firm= new firma();
                 firm.idempresa=this.idEmpresa
                 firm.fechacreacion=new Date()
