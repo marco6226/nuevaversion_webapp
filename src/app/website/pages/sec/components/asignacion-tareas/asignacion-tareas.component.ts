@@ -10,6 +10,7 @@ import * as XLSX from 'xlsx';
 import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-asignacion-tareas',
@@ -131,19 +132,6 @@ export class AsignacionTareasComponent implements OnInit {
     this.paramNav.redirect('/app/sec/consultaAnalisisDesviaciones');
   }
 
-  exportexcel(): void 
-  {
-
-     let element = document.getElementById('excel-table');
-     element?.getElementsByClassName
-     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
-     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-     XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
-
-     /* save to file */
-     XLSX.writeFile(wb, this.fileName);
-  }
-
   onClick() {
 
     this.paramNav.redirect('/app/sec/tarea/' + this.tareaSelect?.id);
@@ -201,4 +189,70 @@ export class AsignacionTareasComponent implements OnInit {
           this.msgs.push({ severity: 'warn', summary: 'No ha seleccionado una tarea', detail: 'Debe seleccionar una tarea para reportar' });
       }
   }
+
+  visibleDlgInforme:boolean=false
+    flagInforme:boolean=true
+    excel:any=[]
+    rangeDatesInforme: any;
+
+    abrirDialogo(){
+        this.visibleDlgInforme=true
+    }
+
+    cerrarDialogo(){
+        this.visibleDlgInforme=false
+    }
+
+    async datosExcel(){
+        let excel:any=[]
+        this.tareasList.forEach((tarea:any)=>{excel.push({
+            Módulo:tarea.module,
+            Fecha_de_Reporte:formatDate(new Date(tarea.fecha_reporte), 'yyyy/MM/dd', 'en'),
+            División_Unidad:tarea.regional,
+            Ubicación:tarea.division,
+            Código:tarea.area,
+            Actividad:tarea.hash_id,
+            Responsable:(tarea.empResponsable)? tarea.empResponsable.primer_nombre + ' ' + tarea.empResponsable.primer_apellido : 'No posee responsable',
+            Fecha_proyectada_de_cierre:formatDate(new Date(tarea.fecha_proyectada), 'yyyy/MM/dd', 'en'),
+            Estado:tarea.estado})})
+
+        this.excel=[]
+        this.excel=excel.filter((resp:any)=>{ return new Date(resp.Fecha_de_Reporte)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_de_Reporte)<=new Date(this.rangeDatesInforme[1])})
+        console.log(this.excel)
+    }
+
+    async exportexcel2(){
+        await this.datosExcel()
+
+        const readyToExport = this.excel;
+  
+        const workBook = XLSX.utils.book_new(); // create a new blank book
+  
+        const workSheet = XLSX.utils.json_to_sheet(readyToExport);
+  
+        XLSX.utils.book_append_sheet(workBook, workSheet, 'Informe'); // add the worksheet to the book
+  
+        XLSX.writeFile(workBook, 'Informe tareas.xlsx'); // initiate a file download in browser
+    }
+
+    habilitarindSCM(){
+        if(this.rangeDatesInforme[0] && this.rangeDatesInforme[1]){this.flagInforme=false}
+        else{this.flagInforme=true}
+    }
+    onResetDate(){
+        this.flagInforme=true
+    }
+
+    exportexcel(): void 
+    {
+  
+       let element = document.getElementById('excel-table');
+       element?.getElementsByClassName
+       const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+       const wb: XLSX.WorkBook = XLSX.utils.book_new();
+       XLSX.utils.book_append_sheet(wb, ws, 'Hoja1');
+  
+       /* save to file */
+       XLSX.writeFile(wb, this.fileName);
+    }
 }

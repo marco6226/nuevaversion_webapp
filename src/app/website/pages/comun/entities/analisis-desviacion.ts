@@ -33,4 +33,5 @@ export class AnalisisDesviacion {
   gestor!: string | null;
   seguimiento!: string | null;
   observacion_causas!: string | null;
+  idCausasSelect?: string;
 }

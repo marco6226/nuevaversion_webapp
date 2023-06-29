@@ -8,7 +8,7 @@
 </s-dataNotFound>
             
 <p-panel header="Listado de tareas" styleClass="material-panel" [style.display]="(tareasList && tareasList.length > 0) || loading ? 'block':'none'">
-    <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>
+    <button pButton type="button" (click)="abrirDialogo()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>
     
     <div class="grid" >        
         <div class="col-12">
@@ -239,3 +239,29 @@
     <div pDroppable="dd">Droppable Div</div>
     <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="pi pi-file-excel-o" class="p-button-success"></button>
 </p-dialog>
+
+<p-dialog header="Informe tareas" [(visible)]="visibleDlgInforme" [style]="{width: '40%', height: '35%'}">
+    
+    <div >
+        Seleccione rango de fechas en el que desea el informe
+    </div>
+    <br>
+    <div>
+        <p-calendar 
+        [(ngModel)]="rangeDatesInforme"
+        dateFormat="dd/MM/yyyy"
+        selectionMode="range"
+        (onSelect)="habilitarindSCM()"
+        (onClearClick)="onResetDate()"
+        placeholder="buscar"
+        appendTo="body"
+        showButtonBar="true">
+            <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
+        </p-calendar>
+    </div>
+    <p-footer>
+        <button pButton type="button" (click)="exportexcel2()" label="Descargar" [disabled]="flagInforme"></button>
+        <button pButton type="button" (click)="cerrarDialogo()" class="ui-button-secondary" label="Cancelar"></button>
+    </p-footer>
+    
+  </p-dialog>
