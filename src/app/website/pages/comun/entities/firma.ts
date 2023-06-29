@@ -10,4 +10,5 @@ export class firma{
     fechaterminos?:Date;
     fecharenovacion?:Date;
     nombre?:string;
+    cedula?:number;
 }

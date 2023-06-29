@@ -217,7 +217,7 @@ async guardar() {
     this.listaInspeccionService.create(listInp).then((data) => {
         if (this.imagenesList != null) {
             this.imagenesList.forEach(async (imgObj) => {
-                let resp: any = await this.directorioService.uploadv5(imgObj.file, null, 'INP', listInp.listaInspeccionPK.id.toString(), null, 'PUBLICO');
+                let resp: any = await this.directorioService.uploadv5(imgObj.file, null, 'INP', listInp.listaInspeccionPK.id.toString(), null, 'PUBLICO',null);
                 let respid: any = Object.values(resp);
                 this.directorioService.uploadv4(respid[0], listInp.listaInspeccionPK.id.toString(), listInp.listaInspeccionPK.version.toString());
             });
@@ -267,7 +267,7 @@ actualizar(actualizarVersion: boolean) {
     this.listaInspeccionService.update(listInp, param).then((data) => {
         if (this.imagenesList != null) {
             this.imagenesList.forEach(async (imgObj) => {
-                let resp: any = await this.directorioService.uploadv5(imgObj.file, null, 'INP', listInp.listaInspeccionPK.id.toString(), null, 'PUBLICO');
+                let resp: any = await this.directorioService.uploadv5(imgObj.file, null, 'INP', listInp.listaInspeccionPK.id.toString(), null, 'PUBLICO',null);
                 let respid: any = Object.values(resp);
                 if (this.cambiarImagenAnterior) {
                     this.directorioService.uploadv4(respid[0], listInp.listaInspeccionPK.id.toString(), versiondato.toString());

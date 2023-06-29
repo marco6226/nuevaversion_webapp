@@ -82,25 +82,38 @@
                     <span class="ui-inputgroup-addon" style="background-color: #fff">
                         <i [class]="nodeSelect?.data.extension.icono"></i>
                     </span>
-                    <input pInputText maxlength="100" [(ngModel)]="nodeSelect?.data.nombre" />
-                    <span class="ui-inputgroup-addon check-span" title="Actualizar nombre" (click)="actualizarDirectorio(nodeSelect!)">
+                    <input style="width: 95%;" pInputText maxlength="100" [(ngModel)]="nodeSelect?.data.nombre" />
+                    <span class="ui-inputgroup-addon check-span" title="Actualizar" (click)="actualizarDirectorio(nodeSelect!)">
                         <i class="pi pi-check"></i>
                     </span>
                 </div>
-                <p-checkbox #nivelAcceso name="cbxAccessLevel" id="nivAcceso" class="form-check-input" [(ngModel)]="esPrivado" binary="true" label="Privado"></p-checkbox>
+                <br>
+                <ng-container *ngIf="esPrivado==true">
+                    <p-checkbox [style]="{'width':'100%'}" #nivelAcceso name="cbxAccessLevel" id="nivAcceso" class="form-check-input" [(ngModel)]="esPrivado" binary="true" label="Privado antiguo"></p-checkbox>
+                </ng-container>
+                <ng-container *ngIf="!esPrivado">
+                    <p-checkbox [style]="{'width':'100%'}"  class="form-check-input" [(ngModel)]="flagSCMPPrivado" binary="true" label="Privado nuevo"></p-checkbox>
+                </ng-container>
+                <br><br>
+                <ng-container *ngIf="flagSCMPPrivado">
+                    <br>
+                    <label class="s-float-label">Perfiles</label><br>
+                    <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="perfilList" [(ngModel)]="perfiles" [ngModelOptions]="{standalone: true}" defaultLabel="--Perfiles--"></p-multiSelect>
+                    <h6 *ngIf="perfiles.length==0" id="username2-help" class="p-invalid row">Obligatorio</h6>
+                </ng-container>
             </div>
             <p>
-                <label style="padding-right: 20px">Tipo: {{ nodeSelect?.data.extension.nombre }} ­­­ </label>
+                <label style="padding-right: 20px;width: 50%;">Tipo: {{ nodeSelect?.data.extension.nombre }} ­­­ </label>
 
                 <a (click)="descargar(nodeSelect?.data)" style="float: right" *ngIf="nodeSelect?.data.esDocumento">
-                    <span class="pi-download" style="font-size: 14px"></span>
+                    <span class="pi pi-download" style="font-size: 14px"></span>
                     Descargar
                 </a>
             </p>
-            <ng-container *ngIf="nodeSelect?.data.esDocumento">
+            <!-- <ng-container *ngIf="nodeSelect?.data.esDocumento">
                 <s-documento-form [documento]="nodeSelect?.data.documento"></s-documento-form>
                 <button [disabled]="esConsulta" *sTienePermiso="'ADO_PUT_DIR'" pButton type="button" class="p-button-success" (click)="actualizarDocumento(nodeSelect.data)" label="Actualizar" icon="pi pi-pencil"></button>
-            </ng-container>
+            </ng-container> -->
             <button [disabled]="esConsulta" *sTienePermiso="'ADO_DELETE_DIR'" pButton type="button" (click)="confirmarEliminar()" class="p-button-danger" label="Eliminar" icon="pi pi-trash"></button>
         </div>
     </div>
@@ -135,6 +148,7 @@
     [(visible)]="visibleDlgUpload"
     [modParam]="null"
     [caseId]="this.caseid"
+    [scmDoc]="true"
     (onUpload)="onUpload($event)"
 >
 </s-documentoUpload>

@@ -19,7 +19,7 @@
 </div>
 
 <p-panel class="shadow" header="Creación Seguimiento Caso Medico" style="width: 100%;">
-    <p-tabView styleClass="custom-panel" [scrollable]="true">
+    <p-tabView styleClass="custom-panel" [scrollable]="true" [(activeIndex)]="tabIndex">
         <!-- Inicio información general -->
         <ng-container *sTienePermiso="'SCM_GET_PERSONAL'">
             <p-tabPanel header="Información General">
@@ -462,7 +462,7 @@
                     </form>
                 </p-panel>
                 <br>
-                 <p-panel header="Datos del Business Partner" *ngIf="empresaId != '22'">
+                <p-panel header="Datos del Business Partner" *ngIf="empresaId != '22'">
                     <form [formGroup]="bussinessParner" >
                         <div class="container-fluid cew-9" >
                             <!-- <div class="row">
@@ -565,6 +565,14 @@
                         </div>
                     </form>
                 </p-panel>  
+                <div *ngIf="!consultar2" style="text-align: center; width: 100%;">
+                    <button pButton *ngIf="solicitando == false" (click)="submitEmp()" type="submit"
+                        icon="pi pi-save" class="float-btn" style="bottom: 140px;height: 50px;"
+                        title="Guardar datos de Empleado" [disabled]="!this.empleadoForm.valid"></button>
+                
+                    <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
+                        [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
+                </div>
             </p-tabPanel>
         </ng-container>
         <!-- Finaliza información general -->
@@ -1795,14 +1803,14 @@
     </p-tabView>
 </p-panel>
 
-<div *ngIf="!consultar2" style="text-align: center; width: 100%;">
+<!-- <div *ngIf="!consultar2" style="text-align: center; width: 100%;">
     <button pButton *ngIf="solicitando == false" (click)="submitEmp()" type="submit"
         icon="pi pi-save" class="float-btn" style="bottom: 140px;height: 50px;"
         title="Guardar datos de Empleado" [disabled]="!this.empleadoForm.valid"></button>
 
     <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
         [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
-</div>
+</div> -->
 
 <!-- Inicio de modales -->
 <p-dialog header="Persistencia de datos" *ngIf="logSelected" [(visible)]="logSelected" [style]="{width: '50vw'}"
@@ -1931,6 +1939,14 @@
             </td>
             <td colspan="2">
                 Nombre:&nbsp; <label id="P_nombre_medico"></label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Cédula:&nbsp; <label id="P_cedula_aprueba"></label>
+            </td>
+            <td colspan="2">
+                Cédula:&nbsp; <label id="P_cedula_medico"></label>
             </td>
         </tr>
 

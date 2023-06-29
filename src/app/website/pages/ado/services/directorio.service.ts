@@ -116,7 +116,7 @@ export class DirectorioService extends CRUDService<Directorio> {
         });
     }
 
-    uploadv5(fileToUpload: any, directorioPadreId: string | null, modulo: string, modParam: string, caseId: string | null, nivelAcceso: string) {
+    uploadv5(fileToUpload: any, directorioPadreId: string | null, modulo: string, modParam: string, caseId: string | null, nivelAcceso: string, perfilId: string | null) {
         let endPoint = modulo == 'cop' ? this.end_point + 'cop/upload' : this.end_point + 'upload';
 
         let formData: FormData = new FormData();
@@ -128,6 +128,7 @@ export class DirectorioService extends CRUDService<Directorio> {
         if (directorioPadreId != null) formData.append('dpId', directorioPadreId);
         if (caseId != null) formData.append('caseId', caseId);
         if (nivelAcceso != null) formData.append('nivelAcceso', nivelAcceso);
+        if (perfilId != null)formData.append('perfilId', perfilId);
 
         return new Promise((resolve) => {
             this.httpInt
@@ -141,7 +142,7 @@ export class DirectorioService extends CRUDService<Directorio> {
         });
     }
 
-    uploadv6(fileToUpload: any, directorioPadreId: string, modulo: string, modParam: string, caseId: string, tipoEvidencia: string, nivelAcceso: string) {
+    uploadv6(fileToUpload: any, directorioPadreId: string, modulo: string, modParam: string, caseId: string, tipoEvidencia: string, nivelAcceso: string, fkPerfilId: string) {
         let endPoint = modulo == 'cop' ? this.end_point + 'cop/upload' : this.end_point + 'uploadEvidencias';
 
         let formData: FormData = new FormData();
@@ -154,6 +155,8 @@ export class DirectorioService extends CRUDService<Directorio> {
         if (caseId != null) formData.append('caseId', caseId);
         if (tipoEvidencia != null) formData.append('tipoEvidencias', tipoEvidencia);
         if (nivelAcceso != null) formData.append('nivelAcceso', nivelAcceso);
+        if (fkPerfilId != null) formData.append('fkPerfilId', fkPerfilId);
+
 
         return new Promise((resolve) => {
             this.httpInt

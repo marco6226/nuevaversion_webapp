@@ -249,8 +249,11 @@ export class RemisionComponent implements OnInit {
       template?.querySelector('#P_firma_usuario')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
       if(ele.length>0)if(ele[1].firma)template?.querySelector('#P_firma_usuario')?.setAttribute('src', ele[1].firma);
 
-      template!.querySelector('#P_nombre_responable')!.textContent = ele[0].nombre
-      template!.querySelector('#P_nombre_usuario')!.textContent = ele[1].nombre
+      if(ele.length>0)template!.querySelector('#P_nombre_responable')!.textContent = ele[0].nombre
+      if(ele.length>0)template!.querySelector('#P_nombre_usuario')!.textContent = ele[1].nombre
+
+      if(ele.length>0)template!.querySelector('#P_cedula_responable')!.textContent = ele[0].cedula
+      if(ele.length>0)template!.querySelector('#P_cedula_usuario')!.textContent = ele[1].cedula
 
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(
@@ -307,11 +310,17 @@ export class RemisionComponent implements OnInit {
       template?.querySelector('#P_firma_medico')?.setAttribute('src', '../../../../../assets/png/imgwhite.png');
       if(ele.length>0)if(ele[4].firma)template?.querySelector('#P_firma_medico')?.setAttribute('src', ele[4].firma);
 
-      template!.querySelector('#P_nombre_trabajador')!.textContent = ele[0].nombre
-      template!.querySelector('#P_nombre_jefe')!.textContent = ele[1].nombre
-      template!.querySelector('#P_nombre_gestion')!.textContent = ele[2].nombre
-      template!.querySelector('#P_nombre_sst')!.textContent = ele[3].nombre
-      template!.querySelector('#P_nombre_medico')!.textContent = ele[4].nombre
+      if(ele.length>0)template!.querySelector('#P_nombre_trabajador')!.textContent = ele[0].nombre
+      if(ele.length>0)template!.querySelector('#P_nombre_jefe')!.textContent = ele[1].nombre
+      if(ele.length>0)template!.querySelector('#P_nombre_gestion')!.textContent = ele[2].nombre
+      if(ele.length>0)template!.querySelector('#P_nombre_sst')!.textContent = ele[3].nombre
+      if(ele.length>0)template!.querySelector('#P_nombre_medico')!.textContent = ele[4].nombre
+
+      if(ele.length>0)template!.querySelector('#P_cedula_trabajador')!.textContent = ele[0].cedula
+      if(ele.length>0)template!.querySelector('#P_cedula_jefe')!.textContent = ele[1].cedula
+      if(ele.length>0)template!.querySelector('#P_cedula_gestion')!.textContent = ele[2].cedula
+      if(ele.length>0)template!.querySelector('#P_cedula_sst')!.textContent = ele[3].cedula
+      if(ele.length>0)template!.querySelector('#P_cedula_medico')!.textContent = ele[4].cedula
       
       template?.querySelector('#P_empresa_logo')?.setAttribute('src', this.sesionService.getEmpresa()?.logo!);
       template!.querySelector('#P_fecha')!.textContent = formatDate(

@@ -200,6 +200,7 @@ import { FirmaComponent } from './pages/comun/components/firma/firma.component';
 import { ResetPasswordComponent } from './pages/core/components/reset-password/reset-password.component';
 import { FormularioComponent } from './pages/comun/components/formulario/formulario.component';
 import { ChipsModule } from 'primeng/chips';
+import { FileSizePipe } from './pages/comun/pipes/file-size.pipe'
 
 @NgModule({
   declarations: [
@@ -366,7 +367,8 @@ import { ChipsModule } from 'primeng/chips';
     SeguimientosgenericoformComponent,
     FirmaComponent,
     ResetPasswordComponent,
-    FormularioComponent
+    FormularioComponent,
+    FileSizePipe
   ],
   imports: [
     MatTooltipModule,
@@ -424,7 +426,8 @@ import { ChipsModule } from 'primeng/chips';
     CapitalizePipe
   ],
   exports:[
-    ConfiguracionGeneralDirective
+    ConfiguracionGeneralDirective,
+    FileSizePipe
   ]
 
 })

@@ -517,7 +517,7 @@ export class ElaboracionInspeccionesComponent implements OnInit {
                 if (arrayFile != null) {
                     arrayFile.forEach((objFile: any) => {
                         if (objFile != null && objFile.change == true)
-                            this.directorioService.uploadv5(objFile.file, null, 'INP', calificacion.id, null, "PUBLICO");
+                            this.directorioService.uploadv5(objFile.file, null, 'INP', calificacion.id, null, "PUBLICO",null);
                     });
                 }
             });

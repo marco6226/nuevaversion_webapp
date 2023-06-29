@@ -28,6 +28,7 @@ export class FirmaComponent implements OnInit{
   visibleDlg:boolean =true
 
   nombre?:string;
+  cedula?:number;
 
   constructor(
     private sesionService: SesionService,
@@ -86,7 +87,7 @@ export class FirmaComponent implements OnInit{
   }
 
   startDrawing(event: Event) {
-    console.log(event);
+
     // works in device not in browser
 
   }
@@ -114,6 +115,7 @@ export class FirmaComponent implements OnInit{
     firm.terminoscondiciones=this.datosFirma.terminoscondiciones;
     firm.fechaterminos= this.datosFirma.fechaterminos
     firm.nombre=this.datosFirma.nombre
+    firm.cedula=this.datosFirma.cedula
     firm.fecharenovacion=this.datosFirma.fecharenovacion
 
     this.firmaservice.update(firm).then(resp=>{
@@ -124,6 +126,8 @@ export class FirmaComponent implements OnInit{
   }
 
   terminosyCondiciones(flagTerminos:boolean){
+    console.log(this.nombre)
+    console.log(this.cedula)
     this.firma = this.signaturePad!.toDataURL();
     let firm = new firma()
     firm.id =this.datosFirma.id
@@ -135,6 +139,7 @@ export class FirmaComponent implements OnInit{
     firm.terminoscondiciones=flagTerminos;
     firm.fechaterminos=new Date()
     firm.nombre=this.nombre
+    firm.cedula=this.cedula
     firm.fecharenovacion=this.datosFirma.fecharenovacion
 
     this.firmaservice.update(firm).then(resp=>this.datosFirma=resp).catch(er=>
@@ -144,5 +149,14 @@ export class FirmaComponent implements OnInit{
       this.estadoFirma='noterminos'
     }
     this.visibleDlg=false
+  }
+
+  flagNombre:boolean=true
+  flagCedula:boolean=true
+  input(){
+
+    if(this.nombre)this.flagNombre=(this.nombre.length>7)?false:true
+    if(this.cedula)this.flagCedula=((this.cedula.toString()).length>3)?false:true
+
   }
 }
