@@ -540,15 +540,16 @@ export class FormularioAccidenteCtrComponent implements OnInit {
 }
 
   onCausaInmediataSelected(event:any){
-    if(!this.idCausasSelectInmediata)this.idCausasSelectInmediata=[]
 
     if(!this.idCausasSelectInmediata && !event && this.causaInmediataSelect.length>0){
+      this.idCausasSelectInmediata=[]
       let id:any=[]
       this.causaInmediataSelect.forEach(elem=>id.push(elem))
       this.idCausasSelectInmediata=id
     }
 
     if(event){
+      if(!this.idCausasSelectInmediata)this.idCausasSelectInmediata=[]
       let find=this.causaInmediataSelect.find((data:any)=> {return data.id==event.node.id})
       if(find){this.idCausasSelectInmediata.push(event.node)}
       else{
@@ -580,15 +581,16 @@ export class FormularioAccidenteCtrComponent implements OnInit {
   }
 
   onCausaBasicaSelected(event:any){
-    if(!this.idCausasSelectBasic)this.idCausasSelectBasic=[]
 
     if(!this.idCausasSelectBasic && !event && this.causaBasicaSelect.length>0){
+      this.idCausasSelectBasic=[]
       let id:any=[]
       this.causaBasicaSelect.forEach(elem=>id.push(elem))
       this.idCausasSelectBasic=id
     }
 
     if(event){
+      if(!this.idCausasSelectBasic)this.idCausasSelectBasic=[]
       let find=this.causaBasicaSelect.find((data:any)=> {return data.id==event.node.id})
       if(find){this.idCausasSelectBasic.push(event.node)}
       else{
