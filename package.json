@@ -31,6 +31,7 @@
     "@syncfusion/ej2-angular-diagrams": "^20.4.42",
     "@syncfusion/ej2-angular-grids": "^20.4.48",
     "@syncfusion/ej2-angular-inputs": "^20.4.48",
+    "async": "^3.2.4",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
     "chart.js": "^4.2.1",
