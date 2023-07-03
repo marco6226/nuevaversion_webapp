@@ -69,7 +69,6 @@ export class AdminContratistasComponent implements OnInit {
         let vinculado = data;
         let resultado = (vinculado ? 'vinculado' : 'desvinculado');
         this.messageService.add({
-          key: 'admCtr',
           severity: 'success',
           summary: 'Contratista ' + resultado,
           detail: 'Se ha ' + resultado + ' correctamente la empresa ' + empresa.razonSocial + ' como contratista'

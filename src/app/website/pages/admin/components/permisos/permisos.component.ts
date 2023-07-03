@@ -191,4 +191,7 @@ export class PermisosComponent implements OnInit {
             this.helperService.changeMessage('actualizarPermisos');
         }
     }
+    test(){
+        this.messageService.add({severity:'error', summary: 'CREDENCIALES INCORRECTAS', detail: 'Se produjo un error al cerrar sesión, intente nuevamente'});
+      }
 }

@@ -12,7 +12,7 @@ import { PrimeNGConfig } from 'primeng/api';
     selector: 'app-diagnostico-form',
     templateUrl: './diagnostico-form.component.html',
     styleUrls: ['./diagnostico-form.component.scss'],
-    providers: [CasosMedicosService, SesionService, ComunService]
+    providers: [CasosMedicosService, SesionService, ComunService, MessageService]
 })
 export class DiagnosticoFormComponent implements OnInit, OnChanges {
     
@@ -157,7 +157,6 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
                 
                 this.clearInputs();
                 this.messageServices.add({
-                    key: 'diagnostico',
                     severity: "success",
                     summary: "Mensaje del sistema",
                     detail: this.diagSelect ? "El diagnóstico fue actualizado exitosamente" : 'El diagnóstico fue creado exitosamente',
@@ -169,7 +168,6 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
             }
         } catch (error) {
             this.messageServices.add({
-                key: 'diagnostico',
                 severity: "error",
                 summary: "Mensaje del sistema",
                 detail: "Ocurrió un problema con el diagnóstico"

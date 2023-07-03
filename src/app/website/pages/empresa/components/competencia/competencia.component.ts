@@ -20,7 +20,8 @@ export class CompetenciaComponent implements OnInit {
   msgs: Message[] = [];
 
   constructor(
-    private competenciaService: CompetenciaService
+    private competenciaService: CompetenciaService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -79,8 +80,7 @@ export class CompetenciaComponent implements OnInit {
         this.nombre = undefined;
         this.descripcion = undefined;
         this.modelo = this.modelo?.slice();
-        this.msgs = [];
-        this.msgs.push({
+        this.messageService.add({
           severity: 'success',
           summary: 'Competencia creada',
           detail: 'Se ha adicionado correctamente la nueva competencia'
@@ -100,8 +100,7 @@ export class CompetenciaComponent implements OnInit {
         this.nombre = undefined;
         this.descripcion = undefined;
         this.modelo = this.modelo?.slice();
-        this.msgs = [];
-        this.msgs.push({
+        this.messageService.add({
           severity: 'success',
           summary: 'Competencia actualizada',
           detail: 'Se ha actualizado correctamente la competencia seleccionada'
@@ -125,8 +124,7 @@ export class CompetenciaComponent implements OnInit {
         });
         this.nodeSelect = undefined;
         this.modelo = this.modelo?.slice();
-        this.msgs = [];
-        this.msgs.push({
+        this.messageService.add({
           severity: 'success',
           summary: 'Competencia eliminada',
           detail: 'Se ha eliminado correctamente la competencia seleccionada'

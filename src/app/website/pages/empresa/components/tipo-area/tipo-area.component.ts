@@ -5,13 +5,14 @@ import { TipoAreaService } from '../../services/tipo-area.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Empresa } from '../../entities/empresa';
 
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-tipo-area',
   templateUrl: './tipo-area.component.html',
-  styleUrls: ['./tipo-area.component.scss']
+  styleUrls: ['./tipo-area.component.scss'],
+  providers: [MessageService]
 })
 export class TipoAreaComponent implements OnInit {
   msgs: Message[] = [];
@@ -29,6 +30,7 @@ export class TipoAreaComponent implements OnInit {
   ];
   constructor(
     private tipoAreaService: TipoAreaService,
+    private messageService : MessageService,
     private fb: FormBuilder,
     private confirmationService: ConfirmationService,
   ) { 
@@ -90,8 +92,7 @@ export class TipoAreaComponent implements OnInit {
         }
       }
     }
-    this.msgs = [];
-    this.msgs.push({ severity: 'success', summary: "Cargo actualizado", detail: "Se ha actualizado el cargo " + tipoArea.nombre });
+    this.messageService.add({ severity: 'success', summary: "Cargo actualizado", detail: "Se ha actualizado el cargo " + tipoArea.nombre });
     this.closeForm();
     this.form?.reset();
   }
@@ -101,8 +102,7 @@ export class TipoAreaComponent implements OnInit {
     }
     this.tiposAreaList.push(tipoArea);
     this.tiposAreaList = this.tiposAreaList.slice();
-    this.msgs = [];
-    this.msgs.push({ severity: 'success', summary: "Nuevo tipo de área creado", detail: "Se ha creado el tipo de área " + tipoArea.nombre });
+    this.messageService.add({ severity: 'success', summary: "Nuevo tipo de área creado", detail: "Se ha creado el tipo de área " + tipoArea.nombre });
     this.closeForm();
     this.form?.reset();
   }
@@ -131,8 +131,7 @@ export class TipoAreaComponent implements OnInit {
         accept: () => this.delete()
       });
     } else {
-      this.msgs = [];
-      this.msgs.push({ severity: 'warn', summary: "Debe seleccionar un tipo de área", detail: "Debe seleccionar un tipo de área para eliminarlo" });
+      this.messageService.add({ severity: 'warn', summary: "Debe seleccionar un tipo de área", detail: "Debe seleccionar un tipo de área para eliminarlo" });
     }
   }
 
@@ -142,8 +141,7 @@ export class TipoAreaComponent implements OnInit {
       data => {
         this.tipoAreaSelect = undefined;
         let tipoAreaEliminado = <TipoArea>data;
-        this.msgs = [];
-        this.msgs.push({ severity: 'success', summary: "Cargo eliminado", detail: "Ha sido eliminado el tipo de área " + tipoAreaEliminado.nombre });
+        this.messageService.add({ severity: 'success', summary: "Cargo eliminado", detail: "Ha sido eliminado el tipo de área " + tipoAreaEliminado.nombre });
         for (let i = 0; i < this.tiposAreaList!.length; i++) {
           if (this.tiposAreaList![i].id == tipoAreaEliminado.id) {
             this.tiposAreaList?.splice(i, 1);

@@ -18,7 +18,8 @@ import { ListaInspeccionService } from '../../services/lista-inspeccion.service'
 @Component({
   selector: 'app-elaboracion-lista',
   templateUrl: './elaboracion-lista.component.html',
-  styleUrls: ['./elaboracion-lista.component.scss']
+  styleUrls: ['./elaboracion-lista.component.scss'],
+  providers: [MessageService]
 })
 export class ElaboracionListaComponent implements OnInit {
 
@@ -179,25 +180,25 @@ removeOpcionCalificacion(opc: OpcionCalificacion) {
 
 async guardar() {
     if (this.opcionesCalifList.length < 2) {
-        this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Necesitas minimo dos opciones de respuesta', key: 'elaboracionLista' });
+        this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Necesitas minimo dos opciones de respuesta'});
         return false;
     } else {
         let err = false;
         for (const element of this.opcionesCalifList) {
-            if (!element.nombre || !element.descripcion) return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Necesitas Nombre y descripcion en opciones de respuesta  ', key: 'elaboracionLista' });
+            if (!element.nombre || !element.descripcion) return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Necesitas Nombre y descripcion en opciones de respuesta  '});
         }
     }
     if (Object.keys(this.formularioConstructor.formulario).length < 1) {
-        return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Minimo 1 formulario en Datos generales', key: 'elaboracionLista' });
+        return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Minimo 1 formulario en Datos generales'});
     } else {
         let err = false;
         for (const element of this.formularioConstructor.formulario.campoList) {
             if (!element.nombre || !element.descripcion || !element.tipo)
-                return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Necesitas Nombre y descripcion y tipo en datos generales ', key: 'elaboracionLista' });
+                return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Necesitas Nombre y descripcion y tipo en datos generales '});
         }
     }
     if (this.elementoInspeccionList.length < 1) {
-        return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Minimo 1 Elemento de inspeccion', key: 'elaboracionLista' });
+        return this.messageService.add({ severity: 'warn', summary: 'Cuidado', detail: 'Minimo 1 Elemento de inspeccion'});
     }
 
     let listInp = {} as ListaInspeccion;
@@ -236,7 +237,7 @@ actualizarProfile(actualizarVersion: boolean) {
     let param = (actualizarVersion == false ? null : 'actualizarVersion=true') + '&putProfile=true';
     this.listaInspeccionService.update(listInp, param).then((data) => {
         let detalle = actualizarVersion ? 'Se ha generado correctamente una nueva versión de la lista de inspección ' : 'Se ha actualizado correctamente la lista de inspección ';
-        this.messageService.add({ severity: 'success', summary: 'Perfiles de inspección actualizados', key: 'elaboracionLista' });
+        this.messageService.add({ severity: 'success', summary: 'Perfiles de inspección actualizados'});
     });
 }
 
@@ -278,7 +279,7 @@ actualizar(actualizarVersion: boolean) {
         } else if (this.listaEvidence.length > 0) {
         }
         let detalle = actualizarVersion ? 'Se ha generado correctamente una nueva versión de la lista de inspección ' : 'Se ha actualizado correctamente la lista de inspección ';
-        this.messageService.add({ severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre, key: 'elaboracionLista' });
+        this.messageService.add({ severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre});
     });
 }
 
@@ -310,11 +311,11 @@ onArchivoSelect(event: any, imagenAnterior: boolean) {
     reader.readAsDataURL(file);
 
     if (file.type != 'image/jpeg' && file.type != 'image/png') {
-        this.messageService.add({ severity: 'error', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg', key: 'elaboracionLista' });
+        this.messageService.add({ severity: 'error', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg'});
         return;
     }
     if (file.size > 30_500_000) {
-        this.messageService.add({ severity: 'error', summary: 'Tamaño máximo superado 30.5 MB', detail: 'La imágen supera el tamaño máximo permitido', key: 'elaboracionLista' });
+        this.messageService.add({ severity: 'error', summary: 'Tamaño máximo superado 30.5 MB', detail: 'La imágen supera el tamaño máximo permitido'});
         return;
     }
     if (this.imagenesList == null) this.imagenesList = [];

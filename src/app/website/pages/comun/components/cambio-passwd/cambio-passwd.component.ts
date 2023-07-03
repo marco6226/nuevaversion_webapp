@@ -28,7 +28,7 @@ export class CambioPasswdComponent implements OnInit {
     private usuarioService: UsuarioService,
     private cambioPasswdService: CambioPasswdService
   ) {
-    debugger
+    // debugger
     this.subscription = this.cambioPasswdService.getObservable().subscribe(visible => this.visible = visible);
     
 

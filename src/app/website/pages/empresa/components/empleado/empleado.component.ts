@@ -9,7 +9,7 @@ import { EmpleadoService } from '../../services/empleado.service';
     selector: 'app-empleado',
     templateUrl: './empleado.component.html',
     styleUrls: ['./empleado.component.scss'],
-    providers: [SesionService, EmpleadoService]
+    providers: [SesionService, MessageService, EmpleadoService]
 })
 export class EmpleadoComponent implements OnInit {
 
@@ -84,7 +84,7 @@ export class EmpleadoComponent implements OnInit {
             this.isUpdate = true;
             this.visibleForm = true;
         } else {
-            this.messageService.add({key: 'empleado', severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
         }
     }
 
@@ -95,7 +95,7 @@ export class EmpleadoComponent implements OnInit {
             this.show = true;
             this.visibleForm = true;
         } else {
-            this.messageService.add({key: 'empleado', severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
         }
     }
 
@@ -118,7 +118,7 @@ export class EmpleadoComponent implements OnInit {
                 accept: () => this.deleteEmpleado()
             });
         } else {
-            this.messageService.add({key: 'empleado', severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
+            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
         }
     }
 
@@ -146,12 +146,12 @@ export class EmpleadoComponent implements OnInit {
                 break;
             }
         }
-        this.messageService.add({key: 'empleado', severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion });
+        this.messageService.add({severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion });
     }
 
     manageCreateResponse(empleado: Empleado) {
         this.empleadosList.push(empleado);
-        this.messageService.add({key: 'empleado', severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion });
+        this.messageService.add({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion });
     }
 
 }

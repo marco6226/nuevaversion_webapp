@@ -25,7 +25,7 @@ import { PrimeNGConfig } from 'primeng/api';
     selector: 's-empleadoForm',
     templateUrl: './empleado-form.component.html',
     styleUrls: ['./empleado-form.component.scss'],
-    providers: [UsuarioService, ComunService, CargoService, PerfilService, DirectorioService],
+    providers: [UsuarioService, ComunService, CargoService, PerfilService, DirectorioService, MessageService],
 })
 export class EmpleadoFormComponent implements OnInit {
     @Output() onEmpleadoCreate = new EventEmitter();
@@ -486,18 +486,17 @@ export class EmpleadoFormComponent implements OnInit {
     onArchivoSelect(event: any) {
         let file = event.target.files[0];
         if (file.type != 'image/jpeg' && file.type != 'image/png') {
-            this.messageService.add({key:'empleadoForm', severity: 'error', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg' });
+            this.messageService.add({severity: 'error', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg' });
             return;
         }
         if (file.size > 30_500_000) {
-            this.messageService.add({key:'empleadoForm', severity: 'error', summary: 'Tamaño máximo superado 30.5 MB', detail: 'La imágen supera el tamaño máximo permitido' });
+            this.messageService.add({severity: 'error', summary: 'Tamaño máximo superado 30.5 MB', detail: 'La imágen supera el tamaño máximo permitido' });
             return;
         }
         if (this.imagenesList == null) this.imagenesList = [];
 
         if (this.imagenesList.length >= this.numMaxImg) {
             this.messageService.add({
-                key:'empleadoForm',
                 severity: 'warn',
                 summary: 'Número maximo de fotografias alcanzado',
                 detail: 'Ha alcanzado el número máximo de fotografias (' + this.numMaxImg + ') que puede adjuntar',
