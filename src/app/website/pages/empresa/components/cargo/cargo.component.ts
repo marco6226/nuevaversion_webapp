@@ -17,7 +17,7 @@ import {MessageService} from 'primeng/api';
   selector: 'app-cargo',
   templateUrl: './cargo.component.html',
   styleUrls: ['./cargo.component.scss'],
-  providers: [EmpresaService]
+  providers: [MessageService]
 })
 export class CargoComponent implements OnInit {
   msgs?: Message[] = [];
