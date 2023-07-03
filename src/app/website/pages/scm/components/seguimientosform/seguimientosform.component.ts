@@ -16,6 +16,7 @@ import{firma} from 'src/app/website/pages/comun/entities/firma'
     selector: "app-seguimientosform",
     templateUrl: "./seguimientosform.component.html",
     styleUrls: ["./seguimientosform.component.scss"],
+    providers: [MessageService]
 })
 export class SeguimientosformComponent implements OnInit, OnChanges {
 
@@ -158,7 +159,6 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
 
             if (res) {
                 this.messageService.add({
-                    key: 'segForm',
                     severity: "success",
                     summary: 'Mensaje del sistema',
                     detail: this.seguiSelect ? "El seguimiento fue actualizado exitosamente" : "El seguimiento fue creado exitosamente",

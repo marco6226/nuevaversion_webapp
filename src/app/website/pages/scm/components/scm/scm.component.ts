@@ -19,7 +19,7 @@ import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
     selector: 'app-scm',
     templateUrl: './scm.component.html',
     styleUrls: ['./scm.component.scss'],
-    providers: [CasosMedicosService, CargoService, SesionService]
+    providers: [CasosMedicosService, CargoService, SesionService, MessageService]
 })
 
 export class ScmComponent implements OnInit {
@@ -104,7 +104,7 @@ export class ScmComponent implements OnInit {
             localStorage.setItem('scmShowCase', 'false');
             this.router.navigate(['/app/scm/case/', this.caseSelect.id])
         }else{
-            this.messageService.add({key: 'msgScm', severity: "warn", summary:"Opción no disponible.", detail:"Este caso se encuentra cerrado y no se puede editar.\nPuede intentar la opción de consulta.", life: 6000});
+            this.messageService.add({severity: "warn", summary:"Opción no disponible.", detail:"Este caso se encuentra cerrado y no se puede editar.\nPuede intentar la opción de consulta.", life: 6000});
         }
     }
 

@@ -22,7 +22,7 @@ import { Peligro } from "src/app/website/pages/comun/entities/peligro";
 import {Diagrama, InformeJson} from "src/app/website/pages/comun/entities/informeFinal"
 
 import { Desviacion } from "src/app/website/pages/comun/entities/desviacion";
-import { TreeNode } from "primeng/api";
+import { MessageService, TreeNode } from "primeng/api";
 import { Message } from "primeng/api";
 import { SistemaCausaInmediata } from "src/app/website/pages/comun/entities/sistema-causa-inmediata";
 import { CausaInmediata } from "src/app/website/pages/comun/entities/causa-inmediata";
@@ -65,7 +65,8 @@ Diagram.Inject(UndoRedo, DiagramContextMenu,PrintAndExport);
     TipoPeligroService, PeligroService,
     SistemaCausaInmediataService,
     SistemaCausaAdministrativaService,
-    FlowChartComponent
+    FlowChartComponent,
+    MessageService
 ],
 })
 export class AnalisisDesviacionComponent implements OnInit {

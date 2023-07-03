@@ -14,7 +14,7 @@ import { Message } from "primeng/api";
     selector: "app-recomendationsform",
     templateUrl: "./recomendationsform.component.html",
     styleUrls: ["./recomendationsform.component.scss"],
-    providers: [CasosMedicosService, EmpleadoService]
+    providers: [CasosMedicosService, EmpleadoService, MessageService]
 })
 export class RecomendationsformComponent implements OnInit, OnChanges {
 
@@ -184,7 +184,6 @@ test(){
 
             if (res) {
                 this.messageService.add({
-                    key: 'recomendationsForm',
                     severity: "success",
                     summary: 'Mensaje del sistema',
                     detail: this.recoSelect ? "La recomendación fue actualizada exitosamente" : "La recomendación fue creada exitosamente",
@@ -258,7 +257,6 @@ test(){
         try {
             let resp = await this.scmService.createSeguimiento(product);
             this.messageService.add({
-                key: 'recomendationsForm',
                 severity: "success",
                 summary: "Mensaje del sistema",
                 detail: `Se ha clonado exitosamente`,
@@ -266,7 +264,6 @@ test(){
             //  this.fechaSeg();
         } catch (error) {
             this.messageService.add({
-                key: 'recomendationsForm',
                 severity: "danger",
                 summary: "Mensaje del sistema",
                 detail: `Ocurrió un inconveniente al clonar`,
