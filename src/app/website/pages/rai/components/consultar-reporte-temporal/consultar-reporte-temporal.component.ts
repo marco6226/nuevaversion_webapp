@@ -14,7 +14,7 @@ import { SesionService } from '../../../core/services/session.service';
 export class ConsultarReporteTemporalComponent implements OnInit {
 
 
-  idEmpresa: string | null = this.sesionService.getEmpresa()?.id ?? null;
+  idEmpresa: string | null = this.sesionService.getEmpresa()?.id!;
   reporteSelect!: Reporte;
   reportesList!: Reporte[];
   loading: boolean=true;
@@ -46,6 +46,7 @@ export class ConsultarReporteTemporalComponent implements OnInit {
   }
 
   lazyLoad(event: any) {
+    console.log(event)
     this.loading = true;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
@@ -61,13 +62,14 @@ export class ConsultarReporteTemporalComponent implements OnInit {
     if(this.idEmpresa=='22'){
 
     this.reporteService.getRepWithFilter(filterQuery).then((resp: any) => {
+      console.log(resp)
       this.totalRecords = resp['count'];
       this.loading = false;
       this.reportesList = [];
       (<any[]>resp['data']).forEach(dto => {
         this.reportesList.push(FilterQuery.dtoToObject(dto));
       });
-    })
+    }).catch(er=>console.log(er))
   }
 
 

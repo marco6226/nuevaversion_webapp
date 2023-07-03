@@ -3,6 +3,9 @@ import { FormControl, FormControlName, FormGroup, Validators } from '@angular/fo
 import { MessageService } from 'primeng/api';
 import { Directorio } from '../../entities/directorio';
 import { DirectorioService } from '../../services/directorio.service';
+import { Message, SelectItem } from 'primeng/api';
+import { PerfilService } from 'src/app/website/pages/admin/services/perfil.service';
+import { Perfil } from 'src/app/website/pages/empresa/entities/perfil';
 
 
 @Component({
@@ -23,9 +26,13 @@ export class DocumentoUploadComponent implements OnInit {
     @Input('temporalesFlag') temporalesFlag: boolean=false;
     @Output('visibleChange') visibleChange = new EventEmitter();
     @Output('onUpload') onUpload = new EventEmitter();
-    esPrivado!: boolean;
+    @Input() scmDoc: boolean = false;
+    @Input('privadoCheck') privadoCheck: boolean = true;
+    esPrivado: boolean=false;
     myGroup: any;
     form: any;
+    perfiles: any =[];
+    perfilList: SelectItem[] = [];
     doContratista= [
         { label: "--Seleccione--", value: null },
         { label: "Carta autorización", value: "Carta autorización" },
@@ -43,11 +50,17 @@ export class DocumentoUploadComponent implements OnInit {
 
     constructor(
         private directorioService: DirectorioService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private perfilService: PerfilService,
         
         ) {}
 
     ngOnInit() {
+        this.perfilService.findAll().then((resp:any) => {
+            (<Perfil[]>resp['data']).forEach((perfil) => {
+                this.perfilList.push({ label: perfil.nombre, value: perfil.id });
+            });
+        });
         this.myGroup = new FormGroup({
             cbxNivelAcceso: new FormControl(),
         });
@@ -63,7 +76,9 @@ export class DocumentoUploadComponent implements OnInit {
 
     myfiles: any = [];
     upload(event: any) {
-        if(!this.form.invalid){
+        let perfil
+        this.perfiles.length==0?null:perfil=this.perfiles.toString()
+        if((!this.form.invalid && !this.flagSCMPPrivado) ||(!this.form.invalid && this.flagSCMPPrivado && this.perfiles.length!=0)){
             event.files[0].descripcion=this.form.value.descripcion;
             if (this.caseId) {
                 // this.directorio.caseId = this.caseId
@@ -78,8 +93,10 @@ export class DocumentoUploadComponent implements OnInit {
     
             let nivelAcceso: string = this.esPrivado ? 'PRIVADO' : 'PUBLICO';
 
+            let fkPerfilId: string = JSON.stringify(this.form.value.perfilesId);
+
             if(this.tipoEvidencia != null){
-                this.directorioService.uploadv6(event.files[0], directorioPadre!, this.modulo, this.modParam, this.caseId,this.tipoEvidencia, nivelAcceso).then((resp) => {
+                this.directorioService.uploadv6(event.files[0], directorioPadre!, this.modulo, this.modParam, this.caseId,this.tipoEvidencia, nivelAcceso,fkPerfilId).then((resp) => {
                     let dir = <Directorio>resp;
                     this.onVisibleChange(false);
                     this.onUpload.emit(dir);
@@ -88,7 +105,7 @@ export class DocumentoUploadComponent implements OnInit {
             }
             else{
     
-            this.directorioService.uploadv5(event.files[0], directorioPadre, this.modulo, this.modParam, this.caseId, nivelAcceso).then((resp) => {
+            this.directorioService.uploadv5(event.files[0], directorioPadre, this.modulo, this.modParam, this.caseId, nivelAcceso,perfil).then((resp) => {
                 let dir = <Directorio>resp;
                 this.onVisibleChange(false);
                 this.onUpload.emit(dir);
@@ -104,9 +121,13 @@ export class DocumentoUploadComponent implements OnInit {
         
     }
 
-
     setNivelAcceso(checked: boolean) {
-        this.esPrivado = checked;
+        this.esPrivado = !(checked && this.esPrivado);
+    }
+
+    flagSCMPPrivado:boolean=false;
+    setNivelAccesoScm(checked: boolean) {
+        this.flagSCMPPrivado= !(checked && this.flagSCMPPrivado)
     }
 
     myUploader(event: any) {

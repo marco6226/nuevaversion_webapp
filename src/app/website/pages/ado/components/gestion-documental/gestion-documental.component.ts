@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Modulo } from 'src/app/website/pages/core/enums/enumeraciones';
 import { Directorio } from 'src/app/website/pages/ado/entities/directorio';
 import { DirectorioService } from 'src/app/website/pages/ado/services/directorio.service';
-import { Message, MenuItem, ConfirmationService } from 'primeng/api';
+import { Message, MenuItem, ConfirmationService, SelectItem } from 'primeng/api';
 import { PaginatorModule } from 'primeng/paginator';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 
@@ -12,6 +12,8 @@ import { Filter, Criteria } from 'src/app/website/pages/core/entities/filter';
 import { TreeNode } from 'primeng/api';
 import { Util } from 'src/app/website/pages/comun/entities/util';
 import { Console } from 'console';
+import { PerfilService } from 'src/app/website/pages/admin/services/perfil.service';
+import { Perfil } from 'src/app/website/pages/empresa/entities/perfil';
 
 @Component({
   selector: 'app-gestion-documental',
@@ -52,13 +54,26 @@ export class GestionDocumentalComponent implements OnInit {
   sortField?:any;
   rows?:any;
   esConsulta: boolean = false;
+  flagSCMPPrivado:boolean=false;
+  perfiles: any =[];
+  perfilList: SelectItem[] = [];
   
 
-  constructor(private directorioService: DirectorioService, private confirmationService: ConfirmationService, private sesionService: SesionService) {
+  constructor(
+    private directorioService: DirectorioService, 
+    private confirmationService: ConfirmationService, 
+    private sesionService: SesionService,
+    private perfilService: PerfilService
+    ) {
       this.uploadEndPoint = this.directorioService.uploadEndPoint;
   }
 
   ngOnInit() {
+    this.perfilService.findAll().then((resp:any) => {
+        (<Perfil[]>resp['data']).forEach((perfil) => {
+            this.perfilList.push({ label: perfil.nombre, value: perfil.id });
+        });
+    });
       this.loading = true;
       this.esPrivado = false;
       this.usuarioId = this.sesionService.getUsuario()!.id;
@@ -123,11 +138,48 @@ export class GestionDocumentalComponent implements OnInit {
           filterQuery.filterList = [filterPadre, filterEliminado,filterCase,filterAdo];
       }
 
-      return this.directorioService.findByFilter(filterQuery).then((data:any) => {
+      return this.directorioService.findByFilter(filterQuery).then(async (data:any) => {
           this.totalRecords = data['count'];
           let dirList = this.inicializarFechas(<Directorio[]>data['data']);
 
-          this.directorioList = this.generarModelo(dirList, null);
+          let dirList2:any=[]
+
+            let perfilesId:any = [];
+
+            let filterQuery = new FilterQuery();
+            filterQuery.filterList = [{
+                field: 'usuarioEmpresaList.usuario.id',
+                criteria: Criteria.EQUALS,
+                value1: this.sesionService.getUsuario()!.id,
+                value2: null
+            }];
+            filterQuery.fieldList = ["id"];
+            await this.perfilService.findByFilter(filterQuery).then(
+                (resp:any) => {
+                    resp['data'].forEach((ident:any) => perfilesId.push(ident.id));
+                })
+
+            dirList.forEach((resp1:any)=>{
+                if(resp1.perfilId == null){dirList2.push(resp1)}
+                else{
+                    let perfilid=resp1.perfilId.split(',');
+                    let flag=false
+
+                    perfilid.forEach((resp2:any)=>{
+                        perfilesId.forEach((resp3:any)=>{
+                            if(Number(resp2)==resp3){flag=true}
+                        })
+                    })
+
+                    if(flag){
+                        dirList2.push(resp1)
+                    }
+                }
+                
+                
+            })
+
+          this.directorioList = this.generarModelo(dirList2, null);
 
           this.loading = false;
       });
@@ -616,10 +668,22 @@ export class GestionDocumentalComponent implements OnInit {
   }, 500);
   }
   getNivelAcceso(event:any, dataNode?: Directorio) {
+    console.log(this.directorioList)
+    let perfil:any
+    this.perfiles=[]
+    if(dataNode!.perfilId){
+        this.flagSCMPPrivado=true
+        perfil=dataNode!.perfilId.split(',');
+        perfil.forEach((element:any) => {
+            this.perfiles.push(Number(element))
+        });
+    }else{
+        this.flagSCMPPrivado=false 
+    }
+
       if (dataNode != null) {
           this.esPrivado = dataNode.nivelAcceso == 'PRIVADO';
          // this.cargarRaiz(event);
       }
   }
-
 }

@@ -53,6 +53,7 @@ export interface TreeNode {
 })
 export class FormularioScmComponent implements OnInit, OnDestroy {
 
+    tabIndex:any
     msgs?: Message[];
     listaPCL: any;
     itemInPCL: boolean = false;
@@ -1369,8 +1370,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         "dd/MM/yyyy",
         this.locale
         );
-        template!.querySelector('#P_nombre_aprueba')!.textContent = ele[0].nombre
-        template!.querySelector('#P_nombre_medico')!.textContent = ele[1].nombre
+        if(ele.length>0)template!.querySelector('#P_nombre_aprueba')!.textContent = ele[0].nombre
+        if(ele.length>0)template!.querySelector('#P_nombre_medico')!.textContent = ele[1].nombre
+
+        if(ele.length>0)template!.querySelector('#P_cedula_aprueba')!.textContent = ele[0].cedula
+        if(ele.length>0)template!.querySelector('#P_cedula_medico')!.textContent = ele[1].cedula
         setTimeout(() => {
             template!.querySelector('#P_nombreApellidos')!.textContent = (this.empleadoSelect?.primerNombre?this.empleadoSelect?.primerNombre:'')+" "+(this.empleadoSelect?.segundoNombre?this.empleadoSelect?.segundoNombre:'')+" "+(this.empleadoSelect?.primerApellido?this.empleadoSelect?.primerApellido:'')+" "+(this.empleadoSelect?.segundoApellido?this.empleadoSelect?.segundoApellido:'')
             template!.querySelector('#P_cedula')!.textContent = this.empleadoSelect?.numeroIdentificacion!
