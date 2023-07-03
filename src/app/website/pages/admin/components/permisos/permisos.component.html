@@ -76,11 +76,11 @@
                             </td> -->
                             <td colspan="2">{{rowData.nombre}}</td>
                             <td>{{rowData.codigo}}</td>
-                            <td>
-    
-                                <p-multiSelect *ngIf="rowData.validacionArea " defaultLabel="--seleccione areas--"
-                                    [options]="areaList" [(ngModel)]="rowData['areas']">
+                            <td style="width: 3em;">
+                                <p-multiSelect *ngIf="rowData.validacionArea " defaultLabel="--seleccione areas--" [style]="{ width: '500px' }"
+                                [options]="areaList" [(ngModel)]="rowData['areas']">
                                 </p-multiSelect>
+                                
                             </td>
                         </tr>
                     </ng-template>
