@@ -59,7 +59,7 @@ export class NavComponent implements OnInit {
     }
 
   async ngOnInit(): Promise<void> {  
-    // debugger
+    debugger
     await this.reloadEmpresa.emit();
     await this.cargartareas()
   }
