@@ -78,7 +78,7 @@
                             <td>{{rowData.codigo}}</td>
                             <td style="width: 3em;">
                                 <p-multiSelect *ngIf="rowData.validacionArea " defaultLabel="--seleccione areas--" [style]="{ width: '500px' }"
-                                [options]="areaList" [(ngModel)]="rowData['areas']">
+                                [options]="areaList" [(ngModel)]="rowData.areas" (onChange)="onItemChange($event, rowData)">
                                 </p-multiSelect>
                                 
                             </td>
