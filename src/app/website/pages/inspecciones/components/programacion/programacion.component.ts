@@ -91,9 +91,10 @@ export class ProgramacionComponent implements OnInit {
       locale: esLocale,
       dateClick: this.openDlg.bind(this),
       headerToolbar: {
-        left: 'prev,next today',
+        left: 'prev today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'next'
+        // right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       eventClick: this.eventListener.bind(this),
       editable: true,
