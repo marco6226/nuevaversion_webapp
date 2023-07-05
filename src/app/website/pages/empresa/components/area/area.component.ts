@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService, SelectItem, TreeNode } from 'primeng/api';
+import { MessageService, SelectItem, TreeNode,Message, ConfirmationService } from 'primeng/api';
 import { Criteria } from '../../../core/entities/filter';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { SesionService } from '../../../core/services/session.service';
@@ -9,6 +9,7 @@ import { TipoArea } from '../../entities/tipo-area';
 import { TreeNodeExpand } from '../../entities/tree-node-expand';
 import { AreaService } from '../../services/area.service';
 import { TipoAreaService } from '../../services/tipo-area.service';
+// import { SelectItem, Message, ConfirmationService, TreeNode } from 'primeng/primeng';
 
 
 
@@ -37,9 +38,10 @@ export class AreaComponent implements OnInit {
   areaSelectedDialog: any;
   estruct: any;
   visibleFilterArea: boolean = false;
+  msgs: Message[] = [];
 
   constructor(
-    private messageService: MessageService,
+    public messageService: MessageService,
     private tipoAreaService: TipoAreaService,
     private areaService: AreaService,
     private sesionService: SesionService,
@@ -130,10 +132,12 @@ export class AreaComponent implements OnInit {
     switch (estructSelected) {
       case Estructura.ORGANIZACIONAL.toString():
         this.varSelected = 'areaSelected';
+        this.estruct = this['areaSelected'];
         this.varNodes = 'areasNodes';
         break;
       case Estructura.FISICA.toString():
         this.varSelected = 'sedeSelected';
+        this.estruct = this['sedesNodes'];
         this.varNodes = 'sedesNodes';
         break;
     }
@@ -167,7 +171,8 @@ export class AreaComponent implements OnInit {
         'tipoAreaId': this.estruct.tipoAreaId
       });
     } else {
-      this.messageService.add({
+      // this.messageService.add({
+        this.msgs.push({
         severity: 'warn',
         summary: 'Debe seleccionar un nodo',
         detail: 'para realizar la actualización del mismo'
@@ -176,7 +181,7 @@ export class AreaComponent implements OnInit {
   }
 
   onAreaDelete(estructura: string) {
-    var estruct;
+    var estruct:any;
     switch (estructura) {
       case Estructura.ORGANIZACIONAL.toString():
         estruct = this['areaSelected']
@@ -191,10 +196,11 @@ export class AreaComponent implements OnInit {
 
     if (estruct != null) {
       this.areaService.delete(estruct.id).then(
-        data => this.manageDelete()
+        data => this.manageDelete(estruct)
       );
     } else {
-      this.messageService.add({
+      // this.messageService.add({
+        this.msgs.push({
         severity: 'warn',
         summary: 'Debe seleccionar un nodo',
         detail: 'para realizar la eliminación del mismo'
@@ -202,22 +208,25 @@ export class AreaComponent implements OnInit {
     }
   }
 
-  manageDelete() {
-    let nodoPadre = this.estruct.nodoPadre;
+  manageDelete(estruct:any) {
+    let nodoPadre = estruct.nodoPadre;
     for (let i = 0; i < nodoPadre.children.length; i++) {
-      if (nodoPadre.children[i].id == this.estruct.id) {
+      if (nodoPadre.children[i].id == estruct.id) {
         nodoPadre.children.splice(i, 1);
         break;
       }
     }
-    if (this.estruct.children != null) {
-      this.estruct.children.forEach((ar: any) => {
+    if (estruct.children != null) {
+      estruct.children.forEach((ar: any) => {
         ar.nodoPadre = nodoPadre;
         nodoPadre.children.push(ar);
       });
     }
     nodoPadre.children = nodoPadre.children.slice();
-    this.messageService.add({ severity: 'success', summary: 'Nodo eliminado', detail: 'se ha realizado la eliminación del nodo ' + this.estruct.label });
+    // this.messageService.add({ 
+      this.msgs.push({
+      severity: 'success', summary: 'Nodo eliminado', detail: 'se ha realizado la eliminación del nodo ' + estruct.label });
+    estruct=null
     this.estruct = null;
 
     // this.varNodes = null;
@@ -251,7 +260,8 @@ export class AreaComponent implements OnInit {
   }
 
   manageCreateResponse(area: Area) {
-
+    console.log(this.estruct)
+    this.msgs=[]
     if (this.adicionar) {
       if (this.estruct != null && this.estruct.children == null) {
         this.estruct.children = [];
@@ -274,14 +284,16 @@ export class AreaComponent implements OnInit {
         this.estruct[0].children = this.estruct[0].children.slice();
       }
 
-      this.messageService.add({
+      // this.messageService.add({
+      this.msgs.push({
         severity: 'success',
         summary: 'Adición realizada!',
         detail: 'Se ha creado correctamente el nodo ' + area.nombre
       });
     } else if (this.modificar) {
       this.estruct.label = area.nombre;
-      this.messageService.add({
+      // this.messageService.add({
+      this.msgs.push({
         severity: 'success',
         summary: 'Actualización realizada!',
         detail: 'Se ha actualizado correctamente el nodo ' + area.nombre

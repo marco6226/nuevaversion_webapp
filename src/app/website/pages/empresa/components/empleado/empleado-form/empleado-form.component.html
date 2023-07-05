@@ -264,6 +264,16 @@
                             placeholder="Direccion Gerencia" />
                     </div>
                 </div>
+                <div class="row g-2 mb-3">
+                    <label for="enviacorreo">Enviar correo de creación</label>
+                        
+                    <div class="field-radiobutton">
+                        <p-radioButton  style="margin-right: 10px;" name="enviacorreo" value=true label="Si"  formControlName="enviacorreo" checked required>
+                        </p-radioButton><br>
+                        <p-radioButton name="enviacorreo" value=false label="No" formControlName="enviacorreo">
+                        </p-radioButton>
+                    </div>
+                </div>
             </p-panel>
             <div style="position: relative;" *ngIf="isUpdate || editable">
                 <button pButton *ngIf="solicitando == false" type="submit" icon="bi bi-save"
