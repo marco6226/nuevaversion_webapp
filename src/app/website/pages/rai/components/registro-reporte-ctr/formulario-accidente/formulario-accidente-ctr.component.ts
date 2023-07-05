@@ -36,7 +36,7 @@ import {parse, stringify} from 'flatted';
   selector: 'app-formulario-accidente-ctr',
   templateUrl: './formulario-accidente-ctr.component.html',
   styleUrls: ['./formulario-accidente-ctr.component.scss'],
-  providers: [PeligroService, SistemaCausaInmediataService, SistemaCausaRaizService, DesviacionAliadosService]
+  providers: [PeligroService, SistemaCausaInmediataService, SistemaCausaRaizService, DesviacionAliadosService, MessageService]
 })
 export class FormularioAccidenteCtrComponent implements OnInit {
 

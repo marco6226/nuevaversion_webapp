@@ -48,7 +48,7 @@ export interface TreeNode {
     selector: "app-formulario-scm",
     templateUrl: "./formulario-scm.component.html",
     styleUrls: ["./formulario-scm.component.scss"],
-    providers: [DirectorioService, EmpresaService, EmpleadoService, SesionService, 
+    providers: [DirectorioService, EmpresaService, EmpleadoService, SesionService, MessageService,
         ComunService, CargoService, UsuarioService, CasosMedicosService, PerfilService, ConfirmService, ConfirmationService]
 })
 export class FormularioScmComponent implements OnInit, OnDestroy {
@@ -1508,7 +1508,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                             this.scmService.changeEstadoById(this.caseSelect.id)
                                 .then(res => {
                                     this.messageService.add({
-                                        key: 'formScm',
                                         severity: "success",
                                         summary: "Guardado",
                                         detail: `El estado del caso se ha actualizado exitosamente.`,
@@ -1520,7 +1519,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                                 })
                                 .catch(err => {
                                     this.messageService.add({
-                                        key: 'formScm',
                                         severity: "error",
                                         summary: "Error",
                                         detail: "Error al cambiar estado del caso.",
@@ -1531,7 +1529,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 });
             } else {
                 this.messageService.add({
-                    key: 'formScm',
                     severity: "error",
                     summary: "Error",
                     detail: "Debe completar la información: Fecha de cierre y Observaciones del cierre"
@@ -1545,7 +1542,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                     this.scmService.changeEstadoById(this.caseSelect.id)
                         .then(res => {
                             this.messageService.add({
-                                key: 'formScm',
                                 severity: "success",
                                 summary: "Guardado",
                                 detail: `El estado del caso se ha actualizado exitosamente.`,
@@ -1557,7 +1553,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                         })
                         .catch(err => {
                             this.messageService.add({
-                                key: 'formScm',
                                 severity: "error",
                                 summary: "Error",
                                 detail: "Error al cambiar estado del caso.",

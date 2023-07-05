@@ -139,16 +139,19 @@ export class PermisosComponent implements OnInit {
         permiso.recurso.id = recurso.id;
         permiso.perfil = new Perfil();
         permiso.perfil.id = this.perfilSelect.id;
+        if (recurso.validacionArea) {
+            permiso.areas = '{' + recurso.areas.toString() + '}';
+        }
         this.permisoService.update(permiso).then(
             resp => {
-                this.messageService.add({ summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success', key:'permisos' });
+                this.messageService.add({ summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success' });
                 if(resp){
                     this.isOnEdit=false;
                 }
             }
         ).catch(
             err => {
-                this.messageService.add({ summary: 'ERROR', detail: 'No se pudo actualizar el permiso.', severity: 'error', key:'permisos' });
+                this.messageService.add({ summary: 'ERROR', detail: 'No se pudo actualizar el permiso.', severity: 'error'});
             }
         );
     }
@@ -191,4 +194,21 @@ export class PermisosComponent implements OnInit {
             this.helperService.changeMessage('actualizarPermisos');
         }
     }
+
+    onItemChange(event: any, recurso: Recurso) {
+
+        this.isOnEdit=true;
+        let permiso = new Permiso();
+        permiso.valido = recurso.selected;
+        recurso.selected = recurso.selected;
+        permiso.recurso = new Recurso();
+        permiso.recurso.id = recurso.id;
+        permiso.perfil = new Perfil();
+        permiso.perfil.id = this.perfilSelect.id;
+        if (recurso.validacionArea) {
+            permiso.areas = '{' + recurso.areas.toString() + '}';
+        }
+        this.permisoService.update(permiso);
+        
+      }
 }

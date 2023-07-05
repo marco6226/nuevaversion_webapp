@@ -16,7 +16,8 @@ import {MessageService} from 'primeng/api';
 @Component({
   selector: 'app-cargo',
   templateUrl: './cargo.component.html',
-  styleUrls: ['./cargo.component.scss']
+  styleUrls: ['./cargo.component.scss'],
+  providers: [MessageService]
 })
 export class CargoComponent implements OnInit {
   msgs?: Message[] = [];
@@ -142,7 +143,7 @@ export class CargoComponent implements OnInit {
     } else {
       this.messageService.clear;
       // this.msgs?.push({ severity: 'warn', summary: "Debe seleccionar un cargo", detail: "Debe seleccionar un cargo para modificar" });
-      this.messageService.add({ key:'myKey1', severity: 'warn', summary: "Debe seleccionar un cargo", detail: "Debe seleccionar un cargo para modificar" });
+      this.messageService.add({ severity: 'warn', summary: "Debe seleccionar un cargo", detail: "Debe seleccionar un cargo para modificar" });
     }
   }
 
@@ -156,7 +157,7 @@ export class CargoComponent implements OnInit {
     } else {
       this.messageService.clear;
       // this.messageService.add({ key:'myKey1', severity: 'warn', summary: "Debe seleccionar un cargo", detail: "Debe seleccionar un cargo para modificar" });
-      this.messageService.add({  key:'myKey1',severity: 'warn', summary: "Debe seleccionar un cargo", detail: "Debe seleccionar un cargo para eliminarlo" });
+      this.messageService.add({ severity: 'warn', summary: "Debe seleccionar un cargo", detail: "Debe seleccionar un cargo para eliminarlo" });
     }
   }
 
@@ -168,7 +169,7 @@ export class CargoComponent implements OnInit {
         // this.msgs = [];
         this.messageService.clear;
         
-        this.messageService.add({  key:'myKey1',severity: 'success', summary: "Cargo eliminado", detail: "Ha sido eliminado el cargo " + cargoEliminado.nombre });
+        this.messageService.add({severity: 'success', summary: "Cargo eliminado", detail: "Ha sido eliminado el cargo " + cargoEliminado.nombre });
         for (let i = 0; i < this.cargosList!.length; i++) {
           if (this.cargosList![i].id == cargoEliminado.id) {
             this.cargosList?.splice(i, 1);

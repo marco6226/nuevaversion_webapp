@@ -4,7 +4,7 @@ import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado'
 import { ReporteService } from 'src/app/website/pages/core/services/reporte.service'
 import { Reporte } from 'src/app/website/pages/comun/entities/reporte'
-import { Message } from 'primeng/api'
+import { Message, MessageService } from 'primeng/api'
 import { ParametroNavegacionService } from 'src/app/website/pages/core/services/parametro-navegacion.service';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query'
 import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
@@ -12,7 +12,8 @@ import { ConsuModReporteService } from 'src/app/website/pages/core/services/cons
 @Component({
   selector: 'app-registro-reportes',
   templateUrl: './registro-reportes.component.html',
-  styleUrls: ['./registro-reportes.component.scss']
+  styleUrls: ['./registro-reportes.component.scss'],
+  providers: [MessageService]
 })
 export class RegistroReportesComponent implements OnInit {
 
@@ -30,6 +31,7 @@ export class RegistroReportesComponent implements OnInit {
     private empleadoService: EmpleadoService,
     private reporteService: ReporteService,
     private paramNav: ParametroNavegacionService,
+    private messageService: MessageService,
     private ConsuModReporteService:ConsuModReporteService,
   ) { }
 
@@ -98,15 +100,15 @@ export class RegistroReportesComponent implements OnInit {
   }
   onSave(reporte: Reporte) {
    
-    this.msgs = [];
+    
     if (this.adicionar) {
-      this.msgs.push({
+      this.messageService.add({
         severity: 'success',
         summary: 'Reporte realizado',
         detail: `Se ha registrado el reporte de  ${this.reporteSelect?.tipo} RAI-${reporte}`
       });
     } else if (this.modificar) {
-      this.msgs.push({
+      this.messageService.add({
         severity: 'success',
         summary: 'Reporte actualizado',
         detail: `Se ha actualizado correctamente el reporte de  ${this.reporteSelect?.tipo} RAI-${reporte.id}`

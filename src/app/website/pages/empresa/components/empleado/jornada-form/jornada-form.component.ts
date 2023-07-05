@@ -11,7 +11,7 @@ import { PrimeNGConfig } from 'primeng/api';
   selector: 's-jornadaForm',
   templateUrl: './jornada-form.component.html',
   styleUrls: ['./jornada-form.component.scss'],
-  providers: [ConfiguracionJornadaService]
+  providers: [ConfiguracionJornadaService, MessageService]
 })
 export class JornadaFormComponent implements OnInit {
 
@@ -67,7 +67,7 @@ export class JornadaFormComponent implements OnInit {
   comprobarConfiguracion(): boolean {
     for (let i = 0; i < this.configuracionJornadaList.length; i++) {
       if (this.configuracionJornadaList[i].fechaEntradaVigencia?.getTime() == this.fechaActual.getTime()) {
-        this.messageService.add({key: 'jornadaForm', severity: 'warn', summary: 'No es posible adicionar la configuración', detail: 'No pueden existir dos configuraciones con la misma fecha' });
+        this.messageService.add({severity: 'warn', summary: 'No es posible adicionar la configuración', detail: 'No pueden existir dos configuraciones con la misma fecha' });
         return false;
       }
     }
@@ -80,7 +80,7 @@ export class JornadaFormComponent implements OnInit {
     this.configuracionJornadaService.create(conf).then(
       data => {
         conf.id = (<ConfiguracionJornada>data).id;
-        this.messageService.add({key: 'jornadaForm', severity: 'success', summary: 'Configuracion creada', detail: 'Se ha creado correctamente la configuración' });
+        this.messageService.add({severity: 'success', summary: 'Configuracion creada', detail: 'Se ha creado correctamente la configuración' });
       }
     );
   }
@@ -90,7 +90,7 @@ export class JornadaFormComponent implements OnInit {
     conf.empleado.id = this.empleado.id;
     this.configuracionJornadaService.update(conf).then(
       data => {
-        this.messageService.add({key: 'jornadaForm', severity: 'success', summary: 'Configuracion actualizada', detail: 'Se ha actualizado correctamente la configuración' });
+        this.messageService.add({severity: 'success', summary: 'Configuracion actualizada', detail: 'Se ha actualizado correctamente la configuración' });
       }
     );
   }

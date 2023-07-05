@@ -98,7 +98,7 @@ export class NavComponent implements OnInit {
         resp => this.router.navigate(['/login'])
       ).catch(
         err => {
-          this.messageService.add({severity:'error', summary: 'CREDENCIALES INCORRECTAS', detail: 'Se produjo un error al cerrar sesión, intente nuevamente', key: 'nav'});
+          this.messageService.add({severity:'error', summary: 'CREDENCIALES INCORRECTAS', detail: 'Se produjo un error al cerrar sesión, intente nuevamente'});
         }
       );
     }
@@ -131,7 +131,7 @@ export class NavComponent implements OnInit {
           this.croppedImage = this.uploadedFiles[0].base64;
       }
 
-      this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: '', key: 'nav'});
+      this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
     }
 
   async cargartareas(){//: void {
@@ -171,7 +171,7 @@ export class NavComponent implements OnInit {
     let ctx = await this.canvas.getContext("2d");
     ctx.drawImage(await (<any>this.imgAvatar!).nativeElement, 0, 0, 48, 48);
     this.usuario.icon = this.canvas.toDataURL();
-    debugger
+    // debugger
     this.usuarioService.edit(this.usuario).then(
       async resp => {
         let usuario = await this.sessionService.getUsuario();

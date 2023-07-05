@@ -15,7 +15,7 @@ import { AreaService } from '../../../empresa/services/area.service';
     selector: 'app-scmpermisos',
     templateUrl: './scmpermisos.component.html',
     styleUrls: ['./scmpermisos.component.scss'],
-    providers: [AreaService, RecursoService, PermisoService, PerfilService]
+    providers: [AreaService, RecursoService, PermisoService, PerfilService,MessageService]
 })
 export class ScmpermisosComponent implements OnInit {
 
@@ -152,7 +152,7 @@ export class ScmpermisosComponent implements OnInit {
         }
         this.permisoService.update(permiso).then(
             resp => {
-                this.messageServices.add({key: 'scmPermisos', summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success' });
+                this.messageServices.add({summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success' });
                 if(resp){
                     this.isOnEdit=false;
                 }

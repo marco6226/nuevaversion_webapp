@@ -8,7 +8,8 @@ import { PasswordValidator } from '../../validators/password-validator';
 @Component({
   selector: 'app-cambio-passwd',
   templateUrl: './cambio-passwd.component.html',
-  styleUrls: ['./cambio-passwd.component.scss']
+  styleUrls: ['./cambio-passwd.component.scss'],
+  providers: [UsuarioService]
 })
 export class CambioPasswdComponent implements OnInit {
 
@@ -27,6 +28,8 @@ export class CambioPasswdComponent implements OnInit {
     private usuarioService: UsuarioService,
     private cambioPasswdService: CambioPasswdService
   ) {
+    // debugger
+    this.subscription = this.cambioPasswdService.getObservable().subscribe(visible => this.visible = visible);
     
 
     this.form = fb.group({
@@ -38,7 +41,7 @@ export class CambioPasswdComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     
-    // this.subscription = await this.cambioPasswdService.getObservable().subscribe(visible => this.visible = visible);
+    this.subscription = await this.cambioPasswdService.getObservable().subscribe(visible => this.visible = visible);
 
     this.password = 'password';
     this.passwordNew = 'password';

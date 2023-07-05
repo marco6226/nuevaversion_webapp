@@ -93,6 +93,8 @@ export class LoginComponent implements OnInit {
       await this.authService.login(value.correo, value.password, value.recordar, value.pin).then(res =>{
         let aceptaTerm = this.authService.sesionService.getUsuario()!.fechaAceptaTerminos != null;
         if (aceptaTerm) {
+          this.authService.onLogin(res);
+
           this.router.navigate(['app/home']); 
           this.IsVisible = false;   
         } else {

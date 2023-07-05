@@ -9,7 +9,8 @@ import { Empleado } from '../../../entities/empleado';
 @Component({
   selector: 's-documentosEmpleadoForm',
   templateUrl: './documentos-empleado-form.component.html',
-  styleUrls: ['./documentos-empleado-form.component.scss']
+  styleUrls: ['./documentos-empleado-form.component.scss'],
+  providers: [MessageService]
 })
 export class DocumentosEmpleadoFormComponent implements OnInit {
 
@@ -71,7 +72,7 @@ export class DocumentosEmpleadoFormComponent implements OnInit {
           }
         }
         this.documentosList = this.documentosList!.slice();
-        this.messageService.add({key: 'docEmpl', severity: 'success', summary: 'Documento eliminado', detail: 'Se ha eliminado correctamente el documento' });
+        this.messageService.add({ severity: 'success', summary: 'Documento eliminado', detail: 'Se ha eliminado correctamente el documento' });
       }
     );
   }
@@ -79,13 +80,13 @@ export class DocumentosEmpleadoFormComponent implements OnInit {
   modificar(doc: Documento) {
     this.directorioService.actualizarDocumento(doc).then(
       data => {
-        this.messageService.add({key: 'docEmpl', severity: 'success', summary: 'Documento actualizado', detail: 'Se ha actualizado correctamente el documento' });
+        this.messageService.add({ severity: 'success', summary: 'Documento actualizado', detail: 'Se ha actualizado correctamente el documento' });
       }
     );
   }
 
   download(documento: Documento) {
-    let msg = {key: 'docEmpl', severity: 'info', summary: 'Descargando documento...', detail: 'Archivo \"' + documento.nombre + "\" en proceso de descarga" };
+    let msg = { severity: 'info', summary: 'Descargando documento...', detail: 'Archivo \"' + documento.nombre + "\" en proceso de descarga" };
     this.messageService.add(msg);
     this.directorioService.download(documento.id).then(
       resp => {
@@ -96,7 +97,7 @@ export class DocumentosEmpleadoFormComponent implements OnInit {
           dwldLink?.setAttribute("href", url);
           dwldLink?.setAttribute("download", documento.nombre);
           dwldLink?.click();
-          this.messageService.add({key: 'docEmpl', severity: 'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo ' + documento.nombre });
+          this.messageService.add({ severity: 'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo ' + documento.nombre });
         }
       }
     );

@@ -6,4 +6,7 @@ export class Recurso {
     ruta?: string;
     tipo?:string;  
     selected?:boolean;
+    validacionArea?: boolean;
+    areas: any;
+
 }

@@ -18,7 +18,7 @@ import { Empresa } from 'src/app/website/pages/empresa/entities/empresa';
   selector: 'app-horahombrestrabajada',
   templateUrl: './hora-hombres-trabajada.component.html',
   styleUrls: ['./hora-hombres-trabajada.component.scss'],
-  providers: [HhtService, PlantasService]
+  providers: [HhtService, PlantasService, MessageService]
 })
 export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   fechaActual = new Date();
@@ -275,7 +275,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.loadDataHHT();
     }, 2000);
-    this.messageService.add({key: 'hht', severity: 'success', detail: 'Registro HHT guardado', summary: 'Guardado', life: 6000});
+    this.messageService.add({severity: 'success', detail: 'Registro HHT guardado', summary: 'Guardado', life: 6000});
     this.esNuevoRegistro = false;
   }
 
@@ -303,7 +303,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.loadDataHHT().then();
     }, 2000);
-    this.messageService.add({key: 'hht', severity: 'warn', summary: 'Actualizado', detail: 'Registro HHT actualizado', life: 6000});
+    this.messageService.add({severity: 'warn', summary: 'Actualizado', detail: 'Registro HHT actualizado', life: 6000});
   }
 
   calcularTotalesMes(mesIndex: number){

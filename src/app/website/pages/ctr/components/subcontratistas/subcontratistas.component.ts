@@ -83,7 +83,7 @@ export class SubcontratistasComponent implements OnInit {
     }else{
       this.displayDialog = false;
       this.fetchSubcontratistasList().then(()=>{
-        this.messageService.add({key: 'msg', severity:'success', summary: 'Guardado', detail: 'Se guardó subcontratista'});
+        this.messageService.add({severity:'success', summary: 'Guardado', detail: 'Se guardó subcontratista'});
       });
       setTimeout(()=>{
         this.messageService.clear();
@@ -155,7 +155,7 @@ export class SubcontratistasComponent implements OnInit {
       .updateSubcontratista(subc)
       .then(()=>{
         this.fetchSubcontratistasList().then();
-        this.messageService.add({key: 'msg', severity:'success', summary: 'Guardado', detail: 'Se guardó su soprte'});
+        this.messageService.add({severity:'success', summary: 'Guardado', detail: 'Se guardó su soprte'});
       });
     setTimeout(()=>{
       this.messageService.clear();
@@ -226,7 +226,7 @@ export class SubcontratistasComponent implements OnInit {
               .updateSubcontratista(subc)
               .then(()=>{
                 this.fetchSubcontratistasList().then();
-                this.messageService.add({key: 'msg', severity:'success', summary: 'Eliminado', detail: 'Se elimino el soprte'});
+                this.messageService.add({severity:'success', summary: 'Eliminado', detail: 'Se elimino el soprte'});
                 });
               setTimeout(()=>{
                 this.messageService.clear();

@@ -44,7 +44,7 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   getObservable(msg: MensajeUsuario, error: any, req: HttpRequest<any>, next: { handle: (arg0: HttpRequest<any>) => any; }): Observable<HttpEvent<any>> {
-
+debugger
 
     switch (msg.codigo) {
         case 1_001:
@@ -83,6 +83,7 @@ export class TokenInterceptor implements HttpInterceptor {
             //     detalle: 'Su contraseña ha expirado, por favor realice el cambio',
             //     tipoMensaje: 'warn'
             // });
+            debugger
             this.cambioPasswdService.setVisible(true);
             return <Observable<HttpEvent<any>>>this.cambioPasswdService.getSubmitObservable().pipe(
                 switchMap(res => {

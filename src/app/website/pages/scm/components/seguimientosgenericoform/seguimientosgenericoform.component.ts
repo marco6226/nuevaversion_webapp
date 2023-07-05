@@ -12,6 +12,7 @@ import { EmpleadoService } from "../../../empresa/services/empleado.service";
     selector: "app-seguimientosgenericoform",
     templateUrl: "./seguimientosgenericoform.component.html",
     styleUrls: ["./seguimientosgenericoform.component.scss"],
+    providers: [MessageService]
 })
 export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
 
@@ -112,7 +113,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
                         severity: "success",
                         summary: 'Mensaje del sistema',
                         detail: "El seguimiento fue actualizado exitosamente",
-                        key: 'formScm'
                     });
                 }).catch(() => {
                     throw 'Error';
@@ -124,7 +124,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
                         severity: "success",
                         summary: 'Mensaje del sistema',
                         detail: "El seguimiento fue creado exitosamente",
-                        key: 'formScm'
                     });
                 }).catch((err) => {
                     throw 'Error';
@@ -135,7 +134,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
             this.messageService.add({
                 severity: "error",
                 summary: "Error",
-                key: 'formScm'
             });
         }
     }
@@ -192,7 +190,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
                 severity: "success",
                 summary: "Mensaje del sistema",
                 detail: `Se ha clonado exitosamente`,
-                key: 'scmGenerico'
             });
             //  this.fechaSeg();
         } catch (error) {
@@ -200,7 +197,6 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
                 severity: "danger",
                 summary: "Mensaje del sistema",
                 detail: `Ocurrió un inconveniente al clonar`,
-                key: 'scmGenerico'
             });
         }
     }

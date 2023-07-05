@@ -136,7 +136,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
     // await this.saveInformacionAliado();
     if(this.aliadoInformacion.id == null){
       // this.loadInformacionAliado();
-      this.messageService.add({key: 'msgActualizarAliado', severity:'error', summary: 'Error', detail: 'No se pudo leer información del aliado'});
+      this.messageService.add({ severity:'error', summary: 'Error', detail: 'No se pudo leer información del aliado'});
     }
   }
 
@@ -298,13 +298,13 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
       this.aliado.division = JSON.stringify(this.aliado.division)
     }
     await this.empresaService.update(this.aliado).then( () => {
-      // this.messageService.add({key: 'msgActualizarAliado', severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
+      // this.messageService.add({ severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
       if(typeof this.onEdit == 'undefined' && this.aliadoDataIsValid()){
         this.usuarioService.emailAliadoActualizado(this.aliado.correoAliadoCreador!, this.aliado.id!);
-        this.messageService.add({key: 'msgActualizarAliado', severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
+        this.messageService.add({ severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
       }
       if(this.onEdit == 'edit' && this.gestorDataIsValid()){
-        this.messageService.add({key: 'msgActualizarAliado', severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
+        this.messageService.add({severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
       }
     });
     this.flagPress=true;

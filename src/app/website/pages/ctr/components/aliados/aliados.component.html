@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <label for="">Fecha calificación</label>
-                    <p-calendar [className]="['form-control']" showButtonBar="true" showClear="true" required formControlName="fecha_calificacion" [yearNavigator]="true" [(ngModel)]="fecha_calificacion" (onSelect)="onFechaCalificacion()" yearRange="1900:2050" [monthNavigator]="true" [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [disabled]="(!isCreate && onEdit==null) || flagConsult" [readonlyInput]="true" inputId="touchui" name="fechaCalificacion"></p-calendar>
+                    <p-calendar [className]="['form-control']" showButtonBar="true" showClear="true" required formControlName="fecha_calificacion" [yearNavigator]="true" [(ngModel)]="fecha_calificacion" (onSelect)="onFechaCalificacion()" yearRange="1900:2050" [monthNavigator]="true" [locale]="localeES" dateFormat="dd/mm/yy" [touchUI]="true" [disabled]="(!isCreate && onEdit==null) || flagConsult" [readonlyInput]="true" inputId="touchui" name="fechaCalificacion" appendTo="body"></p-calendar>
                     <button [disabled]="onEdit != 'edit'" style="height: 33px;" type="button" class="btn btn-primary" (click)="resetdate()">Limpiar</button>
                 </div>
                 <div class="col-md-6 col-sm-12">

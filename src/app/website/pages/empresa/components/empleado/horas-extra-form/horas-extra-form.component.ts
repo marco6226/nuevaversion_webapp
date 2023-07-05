@@ -11,7 +11,7 @@ import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/websit
   selector: 's-horasExtraForm',
   templateUrl: './horas-extra-form.component.html',
   styleUrls: ['./horas-extra-form.component.scss'],
-  providers: [HorasExtraService, ConfirmationService]
+  providers: [HorasExtraService, ConfirmationService, MessageService]
 })
 export class HorasExtraFormComponent implements OnInit {
 
@@ -58,7 +58,7 @@ export class HorasExtraFormComponent implements OnInit {
               break;
             }
           }
-          this.messageService.add({key: 'horasExt', severity: 'success', summary: 'Horas extra registradas', detail: 'Se han registrado correctamente las horas extra' });
+          this.messageService.add({severity: 'success', summary: 'Horas extra registradas', detail: 'Se han registrado correctamente las horas extra' });
         }
       );
     }
@@ -88,7 +88,7 @@ export class HorasExtraFormComponent implements OnInit {
     this.horasExtraService.delete(he.id!).then(
       data => {
         he = <HorasExtra>data;
-        this.messageService.add({key: 'horasExt', severity: 'success', summary: 'Registro eliminado', detail: 'Se han eliminado correctamente las horas extra' });
+        this.messageService.add({severity: 'success', summary: 'Registro eliminado', detail: 'Se han eliminado correctamente las horas extra' });
         this.descartarHorasExtra(he);
       }
     );
@@ -101,7 +101,7 @@ export class HorasExtraFormComponent implements OnInit {
       this.horasExtraService.update(he).then(
         data => {
           he = <HorasExtra>data;
-          this.messageService.add({key: 'horasExt', severity: 'success', summary: 'Horas extra actualizadas', detail: 'Se han actualizado correctamente las horas extra' });
+          this.messageService.add({severity: 'success', summary: 'Horas extra actualizadas', detail: 'Se han actualizado correctamente las horas extra' });
         }
       );
     }
@@ -109,11 +109,11 @@ export class HorasExtraFormComponent implements OnInit {
 
   comprobarCampos(he: HorasExtra): boolean {
     if (he.fecha == null) {
-      this.messageService.add({key: 'horasExt', severity: 'warn', summary: 'Campo fecha requerido', detail: 'Debe establecer la fecha a la que corresponden las horas extra' });
+      this.messageService.add({severity: 'warn', summary: 'Campo fecha requerido', detail: 'Debe establecer la fecha a la que corresponden las horas extra' });
       return false;
     }
     if (he.horas == null) {
-      this.messageService.add({key: 'horasExt', severity: 'warn', summary: 'Campo horas requerido', detail: 'Debe establecer la cantidad de horas extra' });
+      this.messageService.add({severity: 'warn', summary: 'Campo horas requerido', detail: 'Debe establecer la cantidad de horas extra' });
       return false;
     }
     return true;
