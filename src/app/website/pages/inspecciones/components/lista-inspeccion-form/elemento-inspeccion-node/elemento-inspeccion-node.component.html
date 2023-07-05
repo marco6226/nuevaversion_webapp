@@ -103,7 +103,7 @@
             <ng-template #criticidad>
               <p-dropdown [filter]="true" placeholder="-- Criticidad --" [options]="criticidadList" [(ngModel)]="elem.criticidad" value="label"
                 class="select-material" [disabled]="router.url != '/app/inspecciones/elaboracionLista'"
-                styleClass="select-material" required>
+                styleClass="select-material" required appendTo="body">
               </p-dropdown>
             </ng-template>
             <ng-template #peso>
