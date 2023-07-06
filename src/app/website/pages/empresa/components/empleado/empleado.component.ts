@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService, Message } from 'primeng/api';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { SesionService } from '../../../core/services/session.service';
 import { Empleado } from '../../entities/empleado';
@@ -46,7 +46,7 @@ export class EmpleadoComponent implements OnInit {
         private messageService: MessageService
     ) {
     }
-
+    msgs?:Message[]=[]
     ngOnInit() {
         this.loading = true;
     }
@@ -84,7 +84,10 @@ export class EmpleadoComponent implements OnInit {
             this.isUpdate = true;
             this.visibleForm = true;
         } else {
-            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            this.msgs=[]
+            this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+
+            // this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
         }
     }
 
@@ -95,7 +98,9 @@ export class EmpleadoComponent implements OnInit {
             this.show = true;
             this.visibleForm = true;
         } else {
-            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            this.msgs=[]
+            this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            // this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
         }
     }
 
@@ -118,14 +123,19 @@ export class EmpleadoComponent implements OnInit {
                 accept: () => this.deleteEmpleado()
             });
         } else {
-            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
+            this.msgs=[]
+            this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
+
+            // this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
         }
     }
 
     deleteEmpleado() {
         this.empleadoService.delete(this.empleadoSelect!.id!)
             .then(data => {
-                this.messageService.add({
+                this.msgs=[]
+                // this.messageService.add({
+                this.msgs.push({
                     key: 'empleado',
                     severity: 'success',
                     summary: "Empleado eliminado",
@@ -146,11 +156,15 @@ export class EmpleadoComponent implements OnInit {
                 break;
             }
         }
+        this.msgs=[]
+        this.msgs.push({severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion });
         this.messageService.add({severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion });
     }
 
     manageCreateResponse(empleado: Empleado) {
         this.empleadosList.push(empleado);
+        this.msgs=[]
+        this.msgs.push({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion });
         this.messageService.add({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion });
     }
 
