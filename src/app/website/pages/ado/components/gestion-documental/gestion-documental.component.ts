@@ -516,6 +516,8 @@ export class GestionDocumentalComponent implements OnInit {
           accept: () => {
               this.eliminar(this.nodeSelect!.data);
           },
+          acceptLabel: 'Si',
+          rejectLabel: 'No'
       });
   }
 

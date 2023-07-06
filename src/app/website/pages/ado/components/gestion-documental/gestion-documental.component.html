@@ -1,4 +1,5 @@
 <p-messages [(value)]="growlMsgs" [closable]="true"></p-messages>
+<p-confirmDialog></p-confirmDialog>
 <s-dataNotFound style="margin: auto;" *ngIf="(!directorioList || directorioList.length <= 0)  && !esConsulta" icon="pi pi-file" message="Aún no se cuenta con registros de carpetas o archivos adicionados">
     <div>
         Adiciona un nuevo:
