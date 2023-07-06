@@ -892,7 +892,15 @@ onEvent(event:any) {
 }
 guardarAnalisis() {
   this.guardando=true;
-  if(!this.analisisPeligros.invalid){
+
+  let flagIncapacidades:boolean=false
+  if(this.incapacidadesList){
+      if(this.incapacidadesList.length>0){
+          flagIncapacidades=true
+      }
+  }
+
+  if((!this.analisisPeligros.invalid  && flagIncapacidades) || this.idEmpresa!='22'){
       this.informacionComplementaria=this.analisisPeligros.value;
       this.informeJson=this.infoIn.value;
       this.diagram=this.FlowchartService.getDiagram();
@@ -942,17 +950,29 @@ guardarAnalisis() {
   }else{
       this.guardando=false
       this.msgs = [];
+    //   this.msgs.push({
+    //       severity: "error",
+    //       detail: "Si el accidente es grave o mortal, se debe enviar reporte a  entes de control o si selecciona el campo sí se debe diligenciar la fecha de envío a entes de control.",
+    //   });
+
       this.msgs.push({
-          severity: "error",
-          detail: "Si el accidente es grave o mortal, se debe enviar reporte a  entes de control o si selecciona el campo sí se debe diligenciar la fecha de envío a entes de control.",
-      });
+        severity: "error",
+        detail: "Debe diligenciar información complementaria para guardar.",
+    });
   }
 }
 async modificarAnalisis() {
   this.guardando=true;
   this.disabled=true;
   // this.flagModificar=true;
-  if(!this.analisisPeligros.invalid){
+  let flagIncapacidades:boolean=false
+  if(this.incapacidadesList){
+      if(this.incapacidadesList.length>0){
+          flagIncapacidades=true
+      }
+  }
+
+  if((!this.analisisPeligros.invalid && flagIncapacidades) || this.idEmpresa!='22'){
           if(this.idEmpresa=='22'){await this.tareaList2();}
           this.buttonPrint=true;
           this.informacionComplementaria=this.analisisPeligros.value;
@@ -1024,10 +1044,15 @@ async modificarAnalisis() {
   }else{
       this.guardando=false
       this.msgs = [];
+    //   this.msgs.push({
+    //       severity: "error",
+    //       detail: "Si el accidente es grave o mortal, se debe enviar reporte a  entes de control o si selecciona el campo sí se debe diligenciar la fecha de envío a entes de control.",
+    //   });
+
       this.msgs.push({
-          severity: "error",
-          detail: "Si el accidente es grave o mortal, se debe enviar reporte a  entes de control o si selecciona el campo sí se debe diligenciar la fecha de envío a entes de control.",
-      });
+        severity: "error",
+        detail: "Debe diligenciar información complementaria para guardar.",
+    });
   }
 }
 buildList(list: any[]): any[] | null {

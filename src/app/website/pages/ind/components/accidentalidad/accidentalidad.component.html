@@ -317,8 +317,8 @@
           <h3>Filtro indicadores</h3>
           <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
               <p-checkbox name="group4" value="Indicador" [value]="Indicador" 
-              [(ngModel)]="selectIndicarores2" [inputId]="Indicador.value" (onChange)="filtroTasas_2()"
-              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-checkbox>
+              [(ngModel)]="selectIndicarores2" [inputId]="Indicador.value" 
+              (onChange)="filtroTasas_2()"></p-checkbox>
               <label>{{Indicador.label}}</label>
           </div>
         </div>

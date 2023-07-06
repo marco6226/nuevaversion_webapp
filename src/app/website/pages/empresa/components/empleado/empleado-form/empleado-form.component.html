@@ -109,7 +109,7 @@
                                     <label>Fecha de nacimiento</label>
                                 </div>
                                 <div>
-                                    <p-calendar [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                    <p-calendar appendTo="body" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
                                     [maxDate]="fechaActual" dateFormat="dd/mm/yy"
                                     formControlName="fechaNacimiento"></p-calendar>
                                 </div>
@@ -210,7 +210,7 @@
                             <label>Fecha de ingreso</label>
                         </div>
                         <div>
-                            <p-calendar [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                            <p-calendar appendTo="body" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
                             [maxDate]="fechaActual" dateFormat="dd/mm/yy"
                             formControlName="fechaIngreso" required></p-calendar>
                         </div>

@@ -68,14 +68,14 @@
         </div>
         <div class="p-field">
             <label for="fechaInicio">Fecha Inicio</label>
-            <p-calendar [(ngModel)]="fechaInicio" [touchUI]="true" dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"
+            <p-calendar appendTo="body" [(ngModel)]="fechaInicio" [touchUI]="true" dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"
                  required>
             </p-calendar>
             <small class="p-invalid" *ngIf="submitted && !fechaInicio">is required.</small>
         </div>
         <div class="p-field">
             <label for="fechaFin">Fecha Fin</label>
-            <p-calendar [(ngModel)]="fechaFin" [touchUI]="true" dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"
+            <p-calendar appendTo="body" [(ngModel)]="fechaFin" [touchUI]="true" dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"
                  required>
             </p-calendar>
             <small class="p-invalid" *ngIf="submitted && !fechaFin">is required.</small>
