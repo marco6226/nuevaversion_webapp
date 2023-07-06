@@ -183,10 +183,11 @@ export class ConsultaInspeccionesComponent implements OnInit {
               });
             }
           } catch (error) { }
-          this.loading = false;
         });
       }
-    );
+    ).finally(() => {
+      this.loading = false;
+    });
   }
 
 

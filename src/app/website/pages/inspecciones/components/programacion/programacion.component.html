@@ -8,7 +8,7 @@
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-  <p-dialog [style]="{width: '50%'}" [(visible)]="visibleDlg" [responsive]="true" [modal]="true">
+  <p-dialog [style]="{width: '50%'}" [(visible)]="visibleDlg" [responsive]="true" [modal]="true" appendTo="body">
 
     <p-header>
       {{fechaSelect | date: 'yyyy-MM-dd' }}
