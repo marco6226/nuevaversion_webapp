@@ -236,11 +236,12 @@ export class GestionDocumentalComponent implements OnInit {
   }
 
   generarNodo(dir: Directorio | any, nodoPadre: TreeNode | null): TreeNode {
-      let node: TreeNode | any;
-      let split:any = dir.nombre!.split('.');
+      let node: TreeNode;
+      let split: any = dir.nombre.split('.');
       let strExt = dir.esDocumento ? split[split.length - 1] : 'dir';
-      let extension:any = Util.tipo_archivo[strExt as keyof Util];
-      dir['extension'] = extension == null ? Util.tipo_archivo['default'] : extension;
+      let tipo_arch_aux: any = {...Util.tipo_archivo}
+      let extension: any = tipo_arch_aux[strExt];
+      dir['extension'] = extension === null || extension === undefined ? tipo_arch_aux['default'] : extension;
       dir['nodoPadre'] = nodoPadre;
       node = {
           label: dir.nombre,
