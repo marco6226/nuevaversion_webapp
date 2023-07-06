@@ -1,6 +1,6 @@
 <button pButton pRipple label="Nuevo" icon="pi pi-plus" (click)="openNew()"></button>
 <button pButton pRipple label="Borrar" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
-
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <div >
     <p-table #dt [value]="miembrosList" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
         [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"

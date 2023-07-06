@@ -1,4 +1,4 @@
-import { MessageService } from 'primeng/api';
+import { MessageService,Message } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
 import { Component, OnInit, Output,EventEmitter, Input } from '@angular/core';
 import { MiembroEquipo } from './miembro-equipo';
@@ -27,7 +27,7 @@ export class MiembrosEquipoComponent implements OnInit {
   cargo?: string | null;
   division?: string | null;
   localidad?: string | null;
-  id: number=0;
+  id: null | number=0;
 
   DivisionList= [
     { label: "--Seleccione--", value: null },
@@ -106,47 +106,49 @@ hideDialog() {
 
 saveProduct() {
   this.submitted = true;
+  console.log("save");
 
   if (!this.cedula || !this.nombre || !this.cargo || !this.division || !this.localidad) {
       this.messageService.add({severity:'error', summary: 'Error', detail: 'Falta diligenciar todos los campos'});
   }
   else{
-  
-    if(this.miembro){
-  this.miembro.cedula=this.cedula;
-  this.miembro.nombre = this.nombre;
-  this.miembro.cargo = this.cargo;
-  this.miembro.division = this.division;
-  this.miembro.localidad = this.localidad;
+
+  this.miembro!.cedula=this.cedula;
+  this.miembro!.nombre = this.nombre;
+  this.miembro!.cargo = this.cargo;
+  this.miembro!.division = this.division;
+  this.miembro!.localidad = this.localidad;
 
   if(this.id){
-      let x = this.miembrosList.find(ele=>{
+      let x:any = this.miembrosList.find(ele=>{
           return ele.id == this.id
       })
-      if(x){
       x.nombre = this.nombre;
       x.cargo=this.cargo;
       x.cedula=this.cedula;
       x.localidad=this.localidad;
-      x.division=this.division;}
+      x.division=this.division;
       }else{
       this.id = this.miembrosList.length;
       this.id++;
-      this.miembro.id = this.id; 
-      this.miembrosList.push(this.miembro)
+      this.miembro!.id = this.id; 
+      this.miembrosList.push(this.miembro!)
 
-  }}
+  }
+
       this.productDialog = false;
       this.miembro = {};
-      this.id = 0;
+      this.id = null;
       this.borrarMiembro();
       if(this.miembrosList.length%2==0){
           this.disable.emit(true)
-          // this.disable=true;
+
           this.showError();
       }else{
           this.disable.emit(false)
+
       }
+
   }
 }
 salida(){
@@ -160,8 +162,11 @@ private borrarMiembro(){
   this.division = '';
   this.localidad = '';
   }
-  
+  msgs?: Message[];
   showError() {
-      this.messageService.add({severity:'error', summary: 'Error', detail: 'La cantidad de los miembros del equipo deben ser impares'});
+    this.msgs=[]
+    this.msgs.push({severity:'error', summary: 'Error', detail: 'La cantidad de los miembros del equipo deben ser impares'});
+
+      // this.messageService.add({severity:'error', summary: 'Error', detail: 'La cantidad de los miembros del equipo deben ser impares'});
   }
 }
