@@ -5,7 +5,7 @@ import { UsuarioService } from './../../../admin/services/usuario.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
 import { _actividadesContratadasList, _divisionList, ActividadesContratadas, Localidades } from '../../entities/aliados';
 import { Empresa } from '../../../empresa/entities/empresa';
 import { locale_es } from '../../../rai/entities/reporte-enumeraciones';
@@ -138,7 +138,8 @@ export class AliadosComponent implements OnInit {
     private usuarioService: UsuarioService,
     private directorioService: DirectorioService,
     private confirmationService: ConfirmationService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private config: PrimeNGConfig
   ) {
     this.onEdit = this.activatedRoute.snapshot.params['onEdit'];
     this.formNatural = fb.group({
@@ -165,6 +166,7 @@ export class AliadosComponent implements OnInit {
   
 
   ngOnInit() {
+    this.config.setTranslation(this.localeES);
     this.loadActividadesContratadas();
     this.loadLocalidades();
   }

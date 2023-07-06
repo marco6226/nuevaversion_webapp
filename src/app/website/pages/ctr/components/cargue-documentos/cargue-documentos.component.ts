@@ -1,6 +1,6 @@
 import { Modulo } from './../../../core/enums/enumeraciones';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ConfirmationService, Message } from 'primeng/api';
+import { ConfirmationService, Message, PrimeNGConfig } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 import { Documento } from '../../../ado/entities/documento';
 import { Directorio } from '../../../ado/entities/directorio';
@@ -60,24 +60,15 @@ export class CargueDocumentosComponent implements OnInit {
   fecha_vencimiento_cert_ext!: Date;
   onEdit: string = '';
 
-  es = {
-    firstDayOfWeek: 1,
-    dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-    dayNamesShort: ["Dom", "Lun", "Mar", "Miér", "Juev", "Vier", "Sáb"],
-    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
-    monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-    monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-    today: 'Hoy',
-    clear: 'Limpiar'
-  };
-
   constructor(
     private directorioService: DirectorioService,
     private confirmationService: ConfirmationService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private config: PrimeNGConfig
   ) { }
 
   ngOnInit(): void {
+    this.config.setTranslation(this.localeES);
     this.onEdit = this.activatedRoute.snapshot.params['onEdit'];
   }
 
