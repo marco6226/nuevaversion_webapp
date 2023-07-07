@@ -16,12 +16,32 @@
             </div>            
         </div>
         <ng-template ngFor let-subItem [ngForOf]="item.items">
-            <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem.routerLink">
-                <div id="data" class="child-items data-hide">
-                    <i [class]="subItem.icon" class="icon-size-child"></i>
-                    <span id="text-toggle" class="text-hide">{{subItem.label}}</span >
-                </div>            
-            </div>
+            <ng-container *ngIf="routerLinkIsValid(subItem.routerLink);else subMenu">
+                <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem.routerLink">
+                    <div id="data" class="child-items data-hide">
+                        <i [class]="subItem.icon" class="icon-size-child"></i>
+                        <span id="text-toggle" class="text-hide">{{subItem.label}}</span >
+                    </div>            
+                </div>
+            </ng-container>
+            <ng-template #subMenu>
+                <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse child-item" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+subItem.codigo" aria-expanded="false" aria-label="Toggle navigation">
+                    <div id="data" class="child-items data-hide">
+                        <i [class]="subItem.icon" class="icon-size"></i>
+                        <span id="text-toggle" class="text-hide">{{subItem.label}}</span>
+                    </div>
+                </div>
+                <ng-template ngFor let-subItem2 [ngForOf]="getItems2For(item, subItem)">
+                    <div *sTienePermiso="subItem2.codigo" [pTooltip]="subItem2.label" tooltipPosition="right" [id]="subItem.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem2.routerLink">
+                        <div [id]="item.codigo" class="collapse navbar-collapse">
+                            <div id="data" class="child-items data-hide">
+                                <i [class]="subItem2.icon" class="icon-size-child"></i>
+                                <span id="text-toggle" class="text-hide">{{subItem2.label}}</span >
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ng-template>
         </ng-template>
     </div>
  </div>

@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
   statusMenu: boolean = false;
   menuToggle: boolean = false;
 
-  items!: any[];
+  items: any[] = [];
   nombreAUC: string="Observaciones";
   nombreSEC: string="sec";
   nombreCOP: string="Copasst";
@@ -83,24 +83,24 @@ export class MenuComponent implements OnInit, AfterContentInit {
     if(this.empresa?.idEmpresaAliada){
         if(this.isTemporal){
             this.permisosAliados = this.permisosAliados.concat([
-                { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: '/app/rai/registroReporteTemporal', icon: 'bi bi-h-square' },
-                { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: '/app/rai/consultaReportestemporal', icon: 'bi bi-list-task' },
-                { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: '/app/ind/horahombrestrabajada', icon: 'bi bi-clock' },
+                { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: ['/app/rai/registroReporteTemporal'], icon: 'bi bi-h-square' },
+                { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: ['/app/rai/consultaReportestemporal'], icon: 'bi bi-list-task' },
+                { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'bi bi-clock' },
             ]);
         }
         if(this.canSaveReportCtr){
             this.permisosAliados = this.permisosAliados.concat([
-                { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: '/app/rai/registroReporteCtr', icon: 'bi bi-h-square' },
-                { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: '/app/rai/consultarReportesAliados', icon: 'bi bi-list-task'}
+                { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: ['/app/rai/registroReporteCtr'], icon: 'bi bi-h-square' },
+                { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: ['/app/rai/consultarReportesAliados'], icon: 'bi bi-list-task'}
             ]);
         }
     }else{
         this.permisosAliados = this.permisosAliados.concat([
-            { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: '/app/rai/registroReporteTemporal', icon: 'bi bi-h-square' },
-            { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: '/app/rai/consultaReportestemporal', icon: 'bi bi-list-task' },
-            { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: '/app/ind/horahombrestrabajada', icon: 'bi bi-clock' },
-            { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: '/app/rai/registroReporteCtr', icon: 'bi bi-h-square' },
-            { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: '/app/rai/consultarReportesAliados', icon: 'bi bi-list-task'}
+            { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: ['/app/rai/registroReporteTemporal'], icon: 'bi bi-h-square' },
+            { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: ['/app/rai/consultaReportestemporal'], icon: 'bi bi-list-task' },
+            { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'bi bi-clock' },
+            { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: ['/app/rai/registroReporteCtr'], icon: 'bi bi-h-square' },
+            { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: ['/app/rai/consultarReportesAliados'], icon: 'bi bi-list-task'}
         ]);
     }
 
@@ -144,8 +144,17 @@ export class MenuComponent implements OnInit, AfterContentInit {
                 [
                     { label: 'Nuevo Aliado', codigo: 'CTR_ADM', routerLink: ['/app/ctr/aliado'], icon: 'bi bi-person-badge'},
                     { label: 'Listado de Aliados', codigo: 'CTR_ADM', routerLink: ['/app/ctr/listadoAliados'], icon: 'bi bi-card-list'},
-                    { label: 'Administración', codigo: 'CTR_ADM', routerLink: [`/app/ctr/actualizarAliado/${this.getEmpresaId()}`], icon: 'bi bi-building-gear'},
+                    { label: 'Administración', codigo: 'CTR_IND', routerLink: [`/app/ctr/actualizarAliado/${this.getEmpresaId()}`], icon: 'bi bi-building-gear'},
                 ].concat(this.permisosAliados)
+                .concat([
+                    {label: 'Ciclo corto', codigo: 'CTR_SUBMENU_CICLOCORTO', routerLink: [], icon: 'pi pi-check-circle'}
+                ]),
+            items2: [
+                {padre: 'Ciclo corto', label: 'Elaborar lista de auditoría', codigo: 'CTR_ELABORAR_LISTA_CC', routerLink: ['/app/ctr/elaborarListaCicloCorto'], icon: 'pi pi-cog'},
+                {padre: 'Ciclo corto', label: 'Listas de auditoría', codigo: 'CTR_CONSULTAR_LISTAS_CC', routerLink: ['/app/ctr/listasInspeccionCicloCorto'], icon: 'pi pi-list'},
+                {padre: 'Ciclo corto', label: 'Calendario ciclo corto', codigo: 'CTR_CALENDARIO_INP_CC', routerLink: ['/app/ctr/calendario'], icon: 'pi pi-calendar'},
+                {padre: 'Ciclo corto', label: 'Auditorías realizadas', codigo: 'CTR_CONSULTAR_INP_CC', routerLink: ['/app/ctr/inspeccionesRealizadas'],  icon: 'pi pi-check-square'}
+            ]
         },
         {
             label: 'Seguimiento Casos medicos', 
@@ -349,6 +358,20 @@ export class MenuComponent implements OnInit, AfterContentInit {
         }, 80);
                 
     }
+  }
+
+  tieneItems2(item: any): boolean{
+    // console.log(item);
+    return item.items2 ? true : false;
+  }
+
+  routerLinkIsValid(routerLink: string[]): boolean{
+    // console.log(routerLink);
+    return routerLink.length > 0 ? true : false;
+  }
+
+  getItems2For(item: any, subItem: any){
+    return item.items2.filter((item2: any) => item2.padre === subItem.label);
   }
 
 }

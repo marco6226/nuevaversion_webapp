@@ -1,4 +1,6 @@
+import { Localidades } from "../../ctr/entities/aliados";
 import { Area } from "../../empresa/entities/area";
+import { Empresa } from "../../empresa/entities/empresa";
 import { ListaInspeccion } from "./lista-inspeccion";
 
 export interface Programacion {
@@ -7,5 +9,7 @@ export interface Programacion {
     numeroRealizadas: number;
     fecha: Date;
     area: Area;
+    localidad: Localidades;
+    empresa: Empresa;
     listaInspeccion: ListaInspeccion;
 }

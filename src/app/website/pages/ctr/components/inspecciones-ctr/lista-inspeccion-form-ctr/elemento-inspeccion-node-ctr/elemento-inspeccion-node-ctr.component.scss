@@ -1,0 +1,34 @@
+@media screen and (max-width: 600px) {
+    table {
+        min-width: 700px;
+    }
+}
+
+.horizontal-list {
+    display: contents;
+    list-style-type: none;
+}
+
+.horizontal-list li {
+    margin-right: 10px;
+}
+
+@media (max-width: auto) {
+    .horizontal-list{
+        margin-top: 6px;
+    }
+}
+
+:host ::ng-deep
+    .p-inputswitch.p-inputswitch-checked
+    .p-inputswitch-slider,
+:host ::ng-deep
+    .p-inputswitch.p-inputswitch-checked:hover
+    .p-inputswitch-slider {
+    background: var(--yellow);
+}
+
+:host ::ng-deep
+    .p-inputswitch-checked .p-inputswitch-slider:before{
+        background: #FFFFFF;
+}

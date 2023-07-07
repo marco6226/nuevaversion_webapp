@@ -41,6 +41,7 @@ export class NavComponent implements OnInit {
   tareasPendientesTotal: number = 0 ;
   BadgeColor: string = 'null'
   canvas: any;
+  changePasswordRequired: boolean = false;
 
   constructor(
 		private authService: AuthService,
@@ -53,6 +54,16 @@ export class NavComponent implements OnInit {
     private usuarioService: UsuarioService,
 		private mistareas: MisTareasComponent,
     ) {
+      cambioPasswdService.getObservable().subscribe(value => {
+        if(value){
+          this.visbleChangePasw = true;
+          this.changePasswordRequired = true;
+        }else{
+          this.visbleChangePasw = false;
+          this.changePasswordRequired = false;
+        }
+      });
+
       this.canvas = document.createElement('canvas');
       this.canvas.width = 48;
       this.canvas.height = 48;
@@ -105,6 +116,13 @@ export class NavComponent implements OnInit {
     
     abrirCambioPasswd(){
       this.visbleChangePasw = true
+    }
+
+    async onCloseChangePassword(){
+      if(this.changePasswordRequired){
+        await this.authService.logout();
+        this.router.navigate(['/login']);
+      }
     }
 
     abrirDlg() {

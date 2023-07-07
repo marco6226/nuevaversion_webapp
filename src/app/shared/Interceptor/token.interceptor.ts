@@ -28,15 +28,15 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // debugger
-    return next
-    .handle(request)
-    .pipe(
+    return next.handle(request).pipe(
       tap({
         next: () => null,
-        error: async (err: HttpErrorResponse) =>{
-          if ([401].includes(err.status)){
+        error: async (err: HttpErrorResponse) => {
+          if ([401].includes(err.status) && err.error.codigo !== 2_001){
             await this.authService.logout();
             this.router.navigate(['/login']); 
+          } else {
+            this.getObservable(err.error, err, request, next);
           }
         }
       })
@@ -44,8 +44,6 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   getObservable(msg: MensajeUsuario, error: any, req: HttpRequest<any>, next: { handle: (arg0: HttpRequest<any>) => any; }): Observable<HttpEvent<any>> {
-debugger
-
     switch (msg.codigo) {
         case 1_001:
             this.authService.logout();               
@@ -83,7 +81,6 @@ debugger
             //     detalle: 'Su contraseña ha expirado, por favor realice el cambio',
             //     tipoMensaje: 'warn'
             // });
-            debugger
             this.cambioPasswdService.setVisible(true);
             return <Observable<HttpEvent<any>>>this.cambioPasswdService.getSubmitObservable().pipe(
                 switchMap(res => {
@@ -91,7 +88,7 @@ debugger
                     const authReqRepeat = req.clone();
                     return next.handle(authReqRepeat);
                 })
-            );;
+            );
         default:
             return throwError(error);
     }

@@ -4,13 +4,15 @@ import { Router } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { MensajeUsuario } from '../../../comun/entities/mensaje-usuario';
+import { AuthGuardService } from '../../services/auth-guard.service';
 import { AuthService } from '../../services/auth.service';
 import { SesionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [AuthGuardService]
 })
 export class LoginComponent implements OnInit {
   
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
     private sesionService: SesionService,
     private authService: AuthService,
     private messageService: MessageService,
+    private authGuardService: AuthGuardService
   ) { 
     this.subscription = this.authService.getLoginObservable().subscribe(visible => this.setVisible(visible));
     this.formLogin = fb.group({
@@ -98,7 +101,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['app/home']); 
           this.IsVisible = false;   
         } else {
-          //mostrar acepTerm
+          let url = this.authGuardService.Geturl();
+          this.router.navigate([aceptaTerm ? url : '/app/terminos']);
+          this.authGuardService.Seturl('/app/home');
         }
       });      
     } catch (err: any) {      
