@@ -523,6 +523,7 @@ export class GestionDocumentalComponent implements OnInit {
 
         this.confirmationService.confirm({
             header: 'Eliminar ' + (this.nodeSelect!.data.esDocumento ? ' archivo ' : ' directorio '),
+            key: 'docoutscm',
             message: msg,
             accept: () => {
                 this.eliminar(this.nodeSelect!.data);
