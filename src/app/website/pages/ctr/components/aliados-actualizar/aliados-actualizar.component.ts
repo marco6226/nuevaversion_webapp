@@ -301,10 +301,10 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
       // this.messageService.add({ severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
       if(typeof this.onEdit == 'undefined' && this.aliadoDataIsValid()){
         this.usuarioService.emailAliadoActualizado(this.aliado.correoAliadoCreador!, this.aliado.id!);
-        this.messageService.add({ severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
+        this.messageService.add({key: 'msgActualizarAliado', severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
       }
       if(this.onEdit == 'edit' && this.gestorDataIsValid()){
-        this.messageService.add({severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
+        this.messageService.add({key: 'msgActualizarAliado', severity:'success', summary: 'Guardado', detail: 'Los cambios han sido guardados'});
       }
     });
     this.flagPress=true;
