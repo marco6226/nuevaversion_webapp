@@ -97,7 +97,7 @@
 </div>
 
 
-<p-dialog header="Usuario" [(visible)]="visibleDlg" [responsive]="true" showEffect="fade" [modal]="true">
+<p-dialog [style]="{width: '40%'}" header="Usuario" [(visible)]="visibleDlg" [responsive]="true" showEffect="fade" [modal]="true">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div>
             <div>
@@ -158,7 +158,7 @@
         </div>
     </form>
 </p-dialog>
-<p-dialog [(visible)]="Dlg" modal="true">
+<p-dialog [style]="{width: '40%'}" [(visible)]="Dlg" modal="true">
     
     <div *ngIf="downloading == true">
         <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
