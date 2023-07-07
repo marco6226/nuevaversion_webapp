@@ -23,7 +23,7 @@ import { Perfil } from 'src/app/website/pages/empresa/entities/perfil';
 export class GestionDocumentalComponent implements OnInit {
     @Input('flagSCM') flagSCM: boolean = false;
     growlMsgs?: Message[];
-    msgs?: Message[];
+    msgs1?: Message[];
     @Input() caseid: any;
     totalRecords?: number;
     nombreCarpeta?: string | null;
@@ -494,8 +494,8 @@ export class GestionDocumentalComponent implements OnInit {
             });
             return;
         }
-        this.msgs = [];
-        this.msgs.push({ severity: 'info', summary: 'Descargando...', detail: this.nodeSelect!.data.nombre });
+        this.msgs1 = [];
+        this.msgs1.push({ severity: 'info', summary: 'Descargando...', detail: this.nodeSelect!.data.nombre });
         this.directorioService.download(this.nodeSelect!.data.id).then((resp) => {
             if (resp != null) {
                 var blob = new Blob([<any>resp]);
@@ -504,7 +504,7 @@ export class GestionDocumentalComponent implements OnInit {
                 dwldLink!.setAttribute('href', url);
                 dwldLink!.setAttribute('download', this.nodeSelect!.data.nombre);
                 dwldLink!.click();
-                this.msgs = [];
+                this.msgs1 = [];
                 this.growlMsgs = [];
                 this.growlMsgs.push({
                     severity: 'success',
@@ -516,6 +516,7 @@ export class GestionDocumentalComponent implements OnInit {
     }
 
     confirmarEliminar() {
+        console.log(1123)
         let msg = this.nodeSelect!.data.esDocumento
             ? 'Esta acción eliminará el archivo ' + this.nodeSelect!.data.nombre + ' ¿Esta seguro de continuar?'
             : 'Esta acción eliminará el directorio ' + this.nodeSelect!.data.nombre + ' y todo su contenido ¿Esta seguro de continuar?';

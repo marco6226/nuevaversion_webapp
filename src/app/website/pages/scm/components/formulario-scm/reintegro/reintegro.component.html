@@ -80,7 +80,7 @@
     <p-panel header="Cierre" *ngIf="form.value.tipo_retorno">
         <div class="input-field">
             <label class="active" for="">Fecha Cierre</label>
-            <p-calendar [(ngModel)]="isEdit.fecha_cierre" dateFormat="dd/mm/yy" formControlName="fecha_cierre" ></p-calendar>
+            <p-calendar appendTo="body" [(ngModel)]="isEdit.fecha_cierre" dateFormat="dd/mm/yy" formControlName="fecha_cierre" ></p-calendar>
         </div>
         <div class="input-field">
             <label class="active" for="">Observación</label>

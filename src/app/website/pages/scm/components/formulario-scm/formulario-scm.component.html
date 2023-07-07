@@ -1,4 +1,5 @@
 <!-- <p-toast key="formScm"></p-toast> -->
+<p-messages [(value)]="msgs" ></p-messages>
 <p-confirmDialog></p-confirmDialog>
 <div class="d-flex justify-content-end" *ngIf="caseSelect">
     <div class="case-data d-flex justify-content-between">
@@ -129,12 +130,12 @@
                                                     [yearRange]="yearRange" [maxDate]="fechaActual" 
                                                     dateFormat="dd/mm/yy" formControlName="fechaIngreso" appendTo="body"></p-calendar> -->
 
-                                                <p-calendar *ngIf="empresaId!=22" [disabled]="consultar2"
+                                                <p-calendar appendTo="body" *ngIf="empresaId!=22" [disabled]="consultar2"
                                                     [attr.disabled]="true" [monthNavigator]="true"
                                                     [yearNavigator]="true" [yearRange]="yearRange"
                                                     [maxDate]="fechaActual" dateFormat="dd/mm/yy"
                                                     formControlName="fechaIngreso"></p-calendar>
-                                                <p-calendar *ngIf="empresaId==22" required [disabled]="consultar2"
+                                                <p-calendar appendTo="body" *ngIf="empresaId==22" required [disabled]="consultar2"
                                                     [attr.disabled]="true" [monthNavigator]="true"
                                                     [yearNavigator]="true" [yearRange]="yearRange"
                                                     [maxDate]="fechaActual" dateFormat="dd/mm/yy"
@@ -237,11 +238,11 @@
                                             <label for="" class="active">Fecha de nacimiento</label>
                                         </div>
                                         <div>
-                                            <p-calendar *ngIf="empresaId==22" required [disabled]="consultar2"
+                                            <p-calendar appendTo="body" *ngIf="empresaId==22" required [disabled]="consultar2"
                                                 [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                                 [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
                                                 dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
-                                            <p-calendar *ngIf="empresaId!=22" [disabled]="consultar2"
+                                            <p-calendar appendTo="body" *ngIf="empresaId!=22" [disabled]="consultar2"
                                                 [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                                 [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
                                                 dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
@@ -1368,7 +1369,6 @@
         <!-- Inicio seguimiento -->
         <ng-container *sTienePermiso="'SCM_GET_CASE_SEG'">
             <p-tabPanel header="Seguimiento médico" *ngIf="caseSelect">
-                <p-messages [(value)]="msgs" ></p-messages>
                 <!-- Aquí está seguimiento -->
                 <div class="container-fluid cew-9">
                     <div class="row ">
@@ -1581,9 +1581,9 @@
                                     <td>
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
-                                                <p-calendar [disabled]="consultar2" [touchUI]="true"
+                                                <p-calendar appendTo="body" [disabled]="consultar2" [touchUI]="true"
                                                     [(ngModel)]="seguimientogenerico.fechaSeg" dateFormat="dd/mm/yy"
-                                                    placeholder="dd/MM/yyyy" [locale]="localeES">
+                                                    placeholder="dd/MM/yyyy">
                                                 </p-calendar>
 
                                             </ng-template>

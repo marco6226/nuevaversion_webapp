@@ -119,7 +119,7 @@
                             <div class="input-field ">
                                 <label for="" class="active">Fecha de emisión de la PCL</label>
                                 <p-calendar [monthNavigator]="true" [touchUI]="true" [yearNavigator]="true" showButtonBar="true" yearRange="2010:2030" [maxDate]="fechaActual"  formControlName="emisionPclFecha" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material"
-                                    [disabled]="action">
+                                    [disabled]="action" appendTo="body">
                                 </p-calendar>
                             </div>
                         </div>
