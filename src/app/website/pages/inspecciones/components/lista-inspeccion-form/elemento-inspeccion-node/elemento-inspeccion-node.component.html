@@ -86,7 +86,7 @@
             <input pInputText [(ngModel)]="elem.nombre" *ngIf="editable" placeholder="Nombre"
               maxlength="255">
             <label *ngIf="!elem.calificable && !editable">{{elem.nombre}}</label>
-            <label *ngIf="elem.calificable && !editable" [title]="elem.descripcion"
+            <label *ngIf="elem.calificable && !editable" [title]="elem.nombre" style="cursor: help;"
               (click)="emitirEventoSelecElemento(elem)" class="clickeable">{{elem.nombre}}</label>
           </td>
           <td width="60%">
