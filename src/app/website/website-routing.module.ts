@@ -69,6 +69,11 @@ import {IndCasosMedicosComponent} from 'src/app/website/pages/ind/components/ind
 import {IndCasosMedicosGestionComponent} from 'src/app/website/pages/ind/components/ind-casos-medicos-gestion/ind-casos-medicos-gestion.component';
 import { RegistroReporteCtrComponent } from './pages/rai/components/registro-reporte-ctr/registro-reporte-ctr.component';
 import { ConsultaReportesAliadoComponent } from './pages/rai/components/consulta-reportes-aliado/consulta-reportes-aliado.component';
+import { ElaboracionInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/elaboracion-inspecciones-ctr/elaboracion-inspecciones-ctr.component';
+import { ElaboracionListaCtrComponent } from './pages/ctr/components/inspecciones-ctr/elaboracion-lista-ctr/elaboracion-lista-ctr.component';
+import { ListasInspeccionCtrComponent } from './pages/ctr/components/inspecciones-ctr/listas-inspeccion-ctr/listas-inspeccion-ctr.component';
+import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ctr/programacion-ctr/programacion-ctr.component';
+import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
 
 const routes: Routes = [
   {
@@ -117,6 +122,10 @@ const routes: Routes = [
           { path: 'actualizarAliado/:id', component: AliadosActualizarComponent },
           { path: 'actualizarAliado/:id/:onEdit', component: AliadosActualizarComponent },
           { path: 'seguimientoContratistas', component: SeguimientoContratistasComponent },
+          { path: 'elaborarListaCicloCorto', component: ElaboracionListaCtrComponent},
+          { path: 'listasInspeccionCicloCorto', component: ListasInspeccionCtrComponent},
+          { path: 'calendario', component: ProgramacionCtrComponent},
+          { path: 'inspeccionesRealizadas', component: ConsultaInspeccionesCtrComponent}
         ]
       },
       {

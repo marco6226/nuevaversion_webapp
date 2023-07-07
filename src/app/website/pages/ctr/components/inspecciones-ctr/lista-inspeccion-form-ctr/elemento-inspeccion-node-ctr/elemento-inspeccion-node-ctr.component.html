@@ -1,0 +1,147 @@
+<div *ngFor="let elem of value; let i = index" st style="margin-top: 5px;">
+  <div class="container" *ngIf="conPeso && elem?.elementoInspeccionList?.length > 0 && router.url !== '/app/ctr/elaborarListaCicloCorto'; else tableInspeccion">
+    <p-panel>
+      <p-header [style]="{'width': '100%'}">
+        <div class="flex justify-content-between flex-wrap">
+          <div class="flex mb-2">
+            <b>
+              <label>{{elem.codigo}}&nbsp;&nbsp;&nbsp;{{elem.nombre}}&nbsp;&nbsp;&nbsp;{{elem.descripcion}}</label>
+            </b>
+          </div>
+          <div class="flex">
+            <ul class="horizontal-list">
+              <li>
+                No Aplica
+              </li>
+              <li>
+                <p-inputSwitch [(ngModel)]="elem.calificacion.calcularCumplimiento"
+                (onChange)="onChangeCalcularCumplimiento($event, elem)" [disabled]="disabled"></p-inputSwitch>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </p-header>
+      <div>
+        <table>
+          <tr style="text-align: -webkit-right;">
+            <!-- <td style="display: flex; justify-content: right;"> -->
+            <td>
+              <div *ngIf="false; else columnas">
+              </div>
+              <ng-template #columnas>
+                <td width="5%">&nbsp;</td>
+                <td width="10%">&nbsp;</td>
+                <td width="50%">&nbsp;</td>
+                <td width="10%">&nbsp;</td>
+                <td width="50px" style="max-width: 50px;" *ngIf="editable">&nbsp;</td>
+                <td width="50px" style="max-width: 50px;" *ngIf="editable">&nbsp;</td>
+                <td width="50px" style="max-width: 50px;" *ngIf="editable">&nbsp;</td>
+              </ng-template>
+              <ng-template ngFor let-opc [ngForOf]="opciones">
+                <td width="70px" align="center" style="min-width: 70px;">
+                  <label *ngIf="!elem.calificable">{{opc.nombre}}</label>
+                  <p-radioButton #radiobutton [id]="elem.id + '_' + opc.id" [name]="elem.codigo + elem.nombre"
+                    [value]="opc.id" [label]="" [disabled]="disabled" [(ngModel)]="elem.calificacion?.opcionCalificacion.id"
+                    [pTooltip]="opc.descripcion" tooltipPosition="left" *ngIf="elem.calificable"></p-radioButton>
+                </td>
+              </ng-template>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <app-elemento-inspeccion-node-ctr [value]="elem?.elementoInspeccionList" [opciones]="opciones"
+              [editable]="editable" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
+              [diligenciable]="diligenciable" (onElementoClick)="emitirEventoSelecElemento($event)"
+              [tiposHallazgo]="tiposHallazgo" [tipoLista]="tipoLista"></app-elemento-inspeccion-node-ctr>
+          </tr>
+          <tr *ngIf="conPeso && elem.elementoInspeccionList" style="height: 35px; background-color: #eeeeee; color: #333333; text-align: right;">
+            <td style=" padding-right: 10px; font-size: large;">
+              Porcentaje de cumplimiento {{ porcentajeCumplimiento(elem.elementoInspeccionList) }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </p-panel>
+    <br>
+  </div>
+  <ng-template #tableInspeccion>
+    <div>
+      <table style="border-bottom: 1px; border-bottom-style: ridge; border-bottom-color: #333333 0.5;">
+        <tr *ngIf="elem.tieneEtiqueta">
+          <td [attr.colspan]="opciones?.length + 4">
+            <span>
+              <input type="text" pInputText [(ngModel)]="elem.etiqueta" placeholder="Etiqueta"
+              *ngIf="editable">
+              <em><label *ngIf="!editable">{{elem.etiqueta}}</label></em>
+            </span>
+          </td>
+          <td *ngIf="editable">
+            <button pButton type="button" icon="pi pi-trash" class="p-button-raised p-button-danger"
+            (click)="elem.tieneEtiqueta=false;elem.etiqueta=''"></button>
+          </td>
+        </tr>
+        <tr>
+          <td width="5%" style="text-align: center;">
+            <input pInputText [(ngModel)]="elem.codigo" *ngIf="editable" placeholder="Código" maxlength="20"
+              disabled>
+            <label *ngIf="!editable">{{elem.codigo}}</label>
+          </td>
+          <td width="10%">
+            <input pInputText [(ngModel)]="elem.nombre" *ngIf="editable" placeholder="Nombre"
+              maxlength="255">
+            <label *ngIf="!elem.calificable && !editable">{{elem.nombre}}</label>
+            <label *ngIf="elem.calificable && !editable" [title]="elem.descripcion"
+              (click)="emitirEventoSelecElemento(elem)" class="clickeable">{{elem.nombre}}</label>
+          </td>
+          <td>
+            <input pInputText [(ngModel)]="elem.descripcion" *ngIf="editable" placeholder="Descripción"
+              maxlength="512">
+            <label *ngIf="!editable">{{elem.descripcion}}</label>
+          </td>
+          <td width="10%">
+            <div *ngIf="conPeso; then peso else criticidad"></div>
+            <ng-template #criticidad>
+              <p-dropdown [filter]="true" placeholder="-- Criticidad --" [options]="criticidadList" [(ngModel)]="elem.criticidad" value="label"
+                class="select-material" [disabled]="router.url !== '/app/ctr/elaborarListaCicloCorto'"
+                styleClass="select-material" required>
+              </p-dropdown>
+            </ng-template>
+            <ng-template #peso>
+              <input type="number" pInputText placeholder="-- Peso --" [(ngModel)]="elem.peso" required
+                [disabled]="router.url !== '/app/ctr/elaborarListaCicloCorto'">
+            </ng-template>
+          </td>
+          <td width="50px" *ngIf="editable" style="max-width: 50px;">
+            <button pButton type="button" icon="bi bi-fonts" class="p-button-raised p-button-secondary" (click)="elem.tieneEtiqueta=true"></button>
+          </td>
+          <td width="50px" style="max-width: 50px;" *ngIf="editable">
+            <button pButton type="button" icon="pi pi-plus" class="p-button-raised p-button-success"
+              (click)="addElemento(elem)" *ngIf="editable"></button>
+          </td>
+          <td width="50px" style="max-width: 50px;" *ngIf="editable">
+            <button pButton type="button" icon="pi pi-trash"
+              class="p-button-raised p-button-danger" (click)="removeElemento(value, elem)"
+              *ngIf="editable"></button>
+          </td>
+          <ng-template ngFor let-opc [ngForOf]="opciones">
+            <td width="70px" align="center">
+              <label *ngIf="!elem.calificable">{{opc.nombre}}</label>
+              <p-radioButton #radiobutton [id]="elem.id + '_' + opc.id" [name]="elem.codigo + elem.nombre"
+                [value]="opc.id" [label]="" [disabled]="disabled" [(ngModel)]="elem.calificacion?.opcionCalificacion.id"
+                pTooltip="{{opc.descripcion}}" tooltipPosition="left" *ngIf="elem.calificable"></p-radioButton>
+            </td>
+          </ng-template>
+        </tr>
+
+        <tr *ngIf="elem.elementoInspeccionList">
+          <td [attr.colspan]="opciones?.length + 7">
+            <app-elemento-inspeccion-node-ctr [value]="elem?.elementoInspeccionList" [opciones]="opciones"
+              [editable]="editable" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
+              [diligenciable]="diligenciable" (onElementoClick)="emitirEventoSelecElemento($event)"
+              [tiposHallazgo]="tiposHallazgo" [tipoLista]="tipoLista"></app-elemento-inspeccion-node-ctr>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </ng-template>
+</div>

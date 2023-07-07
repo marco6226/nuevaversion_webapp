@@ -100,7 +100,7 @@
     </div>
 </p-dialog>
 
-<p-dialog [(visible)]="visbleChangePasw" modal="true">    
+<p-dialog [(visible)]="visbleChangePasw" modal="true" (onHide)="onCloseChangePassword()">    
     <p-header>
         Cambiar Contraseña
     </p-header>

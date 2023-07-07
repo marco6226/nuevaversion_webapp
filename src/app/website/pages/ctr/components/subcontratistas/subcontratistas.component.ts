@@ -83,11 +83,8 @@ export class SubcontratistasComponent implements OnInit {
     }else{
       this.displayDialog = false;
       this.fetchSubcontratistasList().then(()=>{
-        this.messageService.add({severity:'success', summary: 'Guardado', detail: 'Se guardó subcontratista'});
+        this.messageService.add({key: 'msgSubcontratista', severity:'success', summary: 'Guardado', detail: 'Se guardó subcontratista'});
       });
-      setTimeout(()=>{
-        this.messageService.clear();
-      }, 4000);
     }
   }
 
@@ -155,11 +152,8 @@ export class SubcontratistasComponent implements OnInit {
       .updateSubcontratista(subc)
       .then(()=>{
         this.fetchSubcontratistasList().then();
-        this.messageService.add({severity:'success', summary: 'Guardado', detail: 'Se guardó su soprte'});
+        this.messageService.add({key: 'msgSubcontratista', severity:'success', summary: 'Guardado', detail: 'Se guardó su soprte'});
       });
-    setTimeout(()=>{
-      this.messageService.clear();
-    }, 4000);
   }
 
   loadDocumentos(){
@@ -196,6 +190,7 @@ export class SubcontratistasComponent implements OnInit {
 
   eliminarDocument(doc: Documento, id: number) {
     this.confirmationService.confirm({
+      key: 'confirmDelete',
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
@@ -226,12 +221,12 @@ export class SubcontratistasComponent implements OnInit {
               .updateSubcontratista(subc)
               .then(()=>{
                 this.fetchSubcontratistasList().then();
-                this.messageService.add({severity:'success', summary: 'Eliminado', detail: 'Se elimino el soprte'});
-                });
-              setTimeout(()=>{
-                this.messageService.clear();
-              }, 4000);         
+                this.messageService.add({key: 'msgSubcontratista',severity:'success', summary: 'Eliminado', detail: 'Se elimino el soprte'});
+                });   
             })
+      },
+      reject: () => {
+        this.confirmationService.close();
       }
   });
   }

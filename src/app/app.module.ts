@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { HttpInt } from './httpInt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/Interceptor/token.interceptor';
+import { AuthGuardService } from './website/pages/core/services/auth-guard.service';
 
 
 // import { HttpAuthInterceptorService } from './website/pages/core/services/http-auth-interceptor.service';
@@ -37,6 +38,7 @@ declare global {
         //     useClass: HttpAuthInterceptorService,
         //     multi: true
         // },
+    AuthGuardService
   ],
   bootstrap: [AppComponent],
   

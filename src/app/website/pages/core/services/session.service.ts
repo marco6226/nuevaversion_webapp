@@ -147,6 +147,18 @@ public getConfigParam(codigo: string) {
 
 }
 
+public isLoggedIn(): boolean{
+  try {
+    if(this.session === null || this.session === undefined){
+      this.session = <Session>JSON.parse(localStorage.getItem(config.session_id) ?? 'null');
+      if(this.session === null) return false;
+    }
+    return this.session.isLoggedIn;
+  } catch (error) {
+    return false;
+  }
+}
+
 public getConfiguracionMap(): any {
   if (this.session == null) {
       this.session = <Session>JSON.parse(localStorage.getItem(config.session_id)!);
