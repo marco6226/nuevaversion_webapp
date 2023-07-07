@@ -240,11 +240,11 @@
                                         <div>
                                             <p-calendar appendTo="body" *ngIf="empresaId==22" required [disabled]="consultar2"
                                                 [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
-                                                [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                [yearRange]="yearRange" [maxDate]="fechaActual"
                                                 dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
                                             <p-calendar appendTo="body" *ngIf="empresaId!=22" [disabled]="consultar2"
                                                 [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
-                                                [yearRange]="yearRange" [maxDate]="fechaActual" [locale]="localeES"
+                                                [yearRange]="yearRange" [maxDate]="fechaActual"
                                                 dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
                                             <!-- <p-calendar [disabled]="consultar2" [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                                 [yearRange]="yearRange" [maxDate]="fechaActual" 
@@ -690,8 +690,8 @@
                                             <div>
                                                 <label for="" class="active">Descripción general del caso</label>
                                             </div>
-                                            <div style="height: 3rem;">
-                                                <textarea [readonly]="consultar2" pInputTextarea
+                                            <div style="max-height: 3rem;">
+                                                <textarea  style="max-height: 3rem;" [readonly]="consultar2" pInputTextarea
                                                     formControlName="descripcionCompletaCaso" rows="5"
                                                     required></textarea>
                                             </div>
@@ -703,8 +703,8 @@
                                                 <label for="" class="active">Descripción del cargo / Funciones
                                                     actuales</label>
                                             </div>
-                                            <div style="height: 3rem;">
-                                                <textarea [readonly]="consultar2" pInputTextarea
+                                            <div style="max-height: 3%;">
+                                                <textarea style="max-height: 3rem;" [readonly]="consultar2" pInputTextarea
                                                     formControlName="descripcionCargo" rows="5" required></textarea>
                                             </div>
                                         </div>
