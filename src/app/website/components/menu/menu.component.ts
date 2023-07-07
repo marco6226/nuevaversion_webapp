@@ -272,7 +272,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'HHT', codigo: 'IND_GET_HHT', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'pi pi-hourglass' },
+                    { label: 'HHT', codigo: 'IND_GET_HHT', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'bi bi-clock' },
                     { label: 'Consulta tableros', codigo: 'IND_GET_TAB', routerLink: ['/app/ind/consultaTablero'], icon: 'pi pi-sitemap'},
                     { label: 'Ausentismo', codigo: 'IND_GET_AUS', routerLink: ['/app/ind/ausentismo'], icon: 'pi pi-sitemap'},
                     { label: 'Talento humano', codigo: 'IND_GET_EMP', routerLink: ['/app/ind/emp'], icon: 'pi pi-sitemap'},

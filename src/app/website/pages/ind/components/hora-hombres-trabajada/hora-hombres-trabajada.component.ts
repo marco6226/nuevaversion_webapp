@@ -166,11 +166,11 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
         this.metaAnualILI = null;
         this.metaMensualILI = null;
         this.esNuevoRegistro = true;
+      } else {  
+        this.listaHHT = res['data'].map((hht:any) => hht);
+        this.loadDataOnForm();
+        this.esNuevoRegistro = false;
       }
-      this.listaHHT = res['data'].map((hht:any) => hht);
-      this.loadDataOnForm();
-
-      this.esNuevoRegistro = false;
     });
   }
 
@@ -269,18 +269,20 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
       }
       
       this.hhtService.create(hht).then(() => {
-        console.info('HHT creado para el mes de: ', `${mes.value} de ${this.anioSelected.value}`);
+        // console.info('HHT creado para el mes de: ', `${mes.value} de ${this.anioSelected.value}`);
+      }).catch((err) => {
+        console.error(`Error al guardar HHT del mes de ${mes.value} de ${hht.anio}`, err);
       });
     });
     setTimeout(() => {
       this.loadDataHHT();
     }, 2000);
-    this.messageService.add({severity: 'success', detail: 'Registro HHT guardado', summary: 'Guardado', life: 6000});
+    this.messageService.add({key: 'hht', severity: 'success', detail: 'Registro HHT guardado', summary: 'Guardado', life: 6000});
     this.esNuevoRegistro = false;
   }
 
   async actualizarHht(){
-    await this.meses.forEach((mes, index) => {
+    await this.meses.forEach(async (mes, index) => {
       let HHT = new Hht();
       let localHHT = this.listaHHT.filter(hht => hht.mes == mes.value)[0];
       HHT.id = localHHT.id;
@@ -293,17 +295,18 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
         Data: this.dataHHT.filter(hht => hht.mes == mes.value)[0]
       })
 
-      if(HHT)
-      this.hhtService.update(HHT).then(() => {
-        console.info(`HHT actualizado para el mes de : ${mes.value} de ${HHT.anio}`);
-      }).catch((err) => {
-        console.error(`Error al actualizar HHT del mes de ${mes.value} de ${HHT.anio}`, err);
-      });
+      if(HHT){
+        await this.hhtService.update(HHT).then(() => {
+          // console.info(`HHT actualizado para el mes de : ${mes.value} de ${HHT.anio}`);
+        }).catch((err) => {
+          console.error(`Error al actualizar HHT del mes de ${mes.value} de ${HHT.anio}`, err);
+        });
+      }
     });
     setTimeout(() => {
       this.loadDataHHT().then();
     }, 2000);
-    this.messageService.add({severity: 'warn', summary: 'Actualizado', detail: 'Registro HHT actualizado', life: 6000});
+    this.messageService.add({key: 'hht', severity: 'success', summary: 'Actualizado', detail: 'Registro HHT actualizado', life: 6000});
   }
 
   calcularTotalesMes(mesIndex: number){
