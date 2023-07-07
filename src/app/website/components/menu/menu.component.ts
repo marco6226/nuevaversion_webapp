@@ -83,24 +83,24 @@ export class MenuComponent implements OnInit, AfterContentInit {
     if(this.empresa?.idEmpresaAliada){
         if(this.isTemporal){
             this.permisosAliados = this.permisosAliados.concat([
-                { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: ['/app/rai/registroReporteTemporal'], icon: 'bi bi-h-square' },
-                { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: ['/app/rai/consultaReportestemporal'], icon: 'bi bi-list-task' },
-                { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'bi bi-clock' },
+                { label: 'Registrar AT Temporal', codigo: 'RAI_POST_REPT', routerLink: ['/app/rai/registroReporteTemporal'], icon: 'bi bi-h-square' },
+                { label: 'Consultar AT Temporal', codigo: 'RAI_GET_REPT', routerLink: ['/app/rai/consultaReportestemporal'], icon: 'bi bi-list-task' },
+                { label: 'HHT Temporal', codigo: 'IND_GET_HHTALIADO', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'bi bi-clock' },
             ]);
         }
         if(this.canSaveReportCtr){
             this.permisosAliados = this.permisosAliados.concat([
-                { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: ['/app/rai/registroReporteCtr'], icon: 'bi bi-h-square' },
-                { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: ['/app/rai/consultarReportesAliados'], icon: 'bi bi-list-task'}
+                { label: 'Registrar AT Aliado', codigo: 'RAI_POST_REPCTR', routerLink: ['/app/rai/registroReporteCtr'], icon: 'bi bi-h-square' },
+                { label: 'Consultar AT Aliado', codigo: 'RAI_GET_REP_ALIADO', routerLink: ['/app/rai/consultarReportesAliados'], icon: 'bi bi-list-task'}
             ]);
         }
     }else{
         this.permisosAliados = this.permisosAliados.concat([
-            { label: 'Registrar reporte T', codigo: 'RAI_POST_REPT', routerLink: ['/app/rai/registroReporteTemporal'], icon: 'bi bi-h-square' },
-            { label: 'Consulta reportes T', codigo: 'RAI_GET_REPT', routerLink: ['/app/rai/consultaReportestemporal'], icon: 'bi bi-list-task' },
-            { label: 'HHT', codigo: 'IND_GET_HHTALIADO', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'bi bi-clock' },
-            { label: 'Registrar reporte', codigo: 'RAI_POST_REPCTR', routerLink: ['/app/rai/registroReporteCtr'], icon: 'bi bi-h-square' },
-            { label: 'Consulta reportes de Aliados', codigo: 'RAI_GET_REP_ALIADO', routerLink: ['/app/rai/consultarReportesAliados'], icon: 'bi bi-list-task'}
+            { label: 'Registrar AT Temporal', codigo: 'RAI_POST_REPT', routerLink: ['/app/rai/registroReporteTemporal'], icon: 'bi bi-h-square' },
+            { label: 'Consultar AT Temporal', codigo: 'RAI_GET_REPT', routerLink: ['/app/rai/consultaReportestemporal'], icon: 'bi bi-list-task' },
+            { label: 'HHT Temporal', codigo: 'IND_GET_HHTALIADO', routerLink: ['/app/ind/horahombrestrabajada'], icon: 'bi bi-clock' },
+            { label: 'Registrar AT Aliado', codigo: 'RAI_POST_REPCTR', routerLink: ['/app/rai/registroReporteCtr'], icon: 'bi bi-h-square' },
+            { label: 'Consultar AT Aliado', codigo: 'RAI_GET_REP_ALIADO', routerLink: ['/app/rai/consultarReportesAliados'], icon: 'bi bi-list-task'}
         ]);
     }
 
