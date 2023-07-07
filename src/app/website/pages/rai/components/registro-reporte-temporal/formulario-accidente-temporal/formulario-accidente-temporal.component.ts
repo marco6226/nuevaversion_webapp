@@ -573,6 +573,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
 
       let reporte = <Reporte>this.form?.value;
       reporte.testigoReporteList = this.testigoReporteList;
+      reporte.istemporal = true;
       this.reporteService.update(reporte).then(
           data => this.onSave.emit(<Reporte>data)
       );
