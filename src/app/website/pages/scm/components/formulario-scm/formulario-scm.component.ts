@@ -850,6 +850,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             division: this.empleadoSelect.area.areaPadre?.nombre,
             'email': [this.empleadoSelect.usuario.email],
         });
+        setTimeout(() => {
+            this.empleadoForm.patchValue({
+                'ciudad': this.empleadoSelect!.ciudad,
+            })
+        }, 2000);
 
         this.empresaForm?.patchValue({
             'nit':this.empleadoSelect.nit,

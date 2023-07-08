@@ -247,6 +247,11 @@ export class EmpleadoFormComponent implements OnInit {
                     businessPartner: this.empleadoSelect.businessPartner,
                     email: [this.empleadoSelect.usuario.email],
                 });
+                setTimeout(() => {
+                    this.form.patchValue({
+                        'ciudad': this.empleadoSelect!.ciudad,
+                    })
+                }, 2000);
             });
         } 
         else {

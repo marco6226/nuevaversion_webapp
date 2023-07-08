@@ -35,7 +35,12 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./formulario-accidente.component.scss']
 })
 export class FormularioAccidenteComponent implements OnInit {
-  @Input('reporte') reporte?: Reporte;
+    reporte?: Reporte;
+  @Input('reporte') 
+  set inreporte(reporte: Reporte){
+    this.reporte=reporte
+    this.cargarDatos()
+  };
   @Input('consultar') consultar?: boolean;
   @Input('modificar') modificar?: boolean;
   @Input('adicionar') adicionar?: boolean;
@@ -93,7 +98,14 @@ export class FormularioAccidenteComponent implements OnInit {
   ngOnInit(): void {
     this.config.setTranslation(this.localeES);
     this.idEmpresa = this.sesionService.getEmpresa()?.id;
-        if(this.reporte)
+        
+
+    this.visibleCamposAccidente = this.reporte?.tipo?.includes('ACCIDENTE');
+    this.cdRef.detectChanges();
+  }
+
+  cargarDatos(){
+    if(this.reporte)
         if(this.reporte.fechaIngresoEmpleado != null && this.reporte.fechaAccidente != null){
             this.fechaIngreso=new Date(this.reporte.fechaIngresoEmpleado)
             this.fechaAccidente=new Date(this.reporte.fechaAccidente)
@@ -201,9 +213,18 @@ export class FormularioAccidenteComponent implements OnInit {
             numeroIdentificacionResponsable: this.reporte?.numeroIdentificacionResponsable,
             cargoResponsable: this.reporte?.cargoResponsable,
             fechaReporte: this.reporte?.fechaReporte == null ? null : new Date(this.reporte.fechaReporte),
+            // ciudadEmpleado2: this.reporte?.ciudadEmpleado
            
         });
 
+
+        setTimeout(() => {
+            this.form?.patchValue({
+                ciudadEmpleado: this.reporte?.ciudadEmpleado,
+                ciudadAccidente: this.reporte?.ciudadAccidente,
+            })
+        }, 2000);
+        
 
         if(this.reporte)
         if (this.reporte.testigoReporteList != null) {
@@ -215,9 +236,6 @@ export class FormularioAccidenteComponent implements OnInit {
             }
             this.testigoReporteList = this.testigoReporteList.slice();
         }
-
-        this.visibleCamposAccidente = this.reporte?.tipo?.includes('ACCIDENTE');
-        this.cdRef.detectChanges();
   }
 
   async infoEmpresa() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms'
 import { SelectItem } from 'primeng/api';
 import { Ciudad } from '../../entities/ciudad';
@@ -27,6 +27,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     _value!: Ciudad | null;
     @Input("_value")
     set value2(_value: Ciudad){
+        console.log(_value)
         this._value=_value
         this.updateUI()
     }
@@ -49,27 +50,35 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     }
 
     // Interface implements
-
-    ngOnInit() {
+    ngAfterViewInit(){
         this.ciudadesItems.push({ label: '--Ciudad--', value: null });
         this.departamentosItems.push({ label: '--Departamento--', value: null });
         this.comunService.findDepartamentoByPais("1").then(
             data => this.loadDepartamentosItems(<Departamento[]>data)
         );
     }
+    ngOnInit() {
+
+    }
 
     writeValue(value: Ciudad) {
         this.value = value;
     }
+    setDisabledState(isDisabled: boolean): void {
+      }
 
     registerOnTouched() { }
 
-
+    memori:any
     get value() {
+        if(this._value != null)
+        this.memori=this._value
+
         return this._value;
     }
 
     set value(val) {
+        // console.log(val)
         this._value = val;
         this.propagateChange(this._value);
         this.updateUI();
@@ -111,11 +120,12 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     }
 
     updateUI() {
-        setTimeout(() => {
+        // console.log(this.value)
+        // setTimeout(() => {
             if (this.value != null) {
                 this.departamentoSelectId = this.value?.departamento?.id!;
                 this.loadCiudades(this.departamentoSelectId);
             } else {} 
-        }, 3000);
+        // }, 3000);
     }
 }
