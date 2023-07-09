@@ -90,10 +90,10 @@
       </a>
       <div class="col-12" *ngFor="let doc of documentoList;let i = index">
         <div class="ui-inputgroup">
-          <button pButton type="button" [icon]="doc.ext == 'jpg' || doc.ext == 'jpeg' || doc.ext == 'png' ? 'fa fa-file-image-o':'fa fa fa-file-o'"
+          <button pButton type="button" [icon]="doc.ext == 'jpg' || doc.ext == 'jpeg' || doc.ext == 'png' ? 'bi bi-file-earmark-arrow-down':'bi bi-download'"
             (click)="downloadFile(doc)" title="Descargar"></button>
           <input type="text" pInputText [(ngModel)]="doc.nombre" />
-          <button pButton type="button" icon="pi pi-times" class="p-button-danger" (click)="removerDoc(doc, i)"></button>
+          <button pButton type="button" icon="bi bi-trash" class="p-button-danger" (click)="removerDoc(doc, i)"></button>
         </div>
 
       </div>
