@@ -83,9 +83,11 @@
         <area-selector [(ngModel)]="area" required></area-selector>
       </div>
     </div>
-    <div class="col-6 grid">
-      <input type="file" #fileChooser (change)="onFileSelect(fileChooser.files)" style="display: none;" />
-      <a (click)="openFileChooser()">Adicionar documento</a>
+    <div class="col-6 grid" icon="bi bi-trash">
+      <input type="file" #fileChooser (change)="onFileSelect(fileChooser.files)"  style="display: none;" />
+      <a (click)="openFileChooser()" class="pointer-cursor">
+        Adicionar documento <i class="pi pi-upload"></i>
+      </a>
       <div class="col-12" *ngFor="let doc of documentoList;let i = index">
         <div class="ui-inputgroup">
           <button pButton type="button" [icon]="doc.ext == 'jpg' || doc.ext == 'jpeg' || doc.ext == 'png' ? 'fa fa-file-image-o':'fa fa fa-file-o'"
