@@ -99,21 +99,33 @@ export class RegistroReportesComponent implements OnInit {
     );
   }
   onSave(reporte: Reporte) {
-   
+   this.msgs=[]
     
     if (this.adicionar) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Reporte realizado',
-        detail: `Se ha registrado el reporte de  ${this.reporteSelect?.tipo} RAI-${reporte}`
-      });
+      this.msgs.push({
+            severity: 'success',
+            summary: 'Reporte realizado',
+            detail: `Se ha registrado el reporte de  ${this.reporteSelect?.tipo} RAI-${reporte}`
+          }
+      )
+      // this.messageService.add({
+      //   severity: 'success',
+      //   summary: 'Reporte realizado',
+      //   detail: `Se ha registrado el reporte de  ${this.reporteSelect?.tipo} RAI-${reporte}`
+      // });
     } else if (this.modificar) {
-      this.messageService.add({
+      this.msgs.push({
         severity: 'success',
         summary: 'Reporte actualizado',
         detail: `Se ha actualizado correctamente el reporte de  ${this.reporteSelect?.tipo} RAI-${reporte.id}`
+      }
+    )
+      // this.messageService.add({
+      //   severity: 'success',
+      //   summary: 'Reporte actualizado',
+      //   detail: `Se ha actualizado correctamente el reporte de  ${this.reporteSelect?.tipo} RAI-${reporte.id}`
         
-      });
+      // });
     }
     this.limpiarCampos();
   }

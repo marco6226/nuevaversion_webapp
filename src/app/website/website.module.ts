@@ -202,6 +202,14 @@ import { FormularioComponent } from './pages/comun/components/formulario/formula
 import { ChipsModule } from 'primeng/chips';
 import { FileSizePipe } from './pages/comun/pipes/file-size.pipe'
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { ElaboracionListaCtrComponent } from './pages/ctr/components/inspecciones-ctr/elaboracion-lista-ctr/elaboracion-lista-ctr.component';
+import { ListaInspeccionFormCtrComponent } from './pages/ctr/components/inspecciones-ctr/lista-inspeccion-form-ctr/lista-inspeccion-form-ctr.component';
+import { ElementoInspeccionNodeCtrComponent } from './pages/ctr/components/inspecciones-ctr/lista-inspeccion-form-ctr/elemento-inspeccion-node-ctr/elemento-inspeccion-node-ctr.component';
+import { ElaboracionInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/elaboracion-inspecciones-ctr/elaboracion-inspecciones-ctr.component';
+import { ListasInspeccionCtrComponent } from './pages/ctr/components/inspecciones-ctr/listas-inspeccion-ctr/listas-inspeccion-ctr.component';
+import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ctr/programacion-ctr/programacion-ctr.component';
+import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
+import { AuthGuardService } from './pages/core/services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -369,7 +377,14 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     FirmaComponent,
     ResetPasswordComponent,
     FormularioComponent,
-    FileSizePipe
+    FileSizePipe,
+    ElaboracionListaCtrComponent,
+    ListaInspeccionFormCtrComponent,
+    ElementoInspeccionNodeCtrComponent,
+    ElaboracionInspeccionesCtrComponent,
+    ListasInspeccionCtrComponent,
+    ProgramacionCtrComponent,
+    ConsultaInspeccionesCtrComponent,
   ],
   imports: [
     MatTooltipModule,
@@ -425,7 +440,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     PerfilService,
     DirectorioService,
     UsuarioService,
-    CapitalizePipe
+    CapitalizePipe,
+    AuthGuardService
   ],
   exports:[
     ConfiguracionGeneralDirective,

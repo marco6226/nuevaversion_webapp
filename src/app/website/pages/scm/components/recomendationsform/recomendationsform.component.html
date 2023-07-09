@@ -39,7 +39,7 @@
                 <div class="col">
                     <div class="input-field">
                         <label for="" class="active">Fecha Inicial</label>
-                        <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [yearNavigator]="true" showButtonBar="true" [touchUI]="true" yearRange="2010:2030"  formControlName="fechaInicio" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
+                        <p-calendar appendTo="body" [disabled]="esConsulta" [monthNavigator]="true" [yearNavigator]="true" showButtonBar="true" [touchUI]="true" yearRange="2010:2030"  formControlName="fechaInicio" dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
                         </p-calendar>
                     </div>
                     <small *ngIf="fechaInicio?.errors?.required && fechaInicio?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
@@ -48,7 +48,7 @@
                 <div class="col">
                     <div class="input-field">
                         <label for="" class="active">Fecha Final</label>
-                        <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [touchUI]="true" showButtonBar="true" [yearNavigator]="true" yearRange="2010:2030" formControlName="fechaExpiracion"  dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
+                        <p-calendar appendTo="body" [disabled]="esConsulta" [monthNavigator]="true" [touchUI]="true" showButtonBar="true" [yearNavigator]="true" yearRange="2010:2030" formControlName="fechaExpiracion"  dateFormat="dd/mm/yy" styleClass="calendar-material" inputStyleClass="form-material">
                         </p-calendar>
                     </div>
                     <small *ngIf="fechaExpiracion?.errors?.required && fechaExpiracion?.touched" id="username2-help" class="p-invalid">Obligatorio</small>

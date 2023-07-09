@@ -1,18 +1,20 @@
-<div class="shadow">
-    <p-panel>
-        <p-header>
-            <div class="center">
-                <div>
+<div class="grid gap-3">
+    <p-panel style="width: 100%;">
+        <p-header style="width: 100%;">
+            <div class="flex justify-content-between flex-wrap">
+                <div class="flex align-items-center justify-content-center">
                     <i class="fa fa-cog" aria-hidden="true"></i>
                     <label class="ui-panel-title">Datos generales</label>
-                </div>                
+                </div>
+                <!-- <div class="flex spacer"></div> -->
                 <button *sTienePermiso="'ADM_POST_USR'" 
-                        class="p-button-raised p-button-primary margin-right" 
+                        class="p-button-raised p-button-primary margin-right flex align-items-center justify-content-center" 
                         pButton type="button" 
                         icon="bi bi-plus" 
                         title="Adicionar nuevo campo de formulario"
                         label="Nuevo" 
-                        (click)="adicionarCampo()"></button>
+                        (click)="adicionarCampo()"
+                        ></button>
             </div>            
             <!-- <a type="button" style="float:right;" (click)="adicionarCampo()" title="Adicionar nuevo campo de formulario">Nuevo</a> -->
         </p-header>

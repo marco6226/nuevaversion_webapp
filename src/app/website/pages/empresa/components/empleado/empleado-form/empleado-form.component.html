@@ -109,7 +109,7 @@
                                     <label>Fecha de nacimiento</label>
                                 </div>
                                 <div>
-                                    <p-calendar [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                                    <p-calendar appendTo="body" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
                                     [maxDate]="fechaActual" dateFormat="dd/mm/yy"
                                     formControlName="fechaNacimiento"></p-calendar>
                                 </div>
@@ -210,7 +210,7 @@
                             <label>Fecha de ingreso</label>
                         </div>
                         <div>
-                            <p-calendar [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
+                            <p-calendar appendTo="body" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange"
                             [maxDate]="fechaActual" dateFormat="dd/mm/yy"
                             formControlName="fechaIngreso" required></p-calendar>
                         </div>
@@ -262,6 +262,16 @@
                         <label for="dirgrencia">Direccion gerencia</label>
                         <input type="text" id="dirgrencia" class="form-control" pInputText formControlName="direccionGerencia"
                             placeholder="Direccion Gerencia" />
+                    </div>
+                </div>
+                <div class="row g-2 mb-3">
+                    <label for="enviacorreo">Enviar correo de creación</label>
+                        
+                    <div class="field-radiobutton">
+                        <p-radioButton  style="margin-right: 10px;" name="enviacorreo" value=true label="Si"  formControlName="enviacorreo" checked required>
+                        </p-radioButton><br>
+                        <p-radioButton name="enviacorreo" value=false label="No" formControlName="enviacorreo">
+                        </p-radioButton>
                     </div>
                 </div>
             </p-panel>

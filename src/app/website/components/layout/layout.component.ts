@@ -15,6 +15,7 @@ import { EmpleadoService } from '../../pages/empresa/services/empleado.service';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
 import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
 import { Router } from '@angular/router';
+import { CambioPasswdService } from '../../pages/comun/services/cambio-passwd.service';
 
 @Component({
 	selector: 'app-layout',
@@ -46,10 +47,18 @@ export class LayoutComponent implements OnInit {
 		private permisoService: PermisoService,
 		private empleadoService: EmpleadoService,
 		private router: Router,
-		private authService: AuthService
+		private authService: AuthService,
+		private changePasswordService: CambioPasswdService
 	) { }
 
 	public async ngOnInit(): Promise<void> {
+
+		this.changePasswordService.getObservable().subscribe(value => {
+			if(!value){
+				this.ngOnInit();
+			}
+		})
+
 		await this.helperService.customMessage.subscribe(
 			msg => {
 				if(msg === 'actualizarPermisos'){

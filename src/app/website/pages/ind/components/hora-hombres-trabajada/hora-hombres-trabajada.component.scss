@@ -19,3 +19,13 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+:host ::ng-deep 
+    .p-toast{
+        margin-top: 50px;
+    }
+
+:host ::ng-deep
+    .p-accordion .p-accordion-tab.p-accordion-tab-active .p-accordion-toggle-icon {
+        transform: none;
+    }

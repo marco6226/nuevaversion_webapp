@@ -629,8 +629,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     async onSubmit() {
         this.flagGuardado=true
+        this.msgs=[]
         if (!this.casoMedicoForm.valid) {
-            this.messageService.add({
+            this.msgs.push({
                 key: 'formScm',
                 severity: "error",
                 summary: "Por favor revise todos los campos obligatorios",
@@ -641,7 +642,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         try {
             let region = this.empleadoForm.get("area")?.value.nombre;
             if (region === 'SELECCIONE UBICACION') {
-                this.messageService.add({
+                this.msgs.push({
                     key: 'formScm',
                     severity: 'error',
                     detail: 'Debe actualizar la ubicación del trabajador involucrado en la pestaña Información General',
@@ -651,7 +652,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             }
             let ciudad = this.empleadoForm.get("ciudad")?.value.nombre;
         } catch (e) {
-            this.messageService.add({
+            this.msgs.push({
                 key: 'formScm',
                 severity: "error",
                 detail: 'Por favor revise los campos ciudad de residencia en la pestaña información general.',
@@ -689,9 +690,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.casoMedicoForm.patchValue({ id: this.caseSelect.id });
             status = await this.scmService.edit(this.casoMedicoForm.value);
         }
-
+        this.msgs=[]
         if (this.adicionar) {
-            this.messageService.add({
+            this.msgs.push({
                 key: 'formScm',
                 severity: "success",
                 summary: "Mensaje del sistema",
@@ -707,7 +708,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
 
         else if (this.actualizar) {
-            this.messageService.add({
+            this.msgs.push({
                 key: 'formScm',
                 severity: 'success',
                 summary: 'Mensaje del sistema',
@@ -849,6 +850,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             division: this.empleadoSelect.area.areaPadre?.nombre,
             'email': [this.empleadoSelect.usuario.email],
         });
+        setTimeout(() => {
+            this.empleadoForm.patchValue({
+                'ciudad': this.empleadoSelect!.ciudad,
+            })
+        }, 2000);
 
         this.empresaForm?.patchValue({
             'nit':this.empleadoSelect.nit,
@@ -895,7 +901,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         empleado.usuario = new Usuario();
         empleado.area.id = this.empleadoForm.value.area.id;
         if (this.empleadoForm.value.area.nombre === 'SELECCIONE UBICACION') {
-            this.messageService.add({
+            this.msgs=[]
+            this.msgs.push({
                 key: 'formScm',
                 severity: 'error',
                 detail: 'Debe seleccionar la ubicación del trabajador involucrado.',
@@ -935,8 +942,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.empleadoService.update(empleado)
             .then(async data => {
                 this.jefeInmediatoName=this.jefeInmediatoName0
-
-                this.messageService.add({
+                this.msgs=[]
+                this.msgs.push({
                     key: 'formScm',
                     severity: "success",
                     summary: "Usuario actualizado",
@@ -971,7 +978,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     async onCloseModalseguimiento() {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientosList = await this.scmService.getSeguimientos(this.caseSelect.id);
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
-        this.idUltimoSeguimiento=this.seguimientos[0].id
+        if(this.seguimientos.length>0)this.idUltimoSeguimiento=this.seguimientos[0].id
 
         this.modalSeguimientos = false;
         this.seguiSelect = null;
@@ -1162,14 +1169,16 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     async confirm(product: any, index: any) {
         if (await this.confirmService.confirm()){
-            this.messageService.add({
+            this.msgs=[]
+            this.msgs.push({
                 key: 'formScm',
                 severity: "info",
                 summary: "Confirmado",
                 detail: "El tratamiento ha sido eliminado" });
             this.onRowDelete(product, index);
         }else {
-            this.messageService.add({
+            this.msgs=[]
+            this.msgs.push({
                 key: 'formScm',
                 severity: "info",
                 summary: "Cancelado",
@@ -1188,7 +1197,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let { id, tarea, responsable, resultado, responsableExterno, ...product } = pseg;
         try {
             let resp = await this.scmService.createSeguimiento(product);
-            this.messageService.add({
+            this.msgs=[]
+            this.msgs.push({
                 key: 'formScm',
                 severity: "success",
                 summary: "Información",
@@ -1206,9 +1216,10 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
 
         try {
+            this.msgs=[]
             if (type == "tratamiento") {
                 let resp = await this.scmService.updateTratamiento(product);
-                this.messageService.add({
+                this.msgs.push({
                     key: 'formScm',
                     severity: "success",
                     summary: "Información",
@@ -1217,7 +1228,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 return this.fechaTrat()
             }
             let resp = await this.scmService.updateSeguimiento(product);
-            this.messageService.add({
+            this.msgs.push({
                 key: 'formScm',
                 severity: "success",
                 summary: "Seguimiento",
@@ -1231,12 +1242,14 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     async deleteDiagnostico(id: any) {
         try {
+            this.msgs=[]
             await this.validarPCL()
             if (!this.itemInPCL) {
                 if (await this.confirmService.confirmDiagnostico()) {
                     let resp = await this.scmService.deleteDiagnosticos(id);
                     if (resp) {
-                        this.messageService.add({
+                        
+                        this.msgs.push({
                             key: 'formScm',
                             severity: "error",
                             summary: "Diagnostico",
@@ -1246,7 +1259,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                     }
                 }
                 else {
-                    this.messageService.add({
+                    this.msgs.push({
                         severity: "info",
                         summary: "Cancelado",
                         detail: "usted cancelo la eliminación"
@@ -1254,7 +1267,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 }
             }
             else {
-                this.messageService.add({
+                this.msgs.push({
                     key: 'formScm',
                     severity: "info",
                     summary: "Cancelado",
@@ -1268,10 +1281,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     async deleteRecomendation(id: any) {
         try {
+            this.msgs=[]
             if (await this.confirmService.confirmRecomendacion()) {
                 let resp = await this.scmService.deleteRecomendation(id);
                 if (resp) {
-                    this.messageService.add({
+                    
+                    this.msgs.push({
                         key: 'formScm',
                         severity: "error",
                         summary: "Mensaje del sistema",
@@ -1281,7 +1296,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 }
             }
             else {
-                this.messageService.add({
+                this.msgs.push({
                     key: 'formScm',
                     severity: "info",
                     summary: "Cancelado",
@@ -1296,10 +1311,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     async deleteSeguimiento(id: any) {
         try {
+            this.msgs=[]
             if (await this.confirmService.confirmSeguimiento()) {
                 let resp = await this.scmService.deleteSeguimiento(id);
                 if (resp) {
-                    this.messageService.add({
+                    this.msgs.push({
                         key: 'formScm',
                         severity: "error",
                         summary: "Mensaje del sistema",
@@ -1309,7 +1325,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 }
             }
             else {
-                this.messageService.add({
+                this.msgs.push({
                     key: 'formScm',
                     severity: "info",
                     summary: "Cancelado",
@@ -1322,11 +1338,12 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async deleteSeguimientogenerico(id: number) {
+        this.msgs=[]
         try {
             if (await this.confirmService.confirmSeguimiento()) {
                 let resp = await this.scmService.deleteSeguimiento(id);
                 if (resp) {
-                    this.messageService.add({
+                    this.msgs.push({
                         severity: "error",
                         summary: "Mensaje del sistema",
                         detail: `Su seguimiento se eliminó exitosamente`,
@@ -1335,7 +1352,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 }
             }
             else {
-                this.messageService.add({ severity: "info", summary: "Cancelado", detail: "usted cancelo la eliminación" });
+                this.msgs.push({ severity: "info", summary: "Cancelado", detail: "usted cancelo la eliminación" });
             }
         } catch (error) {
         }
@@ -1411,7 +1428,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 }
                   return 0;
                 });
-            this.idUltimoSeguimiento=this.seguimientos[0].id
+                if(this.seguimientos.length>0)this.idUltimoSeguimiento=this.seguimientos[0].id
 
         } catch (error) {
             console.error(error);
@@ -1442,7 +1459,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
     async fechaSeg() {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_SEG"])this.seguimientos = await this.scmService.getSeguimientos(this.caseSelect.id);
-        this.idUltimoSeguimiento=this.seguimientos[0].id
+        if(this.seguimientos.length>0)this.idUltimoSeguimiento=this.seguimientos[0].id
         this.seguimientos.map((seg, idx) => {
             if (seg.fechaSeg) {
                 this.seguimientos[idx].fechaSeg = moment(seg.fechaSeg).toDate()
@@ -1497,6 +1514,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     cambiarEstado(event?: any) {
+        this.msgs=[]
         if (event && event == 'cerrar') {
             if ((this.casoMedicoForm.controls["fechaFinal"].value != null && this.casoMedicoForm.controls["fechaFinal"].value != '')
                 && (this.casoMedicoForm.controls["observaciones"].value != null && this.casoMedicoForm.controls["observaciones"].value != '')) {
@@ -1507,7 +1525,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                         this.scmService.edit(this.casoMedicoForm.value).then(() => {
                             this.scmService.changeEstadoById(this.caseSelect.id)
                                 .then(res => {
-                                    this.messageService.add({
+                                    this.msgs=[]
+                                    this.msgs.push({
                                         severity: "success",
                                         summary: "Guardado",
                                         detail: `El estado del caso se ha actualizado exitosamente.`,
@@ -1518,7 +1537,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                                     }, 3000);
                                 })
                                 .catch(err => {
-                                    this.messageService.add({
+                                    this.msgs=[]
+                                    this.msgs.push({
                                         severity: "error",
                                         summary: "Error",
                                         detail: "Error al cambiar estado del caso.",
@@ -1528,7 +1548,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                     }
                 });
             } else {
-                this.messageService.add({
+                this.msgs.push({
                     severity: "error",
                     summary: "Error",
                     detail: "Debe completar la información: Fecha de cierre y Observaciones del cierre"
@@ -1541,7 +1561,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 accept: () => {
                     this.scmService.changeEstadoById(this.caseSelect.id)
                         .then(res => {
-                            this.messageService.add({
+                            this.msgs=[]
+                            this.msgs.push({
                                 severity: "success",
                                 summary: "Guardado",
                                 detail: `El estado del caso se ha actualizado exitosamente.`,
@@ -1552,7 +1573,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                             }, 3000);
                         })
                         .catch(err => {
-                            this.messageService.add({
+                            this.msgs=[]
+                            this.msgs.push({
                                 severity: "error",
                                 summary: "Error",
                                 detail: "Error al cambiar estado del caso.",

@@ -147,7 +147,7 @@
     </p-table>
 </div>
 
-<p-dialog header="Anexo 5" [(visible)]="dialogAnexo5" [style]="{width: '75vw'}" [modal]="true" [draggable]="true" [resizable]="false">
+<p-dialog header="Anexo 5" [(visible)]="dialogAnexo5" [style]="{width: '75vw'}" [modal]="true" [draggable]="true" [resizable]="false" appendTo="body">
     <form [formGroup]="anexo5Form">
         <div class="grid" >
             <div class="col-12">
@@ -208,7 +208,7 @@
     </p-footer>
 </p-dialog>
 
-<p-dialog header="Anexo 1" [(visible)]="dialogAnexo1" [style]="{width: '75vw'}" [modal]="true" [draggable]="true" [resizable]="false">
+<p-dialog header="Anexo 1" [(visible)]="dialogAnexo1" [style]="{width: '75vw'}" [modal]="true" [draggable]="true" [resizable]="false" appendTo="body">
     <form [formGroup]="anexo1Form">
         <div class="grid" >
             <div class="col-12">

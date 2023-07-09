@@ -6,7 +6,7 @@
         <p-dropdown [options]="departamentosItems" 
         [readonly]="disabled" 
         [filter]="true" 
-        styleClass="select-material {{inputStyle}}"   
+ 
         (onChange)="onDepartamentoChange($event)" 
         [(ngModel)]="departamentoSelectId">
         </p-dropdown>
@@ -15,7 +15,7 @@
         <p-dropdown [options]="ciudadesItems" 
         [readonly]="disabled" 
         [filter]="true" 
-        styleClass="select-material {{inputStyle}}" 
+
         [(ngModel)]="value">
         </p-dropdown>
     </div>

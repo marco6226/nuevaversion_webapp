@@ -1,0 +1,8 @@
+.p-scrollpanel.custombar1 .p-scrollpanel-bar{
+    height: 30%;
+    top: calc(0% - 9px);
+    right: 1em;
+    background-color: var(--primary-color);
+    opacity: 1;
+    transition: background-color .2s;
+}

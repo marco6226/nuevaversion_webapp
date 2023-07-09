@@ -1,4 +1,5 @@
-<p-messages [(value)]="growlMsgs" [closable]="true"></p-messages>
+<!-- <p-messages [(value)]="growlMsgs" [closable]="true"></p-messages> -->
+<p-confirmDialog key="docoutscm"></p-confirmDialog>
 <s-dataNotFound style="margin: auto;" *ngIf="(!directorioList || directorioList.length <= 0)  && !esConsulta" icon="pi pi-file" message="Aún no se cuenta con registros de carpetas o archivos adicionados">
     <div>
         Adiciona un nuevo:
@@ -8,7 +9,7 @@
 </s-dataNotFound>
 
 <p-panel >
-    <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+    <!-- <p-messages [(value)]="msgs1" [closable]="false"></p-messages> -->
     <p-header>
         <div class="ui-inputgroup" >
             <span class="ui-inputgroup-addon">
@@ -59,7 +60,11 @@
                         <td>
                             <div pDroppable="dd" (onDrop)="drop($event, rowNode)">
                                 <div pDraggable="dd" (onDragStart)="dragStart($event, rowNode)">
-                                    <p-treeTableToggler [rowNode]="rowNode" [class.tree-table-toggler-invisible]="data.esDocumento"></p-treeTableToggler>
+                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="!data.esDocumento; else noToggler"></p-treeTableToggler>
+                                    <ng-template #noToggler>
+                                        <button style="background-color: rgba(0, 0, 0, 0.0); width: 2rem; height: 0px; border-width: 0; border-color: #fff; margin-left: 10px;"></button>
+                                    </ng-template>
+                                    <ng-template #noTree style="width: 2rem; height: 2rem; visibility: visible; margin-left: 15px;">&nbsp;</ng-template>
                                     <span [class]="data.extension?.icono" [style.color]="data.extension?.color"></span>
                                     {{ data?.nombre }}
                                 </div>
@@ -79,13 +84,11 @@
         <div class="col-12 md:col-6 lg:col-5 transicion" [class.panel-oculto]="nodeSelect == null" [class.panel-visible]="nodeSelect != null">
             <div class="header-detail separator">
                 <div class="ui-inputgroup">
-                    <span class="ui-inputgroup-addon" style="background-color: #fff">
+                    <span class="ui-inputgroup-addon" style="background-color: #fff; margin-right: 10px;">
                         <i [class]="nodeSelect?.data.extension.icono"></i>
                     </span>
                     <input style="width: 95%;" pInputText maxlength="100" [(ngModel)]="nodeSelect?.data.nombre" />
-                    <span class="ui-inputgroup-addon check-span" title="Actualizar" (click)="actualizarDirectorio(nodeSelect!)">
-                        <i class="pi pi-check"></i>
-                    </span>
+                    <button pButton class="ui-inputgroup-addon check-span p-button-sm" title="Actualizar" icon="pi pi-check" (click)="actualizarDirectorio(nodeSelect!)"></button>
                 </div>
                 <br>
                 <ng-container *ngIf="esPrivado==true">
@@ -105,10 +108,7 @@
             <p>
                 <label style="padding-right: 20px;width: 50%;">Tipo: {{ nodeSelect?.data.extension.nombre }} ­­­ </label>
 
-                <a (click)="descargar(nodeSelect?.data)" style="float: right" *ngIf="nodeSelect?.data.esDocumento">
-                    <span class="pi pi-download" style="font-size: 14px"></span>
-                    Descargar
-                </a>
+                <button pButton (click)="descargar(nodeSelect?.data)" style="float: right" class="p-button-text" *ngIf="nodeSelect?.data.esDocumento" icon="pi pi-download" label="Descargar"></button>
             </p>
             <!-- <ng-container *ngIf="nodeSelect?.data.esDocumento">
                 <s-documento-form [documento]="nodeSelect?.data.documento"></s-documento-form>
