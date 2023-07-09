@@ -32,6 +32,7 @@ export class EmpleadoFormComponent implements OnInit {
     @Output() onEmpleadoUpdate = new EventEmitter();
     @Output() onCancel = new EventEmitter();
     empleadoSelect?: Empleado;
+    dropdownStyleClass: string = 'custom-dropdown';
     @Input('empleadoSelect') 
     set empleadoSelectInput(empleadoInput: Empleado){
         this.empresaForm.reset()
