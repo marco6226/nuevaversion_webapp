@@ -1,4 +1,5 @@
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
 
 <p-panel header="Actas COPASST">
 
@@ -39,7 +40,12 @@
     <ng-template pTemplate="body" let-act let-ind="rowIndex">
       <tr>
         <td *sTienePermiso="'COP_DELETE_ACT'">
-          <button pButton type="button" icon="fa fa-close" class="soft-icon" (click)="eliminarActa(act, ind)"></button>
+          <button
+            pButton type="button" 
+            icon="bi bi-trash"
+            class="p-button-raised p-button-danger margin-right margin-left"
+            (click)="eliminarActa(act, ind)"></button>
+          <!-- <button pButton type="button" icon="fa fa-close" class="soft-icon" (click)="eliminarActa(act, ind)"></button> -->
         </td>
         <td>{{act.fechaElaboracion | date: 'dd/MM/yyyy HH:mm'}}</td>
         <td>{{act.nombre}}</td>
