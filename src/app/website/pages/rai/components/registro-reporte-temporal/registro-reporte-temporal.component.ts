@@ -109,7 +109,7 @@ export class RegistroReporteTemporalComponent implements OnInit {
         
       });
     }
-    this.limpiarCampos();
+    // this.limpiarCampos();
   }
   
   /**
