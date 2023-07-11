@@ -85,9 +85,9 @@ export class EmpleadoComponent implements OnInit {
             this.visibleForm = true;
         } else {
             this.msgs=[]
-            this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            // this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
 
-            // this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar", key:'empleado' });
         }
     }
 
@@ -99,8 +99,8 @@ export class EmpleadoComponent implements OnInit {
             this.visibleForm = true;
         } else {
             this.msgs=[]
-            this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
-            // this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            // this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar" });
+            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para modificar", key:'empleado' });
         }
     }
 
@@ -124,9 +124,9 @@ export class EmpleadoComponent implements OnInit {
             });
         } else {
             this.msgs=[]
-            this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
+            // this.msgs.push({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
 
-            // this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo" });
+            this.messageService.add({severity: 'warn', summary: "Debe seleccionar un empleado", detail: "Debe seleccionar un empleado para eliminarlo", key:'empleado' });
         }
     }
 
@@ -134,8 +134,8 @@ export class EmpleadoComponent implements OnInit {
         this.empleadoService.delete(this.empleadoSelect!.id!)
             .then(data => {
                 this.msgs=[]
-                // this.messageService.add({
-                this.msgs.push({
+                this.messageService.add({
+                // this.msgs.push({
                     key: 'empleado',
                     severity: 'success',
                     summary: "Empleado eliminado",
@@ -157,15 +157,15 @@ export class EmpleadoComponent implements OnInit {
             }
         }
         this.msgs=[]
-        this.msgs.push({severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion });
-        this.messageService.add({severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion });
+        // this.msgs.push({severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion });
+        this.messageService.add({severity: 'success', summary: 'Empleado actualizado', detail: 'Se ha actualizado el empleado ' + empleado.numeroIdentificacion, key:'empleado' });
     }
 
     manageCreateResponse(empleado: Empleado) {
         this.empleadosList.push(empleado);
         this.msgs=[]
-        this.msgs.push({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion });
-        this.messageService.add({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion });
+        // this.msgs.push({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion, key:'empleado' });
+        this.messageService.add({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion, key:'empleado' });
     }
 
 }

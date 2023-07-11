@@ -680,106 +680,89 @@
                         </div>
                         <!-- div -->
                         <p-panel header="Información del caso">
-                            <div *sTienePermiso="'SCM_GET_CASE_INFO'">
+                            <div *sTienePermiso="'SCM_GET_CASE_INFO'" >
                                 <!-- <div class="row ">
                                     <h5 class="title-header">Información del caso</h5>
                                 </div> -->
+                                <div class="grid">
+                                    <div class="col-6">
+                                        <div>
+                                            <label for="" class="active">Descripción general del caso</label>
+                                        </div>
+                                        <div style="height: 3%;">
+                                            <textarea  style="height: 3rem;" [readonly]="consultar2" pInputTextarea
+                                                formControlName="descripcionCompletaCaso" rows="5"
+                                                required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div>
+                                            <label for="" class="active">Descripción del cargo / Funciones
+                                                actuales</label>
+                                        </div>
+                                        <div style="height: 3%;">
+                                            <textarea style="height: 3rem;" [readonly]="consultar2" pInputTextarea
+                                                formControlName="descripcionCargo" rows="5" required></textarea>
+                                        </div>
+                                    </div>
 
-                                <div class="row ">
-                                    <div class="col">
+                                    <div class="col-3">
                                         <div>
-                                            <div>
-                                                <label for="" class="active">Descripción general del caso</label>
-                                            </div>
-                                            <div style="max-height: 3rem;">
-                                                <textarea  style="max-height: 3rem;" [readonly]="consultar2" pInputTextarea
-                                                    formControlName="descripcionCompletaCaso" rows="5"
-                                                    required></textarea>
-                                            </div>
+                                            <label for="" class="active">Caso de mesa laboral</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2"
+                                                [options]="caseOptionList" formControlName="casoMedicoLaboral"
+                                                class="select-material" styleClass="select-material">
+                                            </p-dropdown>
+                                            <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2"
+                                                [options]="caseOptionList" formControlName="casoMedicoLaboral"
+                                                class="select-material" styleClass="select-material">
+                                            </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col">
-                                        <div>
-                                            <div>
-                                                <label for="" class="active">Descripción del cargo / Funciones
-                                                    actuales</label>
-                                            </div>
-                                            <div style="max-height: 3%;">
-                                                <textarea style="max-height: 3rem;" [readonly]="consultar2" pInputTextarea
-                                                    formControlName="descripcionCargo" rows="5" required></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="col">
-                                        <div>
-                                            <div>
-                                                <label for="" class="active">Caso de mesa laboral</label>
-                                            </div>
-                                            <div>
-                                                <!-- <p-dropdown [readonly]="consultar2" [options]="caseOptionList" formControlName="casoMedicoLaboral"
-                                                    style="width: 100%;">
-                                                </p-dropdown> -->
-                                                <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2"
-                                                    [options]="caseOptionList" formControlName="casoMedicoLaboral"
-                                                    class="select-material" styleClass="select-material">
-                                                </p-dropdown>
-                                                <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2"
-                                                    [options]="caseOptionList" formControlName="casoMedicoLaboral"
-                                                    class="select-material" styleClass="select-material">
-                                                </p-dropdown>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div>
-                                            <div>
-                                                <label for="" class="active">Prioridad</label>
-                                            </div>
-                                            <div>
-                                                <!-- <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
-                                                    style="width: 100%;">
-                                                </p-dropdown> -->
-                                                <p-dropdown *ngIf="empresaId=='22' || empresaId =='8'" required [readonly]="consultar2"
-                                                    [options]="prioridadOptionList" formControlName="prioridadCaso"
-                                                    class="select-material" styleClass="select-material">
-                                                </p-dropdown>
-                                                <p-dropdown *ngIf="empresaId!='22' && empresaId!='8'" [readonly]="consultar2"
-                                                    [options]="prioridadOptionList" formControlName="prioridadCaso"
-                                                    class="select-material" styleClass="select-material">
-                                                </p-dropdown>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div>
-                                            <div>
-                                                <label for="" class="active">Tipo de caso</label>
-                                            </div>
-                                            <div>
-                                                <!-- <p-dropdown [readonly]="consultar2" [options]="tipoOptionList" formControlName="tipoCaso"
-                                                    style="width: 100%;">
-                                                </p-dropdown> -->
-                                                <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2"
-                                                    [options]="tipoOptionList" formControlName="tipoCaso"
-                                                    class="select-material" styleClass="select-material">
-                                                </p-dropdown>
-                                                <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2"
-                                                    [options]="tipoOptionList" formControlName="tipoCaso"
-                                                    class="select-material" styleClass="select-material">
-                                                </p-dropdown>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6"></div>
-                                </div>
 
-                                <div class="row ">
-                                    <h5 class="title-header mb-2">Intervención complementaria</h5>
-                                </div>
-                                <div class="row ">
-                                    <div class="col">
+                                    <div class="col-3">
+                                        <div>
+                                            <label for="" class="active">Prioridad</label>
+                                        </div>
+                                        <div>
+                                            <!-- <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                                style="width: 100%;">
+                                            </p-dropdown> -->
+                                            <p-dropdown *ngIf="empresaId=='22' || empresaId =='8'" required [readonly]="consultar2"
+                                                [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                                class="select-material" styleClass="select-material">
+                                            </p-dropdown>
+                                            <p-dropdown *ngIf="empresaId!='22' && empresaId!='8'" [readonly]="consultar2"
+                                                [options]="prioridadOptionList" formControlName="prioridadCaso"
+                                                class="select-material" styleClass="select-material">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div>
+                                            <label for="" class="active">Tipo de caso</label>
+                                        </div>
+                                        <div>
+
+                                            <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2"
+                                                [options]="tipoOptionList" formControlName="tipoCaso"
+                                                class="select-material" styleClass="select-material">
+                                            </p-dropdown>
+                                            <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2"
+                                                [options]="tipoOptionList" formControlName="tipoCaso"
+                                                class="select-material" styleClass="select-material">
+                                            </p-dropdown>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <h5 class="title-header mb-2">Intervención complementaria</h5>
+                                    </div>
+
+                                    <div class="col-6 lg:col-3">
                                         <div>
                                             <label for="" class="active">Requiere intervención complementaria</label>
                                         </div>
@@ -790,33 +773,29 @@
                                             </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col" *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
+                                    <div class="col-6 lg:col-3" *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
                                         <div>
-                                            <div>
-                                                <label for="" class="active">SVE</label>
-                                            </div>
-                                            <div>
-                                                <p-dropdown [readonly]="consultar2" [options]="sveOptionList"
-                                                    formControlName="sve" class="select-material"
-                                                    styleClass="select-material">
-                                                </p-dropdown>
-                                            </div>
+                                            <label for="" class="active">SVE</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown [readonly]="consultar2" [options]="sveOptionList"
+                                                formControlName="sve" class="select-material"
+                                                styleClass="select-material">
+                                            </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col" *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
+                                    <div class="col-6 lg:col-3" *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
                                         <div>
-                                            <div>
-                                                <label for="" class="active">Área profesional</label>
-                                            </div>
-                                            <div>
-                                                <p-dropdown [readonly]="consultar2" [options]="professionalAreaList"
-                                                    formControlName="professionalArea" class="select-material"
-                                                    styleClass="select-material">
-                                                </p-dropdown>
-                                            </div>
+                                            <label for="" class="active">Área profesional</label>
+                                        </div>
+                                        <div>
+                                            <p-dropdown [readonly]="consultar2" [options]="professionalAreaList"
+                                                formControlName="professionalArea" class="select-material"
+                                                styleClass="select-material">
+                                            </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-6 lg:col-3">
                                         <div>
                                             <label for="" class="active">Justificación</label>
                                         </div>
