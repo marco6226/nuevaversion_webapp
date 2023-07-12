@@ -31,3 +31,8 @@ table{
   full-calendar{
     height: 70vh;
   }
+
+:host ::ng-deep 
+  .fc .fc-daygrid-day-frame {
+    cursor: pointer;
+  }

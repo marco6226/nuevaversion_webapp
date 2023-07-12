@@ -338,3 +338,7 @@ div{
 label{
   font-size: large;
 }
+
+:host ::ng-deep .p-calendar {
+  width: none !important;
+}

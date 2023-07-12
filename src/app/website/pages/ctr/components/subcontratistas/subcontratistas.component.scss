@@ -75,3 +75,8 @@
 .material-label {
     color: #9e9e9e;
 }
+
+:host ::ng-deep 
+    .p-toast{
+        margin-top: 50px;
+    }

@@ -398,6 +398,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
         
         filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
         filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "hashId", value1: 'RAI-'+this.reporte?.id?.toString() });
+        // console.log(this.reporte);
         await this.desviacionService.getDesviacionTemporal(this.reporte?.id).then(async (resp:any) => {
           this.desviacionesList = resp;
           this.analisisId = this.desviacionesList[0].analisisId!;
@@ -573,6 +574,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
 
       let reporte = <Reporte>this.form?.value;
       reporte.testigoReporteList = this.testigoReporteList;
+      reporte.istemporal = true;
       this.reporteService.update(reporte).then(
           data => this.onSave.emit(<Reporte>data)
       );

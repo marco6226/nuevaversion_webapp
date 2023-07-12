@@ -4,10 +4,9 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse,
   HttpHeaders
 } from '@angular/common/http';
-import { Observable, switchMap, tap, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, tap, throwError } from 'rxjs';
 import { AuthService } from 'src/app/website/pages/core/services/auth.service';
 import { Router } from '@angular/router';
 import { CambioPasswdService } from 'src/app/website/pages/comun/services/cambio-passwd.service';
@@ -28,24 +27,49 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // debugger
-    return next
-    .handle(request)
-    .pipe(
-      tap({
-        next: () => null,
-        error: async (err: HttpErrorResponse) =>{
-          if ([401].includes(err.status)){
-            await this.authService.logout();
-            this.router.navigate(['/login']); 
-          }
+    return next.handle(request).pipe(
+      // tap({
+      //   next: () => null,
+      //   error: async (err: HttpErrorResponse) => {
+      //     let tokenError: any[] = [
+
+      //     ] 
+      //     if ([401].includes(err.status) && err.error.codigo !== 2_001){
+      //       await this.authService.logout();
+      //       this.router.navigate(['/login']); 
+      //     } else {
+      //       this.getObservable(err.error, err, request, next);
+      //     }
+      //   }
+      // })
+      catchError(error => {
+        let msg: MensajeUsuario;
+        if(request.params !== null && request.responseType === 'blob'){
+          // Si el tipo de respuesta es blob, se retorna un obsevable directamente
+          return new Observable<HttpEvent<any>>(observer => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              try {
+                msg = JSON.parse(<string>reader.result);
+              } catch (error) {
+                msg = {tipoMensaje: 'error', mensaje: 'Error inesperado', detalle: <string>reader.result};
+              }
+              observer.next();
+              observer.complete();
+            };
+            reader.readAsText(error.error);
+          }).pipe( // Se reemplaza switchMap por pipe para encadenar los operadores de forma más legible  
+            switchMap(resp => this.getObservable(msg, error, request, next))
+          )
+        } else {
+          msg = error.error;
+          return this.getObservable(msg, error, request, next);
         }
       })
     )
   }
 
   getObservable(msg: MensajeUsuario, error: any, req: HttpRequest<any>, next: { handle: (arg0: HttpRequest<any>) => any; }): Observable<HttpEvent<any>> {
-debugger
-
     switch (msg.codigo) {
         case 1_001:
             this.authService.logout();               
@@ -83,7 +107,6 @@ debugger
             //     detalle: 'Su contraseña ha expirado, por favor realice el cambio',
             //     tipoMensaje: 'warn'
             // });
-            debugger
             this.cambioPasswdService.setVisible(true);
             return <Observable<HttpEvent<any>>>this.cambioPasswdService.getSubmitObservable().pipe(
                 switchMap(res => {
@@ -91,7 +114,7 @@ debugger
                     const authReqRepeat = req.clone();
                     return next.handle(authReqRepeat);
                 })
-            );;
+            );
         default:
             return throwError(error);
     }

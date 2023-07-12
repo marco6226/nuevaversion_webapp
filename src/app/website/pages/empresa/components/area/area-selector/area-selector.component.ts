@@ -259,5 +259,36 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
       event.node.expanded = true;
     }
   }
+
+  buscarUbicacion(event: any) {
+    this.sugerenciasList = [];
+    this.busquedaRecursiva(event.query, this.areasNodes);
+    this.busquedaRecursiva(event.query, this.sedesNodes);
+  }
+
+  busquedaRecursiva(cadena: string, arrayVar: TreeNode[]) {
+    for (let i = 0; i < arrayVar.length; i++) {
+      let nodo = arrayVar[i];
+      if (nodo.children!.length > 0) {
+        this.busquedaRecursiva(cadena, nodo.children!);
+      }
+      if (nodo.label!.toLowerCase().indexOf(cadena.toLowerCase()) >= 0) {
+        this.sugerenciasList.push(nodo);
+      }
+    }
+  }
+
+  async onSelection(event: any) {
+    let area = new Area();
+    area.id = event.id;
+    area.nombre = event.label;
+    area.descripcion = event.descripcion;
+    this.value = area;
+    this.onAreaSelect.emit(area);
+
+    if(this.empresaId=='22'){
+    await this.padreArea(area.id)
+    this.onDivision.emit(this.division)
+    }}
 }
 

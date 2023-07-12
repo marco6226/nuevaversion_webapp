@@ -1,5 +1,5 @@
 <!-- <p-toast></p-toast> -->
-<p-dialog header="Subir archivo" [visible]="visibleDlg" (visibleChange)="onVisibleChange($event)" modal="true">
+<p-dialog header="Subir archivo" [visible]="visibleDlg" (visibleChange)="onVisibleChange($event)" modal="true" appendTo="body">
     <p-fileUpload
         name="file"
         maxFileSize="20000000"

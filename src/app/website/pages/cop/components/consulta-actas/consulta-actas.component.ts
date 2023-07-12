@@ -159,6 +159,7 @@ export class ConsultaActasComponent implements OnInit {
   }
 
   eliminarActa(acta: Acta, index: number) {
+    console.log(acta, index)
       this.confirmationService.confirm({
           header: 'Confirmar acción',
           message: 'El acta ' + acta.nombre + ' será eliminada, no podrá deshacer esta acción, ¿Desea continuar?',
