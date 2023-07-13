@@ -85,7 +85,7 @@
     </div>
     <div class="col-6 grid" icon="bi bi-trash">
       <input type="file" #fileChooser (change)="onFileSelect(fileChooser.files)"  style="display: none;" />
-      <a (click)="openFileChooser()" class="pointer-cursor">
+      <a (click)="openFileChooser()" type="button" style="height: 10px">
         Adicionar documento <i class="pi pi-upload"></i>
       </a>
       <div class="col-12" *ngFor="let doc of documentoList;let i = index">
