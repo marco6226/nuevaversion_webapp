@@ -13,4 +13,6 @@ export interface viewscm{
     tipo_retorno: string;
     usuarioCreador: string;
     empresaId: number;
+    recomendaciones:number;
+    planAccion:number;
 }
