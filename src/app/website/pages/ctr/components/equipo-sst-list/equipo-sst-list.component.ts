@@ -1,5 +1,5 @@
 import { SST } from './../../entities/aliados';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EquipoSST, ResponsableSST } from '../../entities/aliados';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
@@ -14,6 +14,7 @@ export class EquipoSstListComponent implements OnInit {
  
   @Input() alidadoId: number = -1;
   @Input() flagConsult: boolean = false;
+  @Output() onTeamChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   visibleDlgResponsable: boolean = false;
   visibleDlg: boolean = false;
   equipoList: EquipoSST[] = [];
@@ -44,6 +45,18 @@ export class EquipoSstListComponent implements OnInit {
 
   ngOnInit(): void {
     this.onLoad()
+  }
+
+  emitChanges(){
+    try {
+      if(this.responsableList.length > 0 && this.equipoList.length > 0){
+        this.onTeamChange.emit(true);
+      }else{
+        this.onTeamChange.emit(false);
+      }
+    } catch (error) {
+      this.onTeamChange.emit(false);
+    }
   }
 
   crearMiembros(){
@@ -114,6 +127,7 @@ export class EquipoSstListComponent implements OnInit {
             }else{
               this.messageservice.add({severity:'error', summary:'Error', detail:'Ocurrió un error al intentar eliminar'});
             }
+            this.emitChanges();
           });            
         },
         reject: () => {},
@@ -193,7 +207,7 @@ export class EquipoSstListComponent implements OnInit {
             
       });
       
-      
+      this.emitChanges();
     })
   }
 

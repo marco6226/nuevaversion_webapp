@@ -43,7 +43,7 @@
           ></app-informacion-general>
       </p-tabPanel>
       <p-tabPanel header="Equipo SST" headerStyleClass="header-aliado"> 
-        <app-equipo-sst-list [flagConsult]="flagConsult" [alidadoId]="id"></app-equipo-sst-list>
+        <app-equipo-sst-list [flagConsult]="flagConsult" [alidadoId]="id" (onTeamChange)="onTeamSstChange($event)"></app-equipo-sst-list>
       </p-tabPanel>
       <p-tabPanel header="Cargue de Documentos" headerStyleClass="header-aliado">  
         <app-cargue-documentos [flagConsult]="flagConsult"
