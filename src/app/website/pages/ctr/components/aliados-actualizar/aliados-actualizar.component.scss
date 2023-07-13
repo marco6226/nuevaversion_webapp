@@ -2,3 +2,13 @@
     .p-toast{
         margin-top: 50px;
     }
+
+:host ::ng-deep .header-aliado > a {
+    background: rgba(#fd9b14, 0.8) !important;
+    color: rgba(#000000, 0.9);
+}
+
+:host ::ng-deep .header-gestor > a {
+    background: rgba(#007ad9, 0.7) !important;
+}
+
