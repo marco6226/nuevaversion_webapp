@@ -93,11 +93,19 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   }
 
   removeElemento(elementoList: ElementoInspeccion[], elemento: ElementoInspeccion) {
-  
-    for (let i = 0; i < elementoList.length; i++) {
-      if (elementoList[i].codigo == elemento.codigo) {
+    let ele=[...elementoList]
+    let num:number
+    for (let i = 0; i < ele.length; i++) {
+      if (ele[i].codigo == elemento.codigo) {
         elementoList.splice(i, 1);
-        break;
+        num=i
+      }
+    }
+
+    for (let i = 0; i < elementoList.length; i++) {
+      if (i>=num!) {
+        let codigo:string=ele[i].codigo
+        elementoList[i] = {...elementoList[i], codigo: codigo}
       }
     }
   }

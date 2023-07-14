@@ -24,9 +24,9 @@
 </p-panel>
 
 <p-dialog [(visible)]="visibleDlg" [draggable]="true" [resizable]="true" [responsive]="true" appendTo="body" [maximizable]="true"
-  [modal]="false" >
+  [modal]="true" style="width: 540px;">
   <h2>{{elementoSelect?.codigo}}. {{elementoSelect?.nombre}}</h2>
-  <div class="grid">
+  <div class="grid g-2">
     <div class="col-6 grid">
       <div class="col-12">
         <label class="s-float-label">Calificación</label>
@@ -60,17 +60,20 @@
     </div>
 
     <div class="col-6">
-      <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus" label="Adjuntar imágen" [disabled]="disabled"></button>
+      <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus" label="Adjuntar imágen" [disabled]="disabled" class="mb-3"></button>
       <div *ngIf="loadingImg == true"  style="width: 100%;text-align: center;margin-top: 20px;">
         <p-progressSpinner strokeWidth="8" [style]="{width: '45px', height: '45px'}"></p-progressSpinner>
       </div>
-      <s-galeria *ngIf="imagenesList.length > 0" [images]="imagenesList" (onRemove)="removerImagen($event)" [readOnly]="disabled"></s-galeria>
+      <div style="max-width: 20vw;">
+        <s-galeria *ngIf="imagenesList.length > 0" [images]="imagenesList" (onRemove)="removerImagen($event)" [readOnly]="disabled"></s-galeria>
+      </div>
       <input name="myFile" type="file" style="visibility: hidden;" #fileInput (change)="onArchivoSelect($event)">
     </div>
+  </div>
+
+  <div class="grid">
     <div class="col-12">
       <p-messages [(value)]="msgs"></p-messages>
     </div>
-
-
   </div>
 </p-dialog>

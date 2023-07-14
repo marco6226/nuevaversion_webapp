@@ -157,6 +157,10 @@ export class ScmComponent implements OnInit {
         excel.map((resp:any)=>{
             if(resp.estadoCaso==1){resp.estadoCaso='Abierto'}
             if(resp.estadoCaso==0){resp.estadoCaso='Cerrado'}
+            if(resp.recomendaciones){resp.recomendaciones='Sí tiene'}
+            else{resp.recomendaciones='No tiene'}
+            if(resp.planAccion){resp.planAccion='Sí tiene'}
+            else{resp.planAccion='No tiene'}
         })
         const readyToExport = excel;
  
@@ -175,6 +179,7 @@ export class ScmComponent implements OnInit {
     async datosExcel(): Promise<void>{
         this.excel=[]
         await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
+            console.log(resp)
             this.excel=resp
             this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
         })
