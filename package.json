@@ -52,7 +52,7 @@
     "primeicons": "^6.0.1",
     "primeng": "^16.0.0-rc.2",
     "rxjs": "~7.5.0",
-    "semver": "^7.5.3",
+    "semver": "^7.5.4",
     "signature_pad": "^4.1.5",
     "trim-newlines": "^5.0.0",
     "tslib": "^2.3.0",
