@@ -1,4 +1,4 @@
-<!-- <p-toast></p-toast> -->
+<p-toast></p-toast>
 <p-dialog header="Subir archivo" [visible]="visibleDlg" (visibleChange)="onVisibleChange($event)" modal="true" appendTo="body">
     <p-fileUpload
         name="file"
@@ -25,9 +25,11 @@
             </div>
             <div class="col-12" *ngIf="contratistasFlag">
                 <p-dropdown appendTo="body" [options]="doContratista" formControlName="descripcion" ></p-dropdown>
+                <h6 *ngIf="form.invalid" id="username2-help" class="p-invalid row">Obligatorio</h6>
             </div>
             <div class="col-12" *ngIf="temporalesFlag">
                 <p-dropdown appendTo="body" [options]="doTemporales" formControlName="descripcion" ></p-dropdown>
+                <h6 *ngIf="form.invalid" id="username2-help" class="p-invalid row">Obligatorio</h6>
             </div>
         </div>
     </div>

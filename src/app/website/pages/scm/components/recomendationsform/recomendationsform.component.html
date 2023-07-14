@@ -112,7 +112,7 @@
 
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <p-calendar [disabled]="esConsulta" [touchUI]="true" [(ngModel)]="pAccion.fechaProyectada"
+                                <p-calendar appendTo="body" [disabled]="esConsulta" [touchUI]="true" [(ngModel)]="pAccion.fechaProyectada"
                                  dateFormat="dd/mm/yy"  
                                   [monthNavigator]="true"  [yearNavigator]="true" showButtonBar="true" yearRange="2010:2030" styleClass="calendar-material"
                                     inputStyleClass="form-material" >

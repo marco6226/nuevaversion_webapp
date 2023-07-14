@@ -492,11 +492,11 @@ export class EmpleadoFormComponent implements OnInit {
     onArchivoSelect(event: any) {
         let file = event.target.files[0];
         if (file.type != 'image/jpeg' && file.type != 'image/png') {
-            this.messageService.add({severity: 'error', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg' });
+            this.messageService.add({severity: 'error', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg', key:'empleadoForm' });
             return;
         }
         if (file.size > 30_500_000) {
-            this.messageService.add({severity: 'error', summary: 'Tamaño máximo superado 30.5 MB', detail: 'La imágen supera el tamaño máximo permitido' });
+            this.messageService.add({severity: 'error', summary: 'Tamaño máximo superado 30.5 MB', detail: 'La imágen supera el tamaño máximo permitido' , key:'empleadoForm'});
             return;
         }
         if (this.imagenesList == null) this.imagenesList = [];
@@ -506,6 +506,7 @@ export class EmpleadoFormComponent implements OnInit {
                 severity: 'warn',
                 summary: 'Número maximo de fotografias alcanzado',
                 detail: 'Ha alcanzado el número máximo de fotografias (' + this.numMaxImg + ') que puede adjuntar',
+                key:'empleadoForm'
             });
             return;
         }

@@ -6,3 +6,8 @@
   font-size: 48px;
   color:#ccc;
 }
+
+:host ::ng-deep 
+    .p-toast{
+        margin-top: 50px;
+    }

@@ -100,7 +100,8 @@ export class ProgramacionComponent implements OnInit {
       editable: true,
       selectable: true,
       selectMirror: true,
-      dayMaxEvents: true
+      dayMaxEvents: true,
+      displayEventTime: false
     };
 
 
