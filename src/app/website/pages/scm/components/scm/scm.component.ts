@@ -29,7 +29,8 @@ export class ScmComponent implements OnInit {
     valor2!: string;
     valor3!: string;
     empresaId!: string;
-    casosList: any;
+    casosList: any
+    casosListFilter: any;
     usuarioSelect!: Usuario;
     perfilList: SelectItem[] = [];
     visibleDlg!: boolean;
@@ -123,6 +124,7 @@ export class ScmComponent implements OnInit {
     }
 
     async lazyLoad(event: any) {
+        console.log(this.casosList)
         let filterQuery = new FilterQuery();
         filterQuery.sortField = event.sortField;
         filterQuery.sortOrder = event.sortOrder;
@@ -135,12 +137,11 @@ export class ScmComponent implements OnInit {
         filterEliminado.value1 = 'false';
 
         filterQuery.fieldList = this.fields;
-        // filterQuery.filterList = [filterEliminado];        
-        // filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
         filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
         filterQuery.filterList.push(filterEliminado);      
         try {
             let res: any = await this.scmService.findByFilter(filterQuery);
+            console.log(res)
             this.casosList = res.data;
             this.totalRecords = res.count;
 
@@ -177,9 +178,9 @@ export class ScmComponent implements OnInit {
 
 
     async datosExcel(): Promise<void>{
+        console.log(this.casosListFilter)
         this.excel=[]
         await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
-            console.log(resp)
             this.excel=resp
             this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
         })
@@ -197,5 +198,10 @@ export class ScmComponent implements OnInit {
     }
     onResetDate(){
         this.flagInforme=true
+    }
+
+    onFilter(event:any){
+        console.log(event)
+        this.casosListFilter=event.filteredValue
     }
 }

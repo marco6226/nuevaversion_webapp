@@ -22,6 +22,7 @@ export class AsignacionTareasComponent implements OnInit {
   loading: boolean = true;
   yearRange?:any;
   tareasList: any;
+  tareaListFilter: any;
   tareaSelect?: Tarea | null;
   msgs: Message[] = [];
   observacionesRealizacion?: string;
@@ -205,7 +206,7 @@ export class AsignacionTareasComponent implements OnInit {
 
     async datosExcel(){
         let excel:any=[]
-        this.tareasList.forEach((tarea:any)=>{excel.push({
+        this.tareaListFilter.forEach((tarea:any)=>{excel.push({
             Módulo:tarea.module,
             Fecha_de_Reporte:formatDate(new Date(tarea.fecha_reporte), 'yyyy/MM/dd', 'en'),
             División_Unidad:tarea.regional,
@@ -254,5 +255,9 @@ export class AsignacionTareasComponent implements OnInit {
   
        /* save to file */
        XLSX.writeFile(wb, this.fileName);
+    }
+
+    onFilter(event:any){
+        this.tareaListFilter=event.filteredValue
     }
 }

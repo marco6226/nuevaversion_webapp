@@ -100,11 +100,11 @@
                     <div class="row g-6 mb-3">
                         <div class="col-md-6 col-sm-12">
                             <label for="">Fecha {{visibleCamposAccidente ? 'accidente':'incidente'}}</label>
-                            <p-calendar required  dateFormat="dd/mm/yy" formControlName="fechaAccidente"  required [disabled]="consultar"></p-calendar>
+                            <p-calendar appendTo="body" required  dateFormat="dd/mm/yy" formControlName="fechaAccidente"  required [disabled]="consultar"></p-calendar>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             Hora {{visibleCamposAccidente ? 'accidente':'incidente'}}
-                            <p-calendar required  dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaAccidente" requierd [disabled]="consultar"></p-calendar>
+                            <p-calendar appendTo="body" required  dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaAccidente" requierd [disabled]="consultar"></p-calendar>
                         </div>
                     </div>
                     <div class="row g-6 mb-3">
@@ -115,7 +115,7 @@
                         </div>
                         <div class="col-md-6 col-sm12" *ngIf="visibleCamposAccidente">
                             <label for="">Hora de inicio de labores</label>
-                            <p-calendar required  dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaInicioLabor" [disabled]="consultar"></p-calendar>
+                            <p-calendar appendTo="body" required  dateFormat="dd/mm/yy" [timeOnly]="true" formControlName="horaInicioLabor" [disabled]="consultar"></p-calendar>
                         </div>
                     </div>
                     <div class="row g-6 mb-3">
