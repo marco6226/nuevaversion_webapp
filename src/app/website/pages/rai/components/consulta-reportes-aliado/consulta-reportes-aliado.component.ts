@@ -53,7 +53,7 @@ export class ConsultaReportesAliadoComponent implements OnInit {
         this.desviacionAliados = Array.from(res['data']);
         this.loadDesviaciones();
         this.loading = false;
-      });
+      }).finally(() => this.loading = false);
     }else if(this.idEmpresa!='22'){
       this.loading = true;
       let filterQuery = new FilterQuery();
@@ -71,7 +71,7 @@ export class ConsultaReportesAliadoComponent implements OnInit {
         this.desviacionAliados = Array.from(res['data']);
         this.loadDesviaciones();
         this.loading = false;
-      });
+      }).finally(() => this.loading = false);
     }
   }
 
