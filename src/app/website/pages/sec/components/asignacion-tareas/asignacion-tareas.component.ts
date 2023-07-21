@@ -100,6 +100,14 @@ export class AsignacionTareasComponent implements OnInit {
     this.tareaService.findByDetails(this.arrayIdsareas).then(
         async resp => { 
             this.tareasList = resp;
+            this.tareasList.sort(function(a:any,b:any){
+                  if(a.id < b.id){
+                    return 1
+                  }else if(a.id > b.id){
+                    return -1;
+                  }
+                    return 0;
+                  });
             this.tareasList = await Promise.all(this.tareasList.map(async (tarea:any) => {
                 let status = await this.verifyStatus(tarea);
                 tarea.estado = statuses[status];

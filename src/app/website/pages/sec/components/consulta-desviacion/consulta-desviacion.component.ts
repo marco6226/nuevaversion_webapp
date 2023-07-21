@@ -19,6 +19,7 @@ import { PrimeNGConfig } from 'primeng/api';
 export class ConsultaDesviacionComponent implements OnInit {
   localeES: any = locale_es;
   desviacionesList?: Desviacion[];
+  desviacionesListOnFilter?: Desviacion[];
   desviacionesListSelect?: Desviacion[];
   opcionesModulos = [
     { label: '', value: null }, 
@@ -84,9 +85,10 @@ export class ConsultaDesviacionComponent implements OnInit {
      let element = document.getElementById('excel-table'); 
      element?.getElementsByClassName
      
-    let datos = await this.cargarDatosExcel(event);
-
-     const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.getDatosDesv!);
+    // let datos = await this.cargarDatosExcel(event);
+    this.loading = false;
+console.log(this.desviacionesListOnFilter)
+     const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.desviacionesListOnFilter!);
 
     //  const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
      const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -105,10 +107,9 @@ export class ConsultaDesviacionComponent implements OnInit {
     filterQuery.sortField = event.sortField;   
     filterQuery.fieldList = this.fields;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    
+    console.log(this.areasPermiso)
     filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
-    let fq = new FilterQuery();
-    this.desviacionService.findByFilter(fq).then(
+    this.desviacionService.findByFilter(filterQuery).then(
       (resp : any) => {
         getDatosDesv = resp['data'];
       }
@@ -123,7 +124,7 @@ export class ConsultaDesviacionComponent implements OnInit {
     filterQuery.sortField = event.sortField;
     filterQuery.sortOrder = event.sortOrder;
     filterQuery.offset = event.first;
-    filterQuery.rows = event.rows;
+    // filterQuery.rows = event.rows;
     filterQuery.count = true;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
     filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
@@ -197,4 +198,9 @@ export class ConsultaDesviacionComponent implements OnInit {
       ['/app/sec/analisisDesviacion']
     );
   }
+
+  onFilter(event:any){
+    console.log(event.filteredValue)
+    this.desviacionesListOnFilter=event.filteredValue
+}
 }

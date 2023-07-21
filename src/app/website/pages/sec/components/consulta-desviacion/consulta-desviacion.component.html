@@ -9,7 +9,7 @@
 
             <p-tabPanel header="Consolidado desviaciones">
                 <div>
-                    <p-table id="excel-table" #dt [value]="desviacionesList" [rows]="10" [paginator]="true"
+                    <p-table (onFilter)="onFilter($event)" id="excel-table" #dt [value]="desviacionesList" [rows]="10" [paginator]="true"
                         [(selection)]="desviacionesListSelect" [autoLayout]="false" [paginator]="true"
                         dataKey="hashId" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
                         [totalRecords]="totalRecords" [loading]="loading" [responsive]="true">
