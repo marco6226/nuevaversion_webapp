@@ -59,7 +59,7 @@
                   <div class="sm:col-12 md:col-5 lg:col-2"  style="display: flex;">
                     <p style="margin-right: 10px!important;">Desde:</p>
                       <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>  
-                    <p-calendar  appendTo="body" view="month"
+                    <p-calendar  view="month"
                     dateFormat="MM" placeholder="Seleccione"
                     [(ngModel)]="fechaInicioResumen" showButtonBar="true" 
                     (onSelect)="loadResumen()" (onClearClick)="loadResumen()"
@@ -69,7 +69,7 @@
                   <div class="sm:col-12 md:col-5 lg:col-2" style="display: flex;">
                     <p style="margin-right: 10px!important;">Hasta:</p>
                     <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div> 
-                      <p-calendar  appendTo="body" view="month" dateFormat="MM" 
+                      <p-calendar view="month" dateFormat="MM" 
                       placeholder="Seleccione" showButtonBar="true" 
                       [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
                       (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()">
@@ -143,12 +143,12 @@
                 &nbsp;
                 <div style="display: flex;" class="col-12 md:col-6 lg:col-3">  
                     <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>  
-                    <p-calendar  appendTo="body" view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+                    <p-calendar   view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
                 </div>
                 &nbsp;
                 <div style="display: flex;" class="col-12 md:col-6 lg:col-3"> 
                     <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>
-                    <p-calendar appendTo="body" view="month" dateFormat="mm/yy" placeholder="Hasta" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+                    <p-calendar  view="month" dateFormat="mm/yy" placeholder="Hasta" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
                     <div style="padding-left: 10px;">
                         <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
                         (click)="IndicadoresCaracterizacion()"></button>
@@ -204,12 +204,12 @@
                 &nbsp;
                 <div class="col-12 md:col-6 lg:col-3" style="display: flex;"> 
                     <div><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="event"></mat-icon></div>
-                    <p-calendar appendTo="body" [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="fechaDesde0" (ngModelChange)="numeroCasos()"> </p-calendar> 
+                    <p-calendar [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="fechaDesde0" (ngModelChange)="numeroCasos()"> </p-calendar> 
                 </div>
                 &nbsp;
                 <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
                     <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>
-                    <p-calendar appendTo="body" [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Hasta" [(ngModel)]="fechaHasta0" (ngModelChange)="numeroCasos()"> </p-calendar>
+                    <p-calendar [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Hasta" [(ngModel)]="fechaHasta0" (ngModelChange)="numeroCasos()"> </p-calendar>
                     <div style="padding-left: 10px;">
                         <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
                         (click)="IndicadoresCasosMedicos()"></button>

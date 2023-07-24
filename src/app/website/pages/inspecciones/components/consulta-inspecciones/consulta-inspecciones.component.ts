@@ -167,6 +167,7 @@ export class ConsultaInspeccionesComponent implements OnInit {
     await this.inspeccionService.findByFilter(filterQuery).then(
       (resp: any) => {
         this.totalRecords = resp['count'];
+        console.log(this.totalRecords)
         this.inspeccionesList = [];
         (<any[]>resp['data']).forEach(dto => {
           let obj = FilterQuery.dtoToObject(dto)
