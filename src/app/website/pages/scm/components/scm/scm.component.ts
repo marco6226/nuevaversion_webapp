@@ -128,7 +128,7 @@ export class ScmComponent implements OnInit {
         filterQuery.sortField = event.sortField;
         filterQuery.sortOrder = event.sortOrder;
         filterQuery.offset = event.first;
-        filterQuery.rows = event.rows;
+        // filterQuery.rows = event.rows;
         filterQuery.count = true;
         let filterEliminado = new Filter();
         filterEliminado.criteria = Criteria.EQUALS;

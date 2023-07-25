@@ -159,17 +159,25 @@ console.log(this.desviacionesListOnFilter)
   consultarAnalisis(desviacion: Desviacion) {
     this.paramNav.setParametro<Desviacion>(desviacion);
     this.paramNav.setAccion<string>('GET');
-    this.router.navigate(
-      ['/app/sec/analisisDesviacion']
-    );
+
+    localStorage.setItem('Desviacion', JSON.stringify(desviacion));
+    localStorage.setItem('Accion', 'GET');
+    window.open('/app/sec/analisisDesviacion')
+    // this.router.navigate(
+    //   ['/app/sec/analisisDesviacion']
+    // );
   }
 
   modificarAnalisis(desviacion: Desviacion) {
     this.paramNav.setParametro<Desviacion>(desviacion);
     this.paramNav.setAccion<string>('PUT');
-    this.router.navigate(
-      ['/app/sec/analisisDesviacion']
-    );
+    
+    localStorage.setItem('Desviacion', JSON.stringify(desviacion));
+    localStorage.setItem('Accion', 'PUT');
+    window.open('/app/sec/analisisDesviacion')
+    // this.router.navigate(
+    //   ['/app/sec/analisisDesviacion']
+    // );
   }
 
   descargarInvs() {

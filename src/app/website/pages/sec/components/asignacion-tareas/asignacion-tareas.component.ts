@@ -142,9 +142,8 @@ export class AsignacionTareasComponent implements OnInit {
   }
 
   onClick() {
-
-    this.paramNav.redirect('/app/sec/tarea/' + this.tareaSelect?.id);
-
+    window.open('/app/sec/tarea/' + this.tareaSelect?.id)
+    // this.paramNav.redirect('/app/sec/tarea/' + this.tareaSelect?.id);
   }
 
   reportarCumplimiento() {

@@ -243,10 +243,13 @@ export class AnalisisDesviacionComponent implements OnInit {
         this.nombreEmpresa=this.sesionService.getEmpresa()!.nombreComercial;
         this.idEmpresa = this.sesionService.getEmpresa()!.id;
         if (this.value == null) {
-            switch (this.paramNav.getAccion<string>()) {
+            // switch (this.paramNav.getAccion<string>()) {
+            switch (localStorage.getItem('Accion')) {
                 case "GET":
                     this.consultar = true;
+                    this.paramNav.setParametro<Desviacion>(JSON.parse(localStorage.getItem('Desviacion')!));
                     await this.consultarAnalisis(
+                        // JSON.parse(localStorage.getItem('Desviacion')!).analisisId
                         this.paramNav.getParametro<Desviacion>().analisisId!
                     );
                     break;
@@ -281,18 +284,26 @@ export class AnalisisDesviacionComponent implements OnInit {
                                 null,
                                 "causaRaizList"
                             );
+                            this.paramNav.setParametro<Desviacion>(JSON.parse(localStorage.getItem('Desviacion')!));
                             this.desviacionesList =
                                 await this.paramNav.getParametro<Desviacion[]>();
+                                // await JSON.parse(localStorage.getItem('Desviacion')!)
                             this.adicionar = true;
                         });
                     break;
                 case "PUT":
                     this.modificar = true;
+                    this.paramNav.setParametro<Desviacion>(JSON.parse(localStorage.getItem('Desviacion')!));
                     await this.consultarAnalisis(
                         this.paramNav.getParametro<Desviacion>().analisisId!
+                        // JSON.parse(localStorage.getItem('Desviacion')!).analisisId
+                        
                     );
+                    
                     break;
             }
+            localStorage.removeItem('Desviacion')
+            localStorage.removeItem('Accion')
         } else {
             this.consultar = true;
             await this.consultarAnalisis(this.value.id!);
@@ -828,6 +839,7 @@ async evidencias(){
   let fq = new FilterQuery();
   fq.filterList = [
       { criteria: Criteria.EQUALS, field: "id", value1: this.paramNav.getParametro<Desviacion>().analisisId },
+    // { criteria: Criteria.EQUALS, field: "id", value1: JSON.parse(localStorage.getItem('Desviacion')!).analisisId },
   ];
   await this.analisisDesviacionService.findByFilter(fq).then((resp:any) => {
       let analisis = <AnalisisDesviacion>resp["data"][0];

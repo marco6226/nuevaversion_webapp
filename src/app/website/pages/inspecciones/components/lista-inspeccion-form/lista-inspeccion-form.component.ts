@@ -63,7 +63,6 @@ export class ListaInspeccionFormComponent implements OnInit {
         this.empresa = this.sessionService.getEmpresa()!;
         this.idempresa = this.empresa.id!;
     }
-
     ngOnInit(): void {
         this.inpForm2 = new FormGroup({
             firstName: new FormControl()
