@@ -90,18 +90,40 @@
                         <h5 class="title-header p-mb-2">PCL</h5>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="input-field">
-                                <label for="" class="active">Diagnósticos</label>
-                                <p-dropdown [filter]="true" [options]="diagList" class="select-material" formControlName="diag" styleClass="select-material" required="true" [readonly]="action">
-                                </p-dropdown>
+                        <ng-container *ngIf="estado=='crear'">
+                            <div class="col" *sTienePermiso="'SCM_POST_DIAGPCL'">
+                                <div class="input-field">
+                                    <label for="" class="active">Diagnósticos</label>
+                                    <p-dropdown appendTo="body" [filter]="true" [options]="diagList" class="select-material" formControlName="diag" styleClass="select-material" required="true" [readonly]="action">
+                                    </p-dropdown>
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="estado=='edit'">
+                            <div class="col" *sTienePermiso="'SCM_PUT_DIAGPCL'">
+                                <div class="input-field">
+                                    <label for="" class="active">Diagnósticos</label>
+                                    <p-dropdown appendTo="body" [filter]="true" [options]="diagList" class="select-material" formControlName="diag" styleClass="select-material" required="true" [readonly]="action">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="estado=='consulta'">
+                            <div class="col" *sTienePermiso="'SCM_GET_DIAGPCL'">
+                                <div class="input-field">
+                                    <label for="" class="active">Diagnósticos</label>
+                                    <p-dropdown appendTo="body" [filter]="true" [options]="diagList" class="select-material" formControlName="diag" styleClass="select-material" required="true" [readonly]="action">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </ng-container>
     
                         <div class="col">
                             <div class="input-field">
                                 <label for="" class="active">PCL</label>
-                                <p-dropdown [options]="pclOptionList" formControlName="pcl" class="select-material" styleClass="select-material" [readonly]="action">
+                                <p-dropdown appendTo="body" [options]="pclOptionList" formControlName="pcl" class="select-material" styleClass="select-material" [readonly]="action">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -130,7 +152,7 @@
                         <div class="col">
                             <div class="input-field">
                                 <label for="" class="active">Entidad que emite la PCL</label>
-                                <p-dropdown [filter]="true" [options]="emitPclentity" formControlName="entidadEmitePcl" class="select-material" styleClass="select-material" [readonly]="action">
+                                <p-dropdown appendTo="body" [filter]="true" [options]="emitPclentity" formControlName="entidadEmitePcl" class="select-material" styleClass="select-material" [readonly]="action">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -138,7 +160,7 @@
                         <div class="col" *ngIf="pclForm.get('entidadEmitePcl')?.value == 'EPS' || pclForm.get('entidadEmitePcl')?.value == 'ARL' || pclForm.get('entidadEmitePcl')?.value == 'AFP'">
                             <div class="input-field">
                                 <label for="" class="active">Entidad</label>
-                                <p-dropdown [filter]="true" [options]="entity[pclForm.get('entidadEmitePcl').value]" formControlName="entidadEmitida" class="select-material" styleClass="select-material" [readonly]="action">
+                                <p-dropdown appendTo="body" [filter]="true" [options]="entity[pclForm.get('entidadEmitePcl').value]" formControlName="entidadEmitida" class="select-material" styleClass="select-material" [readonly]="action">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -154,7 +176,7 @@
                         <div class="col">
                             <div class="input-field">
                                 <label for="" class="active">Origen</label>
-                                <p-dropdown [options]="origenList" formControlName="origen" class="select-material" styleClass="select-material" [readonly]="action">
+                                <p-dropdown appendTo="body" [options]="origenList" formControlName="origen" class="select-material" styleClass="select-material" [readonly]="action">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -172,7 +194,7 @@
                         <div class="col">
                             <div class="input-field">
                                 <label for="" class="active">Estado de calificación origen</label>
-                                <p-dropdown [filter]="true" [options]="pclCalificacionList" formControlName="statusDeCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
+                                <p-dropdown appendTo="body" [filter]="true" [options]="pclCalificacionList" formControlName="statusDeCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -180,7 +202,7 @@
                         <div class="col">
                             <div class="input-field">
                                 <label for="" class="active">Entidad que emite la calificación origen</label>
-                                <p-dropdown [filter]="true" [options]="emitPclentity" formControlName="entidadEmiteCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
+                                <p-dropdown appendTo="body" [filter]="true" [options]="emitPclentity" formControlName="entidadEmiteCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -190,17 +212,38 @@
                         <div class="col" *ngIf="pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' || pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' || pclForm.get('entidadEmiteCalificacion')?.value == 'AFP'">
                             <div class="input-field">
                                 <label for="" class="active">Entidad </label>
-                                <p-dropdown [filter]="true" [options]="entity[pclForm.get('entidadEmiteCalificacion').value]" formControlName="entidadEmitidaCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
+                                <p-dropdown appendTo="body" [filter]="true" [options]="entity[pclForm.get('entidadEmiteCalificacion').value]" formControlName="entidadEmitidaCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
                                 </p-dropdown>
                             </div>
                         </div>
-    
-                        <div class="col">
-                            <div class="input-field">
-                                <label for="" class="active">Observaciones o diagnósticos calificados</label>
-                                <textarea class="textarea-material" rows="3" pInputTextarea formControlName="observaciones" [readonly]="action"></textarea>
+                        
+                        <ng-container *ngIf="estado=='crear'">
+                            <div class="col" *sTienePermiso="'SCM_POST_OBSPCL'">
+                                <div class="input-field">
+                                    <label for="" class="active">Observaciones o diagnósticos calificados</label>
+                                    <textarea class="textarea-material" rows="3" pInputTextarea formControlName="observaciones" [readonly]="action"></textarea>
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="estado=='edit'">
+                            <div class="col" *sTienePermiso="'SCM_PUT_OBSPCL'">
+                                <div class="input-field">
+                                    <label for="" class="active">Observaciones o diagnósticos calificados</label>
+                                    <textarea class="textarea-material" rows="3" pInputTextarea formControlName="observaciones" [readonly]="action"></textarea>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="estado=='consulta'">
+                            <div class="col" *sTienePermiso="'SCM_GET_OBSPCL'">
+                                <div class="input-field">
+                                    <label for="" class="active">Observaciones o diagnósticos calificados</label>
+                                    <textarea class="textarea-material" rows="3" pInputTextarea formControlName="observaciones" [readonly]="action"></textarea>
+                                </div>
+                            </div>
+                        </ng-container>
+
                     </div>
                     
 
