@@ -55,6 +55,9 @@
                                     style="width: 30%;">Criticidad
                                     <p-sortIcon field="aspectoCausante"></p-sortIcon>
                                 </th>
+                                <th pSortableColumn="email" style="width: 10%;" *ngIf="empresaId=='8'">email encargado
+                                    <p-sortIcon field="email"></p-sortIcon>
+                                </th>
                             </tr>
                             <tr>
                                 <td class="text-center bg-light">
@@ -99,6 +102,10 @@
                                     <p-dropdown [options]="opcionesCritididad" [style]="{'min-width':'0em'}"
                                         (onChange)="dt.filter($event.value, 'criticidad', 'equals')"></p-dropdown>
                                 </td>
+                                <td class="text-center bg-light" *ngIf="empresaId=='8'">
+                                    <input pInputText type="text"
+                                        (input)="dt.filter($event.target.value, 'email', 'contains')">
+                                </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-desviacion>
@@ -127,6 +134,7 @@
                                 <td [pTooltip]="desviacion.aspectoCausante" tooltipPosition="top">
                                     {{desviacion.aspectoCausante | slice:0:100}}...</td>
                                 <td *ngIf="empresaCriticidadPermiso==empresaId">{{desviacion.criticidad}}</td>
+                                <td *ngIf="empresaId=='8'">{{desviacion.email}}</td>
                             </tr>
                         </ng-template>
                         <!-- <ng-template pTemplate="caption">

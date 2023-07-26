@@ -87,7 +87,6 @@ export class ConsultaDesviacionComponent implements OnInit {
      
     // let datos = await this.cargarDatosExcel(event);
     this.loading = false;
-console.log(this.desviacionesListOnFilter)
      const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.desviacionesListOnFilter!);
 
     //  const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
@@ -107,7 +106,6 @@ console.log(this.desviacionesListOnFilter)
     filterQuery.sortField = event.sortField;   
     filterQuery.fieldList = this.fields;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    console.log(this.areasPermiso)
     filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
     this.desviacionService.findByFilter(filterQuery).then(
       (resp : any) => {
@@ -208,7 +206,6 @@ console.log(this.desviacionesListOnFilter)
   }
 
   onFilter(event:any){
-    console.log(event.filteredValue)
     this.desviacionesListOnFilter=event.filteredValue
 }
 }
