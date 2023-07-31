@@ -47,6 +47,7 @@ export class PclComponent implements OnInit {
     yearRange: string = "1900:" + this.fechaActual.getFullYear();
     modalDianostico: boolean = false;
     pclForm: FormGroup;
+    estado!: string;
 
     constructor(fb: FormBuilder,
         private scmService: CasosMedicosService,
@@ -223,17 +224,20 @@ export class PclComponent implements OnInit {
     }
 
     editPcl() {
+        this.estado='edit'
         this.modalDianostico = true;
         this.pclForm.patchValue(this.pclSelect);
     }
 
     async nuevoTratamiento() {
+        this.estado='crear'
         this.modalDianostico = true;
         await this.iniciarPcl();
         this.dlistaPCL.emit(this.pclList);
     }
 
     showPcl() {
+        this.estado='consulta'
         this.action = true;
         this.modalDianostico = true;
         this.pclForm.patchValue(this.pclSelect);

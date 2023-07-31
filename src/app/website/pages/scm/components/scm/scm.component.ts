@@ -29,7 +29,8 @@ export class ScmComponent implements OnInit {
     valor2!: string;
     valor3!: string;
     empresaId!: string;
-    casosList: any;
+    casosList: any
+    casosListFilter: any;
     usuarioSelect!: Usuario;
     perfilList: SelectItem[] = [];
     visibleDlg!: boolean;
@@ -127,7 +128,7 @@ export class ScmComponent implements OnInit {
         filterQuery.sortField = event.sortField;
         filterQuery.sortOrder = event.sortOrder;
         filterQuery.offset = event.first;
-        filterQuery.rows = event.rows;
+        // filterQuery.rows = event.rows;
         filterQuery.count = true;
         let filterEliminado = new Filter();
         filterEliminado.criteria = Criteria.EQUALS;
@@ -135,8 +136,6 @@ export class ScmComponent implements OnInit {
         filterEliminado.value1 = 'false';
 
         filterQuery.fieldList = this.fields;
-        // filterQuery.filterList = [filterEliminado];        
-        // filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
         filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
         filterQuery.filterList.push(filterEliminado);      
         try {
@@ -177,12 +176,13 @@ export class ScmComponent implements OnInit {
 
 
     async datosExcel(): Promise<void>{
-        this.excel=[]
-        await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
-            console.log(resp)
-            this.excel=resp
+        // console.log(this.casosListFilter)
+        // this.casosListFilter
+        // this.excel=[]
+        // await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
+            this.excel=[...this.casosListFilter]
             this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
-        })
+        // })
     }
     cerrarDialogo(){
     this.visibleDlgInforme = false;
@@ -197,5 +197,9 @@ export class ScmComponent implements OnInit {
     }
     onResetDate(){
         this.flagInforme=true
+    }
+
+    onFilter(event:any){
+        this.casosListFilter=event.filteredValue
     }
 }

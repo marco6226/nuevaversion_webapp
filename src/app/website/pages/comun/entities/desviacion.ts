@@ -18,4 +18,5 @@ export class Desviacion {
   empresa?: string;
   nit?: string;
   area?: Area;
+  email?: string;
 }

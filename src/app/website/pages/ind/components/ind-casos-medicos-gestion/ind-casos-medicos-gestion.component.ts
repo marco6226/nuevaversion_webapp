@@ -30,7 +30,7 @@ divisiones?:string[];
 divisionesTelefonica_=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE','TELEFONICA TOTAL'];
 divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE'];
 
-divisionesCorona_=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas',this.nombreEmpresa];
+divisionesCorona_=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas','Corona total'];
 divisionesCorona=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
 divisiones1:any=[]
 
@@ -215,6 +215,7 @@ DatosGrafica2(){
   if(this.radioButon2==2){this.opcion2=this.entidadTipos2;nombre=['entidadEmiteOrigen'];this.nameGraf2='ENTIDAD RESPONSABLE DEL ORIGEN'}
   if(this.radioButon2==3){this.opcion2=this.entidadTipos2;nombre=['entidadEmiteConceptoRehabilitacion','entidadEmitePcl','entidadEmiteOrigen'];this.nameGraf2='TODOS'}
 
+  
   let divisiones=this.filtroDivisionMultiple(this.selectDivisiones2,(this.radioButon2==3)?this.divisiones:this.divisiones_)
 
   let opcion2=this.filtroEventoMultiple(this.selectEvento2,this.opcion2)
@@ -392,6 +393,7 @@ async cargarDatos(){
       break;
     case 22:
       this.divisiones=Array.from(this.divisionesCorona)
+      this.divisiones_=Array.from(this.divisionesCorona_)
       this.nombreEmpresa='Corona total'
       this.nameX='Divisiones'
       break;
@@ -572,7 +574,7 @@ datosGraf2DDivisiones(division:any,datos:any,opciones:any,nombre:string,div:stri
   opciones.forEach((resp:any)=>{
     datos0_2.push({name:resp.label,value:0})
   })
-
+  console.log(division)
   division.forEach((resp:any)=>{
     if(resp!=this.nombreEmpresa)datos0_1.push({name:resp,series:datos0_2})
   })

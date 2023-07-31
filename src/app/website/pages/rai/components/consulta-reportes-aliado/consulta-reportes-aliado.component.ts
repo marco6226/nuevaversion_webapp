@@ -50,10 +50,10 @@ export class ConsultaReportesAliadoComponent implements OnInit {
       ]);
       this.desviacionAliadosService.getRepWithFilter(filterQuery).then((res: any) =>{
         this.totalRecords = res['count'];
-        this.desviacionAliados = Array.from(res['data']);
+        this.desviacionAliados = res['data'];
         this.loadDesviaciones();
         this.loading = false;
-      });
+      }).finally(() => this.loading = false);
     }else if(this.idEmpresa!='22'){
       this.loading = true;
       let filterQuery = new FilterQuery();
@@ -68,10 +68,10 @@ export class ConsultaReportesAliadoComponent implements OnInit {
       ]);
       this.desviacionAliadosService.getRepWithFilter(filterQuery).then((res: any) => {
         this.totalRecords = res['count'];
-        this.desviacionAliados = Array.from(res['data']);
+        this.desviacionAliados = res['data'];
         this.loadDesviaciones();
         this.loading = false;
-      });
+      }).finally(() => this.loading = false);
     }
   }
 

@@ -18,8 +18,8 @@
             [filter]="selectorsMap[campo.id].length > 15"></p-dropdown>
             <p-multiSelect *ngSwitchCase="'multiple_select'" [options]="selectorsMap[campo.id]" defaultLabel="--seleccione--" [formControlName]="campo.nombre"
               [attr.required]="campo.requerido ? '' : null"></p-multiSelect>
-            <p-calendar *ngSwitchCase="'date'" [locale]="es" [formControlName]="campo.nombre" [attr.required]="campo.requerido ? '' : null"></p-calendar>
-            <p-calendar *ngSwitchCase="'timestamp'"  [locale]="es" [showTime]="true" [formControlName]="campo.nombre" [attr.required]="campo.requerido ? '' : null"></p-calendar>
+            <p-calendar appendTo="body" *ngSwitchCase="'date'" [locale]="es" [formControlName]="campo.nombre" [attr.required]="campo.requerido ? '' : null"></p-calendar>
+            <p-calendar appendTo="body" *ngSwitchCase="'timestamp'"  [locale]="es" [showTime]="true" [formControlName]="campo.nombre" [attr.required]="campo.requerido ? '' : null"></p-calendar>
           </div>
 
         </div>

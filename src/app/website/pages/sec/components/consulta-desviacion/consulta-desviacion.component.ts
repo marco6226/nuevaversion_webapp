@@ -19,6 +19,7 @@ import { PrimeNGConfig } from 'primeng/api';
 export class ConsultaDesviacionComponent implements OnInit {
   localeES: any = locale_es;
   desviacionesList?: Desviacion[];
+  desviacionesListOnFilter?: Desviacion[];
   desviacionesListSelect?: Desviacion[];
   opcionesModulos = [
     { label: '', value: null }, 
@@ -84,9 +85,9 @@ export class ConsultaDesviacionComponent implements OnInit {
      let element = document.getElementById('excel-table'); 
      element?.getElementsByClassName
      
-    let datos = await this.cargarDatosExcel(event);
-
-     const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.getDatosDesv!);
+    // let datos = await this.cargarDatosExcel(event);
+    this.loading = false;
+     const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.desviacionesListOnFilter!);
 
     //  const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
      const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -105,10 +106,8 @@ export class ConsultaDesviacionComponent implements OnInit {
     filterQuery.sortField = event.sortField;   
     filterQuery.fieldList = this.fields;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    
     filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
-    let fq = new FilterQuery();
-    this.desviacionService.findByFilter(fq).then(
+    this.desviacionService.findByFilter(filterQuery).then(
       (resp : any) => {
         getDatosDesv = resp['data'];
       }
@@ -123,7 +122,7 @@ export class ConsultaDesviacionComponent implements OnInit {
     filterQuery.sortField = event.sortField;
     filterQuery.sortOrder = event.sortOrder;
     filterQuery.offset = event.first;
-    filterQuery.rows = event.rows;
+    // filterQuery.rows = event.rows;
     filterQuery.count = true;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
     filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
@@ -158,17 +157,25 @@ export class ConsultaDesviacionComponent implements OnInit {
   consultarAnalisis(desviacion: Desviacion) {
     this.paramNav.setParametro<Desviacion>(desviacion);
     this.paramNav.setAccion<string>('GET');
-    this.router.navigate(
-      ['/app/sec/analisisDesviacion']
-    );
+
+    localStorage.setItem('Desviacion', JSON.stringify(desviacion));
+    localStorage.setItem('Accion', 'GET');
+    window.open('/app/sec/analisisDesviacion')
+    // this.router.navigate(
+    //   ['/app/sec/analisisDesviacion']
+    // );
   }
 
   modificarAnalisis(desviacion: Desviacion) {
     this.paramNav.setParametro<Desviacion>(desviacion);
     this.paramNav.setAccion<string>('PUT');
-    this.router.navigate(
-      ['/app/sec/analisisDesviacion']
-    );
+    
+    localStorage.setItem('Desviacion', JSON.stringify(desviacion));
+    localStorage.setItem('Accion', 'PUT');
+    window.open('/app/sec/analisisDesviacion')
+    // this.router.navigate(
+    //   ['/app/sec/analisisDesviacion']
+    // );
   }
 
   descargarInvs() {
@@ -197,4 +204,8 @@ export class ConsultaDesviacionComponent implements OnInit {
       ['/app/sec/analisisDesviacion']
     );
   }
+
+  onFilter(event:any){
+    this.desviacionesListOnFilter=event.filteredValue
+}
 }

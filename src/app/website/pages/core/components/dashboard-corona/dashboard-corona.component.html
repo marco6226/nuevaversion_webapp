@@ -69,7 +69,7 @@
                   <div class="sm:col-12 md:col-5 lg:col-2" style="display: flex;">
                     <p style="margin-right: 10px!important;">Hasta:</p>
                     <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div> 
-                      <p-calendar  view="month" dateFormat="MM" 
+                      <p-calendar view="month" dateFormat="MM" 
                       placeholder="Seleccione" showButtonBar="true" 
                       [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
                       (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()">
@@ -143,7 +143,7 @@
                 &nbsp;
                 <div style="display: flex;" class="col-12 md:col-6 lg:col-3">  
                     <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>  
-                    <p-calendar  view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+                    <p-calendar   view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
                 </div>
                 &nbsp;
                 <div style="display: flex;" class="col-12 md:col-6 lg:col-3"> 

@@ -89,6 +89,8 @@ export class ElaboracionInspeccionesComponent implements OnInit {
     isEmpleadoValid!: boolean;
     equipo!: string;
     observacion!: string;
+    observacion1!: string;
+    observacion2!: string;
     flagImprimir!: boolean;
     x: ElementoInspeccion[] = [];
     y = new Array();
@@ -193,10 +195,15 @@ export class ElaboracionInspeccionesComponent implements OnInit {
             this.inspeccionService.findByFilter(filterQuery)
                 .then((data: any) => {
                     this.inspeccion = (<Inspeccion[]>data['data'])[0];
+
                     this.equipo = this.inspeccion.equipo;
-                    this.observacion = this.inspeccion.observacion;
                     this.programacion = this.inspeccion.programacion;
                     this.listaInspeccion = this.programacion == null ? this.inspeccion.listaInspeccion : this.inspeccion.programacion.listaInspeccion;
+                    if(this.listaInspeccion?.tipoLista!='Ergonomía'){
+                        this.observacion = this.inspeccion.observacion;}
+                        else{
+                            this.observacion1=JSON.parse(this.inspeccion.observacion)[0]
+                            this.observacion2=JSON.parse(this.inspeccion.observacion)[1]}
                     this.area = this.programacion == null ? this.inspeccion.area : this.inspeccion.programacion.area;
                     this.getTareaEvidences(parseInt(this.listaInspeccion.listaInspeccionPK.id), this.listaInspeccion.listaInspeccionPK.version);
                     setTimeout(() => {
@@ -316,7 +323,8 @@ export class ElaboracionInspeccionesComponent implements OnInit {
             inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0].opcionCalificacion;
             inspeccion.respuestasCampoList = [];
             inspeccion.equipo = this.equipo;
-            inspeccion.observacion = this.observacion;
+            if(this.listaInspeccion?.tipoLista=='Ergonomía'){inspeccion.observacion =  JSON.stringify([this.observacion1,this.observacion2])}
+            else {inspeccion.observacion = this.observacion;}
             this.listaInspeccion.formulario.campoList.forEach(campo => {
                 if (campo.tipo == 'multiple_select' && campo.respuestaCampo.valor != null) {
                     let arraySelection = (<string[]>campo.respuestaCampo.valor);

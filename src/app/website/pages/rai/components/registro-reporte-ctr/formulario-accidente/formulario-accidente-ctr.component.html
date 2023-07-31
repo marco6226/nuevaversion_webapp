@@ -1,4 +1,4 @@
-<!-- <p-toast></p-toast> -->
+<p-toast></p-toast>
 <p-panel header="FORMULARIO DE ACCIDENTES">
   
   <ng-template #vacio>
@@ -100,7 +100,7 @@
             <div class="col-md-6 col-sm-12">
               <div class="input-field">
                 <label>Fecha Nacimiento</label>
-                <p-calendar [locale]="locale" dateFormat="dd/mm/yy"
+                <p-calendar appendTo="body" [locale]="locale" dateFormat="dd/mm/yy"
                 yearRange="1960:{{anioActual}}" showButtonBar="true" showClear="true"
                 formControlName="fechaNacimiento" required [ngStyle]="{'width': '90%'}"></p-calendar>
               </div>
@@ -120,7 +120,7 @@
             <div class="col-md-6 col-sm-12">
               <div class="input-field">
                 <label>Fecha Ingreso</label>
-                <p-calendar required [locale]="locale" dateFormat="dd/mm/yy"
+                <p-calendar appendTo="body" required [locale]="locale" dateFormat="dd/mm/yy"
                 yearRange="1960:{{anioActual}}"
                 formControlName="fechaIngreso" [ngStyle]="{'width': '90%'}"></p-calendar>
               </div>
@@ -168,7 +168,7 @@
               <div class="col-md-6 col-sm-12">
                 <div class="input-field">
                   <label>Fecha del accidente</label>
-                  <p-calendar [locale]="locale" dateFormat="dd/mm/yy"
+                  <p-calendar appendTo="body" [locale]="locale" dateFormat="dd/mm/yy"
                   formControlName="fechaAccidente" required [yearNavigator]="true" 
                   [monthNavigator]="true" yearRange="1960:{{anioActual}}"
                   [ngStyle]="{'width': '90%'}"></p-calendar>
@@ -177,7 +177,7 @@
               <div class="col-md-6 col-sm-12">
                 <div class="input-field">
                   <label>Hora del accidente</label>
-                  <p-calendar [locale]="locale"
+                  <p-calendar appendTo="body" [locale]="locale"
                   formControlName="horaAccidente" required
                   [ngStyle]="{'width': '90%'}" [timeOnly]="true"></p-calendar>
                 </div>
@@ -222,7 +222,7 @@
               <div class="col-md-6 col-sm-12">
                 <div class="input-field">
                   <label>Hora de inicio de labores</label>
-                  <p-calendar [locale]="locale"
+                  <p-calendar appendTo="body" [locale]="locale"
                   formControlName="horaInicioLabores" required
                   [ngStyle]="{'width': '90%'}" [timeOnly]="true"></p-calendar>
                 </div>
@@ -454,7 +454,7 @@
               <div class="input-field">
                 <label>Fecha de cierre</label>
                 <div>
-                  <p-calendar [locale]="locale" required dateFormat="dd/mm/yy"
+                  <p-calendar appendTo="body" [locale]="locale" required dateFormat="dd/mm/yy"
                   formControlName="fechaCierre" [yearNavigator]="true" yearRange="2010:2035" [monthNavigator]="true"></p-calendar>
                 </div>
               </div>
