@@ -540,15 +540,16 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
         reporte.identificacionEmpresa = this.form?.value.identificacionEmpresa;
         reporte.istemporal = true;
         await this.reporteService.create(reporte).then(
-            async (data: any) => {
-                this.onSave.emit(<Reporte>data)
+            async (dataRep: any) => {
+
+                reporte.id = dataRep;
 
                 let filterQuery = new FilterQuery();
                 filterQuery.fieldList = this.fields;
                 filterQuery.filterList = []
                 
                 filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
-                filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "hashId", value1: 'RAI-'+data.toString() });
+                filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "hashId", value1: 'RAI-'+dataRep.toString() });
                 await this.desviacionService.findByFilter(filterQuery).then(
                   (resp: any) => {
                     this.desviacionesList = resp['data'];
@@ -557,6 +558,8 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
                     .then((data) => {
                       let analisisDesviacion = <AnalisisDesviacion>data;
                       this.analisisId = analisisDesviacion.id ?? null;
+                    }).finally(() => {
+                      this.onSave.emit(<Reporte>reporte)
                     })
                   })
 
@@ -565,20 +568,20 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
             }
 
         );
-        this.reporte=reporte
+        // this.reporte=reporte
     } else if (this.modificar) {
 
       ad.id = this.analisisId!;
       ad.desviacionesList=this.desviacionesList;
-      this.analisisDesviacionService.update(ad)
-
-      let reporte = <Reporte>this.form?.value;
-      reporte.testigoReporteList = this.testigoReporteList;
-      reporte.istemporal = true;
-      this.reporteService.update(reporte).then(
-          data => this.onSave.emit(<Reporte>data)
-      );
-      this.reporte=reporte
+      this.analisisDesviacionService.update(ad).then(() => {
+        let reporte = <Reporte>this.form?.value;
+        reporte.testigoReporteList = this.testigoReporteList;
+        reporte.istemporal = true;
+        this.reporteService.update(reporte).then(
+            data => this.onSave.emit(<Reporte>data)
+        );
+      })
+      // this.reporte=reporte
     }
     this.setListDataFactor()
   }

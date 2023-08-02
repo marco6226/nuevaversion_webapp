@@ -94,12 +94,12 @@ export class RegistroReporteTemporalComponent implements OnInit {
 
   onSave(reporte: Reporte) {
    
-    this.reporteSelect=reporte
+    this.reporteSelect = reporte
     if (this.adicionar) {
       this.messgaService.add({
         severity: 'success',
         summary: 'Reporte realizado',
-        detail: `Se ha registrado el reporte RAI-${reporte}`
+        detail: `Se ha registrado el reporte RAI-${reporte.id}`
       });
     } else if (this.modificar) {
       this.messgaService.add({
