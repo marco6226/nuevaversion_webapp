@@ -248,18 +248,19 @@
 </div>
 
 <p-dialog [(visible)]="visibleDlgCorreo" [modal]="true" [style]="{width: '70vw'}" [draggable]="false" [resizable]="false" (onHide)="closeDlgEmails()">
-    <form formGroup="formEmail">
+    <!-- <form formGroup="formEmail"> -->
         <div class="flex flex-column">
             <div class="field grid">
                 <label for="emails" class="col-12 mb-2 md:col-2 md:mb-0">Para:</label>
                 <div class="col-12 md:col-10">
-                    <p-chips id="emails" formControlName="formEmail" required></p-chips>
+                    <!-- <p-chips id="emails" formControlName="emails" required></p-chips> -->
+                    <p-chips id="emails" [(ngModel)]="emails" required></p-chips>
                 </div>
             </div>
         </div>
         <div class="flex flex-column justify-content-end md:flex-row">
-            <button type="button" pButton label="Enviar notificación" icon="pi pi-send" class="p-button-success" style="margin-right: 15px;"></button>
-            <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-danger"></button>
+            <button type="button" pButton label="Enviar notificación" icon="pi pi-send" class="p-button-success" style="margin-right: 15px;" (click)="envioEmails()"></button>
+            <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-danger" (click)="closeDlgEmails()"></button>
         </div>
-    </form>
+    <!-- </form> -->
 </p-dialog>
