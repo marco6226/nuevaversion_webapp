@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { PerfilService } from 'src/app/website/pages/admin/services/perfil.service';
+import { UsuarioService } from 'src/app/website/pages/admin/services/usuario.service';
 import { ViewResumenInpAliados } from 'src/app/website/pages/comun/entities/view-resumen-aliados';
 import { Criteria } from 'src/app/website/pages/core/entities/filter';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
@@ -18,7 +19,7 @@ import { ListaInspeccion } from 'src/app/website/pages/inspecciones/entities/lis
   selector: 'app-consulta-inspecciones-ctr',
   templateUrl: './consulta-inspecciones-ctr.component.html',
   styleUrls: ['./consulta-inspecciones-ctr.component.scss'],
-  providers: [ViewInspeccionCtrService, ViewResumenInpAliadosService]
+  providers: [ViewInspeccionCtrService, ViewResumenInpAliadosService,UsuarioService]
 })
 export class ConsultaInspeccionesCtrComponent implements OnInit {
 
@@ -66,6 +67,9 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
   visibleDlgCorreo: boolean = false;
   formEmail: FormGroup | null = null;
 
+  inpID!:number
+  emails:any;
+
   constructor(
     private paramNav: ParametroNavegacionService,
     private sesionService: SesionService,
@@ -74,6 +78,7 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
     private empresaService: EmpresaService,
     private viewInspeccionCtrService: ViewInspeccionCtrService,
     private viewResumenInpAliadosService: ViewResumenInpAliadosService,
+    private usuarioService: UsuarioService,
     private fb: FormBuilder
   ){
     this.formEmail = this.fb.group({
@@ -257,12 +262,27 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
   }
 
   openDlgEmails(inpID: number){
+    this.inpID=inpID
+    this.emails=[]
     this.formEmail?.reset();
     this.visibleDlgCorreo = true;
   }
 
   closeDlgEmails(){
     this.formEmail?.reset();
+    this.visibleDlgCorreo = false;
+  }
+  
+  envioEmails(){
+
+    // console.log(this.formEmail)
+    console.log(this.emails)
+    if(this.emails.length>0)
+    this.emails.forEach(async (element:any) => {
+      await this.usuarioService.emailAliadoCicloCorto(element, this.inpID.toString());
+    });
+    // this.usuarioService.emailAliadoCicloCorto('juanbernal@lerprevencion.com', this.inpID.toString());
+    // this.formEmail?.reset();
     this.visibleDlgCorreo = false;
   }
 
