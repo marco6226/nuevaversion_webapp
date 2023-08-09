@@ -128,6 +128,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.empresa = this.sesionService.getEmpresa() ?? {} as Empresa;
         this.empleado = this.sesionService.getEmpleado()!;
         let filterQuery = new FilterQuery();
         let filter = new Filter();

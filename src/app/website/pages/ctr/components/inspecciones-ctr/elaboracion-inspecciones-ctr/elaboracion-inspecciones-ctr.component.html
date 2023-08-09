@@ -10,7 +10,7 @@
     <p-header class="container">
       <div class="row">
         <div class="col-md-9 col-sm-12 mb-3">
-          <button *ngIf="!adicionar" pButton class="p-button-raised p-button-success margin-right margin-left"
+          <button *ngIf="!adicionar && (empresa?.id != '22' && empresa?.idEmpresaAliada != '22')" pButton class="p-button-raised p-button-success margin-right margin-left"
             icon="bi bi-printer" (click)="imprimirImagen()"></button>
           {{listaInspeccion?.nombre}}
         </div>
