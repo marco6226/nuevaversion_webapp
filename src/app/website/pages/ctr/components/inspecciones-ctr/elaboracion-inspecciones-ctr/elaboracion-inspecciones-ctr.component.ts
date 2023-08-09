@@ -196,7 +196,13 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
 
             filterQuery.filterList = [filterId];
             this.initLoading = true;
-            this.inspeccionService.findByFilter(filterQuery)
+            let sesionEmpresa = this.sesionService.getEmpresa();
+            if(sesionEmpresa?.idEmpresaAliada !== null) {
+                filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresa.id', value1: sesionEmpresa?.idEmpresaAliada?.toString()!});
+            } else {
+                filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresa.id', value1: sesionEmpresa?.id});
+            }
+            this.inspeccionService.findInspeccionAliadoByFilter(filterQuery)
                 .then((data: any) => {
                     this.inspeccion = (<Inspeccion[]>data['data'])[0];
                     this.equipo = this.inspeccion.equipo;
@@ -229,7 +235,12 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 .catch(err => {
                     this.initLoading = false;
                 }).finally(() => {
-                    this.cargarPorcentajesDeCumplimiento();
+                    const intervaalID = setInterval(() => {
+                        if(this.listaInspeccion && this.listaInspeccion.elementoInspeccionList){
+                            this.cargarPorcentajesDeCumplimiento();
+                            clearInterval(intervaalID);
+                        }
+                    }, 1000);
                 });
         }
         else {
