@@ -588,6 +588,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 this.inspeccionService.saveInspeccionAliado(inspeccion)
                 .then(data => {
                     this.manageResponse(<Inspeccion>data);
+                    this.saveCumplimiento(<Inspeccion>data, calificacionList);
                 }).finally(() => {
                     this.solicitando = false;
                 });
@@ -596,6 +597,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 this.inspeccionService.updateInspeccionAliado(inspeccion)
                 .then(data => {
                     this.manageResponse(<Inspeccion>data);
+                    this.saveCumplimiento(<Inspeccion>data, calificacionList);
                     this.solicitando = false;
                 }).finally(() => {
                     this.solicitando = false;
