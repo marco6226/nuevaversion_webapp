@@ -5,11 +5,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DirectorioService } from 'src/app/website/pages/ado/services/directorio.service';
+import { Cumplimiento } from 'src/app/website/pages/comun/entities/cumplimiento';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
 import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { SistemaNivelRiesgo } from 'src/app/website/pages/core/entities/sistema-nivel-riesgo';
 import { AuthService } from 'src/app/website/pages/core/services/auth.service';
+import { CumplimientoService } from 'src/app/website/pages/core/services/cumplimiento.service';
 import { ParametroNavegacionService } from 'src/app/website/pages/core/services/parametro-navegacion.service';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 import { SistemaNivelRiesgoService } from 'src/app/website/pages/core/services/sistema-nivel-riesgo.service';
@@ -30,7 +32,7 @@ import { ListaInspeccionFormCtrComponent } from '../lista-inspeccion-form-ctr/li
     selector: 'app-elaboracion-inspecciones-ctr',
     templateUrl: './elaboracion-inspecciones-ctr.component.html',
     styleUrls: ['./elaboracion-inspecciones-ctr.component.scss'],
-    providers: [DirectorioService, DatePipe]
+    providers: [DirectorioService, DatePipe, CumplimientoService]
 
 })
 export class ElaboracionInspeccionesCtrComponent implements OnInit {
@@ -104,6 +106,8 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
         'Ciclo corto'
     ]);
 
+    cumplimientoList: Cumplimiento[] = [];
+
     constructor(
         private router: Router,
         private route: ActivatedRoute,
@@ -119,6 +123,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
         private fb: FormBuilder,
         private domSanitizer: DomSanitizer,
         private messageService: MessageService,
+        private cumplimientoService: CumplimientoService
 
     ) { }
 
@@ -142,7 +147,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
 
         this.accion = this.paramNav.getAccion<string>();
         if (this.accion == 'POST') {
-            this.redireccion = '/app/inspecciones/programacion';
+            this.redireccion = '/app/ctr/calendario';
             this.adicionar = true;
             this.programacion = this.paramNav.getParametro<Programacion>();
             this.listaInspeccion = this.programacion == null ? this.inspeccion.listaInspeccion : this.programacion.listaInspeccion;
@@ -170,12 +175,14 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 })
                 .catch(err => {
                     this.initLoading = false;
+                }).finally(() => {
+                    this.cargarPorcentajesDeCumplimiento();
                 });
             this.getTareaEvidences(parseInt(this.listaInspeccion.listaInspeccionPK.id), this.listaInspeccion.listaInspeccionPK.version);
 
 
         } else if (this.accion == 'GET' || this.accion == 'PUT') {
-            this.redireccion = '/app/inspecciones/consultaInspecciones';
+            this.redireccion = '/app/ctr/auditoriasRealizadas';
             this.consultar = this.accion == 'GET';
             this.modificar = this.accion == 'PUT';
             this.inspeccion = this.paramNav.getParametro<Inspeccion>();
@@ -221,7 +228,9 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 })
                 .catch(err => {
                     this.initLoading = false;
-                });;
+                }).finally(() => {
+                    this.cargarPorcentajesDeCumplimiento();
+                });
         }
         else {
             this.consultar = true;
@@ -278,6 +287,23 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 }
             }
         }
+    }
+
+    //Cargar los valores guardados en BBDD de los porcentajes de cumplimiento
+    cargarPorcentajesDeCumplimiento(){
+        let filterQueryCumplimiento: FilterQuery = new FilterQuery();
+        let elemInpID: string[] = this.listaInspeccion.elementoInspeccionList.map(elem => {
+            return elem.id;
+        });
+        filterQueryCumplimiento.filterList = [
+            {criteria: Criteria.CONTAINS, field: 'elementoInspeccion.id', value1: '{' + elemInpID.join(',') + '}'},
+            {criteria: Criteria.EQUALS, field: 'inspeccion', value1: this.inspeccion.id.toString()}
+        ];
+        this.cumplimientoService.findByFilter(filterQueryCumplimiento).then((res: any) => {
+            this.cumplimientoList = Array.from(res['data']);
+        }).catch((err: any) => {
+            console.error('Error al obtener lista de cumplimiento ', err);
+        });
     }
 
     private cargarCalificaciones(elemList: ElementoInspeccion[], calificacionList: Calificacion[]) {
@@ -339,6 +365,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 this.inspeccionService.create(inspeccion)
                     .then(data => {
                         this.manageResponse(<Inspeccion>data);
+                        this.saveCumplimiento(<Inspeccion>data, calificacionList);
                         this.solicitando = false;
                     })
                     .catch(err => {
@@ -381,6 +408,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 this.inspeccionService.update(inspeccion)
                     .then(data => {
                         this.manageResponse(<Inspeccion>data);
+                        this.saveCumplimiento(<Inspeccion>data, calificacionList);
                         this.solicitando = false;
                     })
                     .catch(err => {
@@ -509,6 +537,67 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
 
     }
 
+    public onSubmitInpAliado() {
+        let calificacionList: Calificacion[] = [];
+        try {
+            this.extraerCalificaciones(this.listaInspeccion.elementoInspeccionList, calificacionList);
+            
+            let inspeccion: Inspeccion = new Inspeccion();
+            inspeccion.area = this.area;
+            inspeccion.listaInspeccion = this.listaInspeccion;
+            inspeccion.programacion = this.programacion;
+            inspeccion.calificacionList = calificacionList;
+            inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0].opcionCalificacion;
+            inspeccion.respuestasCampoList = [];
+            inspeccion.equipo = this.equipo;
+            inspeccion.observacion = this.observacion;
+            
+            this.listaInspeccion.formulario.campoList.forEach(campo => {
+                if(campo.tipo === 'multiple_select' && campo.respuestaCampo.valor !== null) {
+                    let arraySelection: string[] = <string[]>campo.respuestaCampo.valor;
+                    if(arraySelection.length > 0) {
+                        let valorArray: string = "";
+                        arraySelection.forEach(element => {
+                            valorArray += element + ';';
+                        });
+                        valorArray = valorArray.substring(0, valorArray.length - 1);
+                        campo.respuestaCampo.valor = valorArray;
+                    } else {
+                        campo.respuestaCampo.valor = null;
+                    }
+                }
+                campo.respuestaCampo.campoId = campo.id;
+                inspeccion.respuestasCampoList.push(campo.respuestaCampo);
+            });
+
+            this.solicitando = true;
+            if(this.adicionar) {
+                // console.log(inspeccion);
+                this.inspeccionService.saveInspeccionAliado(inspeccion)
+                .then(data => {
+                    this.manageResponse(<Inspeccion>data);
+                }).finally(() => {
+                    this.solicitando = false;
+                });
+            }else {
+                inspeccion.id = this.inspeccionId;
+                this.inspeccionService.updateInspeccionAliado(inspeccion)
+                .then(data => {
+                    this.manageResponse(<Inspeccion>data);
+                    this.solicitando = false;
+                }).finally(() => {
+                    this.solicitando = false;
+                });
+            }
+
+            if(this.accion == 'POST') {
+                this.inspeccion = inspeccion;
+            }
+        } catch (error: any) {
+            this.messageService.add({severity: 'error', detail: error});
+        }
+    }
+
     private manageResponse(insp: Inspeccion) {
         this.inspeccion.id = insp.id;
         insp.calificacionList.
@@ -530,6 +619,66 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
         });
         this.finalizado = true;
 
+    }
+
+    private saveCumplimiento(insp: Inspeccion, calificacionList: Calificacion[]){
+        // console.log(insp, calificacionList);
+        if(this.cumplimientoList.length <= 0){
+            insp.listaInspeccion.elementoInspeccionList.forEach(elementoInspeccion => {
+                let cumplimiento: Cumplimiento = {} as Cumplimiento;
+                cumplimiento.elementoInspeccion = elementoInspeccion;
+                
+                elementoInspeccion.elementoInspeccionList.forEach(elem => {
+                    elem.calificacion = calificacionList.find(calf => calf.elementoInspeccion.id === elem.id)!;
+                });
+
+                let porcentajeCumplimiento = this.calcularCalificacion(elementoInspeccion.elementoInspeccionList);
+                if(typeof porcentajeCumplimiento === 'string'){
+                    cumplimiento.aplica = false;
+                    cumplimiento.porcentajeCumplimiento = null;
+                }else {
+                    cumplimiento.aplica = true;
+                    cumplimiento.porcentajeCumplimiento = porcentajeCumplimiento;
+                }
+                cumplimiento.inspeccion = insp.id;
+                this.cumplimientoList.push(cumplimiento);
+            });
+            this.cumplimientoService.saveCumplimiento(this.cumplimientoList)
+            .then(res => {
+                this.cumplimientoList = <Cumplimiento[]>res;
+                console.info('cumplimiento saved');
+            }).catch(err => {
+                console.error(err);
+            });
+        }else {
+            insp.listaInspeccion.elementoInspeccionList.forEach(elementoInspeccion => {
+                let cumplimiento = this.cumplimientoList
+                .find(c => c.elementoInspeccion.id === elementoInspeccion.id)!;
+                let index = this.cumplimientoList
+                .findIndex(c => c.elementoInspeccion.id === elementoInspeccion.id);
+                
+                elementoInspeccion.elementoInspeccionList.forEach(elem => {
+                    elem.calificacion = calificacionList.find(calf => calf.elementoInspeccion.id === elem.id)!;
+                });
+                
+                let porcentajeCumplimiento = this.calcularCalificacion(elementoInspeccion.elementoInspeccionList);
+                if(typeof porcentajeCumplimiento === 'string'){
+                    cumplimiento.aplica = false;
+                    cumplimiento.porcentajeCumplimiento = null;
+                }else {
+                    cumplimiento.aplica = true;
+                    cumplimiento.porcentajeCumplimiento = porcentajeCumplimiento;
+                }
+                cumplimiento.inspeccion = insp.id;
+                this.cumplimientoList.splice(index, 1, cumplimiento);
+            });
+            this.cumplimientoService.updateCumplimiento(this.cumplimientoList)
+            .then(res => {
+                console.info('cumplimiento updated');
+            }).catch(err => {
+                console.error(err);
+            });
+        }
     }
 
     validarRequerirFoto(elementoSelect: ElementoInspeccion) {
@@ -648,20 +797,16 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                     calificacionList.push(calif);
                 }
             } else {
-
-                if (elemList[i].calificacion.opcionCalificacion.id == null) {
-                    throw new Error("El elemento \"" + elemList[i].codigo + " " + elemList[i].nombre + "\" aún no ha sido calificado.");
+                let calif = elemList[i].calificacion;
+                if(calif.opcionCalificacion && !calif.opcionCalificacion.id) continue;
+                if (calif.nivelRiesgo != null && calif.nivelRiesgo.id != null && (calif.recomendacion == null || calif.recomendacion == '')) {
+                    throw new Error("Se ha establecido un nivel de riesgo para el elemento " + elemList[i].codigo + ". Debe especificar una recomendación");
                 } else {
-                    let calif = elemList[i].calificacion;
-                    if (calif.nivelRiesgo != null && calif.nivelRiesgo.id != null && (calif.recomendacion == null || calif.recomendacion == '')) {
-                        throw new Error("Se ha establecido un nivel de riesgo para el elemento " + elemList[i].codigo + ". Debe especificar una recomendación");
-                    } else {
-                        calif.elementoInspeccion = {} as ElementoInspeccion;
-                        calif.elementoInspeccion.id = elemList[i].id;
-                        calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
-                        calificacionList.push(calif);
-                        if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
-                    }
+                    calif.elementoInspeccion = {} as ElementoInspeccion;
+                    calif.elementoInspeccion.id = elemList[i].id;
+                    calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
+                    calificacionList.push(calif);
+                    if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                 }
             }
         }
@@ -903,7 +1048,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
         let obtenido = 0;
         let esperado = 0;
         elementoInspeccionList.forEach(elem => {
-            this.listaInspeccion.opcionCalificacionList
+            // this.listaInspeccion.opcionCalificacionList
             if(elem.calificacion?.opcionCalificacion.id){
                 let valorSeleccion = this.listaInspeccion.opcionCalificacionList
                 .find(item => item.id === elem.calificacion.opcionCalificacion.id && !item.despreciable)?.valor;
@@ -914,7 +1059,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
             }
         });
         cumplimiento = (obtenido / esperado) * 100;
-        return !isNaN(cumplimiento) && cumplimiento !== Infinity ? cumplimiento.toFixed(2) : 'NA';
+        return !isNaN(cumplimiento) && cumplimiento !== Infinity ? Number(cumplimiento.toFixed(2)).valueOf() : 'NA';
     }
 
     calcularTotalCumplimiento(listaInspeccion: ListaInspeccion): string | number {

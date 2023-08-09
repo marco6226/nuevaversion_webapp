@@ -16,10 +16,11 @@ import { ParametroNavegacionService } from 'src/app/website/pages/core/services/
 import { ProgramacionService } from 'src/app/website/pages/inspecciones/services/programacion.service';
 import { ListaInspeccionService } from 'src/app/website/pages/inspecciones/services/lista-inspeccion.service';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
-import { Criteria } from 'src/app/website/pages/core/entities/filter';
+import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
 import { Localidades } from '../../../entities/aliados';
 import { EmpresaService } from 'src/app/website/pages/empresa/services/empresa.service';
 import { Empresa } from 'src/app/website/pages/empresa/entities/empresa';
+import { EmpleadoBasic } from 'src/app/website/pages/empresa/entities/empleado-basic';
 
 @Component({
   selector: 'app-programacion-ctr',
@@ -53,8 +54,8 @@ export class ProgramacionCtrComponent implements OnInit {
   totalRecords!: number;
   localidades: Localidades[] = [];
   localidadesOption: {label: string; value: Localidades}[] = [];
-  empresas: Empresa[] = [];
-  empresasOption: {label: string; value: Empresa}[] = [];
+  empresasAliadas: Empresa[] = [];
+  empresasAliadasOption: {label: string; value: Empresa}[] = [];
 
   calendarOptions!: CalendarOptions;
   // events!: any[];
@@ -85,8 +86,9 @@ export class ProgramacionCtrComponent implements OnInit {
       numeroInspecciones: ['', Validators.required],
       listaInspeccionPK: ['', Validators.required],
       area: null,
-      empresa: [null, Validators.required],
+      empresaAliada: [null, Validators.required],
       localidad: [null, Validators.required],
+      empleadoBasic: [null, Validators.required],
       unidadFrecuencia: null,
       valorFrecuencia: null,
       fechaHasta: null,
@@ -95,7 +97,8 @@ export class ProgramacionCtrComponent implements OnInit {
 
     this.formFilters = this.fb.group({
       localidades: [null],
-      empresas: [null]
+      empresasAliadas: [null],
+      empleado: [null]
     });
   }
 
@@ -115,7 +118,8 @@ export class ProgramacionCtrComponent implements OnInit {
       editable: true,
       selectable: true,
       selectMirror: true,
-      dayMaxEvents: true
+      dayMaxEvents: true,
+      displayEventTime: false
     };
 
     //Revisar si se puede editar programaciones
@@ -129,8 +133,8 @@ export class ProgramacionCtrComponent implements OnInit {
     this.loadListaDeInspecciones();
 
     this.form.controls['area'].disabled;
-    this.loadLocalidades();
-    await this.loadEmpresasAliadas()
+    await this.loadLocalidades();
+    this.loadEmpresasAliadas()
     .finally(() => {  
       this.actualizarEventos();
     });
@@ -139,12 +143,13 @@ export class ProgramacionCtrComponent implements OnInit {
 
   async loadListaDeInspecciones(){
     let filterQuery = new FilterQuery();
-    filterQuery.filterList = [{
-      field: 'estado',
-      criteria: Criteria.NOT_EQUALS,
-      value1: 'inactivo',
-      value2: null
-    }];
+    filterQuery.filterList = [
+      // {field: 'estado', criteria: Criteria.NOT_EQUALS, value1: 'inactivo', value2: null}
+      {field: 'estado', criteria: Criteria.EQUALS, value1: 'activo'}
+    ];
+    let filterAuditoria: Filter = new Filter();
+    filterAuditoria = {criteria: Criteria.LIKE, field: 'tipoLista', value1: 'Ciclo %'};
+    filterQuery.filterList.push(filterAuditoria);
 
     await this.listaInspeccionService.findByFilter(filterQuery)
     .then(
@@ -196,10 +201,10 @@ export class ProgramacionCtrComponent implements OnInit {
     await this.empresaService.findByFilter(filterQuery).then(
       (res: any) => {
         // console.log(res);
-        this.empresas = Array.from(res.data);
-        this.empresasOption = [];
-        this.empresas.forEach(emp => {
-          this.empresasOption.push({label: emp.razonSocial ?? '', value: emp})
+        this.empresasAliadas = Array.from(res.data);
+        this.empresasAliadasOption = [];
+        this.empresasAliadas.forEach(emp => {
+          this.empresasAliadasOption.push({label: emp.razonSocial + ' - ' + emp.nit, value: emp})
         })
       },
       (reason: any) => {
@@ -223,25 +228,25 @@ export class ProgramacionCtrComponent implements OnInit {
     )
   }
 
-  async actualizarEventos() {
+  async actualizarEventos(filters?: Filter[]) {
 
     let filterQuery = new FilterQuery();
 
     filterQuery.filterList = [
-      { criteria: Criteria.CONTAINS, field: 'empresa.id', value1: this.empresasAliadasIds()}
+      { criteria: Criteria.IS_NOT_NULL, field: 'empresaAliada'}
     ];
 
     filterQuery.fieldList = [
       'id',
       'fecha',
       'listaInspeccion_listaInspeccionPK',
-      'area_id',
-      'area_nombre',
       'numeroInspecciones',
       'numeroRealizadas',
       'localidad',
-      'empresa'
+      'empresaAliada',
+      'empleadoBasic'
     ];
+    if(filters) filterQuery.filterList.push(...filters);
 
     this.progLoading = true;
     try {
@@ -304,7 +309,7 @@ export class ProgramacionCtrComponent implements OnInit {
   }
 
   empresasAliadasIds(): string{
-    let idList: string[] = this.empresas.map(emp => {
+    let idList: string[] = this.empresasAliadas.map(emp => {
       return emp.id!;
     });
     return '{' + idList.join(',') + '}';
@@ -320,6 +325,7 @@ export class ProgramacionCtrComponent implements OnInit {
     this.actualizar = true;
     this.adicionar = false;
     this.fechaSelect = prog.fecha;
+    console.log(this.localidades);
     console.log(prog);
     this.form.patchValue({
       id: prog.id,
@@ -327,7 +333,8 @@ export class ProgramacionCtrComponent implements OnInit {
       listaInspeccionPK: prog.listaInspeccion.listaInspeccionPK,
       area: null,
       localidad: prog.localidad,
-      empresa: prog.empresa
+      empresaAliada: prog.empresaAliada,
+      empleadoBasic: JSON.parse(prog.empleadoBasic)
     });
     this.btnInspDisable = prog.numeroRealizadas == prog.numeroInspecciones;
     if (prog.numeroRealizadas > 0) {
@@ -475,7 +482,8 @@ export class ProgramacionCtrComponent implements OnInit {
     programacion.fecha = fecha;
     // programacion.area = this.form.value.area;
     programacion.localidad = this.form.value.localidad;
-    programacion.empresa = this.form.value.empresa;
+    programacion.empresaAliada = this.form.value.empresaAliada;
+    programacion.empleadoBasic = JSON.stringify(this.form.value.empleadoBasic);
     if (this.form.value.listaInspeccionPK != null) {
       programacion.listaInspeccion = {} as ListaInspeccion;
       programacion.listaInspeccion.listaInspeccionPK = this.form.value.listaInspeccionPK;
@@ -549,7 +557,7 @@ export class ProgramacionCtrComponent implements OnInit {
     let programacion: Programacion;
     this.paramNav.setParametro<Programacion>(programacion!);
     this.paramNav.setAccion<string>('POST');
-    this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones');
+    this.paramNav.redirect('/app/ctr/elaboracionAuditoriaCicloCorto');
   }
 
   irInspeccion2() {
@@ -558,7 +566,7 @@ export class ProgramacionCtrComponent implements OnInit {
 
     this.paramNav.setParametro<Programacion>(this.programacionList.find(prog => prog.id === this.form.value.id)!);
     this.paramNav.setAccion<string>('POST');
-    this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones/' + this.form.value.listaInspeccionPK.id + "/" + this.form.value.listaInspeccionPK.version);
+    this.paramNav.redirect('/app/ctr/elaboracionAuditoriaCicloCorto/' + this.form.value.listaInspeccionPK.id + "/" + this.form.value.listaInspeccionPK.version);
     let fecha: Date;
     fecha = new Date;
   }
@@ -569,6 +577,35 @@ export class ProgramacionCtrComponent implements OnInit {
 
   openDlgFiltros(){
     this.visibleDlgFiltros = true;
+  }
+
+  onReceiveEmpleadoBasic(event?: EmpleadoBasic) {
+    this.form.get('empleadoBasic')?.setValue(event);
+  }
+
+  applyFilter(){
+    let localidades: any[] = this.formFilters.value.localidades;
+    let empresas: any[] = this.formFilters.value.empresasAliadas;
+    let empleado: any = this.formFilters.value.empleado;
+
+    let filterList: Filter[] = [];
+    if(localidades && localidades.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'localidad.id', value1: this.getIdsForFilter(localidades)});
+    if(empresas && empresas.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'empresaAliada.id', value1: this.getIdsForFilter(empresas)});
+    if(empleado) filterList.push({criteria: Criteria.LIKE, field: 'empleadoBasic', value1: '%' + empleado.usuarioBasic.email + '%'});
+
+    this.actualizarEventos(filterList);
+    this.visibleDlgFiltros = false;
+  }
+
+  getIdsForFilter(event: any[]): string{
+    let ids = <number[]>event.map(item => {
+      return item.id;
+    });
+    return '{' + ids.join(',') + '}';
+  }
+
+  cleanFilters(){
+    this.formFilters.reset();
   }
 }
 

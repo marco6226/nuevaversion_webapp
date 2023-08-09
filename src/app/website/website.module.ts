@@ -210,6 +210,7 @@ import { ListasInspeccionCtrComponent } from './pages/ctr/components/inspeccione
 import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ctr/programacion-ctr/programacion-ctr.component';
 import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
 import { AuthGuardService } from './pages/core/services/auth-guard.service';
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
   declarations: [
@@ -425,6 +426,7 @@ import { AuthGuardService } from './pages/core/services/auth-guard.service';
     ScrollPanelModule,
     ChipsModule,
     InputSwitchModule,
+    SliderModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

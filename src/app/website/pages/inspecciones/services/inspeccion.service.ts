@@ -31,6 +31,32 @@ export class InspeccionService extends CRUDService<Inspeccion>{
           }
         )
     });
-  } 
+  }
+
+  saveInspeccionAliado(inspeccion: Inspeccion) {
+    return new Promise((resolve, reject) => {
+      this.httpInt.post(this.end_point + 'inspeccionAliado', inspeccion)
+      .subscribe(
+        (res: any) => resolve(res),
+        (err: any) => {
+          this.manageError(err);
+          reject(err);
+        }
+      )
+    });
+  }
+
+  updateInspeccionAliado(inspeccion: Inspeccion) {
+    return new Promise((resolve, reject) => {
+      this.httpInt.put(this.end_point + 'inspeccionAliado', inspeccion)
+      .subscribe(
+        (res: any) => resolve(res),
+        (err: any) => {
+          this.manageError(err);
+          reject(err);
+        }
+      )
+    });
+  }
   
 }
