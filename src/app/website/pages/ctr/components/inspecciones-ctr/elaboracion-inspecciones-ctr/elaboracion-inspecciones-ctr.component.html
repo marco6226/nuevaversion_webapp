@@ -10,7 +10,7 @@
     <p-header class="container">
       <div class="row">
         <div class="col-md-9 col-sm-12 mb-3">
-          <button *ngIf="!adicionar" pButton class="p-button-raised p-button-success margin-right margin-left"
+          <button *ngIf="!adicionar && (empresa?.id != '22' && empresa?.idEmpresaAliada != '22')" pButton class="p-button-raised p-button-success margin-right margin-left"
             icon="bi bi-printer" (click)="imprimirImagen()"></button>
           {{listaInspeccion?.nombre}}
         </div>
@@ -18,7 +18,7 @@
           <p *ngIf="inspeccion?.id">INP{{'-'+inspeccion?.id}}</p>
           <p>{{listaInspeccion?.codigo}}</p>
           <p>Versión: {{listaInspeccion?.listaInspeccionPK.version}}</p>
-          <p> Ubicacion: {{area?.nombre}}</p>
+          <p> Localidad: {{programacion?.localidad?.localidad}}</p>
         </div>
       </div>
     </p-header>
@@ -33,18 +33,19 @@
       </app-file-uploader>
     </div>
   </p-panel>
-  <br />
+  
   <s-formulario *ngIf="listaInspeccion?.formulario" [formularioModel]="listaInspeccion?.formulario"
     (onValidChange)="actualizarValidacion($event)"></s-formulario>
-  <br />
+
   <app-lista-inspeccion-form-ctr [value]="listaInspeccion?.elementoInspeccionList"
     [opciones]="listaInspeccion?.opcionCalificacionList" [editable]="false" [disabled]="consultar"
     [nivelRiesgoList]="nivelRiesgoList" diligenciable="true" #listaInspeccionForm
     [usarNivelRiesgo]="listaInspeccion?.usarNivelRiesgo" [usarTipoHallazgo]="listaInspeccion?.usarTipoHallazgo"
     [tipoLista]="listaInspeccion?.tipoLista"></app-lista-inspeccion-form-ctr>
   <!-- (elementoSelect)="onElementoClick($event)" -->
-  <br>
-  <p-panel *sTienePermiso="'INP_GET_ESTADO'">
+
+  <!-- ESTADO DE LA MÁQUINA -->
+  <!-- <p-panel *sTienePermiso="'INP_GET_ESTADO'">
     <p-header>
       <i class="fa fa-th-list" aria-hidden="true"></i>
       <label class="ui-panel-title">Estado de la maquina</label>
@@ -62,11 +63,10 @@
       <textarea [readOnly]="accion=='GET'" pInputTextarea [(ngModel)]="observacion" [value]="observacion"
         rows="3"></textarea>
     </div>
-  </p-panel>
+  </p-panel> -->
 
-  <br />
-
-  <p-panel *ngIf="permisoHse">
+  <!-- VISTO BUENO MAQUINARIA -->
+  <!-- <p-panel *ngIf="permisoHse">
     <p-header>
       <i class="fa fa-th-list" aria-hidden="true"></i>
       <label class="ui-panel-title">Visto Bueno Maquinaria</label>
@@ -108,10 +108,10 @@
     <div *ngIf="!mostarHseGet">
       <h2>No posee visto bueno</h2>
     </div>
-  </p-panel>
+  </p-panel> -->
 
-  <br>
-  <p-panel *ngIf="permisoIngenieria">
+  <!-- VISTO BIENO ÁREA ENCARGADA -->
+  <!-- <p-panel *ngIf="permisoIngenieria">
     <p-header>
       <i class="fa fa-th-list" aria-hidden="true"></i>
       <label class="ui-panel-title">Visto Bueno Area encargada</label>
@@ -153,8 +153,9 @@
     <div *ngIf="!mostarIngGet">
       <h2>No posee visto bueno</h2>
     </div>
-  </p-panel>
+  </p-panel> -->
 
+  <br>
   <p-panel *ngIf="listaInspeccion && esListaConPeso">
     <p-header>
       <i class="pi pi-chart-bar" style="margin-right: 10px;" aria-hidden="true"></i>
@@ -189,12 +190,12 @@
   <br>
   <br>
   <button pButton type="button" icon="pi pi-save" 
-    *ngIf="adicionar && solicitando == false" (click)="onSubmit()" class="float-btn"
-    data-toggle="tooltip" data-placement="bottom" title="Guardar"></button>
+    *ngIf="adicionar && solicitando == false" class="float-btn"
+    data-toggle="tooltip" data-placement="bottom" title="Guardar" (click)="onSubmitInpAliado()"></button>
 
   <button pButton type="button" icon="pi pi-pencil" *ngIf="modificar && solicitando == false"
-    (click)="onSubmit()" class="float-btn p-button-success p-button-success" data-toggle="tooltip"
-    data-placement="bottom" title="Modificar"></button>
+    class="float-btn p-button-success p-button-success" data-toggle="tooltip"
+    data-placement="bottom" title="Modificar" (click)="onSubmitInpAliado()"></button>
 
   <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
     [style]="{width: '35px', height: '35px'}"></p-progressSpinner>

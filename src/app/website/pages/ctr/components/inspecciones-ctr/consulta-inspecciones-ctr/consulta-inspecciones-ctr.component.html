@@ -2,82 +2,96 @@
     <p-panel header="Inspecciones">
 
         <p-tabView>
-            <p-tabPanel header="Programadas">
+            <p-tabPanel header="Inspecciones realizadas">
                 <p-table #dt [value]="inspeccionesList" autoLayout="true" selectionMode="single"
                     [(selection)]="inspeccionSelect" [rows]="10" [paginator]="true" dataKey="id" [lazy]="true"
                     (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading"
-                    sortField="fechaRealizada" sortOrder="1">
+                    sortField="id" sortOrder="1">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="programacion.fecha">Fecha programada
-                                <p-sortIcon field="programacion.fecha"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="programacion.fecha">Fecha elaboración
-                                <p-sortIcon field="fechaRealizada"></p-sortIcon>
-                            </th>
                             <th pSortableColumn="id">Código
                                 <p-sortIcon field="id"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="usuarioRegistra.email">Usuario elabora
-                                <p-sortIcon field="usuarioRegistra.email"></p-sortIcon>
+                            <th pSortableColumn="programacion.fecha">Fecha programada
+                                <p-sortIcon field="programacion.fecha"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="programacion.listaInspeccion.nombre">Lista inspección
-                                <p-sortIcon field="programacion.listaInspeccion.nombre"></p-sortIcon>
+                            <th pSortableColumn="fecha">Fecha ejecutada
+                                <p-sortIcon field="fecha"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="programacion.area.nombre">Ubicación
-                                <p-sortIcon field="programacion.area.nombre"></p-sortIcon>
+                            <th pSortableColumn="tipoInspeccion">Tipo de inspección
+                                <p-sortIcon field="tipoInspeccion"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="fechaModificacion">Última modificación
-                                <p-sortIcon field="fechaModificacion"></p-sortIcon>
+                            <th pSortableColumn="empresaAliadaConNit">Aliado
+                                <p-sortIcon field="empresaAliadaConNit"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="usuarioModifica.email">Usuario modifica
-                                <p-sortIcon field="usuarioModifica.email"></p-sortIcon>
+                            <th pSortableColumn="nombreUsuarioRegistra">Usuario elabora
+                                <p-sortIcon field="nombreUsuarioRegistra"></p-sortIcon>
                             </th>
+                            <th pSortableColumn="programacion.listaInspeccion.nombre">Lista o formato
+                                <p-sortIcon field="listaInspeccion.codigo"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="programacion.localidad.nombre">Localidad
+                                <p-sortIcon field="programacion.localidad.localidad"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="estado">Estado
+                                <p-sortIcon field="estado"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="calificacion">Calificación
+                               <p-sortIcon field="calificacion"></p-sortIcon>
+                            </th>
+                            <th>Acciones</th>
                         </tr>
                         <tr>
                             <td class="text-center bg-light">
-                                <s-rangoFechaSelector (onSelect)="dt.filter($event, 'programacion.fecha', 'bt')">
-                                </s-rangoFechaSelector>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaRealizada', 'bt')">
-                                </s-rangoFechaSelector>
+                                <s-rangoFechaSelector (onSelect)="dt.filter($event, 'programacion.fecha', 'bt')"></s-rangoFechaSelector>
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                                <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fecha', 'bt')"></s-rangoFechaSelector>
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'usuarioRegistra.email', 'contains')">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoInspeccion', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'programacion.listaInspeccion.nombre', 'contains')">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'empresaAliadaConNit', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'programacion.area.nombre', 'contains')">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombreUsuarioRegistra', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaModificacion', 'bt')">
-                                </s-rangoFechaSelector>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'listaInspeccion.codigo', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dt.filter($event.target.value, 'usuarioModifica.email', 'contains')">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'programacion.localidad.localidad', 'contains')">
                             </td>
+                            <td class="text-center bg-light">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                            </td>
+                            <td class="text-center bg-light">
+                                <span>{{sliderRange[0] + ' - ' + sliderRange[1]}}</span>
+                                <p-slider [range]="true" [(ngModel)]="sliderRange" (onChange)="dt.filter(sliderRange, 'calificacion', 'bt')" [style]="{'width': '87%', 'margin-left': '6%'}"></p-slider>
+                                <!-- <input type="range" (input)="test($event)" min="0" max="100"> -->
+                            </td>
+                            <td></td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-inspeccion>
                         <tr [pSelectableRow]="inspeccion" class="table-row table-row-selectable">
-                            <td>{{inspeccion.programacion?.fecha | date:'dd/MM/yyyy'}}</td>
-                            <td>{{inspeccion?.fechaRealizada | date:'dd/MM/yyyy HH:mm'}}</td>
-                            <td>INP-{{inspeccion.id}}</td>
-                            <td>{{inspeccion.usuarioRegistra?.email}}</td>
-                            <td>{{inspeccion.programacion?.listaInspeccion?.nombre}}</td>
-                            <td>{{inspeccion.programacion?.area?.nombre}}</td>
-                            <td>{{inspeccion?.fechaModificacion | date:'dd/MM/yyyy HH:mm'}}</td>
-                            <td>{{inspeccion.usuarioModifica?.email}}</td>
+                            <td>{{'INP-' + inspeccion.id}}</td>
+                            <td>{{inspeccion.programacion.fecha | date:'dd/MM/yyyy HH:mm'}}</td>
+                            <td>{{inspeccion.fecha | date:'dd/MM/yyyy HH:mm'}}</td>
+                            <td>{{inspeccion.tipoInspeccion}}</td>
+                            <td>{{inspeccion.empresaAliadaConNit}}</td>
+                            <td>{{inspeccion.nombreUsuarioRegistra}}</td>
+                            <td>{{inspeccion.listaInspeccion?.codigo + ' v' + inspeccion.listaInspeccion.listaInspeccionPK?.version}} </td>
+                            <td>{{inspeccion.programacion?.localidad?.localidad}}</td>
+                            <td>{{inspeccion.estado}}</td>
+                            <td>{{inspeccion.calificacion ?? "N/A"}}</td>
+                            <td style="text-align: center; vertical-align: middle;">
+                                <button type="button" pButton icon="bi bi-envelope" class="p-button-warning" (click)="openDlgEmails(inspeccion.id)"></button>
+                            </td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="summary" let-rowData>
@@ -119,78 +133,74 @@
                             </td>
                         </tr>
                     </ng-template>
+                    <ng-template pTemplate="paginatorleft" let-state style="margin-top: 50%;">
+                        <span style="margin-left: 10px;">Mostrando {{ inspeccionesList.length || 0 }} de {{state.totalRecords}}</span>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorright"></ng-template>
                 </p-table>
             </p-tabPanel>
     
     
-            <p-tabPanel header="No programadas">
-                <p-table #dtnp [value]="inspeccionNoProgList" autoLayout="true" selectionMode="single"
-                    [(selection)]="inspeccionNoProgSelect" [rows]="10" [paginator]="true" dataKey="id" [lazy]="true"
-                    (onLazyLoad)="lazyLoadNoProg($event)" [totalRecords]="totalRecordsNoProg" [loading]="loadingNoProg"
-                    sortField="fechaRealizada" sortOrder="1">
+            <p-tabPanel header="Resumen">
+                <p-table #dtr [value]="dataResumen" autoLayout="true" selectionMode="single" 
+                [(selection)]="resumenSelected" [rows]="10" [paginator]="true" dataKey="id" [lazy]="true"
+                (onLazyLoad)="lazyLoadResumen($event)" [totalRecords]="totalRecordsResumen" [loading]="loadingResumen"
+                sortField="id" sortOrder="1">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th >Fecha elaboración
-                                <p-sortIcon field="fechaRealizada"></p-sortIcon>
+                            <th pSortableColumn="aliado">Aliado
+                                <p-sortIcon field="aliado"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="id">Código
-                                <p-sortIcon field="id"></p-sortIcon>
+                            <th pSortableColumn="programadas">Cantidad programada
+                                <p-sortIcon field="programadas"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="usuarioRegistra.email">Usuario elabora
-                                <p-sortIcon field="usuarioRegistra.email"></p-sortIcon>
+                            <th pSortableColumn="ejecutadas">Cantidad ejecutada
+                                <p-sortIcon field="ejecutadas"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="listaInspeccion.nombre">Lista inspección
-                                <p-sortIcon field="listaInspeccion.nombre"></p-sortIcon>
+                            <th pSortableColumn="porcentajeAvance">Porcentaje de avance
+                                <p-sortIcon field="porcentajeAvance"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="area.nombre">Ubicación
-                                <p-sortIcon field="area.nombre"></p-sortIcon>
+                            <th pSortableColumn="noProgramadas">Cantidad no programadas
+                                <p-sortIcon field="noProgramadas"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="fechaModificacion">Última modificación
-                                <p-sortIcon field="fechaModificacion"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="usuarioModifica.email">Usuario modifica
-                                <p-sortIcon field="usuarioModifica.email"></p-sortIcon>
+                            <th pSortableColumn="calificacionAcumulada">Calificación ciclo corto
+                                <p-sortIcon field="calificacionAcumulada"></p-sortIcon>
                             </th>
                         </tr>
                         <tr>
                             <td class="text-center bg-light">
-                                <s-rangoFechaSelector (onSelect)="dtnp.filter($event, 'fechaRealizada', 'bt')">
-                                </s-rangoFechaSelector>
+                                <input type="text" pInputText (input)="dtr.filter($event.target.value, 'aliado', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="number" (input)="dtnp.filter($event.target.value, 'id', 'equals')">
+                                <span>{{sliderRangeProg[0] + ' - ' + sliderRangeProg[1]}}</span>
+                                <p-slider [range]="true" [(ngModel)]="sliderRangeProg" (onChange)="dtr.filter(sliderRangeProg, 'programadas', 'bt')" [style]="{'width': '87%', 'margin-left': '6%'}"></p-slider>
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dtnp.filter($event.target.value, 'usuarioRegistra.email', 'contains')">
+                                <span>{{sliderRangeEjec[0] + ' - ' + sliderRangeEjec[1]}}</span>
+                                <p-slider [range]="true" [(ngModel)]="sliderRangeEjec" (onChange)="dtr.filter(sliderRangeEjec, 'ejecutadas', 'bt')" [style]="{'width': '87%', 'margin-left': '6%'}"></p-slider>
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dtnp.filter($event.target.value, 'listaInspeccion.nombre', 'contains')">
+                                <span>{{sliderRangePorcentajeAv[0] + ' - ' + sliderRangePorcentajeAv[1]}}</span>
+                                <p-slider [range]="true" [(ngModel)]="sliderRangePorcentajeAv" (onChange)="dtr.filter(sliderRangePorcentajeAv, 'porcentajeAvance', 'bt')" [style]="{'width': '87%', 'margin-left': '6%'}"></p-slider>
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dtnp.filter($event.target.value, 'area.nombre', 'contains')">
+                                <span>{{sliderRangeNoProg[0] + ' - ' + sliderRangeNoProg[1]}}</span>
+                                <p-slider [range]="true" [(ngModel)]="sliderRangeNoProg" (onChange)="dtr.filter(sliderRangeNoProg, 'noProgramadas', 'bt')" [style]="{'width': '87%', 'margin-left': '6%'}"></p-slider>
                             </td>
                             <td class="text-center bg-light">
-                                <s-rangoFechaSelector (onSelect)="dtnp.filter($event, 'fechaModificacion', 'bt')">
-                                </s-rangoFechaSelector>
-                            </td>
-                            <td class="text-center bg-light">
-                                <input pInputText type="text"
-                                    (input)="dtnp.filter($event.target.value, 'usuarioModifica.email', 'contains')">
+                                <span>{{sliderRangeCalificacion[0] + ' - ' + sliderRangeCalificacion[1]}}</span>
+                                <p-slider [range]="true" [(ngModel)]="sliderRangeCalificacion" (onChange)="dtr.filter(sliderRangeCalificacion, 'calificacionAcumulada', 'bt')" [style]="{'width': '87%', 'margin-left': '6%'}"></p-slider>
                             </td>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-inspeccion>
-                        <tr [pSelectableRow]="inspeccion" class="table-row table-row-selectable">
-                            <td>{{inspeccion?.fechaRealizada | date:'dd/MM/yyyy HH:mm'}}</td>
-                            <td>INP-{{inspeccion.id}}</td>
-                            <td>{{inspeccion.usuarioRegistra?.email}}</td>
-                            <td>{{inspeccion.listaInspeccion?.nombre}}</td>
-                            <td>{{inspeccion.area?.nombre}}</td>
-                            <td>{{inspeccion?.fechaModificacion | date:'dd/MM/yyyy HH:mm'}}</td>
-                            <td>{{inspeccion.usuarioModifica?.email}}</td>
+                    <ng-template pTemplate="body" let-resumen>
+                        <tr [pSelectableRow]="resumen" class="table-row table-row-selectable">
+                            <td>{{resumen.aliado}}</td>
+                            <td>{{resumen.programadas}}</td>
+                            <td>{{resumen.ejecutadas}}</td>
+                            <td>{{resumen.porcentajeAvance | number:'1.2-2' || 'Sin registros'}}</td>
+                            <td>{{resumen.noProgramadas}}</td>
+                            <td>{{resumen.calificacionAcumulada | number:'1.2-2' || 'Sin registros'}}</td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="summary" let-rowData>
@@ -228,8 +238,30 @@
                             </td>
                         </tr>
                     </ng-template>
+                    <ng-template pTemplate="paginatorleft" let-state style="margin-top: 50%;">
+                        <span style="margin-left: 10px;">Mostrando {{ dataResumen.length || 0 }} de {{state.totalRecords}}</span>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorright"></ng-template>
                 </p-table>
             </p-tabPanel>
         </p-tabView>
     </p-panel>
 </div>
+
+<p-dialog [(visible)]="visibleDlgCorreo" [modal]="true" [style]="{width: '70vw'}" [draggable]="false" [resizable]="false" (onHide)="closeDlgEmails()">
+    <!-- <form formGroup="formEmail"> -->
+        <div class="flex flex-column">
+            <div class="field grid">
+                <label for="emails" class="col-12 mb-2 md:col-2 md:mb-0">Para:</label>
+                <div class="col-12 md:col-10">
+                    <!-- <p-chips id="emails" formControlName="emails" required></p-chips> -->
+                    <p-chips id="emails" [(ngModel)]="emails" required></p-chips>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-column justify-content-end md:flex-row">
+            <button type="button" pButton label="Enviar notificación" icon="pi pi-send" class="p-button-success" style="margin-right: 15px;" (click)="envioEmails()"></button>
+            <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-danger" (click)="closeDlgEmails()"></button>
+        </div>
+    <!-- </form> -->
+</p-dialog>

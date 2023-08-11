@@ -150,10 +150,10 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     {label: 'Ciclo corto', codigo: 'CTR_SUBMENU_CICLOCORTO', routerLink: [], icon: 'pi pi-check-circle'}
                 ]),
             items2: [
-                {padre: 'Ciclo corto', label: 'Elaborar lista de auditoría', codigo: 'CTR_ELABORAR_LISTA_CC', routerLink: ['/app/ctr/elaborarListaCicloCorto'], icon: 'pi pi-cog'},
-                {padre: 'Ciclo corto', label: 'Listas de auditoría', codigo: 'CTR_CONSULTAR_LISTAS_CC', routerLink: ['/app/ctr/listasInspeccionCicloCorto'], icon: 'pi pi-list'},
+                {padre: 'Ciclo corto', label: 'Elaborar lista de Inspección', codigo: 'CTR_ELABORAR_LISTA_CC', routerLink: ['/app/ctr/elaborarListaCicloCorto'], icon: 'pi pi-cog'},
+                {padre: 'Ciclo corto', label: 'Listas de Inspección', codigo: 'CTR_CONSULTAR_LISTAS_CC', routerLink: ['/app/ctr/listasAuditoriaCicloCorto'], icon: 'pi pi-list'},
                 {padre: 'Ciclo corto', label: 'Calendario ciclo corto', codigo: 'CTR_CALENDARIO_INP_CC', routerLink: ['/app/ctr/calendario'], icon: 'pi pi-calendar'},
-                {padre: 'Ciclo corto', label: 'Auditorías realizadas', codigo: 'CTR_CONSULTAR_INP_CC', routerLink: ['/app/ctr/inspeccionesRealizadas'],  icon: 'pi pi-check-square'}
+                {padre: 'Ciclo corto', label: 'Inspecciones realizadas', codigo: 'CTR_CONSULTAR_INP_CC', routerLink: ['/app/ctr/auditoriasRealizadas'],  icon: 'pi pi-check-square'}
             ]
         },
         {

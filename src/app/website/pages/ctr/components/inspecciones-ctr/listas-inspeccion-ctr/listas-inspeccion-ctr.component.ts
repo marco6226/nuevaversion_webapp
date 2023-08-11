@@ -9,7 +9,7 @@ import { PerfilService } from 'src/app/website/pages/admin/services/perfil.servi
 import { ParametroNavegacionService } from 'src/app/website/pages/core/services/parametro-navegacion.service';
 import { InspeccionService } from 'src/app/website/pages/inspecciones/services/inspeccion.service';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
-import { Criteria } from 'src/app/website/pages/core/entities/filter';
+import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
 
 @Component({
   selector: 'app-listas-inspeccion-ctr',
@@ -78,6 +78,9 @@ export class ListasInspeccionCtrComponent implements OnInit {
     filterQuery.fieldList = this.fields;
     
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+    let filterAuditoria: Filter = new Filter();
+    filterAuditoria = {criteria: Criteria.LIKE, field: 'tipoLista', value1: 'Ciclo %'};
+    filterQuery.filterList.push(filterAuditoria);
     
     this.listaInspeccionService.findByFilter(filterQuery).then(
       (resp: any) => {
