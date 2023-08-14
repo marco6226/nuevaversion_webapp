@@ -145,8 +145,8 @@
                     <div class="input-field col-md-6 col-sm-6">
                         <div class="ui-g-12">
                             <label for="subctr" style="margin-bottom:10px;background-color:transparent;">Empresa de servicios temporales: </label>
-                            <p-radioButton [disabled]="(onEdit=='edit') || flagConsult" (onClick)="onEsTemporal()" name="temporal" value="Si" label="Sí" [(ngModel)]="istemporal" [ngModelOptions]="{standalone: true}" required></p-radioButton>
-                            <p-radioButton [disabled]="(onEdit=='edit') || flagConsult" (onClick)="onEsTemporal()" name="temporal" value="No" label="No" [(ngModel)]="istemporal" [ngModelOptions]="{standalone: true}" required></p-radioButton>
+                            <p-radioButton [disabled]="!isCreate" (onClick)="onEsTemporal()" name="temporal" value="Si" label="Sí" [(ngModel)]="istemporal" [ngModelOptions]="{standalone: true}" required></p-radioButton>
+                            <p-radioButton [disabled]="!isCreate" (onClick)="onEsTemporal()" name="temporal" value="No" label="No" [(ngModel)]="istemporal" [ngModelOptions]="{standalone: true}" required></p-radioButton>
                         </div>
                     </div>
                     <div *sTienePermiso="'CTR_PUT_PERMISO_REPORTEAT'">

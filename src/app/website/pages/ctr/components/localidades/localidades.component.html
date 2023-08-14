@@ -106,17 +106,27 @@
     </p-footer>
 </p-dialog>
 
-<p-dialog header="Lista de Localidades" [(visible)]="visibleDlgLocalidades" [style]="{width: '30vw'}" appendTo="body">
+<p-dialog header="Lista de Localidades" [(visible)]="visibleDlgLocalidades" [style]="{width: '30vw'}" appendTo="body" modal="true">
     
     <div class="input-field">
-        <label for="">Localidades</label>
+        <h1 for="">Localidades</h1>
     </div>
 
-    <div class="grid" style="width:350px;margin-bottom:10px" *ngFor="let data of locadidadList">
-        <div class="col-12">
-            <p-checkbox name="group1" [value]="data.label" [label]="data.label" [(ngModel)]="selectLocalidades"></p-checkbox>
-        </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            <em class="bi bi-search"></em>
+        </span>
+        <input type="text" pInputText class="form-control" [(ngModel)]="filtroLocalidades">
+        <button pButton class="p-button-rounded p-button-danger" icon="pi pi-times" (click)="filtroLocalidades=null;"></button>
     </div>
+
+    <ng-container *ngFor="let data of locadidadList">
+        <div class="grid" style="width:350px;margin-bottom:10px" *ngIf="filtrarLocalidad(data)">
+            <div class="col-12">
+                <p-checkbox name="group1" [value]="data.label" [label]="data.label" [(ngModel)]="selectLocalidades"></p-checkbox>
+            </div>
+        </div>
+    </ng-container>
     
     <p-footer>
         <button pButton type="button" (click)="agregarLocalidad()" label="Aceptar"></button>
