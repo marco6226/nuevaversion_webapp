@@ -158,6 +158,15 @@
               </div>
             </div>
           </div>
+          <div class="row mb-3 g-6">
+            <div class="col-md-6 col-sm-12">
+              <div class="input-field">
+                <label>Localidad</label>
+                <p-dropdown placeholder="-- seleccione --" [ngStyle]="{width: '-webkit-fill-available'}"
+                [showClear]="true" [options]="localidadesOpt" formControlName="localidad" required></p-dropdown>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
     </p-accordionTab>
@@ -603,10 +612,10 @@
           </div>
         </div>
         <div *sTienePermiso="'RAI_PUT_REP_ALIADO_SEG'" class="row mb-3 g-6">
-          <button pButton (click)="onClickSeguimientoReporte(true)" icon="fa fa-thumbs-up" class="ui-button-success" 
-          label="APROBAR" style="margin-right: 15px;"></button>
-          <button pButton (click)="onClickSeguimientoReporte(false)" icon="fa fa-thumbs-down" class="ui-button-danger"
-          label="RECHAZAR"></button>
+          <button pButton (click)="onClickSeguimientoReporte(true)" icon="bi bi-hand-thumbs-up" class="p-button-success" 
+          label="APROBAR" style="margin-right: 15px; max-width: min-content;"></button>
+          <button pButton (click)="onClickSeguimientoReporte(false)" icon="bi bi-hand-thumbs-down" class="p-button-danger"
+          label="RECHAZAR" style="max-width: min-content;"></button>
         </div>
       </div>
     </p-accordionTab>

@@ -38,6 +38,7 @@ export class LocalidadesComponent implements OnInit {
   locadidadesList: string[] = [];
   edit: string | null = null;
   @Input() flagConsult: boolean=false;
+  filtroLocalidades: string | null = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -110,5 +111,13 @@ export class LocalidadesComponent implements OnInit {
 
   cerrarLocalidad(){
     this.visibleDlgLocalidades = false;
+  }
+
+  filtrarLocalidad(localidad: any){
+    if (this.filtroLocalidades === null || this.filtroLocalidades === '') {
+      return true;
+    } else {
+      return  localidad.label.toLowerCase().includes(this.filtroLocalidades.toLowerCase());
+    }
   }
 }

@@ -22,12 +22,15 @@
         <th pSortableColumn="area.nombre">Ubicación
           <p-sortIcon field="area.nombre"></p-sortIcon>
         </th>
+        <th pSortableColumn="localidad.localidad">Localidad
+          <p-sortIcon field="localidad.localidad"></p-sortIcon>
+        </th>
         <th pSortableColumn="seguimiento">Estado del evento
           <p-sortIcon field="seguimiento"></p-sortIcon>
         </th>
         <th>Total dias perdidos</th>
         <th>Gestor del AT</th>
-        <th>Porcentaje de avance del pan de acción</th>
+        <th>Plan de acción</th>
       </tr>
       <tr class="filters">
         <td>
@@ -47,6 +50,9 @@
         </td>
         <td>
           <input type="text" pInputText (input)="dt.filter($event.target.value, 'area.nombre', 'contains')">
+        </td>
+        <td>
+          <input type="text" pInputText (input)="dt.filter($event.target.value, 'localidad.localidad', 'contains')">
         </td>
         <td>
           <input type="text" pInputText (input)="dt.filter($event.target.value, 'seguimiento', 'contains')">
@@ -71,10 +77,11 @@
         <td>{{ reporte.fechaAt | date:'dd/MM/yyyy' }}</td>
         <td>{{ reporte.division }}</td>
         <td>{{ reporte.ubicacion }}</td>
+        <td>{{ reporte.localidad ?? '' }}</td>
         <td>{{ reporte.seguimiento }}</td>
         <td>{{ reporte.totalDiasPerdidos }}</td>
         <td>{{ reporte.gestor }}</td>
-        <td>{{ reporte.porcentajeAvance}}</td>
+        <td>{{ reporte.porcentajeAvance + '%'}}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
