@@ -120,10 +120,15 @@
         <button pButton class="p-button-rounded p-button-danger" icon="pi pi-times" (click)="filtroLocalidades=null;"></button>
     </div>
 
+    <div class="grid">
+        <div class="col-12" style="margin-bottom: 10px; border-bottom: 1px dotted; border-bottom-color: gray;">
+            <p-checkbox name="group1" [value]="selectAllLocalidades.value" [label]="selectAllLocalidades.label" (onChange)="onSelectAllLocalidades($event)" [(ngModel)]="selectedAllLocalidades"></p-checkbox>
+        </div>
+    </div>
     <ng-container *ngFor="let data of locadidadList">
         <div class="grid" style="width:350px;margin-bottom:10px" *ngIf="filtrarLocalidad(data)">
             <div class="col-12">
-                <p-checkbox name="group1" [value]="data.label" [label]="data.label" [(ngModel)]="selectLocalidades"></p-checkbox>
+                <p-checkbox name="group1" [value]="data.label" [label]="data.label" [(ngModel)]="selectLocalidades" (onChange)="onSelectLocalidad($event)"></p-checkbox>
             </div>
         </div>
     </ng-container>

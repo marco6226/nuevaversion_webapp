@@ -2,6 +2,8 @@ import { Localidades, _actividadesContratadasList, _divisionList } from './../..
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { SelectItem } from 'primeng/api';
+import { CheckboxChangeEvent } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-localidades',
@@ -39,6 +41,11 @@ export class LocalidadesComponent implements OnInit {
   edit: string | null = null;
   @Input() flagConsult: boolean=false;
   filtroLocalidades: string | null = null;
+  selectAllLocalidades: SelectItem = {
+    label: 'Seleccionar todo',
+    value: {id: 0, localidad: '', empresa_id: 0} as Localidades
+  }
+  selectedAllLocalidades: string[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -118,6 +125,24 @@ export class LocalidadesComponent implements OnInit {
       return true;
     } else {
       return  localidad.label.toLowerCase().includes(this.filtroLocalidades.toLowerCase());
+    }
+  }
+
+  onSelectAllLocalidades(event: CheckboxChangeEvent){
+    if(event.checked.length > 0){
+      this.selectLocalidades = this.locadidadList.map((localidad) => {
+        return localidad.label;
+      });
+    }else{
+      this.selectLocalidades = [];
+    }
+  }
+
+  onSelectLocalidad(event: CheckboxChangeEvent){
+    if(event.checked.length === this.locadidadList.length) {
+      this.selectedAllLocalidades = [this.selectAllLocalidades.value];
+    } else {
+      this.selectedAllLocalidades = [];
     }
   }
 }
