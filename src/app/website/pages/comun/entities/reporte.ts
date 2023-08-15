@@ -4,7 +4,7 @@ import { Area } from 'src/app/website/pages/empresa/entities/area'
 import { Usuario } from 'src/app/website/pages/empresa/entities/usuario'
 import { Empresa } from 'src/app/website/pages/empresa/entities/empresa'
 import { TestigoReporte } from 'src/app/website/pages/comun/entities/testigo-reporte'
-import { Subcontratista } from '../../ctr/entities/aliados'
+import { Localidades, Subcontratista } from '../../ctr/entities/aliados'
 
 export class Reporte {
   id?: number  | null;
@@ -99,4 +99,5 @@ export class Reporte {
   temporal?:string | null;
   istemporal?: boolean | null;
   subcontratista?: Subcontratista | null;
+  localidad?: Localidades | null;
 }

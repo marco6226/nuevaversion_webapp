@@ -181,7 +181,7 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
     filterQuery.rows = event.rows;
     filterQuery.count = true;
     // filterQuery.fieldList = this.fields;
-    filterQuery.fieldList = ['id', 'programacion', 'fecha', 'listaInspeccion', 'usuarioRegistra', 'nombreUsuarioRegistra', 'empresa', 'empresaAliada', 'tipoInspeccion', 'empresaAliadaConNit', 'calificacion']
+    filterQuery.fieldList = ['id', 'programacion', 'fecha', 'listaInspeccion', 'usuarioRegistra', 'nombreUsuarioRegistra', 'empresa', 'empresaAliada', 'tipoInspeccion', 'empresaAliadaConNit', 'calificacion', 'estado']
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
     let sesionEmpresa = this.sesionService.getEmpresa();
     if(sesionEmpresa?.idEmpresaAliada !== null){

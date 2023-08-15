@@ -33,7 +33,8 @@
                             <th pSortableColumn="programacion.localidad.nombre">Localidad
                                 <p-sortIcon field="programacion.localidad.localidad"></p-sortIcon>
                             </th>
-                            <th>Estado
+                            <th pSortableColumn="estado">Estado
+                                <p-sortIcon field="estado"></p-sortIcon>
                             </th>
                             <th pSortableColumn="calificacion">Calificación
                                <p-sortIcon field="calificacion"></p-sortIcon>
@@ -66,7 +67,7 @@
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'programacion.localidad.localidad', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'usuarioModifica.email', 'contains')"> -->
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
                             </td>
                             <td class="text-center bg-light">
                                 <span>{{sliderRange[0] + ' - ' + sliderRange[1]}}</span>
@@ -86,7 +87,7 @@
                             <td>{{inspeccion.nombreUsuarioRegistra}}</td>
                             <td>{{inspeccion.listaInspeccion?.codigo + ' v' + inspeccion.listaInspeccion.listaInspeccionPK?.version}} </td>
                             <td>{{inspeccion.programacion?.localidad?.localidad}}</td>
-                            <td style="color: red;">{{'Estado...'}}</td>
+                            <td>{{inspeccion.estado}}</td>
                             <td>{{inspeccion.calificacion ?? "N/A"}}</td>
                             <td style="text-align: center; vertical-align: middle;">
                                 <button type="button" pButton icon="bi bi-envelope" class="p-button-warning" (click)="openDlgEmails(inspeccion.id)"></button>

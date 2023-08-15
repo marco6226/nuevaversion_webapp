@@ -88,6 +88,7 @@ export class ConsultaReportesAliadoComponent implements OnInit {
         fechaAt: item.fechaReporte,
         division: item.area.padreNombre,
         ubicacion: item.area.nombre,
+        localidad: item.localidad?.localidad,
         seguimiento: seguimiento,
         totalDiasPerdidos: incapacidades,
         gestor: gestor,
@@ -120,6 +121,7 @@ class ReporteAux {
   fechaAt!: Date;
   division!: string;
   ubicacion!: string;
+  localidad!: string;
   seguimiento!: string;
   totalDiasPerdidos!: number;
   gestor!: string;
