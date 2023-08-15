@@ -1408,32 +1408,19 @@
                                     <td>
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
-                                                <p-autoComplete [readonly]="consultar2"
+                                                <p-autoComplete appendTo="body" [readonly]="consultar2"
                                                     styleClass="form-control-autocomplete" #autocomplete
                                                     placeholder="Digite" [style]="{'width':'100%'}"
                                                     (onSelect)="seguimiento.responsable = $event"
-                                                    [suggestions]="empleadosList"
-                                                    (completeMethod)="buscarEmpleado($event)"
+                                                    [suggestions]="empleadosList2"
+                                                    (completeMethod)="buscarEmpleado2($event)"
                                                     field="numeroIdentificacion" [(ngModel)]="seguimiento.responsable"
                                                     *ngIf="empleado?.id == null">
                                                     <ng-template let-empleado pTemplate="item">
-                                                        <div class="ui-helper-clearfix">
-                                                            <div class="wrapper">
-                                                                <i *ngIf="!empleado.usuario?.icon"
-                                                                    class="fa fa-user-circle" style="font-size: 48px;"
-                                                                    aria-hidden="true"></i>
-                                                                <img *ngIf="empleado.usuario?.icon"
-                                                                    [src]="empleado.usuario?.icon"
-                                                                    style="border-radius: 50%;" #imgAvatar />
-                                                                <div style="margin-left:20px">
-                                                                    <label>{{empleado?.primerApellido}}
-                                                                        {{empleado?.primerNombre}}
-                                                                        {{empleado?.segundoNombre}}
-                                                                    </label>
-                                                                    <br /> {{empleado?.numeroIdentificacion}}
-                                                                    <br /> {{empleado?.usuario.email}}
-                                                                </div>
-                                                            </div>
+                                                        <div style="margin-left:20px">
+                                                            <label>{{empleado?.primerNombre}} {{empleado?.primerApellido}}</label>
+                                                            <br/> {{empleado?.numeroIdentificacion}}
+                                                            <br/> {{empleado?.usuarioBasic.email}}
                                                         </div>
                                                     </ng-template>
                                                 </p-autoComplete>
@@ -1599,7 +1586,40 @@
                                     <td>
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
-                                                <p-autoComplete [readonly]="consultar2"
+                                                 <p-autoComplete appendTo="body" [readonly]="consultar2"
+                                                    styleClass="form-material-autocomplete" #autocomplete
+                                                    placeholder="Digite" [style]="{'width':'100%'}"
+                                                    (onSelect)="seguimientogenerico.responsable = $event"
+                                                    [suggestions]="empleadosList2"
+                                                    (completeMethod)="buscarEmpleado2($event)"
+                                                    field="numeroIdentificacion"
+                                                    [(ngModel)]="seguimientogenerico.responsable"
+                                                    *ngIf="empleado?.id == null">
+                                                    <ng-template let-empleado pTemplate="item">
+                                                        <div style="margin-left:20px">
+                                                            <label>{{empleado?.primerNombre}} {{empleado?.primerApellido}}</label>
+                                                            <br/> {{empleado?.numeroIdentificacion}}
+                                                            <br/> {{empleado?.usuarioBasic.email}}
+                                                        </div>
+                                                    </ng-template>
+                                                </p-autoComplete>
+                                                <!-- <p-autoComplete [readonly]="consultar2"
+                                                    styleClass="form-control-autocomplete" #autocomplete
+                                                    placeholder="Digite" [style]="{'width':'100%'}"
+                                                    (onSelect)="seguimiento.responsable = $event"
+                                                    [suggestions]="empleadosList"
+                                                    (completeMethod)="buscarEmpleado2($event)"
+                                                    field="numeroIdentificacion" [(ngModel)]="seguimiento.responsable"
+                                                    *ngIf="empleado?.id == null">
+                                                    <ng-template let-empleado pTemplate="item">
+                                                        <div style="margin-left:20px">
+                                                            <label>{{empleado?.primerNombre}} {{empleado?.primerApellido}}</label>
+                                                            <br/> {{empleado?.numeroIdentificacion}}
+                                                            <br/> {{empleado?.usuarioBasic.email}}
+                                                        </div>
+                                                    </ng-template>
+                                                </p-autoComplete> -->
+                                                <!-- <p-autoComplete [readonly]="consultar2"
                                                     styleClass="form-material-autocomplete" #autocomplete
                                                     placeholder="Digite" [style]="{'width':'100%'}"
                                                     (onSelect)="seguimientogenerico.responsable = $event"
@@ -1628,7 +1648,7 @@
                                                             </div>
                                                         </div>
                                                     </ng-template>
-                                                </p-autoComplete>
+                                                </p-autoComplete> -->
                                             </ng-template>
                                             <ng-template pTemplate="output">
                                                 {{seguimientogenerico.responsable?.primerApellido }}

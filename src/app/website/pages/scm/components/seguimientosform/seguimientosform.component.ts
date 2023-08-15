@@ -11,6 +11,9 @@ import { PrimeNGConfig } from 'primeng/api';
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 import{firma} from 'src/app/website/pages/comun/entities/firma'
+import { FilterQuery } from "../../../core/entities/filter-query";
+import { Criteria } from "../../../core/entities/filter";
+import { EmpleadoBasic } from "../../../empresa/entities/empleado-basic";
 
 @Component({
     selector: "app-seguimientosform",
@@ -47,7 +50,8 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
         }
     }
 
-    empleadosList: Empleado[] = [];
+    // empleadosList: Empleado[] = [];
+    empleadosList: EmpleadoBasic[] = [];
     fechaActual = new Date();
     recomendation!: FormGroup;
     seguimiento: FormGroup;
@@ -202,11 +206,56 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
         return empleado;
     }
 
-    buscarEmpleado(event: any) {
-        this.empleadoService
-            .buscar(event.query)
-            .then((data: any) => (this.empleadosList = <Empleado[]>data));
-    }
+    // buscarEmpleado(event: any) {
+    //     this.empleadoService
+    //         .buscar(event.query)
+    //         .then((data: any) => {
+    //             console.log(<Empleado[]>data)
+    //             this.empleadosList=<Empleado[]>data
+    //             });
+    // }
+
+    fields: string[] = [
+        'id',
+        'primerNombre',
+        'primerApellido',
+        'numeroIdentificacion', 
+        'usuarioBasic'
+      ];
+    async buscarEmpleado(event:any) {
+
+        let filterQuery = new FilterQuery();
+        filterQuery.sortField = event.sortField;
+        filterQuery.sortOrder = event.sortOrder;
+        filterQuery.offset = event.first;
+        filterQuery.rows = event.rows;
+        filterQuery.count = true;
+    
+        filterQuery.fieldList = this.fields;
+        filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+    
+        for (let i = 1; i < this.fields.length; i++) {
+          filterQuery.filterList.pop();
+          if(this.fields[i] != 'usuarioBasic'){
+            filterQuery.filterList.push({ criteria: Criteria.LIKE, field: this.fields[i], value1: '%'+event.query+'%'});
+          }else{
+            filterQuery.filterList.push({ criteria: Criteria.LIKE, field: 'usuarioBasic.email', value1: '%'+event.query+'%'});
+          }
+    
+          let terminarBusqueda = false;
+          await this.empleadoService.findByFilter(filterQuery).then(
+            (data: any) => {
+              let datos: EmpleadoBasic[] = data.data;
+              if(datos.length > 0){
+                this.empleadosList = datos;
+                terminarBusqueda = true;
+              }
+            }
+          );
+          if(terminarBusqueda) break;
+        }
+    
+      }
 
     private markFormGroupTouched(formGroup: FormGroup) {
         (<any>Object).values(formGroup.controls).forEach((control: any) => {

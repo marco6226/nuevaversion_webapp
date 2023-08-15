@@ -36,6 +36,7 @@ import { firmaservice } from 'src/app/website/pages/core/services/firmas.service
 import { endPoints } from 'src/environments/environment';
 import{firma} from 'src/app/website/pages/comun/entities/firma';
 import { Message } from 'primeng/api';
+import { EmpleadoBasic } from "../../../empresa/entities/empleado-basic";
 
 export interface TreeNode {
     data?: any;
@@ -98,6 +99,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     logsList: any = []
     seguimientosgenericoList?: TreeNode[];
     empleadosList!: Empleado[];
+    empleadosList2!: EmpleadoBasic[];
     diagnosticoList: any[] = [];
     modifyDiag: boolean = false;
     idUltimoSeguimiento?:any;
@@ -306,7 +308,13 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     ]
     idCase?:string;
     flagGuardado:boolean=false
-    
+    fields: string[] = [
+        'id',
+        'primerNombre',
+        'primerApellido',
+        'numeroIdentificacion', 
+        'usuarioBasic'
+      ];
     constructor(
         private empleadoService: EmpleadoService,
         fb: FormBuilder,
@@ -768,6 +776,41 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.empleadoService
             .buscar(event.query)
             .then((data) => (this.empleadosList = <Empleado[]>data));
+    }
+    
+    async buscarEmpleado2(event: any) {
+
+        let filterQuery = new FilterQuery();
+        filterQuery.sortField = event.sortField;
+        filterQuery.sortOrder = event.sortOrder;
+        filterQuery.offset = event.first;
+        filterQuery.rows = event.rows;
+        filterQuery.count = true;
+    
+        filterQuery.fieldList = this.fields;
+        filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+    
+        for (let i = 1; i < this.fields.length; i++) {
+          filterQuery.filterList.pop();
+          if(this.fields[i] != 'usuarioBasic'){
+            filterQuery.filterList.push({ criteria: Criteria.LIKE, field: this.fields[i], value1: '%'+event.query+'%'});
+          }else{
+            filterQuery.filterList.push({ criteria: Criteria.LIKE, field: 'usuarioBasic.email', value1: '%'+event.query+'%'});
+          }
+    
+          let terminarBusqueda = false;
+          await this.empleadoService.findByFilter(filterQuery).then(
+            (data: any) => {
+              let datos: EmpleadoBasic[] = data.data;
+              if(datos.length > 0){
+                this.empleadosList2 = datos;
+                terminarBusqueda = true;
+              }
+            }
+          );
+          if(terminarBusqueda) break;
+        }
+    
     }
 
     async onSelection(event: any) {

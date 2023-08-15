@@ -122,13 +122,14 @@ export class ScmComponent implements OnInit {
         this.valor3=valor.toLowerCase() ;
         if(this.valor3.length==0){return null}else if(-1!='abierto'.search(this.valor3)){return '1'}else if(-1!='cerrado'.search(this.valor3)){return '0'}else{return '2'}
     }
-
+    filtrosExcel:any;
     async lazyLoad(event: any) {
+        this.filtrosExcel=event
         let filterQuery = new FilterQuery();
         filterQuery.sortField = event.sortField;
         filterQuery.sortOrder = event.sortOrder;
         filterQuery.offset = event.first;
-        // filterQuery.rows = event.rows;
+        filterQuery.rows = event.rows;
         filterQuery.count = true;
         let filterEliminado = new Filter();
         filterEliminado.criteria = Criteria.EQUALS;
@@ -176,11 +177,33 @@ export class ScmComponent implements OnInit {
 
 
     async datosExcel(): Promise<void>{
+        let dataExcel:any
+
+        let filterQuery = new FilterQuery();
+        filterQuery.sortField = this.filtrosExcel.sortField;
+        filterQuery.sortOrder = this.filtrosExcel.sortOrder;
+        // filterQuery.offset = this.filtrosExcel.first;
+        filterQuery.count = true;
+        let filterEliminado = new Filter();
+        filterEliminado.criteria = Criteria.EQUALS;
+        filterEliminado.field = 'eliminado';
+        filterEliminado.value1 = 'false';
+
+        filterQuery.fieldList = this.fields;
+        filterQuery.filterList = FilterQuery.filtersToArray(this.filtrosExcel.filters);
+        filterQuery.filterList.push(filterEliminado);      
+        try {
+            let res: any = await this.scmService.findByFilter(filterQuery);
+            dataExcel = res.data;
+
+        } catch (error) {
+            console.error(error)
+        }
         // console.log(this.casosListFilter)
         // this.casosListFilter
         // this.excel=[]
         // await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
-            this.excel=[...this.casosListFilter]
+            this.excel=[...dataExcel]
             this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
         // })
     }
@@ -188,9 +211,6 @@ export class ScmComponent implements OnInit {
     this.visibleDlgInforme = false;
     }
 
-    abrirDialogo(){
-    this.visibleDlgInforme = true;
-    }
     habilitarindSCM(){
         if(this.rangeDatesInforme[0] && this.rangeDatesInforme[1]){this.flagInforme=false}
         else{this.flagInforme=true}
