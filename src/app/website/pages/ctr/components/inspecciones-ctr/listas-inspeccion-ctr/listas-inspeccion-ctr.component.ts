@@ -133,7 +133,15 @@ export class ListasInspeccionCtrComponent implements OnInit {
       header: 'Confirmar acción',
       message: 'La lista de inspección ' + this.listaInpSelect.nombre + ' será eliminada, no podrá deshacer esta acción, ¿Desea continuar?',
       accept: () =>
-        this.listaInspeccionService.delete(this.listaInpSelect.codigo)
+        this.listaInspeccionService.eliminarLista(this.listaInpSelect.listaInspeccionPK)
+        .then(() => {
+          const url = this.router.url; 
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate([`/${url}`]);
+          });
+        }).catch((err) => {
+          console.log('Error al eliminar lista de inspección', err);
+        })
     });
   }
 

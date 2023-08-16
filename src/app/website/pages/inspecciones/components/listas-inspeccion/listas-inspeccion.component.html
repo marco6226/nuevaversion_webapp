@@ -66,7 +66,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="btn-group" role="group">
                         
-                        <button *sTienePermiso="'ADM_PUT_USR'" 
+                        <button *sTienePermiso="'INP_PUT_LISTINP'" 
                             class="p-button-raised p-button-success margin-right margin-left" 
                             pButton type="button" 
                             icon="bi bi-pencil" 
@@ -74,7 +74,7 @@
                             (click)="modificar()" 
                             [disabled]="listaInpSelect?.estado == 'inactivo'"></button>
 
-                        <button *sTienePermiso="'ADM_DELETE_USR'" 
+                        <button *sTienePermiso="'INP_DELETE_LISTINP'"
                             pButton type="button" 
                             icon="bi bi-trash" 
                             label="Eliminar" 
@@ -89,7 +89,7 @@
                             style="color: var(--white)"
                             label="Consultar" (click)="consultar()"></button> 
 
-                        <button *sTienePermiso="'ADM_GET_USER_CONS'" 
+                        <button *sTienePermiso="'INP_GET_CONSINP'" 
                             pButton type="button" 
                             icon="bi bi-download" 
                             label="Inspecciones" 
@@ -135,5 +135,7 @@
                 [disabled]="desde == null || hasta == null"></button>
     </ng-container>
 </p-dialog>
+
+<p-confirmDialog appendTo="body"></p-confirmDialog>
 
 <a style="visibility: hidden" id="dwldLink"></a>
