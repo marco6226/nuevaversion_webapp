@@ -242,6 +242,7 @@ export class AnalisisDesviacionComponent implements OnInit {
         this.nitEmpresa=this.sesionService.getEmpresa()!.nit;
         this.nombreEmpresa=this.sesionService.getEmpresa()!.nombreComercial;
         this.idEmpresa = this.sesionService.getEmpresa()!.id;
+        console.log(localStorage.getItem('Accion'))
         if (this.value == null) {
             // switch (this.paramNav.getAccion<string>()) {
             switch (localStorage.getItem('Accion')) {
@@ -302,8 +303,10 @@ export class AnalisisDesviacionComponent implements OnInit {
                     
                     break;
             }
-            localStorage.removeItem('Desviacion')
-            localStorage.removeItem('Accion')
+            setTimeout(() => {
+                localStorage.removeItem('Desviacion')
+                localStorage.removeItem('Accion')
+            }, 5000);
         } else {
             this.consultar = true;
             await this.consultarAnalisis(this.value.id!);
