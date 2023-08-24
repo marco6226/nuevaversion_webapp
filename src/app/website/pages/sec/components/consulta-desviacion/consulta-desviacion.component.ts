@@ -200,6 +200,8 @@ export class ConsultaDesviacionComponent implements OnInit {
   analizarDesviacion() {
     this.paramNav.setParametro<Desviacion[]>(this.desviacionesListSelect!);
     this.paramNav.setAccion<string>('POST');
+    localStorage.setItem('Desviacion', JSON.stringify(this.desviacionesListSelect));
+    localStorage.setItem('Accion', 'POST');
     this.router.navigate(
       ['/app/sec/analisisDesviacion']
     );

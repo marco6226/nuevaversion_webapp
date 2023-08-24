@@ -5,6 +5,7 @@ import { CRUDService } from 'src/app/website/pages/core/services/crud.service'
 import { MensajeUsuarioService } from '../../comun/services/mensaje-usuario.service';
 import { SesionService } from '../../core/services/session.service';
 import { ListaInspeccion } from '../entities/lista-inspeccion';
+import { ListaInspeccionPK } from '../entities/lista-inspeccion-pk';
 
 @Injectable({
   providedIn: 'root'
@@ -42,4 +43,16 @@ export class ListaInspeccionService extends CRUDService<ListaInspeccion>{
     return { 'headers': headers };
   }
   
+  eliminarLista(listaInspeccionPK: ListaInspeccionPK){
+    return new Promise((resolve, reject) => {
+      this.http.delete(this.end_point + '?id=' + listaInspeccionPK.id + '&version=' + listaInspeccionPK.version, this.getRequestHeaders(this.headers))
+      .subscribe(
+        (res: any) => resolve(res),
+        (err: any) => {
+          this.manageError(err);
+          reject(err);
+        }
+      );
+    })
+  }
 }
