@@ -9,7 +9,7 @@
               ENTRADA VIGENCIA:
             </div>
             <div class="col-lg">
-              <p-calendar [(ngModel)]="conf.fechaEntradaVigencia" dateFormat="yy-mm-dd"></p-calendar>
+              <p-calendar appendTo="body" [(ngModel)]="conf.fechaEntradaVigencia" dateFormat="yy-mm-dd"></p-calendar>
             </div>
             <div class="col-lg"></div>
             <div class="col-lg">
@@ -46,13 +46,13 @@
               {{je.dia}}
             </div>
             <div class="col-g-12 col-sm-12 col-md-3">
-              <p-calendar [timeOnly]="true" [(ngModel)]="je.horaInicio"></p-calendar>
+              <p-calendar appendTo="body" [timeOnly]="true" [(ngModel)]="je.horaInicio"></p-calendar>
             </div>
             <div class="col-g-12 col-sm-12 col-md-3">
-              <p-calendar [timeOnly]="true" [(ngModel)]="je.horaFin"></p-calendar>
+              <p-calendar appendTo="body" [timeOnly]="true" [(ngModel)]="je.horaFin"></p-calendar>
             </div>
             <div class="col-g-12 col-sm-12 col-md-3">
-              <p-calendar [timeOnly]="true" [(ngModel)]="je.receso"></p-calendar>
+              <p-calendar appendTo="body" [timeOnly]="true" [(ngModel)]="je.receso"></p-calendar>
             </div>
             <div class="col-g-12 col-sm-12 col-md-1">
               <p-checkbox binary="true" [(ngModel)]="je.labora"></p-checkbox>

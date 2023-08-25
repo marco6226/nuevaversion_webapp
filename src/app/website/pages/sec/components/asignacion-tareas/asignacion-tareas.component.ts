@@ -22,6 +22,7 @@ export class AsignacionTareasComponent implements OnInit {
   loading: boolean = true;
   yearRange?:any;
   tareasList: any;
+  tareaListFilter: any;
   tareaSelect?: Tarea | null;
   msgs: Message[] = [];
   observacionesRealizacion?: string;
@@ -99,6 +100,14 @@ export class AsignacionTareasComponent implements OnInit {
     this.tareaService.findByDetails(this.arrayIdsareas).then(
         async resp => { 
             this.tareasList = resp;
+            this.tareasList.sort(function(a:any,b:any){
+                  if(a.id < b.id){
+                    return 1
+                  }else if(a.id > b.id){
+                    return -1;
+                  }
+                    return 0;
+                  });
             this.tareasList = await Promise.all(this.tareasList.map(async (tarea:any) => {
                 let status = await this.verifyStatus(tarea);
                 tarea.estado = statuses[status];
@@ -133,9 +142,8 @@ export class AsignacionTareasComponent implements OnInit {
   }
 
   onClick() {
-
-    this.paramNav.redirect('/app/sec/tarea/' + this.tareaSelect?.id);
-
+    window.open('/app/sec/tarea/' + this.tareaSelect?.id)
+    // this.paramNav.redirect('/app/sec/tarea/' + this.tareaSelect?.id);
   }
 
   reportarCumplimiento() {
@@ -205,7 +213,7 @@ export class AsignacionTareasComponent implements OnInit {
 
     async datosExcel(){
         let excel:any=[]
-        this.tareasList.forEach((tarea:any)=>{excel.push({
+        this.tareaListFilter.forEach((tarea:any)=>{excel.push({
             Módulo:tarea.module,
             Fecha_de_Reporte:formatDate(new Date(tarea.fecha_reporte), 'yyyy/MM/dd', 'en'),
             División_Unidad:tarea.regional,
@@ -254,5 +262,9 @@ export class AsignacionTareasComponent implements OnInit {
   
        /* save to file */
        XLSX.writeFile(wb, this.fileName);
+    }
+
+    onFilter(event:any){
+        this.tareaListFilter=event.filteredValue
     }
 }

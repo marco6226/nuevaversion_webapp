@@ -40,28 +40,16 @@
                 <div class="col">
                     <div class="input-field" style="height: 30px;">
                         <label for="" class="active">Responsable Empresa</label>
-                        <p-autoComplete styleClass="form-material-autocomplete" #autocomplete placeholder="Digite"
+                        <p-autoComplete appendTo="body" styleClass="form-material-autocomplete" #autocomplete placeholder="Digite"
                             [style]="{'width':'100%'}" (onSelect)="responsable = $event" [suggestions]="empleadosList"
                             (completeMethod)="buscarEmpleado($event)" field="numeroIdentificacion"
                             formControlName="responsable" *ngIf="empleado?.id == null" required>
-                            <ng-template let-empleado pTemplate="item">
-                                <div class="ui-helper-clearfix">
-                                    <div class="wrapper">
-                                        <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle"
-                                            style="font-size: 48px;" aria-hidden="true"></i>
-                                        <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon"
-                                            style="border-radius: 50%;" #imgAvatar />
-                                        <div style="margin-left:20px">
-                                            <label>{{empleado?.primerApellido}}
-                                                {{empleado?.primerNombre}}
-                                                {{empleado?.segundoNombre}}
-                                            </label>
-                                            <br /> {{empleado?.numeroIdentificacion}}
-                                            <br /> {{empleado?.usuario.email}}
-                                        </div>
-                                    </div>
+                            <ng-template let-empleado pTemplate="item" appendTo="body">
+                                <div style="margin-left:20px">
+                                    <label>{{empleado?.primerNombre}} {{empleado?.primerApellido}}</label>
+                                    <br/> {{empleado?.numeroIdentificacion}}
+                                    <br/> {{empleado?.usuarioBasic.email}}
                                 </div>
-
                             </ng-template>
                         </p-autoComplete>
                     </div>

@@ -122,10 +122,14 @@ const routes: Routes = [
           { path: 'actualizarAliado/:id', component: AliadosActualizarComponent },
           { path: 'actualizarAliado/:id/:onEdit', component: AliadosActualizarComponent },
           { path: 'seguimientoContratistas', component: SeguimientoContratistasComponent },
+          { path: 'listasAuditoriaCicloCorto', component: ListasInspeccionCtrComponent},
           { path: 'elaborarListaCicloCorto', component: ElaboracionListaCtrComponent},
-          { path: 'listasInspeccionCicloCorto', component: ListasInspeccionCtrComponent},
           { path: 'calendario', component: ProgramacionCtrComponent},
-          { path: 'inspeccionesRealizadas', component: ConsultaInspeccionesCtrComponent}
+          { path: 'elaboracionAuditoriaCicloCorto', component: ElaboracionInspeccionesCtrComponent},
+          { path: 'elaboracionAuditoriaCicloCorto/:id', component: ElaboracionInspeccionesCtrComponent},
+          { path: 'elaboracionAuditoriaCicloCorto/:id/:version', component: ElaboracionInspeccionesCtrComponent},
+          { path: 'auditoriasRealizadas', component: ConsultaInspeccionesCtrComponent},
+          { path: 'elaborarListaCicloCorto/:id/:version', component: ElaboracionListaCtrComponent}
         ]
       },
       {

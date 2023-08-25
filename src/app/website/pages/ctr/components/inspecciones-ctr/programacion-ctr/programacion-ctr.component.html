@@ -37,13 +37,19 @@
         <label for="empresa">Empresa Aliada</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
-        <p-dropdown formControlName="empresa" [options]="empresasOption" placeholder="-- Seleccione --" appendTo="body" [filter]="true" required></p-dropdown>
+        <p-dropdown formControlName="empresaAliada" [options]="empresasAliadasOption" placeholder="-- Seleccione --" appendTo="body" [filter]="true" required></p-dropdown>
       </div>
       <div class="col-12 md:col-4 lg:col-4">
         <label for="areaResponsable">Localidad</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
         <p-dropdown formControlName="localidad" [options]="localidadesOption" placeholder="-- Seleccione --" appendTo="body" [filter]="true" required></p-dropdown>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4">
+        <label>Gestor</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <s-empleadoBasicSelector [(ngModel)]="this.form.value.empleadoBasic" (onSelect)="onReceiveEmpleadoBasic($event)" [ngModelOptions]="{standalone: true}" required autofocus></s-empleadoBasicSelector>
       </div>
     </div>
     <p-panel header="Periodicidad" *ngIf="adicionar">
@@ -68,17 +74,17 @@
           <label for="areaResponsable">Incluir</label>
         </div>
         <div class="col-12 md:col-8 lg:col-8">
-          <p-checkbox name="weekend" value="1" label="Lunes" [formControl]="form.controls['semana']"></p-checkbox><br />
+          <p-checkbox name="weekend" value="1" label="Lunes" [formControl]="form.controls['semana']"></p-checkbox>
           <p-checkbox name="weekend" value="2" label="Martes"
-            [formControl]="form.controls['semana']"></p-checkbox><br />
+            [formControl]="form.controls['semana']"></p-checkbox>
           <p-checkbox name="weekend" value="3" label="Miércoles"
-            [formControl]="form.controls['semana']"></p-checkbox><br />
+            [formControl]="form.controls['semana']"></p-checkbox>
           <p-checkbox name="weekend" value="4" label="Jueves"
-            [formControl]="form.controls['semana']"></p-checkbox><br />
+            [formControl]="form.controls['semana']"></p-checkbox>
           <p-checkbox name="weekend" value="5" label="Viernes"
-            [formControl]="form.controls['semana']"></p-checkbox><br />
+            [formControl]="form.controls['semana']"></p-checkbox>
           <p-checkbox name="weekend" value="6" label="Sábado"
-            [formControl]="form.controls['semana']"></p-checkbox><br />
+            [formControl]="form.controls['semana']"></p-checkbox>
           <p-checkbox name="weekend" value="0" label="Domingo" [formControl]="form.controls['semana']"></p-checkbox>
         </div>
       </div>
@@ -121,21 +127,25 @@
     <form [formGroup]="formFilters">
       <div class="grid">
         <div class="col-6 md:col-6 sm:col-12">
-          <label for="empresas">Aliados</label>
-          <p-multiSelect id="empresas" [options]="empresasOption" formControlName="empresas" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+          <label for="empresasAliadas">Aliados</label>
+          <p-multiSelect id="empresasAliadas" [options]="empresasAliadasOption" formControlName="empresasAliadas" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
         </div>
         <div class="col-6 md:col-6 sm:col-12">
           <label for="localidades">Localidades</label>
           <p-multiSelect id="localidades" [options]="localidadesOption" formControlName="localidades" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+        </div>
+        <div class="col-6 md:col-6 sm:col-12">
+          <label for="gestor">Gestor</label>
+          <s-empleadoBasicSelector [(ngModel)]="this.formFilters.value.empleado" [ngModelOptions]="{standalone: true}"></s-empleadoBasicSelector>
         </div>
       </div>
     </form>
   </div>
   <ng-template pTemplate="footer">
     <div class="flex justify-content-end flex-wrap">
-      <button pButton class="flex m-2 p-button-warning p-button-sm" label="LIMPIAR" icon="pi pi-times-circle"></button>
+      <button pButton class="flex m-2 p-button-warning p-button-sm" label="LIMPIAR" icon="pi pi-times-circle" (click)="cleanFilters()"></button>
       <button pButton class="flex m-2 p-button-danger p-button-sm" label="CANCELAR" icon="pi pi-delete-left" (click)="visibleDlgFiltros=false"></button>
-      <button pButton class="flex m-2 p-button-success p-button-sm" label="APLICAR" icon="pi pi-filter"></button>
+      <button pButton class="flex m-2 p-button-success p-button-sm" label="APLICAR" icon="pi pi-filter" (click)="applyFilter()"></button>
     </div>
   </ng-template>
 </p-dialog>

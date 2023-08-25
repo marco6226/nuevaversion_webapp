@@ -66,6 +66,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
   }
 
   async loadAreas() {
+    // debugger;
     let allComplete = {
       organi: false,
       fisica: false

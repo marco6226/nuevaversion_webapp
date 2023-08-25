@@ -10,6 +10,7 @@ export interface Programacion {
     fecha: Date;
     area: Area;
     localidad: Localidades;
-    empresa: Empresa;
+    empresaAliada: Empresa;
+    empleadoBasic: any;
     listaInspeccion: ListaInspeccion;
 }

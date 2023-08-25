@@ -50,10 +50,10 @@ export class ConsultaReportesAliadoComponent implements OnInit {
       ]);
       this.desviacionAliadosService.getRepWithFilter(filterQuery).then((res: any) =>{
         this.totalRecords = res['count'];
-        this.desviacionAliados = Array.from(res['data']);
+        this.desviacionAliados = res['data'];
         this.loadDesviaciones();
         this.loading = false;
-      });
+      }).finally(() => this.loading = false);
     }else if(this.idEmpresa!='22'){
       this.loading = true;
       let filterQuery = new FilterQuery();
@@ -68,17 +68,19 @@ export class ConsultaReportesAliadoComponent implements OnInit {
       ]);
       this.desviacionAliadosService.getRepWithFilter(filterQuery).then((res: any) => {
         this.totalRecords = res['count'];
-        this.desviacionAliados = Array.from(res['data']);
+        this.desviacionAliados = res['data'];
         this.loadDesviaciones();
         this.loading = false;
-      });
+      }).finally(() => this.loading = false);
     }
   }
 
   loadDesviaciones(){
     this.reportesList = <ReporteAux[]>this.desviacionAliados.map(item => {
-      let gestor = JSON.parse(item.gestor);
-      let planAccion = JSON.parse(item.planAccion);
+      let gestor: string = item.gestor !== null ? JSON.parse(item.gestor).primerNombre + ' ' + JSON.parse(item.gestor).primerApellido : '';
+      let planAccion: number = item.planAccion !== null ? JSON.parse(item.planAccion).porcentajeAvance ?? 0 : 0;
+      let seguimiento: string = item.seguimiento !== null ? JSON.parse(item.seguimiento).estado : 'Sin gestión';
+      let incapacidades: number | string = item.incapacidades !== null ? this.getDiasPerdidos(JSON.parse(item.incapacidades)) : 'Sin registros';
       return {
         id: item.id,
         razonSocial: item.razonSocial,
@@ -86,10 +88,11 @@ export class ConsultaReportesAliadoComponent implements OnInit {
         fechaAt: item.fechaReporte,
         division: item.area.padreNombre,
         ubicacion: item.area.nombre,
-        seguimiento: item.seguimiento ? (JSON.parse(item.seguimiento)) ? (JSON.parse(item.seguimiento)).estado : 'Sin gestión' : 'Sin gestión',
-        totalDiasPerdidos: this.getDiasPerdidos(JSON.parse(item.incapacidades)),
-        gestor: (gestor ? gestor.primerNombre : '') + ' ' + (gestor ? gestor.primerApellido : ''),
-        porcentajeAvance: planAccion ? planAccion.porcentajeAvance : 0
+        localidad: item.localidad?.localidad,
+        seguimiento: seguimiento,
+        totalDiasPerdidos: incapacidades,
+        gestor: gestor,
+        porcentajeAvance: planAccion
       }
     })
   }
@@ -118,6 +121,7 @@ class ReporteAux {
   fechaAt!: Date;
   division!: string;
   ubicacion!: string;
+  localidad!: string;
   seguimiento!: string;
   totalDiasPerdidos!: number;
   gestor!: string;

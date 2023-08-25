@@ -6,6 +6,7 @@ import { Documento } from '../../../ado/entities/documento';
 import { Directorio } from '../../../ado/entities/directorio';
 import { locale_es } from '../../../rai/entities/reporte-enumeraciones';
 import { DirectorioService } from '../../../ado/services/directorio.service';
+import { SesionService } from '../../../core/services/session.service';
 
 @Component({
   selector: 'app-cargue-documentos',
@@ -64,12 +65,15 @@ export class CargueDocumentosComponent implements OnInit {
     private directorioService: DirectorioService,
     private confirmationService: ConfirmationService,
     private activatedRoute: ActivatedRoute,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private sesionService: SesionService
   ) { }
 
   ngOnInit(): void {
     this.config.setTranslation(this.localeES);
     this.onEdit = this.activatedRoute.snapshot.params['onEdit'];
+    let empresa = this.sesionService.getEmpresa();
+    if(empresa?.idEmpresaAliada !== null) this.onEdit = 'edit';
   }
 
   showDialog(tipo: string) {    

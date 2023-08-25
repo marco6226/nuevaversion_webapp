@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnnotationTypes } from '@syncfusion/ej2/drawings';
 import { ConfirmationService } from 'primeng/api';
@@ -47,7 +47,7 @@ export class ListasInspeccionComponent implements OnInit {
     private router: Router,
     private confirmationService: ConfirmationService,
     private inspeccionService: InspeccionService,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class ListasInspeccionComponent implements OnInit {
     this.loading = true;
   }
 
-  async lazyLoad(event: any) {
+  async lazyLoad(event?: any) {
     let user:any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();
 
@@ -70,15 +70,15 @@ export class ListasInspeccionComponent implements OnInit {
 
     this.loading = true;
 
-    filterQuery.sortField = event.sortField;
-    filterQuery.sortOrder = event.sortOrder;
-    filterQuery.offset = event.first;
-    filterQuery.rows = event.rows;
+    filterQuery.sortField = event?.sortField;
+    filterQuery.sortOrder = event?.sortOrder;
+    filterQuery.offset = event?.first;
+    filterQuery.rows = event?.rows;
     
     filterQuery.count = true;
     filterQuery.fieldList = this.fields;
     
-    filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+    filterQuery.filterList = FilterQuery.filtersToArray(event?.filters);
     
     this.listaInspeccionService.findByFilter(filterQuery).then(
       (resp: any) => {
@@ -131,7 +131,16 @@ export class ListasInspeccionComponent implements OnInit {
       header: 'Confirmar acción',
       message: 'La lista de inspección ' + this.listaInpSelect.nombre + ' será eliminada, no podrá deshacer esta acción, ¿Desea continuar?',
       accept: () =>
-        this.listaInspeccionService.delete(this.listaInpSelect.codigo)
+        this.listaInspeccionService.eliminarLista(this.listaInpSelect.listaInspeccionPK)
+        .then((res: any) => {
+          // this.lazyLoad({} as any);
+          const url = this.router.url; 
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate([`/${url}`]);
+          });
+        }).catch((err: any) => {
+          console.log('Error al aliminar lista de inspección', err);
+        })
     });
   }
 

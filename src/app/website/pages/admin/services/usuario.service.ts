@@ -76,6 +76,23 @@ export class UsuarioService extends CRUDService<Usuario>{
     });
   }
 
+  emailAliadoCicloCorto(entity: string, inspeccionId: string) {
+    let body = entity;
+    return new Promise((resolve, reject) => {
+        this.httpInt
+            .put(this.end_point + 'emailAliadoCicloCorto/'+inspeccionId, body)
+            .subscribe(
+                (res) => {
+                    resolve(res);
+                },
+                (err) => {
+                    reject(err);
+                    this.manageError(err);
+                }
+            );
+    });
+  }
+
   consultarHistoriaLogin(){
     return new Promise(resolve => {
       this.httpInt.get(this.end_point + 'historiaLogin/')

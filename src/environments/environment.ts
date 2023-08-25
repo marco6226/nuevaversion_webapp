@@ -2,7 +2,7 @@
 let protocol = "http";
 let host = "localhost";
 let port = "8080";
-let path = protocol + "://" + host + ":" + port + "/sigess/api/"; 
+let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 // //Demo
 // let protocol = 'https';
@@ -100,6 +100,9 @@ export const endPoints: string | any = {
   ListaInspeccionService: path + "listaInspeccion/",
   ProgramacionService: path + "programacion/",
   InspeccionService: path + "inspeccion/",
+  ViewInspeccionCtr: path + "viewInspeccionesCtr/",
+  cumplimientoService: path + "cumplimiento/",
+  ViewResumenAliadosService: path + "viewResumenAliados/",
   TipoHallazgoService: path + "tipoHallazgo/",
 
   SistemaNivelRiesgoService: path + "sistemaNivelRiesgo/",

@@ -54,6 +54,7 @@ export class CambioPasswdComponent implements OnInit {
         this.form.reset();
         this.visible = false;
         this.cambioPasswdService.setVisible(false);
+        location.reload();
       }
     );
   }

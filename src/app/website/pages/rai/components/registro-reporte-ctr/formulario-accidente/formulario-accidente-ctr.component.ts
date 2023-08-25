@@ -26,7 +26,7 @@ import { SesionService } from 'src/app/website/pages/core/services/session.servi
 import { SistemaCausaInmediataService } from 'src/app/website/pages/core/services/sistema-causa-inmediata.service';
 import { SistemaCausaRaizService } from 'src/app/website/pages/core/services/sistema-causa-raiz.service';
 import { TipoPeligroService } from 'src/app/website/pages/core/services/tipo-peligro.service';
-import { Subcontratista } from 'src/app/website/pages/ctr/entities/aliados';
+import { Localidades, Subcontratista } from 'src/app/website/pages/ctr/entities/aliados';
 import { AreaService } from 'src/app/website/pages/empresa/services/area.service';
 import { EmpresaService } from 'src/app/website/pages/empresa/services/empresa.service';
 import { locale_es, tipo_identificacion } from '../../../entities/reporte-enumeraciones';
@@ -116,6 +116,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
   ];
   areasPermiso: string | null = null;
   permisoSeguimiento: boolean | null = null;
+  localidadesOpt: SelectItem[] | null = null;
   
   // Causas
   causaInmediataList: TreeNode[] | null = null;
@@ -177,7 +178,8 @@ export class FormularioAccidenteCtrComponent implements OnInit {
       fechaIngreso: new FormControl(null, Validators.required),
       cargo: new FormControl(null, Validators.required),
       jornada: new FormControl(null, Validators.required),
-      ubicacion: new FormControl(null)
+      ubicacion: new FormControl(null),
+      localidad: new FormControl(null, Validators.required)
     });
 
     this.infAccidente = new FormGroup({
@@ -241,6 +243,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     this.cargarTiposPeligro();
     this.cargarCausasInmediatas();
     this.cargarCausasBasicas();
+    this.cargarLocalidades();
 
     //Cargar información de accidente para modificar
     if (this.reporteId) {
@@ -285,6 +288,8 @@ export class FormularioAccidenteCtrComponent implements OnInit {
         this.infPersonaAccidentada.get('cargo')?.setValue(this.reporte.cargoEmpleado);
         this.infPersonaAccidentada.get('jornada')?.setValue(this.reporte.jornadaHabitual);
         this.infPersonaAccidentada.get('ubicacion')?.setValue(this.reporte.areaAccidente);
+        this.infPersonaAccidentada.get('localidad')?.setValue(this.reporte.localidad);
+
         
         this.infAccidente.get('fechaAccidente')?.setValue(this.reporte.fechaAccidente ? new Date(this.reporte.fechaAccidente): null);
         this.infAccidente.get('horaAccidente')?.setValue(this.reporte.horaAccidente ? new Date(this.reporte.horaAccidente) : null);
@@ -469,6 +474,15 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     })
     .catch(err => {
       console.error('error al obtener causas básicas', err);
+    });
+  }
+
+  async cargarLocalidades() {
+    await this.empresaService.getLocalidades()
+    .then((res: Localidades[]) => {
+      this.localidadesOpt = res.map((localidad: Localidades) => {
+        return {label: localidad.localidad, value: localidad};
+      });
     });
   }
 
@@ -699,6 +713,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     this.reporte.cargoEmpleado = (this.infPersonaAccidentada.get('cargo')?.value).toUpperCase();
     this.reporte.jornadaHabitual = this.infPersonaAccidentada.get('jornada')?.value;
     this.reporte.areaAccidente = this.infPersonaAccidentada.get('ubicacion')?.value;
+    this.reporte.localidad = this.infPersonaAccidentada.get('localidad')?.value;
 
     // Almacenar datos del accidente
     this.reporte.fechaAccidente = this.infAccidente.get('fechaAccidente')?.value;
