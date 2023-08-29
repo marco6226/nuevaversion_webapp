@@ -211,6 +211,7 @@ import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ct
 import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
 import { AuthGuardService } from './pages/core/services/auth-guard.service';
 import { SliderModule } from 'primeng/slider';
+import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/matriz-peligros.component';
 
 @NgModule({
   declarations: [
@@ -386,6 +387,7 @@ import { SliderModule } from 'primeng/slider';
     ListasInspeccionCtrComponent,
     ProgramacionCtrComponent,
     ConsultaInspeccionesCtrComponent,
+    MatrizPeligrosComponent,
   ],
   imports: [
     MatTooltipModule,

@@ -137,6 +137,9 @@ export const endPoints: string | any = {
   IpecrService: path + "ipecr/",
   PeligroIpecrService: path + "peligroIpecr/",
   ParticipanteIpecrService: path + "participanteIpecr/",
+  AreaMatrizService: path + "areaMatriz/",
+  SubprocesoMatrizService:  path + "subProcesoMatriz/",
+  ProcesoMatrizService:  path + "procesoMatriz/",
 
   ConfiguracionGeneralService: path + "configuracion/",
   SistemaCausaAdministrativaService: path + "sistemaCausaAdministrativa/",
