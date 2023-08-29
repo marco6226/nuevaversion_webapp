@@ -1,4 +1,4 @@
-<!-- <p-toast key="pcl"></p-toast> -->
+<p-toast key="pcl"></p-toast>
 <div class="row g-2 mb-3">
     <h5 class="title-header p-mb-2">PCL - Origen</h5>
 </div>
@@ -91,7 +91,8 @@
                     </div>
                     <div class="row">
                         <ng-container *ngIf="estado=='crear'">
-                            <div class="col" *sTienePermiso="'SCM_POST_DIAGPCL'">
+                            <!-- <div class="col" *sTienePermiso="'SCM_POST_DIAGPCL'"> -->
+                            <div class="col">
                                 <div class="input-field">
                                     <label for="" class="active">Diagnósticos</label>
                                     <p-dropdown appendTo="body" [filter]="true" [options]="diagList" class="select-material" formControlName="diag" styleClass="select-material" required="true" [readonly]="action">
@@ -263,7 +264,7 @@
                 (click)="onSubmit(true)"></button>
             <button *ngIf="!pclSelect && !action" 
                 pButton type="button" 
-                label="Crear" 
+                label="Creara" 
                 [icon]="(loadingForm) ? 'pi pi-spin pi-spinner' : 'bi bi-plus'" 
                 class="p-button-raised p-button-primary margin-right"
                 [disabled]="loadingForm" 

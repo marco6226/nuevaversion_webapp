@@ -8,7 +8,7 @@
     </div>
   </ng-template>
 </p-autoComplete>
-<div [ngClass]="disabled == true ? 'badge disabled' : 'badge active clickable'" style="padding-left: 0.5em;padding-top: 0.4em;"
+<div type="button" [ngClass]="disabled == true ? 'badge disabled' : 'badge active clickable'" style="padding-left: 0.5em;padding-top: 0.4em; background: rgb(146, 146, 225);"
   *ngIf="_value?.id != null" (click)="resetCie()">
   <strong>{{_value?.codigo}}</strong> - {{_value?.nombre}}
 </div>
