@@ -210,7 +210,7 @@ import { ListasInspeccionCtrComponent } from './pages/ctr/components/inspeccione
 import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ctr/programacion-ctr/programacion-ctr.component';
 import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
 import { AuthGuardService } from './pages/core/services/auth-guard.service';
-import { SliderModule } from 'primeng/slider';
+import { ChangePasswordComponent } from './pages/core/components/change-password/change-password.component';
 import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/matriz-peligros.component';
 
 @NgModule({
@@ -235,7 +235,7 @@ import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/
     DashboardCoronaComponent,
     TerminosCondicionesComponent,
     InicioComponent,
-    ActividadesContratadasComponent,
+    ActividadesContratadasComponent,  
     AdminContratistasComponent,
     AliadosComponent,
     AliadosActualizarComponent,
@@ -388,6 +388,7 @@ import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/
     ProgramacionCtrComponent,
     ConsultaInspeccionesCtrComponent,
     MatrizPeligrosComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     MatTooltipModule,
@@ -428,7 +429,6 @@ import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/
     ScrollPanelModule,
     ChipsModule,
     InputSwitchModule,
-    SliderModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
