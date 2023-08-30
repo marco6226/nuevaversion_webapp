@@ -26,7 +26,7 @@
                 </td>
                 <td>{{incapacidad.tipo}}</td>
                 <td *ngIf="incapacidad['cie10'];else other_content">{{incapacidad?.cie10?.codigo}}</td>
-                <ng-template #other_content>&nbsp;</ng-template>
+                <ng-template #other_content><td> &nbsp;</td></ng-template>
                 <td>{{incapacidad.diagnostico}}</td>
                 <td>{{incapacidad.fechaInicio | date: 'dd/MM/yyyy'}}</td>
                 <td>{{incapacidad.fechaFin | date: 'dd/MM/yyyy'}}</td>

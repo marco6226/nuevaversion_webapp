@@ -93,6 +93,11 @@ export class IncapacidadesComplementariaComponent implements OnInit {
 
   saveProduct(){
     this.submitted = true;
+
+    if(this.flagIncapacidad=='true' && (!this.tipo || !this.cie10 || !this.fechaInicio || !this.fechaFin) ){
+
+      return
+    }
     
 
     if(this.flagIncapacidad=='false'){
@@ -102,13 +107,13 @@ export class IncapacidadesComplementariaComponent implements OnInit {
       this.fechaFin=null
     }
 
-      this.incapacidad.generoIncapacidad=this.flagIncapacidad
-      this.incapacidad.tipo = this.tipo
-      this.incapacidad.cie10 = (this.cie10)?this.cie10:null;
-      this.incapacidad.diagnostico = this.cie10?this.cie10.nombre:null
-      this.incapacidad.fechaInicio = this.fechaInicio?this.fechaInicio:null
-      this.incapacidad.fechaFin = this.fechaFin?this.fechaFin:null
-      this.incapacidad.diasAusencia = this.diasAusencia;
+    this.incapacidad.generoIncapacidad=this.flagIncapacidad
+    this.incapacidad.tipo = this.tipo
+    this.incapacidad.cie10 = (this.cie10)?this.cie10:null;
+    this.incapacidad.diagnostico = this.cie10?this.cie10.nombre:null
+    this.incapacidad.fechaInicio = this.fechaInicio?this.fechaInicio:null
+    this.incapacidad.fechaFin = this.fechaFin?this.fechaFin:null
+    this.incapacidad.diasAusencia = this.diasAusencia;
 
 
     if(this.id){
@@ -133,7 +138,7 @@ export class IncapacidadesComplementariaComponent implements OnInit {
       // this.miembros.push(this.miembro);
       this.incapacidades.push(this.incapacidad)
 
-  }
+    }
 
     this.listIncapacidades.emit(this.incapacidades);
     this.productDialog = false;
@@ -142,6 +147,7 @@ export class IncapacidadesComplementariaComponent implements OnInit {
     this.borrarIncapcidad();
      
   }
+
   findIndexById(id: number): number {
     let index = -1;
     for (let i = 0; i < this.incapacidadess.length; i++) {

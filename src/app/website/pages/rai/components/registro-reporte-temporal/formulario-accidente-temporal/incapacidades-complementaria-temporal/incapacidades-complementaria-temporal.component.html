@@ -56,7 +56,7 @@
             <label for="tipo">Tipo</label>
             <p-dropdown appendTo="body" [filter]="true" [options]="tipoList" [(ngModel)]="tipo" placeholder="Seleccione"
                 required></p-dropdown>
-            <small class="p-invalid" *ngIf="submitted && !tipo">is required.</small>
+            <small class="p-invalid" *ngIf="submitted && !tipo">Obligatorio</small>
         </div>
         <div class="p-field">
             <label for="cie10">CIE 10</label>
@@ -64,21 +64,21 @@
             <s-cieSelector id="ccide-input" [(ngModel)]="cie10" required>
             </s-cieSelector>
 
-            <small class="p-invalid" *ngIf="submitted && !cie10">is required.</small>
+            <small class="p-invalid" *ngIf="submitted && !cie10">Obligatorio</small>
         </div>
         <div class="p-field">
             <label for="fechaInicio">Fecha Inicio</label>
             <p-calendar appendTo="body" [(ngModel)]="fechaInicio" [touchUI]="true" dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"
                  required>
             </p-calendar>
-            <small class="p-invalid" *ngIf="submitted && !fechaInicio">is required.</small>
+            <small class="p-invalid" *ngIf="submitted && !fechaInicio">Obligatorio</small>
         </div>
         <div class="p-field">
             <label for="fechaFin">Fecha Fin</label>
             <p-calendar appendTo="body" [(ngModel)]="fechaFin" [touchUI]="true" dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"
                  required>
             </p-calendar>
-            <small class="p-invalid" *ngIf="submitted && !fechaFin">is required.</small>
+            <small class="p-invalid" *ngIf="submitted && !fechaFin">Obligatorio</small>
 
         </div>
     </ng-container>
