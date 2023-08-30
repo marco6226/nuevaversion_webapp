@@ -74,6 +74,7 @@ import { ElaboracionListaCtrComponent } from './pages/ctr/components/inspeccione
 import { ListasInspeccionCtrComponent } from './pages/ctr/components/inspecciones-ctr/listas-inspeccion-ctr/listas-inspeccion-ctr.component';
 import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ctr/programacion-ctr/programacion-ctr.component';
 import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
+import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/matriz-peligros.component';
 
 const routes: Routes = [
   {
@@ -232,6 +233,7 @@ const routes: Routes = [
           { path: 'peligros', component: ParametrizacionPeligrosComponent },
           { path: 'formularioIpecr', component: FormularioIpecrComponent },
           { path: 'consultaIpecr', component: ConsultaIpecrComponent },
+          { path: 'matrizPeligros', component: MatrizPeligrosComponent },
         ]
       },
       {

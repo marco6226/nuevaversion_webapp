@@ -1,0 +1,570 @@
+<p-confirmDialog key="matrizp"></p-confirmDialog>
+<form [formGroup]="formCreacionMatriz">
+    <p-panel header="REGISTRO MATRIZ DE PELIGROS">
+        <div class="grid">
+            <div class="col-6">
+                <strong>Planta:</strong>
+                <br/>
+                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una planta"[options]="planta" appendTo="body" formControlName="planta" (onChange)="cargarArea($event.value)"></p-dropdown>
+            </div>
+            <div class="col-6">
+                <strong>Ubicación:</strong>
+                <area-selector  [disabled]="flagRegistroMatrizAcording" required formControlName="ubicacion"></area-selector>       
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <ng-container *ngIf="!flagRegistroMatrizAcording">
+            <button pButton type="button " icon="bi bi-arrow-right " label="Continuar " (click)="flagRegistroMatrizAcording=true;flagRegistroMatrizTree=true;activeIndex=0" [disabled]="!formCreacionMatriz.valid"></button>
+        </ng-container>
+    </p-panel>
+</form>
+
+<ng-template #blanco1><div class="col-md-6 col-sm-12">
+    &nbsp;
+</div></ng-template>
+
+<br>
+<ng-container *ngIf="flagRegistroMatrizAcording">
+    
+    <p-accordion [activeIndex]="activeIndex">
+        <p-accordionTab header="GUÍA PROCESOS" *ngIf="flagRegistroMatrizTree">
+            <p-treeTable #tt [value]="matrizdescripcion" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width: 5rem">
+                            Tipo
+                        </th>
+                        <th *ngFor="let col of cols">
+                            {{ col.header }}
+                        </th>
+                        <th style="width: 10rem" *ngIf="flagButtonMatrizAcording">
+                            <p-button type="button" 
+                            icon="bi bi-plus"
+                            class="p-button-primary"
+                            tooltipPosition="left"
+                            pTooltip="Agregar área"
+                            (click)="CRUDAreaTreeFunc(null,'POST')"
+                            ></p-button>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="width: 5rem">
+                        </th>
+                        <th *ngFor="let col of cols">
+                            <input pInputText type="text" (input)="tt.filter($event.target.value, col.field, col.filterMatchMode)" />
+                        </th>
+                        <th style="width: 10rem" *ngIf="flagButtonMatrizAcording">
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                    <tr>
+                        <td style="width: 10rem">
+                            <ng-container *ngIf="rowNode.level==0">
+                                A
+                            </ng-container>
+                            <ng-container *ngIf="rowNode.level==1">
+                                P   
+                            </ng-container>
+                            <ng-container *ngIf="rowNode.level==2">
+                                S
+                            </ng-container>
+                        </td>
+                        <ng-container *ngFor="let col of cols; let i = index">
+                            <td>
+                                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
+                                {{ rowData[col.field] }}
+                            </td>
+
+                        </ng-container>
+                        <td style="width: 10rem; display: flex;justify-content: space-evenly;" *ngIf="flagButtonMatrizAcording">
+                            <ng-container *ngIf="rowNode.level==0" >
+                                <button pButton type="button" 
+                                icon="bi bi-plus"
+                                tooltipPosition="left"
+                                pTooltip="Agregar proceso"
+                                (click)="CRUDProcesoTreeFunc(rowData,'POST')"
+                                ></button>
+                                <button pButton type="button" 
+                                icon="bi bi-pencil"
+                                class="p-button-success"
+                                tooltipPosition="left"
+                                pTooltip="Editar área"
+                                (click)="CRUDAreaTreeFunc(rowData,'PUT')"
+                                ></button>
+                                <button pButton type="button" 
+                                icon="bi bi-trash"
+                                class="p-button-danger"
+                                tooltipPosition="left"
+                                pTooltip="Eliminar área"
+                                (click)="CRUDAreaTreeFunc(rowData,'DELETE')"
+                                ></button>
+                            </ng-container>
+                            <ng-container *ngIf="rowNode.level==1">
+                                <button pButton type="button" 
+                                icon="bi bi-plus"
+                                tooltipPosition="left"
+                                pTooltip="Agregar subproceso (cargo/oficio)"
+                                (click)="CRUDSubprocesoTreeFunc(rowNode,'POST')"
+                                ></button>
+                                <button pButton type="button" 
+                                class="p-button-success"
+                                icon="bi bi-pencil"
+                                tooltipPosition="left"
+                                pTooltip="Editar proceso"
+                                (click)="CRUDProcesoTreeFunc(rowNode,'PUT')"
+                                ></button>
+                                <button pButton type="button" 
+                                class="p-button-danger"
+                                icon="bi bi-trash"
+                                tooltipPosition="left"
+                                pTooltip="Eliminar proceso"
+                                (click)="CRUDProcesoTreeFunc(rowNode,'DELETE')"
+                                ></button>
+                            </ng-container>
+                            <ng-container *ngIf="rowNode.level==2">
+                                <button pButton type="button" 
+                                icon="bi bi-pencil"
+                                class="p-button-success"
+                                tooltipPosition="left"
+                                pTooltip="Editar subproceso (cargo/oficio)"
+                                (click)="CRUDSubprocesoTreeFunc(rowNode,'PUT')"
+                                ></button>
+                                <button pButton type="button" 
+                                icon="bi bi-trash"
+                                class="p-button-danger"
+                                tooltipPosition="left"
+                                pTooltip="Eliminar subproceso (cargo/oficio)"
+                                (click)="CRUDSubprocesoTreeFunc(rowNode,'DELETE')"
+                                ></button>
+                            </ng-container>
+                        </td>
+                    
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="4">No hay guía de procesos registrada.</td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
+            <br/>
+            <br/>
+            <div *ngIf="flagButtonMatrizAcording && matrizdescripcion.length>0">
+                <button pButton type="button" 
+                icon="bi bi-plus"
+                label="Crear matriz de peligros"
+                (click)="crearMatrizPeligros()">
+                </button>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</ng-container>
+<ng-container *ngIf="flagRegistroMatriz">
+    
+    <p-panel header="MATRIZ DE PELIGROS">
+    
+        <p-accordion [multiple]="true">
+
+            <p-accordionTab header="I. INFORMACIÓN GENERAL - DESCRIPCIÓN">
+                <form [formGroup]="formMatrizGeneral">
+                    <div class="grid accordionTab">
+                        <div class="col-md-6 col-sm-12 gridcol">
+                            <label for="">Área</label><br>
+                            <!-- <p-dropdown appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event)" >
+                            </p-dropdown> -->
+                            <p-multiSelect formControlName="Area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event)" >
+                            </p-multiSelect>
+                        </div>
+                        <div class="col-md-6 col-sm-12 gridcol" *ngIf="putArea;else blanco1">
+                            <label for="">Agregar una nueva área de no estar registrada</label><br>
+                            <ng-containter style="display: flex;">
+                                <input type="text">
+                                <button pButton type="button" 
+                                icon="bi bi-plus"
+                                class="p-button-raised p-button-primary"
+                                ></button>
+                            </ng-containter>
+                        </div>
+                        <br>
+                        <div class="col-md-6 col-sm-12 gridcol">
+                            <label for="">Proceso</label>
+                            <!-- <p-dropdown  [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event)">
+                            </p-dropdown> -->
+                            <p-multiSelect  formControlName="Proceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event)">
+                            </p-multiSelect>
+                        </div>
+                        <div class="col-md-6 col-sm-12 gridcol" *ngIf="putProceso;else blanco1">
+                            <label for="">Agregar un nuevo proceso de no estar registrado</label><br>
+                            <ng-containter style="display: flex;">
+                                <input type="text">
+                                <button pButton type="button" 
+                                icon="bi bi-plus"
+                                class="p-button-raised p-button-primary"
+                                ></button>
+                            </ng-containter>
+                        </div>
+                        <br>
+                        <div class="col-md-6 col-sm-12 gridcol">
+                            <label for="">Subproceso (cargo/oficio)</label>
+                            <!-- <p-dropdown  [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
+                            </p-dropdown> -->
+                            <p-multiSelect  formControlName="Subproceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
+                            </p-multiSelect>
+                        </div>
+                        <div class="col-md-6 col-sm-12 gridcol" *ngIf="putSubproceso;else blanco1">
+                            <label for="">Agregar un nuevo subproceso (cargo/oficio) de no estar registrado</label><br>
+                            <ng-containter style="display: flex;">
+                                <input type="text">
+                                <button pButton type="button" 
+                                icon="bi bi-plus"
+                                class="p-button-raised p-button-primary"
+                                ></button>
+                            </ng-containter>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-md-12 col-sm-12 gridcol">
+                            <label for="">Actividades o tareas</label>
+                            <textarea required cols="10" rows="3" formControlName="Actividades"></textarea>
+                        </div>
+                        <br>
+                        <div class="col-md-12 col-sm-12 gridcol">
+                            <label for="">¿Rutinaria?</label><br>
+                            <div style="display: flex;">
+                                <p-radioButton required name="Rutinaria" label="Sí" [value]="1"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagRutinaria" [ngModelOptions]="{standalone: true}" formControlName="Rutinaria"></p-radioButton>
+                                <p-radioButton name="Rutinaria"  [value]="0" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagRutinaria" [ngModelOptions]="{standalone: true}" formControlName="Rutinaria"></p-radioButton>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-12">
+                            &nbsp;
+                        </div>
+                        <h3># Expuestos</h3>
+                        <div class="col-md-12 col-sm-12 gridcol grid">
+                            <div class="col-md-6 col-sm-12 col-3">
+                                <label for="">Propios</label><br>
+                                <input required formControlName="Propios" type="number" [(ngModel)]="sumaP" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">
+                            </div>
+                            <div  class="col-md-6 col-sm-12 col-3">
+                                <label for="">Temporales</label>
+                                <input required formControlName="Temporales" type="number" [(ngModel)]="sumaC" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">                              
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-3">
+                                <label for="">Contratistas</label>
+                                <input required formControlName="Contratistas" type="number" [(ngModel)]="sumaT" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()"> 
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-3">
+                                <label for="">Total</label>
+                                <input type="number" [readonly]="true" [(ngModel)]="sumaExpuestos" [ngModelOptions]="{standalone: true}"> 
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p-accordionTab>
+
+            <p-accordionTab header="II. IDENTIFICACIÓN DEL PELIGRO" [disabled]="!formMatrizGeneral.valid">
+                <form [formGroup]="formMatrizPeligros">
+                    <div class="grid accordionTab">
+                        <div class="col-md-6 col-sm-12 gridcol">
+                            <label for="">Clasificación</label>
+                            <p-dropdown  [filter]="true" required [options]="this.tipoPeligroItemList" formControlName="Peligro" (onChange)="SelectPeligro($event.value)" >
+                            </p-dropdown>
+                        </div>
+                        <br>
+                        <div class="col-md-6 col-sm-12 gridcol">
+                            <label for="">Descripción del peligro</label>
+                            <p-dropdown  [filter]="true" [options]="this.peligroItemList" formControlName="DescripcionPeligro" (onChange)="SelectEfecto($event.value)" required></p-dropdown>
+                        </div>
+                        <br>
+                        <div class="col-md-12 col-sm-12 gridcol">
+                            <label for="">Fuente generadora</label>
+                            <textarea cols="10" rows="3" formControlName="FuenteGeneradora" required></textarea>
+                        </div>
+                        <br>
+                        <div class="col-md-12 col-sm-12 gridcol">
+                            <label for="">Consecuencia/Efectos a la salud</label>
+                            <textarea [readonly]="true" cols="10" rows="3" formControlName="Efectos"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </p-accordionTab>
+
+            <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" >
+                <!-- <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" [disabled]="!formMatrizPeligros.valid"> -->
+
+                <form [formGroup]="formMatrizRiesgosC">
+                    <div class="grid accordionTab">
+                        <div class="col-12 gridcol">
+                            
+                            <div style="display: flex;" class="grid">
+                                <div class="col-4 col-md-6 col-sm-12"><label for="">Control de ingeniería:</label></div>
+                                <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                    <label for="">¿Aplica?</label>&nbsp;
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                </div>
+                            </div>
+                            <div id="flagControlIng">
+                                <textarea [required]="flagControlIng" formControlName="Ingenieria" cols="10" rows="3" ></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 gridcol">
+                            <div style="display: flex;" class="grid">
+                                <div class="col-4 col-md-6 col-sm-12"><label for="">Controles administrativos:</label></div>
+                                <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                    <label for="">¿Aplica?</label>&nbsp;
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                </div>
+                            </div>
+                            <!-- <label for="">Controles administrativos:</label> -->
+                            <div id="flagControlAdm">
+                                <textarea [required]="flagControlAdm" formControlName="Administrativos" cols="10" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 gridcol">
+                            <div style="display: flex;" class="grid">
+                                <div class="col-4 col-md-6 col-sm-12"><label for="">Equipos y elementos de protección personal:</label></div>
+                                <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                    <label for="">¿Aplica?</label>&nbsp;
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                </div>
+                            </div>
+                            <!-- <label for="">Equipos y elementos de protección personal:</label> -->
+                            <div id="flagEquiposEle">
+                                <textarea  [required]="flagEquiposEle" formControlName="ElementosPro" cols="10" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </p-accordionTab>
+
+            <p-accordionTab header="IV. VALORACIÓN DEL RIESGO INICIAL" [disabled]="!formMatrizRiesgosC.valid">
+                <form [formGroup]="formMatrizRiesgosI">
+                    <div class="grid accordionTab">
+                        <div class="col-12">
+                            <p-table [value]="valoracionRI1" [tableStyle]="{ 'min-width': '50rem' }">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>    
+                                            <a>Nivel de deficiencia (ND)</a>&nbsp;
+                                            <button 
+                                            pButton type="button"icon="bi bi-question-circle"
+                                                class="p-button-rounded p-button-text"
+                                                pTooltip="Ayuda"
+                                                (click)="imagenFlag('ND')"></button>
+                                        </th>
+                                        <th>
+                                            <a>Nivel de exposición (NE)</a>&nbsp;
+                                            <button pButton type="button"icon="bi bi-question-circle"
+                                                class="p-button-rounded p-button-text"
+                                                pTooltip="Ayuda"
+                                                (click)="imagenFlag('NE')"></button>
+                                        </th>
+                                        <th>
+                                            <a>Nivel de probabilidad (NP)</a>&nbsp;
+                                            <button pButton type="button" icon="bi bi-question-circle"
+                                                class="p-button-rounded p-button-text"
+                                                pTooltip="Ayuda"
+                                                (click)="imagenFlag('NP')"></button>
+                                        </th>
+                                        <th style="width:15rem">Interpretación del nivel de probabilidad</th>
+                                        <th>
+                                            <a>Nivel de concecuencia (NC)</a>
+                                            <button 
+                                            pButton type="button"icon="bi bi-question-circle"
+                                                class="p-button-rounded p-button-text"
+                                                pTooltip="Ayuda"
+                                                (click)="imagenFlag('NC')"></button>
+                                        </th>
+                                        <th>
+                                            <a>Nivel de riesgo (NR)</a>
+                                            <button 
+                                            pButton type="button"icon="bi bi-question-circle"
+                                                class="p-button-rounded p-button-text"
+                                                pTooltip="Ayuda"
+                                                (click)="imagenFlag('NR')"></button>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-nivel  let-editing="editing" let-ri="rowIndex">
+                                    <tr [pEditableRow]="nivel">
+                                        <td><p-cellEditor>
+                                            <ng-template pTemplate="output">
+                                                <p-dropdown  required formControlName="ND" appendTo="body" [options]="this.ND" [(ngModel)]="nivel['ND']" [ngModelOptions]="{standalone: true}" (onChange)="nivelProbabilidad($event.value)">
+                                                </p-dropdown>
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                        <td><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                <p-dropdown  required formControlName="NE"appendTo="body" [options]="this.NE" [(ngModel)]="nivel['NE']" [ngModelOptions]="{standalone: true}" (onChange)="nivelProbabilidad()">
+                                                </p-dropdown>
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                        <td><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                {{nivel['NP']}}                                                
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                        <td  [class]="nivel['color']"><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                {{nivel['I']}}
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                        <td><p-cellEditor>
+                                            <ng-template pTemplate="output">
+                                                <p-dropdown  required formControlName="NC" appendTo="body" [options]="this.NC" [(ngModel)]="nivel['NC']" [ngModelOptions]="{standalone: true}" (onChange)="nivelRiesgo()">
+                                                </p-dropdown>
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                        <td><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                {{nivel['NR']}}                                                
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <br>
+                            <p-table [value]="valoracionRI2" [tableStyle]="{ 'min-width': '50rem' }">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th colspan="3" class="text-center">Interpretación del riesgo</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cuantitativo</th>
+                                        <th>Cualitativo</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-nivel  let-editing="editing" let-ri="rowIndex">
+                                    <tr [pEditableRow]="nivel">
+                                        <td [class]="nivel['color']"><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                {{nivel['CN']}}
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                        <td [class]="nivel['color']"><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                {{nivel['CL']}}
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                        <td><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                <textarea [readonly]="true" [(ngModel)]="nivel['accion']" [ngModelOptions]="{standalone: true}"></textarea>
+                                                
+                                            </ng-template>
+                                        </p-cellEditor></td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <!-- <div class="col-md-12 col-sm-12 gridcol">
+                            <label for="">Acción:</label>
+                            <textarea [readonly]="true" cols="10" rows="5"  [(ngModel)]="accion" [ngModelOptions]="{standalone: true}"></textarea>
+                        </div> -->
+                    </div>
+                </form>
+            </p-accordionTab>
+
+            <p-accordionTab header="V. CONTROL DE RIESGO PLAN DE ACCIÓN" [disabled]="!formMatrizRiesgosI.valid">
+
+            </p-accordionTab>
+        </p-accordion>
+    </p-panel>
+</ng-container>
+<br>
+<p-dialog [(visible)]="imgFlag" modal="true" [contentStyle]="{'max-height':'70%'}" [style]="{width:'80%'}" [header]="imgNameHeader">
+    <div style="margin: auto;"><img [src]="'../../../../../../assets/png/matriz-peligros/'+this.imgName" alt="" style=" width: 100%"></div>
+</p-dialog>
+
+<p-dialog [(visible)]="putAreaTree" modal="true" style=" width: 80%">
+    <div *ngIf="CRUDarea=='POST'">
+        <label for="">Agregar nueva área</label>
+        <input type="text" [(ngModel)]="newArea">
+    </div>
+    <div *ngIf="CRUDarea=='PUT'">
+        <label for="">Editar área:</label>
+        <input type="text" [(ngModel)]="newArea">
+    </div>
+    <br>
+    <div *ngIf="CRUDarea=='POST'">
+        <button pButton type="button" 
+        icon="bi bi-plus"
+        class="p-button-raised p-button-primary"
+        label="Agregar"
+        pTooltip="Agregar área"
+        (click)="CRUDArea('POST')"
+        ></button>
+    </div>
+    <div *ngIf="CRUDarea=='PUT'">
+        <button pButton type="button" 
+        icon="bi bi-pencil"
+        class="p-button-success"
+        label="Editar"
+        (click)="CRUDArea('PUT')"
+        ></button>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="putProcesoTree" modal="true" style=" width: 80%">
+    <div *ngIf="CRUDproceso=='POST'">
+        <label for="">Agregar nuevo proceso al área {{this.nombreAreaTree}}</label>
+        <input type="text" [(ngModel)]="newProceso">
+    </div>
+    <div *ngIf="CRUDproceso=='PUT'">
+        <label for="">Editar proceso:</label>
+        <input type="text" [(ngModel)]="newProceso">
+    </div>
+    <br>
+    <div *ngIf="CRUDproceso=='POST'">
+        <button pButton type="button" 
+        icon="bi bi-plus"
+        class="p-button-raised p-button-primary"
+        label="Agregar"
+        (click)="CRUDProceso('POST')"
+        ></button>
+    </div>
+    <div *ngIf="CRUDproceso=='PUT'">
+        <button pButton type="button" 
+        icon="bi bi-pencil"
+        class="p-button-success"
+        label="Editar"
+        (click)="CRUDProceso('PUT')"
+        ></button>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="putSubprocesoTree" modal="true" style=" width: 80%">
+    <div *ngIf="CRUDsubproceso=='POST'">
+        <label for="">Agregar nuevo subproceso (cargo/oficio) al proceso {{this.nombreProcesoTree}}</label>
+        <input type="text" [(ngModel)]="newSubproceso">
+    </div>
+    <div *ngIf="CRUDsubproceso=='PUT'">
+        <label for="">Editar subproceso (cargo/oficio):</label>
+        <input type="text" [(ngModel)]="newSubproceso">
+    </div>
+    <br>
+    <div *ngIf="CRUDsubproceso=='POST'">
+        <button pButton type="button" 
+        icon="bi bi-plus"
+        class="p-button-raised p-button-primary"
+        label="Agregar"
+        title="Agregar subproceso (cargo/oficio)"
+        (click)="CRUDSubproceso('POST')"
+        ></button>
+    </div>
+    <div *ngIf="CRUDsubproceso=='PUT'">
+        <button pButton type="button" 
+        icon="bi bi-pencil"
+        class="p-button-success"
+        label="Agregar"
+        title="Agregar subproceso (cargo/oficio)"
+        (click)="CRUDSubproceso('PUT')"
+        ></button>
+    </div>
+</p-dialog>

@@ -32,7 +32,8 @@ export class IndCasosMedicosComponent implements OnInit {
   nameX?:string;
   divisiones?:any;
   divisionesCorona=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
-  divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE']
+  // divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE']
+  divisionesTelefonica=['CARIBE','CENTRO','NOROCCIDENTE','ORIENTE','SUR']
   nombreEmpresa?:string;
   colorScheme = {
     domain: ['#00B0F0', '#FC4512', '#FFC000', '#002060','#FCB8FC', '#5B9BD5','#70AD47']
@@ -227,7 +228,7 @@ export class IndCasosMedicosComponent implements OnInit {
       case 8:
         this.divisiones=Array.from(this.divisionesTelefonica)
         this.nombreEmpresa='TELEFONICA TOTAL'
-        this.nameX='Regiones'
+        this.nameX='Regionales'
         break;
       case 22:
         this.divisiones=Array.from(this.divisionesCorona)

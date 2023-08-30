@@ -62,7 +62,7 @@ export class PclComponent implements OnInit {
 
         this.pclForm = fb.group({
             id: '',
-            diag: [null, Validators.required],
+            diag: [null, /*Validators.required*/],
             porcentajePcl: [null, /*Validators.required*/],
             pcl: [null, /*Validators.required*/],
             emisionPclFecha: [null, /*Validators.required*/],
@@ -169,6 +169,7 @@ export class PclComponent implements OnInit {
             this.cd.markForCheck();
         } catch (e) {
             this.messageService.add({
+                key: 'pcl',
                 severity: "error",
                 summary: "Mensaje del sistema",
                 detail: "Ocurrió un error al cargar el listado de PCL"
@@ -190,6 +191,7 @@ export class PclComponent implements OnInit {
 
                 if (res) {
                     this.messageService.add({
+                        key: 'pcl',
                         severity: "success",
                         summary: "Mensaje del sistema",
                         detail: "La PCL ha sido eliminada exitosamente"
@@ -205,6 +207,7 @@ export class PclComponent implements OnInit {
             }
         else {
             this.messageService.add({
+                key: 'pcl',
                 severity: "info",
                 summary: "Cancelado",
                 detail: "usted cancelo la eliminación"
@@ -214,6 +217,7 @@ export class PclComponent implements OnInit {
             
         } catch (error) {
             this.messageService.add({
+                key: 'pcl',
                 severity: "error",
                 summary: "Mensaje del sistema",
                 detail: "Ocurrió un error al eliminar la PCL"
@@ -252,6 +256,7 @@ export class PclComponent implements OnInit {
     }
 
     async onSubmit(upd?: any) {
+        console.log('aquí')
         this.loadingForm = true;
         if (!this.pclForm.valid && !upd) {
             return this.markFormGroupTouched(this.pclForm);
@@ -265,6 +270,7 @@ export class PclComponent implements OnInit {
             }
             if (res) {
                 this.messageService.add({
+                    key: 'pcl',
                     severity: "success",
                     summary: "Mensaje del sistema",
                     detail: upd ? "La PCL ha sido actualizada exitosamente" : 'La PCL fue creada exitosamente',
@@ -279,6 +285,7 @@ export class PclComponent implements OnInit {
             }
         } catch (error) {
             this.messageService.add({
+                key: 'pcl',
                 severity: "error",
                 summary: "Mensaje del sistema",
                 detail: upd ? "Ocurrió un problema al actualizar la PCL" : 'Ocurrió un problema al crear la PCL',

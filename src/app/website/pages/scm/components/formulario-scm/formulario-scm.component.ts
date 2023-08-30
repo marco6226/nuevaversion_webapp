@@ -94,7 +94,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         { value: 3, label: "Paraclínicos" },
         { value: 4, label: "Medicamentos" }
     ];
-    recomendationList!: TreeNode[];
+    recomendationList: TreeNode[]=[];
     seguimientosList!: TreeNode[];
     logsList: any = []
     seguimientosgenericoList?: TreeNode[];

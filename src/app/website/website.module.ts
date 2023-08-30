@@ -211,6 +211,7 @@ import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ct
 import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
 import { AuthGuardService } from './pages/core/services/auth-guard.service';
 import { ChangePasswordComponent } from './pages/core/components/change-password/change-password.component';
+import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/matriz-peligros.component';
 
 @NgModule({
   declarations: [
@@ -386,6 +387,7 @@ import { ChangePasswordComponent } from './pages/core/components/change-password
     ListasInspeccionCtrComponent,
     ProgramacionCtrComponent,
     ConsultaInspeccionesCtrComponent,
+    MatrizPeligrosComponent,
     ChangePasswordComponent,
   ],
   imports: [

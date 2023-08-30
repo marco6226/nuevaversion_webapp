@@ -188,9 +188,10 @@ export class MenuComponent implements OnInit, AfterContentInit {
             expanded: false,
             items:
                 [
-                    { label: 'Parametrización peligros', codigo: 'IPECR_PARAMPEL', routerLink: ['/app/ipr/peligros'], icon: 'bi bi-gear'},
-                    { label: 'Elaboración IPECR', codigo: 'IPECR_ELABIPECR', routerLink: ['/app/ipr/formularioIpecr'], icon: 'bi bi-info-circle'},
-                    { label: 'Consulta IPECR', codigo: 'IPECR_GET_IPECR', routerLink: ['/app/ipr/consultaIpecr'], icon: 'bi bi-list-task'},
+                    // { label: 'Parametrización peligros', codigo: 'IPECR_PARAMPEL', routerLink: ['/app/ipr/peligros'], icon: 'bi bi-gear'},
+                    // { label: 'Elaboración IPECR', codigo: 'IPECR_ELABIPECR', routerLink: ['/app/ipr/formularioIpecr'], icon: 'bi bi-info-circle'},
+                    // { label: 'Consulta IPECR', codigo: 'IPECR_GET_IPECR', routerLink: ['/app/ipr/consultaIpecr'], icon: 'bi bi-list-task'},
+                    { label: 'Registro matriz peligros', codigo: 'IPECR_GET_MATRIZPELIGROS', routerLink: ['/app/ipr/matrizPeligros'], icon: 'bi bi-pencil-square'},
                 ]
         },
         {

@@ -26,7 +26,7 @@
                 </td>
                 <td>{{incapacidad.tipo}}</td>
                 <td *ngIf="incapacidad['cie10'];else other_content">{{incapacidad?.cie10?.codigo}}</td>
-                <ng-template #other_content>&nbsp;</ng-template>
+                <ng-template #other_content><td>&nbsp;</td></ng-template>
                 <td>{{incapacidad.diagnostico}}</td>
                 <td>{{incapacidad.fechaInicio | date: 'dd/MM/yyyy'}}</td>
                 <td>{{incapacidad.fechaFin | date: 'dd/MM/yyyy'}}</td>
@@ -55,7 +55,7 @@
                 <!-- <input type="text" required autofocus [(ngModel)]="tipo" /> -->
                 <p-dropdown appendTo="body" [filter]="true" [options]="tipoList" [(ngModel)]="tipo" placeholder="Seleccione" required></p-dropdown>
                 <!-- <p-dropdown appendTo="body" [filter]="true" [options]="tipoList" [(ngModel)]="tipo" required></p-dropdown> -->
-                <small class="p-invalid" *ngIf="submitted && !tipo">is required.</small>
+                <small class="p-invalid" *ngIf="submitted && !tipo">Obligatorio</small>
             </div>
             <div class="p-field">
                 <label for="cie10">CIE 10</label>
@@ -64,7 +64,7 @@
                 </s-cieSelector>
 
                 
-                <small class="p-invalid" *ngIf="submitted && !cie10">is required.</small>
+                <small class="p-invalid" *ngIf="submitted && !cie10">Obligatorio</small>
             </div>
             <div class="p-field">
                 <label for="fechaInicio">Fecha Inicio</label>
@@ -72,7 +72,7 @@
                 <p-calendar appendTo="body" [(ngModel)]="fechaInicio" [touchUI]="true"
                     dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"  required> 
                 </p-calendar>
-                <small class="p-invalid" *ngIf="submitted && !fechaInicio">is required.</small>            
+                <small class="p-invalid" *ngIf="submitted && !fechaInicio">Obligatorio</small>            
             </div>
             <div class="p-field">
                 <label for="fechaFin">Fecha Fin</label>
@@ -80,7 +80,7 @@
                 <p-calendar appendTo="body" [(ngModel)]="fechaFin"  [touchUI]="true"
                     dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"  required>
                 </p-calendar>
-                <small class="p-invalid" *ngIf="submitted && !fechaFin">is required.</small>
+                <small class="p-invalid" *ngIf="submitted && !fechaFin">Obligatorio</small>
 
                 
             </div>
