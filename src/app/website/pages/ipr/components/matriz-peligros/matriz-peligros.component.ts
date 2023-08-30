@@ -66,12 +66,12 @@ export class MatrizPeligrosComponent implements OnInit {
   sumaC:number=0;
   sumaT:number=0;
 
-  ND:any=[{label:'0',value:0},{label:'2',value:2},{label:'6',value:6},{label:'10',value:10}]
-  NE:any=[{label:'1',value:1},{label:'2',value:2},{label:'3',value:3},{label:'4',value:4}]
-  NC:any=[{label:'10',value:10},{label:'25',value:25},{label:'60',value:60},{label:'100',value:100}]
-  valoracionRI1:any=[{ND:0,NE:0,NP:0,I:'',color:''}];
-  valoracionRI2:any=[{NC:0,NP:0,NR:0,CN:'',CL:'',color:''}];
-  accion:any='';
+  ND:any=[{label:'10',value:10},{label:'6',value:6},{label:'2',value:2},{label:'0',value:0}]
+  NE:any=[{label:'4',value:4},{label:'3',value:3},{label:'2',value:2},{label:'1',value:1}]
+  NC:any=[{label:'100',value:100},{label:'60',value:60},{label:'25',value:25},{label:'10',value:10}]
+
+  valoracionRI1:any=[{ND:0,NE:0,NP:0,I:'',NC:0,NR:0,CN:'',CL:'',color:''}];
+  valoracionRI2:any=[{CN:'',CL:'',accion:'',color:''}];
 
   putArea:boolean=false
   putProceso:boolean=false
@@ -87,6 +87,10 @@ export class MatrizPeligrosComponent implements OnInit {
   imgFlag:boolean=false
   imgName!:string;
   imgNameHeader!:string;
+
+  flagControlIng: boolean=true
+  flagControlAdm: boolean=true
+  flagEquiposEle: boolean=true
 
   cols!: Column[];
   filterMode = 'lenient';
@@ -151,6 +155,7 @@ export class MatrizPeligrosComponent implements OnInit {
     this.formMatrizRiesgosI= this.fb.group({
       ND: [null], //Clasificación
       NE: [null], //Descripción del peligro
+      NP: [null],
       NC: [null],
     });
   }
@@ -358,18 +363,18 @@ export class MatrizPeligrosComponent implements OnInit {
 
   nivelProbabilidad(){
     this.valoracionRI1[0].NP=this.valoracionRI1[0].ND*this.valoracionRI1[0].NE
-    this.valoracionRI2[0].NP=this.valoracionRI1[0].NP
+    this.valoracionRI1[0].NP=this.valoracionRI1[0].NP
 
-    if(4>=this.valoracionRI2[0].NP && this.valoracionRI2[0].NP>=2){
+    if(4>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=2){
       this.valoracionRI1[0].I='Bajo'
       this.valoracionRI1[0].color='bajo'
-    }else if(8>=this.valoracionRI2[0].NP && this.valoracionRI2[0].NP>=6){
+    }else if(8>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=6){
       this.valoracionRI1[0].I='Medio'
       this.valoracionRI1[0].color='medio'
-    }else if(20>=this.valoracionRI2[0].NP && this.valoracionRI2[0].NP>=10){
+    }else if(20>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=10){
       this.valoracionRI1[0].I='Alto'
       this.valoracionRI1[0].color='alto'
-    }else if(40>=this.valoracionRI2[0].NP && this.valoracionRI2[0].NP>=24){
+    }else if(40>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=24){
       this.valoracionRI1[0].I='Muy Alto'
       this.valoracionRI1[0].color='muyalto'
     }
@@ -377,29 +382,34 @@ export class MatrizPeligrosComponent implements OnInit {
   }
 
   nivelRiesgo(){
-    this.valoracionRI2[0].NR=this.valoracionRI2[0].NP*this.valoracionRI2[0].NC
+    this.valoracionRI1[0].NR=this.valoracionRI1[0].NP*this.valoracionRI1[0].NC
 
-    if(20>=this.valoracionRI2[0].NR && this.valoracionRI2[0].NR>=1){
+    if(20>=this.valoracionRI1[0].NR && this.valoracionRI1[0].NR>=1){
       this.valoracionRI2[0].CN='I'
       this.valoracionRI2[0].CL='Bajo'  
       this.valoracionRI2[0].color='bajo'
-      this.accion='Mantenga los controles existentes'
-    }else if(120>=this.valoracionRI2[0].NR && this.valoracionRI2[0].NR>=40){
+      this.valoracionRI2[0].accion='Mantenga los controles existentes'
+      // this.accion='Mantenga los controles existentes'
+      // this.valoracionRI2[0].accion=this.accion
+    }else if(120>=this.valoracionRI1[0].NR && this.valoracionRI1[0].NR>=40){
       this.valoracionRI2[0].CN='II'
       this.valoracionRI2[0].CL='Medio'
       this.valoracionRI2[0].color='medio'
-      this.accion='1. Mantenga los controles existentes \n 2. Identifique mejoras'
+      this.valoracionRI2[0].accion='1. Mantenga los controles existentes \n 2. Identifique mejoras'
+      // this.accion='1. Mantenga los controles existentes \n 2. Identifique mejoras'
       
-    }else if(500>=this.valoracionRI2[0].NR && this.valoracionRI2[0].NR>=150){
+    }else if(500>=this.valoracionRI1[0].NR && this.valoracionRI1[0].NR>=150){
       this.valoracionRI2[0].CN='III'
       this.valoracionRI2[0].CL='Alto'
       this.valoracionRI2[0].color='alto'
-      this.accion='1. Intervenga de inmediato \n 2. Implemente controles (existentes o adicionales) \n 3. Identifique desviaciones si existe'
-    }else if(this.valoracionRI2[0].NR>=600){
+      this.valoracionRI2[0].accion='1. Intervenga de inmediato \n 2. Implemente controles (existentes o adicionales) \n 3. Identifique desviaciones si existe'
+      // this.accion='1. Intervenga de inmediato \n 2. Implemente controles (existentes o adicionales) \n 3. Identifique desviaciones si existe'
+    }else if(this.valoracionRI1[0].NR>=600){
       this.valoracionRI2[0].CN='IV'
       this.valoracionRI2[0].CL='Muy Alto'
       this.valoracionRI2[0].color='muyalto'
-      this.accion='1. Suspenda la actividad.\n 2. intervenga de inmediato \n 3.Implemente controles. Intervenir es comunicar la situación a los diferentes responsables y ejecutores de la tarea (requiere reporte y gestión de acto y condiciones) Alto'
+      this.valoracionRI2[0].accion='1. Suspenda la actividad.\n 2. intervenga de inmediato \n 3.Implemente controles. Intervenir es comunicar la situación a los diferentes responsables y ejecutores de la tarea (requiere reporte y gestión de acto y condiciones) Alto'
+      // this.accion='1. Suspenda la actividad.\n 2. intervenga de inmediato \n 3.Implemente controles. Intervenir es comunicar la situación a los diferentes responsables y ejecutores de la tarea (requiere reporte y gestión de acto y condiciones) Alto'
     }
   }
   
@@ -706,5 +716,34 @@ export class MatrizPeligrosComponent implements OnInit {
       acceptLabel: 'Si',
       rejectLabel: 'No'
     });
+  }
+//---------------------------------------Evaluación de riesgo--------------------------------------//
+  visualEvaluacionRiesgo(key:string){
+    switch (key) {
+      case 'flagControlIng':
+        if(this.flagControlIng){
+          document.getElementById("flagControlIng")!.style.display = "block";
+        }else{
+          document.getElementById("flagControlIng")!.style.display = "none";
+        }
+      break;
+      case 'flagControlAdm':
+        if(this.flagControlAdm){
+          document.getElementById("flagControlAdm")!.style.display = "block";
+        }else{
+          document.getElementById("flagControlAdm")!.style.display = "none";
+        }
+        break;
+      case 'flagEquiposEle':
+        if(this.flagEquiposEle){
+          document.getElementById("flagEquiposEle")!.style.display = "block";
+        }else{
+          document.getElementById("flagEquiposEle")!.style.display = "none";
+        }
+        break;
+      default:
+        break;
+    }
+
   }
 }

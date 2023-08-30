@@ -292,20 +292,52 @@
                 </form>
             </p-accordionTab>
 
-            <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" [disabled]="!formMatrizPeligros.valid">
+            <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" >
+                <!-- <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" [disabled]="!formMatrizPeligros.valid"> -->
+
                 <form [formGroup]="formMatrizRiesgosC">
                     <div class="grid accordionTab">
-                        <div class="col-md-12 col-sm-12 gridcol">
-                            <label for="">Control de ingeniería</label>
-                            <textarea required formControlName="Ingenieria" cols="10" rows="3"></textarea>
+                        <div class="col-12 gridcol">
+                            
+                            <div style="display: flex;" class="grid">
+                                <div class="col-4 col-md-6 col-sm-12"><label for="">Control de ingeniería:</label></div>
+                                <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                    <label for="">¿Aplica?</label>&nbsp;
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                </div>
+                            </div>
+                            <div id="flagControlIng">
+                                <textarea [required]="flagControlIng" formControlName="Ingenieria" cols="10" rows="3" ></textarea>
+                            </div>
                         </div>
-                        <div class="col-md-12 col-sm-12 gridcol">
-                            <label for="">Controles administrativos</label>
-                            <textarea required formControlName="Administrativos" cols="10" rows="3"></textarea>
+                        <div class="col-12 gridcol">
+                            <div style="display: flex;" class="grid">
+                                <div class="col-4 col-md-6 col-sm-12"><label for="">Controles administrativos:</label></div>
+                                <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                    <label for="">¿Aplica?</label>&nbsp;
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                </div>
+                            </div>
+                            <!-- <label for="">Controles administrativos:</label> -->
+                            <div id="flagControlAdm">
+                                <textarea [required]="flagControlAdm" formControlName="Administrativos" cols="10" rows="3"></textarea>
+                            </div>
                         </div>
-                        <div class="col-md-12 col-sm-12 gridcol">
-                            <label for="">Equipos y elementos de protección personal</label>
-                            <textarea required formControlName="ElementosPro" cols="10" rows="3"></textarea>
+                        <div class="col-12 gridcol">
+                            <div style="display: flex;" class="grid">
+                                <div class="col-4 col-md-6 col-sm-12"><label for="">Equipos y elementos de protección personal:</label></div>
+                                <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                    <label for="">¿Aplica?</label>&nbsp;
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                    <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                                </div>
+                            </div>
+                            <!-- <label for="">Equipos y elementos de protección personal:</label> -->
+                            <div id="flagEquiposEle">
+                                <textarea  [required]="flagEquiposEle" formControlName="ElementosPro" cols="10" rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -314,7 +346,7 @@
             <p-accordionTab header="IV. VALORACIÓN DEL RIESGO INICIAL" [disabled]="!formMatrizRiesgosC.valid">
                 <form [formGroup]="formMatrizRiesgosI">
                     <div class="grid accordionTab">
-                        <div class="col-md-12 col-sm-12">
+                        <div class="col-12">
                             <p-table [value]="valoracionRI1" [tableStyle]="{ 'min-width': '50rem' }">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -334,13 +366,29 @@
                                                 (click)="imagenFlag('NE')"></button>
                                         </th>
                                         <th>
-                                            <a>Nivel de exposición (NP)</a>&nbsp;
+                                            <a>Nivel de probabilidad (NP)</a>&nbsp;
                                             <button pButton type="button" icon="bi bi-question-circle"
                                                 class="p-button-rounded p-button-text"
                                                 pTooltip="Ayuda"
                                                 (click)="imagenFlag('NP')"></button>
                                         </th>
                                         <th style="width:15rem">Interpretación del nivel de probabilidad</th>
+                                        <th>
+                                            <a>Nivel de concecuencia (NC)</a>
+                                            <button 
+                                            pButton type="button"icon="bi bi-question-circle"
+                                                class="p-button-rounded p-button-text"
+                                                pTooltip="Ayuda"
+                                                (click)="imagenFlag('NC')"></button>
+                                        </th>
+                                        <th>
+                                            <a>Nivel de riesgo (NR)</a>
+                                            <button 
+                                            pButton type="button"icon="bi bi-question-circle"
+                                                class="p-button-rounded p-button-text"
+                                                pTooltip="Ayuda"
+                                                (click)="imagenFlag('NR')"></button>
+                                        </th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-nivel  let-editing="editing" let-ri="rowIndex">
@@ -367,35 +415,6 @@
                                                 {{nivel['I']}}
                                             </ng-template>
                                         </p-cellEditor></td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
-                            <br>
-                            <p-table [value]="valoracionRI2" [tableStyle]="{ 'min-width': '50rem' }">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th>
-                                            <a>Nivel de concecuencia (NC)</a>
-                                            <button 
-                                            pButton type="button"icon="bi bi-question-circle"
-                                                class="p-button-rounded p-button-text"
-                                                pTooltip="Ayuda"
-                                                (click)="imagenFlag('NC')"></button>
-                                        </th>
-                                        <th>
-                                            <a>Nivel de riesgo (NR)</a>
-                                            <button 
-                                            pButton type="button"icon="bi bi-question-circle"
-                                                class="p-button-rounded p-button-text"
-                                                pTooltip="Ayuda"
-                                                (click)="imagenFlag('NR')"></button>
-                                        </th>
-                                        <th>Cuantitativo</th>
-                                        <th>Cualitativo</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-nivel  let-editing="editing" let-ri="rowIndex">
-                                    <tr [pEditableRow]="nivel">
                                         <td><p-cellEditor>
                                             <ng-template pTemplate="output">
                                                 <p-dropdown  required formControlName="NC" appendTo="body" [options]="this.NC" [(ngModel)]="nivel['NC']" [ngModelOptions]="{standalone: true}" (onChange)="nivelRiesgo()">
@@ -407,7 +426,24 @@
                                                 {{nivel['NR']}}                                                
                                             </ng-template>
                                         </p-cellEditor></td>
-                                        <td><p-cellEditor>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <br>
+                            <p-table [value]="valoracionRI2" [tableStyle]="{ 'min-width': '50rem' }">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th colspan="3" class="text-center">Interpretación del riesgo</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cuantitativo</th>
+                                        <th>Cualitativo</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-nivel  let-editing="editing" let-ri="rowIndex">
+                                    <tr [pEditableRow]="nivel">
+                                        <td [class]="nivel['color']"><p-cellEditor>
                                             <ng-template pTemplate="output" >
                                                 {{nivel['CN']}}
                                             </ng-template>
@@ -417,14 +453,20 @@
                                                 {{nivel['CL']}}
                                             </ng-template>
                                         </p-cellEditor></td>
+                                        <td><p-cellEditor>
+                                            <ng-template pTemplate="output" >
+                                                <textarea [readonly]="true" [(ngModel)]="nivel['accion']" [ngModelOptions]="{standalone: true}"></textarea>
+                                                
+                                            </ng-template>
+                                        </p-cellEditor></td>
                                     </tr>
                                 </ng-template>
                             </p-table>
                         </div>
-                        <div class="col-md-12 col-sm-12 gridcol">
+                        <!-- <div class="col-md-12 col-sm-12 gridcol">
                             <label for="">Acción:</label>
                             <textarea [readonly]="true" cols="10" rows="5"  [(ngModel)]="accion" [ngModelOptions]="{standalone: true}"></textarea>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </p-accordionTab>
@@ -437,7 +479,7 @@
 </ng-container>
 <br>
 <p-dialog [(visible)]="imgFlag" modal="true" [contentStyle]="{'max-height':'70%'}" [style]="{width:'80%'}" [header]="imgNameHeader">
-<div style="margin: auto;"><img [src]="'../../../../../../assets/png/matriz-peligros/'+this.imgName" alt="" style=" width: 100%"></div>
+    <div style="margin: auto;"><img [src]="'../../../../../../assets/png/matriz-peligros/'+this.imgName" alt="" style=" width: 100%"></div>
 </p-dialog>
 
 <p-dialog [(visible)]="putAreaTree" modal="true" style=" width: 80%">

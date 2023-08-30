@@ -41,7 +41,7 @@
               <div class="col-9">
                 <div class="grid">
                       <div class="col-12 md:col-12 lg:col-4" style="display: flex;">
-                        <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
+                        <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" placeholder="Seleccionar" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
                       </div>
                       <div class="col-12 md:col-6 lg:col-4" style="display: flex;"> 
                         <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="event"></mat-icon>
@@ -254,7 +254,7 @@
   
           <div class="col-12 md:col-4 lg:col-4 filter">
             <h3>{{nameX}}</h3>
-            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones2" placeholder="Seleccionar división" (onChange)="cargarArea()"></p-dropdown>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones2" placeholder="Seleccionar" (onChange)="cargarArea()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones2.length>0">
               &nbsp;
               <h3>Estructura</h3>
@@ -426,7 +426,7 @@
 
           <div class="col-12 md:col-4 lg:col-4 filter">
             <h3>{{nameX}}</h3>
-            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar división" (onChange)="cargarArea5()"></p-dropdown>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones4" placeholder="Seleccionar" (onChange)="cargarArea5()"></p-dropdown>
             <ng-container *ngIf="selectDivisiones4.length>0">
               &nbsp;
               <h3>Estructura</h3>
@@ -552,7 +552,7 @@
 
             <div class="col-12 md:col-4 lg:col-4 filter">
               <h3>{{nameX}}</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones6" placeholder="Seleccionar división" (onChange)="cargarArea7()"></p-dropdown>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones3" [(ngModel)]="selectDivisiones6" placeholder="Seleccionar" (onChange)="cargarArea7()"></p-dropdown>
               <ng-container *ngIf="selectDivisiones6.length>0">
                 &nbsp;
                 <h3>Estructura</h3>
