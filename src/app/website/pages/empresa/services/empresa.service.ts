@@ -285,6 +285,21 @@ export class EmpresaService extends CRUDService<Empresa>{
         )
     });
   }
+
+  getEmpresaId(empresaId: number){
+    return new Promise((resolve, reject) => {
+        this.httpInt.get(endPoints.EmpresaService + `empresaId/${empresaId}`)
+        .subscribe(
+            res => {
+                resolve(res);
+            },
+            err => {
+                this.manageError(err);
+                reject(err);
+            }
+        )
+    });
+  }
   
   getClassName(): string {
       return "EmpresaService";
