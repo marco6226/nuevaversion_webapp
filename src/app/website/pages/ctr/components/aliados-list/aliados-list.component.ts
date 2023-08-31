@@ -112,6 +112,7 @@ export class AliadosListComponent implements OnInit {
     if (tipo=='Activar') {
       this.confirmationService.confirm({
         header: 'Confirmar acción',
+        key: 'aliadoList',
         message: 'Esta seguro que desea Activar este Aliado:',
         accept: () =>{
           row.activo = true
@@ -121,6 +122,7 @@ export class AliadosListComponent implements OnInit {
     } else {
       this.confirmationService.confirm({
         header: 'Confirmar acción',
+        key: 'aliadoList',
         message: 'Esta seguro que desea Desactivar este Aliado:',
         accept: () =>{
           row.activo = false
