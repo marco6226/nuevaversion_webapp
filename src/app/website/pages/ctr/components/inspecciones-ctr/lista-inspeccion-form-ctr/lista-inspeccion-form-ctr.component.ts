@@ -163,11 +163,11 @@ export class ListaInspeccionFormCtrComponent implements OnInit {
     onArchivoSelect(event: any) {
         let file = event.target.files[0];
         if (file.type != "image/jpeg" && file.type != "image/png") {
-            this.msgs.push({ severity: 'warn', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg' });
+            this.msgs.push({ severity: 'warn', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg', key: 'msgDlgElemento' });
             return;
         }
         if (file.size > 30_500_000) {
-            this.msgs.push({ severity: 'warn', summary: 'Tamaño máximo superado 30.5MB', detail: 'La imágen supera el tamaño máximo permitido' });
+            this.msgs.push({ severity: 'warn', summary: 'Tamaño máximo superado 30.5MB', detail: 'La imágen supera el tamaño máximo permitido', key: 'msgDlgElemento' });
             return;
         }
         this.msgs = [];
@@ -179,7 +179,8 @@ export class ListaInspeccionFormCtrComponent implements OnInit {
             this.msgs.push({
                 severity: 'warn',
                 summary: 'Número maximo de fotografias alcanzado',
-                detail: 'Ha alcanzado el número máximo de fotografias (' + this.numMaxImg + ') que puede adjuntar para este hallazgo'
+                detail: 'Ha alcanzado el número máximo de fotografias (' + this.numMaxImg + ') que puede adjuntar para este hallazgo',
+                key: 'msgDlgElemento'
             });
             return;
         }

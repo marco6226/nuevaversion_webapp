@@ -37,6 +37,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
     "chart.js": "^4.2.1",
+    "critters": "^0.0.20",
     "crypto-js": "^4.1.1",
     "d3-color": "^3.1.0",
     "d3-transition": "^3.0.1",
@@ -57,6 +58,7 @@
     "trim-newlines": "^5.0.0",
     "tslib": "^2.3.0",
     "vite": "^4.3.9",
+    "word-wrap": "^1.2.5",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
     "zone.js": "~0.13.0"
   },

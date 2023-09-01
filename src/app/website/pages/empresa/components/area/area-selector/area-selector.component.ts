@@ -7,6 +7,8 @@ import { Area, Estructura } from '../../../entities/area';
 import { AreaService } from '../../../services/area.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms'
 import { TreeNodeExpand } from '../../../entities/tree-node-expand';
+import { EmpresaService } from '../../../services/empresa.service';
+import { Empresa } from '../../../entities/empresa';
 
 @Component({
   selector: 'area-selector',
@@ -47,6 +49,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
     private sesionService: SesionService,
     private messageService: MessageService,
     private areaService: AreaService,
+    private empresaService: EmpresaService,
   ) { }
 
   ngOnInit(): void {
@@ -77,13 +80,20 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
       { field: 'areaPadre', criteria: Criteria.IS_NULL, value1: null, value2: null },
       { field: 'estructura', criteria: Criteria.EQUALS, value1: Estructura.ORGANIZACIONAL.toString(), value2: null }
     ];
+    let idAliada:any=this.sesionService.getEmpresa()!.idEmpresaAliada
+    let razonSocial:any
+    if(idAliada) await this.empresaService.getEmpresaId(idAliada).then((data:any)=>{razonSocial=data.razonSocial})
+    else razonSocial=this.sesionService.getEmpresa()!.razonSocial
+
+    // console.log(empresa)
+    // let razonSocial=empresa.razonSocial
     this.areaService.findByFilter(filterAreaQuery)
       .then((data: any) => {
         let root: TreeNode = {
-          label: this.sesionService.getEmpresa()!.razonSocial,
+          label: razonSocial,
           selectable: true,
           expanded: false,
-          key: this.sesionService.getEmpresa()!.razonSocial
+          key: razonSocial
         };
         let nodos = this.createTreeNode(<Area[]>data['data'], null);
         root.children = nodos;

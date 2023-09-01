@@ -80,8 +80,8 @@
                     <ng-template pTemplate="body" let-inspeccion>
                         <tr [pSelectableRow]="inspeccion" class="table-row table-row-selectable">
                             <td>{{'INP-' + inspeccion.id}}</td>
-                            <td>{{inspeccion.programacion.fecha | date:'dd/MM/yyyy HH:mm'}}</td>
-                            <td>{{inspeccion.fecha | date:'dd/MM/yyyy HH:mm'}}</td>
+                            <td>{{inspeccion.programacion.fecha | date:'dd/MM/yyyy'}}</td>
+                            <td>{{inspeccion.fecha | date:'dd/MM/yyyy'}}</td>
                             <td>{{inspeccion.tipoInspeccion}}</td>
                             <td>{{inspeccion.empresaAliadaConNit}}</td>
                             <td>{{inspeccion.nombreUsuarioRegistra}}</td>

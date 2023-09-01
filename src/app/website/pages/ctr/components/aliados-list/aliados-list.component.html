@@ -1,6 +1,7 @@
 <s-dataNotFound *ngIf="!aliadosList || aliadosList.length <= 0" icon="fa-handshake-o" message="No se encontraron registros de Aliados">
         <button pButton type="button" icon="fa fa-plus" [routerLink]="['/app/ctr/aliado']" label="Crear"></button>
 </s-dataNotFound>
+<p-confirmDialog header="Confimación" icon="pi pi-exclamation-triangle" acceptLabel="Si" key="aliadoList"></p-confirmDialog>
 <div class="shadow">
     <p-panel header="Listado de Aliados" [style.display]="aliadosList && aliadosList.length > 0 ? 'block':'none'">
         <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" label="Exportar a archivo Excel" icon="pi pi-file-excel-o" class="p-button-success"></button>

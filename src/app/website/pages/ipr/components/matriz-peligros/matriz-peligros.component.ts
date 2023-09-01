@@ -66,11 +66,11 @@ export class MatrizPeligrosComponent implements OnInit {
   sumaC:number=0;
   sumaT:number=0;
 
-  ND:any=[{label:'10',value:10},{label:'6',value:6},{label:'2',value:2},{label:'0',value:0}]
-  NE:any=[{label:'4',value:4},{label:'3',value:3},{label:'2',value:2},{label:'1',value:1}]
-  NC:any=[{label:'100',value:100},{label:'60',value:60},{label:'25',value:25},{label:'10',value:10}]
+  ND:any=[{label:'Seleccione',value:null},{label:'10',value:10},{label:'6',value:6},{label:'2',value:2},{label:'0',value:0}]
+  NE:any=[{label:'Seleccione',value:null},{label:'4',value:4},{label:'3',value:3},{label:'2',value:2},{label:'1',value:1}]
+  NC:any=[{label:'Seleccione',value:null},{label:'100',value:100},{label:'60',value:60},{label:'25',value:25},{label:'10',value:10}]
 
-  valoracionRI1:any=[{ND:0,NE:0,NP:0,I:'',NC:0,NR:0,CN:'',CL:'',color:''}];
+  valoracionRI1:any=[{ND:null,NE:null,NP:0,I:'',NC:null,NR:0,CN:'',CL:''}];
   valoracionRI2:any=[{CN:'',CL:'',accion:'',color:''}];
 
   putArea:boolean=false
@@ -367,16 +367,12 @@ export class MatrizPeligrosComponent implements OnInit {
 
     if(4>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=2){
       this.valoracionRI1[0].I='Bajo'
-      this.valoracionRI1[0].color='bajo'
     }else if(8>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=6){
       this.valoracionRI1[0].I='Medio'
-      this.valoracionRI1[0].color='medio'
     }else if(20>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=10){
       this.valoracionRI1[0].I='Alto'
-      this.valoracionRI1[0].color='alto'
     }else if(40>=this.valoracionRI1[0].NP && this.valoracionRI1[0].NP>=24){
       this.valoracionRI1[0].I='Muy Alto'
-      this.valoracionRI1[0].color='muyalto'
     }
     this.nivelRiesgo()
   }

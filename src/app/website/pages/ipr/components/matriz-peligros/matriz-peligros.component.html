@@ -292,8 +292,8 @@
                 </form>
             </p-accordionTab>
 
-            <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" >
-                <!-- <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" [disabled]="!formMatrizPeligros.valid"> -->
+            <!-- <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" > -->
+            <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" [disabled]="!formMatrizPeligros.valid">
 
                 <form [formGroup]="formMatrizRiesgosC">
                     <div class="grid accordionTab">
@@ -366,7 +366,7 @@
                                                 (click)="imagenFlag('NE')"></button>
                                         </th>
                                         <th>
-                                            <a>Nivel de probabilidad (NP)</a>&nbsp;
+                                            <a>Nivel de probabilidad (NP=ND*NE)</a>&nbsp;
                                             <button pButton type="button" icon="bi bi-question-circle"
                                                 class="p-button-rounded p-button-text"
                                                 pTooltip="Ayuda"
@@ -374,7 +374,7 @@
                                         </th>
                                         <th style="width:15rem">Interpretación del nivel de probabilidad</th>
                                         <th>
-                                            <a>Nivel de concecuencia (NC)</a>
+                                            <a>Nivel de consecuencia (NC)</a>
                                             <button 
                                             pButton type="button"icon="bi bi-question-circle"
                                                 class="p-button-rounded p-button-text"
@@ -382,7 +382,7 @@
                                                 (click)="imagenFlag('NC')"></button>
                                         </th>
                                         <th>
-                                            <a>Nivel de riesgo (NR)</a>
+                                            <a>Nivel de riesgo (NR=NP*NC)</a>
                                             <button 
                                             pButton type="button"icon="bi bi-question-circle"
                                                 class="p-button-rounded p-button-text"
@@ -410,7 +410,7 @@
                                                 {{nivel['NP']}}                                                
                                             </ng-template>
                                         </p-cellEditor></td>
-                                        <td  [class]="nivel['color']"><p-cellEditor>
+                                        <td><p-cellEditor>
                                             <ng-template pTemplate="output" >
                                                 {{nivel['I']}}
                                             </ng-template>
@@ -445,18 +445,17 @@
                                     <tr [pEditableRow]="nivel">
                                         <td [class]="nivel['color']"><p-cellEditor>
                                             <ng-template pTemplate="output" >
-                                                {{nivel['CN']}}
+                                                <b>{{nivel['CN']}}</b>
                                             </ng-template>
                                         </p-cellEditor></td>
                                         <td [class]="nivel['color']"><p-cellEditor>
                                             <ng-template pTemplate="output" >
-                                                {{nivel['CL']}}
+                                                <b>{{nivel['CL']}}</b>
                                             </ng-template>
                                         </p-cellEditor></td>
                                         <td><p-cellEditor>
                                             <ng-template pTemplate="output" >
-                                                <textarea [readonly]="true" [(ngModel)]="nivel['accion']" [ngModelOptions]="{standalone: true}"></textarea>
-                                                
+                                                <textarea [readonly]="true" [(ngModel)]="nivel['accion']" [ngModelOptions]="{standalone: true}"></textarea>                 
                                             </ng-template>
                                         </p-cellEditor></td>
                                     </tr>
@@ -471,8 +470,35 @@
                 </form>
             </p-accordionTab>
 
-            <p-accordionTab header="V. CONTROL DE RIESGO PLAN DE ACCIÓN" [disabled]="!formMatrizRiesgosI.valid">
-
+            <p-accordionTab header="V. CONTROL DE RIESGO - PLAN DE ACCIÓN" [disabled]="!formMatrizRiesgosI.valid">
+                <p-table [value]="valoracionRI2" [tableStyle]="{ 'min-width': '50rem' }">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Fecha creación</th>
+                            <th>Actividad</th>
+                            <th>Acción</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-nivel  let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="nivel">
+                            <td [class]="nivel['color']"><p-cellEditor>
+                                <ng-template pTemplate="output" >
+                                    {{nivel['CN']}}
+                                </ng-template>
+                            </p-cellEditor></td>
+                            <td [class]="nivel['color']"><p-cellEditor>
+                                <ng-template pTemplate="output" >
+                                    {{nivel['CL']}}
+                                </ng-template>
+                            </p-cellEditor></td>
+                            <td><p-cellEditor>
+                                <ng-template pTemplate="output" >
+                                    <textarea [readonly]="true" [(ngModel)]="nivel['accion']" [ngModelOptions]="{standalone: true}"></textarea>                 
+                                </ng-template>
+                            </p-cellEditor></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </p-accordionTab>
         </p-accordion>
     </p-panel>
