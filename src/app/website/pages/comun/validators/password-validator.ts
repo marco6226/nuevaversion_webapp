@@ -1,11 +1,11 @@
 import { Validators, FormControl, ValidationErrors } from "@angular/forms";
 
 export class PasswordValidator implements Validators{
-    static REGEXP_DIGITO = /.*\d.*/;
-  static REGEXP_MAYUS = /.*[A-Z].*/;
-  static REGEXP_MINUS = /.*[a-z].*/;
-  static REGEXP_ESPACIO = /.*\s.*/;
-  static REGEXP_ESPCHAR = /.*[@#$%^&+=_.].*/;
+    static REGEXP_DIGITO = /\d/;
+    static REGEXP_MAYUS = /[A-Z]/;
+    static REGEXP_MINUS = /[a-z]/;
+    static REGEXP_ESPACIO = /\s/;
+    static REGEXP_ESPCHAR = /[@#$%^&+=_.]/;
 
   static validatePassword(control: FormControl): ValidationErrors | null{
     if (control.value == null) {
