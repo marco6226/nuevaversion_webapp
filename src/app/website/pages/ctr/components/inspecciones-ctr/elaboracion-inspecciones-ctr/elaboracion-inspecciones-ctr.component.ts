@@ -553,6 +553,10 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
 
     public onSubmitInpAliado() {
         let calificacionList: Calificacion[] = [];
+        if(!this.formValid) {
+            this.messageService.add({severity: 'warn', summary: 'Error', detail: 'Debe diligenciar los campos requeridos en el formulario general.'});
+            return;
+        }
         try {
             this.extraerCalificaciones(this.listaInspeccion.elementoInspeccionList, calificacionList);
             
@@ -611,7 +615,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
             }
         } catch (error: any) {
             console.error('Error: ', error);
-            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al guardar inspección'});
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al guardar inspección. Debe iniciarla para poder guardar avances.'});
         }
     }
 
