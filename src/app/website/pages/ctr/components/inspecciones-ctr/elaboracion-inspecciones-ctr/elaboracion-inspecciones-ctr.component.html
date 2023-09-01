@@ -174,14 +174,14 @@
           <tr *ngIf="!elemInp?.calificacion?.calcularCumplimiento">
             <td> {{elemInp?.nombre}} </td>
             <td> {{elemInp?.descripcion}} </td>
-            <td> {{calcularCalificacion(elemInp.elementoInspeccionList)}} </td>
+            <td> {{ (calcularCalificacion(elemInp.elementoInspeccionList)/100 | percent:'1.1-2') ?? 'N/A' }} </td>
           </tr>
         </ng-container>
       </tbody>
       <tfoot>
         <tr>
           <td colspan="2"><b>TOTAL</b></td>
-          <td class="table-info">{{calcularTotalCumplimiento(listaInspeccion)}}</td>
+          <td class="table-info">{{ (calcularTotalCumplimiento(listaInspeccion)/100 | percent:'1.1-2') ?? 'N/A' }}</td>
         </tr>
       </tfoot>
     </table>
