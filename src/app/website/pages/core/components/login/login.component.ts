@@ -58,9 +58,12 @@ export class LoginComponent implements OnInit {
             this.iniciarContador(countDown);
         }
     }
-
+    
+setTimeout(() => {
+  this.correo=this.formLogin.value['correo']
+}, 500);
   }
-
+  correo:string=''
   tooglePsw(){
     this.isPassword = !this.isPassword;
     if (this.isPassword) {

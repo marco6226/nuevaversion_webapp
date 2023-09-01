@@ -12,10 +12,11 @@
                         <mat-form-field appearance="outline" style=" width: 74%;">
                             <mat-label>Correo</mat-label>
                             <input type="email" formControlName="correo" matInput>
+                            
                         </mat-form-field>
                         <mat-form-field appearance="outline" style=" width: 74%;">
                             <mat-label>Contraseña</mat-label>
-                            <input [type]="typePassword" matInput formControlName="password">
+                            <input [type]="typePassword" matInput formControlName="password" style="z-index: 10;">
                             <mat-icon *ngIf="isPassword" matSuffix (click)="tooglePsw()">visibility</mat-icon>
                             <mat-icon *ngIf="!isPassword" matSuffix (click)="tooglePsw()">visibility_off</mat-icon>
                         </mat-form-field>
