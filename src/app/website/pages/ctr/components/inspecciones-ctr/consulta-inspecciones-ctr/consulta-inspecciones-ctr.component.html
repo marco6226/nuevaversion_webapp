@@ -88,7 +88,7 @@
                             <td>{{inspeccion.listaInspeccion?.codigo + ' v' + inspeccion.listaInspeccion.listaInspeccionPK?.version}} </td>
                             <td>{{inspeccion.programacion?.localidad?.localidad}}</td>
                             <td>{{inspeccion.estado}}</td>
-                            <td>{{inspeccion.calificacion ?? "N/A"}}</td>
+                            <td>{{(inspeccion.calificacion/100 | percent:'1.1-2') ?? "N/A"}}</td>
                             <td style="text-align: center; vertical-align: middle;">
                                 <button type="button" pButton icon="bi bi-envelope" class="p-button-warning" (click)="openDlgEmails(inspeccion.id)"></button>
                             </td>
@@ -198,9 +198,9 @@
                             <td>{{resumen.aliado}}</td>
                             <td>{{resumen.programadas}}</td>
                             <td>{{resumen.ejecutadas}}</td>
-                            <td>{{resumen.porcentajeAvance | number:'1.2-2' || 'Sin registros'}}</td>
+                            <td>{{(resumen.porcentajeAvance/100 | percent:'1.2-2') ?? 'Sin registros'}}</td>
                             <td>{{resumen.noProgramadas}}</td>
-                            <td>{{resumen.calificacionAcumulada | number:'1.2-2' || 'Sin registros'}}</td>
+                            <td>{{(resumen.calificacionAcumulada/100 | percent:'1.2-2') ?? 'Sin registros'}}</td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="summary" let-rowData>
