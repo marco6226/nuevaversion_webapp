@@ -303,19 +303,21 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
 
     //Cargar los valores guardados en BBDD de los porcentajes de cumplimiento
     cargarPorcentajesDeCumplimiento(){
-        let filterQueryCumplimiento: FilterQuery = new FilterQuery();
-        let elemInpID: string[] = this.listaInspeccion.elementoInspeccionList.map(elem => {
-            return elem.id;
-        });
-        filterQueryCumplimiento.filterList = [
-            {criteria: Criteria.CONTAINS, field: 'elementoInspeccion.id', value1: '{' + elemInpID.join(',') + '}'},
-            {criteria: Criteria.EQUALS, field: 'inspeccion', value1: this.inspeccion.id.toString()}
-        ];
-        this.cumplimientoService.findByFilter(filterQueryCumplimiento).then((res: any) => {
-            this.cumplimientoList = Array.from(res['data']);
-        }).catch((err: any) => {
-            console.error('Error al obtener lista de cumplimiento ', err);
-        });
+        try {
+            let filterQueryCumplimiento: FilterQuery = new FilterQuery();
+            let elemInpID: string[] = this.listaInspeccion.elementoInspeccionList.map(elem => {
+                return elem.id;
+            });
+            filterQueryCumplimiento.filterList = [
+                {criteria: Criteria.CONTAINS, field: 'elementoInspeccion.id', value1: '{' + elemInpID.join(',') + '}'},
+                {criteria: Criteria.EQUALS, field: 'inspeccion', value1: this.inspeccion.id.toString()}
+            ];
+            this.cumplimientoService.findByFilter(filterQueryCumplimiento).then((res: any) => {
+                this.cumplimientoList = Array.from(res['data']);
+            }).catch((err: any) => {
+                console.error('Error al obtener lista de cumplimiento ', err);
+            });
+        } catch (error) { }
     }
 
     private cargarCalificaciones(elemList: ElementoInspeccion[], calificacionList: Calificacion[]) {
@@ -559,7 +561,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
             inspeccion.listaInspeccion = this.listaInspeccion;
             inspeccion.programacion = this.programacion;
             inspeccion.calificacionList = calificacionList;
-            inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0].opcionCalificacion;
+            inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0]?.opcionCalificacion;
             inspeccion.respuestasCampoList = [];
             inspeccion.equipo = this.equipo;
             inspeccion.observacion = this.observacion;
@@ -608,7 +610,8 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 this.inspeccion = inspeccion;
             }
         } catch (error: any) {
-            this.messageService.add({severity: 'error', detail: error});
+            console.error('Error: ', error);
+            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al guardar inspección'});
         }
     }
 
