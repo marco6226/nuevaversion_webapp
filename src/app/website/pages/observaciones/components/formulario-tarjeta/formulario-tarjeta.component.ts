@@ -65,6 +65,7 @@ export class FormularioTarjetaComponent implements OnInit {
 
   ngOnInit() {
       this.idEmpresa = this.sesionService.getEmpresa()?.id;
+      console.log(this.tarjeta)
       this.implicacionTree = this.buildImplicacionTree(this.tarjeta!.implicacionList!);
       this.sistemaNivelRiesgoService.findDefault().then((data) =>
           (<SistemaNivelRiesgo>data).nivelRiesgoList.forEach((element) => {

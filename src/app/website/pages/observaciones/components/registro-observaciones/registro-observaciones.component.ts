@@ -26,6 +26,7 @@ export class RegistroObservacionesComponent implements OnInit {
   }
 
   selectTarjeta(tarjeta: Tarjeta) {
+    console.log(tarjeta)
     this.tarjetaSelect = tarjeta;
     this.tarjetaSelect.campos = JSON.parse(tarjeta.campos);
   }
