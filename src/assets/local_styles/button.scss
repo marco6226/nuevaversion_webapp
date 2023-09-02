@@ -33,6 +33,14 @@
     justify-content: space-evenly;
 }
 
+.p-button {
+    min-width: min-content;
+}
+
+.p-buttonset .p-button {
+    margin: 3px !important;
+}
+
 .p-button:disabled {    
     background-color:rgba(173, 173, 173, 1) !important;
 }
