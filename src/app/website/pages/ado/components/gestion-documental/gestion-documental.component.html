@@ -92,10 +92,10 @@
                 </div>
                 <br>
                 <ng-container *ngIf="esPrivado==true">
-                    <p-checkbox [style]="{'width':'100%'}" #nivelAcceso name="cbxAccessLevel" id="nivAcceso" class="form-check-input" [(ngModel)]="esPrivado" binary="true" label="Privado antiguo"></p-checkbox>
+                    <p-checkbox [style]="{'width':'100%'}" #nivelAcceso name="cbxAccessLevel" id="nivAcceso" class="form-check-input" [(ngModel)]="esPrivado" binary="true" label="Privado antiguo" (click)="perfiles=[]"></p-checkbox>
                 </ng-container>
                 <ng-container *ngIf="!esPrivado">
-                    <p-checkbox [style]="{'width':'100%'}"  class="form-check-input" [(ngModel)]="flagSCMPPrivado" binary="true" label="Privado nuevo"></p-checkbox>
+                    <p-checkbox [style]="{'width':'100%'}"  class="form-check-input" [(ngModel)]="flagSCMPPrivado" binary="true" label="Privado nuevo" (click)="perfiles=[]"></p-checkbox>
                 </ng-container>
                 <br><br>
                 <ng-container *ngIf="flagSCMPPrivado">

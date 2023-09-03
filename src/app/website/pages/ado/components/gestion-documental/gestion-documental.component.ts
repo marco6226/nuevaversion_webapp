@@ -461,19 +461,23 @@ export class GestionDocumentalComponent implements OnInit {
         });
     }
 
-    actualizarDirectorio(nodo: TreeNode) {
+    async actualizarDirectorio(nodo: TreeNode) {
+        let perfil
+        this.perfiles.length==0?null:perfil=this.perfiles.toString()
+
         let directorio = nodo.data;
         let dir = new Directorio();
         dir.id = directorio.id;
         dir.nombre = directorio.nombre;
         dir.nivelAcceso = this.esPrivado ? 'PRIVADO' : 'PUBLICO';
+        dir.perfilId=perfil
 
         if (nodo.parent != null || directorio.directorioPadre != null) {
             let dirPadre = new Directorio();
             dirPadre.id = nodo.parent == null ? directorio.directorioPadre.id : nodo.parent.data.id;
             dir.directorioPadre = dirPadre;
         }
-        this.directorioService.update(dir).then((data) => {
+        await this.directorioService.update(dir).then((data) => {
             this.growlMsgs = [];
             this.growlMsgs.push({
                 severity: 'success',

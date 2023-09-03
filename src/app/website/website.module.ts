@@ -212,6 +212,9 @@ import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecc
 import { AuthGuardService } from './pages/core/services/auth-guard.service';
 import { ChangePasswordComponent } from './pages/core/components/change-password/change-password.component';
 import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/matriz-peligros.component';
+import { SliderModule } from 'primeng/slider';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { ProgramacionEventoComponent } from './pages/comun/components/programacion-evento/programacion-evento.component';
 
 @NgModule({
   declarations: [
@@ -389,6 +392,7 @@ import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/
     ConsultaInspeccionesCtrComponent,
     MatrizPeligrosComponent,
     ChangePasswordComponent,
+    ProgramacionEventoComponent,
   ],
   imports: [
     MatTooltipModule,
@@ -429,6 +433,8 @@ import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/
     ScrollPanelModule,
     ChipsModule,
     InputSwitchModule,
+    SliderModule,
+    SelectButtonModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

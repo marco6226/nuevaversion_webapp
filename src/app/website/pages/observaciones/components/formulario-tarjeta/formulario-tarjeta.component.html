@@ -7,7 +7,7 @@
               <h4 style="margin-top: 0px">Tipo de observación:</h4>
               <div [ngClass]="form.value.tipoObservacion == null ? 'invalid' : 'valid'">
                 <ng-template ngFor let-to [ngForOf]="tarjeta?.campos.tipo_observacion" let-i="index">
-                  <p-radioButton class="form-check-input" name="tipo_observacion" [value]="to.label" [label]="to.label" formControlName="tipoObservacion"></p-radioButton>
+                  <div><p-radioButton class="form-check-input" name="tipoObservacion" [value]="to.label" [label]="to.label" formControlName="tipoObservacion"></p-radioButton></div>
                   <br>
                 </ng-template>
               </div>
@@ -76,7 +76,7 @@
         <div class="col-12 md:col-6 lg:col-4">
           <p-panel header="Registro gráfico">
             <p-messages [(value)]="msgs"></p-messages>
-            <button pButton type="button" (click)="fileInput.click()" icon="fa fa-plus" label="Adjuntar imágen" *ngIf="!readOnly"></button>
+            <button pButton type="button" (click)="fileInput.click()" icon="bi bi-plus" label="Adjuntar imágen" *ngIf="!readOnly"></button>
             <input name="myFile" type="file" style="visibility: hidden;" #fileInput (change)="onArchivoSelect($event)">
   
             <s-galeria *ngIf="imagenesList?.length > 0" [images]="imagenesList" [readOnly]="readOnly"></s-galeria>

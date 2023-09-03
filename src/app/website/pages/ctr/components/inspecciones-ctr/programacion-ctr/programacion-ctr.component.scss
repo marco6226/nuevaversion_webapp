@@ -35,3 +35,12 @@ table{
 p-checkbox {
   margin: 15px;
 }
+
+:host ::ng-deep .p-buttonset .p-button {
+  border-radius: 50%;
+  margin: 5px;
+}
+
+:host ::ng-deep .p-button {
+  min-width: min-content;
+}
