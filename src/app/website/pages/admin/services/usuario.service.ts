@@ -86,8 +86,8 @@ export class UsuarioService extends CRUDService<Usuario>{
                     resolve(res);
                 },
                 (err) => {
-                    reject(err);
-                    this.manageError(err);
+                  this.manageError(err);
+                  reject(err);
                 }
             );
     });
