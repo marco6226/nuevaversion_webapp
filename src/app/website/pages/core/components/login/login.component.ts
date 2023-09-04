@@ -168,5 +168,9 @@ setTimeout(() => {
     this.messageService.add({severity:'warn', summary: 'pro', detail: 'Se cerro su sesion inicie de nuevo por favor'});
     this.visible = visible;
   }
- 
+  test(){
+    console.log('click--')
+    document.getElementById("texto")!.focus();
+  }
+  
 }

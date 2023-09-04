@@ -645,6 +645,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 severity: "error",
                 summary: "Por favor revise todos los campos obligatorios",
             });
+            this.flagGuardado=false
             return this.markFormGroupTouched(this.casoMedicoForm);
         }
 

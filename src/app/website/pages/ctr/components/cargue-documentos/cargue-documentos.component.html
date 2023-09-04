@@ -24,11 +24,11 @@
                     <table class="dwrapper" *ngIf="doc!.documento.proceso=='arl'">
                         <tr>
                             <td>
-                                <a style="margin-left: 10px;" (click)="descargarDocumento(doc.documento)">{{doc.documento.nombre}}</a>
+                                <a type="button" style="margin-left: 10px;" (click)="descargarDocumento(doc.documento)">{{doc.documento.nombre}}</a>
                             </td>
                             <td>
                                 <a>&nbsp;</a>
-                                <a *ngIf="onEdit=='edit' && !flagConsult" class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" style="color: red;"></a>
+                                <a type="button" *ngIf="onEdit=='edit' && !flagConsult" class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" style="color: red;"></a>
                             </td>           
                         </tr>
                         <tr>
@@ -61,11 +61,11 @@
                     <table class="dwrapper" *ngIf="doc!.documento.proceso=='licencia'">
                         <tr>
                             <td>
-                                <a style="margin-left: 10px;" (click)="descargarDocumento(doc.documento)">{{doc.documento.nombre}}</a>
+                                <a type="button" style="margin-left: 10px;" (click)="descargarDocumento(doc.documento)">{{doc.documento.nombre}}</a>
                             </td>   
                             <td>
                                 <a>&nbsp;</a>
-                                <a *ngIf="onEdit=='edit' && !flagConsult" class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" style="color: red;"></a>
+                                <a type="button" *ngIf="onEdit=='edit' && !flagConsult" class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" style="color: red;"></a>
                             </td>             
                         </tr>
                         <tr>
@@ -99,11 +99,11 @@
                     <table class="dwrapper" *ngIf="doc!.documento.proceso=='certificacionExterna'">
                         <tr>
                             <td>
-                                <a style="margin-left: 10px;" (click)="descargarDocumento(doc.documento)">{{doc.documento.nombre}}</a>
+                                <a type="button" style="margin-left: 10px;" (click)="descargarDocumento(doc.documento)">{{doc.documento.nombre}}</a>
                             </td>
                             <td>
                                 <a>&nbsp;</a>
-                                <a *ngIf="onEdit=='edit' && !flagConsult" class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" style="color: red;"></a>
+                                <a type="button" *ngIf="onEdit=='edit' && !flagConsult" class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" style="color: red;"></a>
                             </td>              
                         </tr>
                         <tr>
