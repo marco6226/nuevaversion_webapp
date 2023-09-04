@@ -217,8 +217,11 @@ editarProduct(){
 }
 
 deleteProduct(product: Incapacidad) {
+  console.log(product)
+
+  let message:string=product.cie10?'¿Estás seguro de que quieres eliminar el diagnostico ' + product?.cie10?.codigo + '?':'¿Estás seguro de que quieres eliminar este diagnostico?'
     this.confirmationService.confirm({
-        message: '¿Estás seguro de que quieres eliminar el diagnostico ' + product.cie10?.codigo + '?',
+        message: message,
         header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         key: 'incComplementaria',
