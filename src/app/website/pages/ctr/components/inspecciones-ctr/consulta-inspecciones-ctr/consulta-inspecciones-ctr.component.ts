@@ -276,11 +276,20 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
   envioEmails(){
 
     // console.log(this.formEmail)
-    console.log(this.emails)
-    if(this.emails.length>0)
-    this.emails.forEach(async (element:any) => {
-      await this.usuarioService.emailAliadoCicloCorto(element, this.inpID.toString());
-    });
+    // console.log(this.emails)
+    try {
+      if(this.emails.length>0){  
+        this.emails.forEach(async (element:any) => {
+          await this.usuarioService.emailAliadoCicloCorto(element, this.inpID.toString());
+        });
+        this.messageService.add({severity: 'success', summary: 'Correo enviado'});
+      }else {
+        this.messageService.add({severity: 'warn', summary: 'Advertencia', detail: 'Debe proporcionar uno o más correos.'});
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Ocurrió un error al enviar correo.'});
+    }
     // this.usuarioService.emailAliadoCicloCorto('juanbernal@lerprevencion.com', this.inpID.toString());
     // this.formEmail?.reset();
     this.visibleDlgCorreo = false;

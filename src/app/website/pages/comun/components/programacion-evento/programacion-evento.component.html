@@ -1,22 +1,10 @@
-<p-panel>
-  <p-header style="width: 100%;">
-    <div class="flex justify-content-between flex-wrap">
-      <span class="p-panel-title flex-order-0">PROGRAMACIÓN DE AUDITORÍAS</span>
-      <div class="flex-order-1"></div>
-      <button pButton label="FILTROS" icon="pi pi-filter-fill" iconPos="right" class="p-button-sm flex-order-2" (click)="openDlgFiltros()"></button>
-    </div>
-  </p-header>
-  <ng-template pTemplate="body" let-reporte>
-    <full-calendar [options]="calendarOptions" [events]="events" deepChangeDetection="true"></full-calendar>
-  </ng-template>
-</p-panel>
-
-<!-- <form [formGroup]="form">
-  <p-dialog [style]="{width: '50%'}" [(visible)]="visibleDlg" [responsive]="true" [modal]="true" [maximizable]="true" appendTo="body">
+<form [formGroup]="form">
+  <p-dialog [style]="{width: '50%'}" [(visible)]="visible" [responsive]="true" [modal]="true" [maximizable]="true" appendTo="body" (onHide)="hideDialog()">
     <p-header>
-      Evento
+      Evento {{!esNueva ? (this.form?.value.fechaInicio | date:'dd/MM/yyyy') : ''}}
     </p-header>
-    <div class="grid">
+    <!-- Formulario ciclo corto -->
+    <div class="grid" *ngIf="modulo==='INPCC'">
       <div class="col-12 md:col-4 lg:col-4">
         <label for="numeroInspecciones">Número de auditorías</label>
       </div>
@@ -46,25 +34,61 @@
         <label>Gestor</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
-        <s-empleadoBasicSelector [(ngModel)]="this.form.value.empleadoBasic" (onSelect)="onReceiveEmpleadoBasic($event)" [ngModelOptions]="{standalone: true}" required autofocus></s-empleadoBasicSelector>
+        <s-empleadoBasicSelector [(ngModel)]="this.form?.value.empleadoBasic" (onSelect)="onReceiveEmpleadoBasic($event)" [ngModelOptions]="{standalone: true}" required autofocus></s-empleadoBasicSelector>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4" *ngIf="!esNueva">
+        <label for="fecha">Fecha</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8" *ngIf="!esNueva">
+        <p-calendar appendTo="body" id="fecha" formControlName="fechaInicio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" firstDayOfWeek="0" required></p-calendar>
       </div>
     </div>
-    <p-panel header="Periodicidad" *ngIf="adicionar">
+    <!-- Fin formulario ciclo corto -->
+    <!-- Formulario Inspecciones -->
+    <div class="grid" *ngIf="modulo==='INP'">
+      <div class="col-12 md:col-4 lg:col-4">
+        <label for="numeroInspecciones">Número de inspecciones</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required />
+      </div>
+      <div class="col-12 md:col-4 lg:col-4">
+        <label for="listaInsp">Lista de inspección</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <p-dropdown id="listaInsp" [options]="listasInspeccionList" [filter]="true" formControlName="listaInspeccionPK"
+          appendTo="body" required></p-dropdown>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4">
+        <label for="areaResponsable">Ubicación responsable</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <area-selector formControlName="area" required></area-selector>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4" *ngIf="!esNueva">
+        <label for="fecha">Fecha</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8" *ngIf="!esNueva">
+        <p-calendar appendTo="body" id="fecha" formControlName="fechaInicio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" firstDayOfWeek="0" required></p-calendar>
+      </div>
+    </div>
+    <!-- Fin formulario inspecciones -->
+    <p-panel header="Periodicidad" *ngIf="esNueva">
       <div class="grid">
         <div class="col-12 md:col-3 lg:col-3">
           <label for="fecha">Fecha</label>
         </div>
         <div class="col-12 md:col-9 lg:col-9">
-          <p-calendar appendTo="body" id="fecha" formControlName="fechaInicio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showClear]="true"></p-calendar>
+          <p-calendar appendTo="body" id="fecha" formControlName="fechaInicio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" firstDayOfWeek="0" required></p-calendar>
         </div>
-        <!-- Repetir
+        <!-- Repetir -->
         <div class="col-12 md:col-3 lg:col-3">
           <label for="repetir">Repetir</label>
         </div>
         <div class="col-12 md:col-9 lg:col-9">
           <p-inputSwitch id="repetir" [(ngModel)]="programacionSwitch" [ngModelOptions]="{standalone: true}"></p-inputSwitch>
         </div>
-        <!-- Periodicidad
+        <!-- Periodicidad -->
         <div class="col-12 md:col-3 lg:col-3" *ngIf="programacionSwitch">
           <label for="periodicidad">Repetir cada</label>
         </div>
@@ -72,9 +96,9 @@
           <input pInputText type="number" formControlName="valorFrecuencia" placeholder="Valor">
         </div>
         <div class="col-12 md:col-5 lg:col-5" *ngIf="programacionSwitch">
-          <p-dropdown id="periodicidad" appendTo="body" [options]="periodicidadList" formControlName="unidadFrecuencia" placeholder="Frecuencia"></p-dropdown>
+          <p-dropdown id="periodicidad" appendTo="body" [options]="periodicidadList" formControlName="unidadFrecuencia" placeholder="Frecuencia" (onChange)="onChangeUnidadDeFrecuencia($event)"></p-dropdown>
         </div>
-        <!-- Periodicidad semanal
+        <!-- Periodicidad semanal -->
         <div class="col-12 grid" *ngIf="programacionSwitch && getUnidadFrecuencia() && getUnidadFrecuencia() === 'semana'">
           <div class="col-12 md:col-3 lg:col-3">
             <label for="diasSemana">Días</label>
@@ -83,13 +107,13 @@
             <p-selectButton [options]="diasList" id="diasSemana" [multiple]="true" [(ngModel)]="diasSemanaSelected" [ngModelOptions]="{standalone: true}"></p-selectButton>
           </div>
         </div>
-        <!-- Periodicidad mensual
+        <!-- Periodicidad mensual -->
         <div class="col-12 grid" *ngIf="programacionSwitch && getUnidadFrecuencia() && getUnidadFrecuencia() === 'mes'">
           <div class="col-12 md:col-3 lg:col-3"></div>
           <div class="col-12 md:col-9 lg:col-9 grid">
             <p-radioButton name="radioB" inputId="repMes" value="dia" [className]="'ml-2'" [(ngModel)]="radioBSelected" [ngModelOptions]="{standalone: true}"></p-radioButton>
             <label for="repMes" class="ml-2" style="align-self: center;">El día</label>
-            <input type="number" pInputText name="dia" id="dia" class="col-4 ml-2" [disabled]="radioBSelected=='diaSemana'" [(ngModel)]="inputDia" [ngModelOptions]="{standalone: true}">
+            <input type="number" pInputText name="dia" id="dia" class="col-4 ml-2" [disabled]="radioBSelected=='diaSemana'" max="31" min="1" [(ngModel)]="inputDia" [ngModelOptions]="{standalone: true}">
           </div>
           <div class="col-12 md:col-3 lg:col-3"></div>
           <div class="col-12 md:col-9 lg:col-9 grid">
@@ -97,90 +121,40 @@
             <label for="repMes2" class="ml-2" style="align-self: center;">El</label>
             <p-dropdown [options]="numerosOrdinales" [(ngModel)]="numeroOrdinalSelected" [ngModelOptions]="{standalone: true}" class="ml-2" placeholder="-- seleccione --" appendTo="body"
             [disabled]="radioBSelected=='dia'"></p-dropdown>
-            <p-dropdown [options]="diasList" optionLabel="title" [(ngModel)]="diaSelected" [ngModelOptions]="{standalone: true}" class="ml-2" placeholder="-- seleccione --" appendTo="body"
+            <p-dropdown [options]="diasList" optionLabel="title" optionValue="value" [(ngModel)]="diaSelected" [ngModelOptions]="{standalone: true}" class="ml-2" placeholder="-- seleccione --" appendTo="body"
             [disabled]="radioBSelected=='dia'"></p-dropdown>
           </div>
         </div>
-        <!-- Fecha fin
+        <!-- Fecha fin -->
         <div class="col-12 md:col-3 lg:col-3" *ngIf="programacionSwitch">
           <label for="fin">Fin</label>
         </div>
         <div class="col-12 md:col-9 lg:col-9" *ngIf="programacionSwitch">
-          <p-calendar appendTo="body" id="fin" formControlName="fechaFin" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showClear]="true"></p-calendar>
+          <p-calendar appendTo="body" id="fin" formControlName="fechaFin" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" firstDayOfWeek="0"></p-calendar>
         </div>
       </div>
     </p-panel>
     <p-footer>
-
       <div style="text-align: center" *ngIf="loading == true">
         <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
       </div>
-      <ng-container *ngIf="adicionar && loading == false">
+      <ng-container *ngIf="esNueva && loading == false">
         <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="pi pi-save" label="Guardar" 
         [disabled]="!form.valid" (click)="onSubmit()"></button>
       </ng-container>
-
-      <ng-container *ngIf="!adicionar && loading == false">
+      <ng-container *ngIf="!esNueva && loading == false">
         <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="pi pi-pencil"
-          class="p-button-success" label="Modificar" (click)="onSubmit()" [disabled]="!form.valid"></button>
+           label="Modificar" (click)="onSubmit()" [disabled]="!form.valid"></button>
       </ng-container>
-
-      <ng-container *ngIf="!adicionar && loading == false">
+      <ng-container *ngIf="!esNueva && loading == false">
         <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="pi pi-list" class="p-button-success"
-          label="Auditoría" (click)="irInspeccion2()" [disabled]="btnInspDisable">
+          label="Auditoría" (click)="irInspeccion()" [disabled]="btnInspDisable">
         </button>
       </ng-container>
-
-      <ng-container *ngIf="!adicionar && loading == false">
+      <ng-container *ngIf="!esNueva && loading == false">
         <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="p-button-danger"
           label="Eliminar" (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
       </ng-container>
-
     </p-footer>
   </p-dialog>
-</form> -->
-
-<s-programacion-evento
-  [(visible)]="visibleDlg"
-  [style]="{width: '50%'}"
-  [modulo]="'INPCC'"
-  [listasInspeccion]="listasInspeccionList"
-  [empresasAliadas]="empresasAliadasOption"
-  [localidades]="localidadesOption"
-  [esNueva]="adicionar"
-  [values]="values"
-  (onChange)="onChangeProgramacionEvento($event)"
-></s-programacion-evento>
-
-<p-dialog [style]="{'width':'60%'}" [(visible)]="visibleDlgFiltros" [responsive]="true" [modal]="true" appendTo="body">
-  <ng-template pTemplate="header">
-    <span class="text-xl font-bold">FILTROS</span>
-  </ng-template>
-  <div class="m-0">
-    <form [formGroup]="formFilters">
-      <div class="grid">
-        <div class="col-6 md:col-6 sm:col-12">
-          <label for="empresasAliadas">Aliados</label>
-          <p-multiSelect id="empresasAliadas" [options]="empresasAliadasOption" formControlName="empresasAliadas" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
-        </div>
-        <div class="col-6 md:col-6 sm:col-12">
-          <label for="localidades">Localidades</label>
-          <p-multiSelect id="localidades" [options]="localidadesOption" formControlName="localidades" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
-        </div>
-        <div class="col-6 md:col-6 sm:col-12">
-          <label for="gestor">Gestor</label>
-          <s-empleadoBasicSelector [(ngModel)]="this.formFilters.value.empleado" [ngModelOptions]="{standalone: true}"></s-empleadoBasicSelector>
-        </div>
-      </div>
-    </form>
-  </div>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end flex-wrap">
-      <button pButton class="flex m-2 p-button-warning p-button-sm" label="LIMPIAR" icon="pi pi-times-circle" (click)="cleanFilters()"></button>
-      <button pButton class="flex m-2 p-button-danger p-button-sm" label="CANCELAR" icon="pi pi-delete-left" (click)="visibleDlgFiltros=false"></button>
-      <button pButton class="flex m-2 p-button-success p-button-sm" label="APLICAR" icon="pi pi-filter" (click)="applyFilter()"></button>
-    </div>
-  </ng-template>
-</p-dialog>
-
-<!-- <button (click)="test2()">test</button> -->
+</form>

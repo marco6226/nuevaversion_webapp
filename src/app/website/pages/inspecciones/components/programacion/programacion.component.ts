@@ -296,7 +296,7 @@ export class ProgramacionComponent implements OnInit {
       area: prog.area
     });
     this.btnInspDisable = prog.numeroRealizadas == prog.numeroInspecciones;
-    if (prog.numeroRealizadas > 0) {
+    if (prog.numeroRealizadas && prog.numeroRealizadas > 0) {
       this.form.disable();
     } else {
       this.form.enable();
@@ -505,7 +505,7 @@ export class ProgramacionComponent implements OnInit {
   }
 
   eventListener(event: any) {
-    this.openProg(this.programacionList.find((x) => x.id == event.event.id))
+    this.openProg(this.programacionList.find((x) => x.id == event.event.id)!);
   }
 
 
