@@ -367,12 +367,20 @@ export class MenuComponent implements OnInit, AfterContentInit {
   }
 
   routerLinkIsValid(routerLink: string[]): boolean{
+
     // console.log(routerLink);
     return routerLink.length > 0 ? true : false;
   }
 
   getItems2For(item: any, subItem: any){
     return item.items2.filter((item2: any) => item2.padre === subItem.label);
+  }
+
+  Ipadre:any=50
+  Ihijo:any=50
+  indexSelect(Ipadre:any, Ihijo:any){
+    this.Ipadre=Ipadre
+    this.Ihijo=Ihijo
   }
 
 }

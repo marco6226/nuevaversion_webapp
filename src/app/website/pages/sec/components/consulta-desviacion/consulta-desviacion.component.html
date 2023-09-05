@@ -34,15 +34,15 @@
                                         ariaLabelDesc="Activate to sort in descending order"
                                         ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="area.nombre" style="width: 10%;" *ngIf="empresaId!='22'">Área
+                                <th pSortableColumn="area.nombre" style="width: 10%;" *ngIf="empresaId!='22'  && flagArea">Área
                                     origen
                                     <p-sortIcon field="area.nombre"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="area.nombre" style="width: 10%;" *ngIf="empresaId=='22'">
+                                <th pSortableColumn="area.padreNombre" style="width: 10%;" *ngIf="empresaId=='22'  && flagArea">
                                     División/Unidad
                                     <p-sortIcon field="area.padreNombre"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="area.nombre" style="width: 10%;" *ngIf="empresaId=='22'">Ubicación
+                                <th pSortableColumn="area.nombre" style="width: 10%;" *ngIf="empresaId=='22'  && flagArea">Ubicación
                                     <p-sortIcon field="area.nombre"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="concepto" style="width: 30%;">Concepto
@@ -61,14 +61,14 @@
                             </tr>
                             <tr>
                                 <td class="text-center bg-light">
-                                    <p-dropdown
+                                    <p-dropdown appendTo="body"
                                         [options]="[{label:'', value:null},{label:'Si', value:true},{label:'No', value:false}]"
                                         [style]="{'min-width':'0em'}"
                                         (onChange)="dt.filter($event.value, 'analisisId', 'is_not_null')"></p-dropdown>
                                 </td>
                                 <td class="text-center bg-light">
-                                    <p-dropdown [options]="opcionesModulos" [style]="{'min-width':'0em'}"
-                                        (onChange)="dt.filter($event.value, 'modulo', 'equals')"></p-dropdown>
+                                    <p-dropdown appendTo="body" [options]="opcionesModulos" [style]="{'min-width':'0em'}"
+                                        (onChange)="dt.filter($event.value, 'modulo', 'equals');changeModulos($event)"></p-dropdown>
                                 </td>
                                 <td *ngIf="empresaId=='22'" class="text-center bg-light">
                                     <input pInputText type="text"
@@ -82,11 +82,11 @@
                                     <s-rangoFechaSelector
                                         (onSelect)="dt.filter($event, 'fechaReporte', 'bt')"></s-rangoFechaSelector>
                                 </td>
-                                <td *ngIf="empresaId=='22'" class="text-center bg-light">
+                                <td *ngIf="empresaId=='22' && flagArea" class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'area.padreNombre', 'contains')">
                                 </td>
-                                <td class="text-center bg-light">
+                                <td class="text-center bg-light" *ngIf="flagArea">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'area.nombre', 'contains')">
                                 </td>
@@ -128,8 +128,8 @@
                                 <td *ngIf="empresaId=='22'">{{desviacion.furat}}</td>
                                 <td>{{desviacion.hashId}}</td>
                                 <td>{{desviacion.fechaReporte | date:'dd/MM/yyyy'}}</td>
-                                <td *ngIf="empresaId=='22'">{{desviacion.area.padreNombre}}</td>
-                                <td>{{desviacion.area.nombre}}</td>
+                                <td *ngIf="empresaId=='22' && flagArea">{{desviacion?.area?.padreNombre}}</td>
+                                <td *ngIf="flagArea">{{desviacion?.area?.nombre}}</td>
                                 <td>{{desviacion.concepto}}</td>
                                 <td [pTooltip]="desviacion.aspectoCausante" tooltipPosition="top">
                                     {{desviacion.aspectoCausante | slice:0:100}}...</td>

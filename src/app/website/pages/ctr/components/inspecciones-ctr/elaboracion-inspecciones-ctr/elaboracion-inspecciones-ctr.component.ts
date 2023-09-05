@@ -591,6 +591,11 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
             let inspeccion: Inspeccion = new Inspeccion();
             inspeccion.area = this.area;
             inspeccion.listaInspeccion = this.listaInspeccion;
+            if(this.listaInspeccion.tipoLista=='Ciclo corto'){
+                let area = new Area();
+                area.id='684'
+                inspeccion.area=area
+            }
             inspeccion.programacion = this.programacion;
             inspeccion.calificacionList = calificacionList;
             if (inspeccion.calificacionList[0]) {
