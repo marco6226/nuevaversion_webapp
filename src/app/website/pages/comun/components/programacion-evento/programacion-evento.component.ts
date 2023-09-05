@@ -112,7 +112,13 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.config.setTranslation(locale_es)
+    this.config.setTranslation(locale_es);
+
+    if(this.modulo === 'INPCC'){
+      this.form?.get('empleadoBasic')?.setValidators([Validators.required]);
+    }else {
+      this.form?.get('empleadoBasic')?.clearValidators();
+    }
   }
 
   onReceiveEmpleadoBasic(event?: EmpleadoBasic) {
