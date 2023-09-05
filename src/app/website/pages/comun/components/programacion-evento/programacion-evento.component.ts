@@ -73,7 +73,7 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
       if(this.form?.value?.fechaInicio){
         this.form?.get('fechaInicio')?.setValue(new Date(this.form?.value?.fechaInicio));
       }
-      console.log(this.form?.controls, typeof this.form?.value?.fechaInicio);
+      // console.log(this.form?.controls, typeof this.form?.value?.fechaInicio);
     }catch(e) {
       console.error('No fue posible autocompletar datos del formulario');
     }
