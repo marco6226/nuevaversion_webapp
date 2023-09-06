@@ -18,10 +18,12 @@
         <ng-template ngFor let-subItem [ngForOf]="item.items"let-i="index">
             <ng-container *ngIf="routerLinkIsValid(subItem.routerLink);else subMenu">
                 <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem.routerLink" (click)="indexSelect(j,i)">
-                    <div id="data" class="child-items data-hide"  [ngStyle]="{'background-color': (Ipadre==j && Ihijo==i) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i) ? 'white' : 'black'}" style="border-radius: 15px;">
-                        <i [class]="subItem.icon" class="icon-size-child"  ></i>
-                        <span id="text-toggle" class="text-hide" >{{subItem.label}}</span >
-                    </div>    
+                    <ng-container>
+                        <div id="data" class="child-items data-hide"[ngStyle]="{'background-color': (Ipadre==j && Ihijo==i) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i) ? 'white' : 'black'}" style="border-radius: 15px;">
+                            <i [class]="subItem.icon" class="icon-size-child"  ></i>
+                            <span id="text-toggle" class="text-hide" >{{subItem.label}}</span >
+                        </div>    
+                    </ng-container>
                      
                 </div>
             </ng-container>
