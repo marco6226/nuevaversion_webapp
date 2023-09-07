@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   msgs: Message[] = [];
   intentosMax = 5;
   visiblePinForm = false;
+  flag:boolean=true
   
   constructor(
     private fb: FormBuilder,
@@ -59,9 +60,13 @@ export class LoginComponent implements OnInit {
         }
     }
     
-setTimeout(() => {
-  this.correo=this.formLogin.value['correo']
-}, 500);
+    setTimeout(() => {
+      this.correo=this.formLogin.value['correo']
+      this.flag=false
+      setTimeout(() => {
+        this.flag=true
+      }, 100);
+    }, 500);
   }
   correo:string=''
   tooglePsw(){
@@ -168,9 +173,4 @@ setTimeout(() => {
     this.messageService.add({severity:'warn', summary: 'pro', detail: 'Se cerro su sesion inicie de nuevo por favor'});
     this.visible = visible;
   }
-  test(){
-    console.log('click--')
-    document.getElementById("texto")!.focus();
-  }
-  
 }

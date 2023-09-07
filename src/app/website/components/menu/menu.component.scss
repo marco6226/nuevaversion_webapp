@@ -73,9 +73,9 @@
     // background: red;
     background: var(--blue-500) !important;
     border-radius: 20px;
-    color: var(--white);
+    color: var(--white) !important;
     i{
-        color: var(--white);
+        color: var(--white) !important;
     }
 }
 

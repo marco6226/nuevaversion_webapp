@@ -23,3 +23,16 @@
     display: flex;
     align-items: center;
 }
+
+p-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .left-button {
+    margin-right: 10px; /* Espacio entre el botón y el texto */
+  }
+// .colorTexarea:hover{
+// background-color: #c8c8c8;
+// }
