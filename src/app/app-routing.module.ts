@@ -21,7 +21,7 @@ const routes: Routes = [
     data: {
       preload: true,
     },
-    
+    canActivate: [AuthGuardService]
   },
   { path: 'firma/:id', component: FirmaComponent,}
 ];

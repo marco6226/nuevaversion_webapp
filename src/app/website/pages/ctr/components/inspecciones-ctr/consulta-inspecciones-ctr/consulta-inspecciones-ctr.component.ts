@@ -100,7 +100,15 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
 
   async loadAliados() {
     if(this.aliados.length > 0) return;
-    let idEmpresa: string = this.sesionService.getParamEmp(); 
+    let idEmpresa: string = this.sesionService.getParamEmp();
+    if(!idEmpresa || idEmpresa == ''){
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          idEmpresa = this.sesionService.getParamEmp();
+          resolve(idEmpresa);
+        }, 2000);
+      });
+    }
     let filterQuery = new FilterQuery();
     filterQuery.sortField = "id";
     filterQuery.sortOrder = 1;
@@ -131,6 +139,14 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
     filterQuery.rows = event.rows;
     filterQuery.count = true;
     let sesionEmpresa = this.sesionService.getEmpresa();
+    if(sesionEmpresa == null){
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          sesionEmpresa = this.sesionService.getEmpresa();
+          resolve(sesionEmpresa);
+        }, 2000);
+      })
+    }
     if(sesionEmpresa?.idEmpresaAliada !== null) {
       filterQuery.filterList.push(
         {criteria: Criteria.LIKE, field: 'aliado', value1: sesionEmpresa?.nit + '%'}
