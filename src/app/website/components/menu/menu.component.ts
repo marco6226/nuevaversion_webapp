@@ -379,9 +379,15 @@ export class MenuComponent implements OnInit, AfterContentInit {
 
   Ipadre:any=50
   Ihijo:any=50
-  indexSelect(Ipadre:any, Ihijo:any){
+  Ihijo2:any=50
+  indexSelect(Ipadre:any, Ihijo:any, Ihijo2:any){
     this.Ipadre=Ipadre
     this.Ihijo=Ihijo
+    this.Ihijo2=Ihijo2
+  }
+  test(i:any,j:any,k:any){
+    console.log('aqui')
+    console.log(i,j,k)
   }
 
 }
