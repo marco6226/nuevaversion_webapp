@@ -19,6 +19,8 @@ export class FormularioComponent implements OnInit {
   selectorsMap: any = [];
   @Output("onValidChange") onValidChange = new EventEmitter<boolean>();
 
+  @Input("respuestaCampos") respuestaCampos: RespuestaCampo[] | null = null;
+
   constructor(
     private fb: FormBuilder,
     private opcionesFormularioService: OpcionesFormularioService
@@ -69,7 +71,15 @@ export class FormularioComponent implements OnInit {
             break;
         }
       } else { 
-        campo.respuestaCampo = new RespuestaCampo();
+        if(this.respuestaCampos){
+          campo.respuestaCampo = new RespuestaCampo();
+          let respuesta = this.respuestaCampos.filter(item => item.campoId == campo.id);
+          console.log(respuesta);
+          campo.respuestaCampo.campoId = respuesta.length > 0 ? respuesta[0].campoId : campo.respuestaCampo.campoId;
+          campo.respuestaCampo.valor = respuesta.length > 0 ? respuesta[0].valor : null;
+        } else {
+          campo.respuestaCampo = new RespuestaCampo();
+        }
       }
       let formControl = campo.requerido ? new FormControl(campo.respuestaCampo.valor, Validators.required) : new FormControl(campo.respuestaCampo.valor);
       formControl.valueChanges.subscribe(

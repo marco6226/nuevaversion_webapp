@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
@@ -14,7 +14,7 @@ import { SesionService } from '../../services/session.service';
   styleUrls: ['./login.component.scss'],
   providers: [AuthGuardService]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   
   @Input() visible: boolean = true;
 
@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   msgs: Message[] = [];
   intentosMax = 5;
   visiblePinForm = false;
+  flag:boolean=true
   
   constructor(
     private fb: FormBuilder,
@@ -59,11 +60,21 @@ export class LoginComponent implements OnInit {
         }
     }
     
-setTimeout(() => {
-  this.correo=this.formLogin.value['correo']
-}, 500);
+    setTimeout(() => {
+      this.correo=this.formLogin.value['correo']
+      this.flag=false
+      setTimeout(() => {
+        this.flag=true
+      }, 100);
+    }, 500);
   }
-  correo:string=''
+
+  correo: string = '';
+
+  ngAfterViewInit(): void {
+    if(localStorage.getItem('url')) this.messageService.add({severity: 'warn', summary: 'Advertencia', detail: 'Debe iniciar sesión para acceder a esta ruta.', life: 5000});
+  }
+  
   tooglePsw(){
     this.isPassword = !this.isPassword;
     if (this.isPassword) {
@@ -102,8 +113,9 @@ setTimeout(() => {
         let aceptaTerm = this.authService.sesionService.getUsuario()!.fechaAceptaTerminos != null;
         if (aceptaTerm) {
           this.authService.onLogin(res);
-
-          this.router.navigate(['app/home']); 
+          let url: string | null = localStorage.getItem('url');
+          this.router.navigate([url ?? 'app/home']);
+          localStorage.removeItem('url');
           this.IsVisible = false;   
         } else {
           let url = this.authGuardService.Geturl();
@@ -168,9 +180,4 @@ setTimeout(() => {
     this.messageService.add({severity:'warn', summary: 'pro', detail: 'Se cerro su sesion inicie de nuevo por favor'});
     this.visible = visible;
   }
-  test(){
-    console.log('click--')
-    document.getElementById("texto")!.focus();
-  }
-  
 }

@@ -192,6 +192,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     // { label: 'Elaboración IPECR', codigo: 'IPECR_ELABIPECR', routerLink: ['/app/ipr/formularioIpecr'], icon: 'bi bi-info-circle'},
                     // { label: 'Consulta IPECR', codigo: 'IPECR_GET_IPECR', routerLink: ['/app/ipr/consultaIpecr'], icon: 'bi bi-list-task'},
                     { label: 'Registro matriz peligros', codigo: 'IPECR_GET_MATRIZPELIGROS', routerLink: ['/app/ipr/matrizPeligros'], icon: 'bi bi-pencil-square'},
+                    { label: 'Listado matriz peligros', codigo: 'IPECR_GET_LISTMPELIGROS', routerLink: ['/app/ipr/listadomatrizPeligros'], icon: 'bi bi-card-list'},
                 ]
         },
         {
@@ -367,12 +368,20 @@ export class MenuComponent implements OnInit, AfterContentInit {
   }
 
   routerLinkIsValid(routerLink: string[]): boolean{
+
     // console.log(routerLink);
     return routerLink.length > 0 ? true : false;
   }
 
   getItems2For(item: any, subItem: any){
     return item.items2.filter((item2: any) => item2.padre === subItem.label);
+  }
+
+  Ipadre:any=50
+  Ihijo:any=50
+  indexSelect(Ipadre:any, Ihijo:any){
+    this.Ipadre=Ipadre
+    this.Ihijo=Ihijo
   }
 
 }

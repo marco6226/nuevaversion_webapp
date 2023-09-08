@@ -5,8 +5,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DirectorioService } from 'src/app/website/pages/ado/services/directorio.service';
+import { Campo } from 'src/app/website/pages/comun/entities/campo';
 import { Cumplimiento } from 'src/app/website/pages/comun/entities/cumplimiento';
+import { Formulario } from 'src/app/website/pages/comun/entities/formulario';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
+import { RespuestaCampo } from 'src/app/website/pages/comun/entities/respuesta-campo';
 import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { SistemaNivelRiesgo } from 'src/app/website/pages/core/entities/sistema-nivel-riesgo';
@@ -107,6 +110,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
     ]);
 
     cumplimientoList: Cumplimiento[] = [];
+    respuestaCampos: RespuestaCampo[] | null = null;
 
     constructor(
         private router: Router,
@@ -178,6 +182,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                     this.initLoading = false;
                 }).finally(() => {
                     this.cargarPorcentajesDeCumplimiento();
+                    this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
                 });
             this.getTareaEvidences(parseInt(this.listaInspeccion.listaInspeccionPK.id), this.listaInspeccion.listaInspeccionPK.version);
 
@@ -289,6 +294,29 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
         }
 
         this.paramNav.reset();
+    }
+
+    async precargarDatos(formulario: Formulario, programacion: Programacion) {
+        formulario.campoList.forEach((campo:Campo, index: number) => {
+            switch(campo.nombre.trim().toLowerCase()) {
+                case 'localidad':
+                    if(!this.respuestaCampos) this.respuestaCampos = [];
+                    let respuesta: RespuestaCampo = {} as RespuestaCampo;
+                    respuesta.valor = programacion.localidad.localidad;
+                    respuesta.campoId = campo.id;
+                    this.respuestaCampos.push(respuesta);
+                    break;
+                case 'nombre del aliado con nit':
+                    if(!this.respuestaCampos) this.respuestaCampos = [];
+                    let respuesta2: RespuestaCampo = {} as RespuestaCampo;
+                    respuesta2.valor = programacion.empresaAliada.razonSocial + ' - ' + programacion.empresaAliada.nit;
+                    respuesta2.campoId = campo.id;
+                    this.respuestaCampos.push(respuesta2);
+                    break;
+                default:
+                    break;
+            }
+        })
     }
 
     findMatrizValue(fecha: Date) {
@@ -563,9 +591,18 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
             let inspeccion: Inspeccion = new Inspeccion();
             inspeccion.area = this.area;
             inspeccion.listaInspeccion = this.listaInspeccion;
+            if(this.listaInspeccion.tipoLista=='Ciclo corto'){
+                let area = new Area();
+                area.id='684'
+                inspeccion.area=area
+            }
             inspeccion.programacion = this.programacion;
             inspeccion.calificacionList = calificacionList;
-            inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0]?.opcionCalificacion;
+            if (inspeccion.calificacionList[0]) {
+                inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0]?.opcionCalificacion;
+            } else {
+                throw Error('Debe iniciar la inspección');
+            }
             inspeccion.respuestasCampoList = [];
             inspeccion.equipo = this.equipo;
             inspeccion.observacion = this.observacion;
@@ -615,7 +652,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
             }
         } catch (error: any) {
             console.error('Error: ', error);
-            this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al guardar inspección. Debe iniciarla para poder guardar avances.'});
+            this.messageService.add({severity: 'error', summary: 'Error', detail: error});
         }
     }
 

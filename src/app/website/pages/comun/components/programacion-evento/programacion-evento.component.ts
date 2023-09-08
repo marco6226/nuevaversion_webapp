@@ -73,7 +73,7 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
       if(this.form?.value?.fechaInicio){
         this.form?.get('fechaInicio')?.setValue(new Date(this.form?.value?.fechaInicio));
       }
-      console.log(this.form?.controls, typeof this.form?.value?.fechaInicio);
+      // console.log(this.form?.controls, typeof this.form?.value?.fechaInicio);
     }catch(e) {
       console.error('No fue posible autocompletar datos del formulario');
     }
@@ -112,7 +112,13 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.config.setTranslation(locale_es)
+    this.config.setTranslation(locale_es);
+
+    if(this.modulo === 'INPCC'){
+      this.form?.get('empleadoBasic')?.setValidators([Validators.required]);
+    }else {
+      this.form?.get('empleadoBasic')?.clearValidators();
+    }
   }
 
   onReceiveEmpleadoBasic(event?: EmpleadoBasic) {

@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { CambioPasswdService } from 'src/app/website/pages/comun/services/cambio-passwd.service';
 import { MensajeUsuario } from 'src/app/website/pages/comun/entities/mensaje-usuario';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
+import { config } from 'src/app/config';
+import { Session } from 'src/app/website/pages/core/entities/session';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -115,6 +117,26 @@ export class TokenInterceptor implements HttpInterceptor {
                     return next.handle(authReqRepeat);
                 })
             );
+        case 1_004:
+          return new Observable<HttpEvent<any>>((observer) => {
+            // let session: Session = JSON.parse(localStorage.getItem(config.session_id) ?? 'null') ?? {} as Session;
+            // let isLoggued = session && session.isLoggedIn ? session.isLoggedIn : false;
+            // console.log('Case 1_004', this.sesionService.isLoggedIn());
+            if(!this.sesionService.isLoggedIn()){
+              console.error('Token no válido');
+              let url = this.router.url;
+              console.log(url);
+              if(localStorage.getItem('url') === null && url != '/login') localStorage.setItem('url', url);
+              this.router.navigate(['login']).then(() => {
+                observer.next();
+              });
+            } else {
+              // ok
+              console.log('user, ok');
+              observer.error(error);
+              observer.next();
+            }
+          });
         default:
             return throwError(error);
     }

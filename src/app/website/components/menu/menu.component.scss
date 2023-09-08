@@ -35,6 +35,11 @@
     font-size: 1.7rem;
 }
 
+// .icon-size-child:hover{
+//     background-color: 5px 5px 10px rgba(242, 101, 101, 0.608) !important;
+//      /* Color de sombra: rgba(0, 0, 0, 0.5) */
+// }
+
 .text-show{
     // background: red;
     display: auto;
@@ -44,6 +49,7 @@
     // background: blue;
     display: none;
 }
+
 
 // .child-item{
     // display: flex;
@@ -65,11 +71,11 @@
 
 .data-show:hover{
     // background: red;
-    background: var(--blue-500);
+    background: var(--blue-500) !important;
     border-radius: 20px;
-    color: var(--white);
+    color: var(--white) !important;
     i{
-        color: var(--white);
+        color: var(--white) !important;
     }
 }
 
@@ -91,16 +97,16 @@
 
 .data-hide:hover{
     // background: red;
-    background: var(--blue-500);
+    background-color: var(--blue-500) !important;
     // border-radius: 20px;
-    color: var(--white);
+    color: var(--white) !important;
     i{
-        color: var(--white);
+        color: var(--white) !important;
     }
 }
 
 .data-hide:active{
-    background: var(--blue-700);
+    background-color: var(--blue-700);
 }
 
 .child-items{

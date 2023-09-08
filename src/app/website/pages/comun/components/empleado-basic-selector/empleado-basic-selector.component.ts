@@ -113,6 +113,7 @@ export class EmpleadoBasicSelectorComponent implements OnInit, ControlValueAcces
   resetEmpleado() {
     if (!this.disabled) {
       this.value = null;
+      this.onSelect.emit(this.value);
     }
   }
 }

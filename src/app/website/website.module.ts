@@ -215,6 +215,7 @@ import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/
 import { SliderModule } from 'primeng/slider';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ProgramacionEventoComponent } from './pages/comun/components/programacion-evento/programacion-evento.component';
+import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matriz-peligros/lista-matriz-peligros.component';
 
 @NgModule({
   declarations: [
@@ -393,6 +394,7 @@ import { ProgramacionEventoComponent } from './pages/comun/components/programaci
     MatrizPeligrosComponent,
     ChangePasswordComponent,
     ProgramacionEventoComponent,
+    ListaMatrizPeligrosComponent,
   ],
   imports: [
     MatTooltipModule,

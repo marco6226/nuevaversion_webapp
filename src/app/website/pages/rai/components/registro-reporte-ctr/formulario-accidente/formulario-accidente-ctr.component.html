@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
 <p-panel header="FORMULARIO DE ACCIDENTES">
   
   <ng-template #vacio>
@@ -484,7 +485,7 @@
             <p-panel header="FURAT" class="col-md-6 col-sm-12">
               <div *ngIf="!esConsulta">
                 <button pButton type="button" (click)="showDialog('furat')" label="Adjuntar"></button>
-                <br><small style="color: red;">Obligatorio</small>
+                <br><small *ngIf="!documentosFurat || documentosFurat.length == 0" style="color: red;">Obligatorio</small>
                 <s-documentoUpload 
                 [(visible)]="showDialogFurat" [modParam]="analisisId" tipoEvidencia="aliadoFurat"
                 [modulo]="modulo" [privadoCheck]="false" (onUpload)="onUpload($event, 'furat')"
@@ -493,15 +494,15 @@
               <hr>
               <ol *ngFor="let item of documentosFurat" class="container">
                 <li>
-                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>
-                  <a class="fa fa-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
+                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>&nbsp;
+                  <a class="pi pi-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
                 </li>
               </ol>
             </p-panel>
             <p-panel header="Investigación de At" class="col-md-6 col-sm-12">
               <div *ngIf="!esConsulta">
                 <button pButton type="button" (click)="showDialog('invAt')" label="Adjuntar"></button>
-                <br><small style="color: red;">Obligatorio</small>
+                <br><small *ngIf="!documentosInvAt || documentosInvAt.length == 0" style="color: red;">Obligatorio</small>
                 <s-documentoUpload 
                 [(visible)]="showDialogInvAt" [modParam]="analisisId" tipoEvidencia="aliadoInvAt"
                 [modulo]="modulo" [privadoCheck]="false" (onUpload)="onUpload($event, 'invAt')"
@@ -510,8 +511,8 @@
               <hr>
               <ol *ngFor="let item of documentosInvAt" class="container">
                 <li>
-                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>
-                  <a class="fa fa-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
+                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>&nbsp;
+                  <a class="pi pi-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
                 </li>
               </ol>
             </p-panel>
@@ -520,7 +521,7 @@
             <p-panel header="Reportes a EPS y/o entes territoriales" class="col-md-6 col-sm-12">
               <div *ngIf="!esConsulta">
                 <button pButton type="button" (click)="showDialog('reporteEps')" label="Adjuntar"></button>
-                <br><small style="color: red;">Obligatorio</small>
+                <br><small *ngIf="!documentosRepEps || documentosRepEps.length == 0" style="color: red;">Obligatorio</small>
                 <s-documentoUpload 
                 [(visible)]="showDialogReporteEps" [modParam]="analisisId" tipoEvidencia="aliadoReporteEps"
                 [modulo]="modulo" [privadoCheck]="false" (onUpload)="onUpload($event, 'reporteEps')"
@@ -529,15 +530,15 @@
               <hr>
               <ol *ngFor="let item of documentosRepEps" class="container">
                 <li>
-                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>
-                  <a class="fa fa-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
+                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>&nbsp;
+                  <a class="pi pi-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
                 </li>
               </ol>
             </p-panel>
             <p-panel header="Evidencias plan de acción" class="col-md-6 col-sm-12">
               <div *ngIf="!esConsulta">
                 <button pButton type="button" (click)="showDialog('evidenciasPA')" label="Adjuntar"></button>
-                <br><small style="color: red;">Obligatorio</small>
+                <br><small *ngIf="!documentoEvidenciasPA || documentoEvidenciasPA.length == 0" style="color: red;">Obligatorio</small>
                 <s-documentoUpload 
                 [(visible)]="showDialogEvidenciasPA" [modParam]="analisisId" tipoEvidencia="aliadoEvidenciasPA"
                 [modulo]="modulo" [privadoCheck]="false" (onUpload)="onUpload($event, 'evidenciasPA')"
@@ -546,8 +547,8 @@
               <hr>
               <ol *ngFor="let item of documentoEvidenciasPA" class="container">
                 <li>
-                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>
-                  <a class="fa fa-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
+                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>&nbsp;
+                  <a class="pi pi-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
                 </li>
               </ol>
             </p-panel>
@@ -556,7 +557,7 @@
             <p-panel header="Novedad de seguridad" class="col-md-6 col-sm-12">
               <div *ngIf="!esConsulta">
                 <button pButton type="button" (click)="showDialog('novedadSeg')" label="Adjuntar"></button>
-                <br><small style="color: red;">Obligatorio</small>
+                <br><small *ngIf="!documentosNovedadSeg || documentosNovedadSeg.length == 0" style="color: red;">Obligatorio</small>
                 <s-documentoUpload 
                 [(visible)]="showDialogNovedadSeg" [modParam]="analisisId" tipoEvidencia="aliadosNovedadSeg"
                 [modulo]="modulo" [privadoCheck]="false" (onUpload)="onUpload($event, 'novedadSeg')"
@@ -565,8 +566,8 @@
               <hr>
               <ol *ngFor="let item of documentosNovedadSeg" class="container">
                 <li>
-                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>
-                  <a class="fa fa-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
+                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>&nbsp;
+                  <a class="pi pi-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
                 </li>
               </ol>
             </p-panel>
@@ -581,8 +582,8 @@
               <hr>
               <ol *ngFor="let item of documentoOtros" class="container">
                 <li>
-                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>
-                  <a class="fa fa-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
+                  <a (click)="descargarDocumento(item)">{{ item.nombre }}</a>&nbsp;
+                  <a class="pi pi-trash" *ngIf="!esConsulta" style="color: red;" (click)="eliminarDocumento(item)"></a>
                 </li>
               </ol>
             </p-panel>

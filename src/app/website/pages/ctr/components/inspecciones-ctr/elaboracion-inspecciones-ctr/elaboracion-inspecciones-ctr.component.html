@@ -35,7 +35,7 @@
   </p-panel>
   
   <s-formulario *ngIf="listaInspeccion?.formulario" [formularioModel]="listaInspeccion?.formulario"
-    (onValidChange)="actualizarValidacion($event)"></s-formulario>
+    (onValidChange)="actualizarValidacion($event)" [respuestaCampos]="respuestaCampos"></s-formulario>
 
   <app-lista-inspeccion-form-ctr [value]="listaInspeccion?.elementoInspeccionList"
     [opciones]="listaInspeccion?.opcionCalificacionList" [editable]="false" [disabled]="consultar"

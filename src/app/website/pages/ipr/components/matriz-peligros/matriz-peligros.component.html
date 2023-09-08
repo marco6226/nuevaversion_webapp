@@ -1,15 +1,18 @@
 <p-confirmDialog key="matrizp"></p-confirmDialog>
+<p-toast></p-toast>
 <form [formGroup]="formCreacionMatriz">
     <p-panel header="REGISTRO MATRIZ DE PELIGROS">
         <div class="grid">
             <div class="col-6">
+                <strong>División:</strong>
+                <!-- <area-selector  [disabled]="flagRegistroMatrizAcording" required formControlName="ubicacion"></area-selector>        -->
+                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion"></p-dropdown>
+
+            </div>
+            <div class="col-6">
                 <strong>Planta:</strong>
                 <br/>
                 <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una planta"[options]="planta" appendTo="body" formControlName="planta" (onChange)="cargarArea($event.value)"></p-dropdown>
-            </div>
-            <div class="col-6">
-                <strong>Ubicación:</strong>
-                <area-selector  [disabled]="flagRegistroMatrizAcording" required formControlName="ubicacion"></area-selector>       
             </div>
         </div>
         <br/>
@@ -28,7 +31,16 @@
 <ng-container *ngIf="flagRegistroMatrizAcording">
     
     <p-accordion [activeIndex]="activeIndex">
-        <p-accordionTab header="GUÍA PROCESOS" *ngIf="flagRegistroMatrizTree">
+        <p-accordionTab *ngIf="flagRegistroMatrizTree">
+            <p-header [style]="{'width': '100%'}">
+                    <span>GUÍA PROCESOS</span>
+                    <button pButton type="button" 
+                    icon="bi bi-pencil"
+                    class="p-button-primary left-button"
+                    title="Editar" 
+                    (click)="flagButtonMatrizAcording=true" 
+                    *ngIf="!flagButtonMatrizAcording"></button>
+             </p-header>
             <p-treeTable #tt [value]="matrizdescripcion" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
@@ -39,13 +51,13 @@
                             {{ col.header }}
                         </th>
                         <th style="width: 10rem" *ngIf="flagButtonMatrizAcording">
-                            <p-button type="button" 
+                            <button pButton type="button" 
                             icon="bi bi-plus"
                             class="p-button-primary"
                             tooltipPosition="left"
                             pTooltip="Agregar área"
                             (click)="CRUDAreaTreeFunc(null,'POST')"
-                            ></p-button>
+                            ></button>
                         </th>
                     </tr>
                     <tr>
@@ -471,36 +483,68 @@
             </p-accordionTab>
 
             <p-accordionTab header="V. CONTROL DE RIESGO - PLAN DE ACCIÓN" [disabled]="!formMatrizRiesgosI.valid">
-                <p-table [value]="valoracionRI2" [tableStyle]="{ 'min-width': '50rem' }">
+            <!-- <p-accordionTab header="V. CONTROL DE RIESGO - PLAN DE ACCIÓN" [disabled]="false"> -->
+
+                <p-table #dt autoLayout="true" [value]="tareasList" [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" [(selection)]="tarea" [rows]="10"
+                [paginator]="true" dataKey="id">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Fecha creación</th>
-                            <th>Actividad</th>
-                            <th>Acción</th>
+                            <th>Descripción</th>
+                            <th>Jerarquía de control</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!-- <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')"></s-rangoFechaSelector> -->
+                                <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
+                                <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'fechaCreacion', 'contains')"> -->
+                            </td>
+                            <td>
+                                <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                            </td>
+                            <td>
+                                <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'jerarquia', 'contains')">
+                            </td>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-nivel  let-editing="editing" let-ri="rowIndex">
-                        <tr [pEditableRow]="nivel">
-                            <td [class]="nivel['color']"><p-cellEditor>
-                                <ng-template pTemplate="output" >
-                                    {{nivel['CN']}}
-                                </ng-template>
-                            </p-cellEditor></td>
-                            <td [class]="nivel['color']"><p-cellEditor>
-                                <ng-template pTemplate="output" >
-                                    {{nivel['CL']}}
-                                </ng-template>
-                            </p-cellEditor></td>
-                            <td><p-cellEditor>
-                                <ng-template pTemplate="output" >
-                                    <textarea [readonly]="true" [(ngModel)]="nivel['accion']" [ngModelOptions]="{standalone: true}"></textarea>                 
-                                </ng-template>
-                            </p-cellEditor></td>
+                    <ng-template pTemplate="body" let-tarea>
+                        <tr>
+                            <td>{{tarea.fechaCreacion}}</td>
+                            <td><textarea class="colorTexarea" [readonly]="true" cols="10" rows="3">
+                                {{tarea.descripcion}}
+                            </textarea>
+                            </td>
+                            <td>{{tarea.jerarquia}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <tr>
+                            <td colspan="4">
+                                <div class="flex justify-content-end flex-wrap">
+                                    <button pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="planAccion('POST')"></button>
+                                    <button pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="planAccion('PUT')"></button>
+                                    <button pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="planAccion('DELETE')"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="3">No hay planes de acción registrados</td>
                         </tr>
                     </ng-template>
                 </p-table>
             </p-accordionTab>
         </p-accordion>
+        <button pButton 
+        (click)="guardarMatriz()"
+        type="button"
+        icon="pi pi-save"
+        class="float-btn" style="bottom: 140px;"
+        title="Guardar datos de matriz de peligros"
+        style="bottom: 70px;"
+        ></button>
     </p-panel>
 </ng-container>
 <br>
@@ -510,11 +554,11 @@
 
 <p-dialog [(visible)]="putAreaTree" modal="true" style=" width: 80%">
     <div *ngIf="CRUDarea=='POST'">
-        <label for="">Agregar nueva área</label>
+        <label for="">Agregar nueva área:</label><br>
         <input type="text" [(ngModel)]="newArea">
     </div>
     <div *ngIf="CRUDarea=='PUT'">
-        <label for="">Editar área:</label>
+        <label for="">Editar área:</label><br>
         <input type="text" [(ngModel)]="newArea">
     </div>
     <br>
@@ -539,11 +583,11 @@
 
 <p-dialog [(visible)]="putProcesoTree" modal="true" style=" width: 80%">
     <div *ngIf="CRUDproceso=='POST'">
-        <label for="">Agregar nuevo proceso al área {{this.nombreAreaTree}}</label>
+        <label for="">Agregar nuevo proceso al área {{this.nombreAreaTree}}:</label><br>
         <input type="text" [(ngModel)]="newProceso">
     </div>
     <div *ngIf="CRUDproceso=='PUT'">
-        <label for="">Editar proceso:</label>
+        <label for="">Editar proceso:</label><br>
         <input type="text" [(ngModel)]="newProceso">
     </div>
     <br>
@@ -567,11 +611,11 @@
 
 <p-dialog [(visible)]="putSubprocesoTree" modal="true" style=" width: 80%">
     <div *ngIf="CRUDsubproceso=='POST'">
-        <label for="">Agregar nuevo subproceso (cargo/oficio) al proceso {{this.nombreProcesoTree}}</label>
+        <label for="">Agregar nuevo subproceso (cargo/oficio) al proceso {{this.nombreProcesoTree}}:</label><br>
         <input type="text" [(ngModel)]="newSubproceso">
     </div>
     <div *ngIf="CRUDsubproceso=='PUT'">
-        <label for="">Editar subproceso (cargo/oficio):</label>
+        <label for="">Editar subproceso (cargo/oficio):</label><br>
         <input type="text" [(ngModel)]="newSubproceso">
     </div>
     <br>
@@ -588,9 +632,49 @@
         <button pButton type="button" 
         icon="bi bi-pencil"
         class="p-button-success"
-        label="Agregar"
-        title="Agregar subproceso (cargo/oficio)"
+        label="Editar"
+        title="Editar subproceso (cargo/oficio)"
         (click)="CRUDSubproceso('PUT')"
         ></button>
     </div>
+</p-dialog>
+
+
+<!-- Plan accion -->
+<p-dialog [(visible)]="flagPlanAccion" modal="true" [style]= "{'width': '80%'}">
+    <form [formGroup]="formPlanAccion">
+        <div class="grid">
+            <div class="col-12">
+                <span>Jerarquía de control</span><br>
+                <p-dropdown  required formControlName="jerarquia" appendTo="body" [options]="jControl">
+                </p-dropdown>
+            </div>
+            <div class="col-12">
+                <span>Descripción</span> <br>
+                <textarea required name="descripcion"  formControlName="descripcion" cols="10" rows="3"></textarea>
+            </div>
+            <div class="col-12">
+                <div *ngIf="CRUDplanAccion=='POST'">
+                    <button pButton type="button" 
+                    [disabled]="!formPlanAccion.valid"
+                    icon="bi bi-plus"
+                    class="p-button-primary"
+                    label="Agregar"
+                    title="Agregar plan de acción"
+                    (click)="planAccionCRUD('POST')"
+                    ></button>
+                </div>
+                <div *ngIf="CRUDplanAccion=='PUT'">
+                    <button pButton type="button" 
+                    [disabled]="!formPlanAccion.valid"
+                    icon="bi bi-pencil"
+                    class="p-button-success"
+                    label="Editar"
+                    title="Editar plan de acción"
+                    (click)="planAccionCRUD('PUT')"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </form>
 </p-dialog>

@@ -26,6 +26,7 @@ export class ConsultaDesviacionComponent implements OnInit {
     { label: 'Inspecciones', value: 'Inspecciones' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Reporte A/I', value: 'Reporte A/I' },
+    { label: 'Inspecciones CC', value: 'Inspecciones CC'}
   ];
 
   empresaCriticidadPermiso: number=11;
@@ -72,6 +73,7 @@ export class ConsultaDesviacionComponent implements OnInit {
     let areasPermiso =this.areasPermiso?.replace('{','');
     areasPermiso =areasPermiso?.replace('}','');
     let areasPermiso2=areasPermiso?.split(',')
+    // console.log(areasPermiso2?.push("null"))
 
     const filteredArea = areasPermiso2?.filter(function(ele , pos){
       return areasPermiso2?.indexOf(ele) == pos;
@@ -106,6 +108,7 @@ export class ConsultaDesviacionComponent implements OnInit {
     filterQuery.sortField = event.sortField;   
     filterQuery.fieldList = this.fields;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+
     filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
     this.desviacionService.findByFilter(filterQuery).then(
       (resp : any) => {
@@ -117,6 +120,7 @@ export class ConsultaDesviacionComponent implements OnInit {
   }
 
   async lazyLoad(event: any) {
+    // this.desviacionService.findAll().then(resp=>console.log(resp))
     this.loading = true;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
@@ -125,7 +129,8 @@ export class ConsultaDesviacionComponent implements OnInit {
     // filterQuery.rows = event.rows;
     filterQuery.count = true;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
+    filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso  });
+    // filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: "area.id" });
     filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: "emptemporal" });
 
     await this.desviacionService.findByFilter(filterQuery).then(
@@ -137,14 +142,17 @@ export class ConsultaDesviacionComponent implements OnInit {
         this.empresaId = this.desviacionesList[0].empresaId
       }
     ).catch(err => this.loading = false);
-
+    
     let filterQuery2 = new FilterQuery();
     filterQuery2.sortField = event.sortField;
     filterQuery2.sortOrder = event.sortOrder;
     filterQuery2.offset = event.first;
     filterQuery2.count = true;
     filterQuery2.filterList = FilterQuery.filtersToArray(event.filters);
+    // filterQuery2.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso ,value2:null });
+
     filterQuery2.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
+    // filterQuery2.filterList.push({ criteria: Criteria.IS_NULL, field: "area.id" });
 
     await this.desviacionService.findByFilter(filterQuery2).then(
       (resp:any) => {
@@ -210,4 +218,9 @@ export class ConsultaDesviacionComponent implements OnInit {
   onFilter(event:any){
     this.desviacionesListOnFilter=event.filteredValue
 }
+flagArea:boolean=true
+  changeModulos(eve:any){
+    if(eve.value=='Inspecciones CC')this.flagArea=false
+    else this.flagArea=true
+  }
 }

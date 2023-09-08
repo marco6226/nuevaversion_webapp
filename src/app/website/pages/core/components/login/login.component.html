@@ -7,11 +7,11 @@
             <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
         </div>
         <div class="contenedor-cuadrado">
-            <div class="" style="margin-top: 73px;">                
+            <div class="" style="margin-top: 73px;" *ngIf="flag">                
                     <form [formGroup]="formLogin" role="form">
                         <mat-form-field appearance="outline" style=" width: 74%;">
                             <mat-label>Correo</mat-label>
-                            <input id="texto" type="email" formControlName="correo" matInput  (click)="test()">
+                            <input id="asd" type="email" formControlName="correo" matInput>
                             
                         </mat-form-field>
                         <mat-form-field appearance="outline" style=" width: 74%;">
@@ -29,12 +29,13 @@
                     <p class="predec-link">¿No puedes ingresar?
                         <a class="link" routerLink="/reset-password">Recordar Contraseña</a>
                     </p> 
+                    
             </div>   
+            
         </div>        
     </div>
     <div class="footer">
         <label class="version">{{version}}</label>
     </div>
 </div>
-
 <app-whatsapp></app-whatsapp>
