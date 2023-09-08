@@ -149,7 +149,7 @@ public getConfigParam(codigo: string) {
 
 public isLoggedIn(): boolean{
   try {
-    if(this.session === null || this.session === undefined){
+    if(this.session === null || this.session === undefined || localStorage.getItem(config.session_id) === null){
       this.session = <Session>JSON.parse(localStorage.getItem(config.session_id) ?? 'null');
       if(this.session === null) return false;
     }
