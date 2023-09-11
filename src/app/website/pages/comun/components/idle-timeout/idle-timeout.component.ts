@@ -15,6 +15,7 @@ export class IdleTimeoutComponent implements OnInit {
   timeoutID: any;
   intervalID: any;
   timeOut = 600_000;
+  // timeOut = 6_000;
 
   countDown = 0;
 
@@ -45,6 +46,7 @@ export class IdleTimeoutComponent implements OnInit {
 
   goInactive() {
     this.expired = true;
+    // this.intervalID = setInterval(() => this.countInterval(), 10);
     this.intervalID = setInterval(() => this.countInterval(), 300);
   }
 
@@ -59,11 +61,13 @@ export class IdleTimeoutComponent implements OnInit {
 
       clearInterval(this.intervalID);
       await this.authService.logout().then(
-        resp => {
+        async (resp: any) => {
+          // console.log(resp)
+
           this.visibleBtn = true;
         }
       );
-      this.redireccionar()
+      await this.redireccionar()
     }
   }
 
@@ -76,8 +80,8 @@ export class IdleTimeoutComponent implements OnInit {
     this.startTimer();
   }
 
-  redireccionar(){
-    this.navService.redirect('/login');
+  async redireccionar(){
+    await this.navService.redirect('/login');
   }
 
 }
