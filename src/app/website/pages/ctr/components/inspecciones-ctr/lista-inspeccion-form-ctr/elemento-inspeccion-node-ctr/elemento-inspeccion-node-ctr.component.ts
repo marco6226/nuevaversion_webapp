@@ -137,7 +137,7 @@ export class ElementoInspeccionNodeCtrComponent implements OnInit {
     elem?.elementoInspeccionList.forEach(item => {
       item.calificacion.opcionCalificacion.id = optDespreciable?.id!;
     });
-    console.log(changeEvent.checked, elem);
+    // console.log(changeEvent.checked, elem);
   }
 
   getValueCalcularCumplimiento(elem: ElementoInspeccion): boolean{
