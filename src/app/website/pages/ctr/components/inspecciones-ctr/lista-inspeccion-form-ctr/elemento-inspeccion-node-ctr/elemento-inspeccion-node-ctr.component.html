@@ -50,7 +50,7 @@
           </tr>
           <tr>
             <app-elemento-inspeccion-node-ctr [value]="elem?.elementoInspeccionList" [opciones]="opciones"
-              [editable]="editable" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
+              [editable]="editable" [disabled]="disabled || elem.calificacion.calcularCumplimiento" [nivelRiesgoList]="nivelRiesgoList"
               [diligenciable]="diligenciable" (onElementoClick)="emitirEventoSelecElemento($event)"
               [tiposHallazgo]="tiposHallazgo" [tipoLista]="tipoLista"></app-elemento-inspeccion-node-ctr>
           </tr>
