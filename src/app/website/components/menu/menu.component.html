@@ -17,9 +17,9 @@
         </div>
         <ng-template ngFor let-subItem [ngForOf]="item.items"let-i="index">
             <ng-container *ngIf="routerLinkIsValid(subItem.routerLink);else subMenu">
-                <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem.routerLink" (click)="indexSelect(j,i)">
+                <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem.routerLink" (click)="indexSelect(j,i,0)">
                     <ng-container>
-                        <div id="data" class="child-items data-hide"[ngStyle]="{'background-color': (Ipadre==j && Ihijo==i) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i) ? 'white' : 'black'}" style="border-radius: 15px;">
+                        <div id="data" class="child-items data-hide"[ngStyle]="{'background-color': (Ipadre==j && Ihijo==i && Ihijo2 ==0) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i && Ihijo2 ==0) ? 'white' : 'black'}" style="border-radius: 15px;">
                             <i [class]="subItem.icon" class="icon-size-child"  ></i>
                             <span id="text-toggle" class="text-hide" >{{subItem.label}}</span >
                         </div>    
@@ -34,10 +34,10 @@
                         <span id="text-toggle" class="text-hide">{{subItem.label}}</span>
                     </div>
                 </div>
-                <ng-template ngFor let-subItem2 [ngForOf]="getItems2For(item, subItem)">
+                <ng-template ngFor let-subItem2 [ngForOf]="getItems2For(item, subItem)" let-k="index">
                     <div *sTienePermiso="subItem2.codigo" [pTooltip]="subItem2.label" tooltipPosition="right" [id]="subItem.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem2.routerLink">
-                        <div [id]="item.codigo" class="collapse navbar-collapse">
-                            <div id="data" class="child-items data-hide">
+                        <div [id]="item.codigo" class="collapse navbar-collapse" (click)="indexSelect(j,i,k)">
+                            <div id="data" class="child-items data-hide"  [ngStyle]="{'background-color': (Ipadre==j && Ihijo==i && Ihijo2 ==k) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i && Ihijo2 ==k) ? 'white' : 'black'}" style="border-radius: 15px;">
                                 <i [class]="subItem2.icon" class="icon-size-child"></i>
                                 <span id="text-toggle" class="text-hide">{{subItem2.label}}</span >
                             </div>
