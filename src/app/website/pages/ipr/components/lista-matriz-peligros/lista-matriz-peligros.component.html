@@ -1,10 +1,31 @@
 <div class="shadow">
     <p-panel styleClass="material-panel">
         <p-header >
-            Matrices de peligros
+            Peligros registrados de la matriz
         </p-header>
-    
-        <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" >
+        <form [formGroup]="formCreacionMatriz">
+            <div class="grid">
+                <div class="col-6 col-sm-12">
+                    <strong>División:</strong>
+                    <p-dropdown  required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion" (onChange)="cargarPlanta($event.value)"></p-dropdown>
+                </div>
+                <div class="col-6 col-sm-12">
+                    <strong>Planta:</strong>
+                    <br/>
+                    <p-dropdown required [filter]="true" placeholder="Seleccione una planta"[options]="planta" appendTo="body" formControlName="planta"  (onChange)="cargarArea($event.value)"></p-dropdown>
+                </div>
+                <div class="col-6 col-sm-12">
+                    <strong>Área:</strong>
+                    <br/>
+                    <!-- <p-dropdown required [filter]="true" placeholder="Seleccione una área"[options]="area" appendTo="body" formControlName="area" (onChange)="cargarRegistrosMatriz($event.value)"></p-dropdown> -->
+                    <p-multiSelect placeholder="Seleccione un área" formControlName="area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="areaMatrizItemList" (onChange)="cargarRegistrosMatriz()" ></p-multiSelect>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+
+        <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
             <!-- dataKey="id" sortField="id" sortOrder="-1" -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -14,11 +35,19 @@
                     <th pSortableColumn="fechaCreacion">Fecha de creación
                         <p-sortIcon field="fechaCreacion"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="planta">Planta
-                        <p-sortIcon field="planta"></p-sortIcon>
+                    <th pSortableColumn="area.nombre">Área
+                        <p-sortIcon field="area.nombre"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="area"> Área
-                        <p-sortIcon field="area"></p-sortIcon>
+                    <th pSortableColumn="peligro.Peligro.nombre">Peligro
+                        <p-sortIcon field="peligro.Peligro.nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
+                        <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
+                        <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
+                    </th>
+                    <th> Estado
                     </th>
                 </tr>
                 <tr class="filters">
@@ -35,16 +64,29 @@
     
                         </div>
                     </td>
-                    <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
-                        <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'planta.nombre', 'contains')">
+                    <td class="text-center bg-light">
+                        <div class="ui-inputgroup">    
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'area.nombre')">
                         </div>
                     </td>
-                    <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
+                    <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'area')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                        </div>
+                    </td>
+                    <td class="text-center bg-light">
+                        <div class="ui-inputgroup">    
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
+                        </div>
+                    </td>
+                    <td class="text-center bg-light">
+                        <div class="ui-inputgroup">    
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
+                        </div>
+                    </td>
+                    <td class="text-center bg-light">
+                        <div class="ui-inputgroup">    
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
                         </div>
                     </td>
                 </tr>
@@ -52,10 +94,13 @@
             <ng-template pTemplate="body" let-matriz>
     
                 <tr [pSelectableRow]="matriz" class="table-row table-row-selectable">
-                    <td class="p-text-center">{{matriz.id}}</td>
-                    <td class="p-text-center">{{'07/09/2023'}}</td>
-                    <td class="p-text-center">{{matriz.plantas.nombre}}</td>
-                    <td class="p-text-center">&nbsp;</td>
+                    <td class="p-text-center">{{matriz?.id}}</td>
+                    <td class="p-text-center">{{matriz?.fechaCreacion | date:'dd/MM/yyyy'}}</td>
+                    <td class="p-text-center">{{matriz?.area?.nombre}}</td>
+                    <td class="p-text-center">{{matriz?.peligro?.Peligro?.nombre}}</td>
+                    <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
+                    <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
+                    <td class="p-text-center">Sin plan de acción</td>
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" let-rowData>
@@ -66,12 +111,16 @@
                         class="p-button-raised p-button-primary margin-right" 
                         pButton type="button" 
                         icon="bi bi-plus" 
-                        label="Adicionar" [routerLink]="['/app/ipr/matrizPeligros']"></button>
+                        label="Adicionar" 
+                        (click)="CRUDMatriz('PUT')" 
+                        ></button>
                       <button 
                         class="p-button-raised p-button-success margin-right margin-left" 
                         pButton type="button" 
                         icon="bi bi-pencil" 
                         label="Modificar"
+                        (click)="CRUDMatriz('POST')"
+                        [disabled]="!matrizSelect"
                         ></button>
                       <button 
                         pButton type="button" 
@@ -79,6 +128,15 @@
                         label="Consultar" 
                         style="color: var(--white)"
                         class="p-button-raised p-button-warning margin-right margin-left"
+                        (click)="CRUDMatriz('DELETE')"
+                        [disabled]="!matrizSelect"
+                        ></button>
+                    <button 
+                        pButton type="button" 
+                        icon="bi bi-plus" 
+                        label="Crear Matriz" 
+                        style="color: var(--white)"
+                        class="p-button-raised p-button-primary margin-right margin-left"
                         ></button>
                     </div>
                 </div>           

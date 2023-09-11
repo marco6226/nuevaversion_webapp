@@ -21,6 +21,8 @@ import { AreaService } from '../../../empresa/services/area.service';
 import { division } from '../../../comun/entities/datosGraf4';
 import { MatrizPeligrosService } from '../../../core/services/matriz-peligros.service';
 import { MatrizPeligros } from '../../../comun/entities/Matriz-peligros';
+import { Area } from '../../../empresa/entities/area';
+import { ParametroNavegacionService } from '../../../core/services/parametro-navegacion.service';
 
 interface Column {
   field: string;
@@ -134,6 +136,7 @@ export class MatrizPeligrosComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private areaService: AreaService,
     private matrizPeligrosService: MatrizPeligrosService,
+    private paramNav: ParametroNavegacionService,
   ) { 
     this.formCreacionMatriz = this.fb.group({
       planta: [null],
@@ -178,21 +181,39 @@ export class MatrizPeligrosComponent implements OnInit {
   }
 
   async cargarDatos(){
-    this.getArea()
+    await this.getArea()
     this.cols = [
       { field: 'nombre', header: 'Descripción' },
       { field: 'estado', header: 'Estado' },//evaluado - no evaluado
     ];
 
     this.empresaId= this.sessionService.getEmpresa()!.id
-    this.cargarPlanta()
     this.cargarTiposPeligro();
+    this.getParams()
+  }
+  
+  getParams(){
+    switch (this.paramNav.getAccion<string>()){
+      case 'PUT':
+        this.cargarPlanta(this.paramNav.getParametro<FormGroup>().value.ubicacion)
+        this.formCreacionMatriz.patchValue({
+            planta: this.paramNav.getParametro<FormGroup>().value.planta,
+            ubicacion: this.paramNav.getParametro<FormGroup>().value.ubicacion,
+        })
+        this.cargarArea(this.paramNav.getParametro<FormGroup>().value.planta)
+        break; 
+      case 'POST':
+        console.log(this.paramNav.getParametro<MatrizPeligros>())
+        break;    
+      default:
+        break;
+    }
   }
   
   async getArea(){
     let filterAreaQuery = new FilterQuery();
     filterAreaQuery.sortField = "id";
-    filterAreaQuery.sortOrder = 1;
+    filterAreaQuery.sortOrder = -1;
     filterAreaQuery.fieldList = ["id","nombre"];
     filterAreaQuery.filterList = [
       { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
@@ -205,29 +226,23 @@ export class MatrizPeligrosComponent implements OnInit {
     })
   }
   plantasList: Plantas[] = [];
-  cargarPlanta(){
-  // cargarPlanta(eve:any){
-    this.plantasService.getPlantasByEmpresaId(this.empresaId)
-    .then((res:any) => {
-      this.plantasList = (<Plantas[]>res).map(planta => planta);
+  cargarPlanta(eve:any){
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id","nombre"];
+    filterPlantaQuery.filterList = [
+      { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
+      { field: 'tipo', criteria: Criteria.EQUALS, value1: 'IPER' },
+    ];
+    this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
       this.planta=[]
-      res.forEach((element:any) => {
+      this.plantasList=resp.data
+      resp.data.forEach((element:any) => {
         this.planta.push({label:element.nombre,value:element.id})
       });
+      
     })
-    // let filterAreaQuery = new FilterQuery();
-    // filterAreaQuery.sortField = "id";
-    // filterAreaQuery.sortOrder = 1;
-    // filterAreaQuery.fieldList = ["id","nombre"];
-    // filterAreaQuery.filterList = [
-    //   { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
-    // ];
-
-    // this.plantasService.findByFilter(this.empresaId).then((res:any) => {
-    //     res.forEach((element:any) => {
-    //       this.planta.push({label:element.nombre,value:element.id})
-    //     });
-    //   })
   }
   //-----------------------Cargar peligros-----------------------------//
   SelectPeligro(a: string){
@@ -796,21 +811,37 @@ export class MatrizPeligrosComponent implements OnInit {
     switch (CRUD) {
       case 'PUT':
         console.log(this.tarea)
+        this.formPlanAccion.patchValue({
+          'id': this.tarea.id,
+          'fechaCreacion': this.tarea.fechaCreacion,
+          'jerarquia': this.tarea.jerarquia,
+          'descripcion': this.tarea.descripcion,
+        })
         this.flagPlanAccion=true
         break;
       case 'POST':
-        console.log(this.tarea)
+        this.formPlanAccion.reset()
         this.flagPlanAccion=true
         break;
       case 'DELETE':
-        console.log(this.tarea)
+        this.confirmationService.confirm({
+          header: 'Eliminar plan de acción',
+          message: '¿Está seguro de eliminar el plan de acción de la jerarquía de control '+this.tarea.jerarquia +'de ?',
+          key: 'matrizp',
+          accept: async () => {
+            const index = this.tareasList.findIndex((el:any) => el.id == this.tarea.id)
+            this.tareasList.splice(index, 1);
+          },
+          acceptLabel: 'Sí',
+          rejectLabel: 'No'
+        });
         break;
     
       default:
         break;
     }
   }
-
+  cont:number=1;
   planAccionCRUD(CRUD:string){
     console.log(this.formPlanAccion.value)
     switch (CRUD) {
@@ -818,16 +849,15 @@ export class MatrizPeligrosComponent implements OnInit {
         this.formPlanAccion.patchValue({
           fechaCreacion: new Date().toLocaleDateString('es-CO')
         })
-        this.tareasList.push(this.formPlanAccion.value)
+        this.tareasList.push({id:this.cont,fechaCreacion:this.formPlanAccion.value.fechaCreacion,jerarquia:this.formPlanAccion.value.jerarquia,descripcion:this.formPlanAccion.value.descripcion})
+        this.cont++
         this.flagPlanAccion=false
         break;
       case 'PUT':
+        const indexPlanAccion = this.tareasList.findIndex((el:any) => el.id == this.tarea.id)
+        this.tareasList[indexPlanAccion]={id:this.tarea.id,fechaCreacion:this.formPlanAccion.value.fechaCreacion,jerarquia:this.formPlanAccion.value.jerarquia,descripcion:this.formPlanAccion.value.descripcion}
         this.flagPlanAccion=false
-        break;
-      case 'DELETE':
-        
-        break;
-    
+        break;    
       default:
         break;
     }
@@ -835,21 +865,25 @@ export class MatrizPeligrosComponent implements OnInit {
     console.log(this.tareasList)
   }
 
-  guardarMatriz(){
-    console.log(this.formMatrizGeneral.value)
-    console.log(this.formMatrizPeligros.value)
-    console.log(this.formMatrizRiesgosC.value)
-    console.log(this.formMatrizRiesgosI.value)
-    console.log(this.tareasList.value)
+  guardarMatriz(CRUD:string){
     let planta=this.plantasList.find(ele=>ele.id==this.idPlanta)
+    let area= new AreaMatriz()
 
-    console.log(planta)
     let matrizPeligros= new MatrizPeligros()
     matrizPeligros.controlesexistentes=JSON.stringify(this.formMatrizRiesgosC.value);
     matrizPeligros.generalInf=JSON.stringify(this.formMatrizGeneral.value);
     matrizPeligros.peligro=JSON.stringify(this.formMatrizPeligros.value);
     matrizPeligros.plantas=planta;
-    console.log(planta)
-    this.matrizPeligrosService.create(matrizPeligros).then(resp=>console.log(resp)).catch(er=>console.log(er))
+    matrizPeligros.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI.value);
+    matrizPeligros.planAccion=JSON.stringify(this.tareasList);
+    matrizPeligros.eliminado=false
+    matrizPeligros.fechaCreacion=new Date()
+
+    this.formMatrizGeneral.value.Area.forEach((ele:any) => {
+      area.id=ele.id
+      matrizPeligros.area=area
+  
+      this.matrizPeligrosService.create(matrizPeligros).then(resp=>console.log(resp)).catch(er=>console.log(er))
+    });
   }
 }

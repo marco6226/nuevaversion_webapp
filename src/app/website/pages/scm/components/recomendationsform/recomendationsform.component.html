@@ -127,7 +127,7 @@
                     <td class="p-text-center">
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <p-autoComplete [readonly]="esConsulta" styleClass="form-material-autocomplete" #autocomplete placeholder="Digite" [style]="{'width':'100%'}" (onSelect)="pAccion.responsableEmpresa = $event" [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)" field="primerNombre"
+                                <p-autoComplete appendTo="body" [readonly]="esConsulta" styleClass="form-material-autocomplete" #autocomplete placeholder="Digite" [style]="{'width':'100%'}" (onSelect)="pAccion.responsableEmpresa = $event" [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)" field="primerNombre"
                                     [(ngModel)]="pAccion.responsableEmpresa" *ngIf="empleado?.id == null">
                                     <ng-template let-empleado pTemplate="item">
                                         <div class="ui-helper-clearfix">

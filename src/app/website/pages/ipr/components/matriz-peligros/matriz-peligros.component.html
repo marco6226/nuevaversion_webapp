@@ -6,7 +6,7 @@
             <div class="col-6">
                 <strong>División:</strong>
                 <!-- <area-selector  [disabled]="flagRegistroMatrizAcording" required formControlName="ubicacion"></area-selector>        -->
-                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion"></p-dropdown>
+                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion" (onChange)="cargarPlanta($event.value)"></p-dropdown>
 
             </div>
             <div class="col-6">
@@ -485,9 +485,8 @@
             <p-accordionTab header="V. CONTROL DE RIESGO - PLAN DE ACCIÓN" [disabled]="!formMatrizRiesgosI.valid">
             <!-- <p-accordionTab header="V. CONTROL DE RIESGO - PLAN DE ACCIÓN" [disabled]="false"> -->
 
-                <p-table #dt autoLayout="true" [value]="tareasList" [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" [(selection)]="tarea" [rows]="10"
-                [paginator]="true" dataKey="id">
-                    <ng-template pTemplate="header">
+                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasList" [paginator]="true" [rows]="10" >
+                    <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th>Fecha creación</th>
                             <th>Descripción</th>
@@ -495,10 +494,8 @@
                         </tr>
                         <tr>
                             <td>
-                                <!-- <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')"></s-rangoFechaSelector> -->
                                 <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
                                 (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
-                                <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'fechaCreacion', 'contains')"> -->
                             </td>
                             <td>
                                 <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
@@ -509,22 +506,19 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-tarea>
-                        <tr>
+                        <tr [pSelectableRow]="tarea" class="table-row table-row-selectable">
                             <td>{{tarea.fechaCreacion}}</td>
-                            <td><textarea class="colorTexarea" [readonly]="true" cols="10" rows="3">
-                                {{tarea.descripcion}}
-                            </textarea>
-                            </td>
+                            <td>{{tarea.descripcion}}</td>
                             <td>{{tarea.jerarquia}}</td>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="footer">
+                    <ng-template pTemplate="summary" let-rowData>
                         <tr>
                             <td colspan="4">
                                 <div class="flex justify-content-end flex-wrap">
                                     <button pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="planAccion('POST')"></button>
-                                    <button pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="planAccion('PUT')"></button>
-                                    <button pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="planAccion('DELETE')"></button>
+                                    <button [disabled]="!tarea" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="planAccion('PUT')"></button>
+                                    <button [disabled]="!tarea" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="planAccion('DELETE')"></button>
                                 </div>
                             </td>
                         </tr>

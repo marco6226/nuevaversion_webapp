@@ -3,6 +3,7 @@ import { CRUDService } from 'src/app/website/pages/core/services/crud.service'
 import { TipoPeligro } from 'src/app/website/pages/comun/entities/tipo-peligro'
 import { endPoints } from 'src/environments/environment';
 import { MatrizPeligros } from '../../comun/entities/Matriz-peligros';
+import { FilterQuery } from '../entities/filter-query';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +29,18 @@ export class MatrizPeligrosService extends CRUDService<MatrizPeligros>{
     })
   }
 
+  getmpRWithFilter(filterQuery?: FilterQuery){
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(this.end_point + 'mpRegistroFilter/?' + this.buildUrlParams(filterQuery!))
+      .subscribe(
+        res => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err);
+        }
+      )
+    });
+  }
 }
