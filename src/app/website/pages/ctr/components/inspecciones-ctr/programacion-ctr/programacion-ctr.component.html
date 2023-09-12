@@ -7,138 +7,10 @@
     </div>
   </p-header>
   <ng-template pTemplate="body" let-reporte>
-    <full-calendar [options]="calendarOptions" [events]="events" deepChangeDetection="true"></full-calendar>
+    <!-- [events]="events" -->
+    <full-calendar [options]="calendarOptions" [events]="events" deepChangeDetection="true" (onChange)="onChangeCalendar($event)"></full-calendar>
   </ng-template>
 </p-panel>
-
-<!-- <form [formGroup]="form">
-  <p-dialog [style]="{width: '50%'}" [(visible)]="visibleDlg" [responsive]="true" [modal]="true" [maximizable]="true" appendTo="body">
-    <p-header>
-      Evento
-    </p-header>
-    <div class="grid">
-      <div class="col-12 md:col-4 lg:col-4">
-        <label for="numeroInspecciones">Número de auditorías</label>
-      </div>
-      <div class="col-12 md:col-8 lg:col-8">
-        <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required />
-      </div>
-      <div class="col-12 md:col-4 lg:col-4">
-        <label for="listaInsp">Auditoría a realizar</label>
-      </div>
-      <div class="col-12 md:col-8 lg:col-8">
-        <p-dropdown id="listaInsp" [options]="listasInspeccionList" placeholder="-- Seleccione --" [filter]="true" formControlName="listaInspeccionPK"
-          appendTo="body" required></p-dropdown>
-      </div>
-      <div class="col-12 md:col-4 lg:col-4">
-        <label for="empresa">Empresa Aliada</label>
-      </div>
-      <div class="col-12 md:col-8 lg:col-8">
-        <p-dropdown formControlName="empresaAliada" [options]="empresasAliadasOption" placeholder="-- Seleccione --" appendTo="body" [filter]="true" required></p-dropdown>
-      </div>
-      <div class="col-12 md:col-4 lg:col-4">
-        <label for="areaResponsable">Localidad</label>
-      </div>
-      <div class="col-12 md:col-8 lg:col-8">
-        <p-dropdown formControlName="localidad" [options]="localidadesOption" placeholder="-- Seleccione --" appendTo="body" [filter]="true" required></p-dropdown>
-      </div>
-      <div class="col-12 md:col-4 lg:col-4">
-        <label>Gestor</label>
-      </div>
-      <div class="col-12 md:col-8 lg:col-8">
-        <s-empleadoBasicSelector [(ngModel)]="this.form.value.empleadoBasic" (onSelect)="onReceiveEmpleadoBasic($event)" [ngModelOptions]="{standalone: true}" required autofocus></s-empleadoBasicSelector>
-      </div>
-    </div>
-    <p-panel header="Periodicidad" *ngIf="adicionar">
-      <div class="grid">
-        <div class="col-12 md:col-3 lg:col-3">
-          <label for="fecha">Fecha</label>
-        </div>
-        <div class="col-12 md:col-9 lg:col-9">
-          <p-calendar appendTo="body" id="fecha" formControlName="fechaInicio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showClear]="true"></p-calendar>
-        </div>
-        <!-- Repetir
-        <div class="col-12 md:col-3 lg:col-3">
-          <label for="repetir">Repetir</label>
-        </div>
-        <div class="col-12 md:col-9 lg:col-9">
-          <p-inputSwitch id="repetir" [(ngModel)]="programacionSwitch" [ngModelOptions]="{standalone: true}"></p-inputSwitch>
-        </div>
-        <!-- Periodicidad
-        <div class="col-12 md:col-3 lg:col-3" *ngIf="programacionSwitch">
-          <label for="periodicidad">Repetir cada</label>
-        </div>
-        <div class="col-12 md:col-4 lg:col-4" *ngIf="programacionSwitch">
-          <input pInputText type="number" formControlName="valorFrecuencia" placeholder="Valor">
-        </div>
-        <div class="col-12 md:col-5 lg:col-5" *ngIf="programacionSwitch">
-          <p-dropdown id="periodicidad" appendTo="body" [options]="periodicidadList" formControlName="unidadFrecuencia" placeholder="Frecuencia"></p-dropdown>
-        </div>
-        <!-- Periodicidad semanal
-        <div class="col-12 grid" *ngIf="programacionSwitch && getUnidadFrecuencia() && getUnidadFrecuencia() === 'semana'">
-          <div class="col-12 md:col-3 lg:col-3">
-            <label for="diasSemana">Días</label>
-          </div>
-          <div class="col-12 md:col-9 lg:col-9">
-            <p-selectButton [options]="diasList" id="diasSemana" [multiple]="true" [(ngModel)]="diasSemanaSelected" [ngModelOptions]="{standalone: true}"></p-selectButton>
-          </div>
-        </div>
-        <!-- Periodicidad mensual
-        <div class="col-12 grid" *ngIf="programacionSwitch && getUnidadFrecuencia() && getUnidadFrecuencia() === 'mes'">
-          <div class="col-12 md:col-3 lg:col-3"></div>
-          <div class="col-12 md:col-9 lg:col-9 grid">
-            <p-radioButton name="radioB" inputId="repMes" value="dia" [className]="'ml-2'" [(ngModel)]="radioBSelected" [ngModelOptions]="{standalone: true}"></p-radioButton>
-            <label for="repMes" class="ml-2" style="align-self: center;">El día</label>
-            <input type="number" pInputText name="dia" id="dia" class="col-4 ml-2" [disabled]="radioBSelected=='diaSemana'" [(ngModel)]="inputDia" [ngModelOptions]="{standalone: true}">
-          </div>
-          <div class="col-12 md:col-3 lg:col-3"></div>
-          <div class="col-12 md:col-9 lg:col-9 grid">
-            <p-radioButton name="radioB" inputId="respMes2" value="diaSemana" [className]="'ml-2'" [(ngModel)]="radioBSelected" [ngModelOptions]="{standalone: true}"></p-radioButton>
-            <label for="repMes2" class="ml-2" style="align-self: center;">El</label>
-            <p-dropdown [options]="numerosOrdinales" [(ngModel)]="numeroOrdinalSelected" [ngModelOptions]="{standalone: true}" class="ml-2" placeholder="-- seleccione --" appendTo="body"
-            [disabled]="radioBSelected=='dia'"></p-dropdown>
-            <p-dropdown [options]="diasList" optionLabel="title" [(ngModel)]="diaSelected" [ngModelOptions]="{standalone: true}" class="ml-2" placeholder="-- seleccione --" appendTo="body"
-            [disabled]="radioBSelected=='dia'"></p-dropdown>
-          </div>
-        </div>
-        <!-- Fecha fin
-        <div class="col-12 md:col-3 lg:col-3" *ngIf="programacionSwitch">
-          <label for="fin">Fin</label>
-        </div>
-        <div class="col-12 md:col-9 lg:col-9" *ngIf="programacionSwitch">
-          <p-calendar appendTo="body" id="fin" formControlName="fechaFin" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" [showClear]="true"></p-calendar>
-        </div>
-      </div>
-    </p-panel>
-    <p-footer>
-
-      <div style="text-align: center" *ngIf="loading == true">
-        <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
-      </div>
-      <ng-container *ngIf="adicionar && loading == false">
-        <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="pi pi-save" label="Guardar" 
-        [disabled]="!form.valid" (click)="onSubmit()"></button>
-      </ng-container>
-
-      <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="pi pi-pencil"
-          class="p-button-success" label="Modificar" (click)="onSubmit()" [disabled]="!form.valid"></button>
-      </ng-container>
-
-      <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_POST_INP'" type="button" pButton icon="pi pi-list" class="p-button-success"
-          label="Auditoría" (click)="irInspeccion2()" [disabled]="btnInspDisable">
-        </button>
-      </ng-container>
-
-      <ng-container *ngIf="!adicionar && loading == false">
-        <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="p-button-danger"
-          label="Eliminar" (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
-      </ng-container>
-
-    </p-footer>
-  </p-dialog>
-</form> -->
 
 <s-programacion-evento
   [(visible)]="visibleDlg"
@@ -148,7 +20,9 @@
   [empresasAliadas]="empresasAliadasOption"
   [localidades]="localidadesOption"
   [esNueva]="adicionar"
-  [values]="values"
+  [fechaSelected]="fechaSelect"
+  [(value)]="value"
+  [deshabilitar]="deshabilitarEvento"
   (onChange)="onChangeProgramacionEvento($event)"
 ></s-programacion-evento>
 

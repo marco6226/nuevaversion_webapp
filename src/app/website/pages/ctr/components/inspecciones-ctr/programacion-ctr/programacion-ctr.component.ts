@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -6,7 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import { PrimeNGConfig } from 'primeng/api';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions, EventInput, EventSourceFuncArg } from '@fullcalendar/core';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
 import { ListaInspeccion } from 'src/app/website/pages/inspecciones/entities/lista-inspeccion';
 import { Programacion } from 'src/app/website/pages/inspecciones/entities/programacion';
@@ -21,6 +21,7 @@ import { Localidades } from '../../../entities/aliados';
 import { EmpresaService } from 'src/app/website/pages/empresa/services/empresa.service';
 import { Empresa } from 'src/app/website/pages/empresa/entities/empresa';
 import { EmpleadoBasic } from 'src/app/website/pages/empresa/entities/empleado-basic';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
   selector: 'app-programacion-ctr',
@@ -28,7 +29,7 @@ import { EmpleadoBasic } from 'src/app/website/pages/empresa/entities/empleado-b
   styleUrls: ['./programacion-ctr.component.scss'],
   providers: [EmpresaService]
 })
-export class ProgramacionCtrComponent implements OnInit {
+export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewInit {
 
   localeES: any = locale_es;
   anioSelect!: number;
@@ -59,8 +60,8 @@ export class ProgramacionCtrComponent implements OnInit {
 
   calendarOptions!: CalendarOptions;
   // events!: any[];
-  events: EventList[] = [];
-  event!: EventList;
+  events: EventInput[] = [];
+  event!: EventInput;
 
   programacionList: Programacion[] = [];
 
@@ -75,7 +76,12 @@ export class ProgramacionCtrComponent implements OnInit {
   inputDia: number | null = null;
   numeroOrdinalSelected: number | null = null;
   diaSelected: number | null = null;
-  values: any = {};
+  value: string | null = null;
+  deshabilitarEvento: boolean = false;
+  fechaSelected: Date | null = null;
+
+  @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent | undefined;
+  calendarChangeDetector: any | null = null;
 
   constructor(
     private sesionService: SesionService,
@@ -87,6 +93,7 @@ export class ProgramacionCtrComponent implements OnInit {
     private messageService: MessageService,
     private config: PrimeNGConfig,
     private empresaService: EmpresaService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.form = this.fb.group({
       id: null,
@@ -144,10 +151,26 @@ export class ProgramacionCtrComponent implements OnInit {
     this.form.controls['area'].disabled;
     await this.loadLocalidades();
     this.loadEmpresasAliadas()
-    .finally(() => {  
-      this.actualizarEventos();
+    .finally(() => { 
+      try {
+        this.actualizarEventos();
+      } catch(e) {
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al actualizar eventos.'})
+      }
     });
 
+    this.calendarComponent?.getApi().on('datesSet', () => {
+      // console.log('calendarComponent');
+      // this.actualizarEventos();
+      this.applyFilter();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
   }
 
   async loadListaDeInspecciones(){
@@ -237,85 +260,92 @@ export class ProgramacionCtrComponent implements OnInit {
     )
   }
 
-  async actualizarEventos(filters?: Filter[]) {
+  actualizarEventos(filters?: Filter[]): Promise<EventInput[]> {
 
-    let filterQuery = new FilterQuery();
+    return new Promise((resolve, reject) => {let filterQuery = new FilterQuery();
 
-    filterQuery.filterList = [
-      { criteria: Criteria.IS_NOT_NULL, field: 'empresaAliada'}
-    ];
-
-    // filterQuery.fieldList = [
-    //   'id',
-    //   'fecha',
-    //   'listaInspeccion_listaInspeccionPK',
-    //   'numeroInspecciones',
-    //   'numeroRealizadas',
-    //   'localidad',
-    //   'empresaAliada',
-    //   'empleadoBasic',
-    //   'serie'
-    // ];
-    if(filters) filterQuery.filterList.push(...filters);
-
-    this.progLoading = true;
-    try {
-      this.programacionService.findAuditoriasWithFilter(filterQuery)
-        .then((data: any) => {
-
-          let array = <any[]>data['data'];
-          let objArray: any[] = [];
-
-          array.forEach(dto => {
-            objArray.push(FilterQuery.dtoToObject(dto));
-          });
-
-          this.matriz = [];
-          this.events = [];
-
-          this.programacionList = objArray;
-
-          objArray.forEach(element => {
-            let matrizData: MatrizList = {
-              dia: new Date,
-              programacionList: []
-            }
-            // debugger
-            this.matriz?.push(matrizData);
-
-            var _color = '#007AD9';
-            if (element.numeroRealizadas == element.numeroInspecciones) {
-              _color = 'green';
-            }
-
-            this.event = {
-              id: element.id,
-              title: element.numeroRealizadas + '/' + element.numeroInspecciones + ' Insp. en ' + element.localidad.localidad,
-              start: new Date(element.fecha),
-              end: new Date(element.fecha + 3600000),
-              color: _color,
-            }
-            this.events.push(this.event)
-          });
-
-
-          this.progLoading = false;
-        })
-        .catch(err => {
-          this.progLoading = false;
+      filterQuery.filterList = [
+        { criteria: Criteria.IS_NOT_NULL, field: 'empresaAliada'}
+      ];
+  
+      filterQuery.fieldList = [
+        'id',
+        'fecha',
+        // 'listaInspeccion_listaInspeccionPK',
+        'numeroInspecciones',
+        'numeroRealizadas',
+        'localidad',
+        // 'empresaAliada',
+        // 'empleadoBasic',
+        // 'serie'
+      ];
+      if(filters) filterQuery.filterList.push(...filters);
+  
+      if(this.calendarComponent && this.calendarComponent.getApi().getCurrentData()) {
+        let calendarData = this.calendarComponent.getApi().getCurrentData();
+        let filters: Filter[] = [];
+        filters.push({
+          criteria: Criteria.BETWEEN,
+          field: 'fecha',
+          value1: calendarData.getCurrentData().dateProfile.renderRange.start.toISOString(),
+          value2: calendarData.getCurrentData().dateProfile.renderRange.end.toISOString()
         });
-    } catch (error) {
-    }
+        filterQuery.filterList.push(...filters);
+      }
 
-    this.event = {
-      id: 0,
-      title: '',
-      start: new Date('1/1/1990'),
-      description: ''
-    }
+      this.progLoading = true;
+      this.events = [];
+      this.event = {} as EventInput;
+      try {
+        this.programacionService.findAuditoriasWithFilter(filterQuery)
+          .then((data: any) => {
+  
+            let array = <any[]>data['data'];
+            let objArray: any[] = [];
+  
+            array.forEach(dto => {
+              objArray.push(FilterQuery.dtoToObject(dto));
+            });
+  
+            this.matriz = [];
+            this.events = [];
+  
+            this.programacionList = objArray;
+  
+            objArray.forEach(element => {
+              let matrizData: MatrizList = {
+                dia: new Date,
+                programacionList: []
+              }
+              // debugger
+              this.matriz?.push(matrizData);
+  
+              var _color = '#007AD9';
+              if (element.numeroRealizadas == element.numeroInspecciones) {
+                _color = 'green';
+              }
+  
+              this.event = {
+                id: element.id,
+                title: element.numeroRealizadas + '/' + element.numeroInspecciones + ' Insp. en ' + element.localidad.localidad,
+                start: new Date(element.fecha),
+                end: new Date(element.fecha + 3600000),
+                color: _color,
+              }
+              this.events.push(this.event)
+            });
 
-    this.events = []
-    this.events.push(this.event)
+            this.progLoading = false;
+            resolve(this.events);
+          })
+          .catch(err => {
+            this.progLoading = false;
+            reject(err);
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   empresasAliadasIds(): string{
@@ -333,38 +363,10 @@ export class ProgramacionCtrComponent implements OnInit {
   openProg(prog: Programacion) {
     this.actualizar = true;
     this.adicionar = false;
-    this.fechaSelect = prog.fecha;
-    let valuesAux: any = {};
-    valuesAux['numeroInspecciones'] = prog.numeroInspecciones;
-    valuesAux['numeroRealizadas'] = prog.numeroRealizadas;
-    valuesAux['listaInspeccionPK'] = prog.listaInspeccion.listaInspeccionPK;
-    valuesAux['empresaAliada'] = prog.empresaAliada;
-    valuesAux['localidad'] = prog.localidad;
-    valuesAux['empleadoBasic'] = JSON.parse(prog.empleadoBasic);
-    valuesAux['fechaInicio'] = prog.fecha;
-    valuesAux['id'] = prog.id;
-    // valuesAux['serie'] = prog.serie;
-    this.values = {...valuesAux};
+    this.value = prog.id.toString().toLowerCase();
+    let programacion: Programacion = this.programacionList.filter(pg => pg.id == prog.id)[0] ?? null;
+    this.deshabilitarEvento = programacion.numeroInspecciones == programacion.numeroRealizadas;
     this.visibleDlg = true;
-    // console.log(this.localidades);
-    // console.log(prog);
-    // this.form.patchValue({
-    //   id: prog.id,
-    //   numeroInspecciones: prog.numeroInspecciones,
-    //   listaInspeccionPK: prog.listaInspeccion.listaInspeccionPK,
-    //   area: null,
-    //   localidad: prog.localidad,
-    //   empresaAliada: prog.empresaAliada,
-    //   empleadoBasic: JSON.parse(prog.empleadoBasic)
-    // });
-    // this.btnInspDisable = prog.numeroRealizadas == prog.numeroInspecciones;
-    // if (prog.numeroRealizadas > 0) {
-    //   this.form.disable();
-    // } else {
-    //   this.form.enable();
-    // }
-
-    // if (!this.permiso) this.form.disable();
   }
 
   openProg2(prog: Programacion) {
@@ -392,22 +394,12 @@ export class ProgramacionCtrComponent implements OnInit {
     this.visibleDlg = true;
     this.actualizar = false;
     this.adicionar = true;
+    this.deshabilitarEvento = false;
     this.fechaSelect = event.date;
-    this.inputDia = this.fechaSelect.getDate();
-    let valuesAux: any = {};
-    valuesAux['fechaInicio'] = this.fechaSelect;
-    this.values = {...valuesAux};
-    // this.form.patchValue({
-    //   fechaInicio: this.fechaSelect,
-    //   unidadFrecuencia: 'diario',
-    //   valorFrecuencia: 1,
-    //   semana: this.semanaLaboral
-    // });
-    // this.actualizarEventos();
   }
 
   onSubmit() {
-    console.log('obsbm');
+    // console.log('obsbm');
     
     this.loading = true;
     if (this.adicionar) {
@@ -607,7 +599,7 @@ export class ProgramacionCtrComponent implements OnInit {
     this.form.get('empleadoBasic')?.setValue(event);
   }
 
-  applyFilter(){
+  async applyFilter(){
     let localidades: any[] = this.formFilters.value.localidades;
     let empresas: any[] = this.formFilters.value.empresasAliadas;
     let empleado: any = this.formFilters.value.empleado;
@@ -634,11 +626,13 @@ export class ProgramacionCtrComponent implements OnInit {
 
   onChangeProgramacionEvento(event: boolean) {
     if(event) {
-      this.actualizarEventos()
+      // this.actualizarEventos()
+      this.applyFilter()
       .then(() => {
         console.info('Eventos actualizados');
       }).catch(() => {
         console.error('Error al actualizar eventos');
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al cargar eventos'});
       });
     }
   }

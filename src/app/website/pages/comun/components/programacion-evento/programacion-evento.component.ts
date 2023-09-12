@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService, PrimeNGConfig, SelectItem } from 'primeng/api';
 import { DropdownChangeEvent } from 'primeng/dropdown';
+import { Criteria } from '../../../core/entities/filter';
+import { FilterQuery } from '../../../core/entities/filter-query';
 import { ParametroNavegacionService } from '../../../core/services/parametro-navegacion.service';
 import { SerieService } from '../../../core/services/serie.service';
 import { Localidades } from '../../../ctr/entities/aliados';
@@ -19,7 +21,7 @@ import { Serie } from '../../entities/serie';
   styleUrls: ['./programacion-evento.component.scss'],
   providers: [SerieService]
 })
-export class ProgramacionEventoComponent implements OnInit, OnDestroy {
+export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
   form: FormGroup | undefined = undefined;
   diasList: SelectItem[] = [
@@ -61,25 +63,32 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
   programacion: Programacion | null = null;
   @Input('programacion') set setProgramacion(prog: Programacion){
     this.programacion = prog;
-  } 
-  @Input('values') set setValues(values: any){
+  }
+  idProgramacion: string | null = null;
+  @Input('value') set setValue(value: string | null){
+    this.idProgramacion = value;
+    if(this.idProgramacion === null) return;
     try{
-      let keys = Object.keys(values);
-      // console.log(values, keys);
-      keys.forEach(key => {
-        this.form?.get(key)?.setValue(values[key]);
+      this.loading = true;
+      this.loadDataEvento()
+      .then(() => {
+        this.loading = false;;
+      }).catch((e) => {
+        throw new Error(e);
       });
-      
-      if(this.form?.value?.fechaInicio){
-        this.form?.get('fechaInicio')?.setValue(new Date(this.form?.value?.fechaInicio));
-      }
-      // console.log(this.form?.controls, typeof this.form?.value?.fechaInicio);
     }catch(e) {
-      console.error('No fue posible autocompletar datos del formulario');
+      this.loading = false;
+      this.messageService.add({key: 'progEvento', severity: 'error', summary: 'Error', detail: 'Error al buscar inspección'});
     }
   }
+  @Input('fechaSelected') set fechaSelected(fecha: Date | null){
+    if(fecha === null) return;
+    this.form?.get('fechaInicio')?.setValue(fecha);
+  }
+  @Input('deshabilitar') deshabilitar: boolean = false;
 
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter();
+  @Output() valueChange: EventEmitter<string | null> = new EventEmitter();
   @Output() onChange: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
@@ -108,9 +117,6 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-  }
-
   ngOnInit() {
     this.config.setTranslation(locale_es);
 
@@ -119,6 +125,32 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
     }else {
       this.form?.get('empleadoBasic')?.clearValidators();
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // if(changes['visible']){
+    // console.log(changes);
+    // }
+  }
+
+  async loadDataEvento() {
+    let filterQuery: FilterQuery = new FilterQuery();
+    filterQuery.filterList = [{criteria: Criteria.EQUALS, field: 'id', value1: this.idProgramacion}]
+    this.programacionService.findAuditoriasWithFilter(filterQuery)
+    .then((res: any) => {
+      let programacion: Programacion = res.data.length > 0 ? res.data[0] : {} as Programacion;
+      this.form?.get('id')?.setValue(programacion.id);
+      this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
+      this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
+      this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
+      this.form?.get('area')?.setValue(programacion.area);
+      this.form?.get('empresaAliada')?.setValue(programacion.empresaAliada);
+      this.form?.get('localidad')?.setValue(programacion.localidad);
+      this.form?.get('empleadoBasic')?.setValue(JSON.parse(programacion.empleadoBasic));
+      this.form?.get('fechaInicio')?.setValue(new Date(programacion.fecha));
+    }).catch((e) => {
+      throw new Error(e);
+    });
   }
 
   onReceiveEmpleadoBasic(event?: EmpleadoBasic) {
@@ -180,7 +212,6 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
     try {
       await method(programacion);
       this.procesarRespuesta(true, this.esNueva ? 'guardar' : 'actualizar');
-      this.onChange.emit(true);
     } catch(error) {
       this.procesarRespuesta(false, this.esNueva ? 'guardar' : 'actualizar');
     }
@@ -384,6 +415,8 @@ export class ProgramacionEventoComponent implements OnInit, OnDestroy {
     this.inputDia = null;
     this.diasSemanaSelected = null;
     this.programacionSwitch = false;
+    this.idProgramacion = null;
+    this.valueChange.emit(null);
     this.visibleChange.emit(false);
   }
   
