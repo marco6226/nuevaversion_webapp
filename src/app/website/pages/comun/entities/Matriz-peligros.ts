@@ -15,4 +15,5 @@ export class MatrizPeligros {
   empresa?:Empresa;
   fechaCreacion?:Date | null;
   eliminado?: Boolean;
+  idEdicion?:Number;
 }

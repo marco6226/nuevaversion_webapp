@@ -865,7 +865,19 @@ export class MatrizPeligrosComponent implements OnInit {
     console.log(this.tareasList)
   }
 
-  guardarMatriz(CRUD:string){
+  async guardarMatriz(CRUD:string){
+    let idEdicion
+    let filterMatriz = new FilterQuery();
+    filterMatriz.sortField = "idEdicion";
+    filterMatriz.fieldList=["idEdicion"];
+    filterMatriz.filterList = [{ field: 'idEdicion', criteria: Criteria.IS_NOT_NULL}];
+    filterMatriz.sortOrder = 1;
+
+    await this.matrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
+      console.log(resp)
+      idEdicion=resp.data[0].idEdicion+1
+    })
+
     let planta=this.plantasList.find(ele=>ele.id==this.idPlanta)
     let area= new AreaMatriz()
 
@@ -878,6 +890,7 @@ export class MatrizPeligrosComponent implements OnInit {
     matrizPeligros.planAccion=JSON.stringify(this.tareasList);
     matrizPeligros.eliminado=false
     matrizPeligros.fechaCreacion=new Date()
+    matrizPeligros.idEdicion=idEdicion
 
     this.formMatrizGeneral.value.Area.forEach((ele:any) => {
       area.id=ele.id
