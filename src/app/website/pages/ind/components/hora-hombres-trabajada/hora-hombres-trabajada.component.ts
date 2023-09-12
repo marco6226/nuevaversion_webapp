@@ -118,9 +118,18 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   }
 
   async getPlantas(empresaId: number){
-    this.plantasService.getPlantasByEmpresaId(empresaId)
-      .then((res) => {
-        this.plantasList = (<Plantas[]>res).map(planta => planta);
+    // this.plantasService.getPlantasByEmpresaId(empresaId)
+
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.filterList = [
+      { field: 'id_empresa', criteria: Criteria.EQUALS, value1: empresaId.toString() },
+      { field: 'tipo', criteria: Criteria.EQUALS, value1: 'HHT' },
+    ];
+    this.plantasService.getPlantaWithFilter(filterPlantaQuery)
+      .then((res:any) => {
+        this.plantasList = (<Plantas[]>res.data).map(planta => planta);
       }).catch(err => {
         this.plantasList = [];
         console.error('Sin plantas: ',err);

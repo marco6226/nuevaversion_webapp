@@ -4,4 +4,5 @@ export class Plantas {
     id_division?: string;
     pais?: string
     id_empresa?: number;
+    tipo?:string;
 }

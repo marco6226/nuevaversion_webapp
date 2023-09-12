@@ -1,5 +1,5 @@
-import { Area } from "../../empresa/entities/area";
 import { Empresa } from "../../empresa/entities/empresa";
+import { AreaMatriz } from "./Area-matriz";
 import { Plantas } from "./Plantas";
 
 
@@ -8,7 +8,11 @@ export class MatrizPeligros {
   generalInf?: string;
   peligro?: string;
   controlesexistentes?:string;
-  area?:Area;
+  valoracionRiesgoInicial?:string;
+  planAccion?:string;
+  area?:AreaMatriz;
   plantas?:Plantas;
   empresa?:Empresa;
+  fechaCreacion?:Date | null;
+  eliminado?: Boolean;
 }
