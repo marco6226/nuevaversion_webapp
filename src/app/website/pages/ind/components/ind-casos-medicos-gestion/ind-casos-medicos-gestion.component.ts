@@ -27,8 +27,11 @@ areasNodes: TreeNode[] = [];
 divisiones_?:string[];
 divisiones?:string[];
 
-divisionesTelefonica_=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE','TELEFONICA TOTAL'];
-divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE'];
+// divisionesTelefonica_=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE','TELEFONICA TOTAL'];
+divisionesTelefonica_=['CARIBE','CENTRO','NOROCCIDENTE','ORIENTE','SUR','TELEFONICA TOTAL'];
+// divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE'];
+divisionesTelefonica=['CARIBE','CENTRO','NOROCCIDENTE','ORIENTE','SUR']
+
 
 divisionesCorona_=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas','Corona total'];
 divisionesCorona=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
