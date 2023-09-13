@@ -129,5 +129,7 @@ export const endPoints: string | any = {
   tareaService: path,
 
   firmaservice: path + "firm/",
-  firma: 'https://sigess.app/firma/'
+  firma: 'https://sigess.app/firma/',
+
+  seguimientoid: 6795
 };

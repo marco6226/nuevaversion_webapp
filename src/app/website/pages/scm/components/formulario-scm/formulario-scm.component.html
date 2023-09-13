@@ -1490,10 +1490,10 @@
                                             <button pButton pRipple type="button" pCancelEditableRow
                                                 icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
                                                 title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
-                                            <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
+                                            <button *ngIf="seguimiento.id>seguimientoid" pButton pRipple type="button" pCancelEditableRow
                                                 icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'aprueba')"
                                                 title="Copiar link usuario que aprueba" class="p-button-rounded p-button-text p-mr-2"></button>
-                                            <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
+                                            <button *ngIf="seguimiento.id>seguimientoid" pButton pRipple type="button" pCancelEditableRow
                                                 icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'medico')"
                                                 title="Copiar link medico" class="p-button-rounded p-button-text p-mr-2"></button>
                                         </ng-container>

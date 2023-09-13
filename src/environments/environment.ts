@@ -5,16 +5,16 @@
 // let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 // //Demo
-let protocol = 'https';
-let host = 'demo.sigess.app'
-let port = '5858';
-let path = protocol + "://" + host + ":" + port + "/sigess/api/";
-
-//Produccion
 // let protocol = 'https';
-// let host = 'sigess.app';
+// let host = 'demo.sigess.app'
 // let port = '5858';
 // let path = protocol + "://" + host + ":" + port + "/sigess/api/";
+
+//Produccion
+let protocol = 'https';
+let host = 'sigess.app';
+let port = '5858';
+let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
@@ -154,5 +154,7 @@ export const endPoints: string | any = {
   tareaService: path,
 
   firmaservice: path + "firm/",
-  firma: 'http://localhost:4200/firma/'
+  firma: 'http://localhost:4200/firma/',
+
+  seguimientoid: 5721
 };
