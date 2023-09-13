@@ -169,6 +169,7 @@ export class AliadosListComponent implements OnInit {
             fecha_actualizacion = null;
           }
         this.excel.push({
+          nit: resp['nit'],
           Nombre_o_razón_social: resp['razonSocial'],
           Tipo_de_Persona: resp['tipo_persona'],
           Division: this.getDivision(resp['division']!),

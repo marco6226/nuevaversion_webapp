@@ -338,6 +338,7 @@ export class AnalisisDesviacionComponent implements OnInit {
             if (this.desviacionesList)
                 this.severidad = this.desviacionesList[0].severidad;
             this.severidadFlag = (this.severidad == 'Grave' || this.severidad == 'Mortal') ? true : false;
+            this.disabled = false;
         }, 3000);
         this.usuario = await this.sesionService.getUsuario()!;
         this.idUsuario = this.usuario?.id!

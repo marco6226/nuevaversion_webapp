@@ -53,7 +53,6 @@ export interface TreeNode {
         ComunService, CargoService, UsuarioService, CasosMedicosService, PerfilService, ConfirmService, ConfirmationService]
 })
 export class FormularioScmComponent implements OnInit, OnDestroy {
-
     tabIndex:any
     msgs?: Message[];
     listaPCL: any;
@@ -245,6 +244,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [] };
     anexo6Form?:FormGroup
     nombreSesion?:string
+    seguimientoid:number=6795;
     tipoOptionList: SelectItem[] = [
         { label: "--Seleccione--", value: null },
         { label: "Medico", value: "Medico" },
@@ -458,6 +458,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         });
 
         this.status = this.caseStatus.find(sta => sta.value == this.casoMedicoForm.get("statusCaso")?.value)?.label
+        this.seguimientoid=endPoints.seguimientoid
     }
 
     ngOnDestroy(): void {
