@@ -426,7 +426,7 @@ export class RemisionComponent implements OnInit {
                 ax.firmas=JSON.stringify(this.firmasAnexoLink)
                 setTimeout(() => {
                   this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
-                }, 1000);
+                }, 2000);
               }
             })
           }
@@ -459,7 +459,7 @@ export class RemisionComponent implements OnInit {
                 ax.firmas=JSON.stringify(this.firmasAnexoLink)
                 setTimeout(() => {
                   this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
-                }, 1000);
+                }, 2000);
               }
             })
           }
