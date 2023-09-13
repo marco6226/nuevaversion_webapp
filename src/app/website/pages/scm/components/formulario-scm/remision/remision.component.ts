@@ -402,7 +402,8 @@ export class RemisionComponent implements OnInit {
         let i=0
         if(this.anexo=='5'){
           i=this.firmasAnexo5.length
-          this.firmasAnexo5.forEach(async (resp1:any) => {
+          // this.firmasAnexo5.forEach(async (resp1:any) => {
+          for(const resp1 of this.firmasAnexo5){
             await this.firmaservice.create(firm).then((resp2:any)=>{
               this.firmasAnexoLink.push({id:resp2.id,quienfirma:resp1,link:endPoints.firma+btoa(resp2.id)})
               
@@ -416,18 +417,25 @@ export class RemisionComponent implements OnInit {
                     return 0;
                   });
                 let j=0
-                this.firmasAnexo5.forEach(async (ele:any) => {
+                for(const ele of this.firmasAnexo5){
+                // this.firmasAnexo5.forEach(async (ele:any) => {
                   this.firmasAnexoLink[j].quienfirma=ele
                   j++
-                })
+                }
+                // )
                 ax.firmas=JSON.stringify(this.firmasAnexoLink)
-                this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())}
+                setTimeout(() => {
+                  this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+                }, 1000);
+              }
             })
-          });          
+          }
+          // );          
         }
         if(this.anexo=='1'){
           i=this.firmasAnexo1.length
-          this.firmasAnexo1.forEach(async (resp1:any) => {
+          for(const resp1 of this.firmasAnexo1){
+          // this.firmasAnexo1.forEach(async (resp1:any) => {
             await this.firmaservice.create(firm).then((resp2:any)=>{
               this.firmasAnexoLink.push({id:resp2.id,quienfirma:'',link:endPoints.firma+btoa(resp2.id)})
               
@@ -441,14 +449,21 @@ export class RemisionComponent implements OnInit {
                     return 0;
                   });
                 let j=0
-                this.firmasAnexo1.forEach(async (ele:any) => {
+                for(const ele of this.firmasAnexo1){
+                // this.firmasAnexo1.forEach(async (ele:any) => {
                   this.firmasAnexoLink[j].quienfirma=ele
                   j++
-                })
+                }
+                // )
+
                 ax.firmas=JSON.stringify(this.firmasAnexoLink)
-                this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())}
+                setTimeout(() => {
+                  this.anexoSCM.update(ax).then(ele=> this.cargarAnexo())
+                }, 1000);
+              }
             })
-          });          
+          }
+          // );          
         }
       })
 
