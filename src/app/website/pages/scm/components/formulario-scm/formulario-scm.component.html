@@ -1486,15 +1486,17 @@
                                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-times" (click)="onRowEditCancel(seguimiento, ri)"
                                             class="p-button-rounded p-button-text p-button-danger"></button>
-                                        <button pButton pRipple type="button" pCancelEditableRow
-                                            icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
-                                            title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
-                                        <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
-                                            icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'aprueba')"
-                                            title="Copiar link usuario que aprueba" class="p-button-rounded p-button-text p-mr-2"></button>
-                                        <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
-                                            icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'medico')"
-                                            title="Copiar link medico" class="p-button-rounded p-button-text p-mr-2"></button>
+                                        <ng-container *ngIf="empresaId=='22'">
+                                            <button pButton pRipple type="button" pCancelEditableRow
+                                                icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
+                                                title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
+                                            <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
+                                                icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'aprueba')"
+                                                title="Copiar link usuario que aprueba" class="p-button-rounded p-button-text p-mr-2"></button>
+                                            <button *ngIf="seguimiento.id>5721" pButton pRipple type="button" pCancelEditableRow
+                                                icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'medico')"
+                                                title="Copiar link medico" class="p-button-rounded p-button-text p-mr-2"></button>
+                                        </ng-container>
                                         <ng-container *ngIf="idUltimoSeguimiento==seguimiento.id">
                                             <button *sTienePermiso="'SCM_DEL_CASE_SEG'" [disabled]="consultar2" pButton
                                                 pRipple type="button" pCancelEditableRow icon="pi pi-trash"
