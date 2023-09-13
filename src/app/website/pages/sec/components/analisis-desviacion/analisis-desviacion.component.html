@@ -487,8 +487,8 @@
 
 <div class="loader float-btn" *ngIf="guardando" style="position:absolute; top:340px; left:53%; "></div>
 <ng-container *ngIf="adicionar && !consultar">
-    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-save
-" title="Guardar Análisis" (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled "></button>
+    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-save" 
+title="Guardar Análisis" (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled"></button>
 </ng-container>
 
 <ng-container *ngIf="modificar && !consultar">
