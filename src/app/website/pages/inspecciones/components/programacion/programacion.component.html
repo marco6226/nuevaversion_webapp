@@ -6,7 +6,7 @@
 
 </p-panel>
 
-<form [formGroup]="form">
+<!-- <form [formGroup]="form">
 
   <p-dialog [style]="{width: '50%'}" [(visible)]="visibleDlg" [responsive]="true" [modal]="true" appendTo="body">
 
@@ -98,9 +98,10 @@
 
     </p-footer>
   </p-dialog>
-</form>
+</form> -->
 
-<!-- <s-programacion-evento [esNueva]="adicionar" [loading]="loading" [(visible)]="visibleDlg"
-[listasInspeccion]="listasInspeccionList" [values]="dataEvento"></s-programacion-evento> -->
+<s-programacion-evento [esNueva]="adicionar" [loading]="loading" [(visible)]="visibleDlg" style="width: 50%;"
+[listasInspeccion]="listasInspeccionList" [esNueva]="adicionar" [fechaSelected]="fechaSelected" modulo="INP"
+[(value)]="value" [deshabilitar]="deshabilitarEvento" (onChange)="onChangeProgramacionEvento($event)"></s-programacion-evento>
 
 <!-- <button (click)="test2()">test</button> -->

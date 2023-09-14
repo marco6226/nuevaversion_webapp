@@ -380,7 +380,16 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
     this.paramNav.setParametro<Programacion>(programacion);
     this.paramNav.setAccion<string>('POST');
-    this.paramNav.redirect('/app/ctr/elaboracionAuditoriaCicloCorto/' + this.form?.value?.listaInspeccionPK?.id + "/" + this.form?.value?.listaInspeccionPK?.version);
+    switch(this.modulo){
+      case 'INP':
+        this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones/' + this.form?.value?.listaInspeccionPK?.id + "/" + this.form?.value?.listaInspeccionPK?.version);
+        break;
+      case 'INPCC':
+        this.paramNav.redirect('/app/ctr/elaboracionAuditoriaCicloCorto/' + this.form?.value?.listaInspeccionPK?.id + "/" + this.form?.value?.listaInspeccionPK?.version);
+        break;
+      default: 
+
+    }
   }
 
   eliminarProgramacion() {
