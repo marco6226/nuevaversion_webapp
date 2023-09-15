@@ -242,7 +242,7 @@ export class ProgramacionComponent implements OnInit, AfterViewInit, OnChanges, 
           this.programacionList = objArray;
           // console.log(this.programacionList);
 
-          let userP: any[] = JSON.parse(sessionStorage.getItem('userP') ?? 'null');
+          let userP: any[] = JSON.parse(sessionStorage.getItem('userP') ?? '[]');
           objArray.forEach(element => {
             let matrizData: MatrizList = {
               dia: new Date,

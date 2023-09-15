@@ -160,22 +160,29 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   async onSubmit(){
     this.loading = true;
     if(this.programacionSwitch){
-      let programacionList : Programacion[] = this.getProgramacionList();
-      console.log(programacionList);
+      let programacionList : Programacion[] = [];
+      try {
+        programacionList = this.getProgramacionList();
+      } catch (error) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error as string,
+          key: 'progEvento'
+        });
+      }
+      // console.log(programacionList);
       if(this.modulo === 'INP') {
-        console.log('INP');
+        // console.log('INP');
         if(this.esNueva){
           programacionList.forEach(async (prog: Programacion) => {
             await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), prog);
           });
         }else {
           console.info('Actualizar not found');
-          // programacionList.forEach(async (prog: Programacion) => {
-          //   await this.createOrUpdate(this.programacionService.update.bind(this.programacionService), prog);
-          // });
         }
       } else if(this.modulo === 'INPCC') {
-        console.log('INPCC');
+        // console.log('INPCC');
         // console.log(programacionList);
         if(this.esNueva){
           programacionList.forEach(async (prog: Programacion) => {
@@ -183,9 +190,6 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
           });
         }else {
           console.info('Actualizar not found');
-          // programacionList.forEach(async (prog: Programacion) => {
-          //   await this.createOrUpdate(this.programacionService.updateAuditoria.bind(this.programacionService), prog);
-          // });
         }
       }
     } else {
@@ -245,6 +249,11 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     let programaciones: Programacion[] = [];
     let dates: Date[] = [];
     let currentDate: Date;
+
+    if(this.form?.get('fechaInicio')?.value == null || this.form?.get('fechaFin')?.value == null) throw new Error('Debe proporcionar una fecha inicial y una fecha final.');
+    if(this.form?.get('valorFrecuencia')?.value == null) throw new Error('Debe proporcionar el valor de la frecuencia del evento.');
+    if(this.getUnidadFrecuencia() === null) throw new Error('Debe elegir la unidad de frecuencia del evento.');
+
     switch(this.getUnidadFrecuencia()){
       case 'diario':
         currentDate = new Date(this.form?.get('fechaInicio')?.value);
@@ -261,6 +270,8 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         }
         break;
       case 'semana':
+        if(this.diasSemanaSelected == null || this.diasSemanaSelected?.length == 0) throw new Error('Debe elegir los días de la semana en que se realizará el evento.')
+
         this.diasSemanaSelected?.sort((a, b) => a - b);
         currentDate = new Date(this.form?.get('fechaInicio')?.value);
         // Recorre todos los días hasta la fecha final
@@ -281,6 +292,8 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         break;
       case 'mes':
         if(this.radioBSelected === 'diaSemana'){
+          if(this.diaSelected == null || this.numeroOrdinalSelected == null) throw new Error('Debe elegir el día y la semana en que se programará el evento');
+
           currentDate = new Date(this.form?.get('fechaInicio')?.value);
           // Recorre los meses hasta la fecha final
           currentDate.setDate(1);
@@ -288,13 +301,13 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
             // Se revisa si el día actual corresponde al día de la semana seleccionado;
             if(currentDate.getDay() === this.diaSelected) {
               // Obtenemos el día y la semana seleccionada requerido
-              const newDate = this.getDiaEspecificoDelMes(this.diaSelected, this.numeroOrdinalSelected!, currentDate.getFullYear(), currentDate.getMonth());
+              const newDate = this.getDiaEspecificoDelMes(this.diaSelected, this.numeroOrdinalSelected, currentDate.getFullYear(), currentDate.getMonth());
               // Revisa si la fecha se encuentra entre la fecha inicial y la fecha final
               if(newDate >= this.form?.get('fechaInicio')?.value && newDate <= this.form?.get('fechaFin')?.value) {
                 dates.push(new Date(newDate));
               }
               // Vamos al primero del siguiente mes
-              currentDate.setMonth(currentDate.getMonth() + this.form?.get('valorFrecuencia')?.value);
+              currentDate.setMonth(currentDate.getMonth() + (this.form?.get('valorFrecuencia')?.value ?? 1));
               currentDate.setDate(1);
             } else {
               currentDate.setDate(currentDate.getDate() + 1);
@@ -302,11 +315,11 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
           }
         } else {
           if(!this.inputDia || (this.inputDia > 31 || this.inputDia < 1)) {
-            this.messageService.add({severity: 'error', detail: 'Error', summary: 'Debe diligenciar un día valido'});
-            throw 'Para esta opción debe digitar el día en números';
+            // this.messageService.add({severity: 'error', detail: 'Error', summary: 'Debe diligenciar un día valido'});
+            throw new Error('Debe digitar un día del mes válido');
           }
           currentDate = new Date(this.form?.get('fechaInicio')?.value);
-          currentDate.setDate(this.inputDia);
+          // currentDate.setDate(this.inputDia);
           while(currentDate <= this.form?.get('fechaFin')?.value){
             let diasDelMes: number = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
             if (diasDelMes <= this.inputDia) {
@@ -449,7 +462,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     if(event.value === 'mes') {
       this.radioBSelected = 'dia';
       let date = new Date(this.form?.get('fechaInicio')?.value);
-      console.log( date, this.form?.get('fechaInicio')?.value, date.getDate());
+      // console.log( date, this.form?.get('fechaInicio')?.value, date.getDate());
       this.inputDia = date.getDate();
     } else {
       this.radioBSelected = null;

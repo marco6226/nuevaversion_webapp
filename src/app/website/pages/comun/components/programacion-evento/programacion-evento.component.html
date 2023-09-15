@@ -1,9 +1,9 @@
-<p-toast key="progEvento"></p-toast>
 <form [formGroup]="form">
   <p-dialog [style]="{width: '50%'}" [(visible)]="visible" [responsive]="true" [modal]="true" [maximizable]="true" appendTo="body" (onHide)="hideDialog()">
     <p-header>
       Evento {{!esNueva ? (this.form?.value.fechaInicio | date:'dd/MM/yyyy') : ''}}
     </p-header>
+    <p-toast key="progEvento" appendTo="body" [position]="'center'"></p-toast>
     <!-- Formulario ciclo corto -->
     <div *ngIf="loading" style="width: 100%;margin-bottom: 5px;">
       <p-progressBar mode="indeterminate" [style]="{height: '5px'}"></p-progressBar>
