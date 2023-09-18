@@ -51,7 +51,7 @@ export class SubcontratistasComponent implements OnInit {
   selectedSubcontratista!: Subcontratista | null;
   displayDialog: boolean = false;
   dialogCarta: boolean = false;
-  modulo: String = Modulo.EMP.value;
+  modulo: String = Modulo.EMPRESA.value;
   directoriosSubcontratistas: any = {};
   documentosSubcontratistas: any = {};
   contratistasFlag: boolean=true;
