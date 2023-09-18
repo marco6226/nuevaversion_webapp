@@ -32,7 +32,7 @@ export class CargueDocumentosComponent implements OnInit {
   visibleDlgCertificadoARL: boolean = false;
   visibleDlgLicenciaSST: boolean = false;
   visibleDlgCertiExterna: boolean = false;
-  modulo: String = Modulo.EMP.value;
+  modulo: String = Modulo.EMPRESA.value;
   documentosList!: any[];
   fechaActual = new Date();
   yearRange: string = "1900:" + this.fechaActual.getFullYear();

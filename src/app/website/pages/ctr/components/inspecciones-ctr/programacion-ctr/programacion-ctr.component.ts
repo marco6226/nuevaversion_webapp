@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -29,7 +29,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
   styleUrls: ['./programacion-ctr.component.scss'],
   providers: [EmpresaService]
 })
-export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewInit {
+export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
   localeES: any = locale_es;
   anioSelect!: number;
@@ -146,7 +146,7 @@ export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewIni
     }
 
     // lISTAS DE INSPECCIONES DISPONIBLES AQUÍ
-    this.loadListaDeInspecciones();
+    await this.loadListaDeInspecciones();
 
     this.form.controls['area'].disabled;
     await this.loadLocalidades();
@@ -167,6 +167,10 @@ export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+  }
+
+  ngOnDestroy(): void {
+    sessionStorage.removeItem('userP');
   }
 
   ngAfterViewInit(): void {
@@ -198,6 +202,7 @@ export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewIni
               {field: 'usuarioEmpresaList.usuario.id', criteria: Criteria.EQUALS, value1: user.usuario.id, value2: null}
             ]
             let userP: any = await this.userService.findByFilter(userFilterQuery);
+            sessionStorage.setItem('userP', JSON.stringify(userP.data));
 
             userP.data.forEach((profile: any) => {
               let perfilArray = JSON.parse(obj.fkPerfilId);
@@ -271,7 +276,8 @@ export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewIni
       filterQuery.fieldList = [
         'id',
         'fecha',
-        // 'listaInspeccion_listaInspeccionPK',
+        'listaInspeccion_listaInspeccionPK',
+        'listaInspeccion_fkPerfilId',
         'numeroInspecciones',
         'numeroRealizadas',
         'localidad',
@@ -296,6 +302,7 @@ export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewIni
       this.progLoading = true;
       this.events = [];
       this.event = {} as EventInput;
+      let userP: any[] = JSON.parse(sessionStorage.getItem('userP') ?? '[]');
       try {
         this.programacionService.findAuditoriasWithFilter(filterQuery)
           .then((data: any) => {
@@ -318,6 +325,16 @@ export class ProgramacionCtrComponent implements OnInit, OnChanges, AfterViewIni
                 programacionList: []
               }
               // debugger
+              let perfilesLista: number[] = JSON.parse(element?.listaInspeccion?.fkPerfilId ?? '[]') ?? [];
+              let tienePermiso: boolean = false;
+              for(let pr of userP){
+                if(perfilesLista.includes(pr.id)){
+                  tienePermiso = true;
+                  break;
+                }
+              }
+              if(!tienePermiso) return;
+
               this.matriz?.push(matrizData);
   
               var _color = '#007AD9';

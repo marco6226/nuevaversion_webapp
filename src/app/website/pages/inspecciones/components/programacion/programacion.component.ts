@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
@@ -18,13 +18,14 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import { PrimeNGConfig } from 'primeng/api';
 import { CalendarOptions, EventSourceInput } from '@fullcalendar/core';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
   selector: 'app-programacion',
   templateUrl: './programacion.component.html',
   styleUrls: ['./programacion.component.scss']
 })
-export class ProgramacionComponent implements OnInit {
+export class ProgramacionComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
   localeES: any = locale_es;
   anioSelect!: number;
@@ -61,6 +62,11 @@ export class ProgramacionComponent implements OnInit {
     { label: 'Mes(es)', value: 'mes' },
   ];
 
+  fechaSelected: Date | null = null;
+  value: string | null = null;
+  deshabilitarEvento: boolean = false;
+  @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent | undefined;
+
   constructor(
     private sesionService: SesionService,
     private userService: PerfilService,
@@ -69,7 +75,8 @@ export class ProgramacionComponent implements OnInit {
     private listaInspeccionService: ListaInspeccionService,
     private fb: FormBuilder,
     private messageService: MessageService,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       id: null,
@@ -86,7 +93,7 @@ export class ProgramacionComponent implements OnInit {
   async ngOnInit() {
     this.config.setTranslation(this.localeES);
     this.calendarOptions = {
-      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, ],
       initialDate: new Date(),
       locale: esLocale,
       dateClick: this.openDlg.bind(this),
@@ -101,17 +108,48 @@ export class ProgramacionComponent implements OnInit {
       selectable: true,
       selectMirror: true,
       dayMaxEvents: true,
-      displayEventTime: false
+      displayEventTime: false,
+      firstDay: 0
     };
 
-
-    let permiso = this.sesionService.getPermisosMap()['INP_PUT_PROG'];
-    // // let empresa = this.sesionService.getEmpresa();     
-
-    if (permiso != null && permiso.valido == true) {
-      this.permiso = true;
+    this.areasPerm = this.sesionService.getPermisosMap()['INP_GET_PROG'].areas;
+    
+    try {
+      this.loadListasInspeccion().then(() => {
+        try {
+          this.actualizarEventos();
+        } catch (error) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al cargar eventos.'
+          });
+        }
+      }).catch((e) => {
+        throw new Error(e)
+      });
+    } catch (e) {
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al cargar listas de inspección.'});
     }
+  }
 
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+    
+    // console.log(this.calendarComponent);
+    this.calendarComponent?.getApi().on('datesSet', () => {
+      // console.log('upev');
+      this.actualizarEventos();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {}
+
+  ngOnDestroy(): void {
+    sessionStorage.removeItem('userP');
+  }
+
+  async loadListasInspeccion(){
     let user: any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();
 
@@ -126,77 +164,69 @@ export class ProgramacionComponent implements OnInit {
     const userP = await this.userService.findByFilter(filterQuery);
 
     let userParray: any = userP;
-
-    this.areasPerm = this.sesionService.getPermisosMap()['INP_GET_PROG'].areas;
-
+    sessionStorage.setItem('userP', JSON.stringify(userParray.data));
     filterQuery = new FilterQuery();
     filterQuery.filterList = [{
       field: 'estado',
-      criteria: Criteria.NOT_EQUALS,
-      value1: 'inactivo',
+      criteria: Criteria.EQUALS,
+      value1: 'activo',
       value2: null
     }];
 
-    this.listaInspeccionService.findByFilter(filterQuery).then(
-      (resp: any) => {
-        this.listaInspeccionList = [];
-        resp.data.forEach((dto: any) => {
-          let obj = FilterQuery.dtoToObject(dto)
-          obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
-
-          try {
-            userParray.data.forEach((profile: any) => {
-              let perfilArray = JSON.parse(obj.fkPerfilId)
-
-              if (perfilArray.find((x: any) => x == profile.id) != undefined) {
-                if (!this.listaInspeccionList.find(element => element == obj)) {
-                  this.listaInspeccionList.push(obj);
-                  this.listasInspeccionList.push({ label: obj.codigo + ' - ' + obj.nombre + ' v' + obj.listaInspeccionPK.version, value: obj.listaInspeccionPK });
-
-                }
+    this.listaInspeccionService.findByFilter(filterQuery).then((resp: any) => {
+      this.listaInspeccionList = [];
+      resp.data.forEach((dto: any) => {
+        let obj = FilterQuery.dtoToObject(dto)
+        obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
+        try {
+          userParray.data.forEach((profile: any) => {
+            let perfilArray = JSON.parse(obj.fkPerfilId)
+            if (perfilArray.find((x: any) => x == profile.id) != undefined) {
+              if (!this.listaInspeccionList.find(element => element == obj)) {
+                this.listaInspeccionList.push(obj);
+                this.listasInspeccionList.push({ label: obj.codigo + ' - ' + obj.nombre + ' v' + obj.listaInspeccionPK.version, value: obj.listaInspeccionPK });
               }
-
-            });
-
-          }
-          catch (error) {
-
-          }
-        });
-
+            }
+          });
+        }
+        catch (error) {
+        }
       });
-
-    let fechaActual = new Date();
-
-    // await this.actualizarFecha(fechaActual.getFullYear(), fechaActual.getMonth());
-
-    this.form.controls['area'].disabled
-
-    await this.actualizarEventos();
-
+    });
   }
 
-  async actualizarEventos() {
+  actualizarEventos() {
+    return new Promise((resolve, reject) => {
+      let filterQuery = new FilterQuery();
 
-    let filterQuery = new FilterQuery();
+      filterQuery.filterList = [
+        { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm }
+      ];
 
-    filterQuery.filterList = [
-      { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm }
-    ];
+      filterQuery.fieldList = [
+        'id',
+        'fecha',
+        'listaInspeccion_listaInspeccionPK',
+        'listaInspeccion_fkPerfilId',
+        'area_id',
+        'area_nombre',
+        'numeroInspecciones',
+        'numeroRealizadas'
+      ];
 
-    filterQuery.fieldList = [
-      'id',
-      'fecha',
-      'listaInspeccion_listaInspeccionPK',
-      'area_id',
-      'area_nombre',
-      'numeroInspecciones',
-      'numeroRealizadas'
-    ];
+      if(this.calendarComponent) {
+        let calendarData =  this.calendarComponent.getApi().getCurrentData();
+        filterQuery.filterList.push({
+          criteria: Criteria.BETWEEN,
+          field: 'fecha',
+          value1: calendarData.getCurrentData().dateProfile.renderRange.start.toISOString(),
+          value2: calendarData.getCurrentData().dateProfile.renderRange.end.toISOString()
+        });
+      }
 
-    this.progLoading = true;
-    try {
-      this.programacionService.findByFilter(filterQuery)
+      this.progLoading = true;
+      try {
+        this.programacionService.findByFilter(filterQuery)
         .then((data: any) => {
 
           let array = <any[]>data['data'];
@@ -210,12 +240,25 @@ export class ProgramacionComponent implements OnInit {
           this.events = [];
 
           this.programacionList = objArray;
+          // console.log(this.programacionList);
 
+          let userP: any[] = JSON.parse(sessionStorage.getItem('userP') ?? '[]');
           objArray.forEach(element => {
             let matrizData: MatrizList = {
               dia: new Date,
               programacionList: []
             }
+
+            let perfilLista: number[] = JSON.parse(element?.listaInspeccion?.fkPerfilId ?? '[]') ?? [];
+            // console.log(userP);
+            let tienePermiso: boolean = false;
+            for(let pr of userP){
+              if(perfilLista.includes(pr.id)){
+                tienePermiso = true;
+                break;
+              }
+            }
+            if(!tienePermiso) return;
             // debugger
             this.matriz?.push(matrizData);
 
@@ -234,28 +277,17 @@ export class ProgramacionComponent implements OnInit {
             this.events.push(this.event)
           });
 
-
           this.progLoading = false;
+          resolve(this.events);
         })
         .catch(err => {
           this.progLoading = false;
+          reject(err);
         });
-    } catch (error) {
-    }
-
-
-
-
-
-    this.event = {
-      id: 0,
-      title: '',
-      start: new Date('1/1/1990'),
-      description: ''
-    }
-
-    this.events = []
-    this.events.push(this.event)
+      } catch (error) {
+        reject(error);
+      }
+    })
   }
 
 
@@ -264,24 +296,11 @@ export class ProgramacionComponent implements OnInit {
   }
 
   openProg(prog: any) {
-    this.visibleDlg = true;
     this.actualizar = true;
     this.adicionar = false;
-    this.fechaSelect = prog.fecha;
-    this.form.patchValue({
-      id: prog.id,
-      numeroInspecciones: prog.numeroInspecciones,
-      listaInspeccionPK: prog.listaInspeccion.listaInspeccionPK,
-      area: prog.area
-    });
-    this.btnInspDisable = prog.numeroRealizadas == prog.numeroInspecciones;
-    if (prog.numeroRealizadas > 0) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
-
-    if (!this.permiso) this.form.disable();
+    this.value = prog.id.toString().toLowerCase();
+    this.deshabilitarEvento = prog.numeroInspecciones == prog.numeroRealizadas;
+    this.visibleDlg = true;
   }
 
   openProg2(prog: Programacion) {
@@ -309,15 +328,8 @@ export class ProgramacionComponent implements OnInit {
     this.visibleDlg = true;
     this.actualizar = false;
     this.adicionar = true;
-    this.fechaSelect = event.date;
-    this.form.reset();
-    this.form.enable();
-    this.form.patchValue({
-      fechaHasta: this.fechaSelect,
-      unidadFrecuencia: 'diario',
-      valorFrecuencia: 1,
-      semana: this.semanaLaboral
-    });
+    this.deshabilitarEvento = false;
+    this.fechaSelected = event.date;
     // this.actualizarEventos();
   }
 
@@ -508,7 +520,15 @@ export class ProgramacionComponent implements OnInit {
     this.openProg(this.programacionList.find((x) => x.id == event.event.id)!);
   }
 
-
+  onChangeProgramacionEvento(event: boolean) {
+    if(event) {
+      this.actualizarEventos()
+      .then(() => {})
+      .catch(() => {
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'No fue posible cargar los eventos.'});
+      });
+    }
+  }
 }
 
 

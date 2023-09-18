@@ -53,7 +53,7 @@
     
             <div class="col-9 col-offset-1 mid-border">
                 <div class="flex-pieGraf grid">
-                    <div class="flex-pieGraf col-12 md:col-4 lg:col-4"><p class="p-m-0">Area : </p> <area-selector  *ngIf="show" ngDefaultControl [(ngModel)]="areaSelected" (onAreaSelect)="actualizarArea($event)"   ></area-selector></div>
+                    <div class="flex-pieGraf col-12 md:col-4 lg:col-4"><p class="p-m-0">Area : </p> <area-selector  *ngIf="show" ngDefaultControl [(ngModel)]="areaSelected" (onAreaSelected)="areaSelected = $event" (onAreaSelect)="actualizarArea($event)"   ></area-selector></div>
                     <div class="flex-pieGraf col-12 md:col-4 lg:col-4">  
                       <i style="font-size:24px" class="pi pi-calendar ">&#xf073;</i>   
                       <p-calendar (onSelect)="selecFromDate($event)" dateFormat="dd/mm/yy" value="this.desde"   placeholder="Desde" appendTo="body" ngDefaultControl [(ngModel)]="this.desde"  > </p-calendar> 
