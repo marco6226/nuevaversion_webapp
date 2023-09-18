@@ -202,27 +202,51 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       
   }
 
-  actualizarArea(areas:any) {
-      this.arrayIds = [];
+  getListaAreasRecursivo(area: any): any[]{
+    let lista: any[] = [{id: area.id, label: area.label, descripcion: area.descripcion}]
+    if(area.children && area.children.length > 0) {
+      area.children.forEach((child: any) => {
+        lista = lista.concat(this.getListaAreasRecursivo(child));
+      })
+    }
+    return lista;
+  }
 
-      for (const area of areas) {
-          this.arrayIds.push(area.id)
+  actualizarArea(areas: any) {
+
+    if(!Array.isArray(areas)){
+      if(areas.id == undefined){
+        this.loadAreas();
+        return;
       }
-    //  this.testing = false;
-      this.updateCharts();
-      this.updateCharts2();
-      this.updateCharts3();
-      this.updateCharts4();
-      this.updateCharts5();
-      this.updateCharts6();
-      this.cumplimientoinp();
-      this.cumplimientoAT();
-      this.cumplimientoauc();
-      setTimeout(() => {
-          this.testing = true;
-      }, 1000);
 
-      
+      areas = Array.from(this.getListaAreasRecursivo(this.areaSelected));
+    }
+    
+    this.arrayIds = [];
+
+    for (const area of areas) {
+      if(typeof area == 'number'){
+        // this.arrayIds.push(area);
+      }else {
+        this.arrayIds.push(area.id);
+      }
+    }
+    //  this.testing = false;
+    this.updateCharts();
+    this.updateCharts2();
+    this.updateCharts3();
+    this.updateCharts4();
+    this.updateCharts5();
+    this.updateCharts6();
+    this.cumplimientoinp();
+    this.cumplimientoAT();
+    this.cumplimientoauc();
+    setTimeout(() => {
+      this.testing = true;
+    }, 1000);
+
+
 
   }
 
@@ -496,7 +520,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
               };
               let areasArry: any = data;
 
-
               for (const nivel1 of areasArry.data) {
                   this.arrayIds.push(nivel1)
 
@@ -507,7 +530,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                   }
 
               }
-
 
               let areasArray = [];
 

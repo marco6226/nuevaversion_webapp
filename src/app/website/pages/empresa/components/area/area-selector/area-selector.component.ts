@@ -32,6 +32,8 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
   @Output() onAreaSelect = new EventEmitter();
   @Output() onDivision = new EventEmitter();
 
+  @Output() onAreaSelected = new EventEmitter<any[]>();
+
   areaSelected: any;
 
   niveles: number = 1;
@@ -174,6 +176,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
       area.nombre = this.areaSelected.label;
       area.descripcion = this.areaSelected.descripcion;
       this.value = area;
+      this.onAreaSelected.emit(this.areaSelected);
       this.onAreaSelect.emit(area);
       this.closeDialog();
 
