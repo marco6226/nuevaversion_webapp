@@ -200,10 +200,11 @@ export class ElaboracionInspeccionesComponent implements OnInit {
                     this.programacion = this.inspeccion.programacion;
                     this.listaInspeccion = this.programacion == null ? this.inspeccion.listaInspeccion : this.inspeccion.programacion.listaInspeccion;
                     if(this.listaInspeccion?.tipoLista!='Ergonomía'){
-                        this.observacion = this.inspeccion.observacion;}
-                        else{
-                            this.observacion1=JSON.parse(this.inspeccion.observacion)[0]
-                            this.observacion2=JSON.parse(this.inspeccion.observacion)[1]}
+                        this.observacion = this.inspeccion.observacion;
+                    } else {
+                        this.observacion1=JSON.parse(this.inspeccion?.observacion ?? '[null, null]')[0]
+                        this.observacion2=JSON.parse(this.inspeccion?.observacion ?? '[null, null]')[1]
+                    }
                     this.area = this.programacion == null ? this.inspeccion.area : this.inspeccion.programacion.area;
                     this.getTareaEvidences(parseInt(this.listaInspeccion.listaInspeccionPK.id), this.listaInspeccion.listaInspeccionPK.version);
                     setTimeout(() => {
