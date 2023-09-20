@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    
     this.version = this.sesionService.getAppVersion();
 
     if (this.sesionService.getEmpresa() != null && this.sesionService.getUsuario() != null) {
@@ -87,7 +88,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   async validate(value: any) {
     let res: any;
     try {
-      await this.authService.checkisLoginExist(value.username, value.passwd);
       res = await this.authService.checkisLoginExist(value.username, value.passwd);
 
 
@@ -101,6 +101,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         }
     } catch (error: any) {
         if (error.status === 400) res = { exit: "false" }
+        location.reload();
     }
   }
 
