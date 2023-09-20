@@ -8,4 +8,5 @@ export class ProcesoMatriz {
   empresa?: Empresa;
   areaMatriz?:AreaMatriz
   estado?:string;
+  eliminado?:boolean;
 }

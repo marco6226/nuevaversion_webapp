@@ -5,8 +5,10 @@ import { ProcesoMatriz } from "./Proceso-matriz";
 import { SubprocesoMatriz } from "./Subproceso-matriz.ts";
 
 
-export class MatrizPeligros {
-  id?: Number;
+export class MatrizPeligrosLog {
+  id?: Number | null;
+  idriesgo?: Number;
+  accion?:String;
   generalInf?: string;
   peligro?: string;
   controlesexistentes?:string;
@@ -18,6 +20,8 @@ export class MatrizPeligros {
   plantas?:Plantas;
   empresa?:Empresa;
   fechaCreacion?:Date | null;
+  fechaEdicion?:Date | null;
   eliminado?: Boolean;
   idEdicion?:Number;
+  usuario?:string;
 }

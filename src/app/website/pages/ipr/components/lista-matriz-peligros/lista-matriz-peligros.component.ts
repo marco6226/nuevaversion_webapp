@@ -10,6 +10,13 @@ import { AreaService } from '../../../empresa/services/area.service';
 import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 import { Router } from '@angular/router';
 import { ParametroNavegacionService } from '../../../core/services/parametro-navegacion.service';
+import { MatrizPeligrosLogService } from '../../../core/services/matriz-peligros-log.service';
+import { MatrizPeligrosLog } from '../../../comun/entities/Matriz-peligros-log';
+
+interface Column {
+  field: string;
+  header: string;
+}
 
 @Component({
   selector: 'app-lista-matriz-peligros',
@@ -18,7 +25,10 @@ import { ParametroNavegacionService } from '../../../core/services/parametro-nav
 })
 export class ListaMatrizPeligrosComponent  implements OnInit {
   matrizPList: MatrizPeligros[] = [];
+  matrizPListT: MatrizPeligros[] = [];
   matrizSelect!: MatrizPeligros;
+
+  matricesSelect!: MatrizPeligros[];
 
   formCreacionMatriz!:FormGroup;
 
@@ -27,6 +37,13 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   area:SelectItem[] =[]
   areaMatrizItemList?: SelectItem[];
 
+  matrizPList2:any;
+  peligroSelect:any[]=[]
+
+  historicoList:any
+
+  flagtreeTable:boolean=false
+
   constructor( 
     private fb: FormBuilder,
     private matrizPeligrosService: MatrizPeligrosService,
@@ -34,6 +51,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     private areaService: AreaService,
     private areaMatrizService: AreaMatrizService,
     private paramNav: ParametroNavegacionService,
+    private matrizPeligrosLogService: MatrizPeligrosLogService,
     private router: Router,
   ) { 
     this.formCreacionMatriz = this.fb.group({
@@ -46,8 +64,30 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   async ngOnInit() {
     this.cargarDatos()
   }
+  cols!: Column[];
+  filterMode = 'lenient';
+
+  cols2!: Column[];
 
   cargarDatos(){
+    this.cols = [
+      { field: 'id', header: 'Id' },
+      { field: 'fechaCreacion', header: 'Fecha de creación' },
+      { field: 'area', header: 'Área' },
+      { field: 'proceso', header: 'Proceso' },
+      { field: 'subProceso', header: 'Subproceso' },
+      { field: 'peligro', header: 'Peligro' },
+      { field: 'descripcionPeligro', header: 'Descripción de peligros' },
+      { field: 'NRCualitativo', header: 'Nivel de riesgo (Cualitativo)' },
+      { field: 'estadoPlanAccion', header: 'Plan de acción' },
+    ];
+    this.cols2 = [
+      { field: 'id', header: 'Id' },
+      { field: 'fechaActualizacion', header: 'Fecha actualización' },
+      { field: 'usuario', header: 'Usuario' },
+      { field: 'evento', header: 'Evento/variable' },
+      { field: 'descripcion', header: 'Descripción' },
+    ];
     this.getArea()
   }
 
@@ -102,33 +142,95 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   }
 
   async cargarRegistrosMatriz(){
-    
-
+    this.flagtreeTable=false
     let filterMatriz = new FilterQuery();
     filterMatriz.sortField = "id";
     filterMatriz.sortOrder = -1;
     this.matrizPList=[]
-    this.formCreacionMatriz.value.area.forEach(async (ele:any) => {
+    this.matrizPListT=[]
+    for (const ele of this.formCreacionMatriz.value.area) {
       filterMatriz.filterList = [{ field: 'area.id', criteria: Criteria.EQUALS, value1: ele.id}];
-    
       let matrizPList:MatrizPeligros[]=[];
-      await this.matrizPeligrosService.getmpRWithFilter( filterMatriz).then((resp:any)=>{
+      let matrizPList2:any[]=[];
+      await this.matrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
         matrizPList = (<MatrizPeligros[]>resp.data).map(matriz => matriz);
         matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
         matrizPList.map(resp=>resp.controlesexistentes=JSON.parse(resp.controlesexistentes!))
         matrizPList.map(resp=>resp.generalInf=JSON.parse(resp.generalInf!))
         matrizPList.map(resp=>resp.peligro=JSON.parse(resp.peligro!))
         matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
+        // matrizPList.map(resp=>resp.planAccion=(JSON.parse(resp.planAccion!).length>0)?'Con plan de Acción':'Sin plan de acción')
         matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
+        matrizPList2=new Array(matrizPList)
+        for(const [i,v] of matrizPList.entries()){
+          let valor:any=v
+          matrizPList2[0][i].estadoPlanAccion=(valor.planAccion.length>0)?'Con plan de Acción':'Sin plan de acción'
+        }
       }).catch(er=>console.log(er))
-      if(matrizPList.length>0)this.matrizPList=this.matrizPList.concat(matrizPList);
-      console.log(matrizPList)
-    });
 
+      if(matrizPList2[0].length>0)this.matrizPList=this.matrizPList.concat(matrizPList2[0]);
+    }
+
+    let filterMatriz2 = new FilterQuery();
+    filterMatriz2.sortField = "id";
+    filterMatriz2.sortOrder = -1;
+    this.matrizPList2=[]
+    let idEdicion:any=[]
+    // this.matrizPList.forEach(async (ele:any) => {
+    for(const ele of this.matrizPList){
+      this.flagtreeTable=false
+      let findEdicion=idEdicion.find((fnd:any)=>fnd==ele.idEdicion)
+      if(!findEdicion){
+        idEdicion.push(ele.idEdicion)
+        filterMatriz2.filterList = [{ field: 'idEdicion', criteria: Criteria.EQUALS, value1: ele.idEdicion?.toString()}];
+        let matrizPList:MatrizPeligros[]=[];
+        let matrizPList2:any[]=[]
+        let matrizPList_:any[]=[];
+        await this.matrizPeligrosService.getmpRWithFilter(filterMatriz2).then((resp:any)=>{
+          matrizPList = (<MatrizPeligros[]>resp.data).map(matriz => matriz);
+          matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+          matrizPList.map(resp=>resp.controlesexistentes=JSON.parse(resp.controlesexistentes!))
+          matrizPList.map(resp=>resp.generalInf=JSON.parse(resp.generalInf!))
+          matrizPList.map(resp=>resp.peligro=JSON.parse(resp.peligro!))
+          matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
+          matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
+
+          // for(let element of matrizPList){
+          matrizPList.forEach((element:any) => {
+            matrizPList2.push({
+              id:element.id,
+              fechaCreacion:element.fechaCreacion,
+              area:element?.area?.nombre,
+              proceso:element?.proceso?.nombre,
+              subProceso:element?.subProceso?.nombre,
+              peligro:element?.peligro?.Peligro?.nombre,
+              descripcionPeligro:element?.peligro?.DescripcionPeligro?.nombre,
+              NRCualitativo:element?.valoracionRiesgoInicial?.NRCualitativo,
+              planAccion:element?.planAccion,
+              estadoPlanAccion:(element?.planAccion>0)?'Con plan de Acción':'Sin plan de acción'
+            })
+          })
+
+          if(matrizPList.length>0)this.matrizPListT=this.matrizPListT.concat(matrizPList);
+
+        }).catch(er=>console.log(er))
+        
+        let padre=matrizPList2[0]
+        matrizPList2.shift();
+        for(const ele of matrizPList2){
+        // matrizPList2.forEach(ele=>{
+          matrizPList_.push({data:ele})
+        }
+        this.matrizPList2.push({data:padre,children:matrizPList_})
+      }else{
+        // this.matrizPList2.push({data:ele,children:[]})
+      }
+      this.flagtreeTable=true
+    }
     
   }
 
-  CRUDMatriz(CRUD:string){
+  CRUDMatriz(CRUD:string,tipo:string){
 
     switch (CRUD) {
       case 'PUT':
@@ -137,11 +239,17 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         this.router.navigate(['/app/ipr/matrizPeligros'])
       break;
         case 'POST':
-          this.paramNav.setParametro<MatrizPeligros>(this.matrizSelect);
+          if(tipo=='ALONE'){
+          this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
+          }else{
+            this.paramNav.setParametro<MatrizPeligros[]>(this.matricesSelect)
+          }
           this.paramNav.setAccion<string>('POST');
+          this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
+
           this.router.navigate(['/app/ipr/matrizPeligros'])
         break;
-      case 'DELETE':
+      case 'GET':
         
         break;
     
@@ -151,8 +259,89 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
   }
 
-  test(){
-    console.log(this.formCreacionMatriz.value.area)
+  matricSelect(){
+    this.matricesSelect=[]
+    for(const ele of this.peligroSelect){
+      let mp:any
+      mp=this.matrizPListT.find(resp=>resp.id==ele.id)
+      this.matricesSelect.push(mp)
+    }
   }
 
+
+  ///------------------Historico------------//
+  async historicoCargar(){
+    let filterHistorico = new FilterQuery();
+    filterHistorico.sortField = "id";
+    filterHistorico.sortOrder = -1;
+    filterHistorico.filterList = [{ field: 'idriesgo', criteria: Criteria.EQUALS, value1: this.matrizSelect?.id!.toString()}];
+    let matrizPList:MatrizPeligrosLog[]=[];
+    await this.matrizPeligrosLogService.getmpRWithFilter(filterHistorico).then((resp:any)=>{
+      matrizPList = (<MatrizPeligrosLog[]>resp.data).map(matriz => matriz);
+      matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+      matrizPList.map(resp=>resp.controlesexistentes=JSON.parse(resp.controlesexistentes!))
+      matrizPList.map(resp=>resp.generalInf=JSON.parse(resp.generalInf!))
+      matrizPList.map(resp=>resp.peligro=JSON.parse(resp.peligro!))
+      matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
+      matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
+      console.log(matrizPList)
+      this.historicoList=[]
+      for(const [i,ele] of matrizPList.entries()){
+        if(i>0){
+          const diferencias = this.encontrarDiferencias(matrizPList[i-1], ele);
+          console.log("Diferencias"+i, diferencias);
+          // console.log("Diferencias en array2:", diferencias[1]);
+        }else{
+          let objeto1 = new MatrizPeligrosLog()
+          objeto1.id=undefined
+          objeto1.idriesgo=undefined
+          objeto1.accion=undefined
+          objeto1.generalInf=undefined
+          objeto1.peligro=undefined
+          objeto1.controlesexistentes=undefined
+          objeto1.valoracionRiesgoInicial=undefined
+          objeto1.planAccion=undefined
+          objeto1.area=undefined
+          objeto1.proceso=undefined
+          objeto1.subProceso=undefined
+          objeto1.plantas=undefined
+          objeto1.empresa=undefined
+          objeto1.fechaCreacion=undefined
+          objeto1.fechaEdicion=undefined
+          objeto1.eliminado=undefined
+          objeto1.idEdicion=undefined
+          objeto1.usuario=undefined
+          const diferencias = this.encontrarDiferencias(objeto1, ele);
+          console.log("Diferencias"+i, diferencias);
+        }
+      }
+    })
+  }
+  encontrarDiferencias(objeto1:any, objeto2:any) {
+    const clavesObjeto1 = Object.keys(objeto1);
+    const clavesObjeto2 = Object.keys(objeto2);
+  
+    const diferencias:any = {};
+
+    for (const clave of clavesObjeto1) {
+      if (!clavesObjeto2.includes(clave)) {
+       
+      } else if (objeto1[clave] !== objeto2[clave]) {
+
+        if(typeof objeto1[clave] =='object' ){
+          const clavesObjeto3 = Object.keys(objeto1[clave]);
+     
+          for (const clave2 of clavesObjeto3){
+            if (objeto1[clave][clave2] !== objeto2[clave][clave2]) {
+              diferencias[clave2] = objeto2[clave][clave2]
+            }
+          }
+        }else{
+          diferencias[clave] = objeto2[clave];
+        }
+      }
+    }
+  
+    return diferencias;
+  }
 }

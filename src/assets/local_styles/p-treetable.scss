@@ -1,13 +1,13 @@
-.p-datatable{
+.p-treetable{
     // width: 1px;
     border-radius: 50% !important;
 }
 
-// .p-datatable-footer	{
+// .p-treetable-footer	{
     // background: lightskyblue !important;
 // }
 
-// .p-datatable-header	{
+// .p-treetable-header	{
 //     background: blue;
 //     font-weight: bold;
 //     background: lightskyblue ;
@@ -24,20 +24,19 @@
 
 }
 
-.p-datatable-thead{
+.p-treetable-thead{
     background: red;
     font-weight: bold;
     background: lightskyblue ;
 }
 
-.p-datatable .p-datatable-thead > tr > th{
+.p-treetable .p-treetable-thead > tr > th{
     font-weight: bold;
     // background: lightskyblue ;
     background: rgb(243, 188, 86) ;
     // background: linear-gradient(to right, orange, rgb(248, 203, 121))
 }
-
-.p-datatable .p-datatable-tbody > tr{
+.p-treetable .p-treetable-tbody > tr{
     font-size: 14px;
     color: #09294b;
 }
