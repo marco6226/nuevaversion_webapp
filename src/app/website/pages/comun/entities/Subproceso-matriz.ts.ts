@@ -6,4 +6,5 @@ export class SubprocesoMatriz {
   nombre?: string;
   procesoMatriz?: ProcesoMatriz;
   estado?:string;
+  eliminado?:boolean;
 }

@@ -216,7 +216,7 @@ import { SliderModule } from 'primeng/slider';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ProgramacionEventoComponent } from './pages/comun/components/programacion-evento/programacion-evento.component';
 import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matriz-peligros/lista-matriz-peligros.component';
-
+import { GridModule, EditService } from '@syncfusion/ej2-angular-grids';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -397,6 +397,7 @@ import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matri
     ListaMatrizPeligrosComponent,
   ],
   imports: [
+    GridModule,
     MatTooltipModule,
     ChartModule,
     NgxChartsModule,
@@ -453,7 +454,8 @@ import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matri
     DirectorioService,
     UsuarioService,
     CapitalizePipe,
-    AuthGuardService
+    AuthGuardService,
+    EditService 
   ],
   exports:[
     ConfiguracionGeneralDirective,

@@ -154,7 +154,7 @@
                 &nbsp;
             </div>
             <div class="col-12 ">
-                Institución hacia donde se remite:
+                Especialidad medica:
             </div>
             <div class="col-6 ">
                 <p-dropdown [filter]="true" appendTo="body" [options]="instituto" formControlName="instituto"></p-dropdown>
@@ -228,52 +228,55 @@
                 Ajustes: 
             </div>
             <div class="col-3">
-                <p-radioButton name="ajustesIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="ajustesIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <p-radioButton (onClick)="visualDescripcion('flagAjustes')" name="ajustesIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="ajustesIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
                 <label for="">Sí</label>
-                <p-radioButton name="ajustesIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="ajustesIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <p-radioButton  (onClick)="visualDescripcion('flagAjustes')"name="ajustesIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="ajustesIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
                 <label for="">No</label>
             </div>
-            <div class="col-12 " *ngIf="anexo1Form!.value.ajustesIf==1">
+            <!-- <div class="col-12 " *ngIf="anexo1Form!.value.ajustesIf==1"> -->
+            <div class="col-12 " id="flagAjustes">
                 Descripción:&nbsp; <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
-                required formControlName="ajustes" [readonly]="flagConsultarAnexo1"></textarea>
+                [required]="this.anexo1Form?.value.ajustesIf" formControlName="ajustes" [readonly]="flagConsultarAnexo1"></textarea>
             </div>
-            <div class="col-8 " *ngIf="anexo1Form!.value.ajustesIf==0">
+            <!-- <div class="col-8 " *ngIf="anexo1Form!.value.ajustesIf==0">
                 &nbsp;
-            </div>
+            </div> -->
 
             <div class="col-12" style="display: flex;">
                 Cambio puesto trabajo: 
             </div>
             <div class="col-3">
-                <p-radioButton  appendTo="body" name="cambiopuestotrabajoIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="cambiopuestotrabajoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <p-radioButton   (onClick)="visualDescripcion('flagCambioPuesto')" appendTo="body" name="cambiopuestotrabajoIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="cambiopuestotrabajoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
                 <label for="">Sí</label>
-                <p-radioButton  appendTo="body" name="cambiopuestotrabajoIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="cambiopuestotrabajoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <p-radioButton (onClick)="visualDescripcion('flagCambioPuesto')" appendTo="body" name="cambiopuestotrabajoIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="cambiopuestotrabajoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
                 <label for="">No</label>
             </div>
-            <div class="col-12 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==1">
+            <!-- <div class="col-12 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==1"> -->
+            <div class="col-12 " id="flagCambioPuesto">
                 Descripción:&nbsp; <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
-                required formControlName="cambiopuestotrabajo" [readonly]="flagConsultarAnexo1"></textarea>
+                [required]="this.anexo1Form?.value.cambiopuestotrabajoIf" formControlName="cambiopuestotrabajo" [readonly]="flagConsultarAnexo1"></textarea>
             </div>
-            <div class="col-8 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==0">
+            <!-- <div class="col-8 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==0">
                 &nbsp;
-            </div>
+            </div> -->
 
             <div class="col-12" style="display: flex;">
                 Requiere entrenamiento: 
             </div>
             <div class="col-3">
-                <p-radioButton name="requiereentrenamientoIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="requiereentrenamientoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <p-radioButton (onClick)="visualDescripcion('flagEntrenamiento')" name="requiereentrenamientoIf" [value]="1" [style]="{'margin-left':'15px'}" formControlName="requiereentrenamientoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
                 <label for="">Sí</label>
-                <p-radioButton name="requiereentrenamientoIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="requiereentrenamientoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
+                <p-radioButton  (onClick)="visualDescripcion('flagEntrenamiento')"name="requiereentrenamientoIf" [value]="0" [style]="{'margin-left':'15px'}" formControlName="requiereentrenamientoIf" [disabled]="flagConsultarAnexo1"></p-radioButton>
                 <label for="">No</label>
             </div>
-            <div class="col-12 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==1">
+            <!-- <div class="col-12 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==1"> -->
+            <div class="col-12 " id="flagEntrenamiento">
                 Descripción:&nbsp;  <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
-                required formControlName="requiereentrenamiento" [readonly]="flagConsultarAnexo1"></textarea>
+                [required]="this.anexo1Form?.value.requiereentrenamientoIf" formControlName="requiereentrenamiento" [readonly]="flagConsultarAnexo1"></textarea>
             </div>
-            <div class="col-8 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==0">
+            <!-- <div class="col-8 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==0">
                 &nbsp;
-            </div>
+            </div> -->
 
             <div class="col-12" style="display: flex;">
                 Observaciones: 

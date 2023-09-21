@@ -194,6 +194,10 @@ export class RemisionComponent implements OnInit {
   firmasAnexoLink:any=[]
   nombreSesion!:string
   async ngOnInit(): Promise<void> {
+    // document.getElementById("flagAjustes")!.style.display = "block";
+    // document.getElementById("flagCambioPuesto")!.style.display = "block";
+    // document.getElementById("flagEntrenamiento")!.style.display = "block";
+
     this.config.setTranslation(this.localeES);
     this.idEmpresa=Number(this.sesionService.getEmpresa()?.id!)
     this.loadLocalidades()
@@ -723,7 +727,34 @@ export class RemisionComponent implements OnInit {
       this.msgs.push({ severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
     }
     navigator.clipboard.writeText(firmas.link)
-    
+  }
+
+  visualDescripcion(key:string){
+    switch (key) {
+      case 'flagAjustes':
+        if(this.anexo1Form?.value.ajustesIf){
+          document.getElementById("flagAjustes")!.style.display = "block";
+        }else{
+          document.getElementById("flagAjustes")!.style.display = "none";
+        }
+      break;
+      case 'flagCambioPuesto':
+        if(this.anexo1Form?.value.cambiopuestotrabajoIf){
+          document.getElementById("flagCambioPuesto")!.style.display = "block";
+        }else{
+          document.getElementById("flagCambioPuesto")!.style.display = "none";
+        }
+        break;
+      case 'flagEntrenamiento':
+        if(this.anexo1Form?.value.requiereentrenamientoIf){
+          document.getElementById("flagEntrenamiento")!.style.display = "block";
+        }else{
+          document.getElementById("flagEntrenamiento")!.style.display = "none";
+        }
+        break;
+      default:
+        break;
+    }
 
   }
 }
