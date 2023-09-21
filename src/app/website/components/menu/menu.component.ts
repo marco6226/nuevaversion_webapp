@@ -183,7 +183,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'IPECR',
-            icon: 'pi pi-money-bill',
+            icon: 'pi pi-exclamation-triangle',
             codigo: 'IPECR',
             expanded: false,
             items:
@@ -192,7 +192,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     // { label: 'Elaboración IPECR', codigo: 'IPECR_ELABIPECR', routerLink: ['/app/ipr/formularioIpecr'], icon: 'bi bi-info-circle'},
                     // { label: 'Consulta IPECR', codigo: 'IPECR_GET_IPECR', routerLink: ['/app/ipr/consultaIpecr'], icon: 'bi bi-list-task'},
                     { label: 'Registro matriz peligros', codigo: 'IPECR_GET_MATRIZPELIGROS', routerLink: ['/app/ipr/matrizPeligros'], icon: 'bi bi-pencil-square'},
-                    { label: 'Listado matriz peligros', codigo: 'IPECR_GET_LISTMPELIGROS', routerLink: ['/app/ipr/listadomatrizPeligros'], icon: 'bi bi-card-list'},
+                    { label: 'Matrices peligros', codigo: 'IPECR_GET_LISTMPELIGROS', routerLink: ['/app/ipr/listadomatrizPeligros'], icon: 'pi pi-table'},
                 ]
         },
         {
