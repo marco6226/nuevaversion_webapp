@@ -86,11 +86,11 @@
           <p> <b> Eventos AT </b></p>
           <div class="col-12  align-items-center" style="height: 10cm;">
             <div>
-              <p-radioButton name="group10"  [value]="0"   (onClick)="reiniciarVariableFechaEventosAt()" [style]="{'margin-left': '15px'}"></p-radioButton>
+              <p-radioButton name="group10"  [value]="0" [(ngModel)]="radioGra0" (onClick)="reiniciarVariableFechaEventosAt()"       [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Total</label>
-              <p-radioButton name="group10"  [value]="1"  (onClick)="reiniciarVariableFechaEventosAt('temp')" [style]="{'margin-left': '15px'}"></p-radioButton>
+              <p-radioButton name="group10"  [value]="1" [(ngModel)]="radioGra0" (onClick)="reiniciarVariableFechaEventosAt('temp')" [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Temporales</label>
-              <p-radioButton name="group10"  [value]="2"  (onClick)="reiniciarVariableFechaEventosAt('dir')" [style]="{'margin-left': '15px'}"></p-radioButton>
+              <p-radioButton name="group10"  [value]="2" [(ngModel)]="radioGra0" (onClick)="reiniciarVariableFechaEventosAt('dir')"   [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Directos</label>
             </div>
             <ngx-charts-advanced-pie-chart
@@ -120,11 +120,11 @@
           <p><b>Días perdidos</b></p></div>
           <div class="col-12  align-items-center" style="height: 10cm;">
             <div>
-              <p-radioButton name="group11"  [value]="0"   (onClick)="reiniciarVariableFechaDiasPerdidos()" [style]="{'margin-left': '15px'}"></p-radioButton>
+              <p-radioButton name="group11"  [value]="0" [(ngModel)]="radioGra1"  (onClick)="reiniciarVariableFechaDiasPerdidos()" [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Total</label>
-              <p-radioButton name="group11"  [value]="1"  (onClick)="reiniciarVariableFechaDiasPerdidos('temp')" [style]="{'margin-left': '15px'}"></p-radioButton>
+              <p-radioButton name="group11"  [value]="1" [(ngModel)]="radioGra1" (onClick)="reiniciarVariableFechaDiasPerdidos('temp')" [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Temporales</label>
-              <p-radioButton name="group11"  [value]="2"  (onClick)="reiniciarVariableFechaDiasPerdidos('dir')" [style]="{'margin-left': '15px'}"></p-radioButton>
+              <p-radioButton name="group11"  [value]="2" [(ngModel)]="radioGra1" (onClick)="reiniciarVariableFechaDiasPerdidos('dir')" [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Directos</label>
             </div>
             <ngx-charts-advanced-pie-chart
@@ -182,11 +182,11 @@
         </div>
 
         <div class="col-12 align-items-center">
-          <p-radioButton name="group12"  [value]="0"   (onClick)="getTasas_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="0"   (onClick)="getTasas_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
           <label for="">Total</label>
-          <p-radioButton name="group12"  [value]="1"  (onClick)="getTasas_1('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="1"  (onClick)="getTasas_1('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
           <label for="">Temporales</label>
-          <p-radioButton name="group12"  [value]="2"  (onClick)="getTasas_1('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="2"  (onClick)="getTasas_1('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
           <label for="">Directos</label>
         </div>
 
@@ -266,11 +266,11 @@
         </b></p>
       </div>
         <div class="col-12  align-items-center">
-          <p-radioButton name="group13"  [value]="0" (onClick)="getTasas_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="0" (onClick)="getTasas_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
           <label for="">Total</label>
-          <p-radioButton name="group13"  [value]="1" (onClick)="getTasas_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="1" (onClick)="getTasas_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
           <label for="">Temporales</label>
-          <p-radioButton name="group13"  [value]="2" (onClick)="getTasas_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="2" (onClick)="getTasas_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
           <label for="">Directos</label>
         </div>
 
