@@ -80,7 +80,12 @@
     
                         </div>
                     </td>
-                    
+                    <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
+                        <div class="ui-inputgroup">
+                            
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')">
+                        </div>
+                    </td>                    
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
@@ -153,16 +158,12 @@
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoCaso','contains')">
                         </div>
                     </td>
+                    
+                   
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
                             <input pInputText type="text" (input)="dt.filter($event.target.value, 'region', 'contains')">
-                        </div>
-                    </td>
-                    <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
-                        <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
