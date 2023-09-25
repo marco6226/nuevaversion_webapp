@@ -1002,7 +1002,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                     detail: `Empleado con  identificación  ${empleado.numeroIdentificacion} fue actualizado`,
                 });
                 this.solicitando = false;
-                window.location.reload()
+                // if(){window.location.reload()}
             })
             .catch(err => {
                 this.solicitando = false;
