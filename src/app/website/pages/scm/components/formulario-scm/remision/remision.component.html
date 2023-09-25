@@ -234,9 +234,9 @@
                 <label for="">No</label>
             </div>
             <!-- <div class="col-12 " *ngIf="anexo1Form!.value.ajustesIf==1"> -->
-            <div class="col-12 " id="flagAjustes">
+            <div class="col-12 " id="flagAjustes" style="display: none;">
                 Descripción:&nbsp; <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
-                [required]="this.anexo1Form?.value.ajustesIf" formControlName="ajustes" [readonly]="flagConsultarAnexo1"></textarea>
+                [required]="this.anexo1Form?.value.ajustesIf==1" formControlName="ajustes" [readonly]="flagConsultarAnexo1"></textarea>
             </div>
             <!-- <div class="col-8 " *ngIf="anexo1Form!.value.ajustesIf==0">
                 &nbsp;
@@ -252,9 +252,9 @@
                 <label for="">No</label>
             </div>
             <!-- <div class="col-12 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==1"> -->
-            <div class="col-12 " id="flagCambioPuesto">
+            <div class="col-12 " id="flagCambioPuesto" style="display: none;">
                 Descripción:&nbsp; <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
-                [required]="this.anexo1Form?.value.cambiopuestotrabajoIf" formControlName="cambiopuestotrabajo" [readonly]="flagConsultarAnexo1"></textarea>
+                [required]="this.anexo1Form?.value.cambiopuestotrabajoIf==1" formControlName="cambiopuestotrabajo" [readonly]="flagConsultarAnexo1"></textarea>
             </div>
             <!-- <div class="col-8 " *ngIf="anexo1Form!.value.cambiopuestotrabajoIf==0">
                 &nbsp;
@@ -270,9 +270,9 @@
                 <label for="">No</label>
             </div>
             <!-- <div class="col-12 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==1"> -->
-            <div class="col-12 " id="flagEntrenamiento">
+            <div class="col-12 " id="flagEntrenamiento" style="display: none;">
                 Descripción:&nbsp;  <textarea style="width: 100%;" maxlength="5000" pInputTextarea 
-                [required]="this.anexo1Form?.value.requiereentrenamientoIf" formControlName="requiereentrenamiento" [readonly]="flagConsultarAnexo1"></textarea>
+                [required]="this.anexo1Form?.value.requiereentrenamientoIf==1" formControlName="requiereentrenamiento" [readonly]="flagConsultarAnexo1"></textarea>
             </div>
             <!-- <div class="col-8 " *ngIf="anexo1Form!.value.requiereentrenamientoIf==0">
                 &nbsp;

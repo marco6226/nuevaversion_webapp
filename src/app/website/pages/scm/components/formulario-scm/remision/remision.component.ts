@@ -134,12 +134,12 @@ export class RemisionComponent implements OnInit {
       'jefe': [null],
       'cargo': [null],
       'recomendaciones': [null],
-      'ajustesIf':[null],
+      'ajustesIf':[0],
       'ajustes': [null],
       'cambiopuestotrabajo': [null],
-      'cambiopuestotrabajoIf': [null],
+      'cambiopuestotrabajoIf': [0],
       'requiereentrenamiento': [null],
-      'requiereentrenamientoIf': [null],
+      'requiereentrenamientoIf': [0],
       'observaciones': [null],
       'proximoseguimiento': [null],
       'fechainicial': [null],
@@ -531,6 +531,9 @@ export class RemisionComponent implements OnInit {
           'recomendaciones': this.recomendationList.length>0?this.recomendationList[0].recomendaciones:null,
           'fechainicial': this.recomendationList.length>0?new Date(this.recomendationList[0].fechaInicio):null,
           'fechafinal': this.recomendationList.length>0?new Date(this.recomendationList[0].fechaExpiracion):null,
+          'ajustesIf':0,
+          'cambiopuestotrabajoIf':0,
+          'requiereentrenamientoIf':0,
           'nombrecomercial':this.empleadoSelect?.empresa,
           'nit' : this.empleadoSelect?.nit
         })
@@ -736,6 +739,7 @@ export class RemisionComponent implements OnInit {
           document.getElementById("flagAjustes")!.style.display = "block";
         }else{
           document.getElementById("flagAjustes")!.style.display = "none";
+          this.anexo1Form?.patchValue({ajustes:null})
         }
       break;
       case 'flagCambioPuesto':
@@ -743,6 +747,7 @@ export class RemisionComponent implements OnInit {
           document.getElementById("flagCambioPuesto")!.style.display = "block";
         }else{
           document.getElementById("flagCambioPuesto")!.style.display = "none";
+          this.anexo1Form?.patchValue({cambiopuestotrabajo:null})
         }
         break;
       case 'flagEntrenamiento':
@@ -750,6 +755,7 @@ export class RemisionComponent implements OnInit {
           document.getElementById("flagEntrenamiento")!.style.display = "block";
         }else{
           document.getElementById("flagEntrenamiento")!.style.display = "none";
+          this.anexo1Form?.patchValue({requiereentrenamiento:null})
         }
         break;
       default:
