@@ -1386,8 +1386,9 @@
                                     <td colspan="3">
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
-                                                <input [readOnly]="consultar2" pInputText type="text"
-                                                    [(ngModel)]="seguimiento.seguimiento">
+                                                <!-- <input [readOnly]="consultar2" pInputText type="text"
+                                                    [(ngModel)]="seguimiento.seguimiento"> -->
+                                                <textarea [readOnly]="consultar2" rows="3" style="width: 200px;"  [(ngModel)]="seguimiento.seguimiento"></textarea>
                                             </ng-template>
                                             <ng-template pTemplate="output">
                                                 {{seguimiento.seguimiento}}
