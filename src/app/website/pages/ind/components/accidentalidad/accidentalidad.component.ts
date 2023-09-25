@@ -182,7 +182,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectEventos2: any[] = [];
   mesesILI2: string[] = [];
   Indicadores: any[] = [{label: 'Tasa de Frecuencia', value: 0}, {label: 'Tasa de Severidad', value: 1}, {label: 'Proporción AT mortal', value: 2}];
-  Eventos: any[] = [{label: 'Numero AT', value: 0}, {label: 'Numero días perdidos', value: 1}, {label: 'Numero AT mortales', value: 2}, {label: 'Numero AT con cero días', value: 3}];
+  Eventos: any[] = [{label: 'Número total de AT', value: 0}, {label: 'Número de AT con días perdidos', value: 4}, {label: 'Numero de días perdidos', value: 1}, {label: 'Numero de AT mortales', value: 2}, {label: 'Numero de AT con cero días', value: 3}];
   dataEventos1?: any[];
   evento1Desde: Date | null = null;
   evento1Hasta: Date | null = null;
@@ -1234,6 +1234,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       };
       
       let numAtTotal = 0;
+      let numATConDiasPerdidosTotal = 0;
       let diasPerdidosTotal = 0;
       let atMortalesTotales = 0;
       let atCeroDiasTotales = 0;
@@ -1264,10 +1265,13 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           }
           return false;
         }).length;
+        let numATConDiasPerdidos = numeroAt - atCeroDias;
+
         numAtTotal += numeroAt;
         diasPerdidosTotal += diasPerdidos;
         atMortalesTotales += atMortales;
         atCeroDiasTotales += atCeroDias;
+        numATConDiasPerdidosTotal += numATConDiasPerdidos;
 
         data.series.push({
           name: this.Eventos[0].label,
@@ -1275,14 +1279,18 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         });
         data.series.push({
           name: this.Eventos[1].label,
+          value: numATConDiasPerdidos
+        })
+        data.series.push({
+          name: this.Eventos[2].label,
           value: diasPerdidos
         });
         data.series.push({
-          name: this.Eventos[2].label,
+          name: this.Eventos[3].label,
           value: atMortales
         });
         data.series.push({
-          name: this.Eventos[3].label,
+          name: this.Eventos[4].label,
           value: atCeroDias
         });
 
@@ -1300,14 +1308,18 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       });
       dataTotal.series.push({
         name: this.Eventos[1].label,
-        value: diasPerdidosTotal
+        value: numATConDiasPerdidosTotal
       });
       dataTotal.series.push({
         name: this.Eventos[2].label,
-        value: atMortalesTotales
+        value: diasPerdidosTotal
       });
       dataTotal.series.push({
         name: this.Eventos[3].label,
+        value: atMortalesTotales
+      });
+      dataTotal.series.push({
+        name: this.Eventos[4].label,
         value: atCeroDiasTotales
       });
 
@@ -1384,6 +1396,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           }
           return false;
         }).length;
+        let numATConDiasPerdidos = numeroAt - atCeroDias;
         
         data.series.push({
           name: this.Eventos[0].label,
@@ -1391,14 +1404,18 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         });
         data.series.push({
           name: this.Eventos[1].label,
-          value: diasPerdidos
+          value: numATConDiasPerdidos
         });
         data.series.push({
           name: this.Eventos[2].label,
-          value: atMortales
+          value: diasPerdidos
         });
         data.series.push({
           name: this.Eventos[3].label,
+          value: atMortales
+        });
+        data.series.push({
+          name: this.Eventos[4].label,
           value: atCeroDias
         });
         
