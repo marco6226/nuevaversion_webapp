@@ -39,8 +39,19 @@
 
 .p-datatable .p-datatable-tbody > tr{
     font-size: 14px;
-    color: #09294b;
+    // color: #09294b;
 }
 
 // font-weight: bold;
 //     background: lightskyblue;
+
+.filter-input{
+    width: 100%;
+}
+
+.table-column{
+    display: flex;
+    // p{
+    //     width: 10vw;
+    // }
+}

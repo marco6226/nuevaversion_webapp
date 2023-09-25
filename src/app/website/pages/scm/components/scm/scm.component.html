@@ -2,160 +2,240 @@
 
 <div class="shadow">
     <p-panel styleClass="material-panel">
-        <p-header >
+        <p-header>
             Casos médicos
         </p-header>
 
-        <button *sTienePermiso="'SCM_GET_INFO'" pButton type="button" (click)="visibleDlgInforme=true" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button>
-    
-        <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [loading]="loading" [(selection)]="caseSelect" [value]="casosList" [paginator]="true" [rows]="10" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" sortField="fechaCreacion" sortOrder="1"
-            [totalRecords]="totalRecords" (onFilter)="onFilter($event)">
+        <button *sTienePermiso="'SCM_GET_INFO'" pButton type="button" (click)="visibleDlgInforme=true"
+            title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button>
+
+        <p-table #dt styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [loading]="loading"
+            [(selection)]="caseSelect" [value]="casosList" [paginator]="true" [rows]="10" dataKey="id" [lazy]="true"
+            (onLazyLoad)="lazyLoad($event)" sortField="id" sortOrder="1" [totalRecords]="totalRecords"
+            (onFilter)="onFilter($event)">
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th pSortableColumn="id">#CASO
-                        <p-sortIcon field="id"></p-sortIcon>
+                    <th pSortableColumn="id">
+                        <div class="table-column">
+                            <div>#CASO</div>
+                            <p-sortIcon field="id"></p-sortIcon>
+                        </div>
                     </th>
-                    <th pSortableColumn="id">Fecha de apertura
-                        <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                    <th pSortableColumn="fechaCreacion">
+                        <div class="table-column">
+
+                            <div>Fecha de apertura</div>
+                            <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="region" *ngIf="idEmpresa!='22'">Regional
-                        <p-sortIcon field="region"></p-sortIcon>
+                    <th pSortableColumn="region" *ngIf="idEmpresa!='22'">
+                        <div class="table-column">
+                            <div>Regional</div>
+                            <p-sortIcon field="region"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="nombrePadre" *ngIf="idEmpresa=='22'">División/Unidad
-                        <p-sortIcon field="nombrePadre"></p-sortIcon>
+                    <th pSortableColumn="nombrePadre" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>División/Unidad</div>
+                            <p-sortIcon field="nombrePadre"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="ciudad" *ngIf="idEmpresa!='22'">Ciudad
-                        <p-sortIcon field="ciudad"></p-sortIcon>
+                    <th pSortableColumn="ciudad" *ngIf="idEmpresa!='22'">
+                        <div class="table-column">
+                            <div>Ciudad</div>
+                            <p-sortIcon field="ciudad"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="region" *ngIf="idEmpresa=='22'">Ubicación
-                        <p-sortIcon field="region"></p-sortIcon>
+                    <th pSortableColumn="region" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>Ubicación</div>
+                            <p-sortIcon field="region"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="pkUser">Apellido
-                        <p-sortIcon field="pkUser"></p-sortIcon>
+                    <th pSortableColumn="pkUser">
+                        <div class="table-column">
+                            <div>Apellido</div>
+                            <p-sortIcon field="pkUser"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="pkUser">Nombre
-                        <p-sortIcon field="pkUser"></p-sortIcon>
+                    <th pSortableColumn="pkUser">
+                        <div class="table-column">
+                            <div>Nombre</div>
+                            <p-sortIcon field="pkUser"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="documento">Documento
-                        <p-sortIcon field="documento"></p-sortIcon>
+                    <th pSortableColumn="documento">
+                        <div class="table-column">
+                            <div>Documento</div>
+                            <p-sortIcon field="documento"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="statusCaso">Estado de caso
-                        <p-sortIcon field="statusCaso"></p-sortIcon>
+                    <th pSortableColumn="statusCaso">
+                        <div class="table-column">
+                            <div>Estado de caso</div>
+                            <p-sortIcon field="statusCaso"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="casoMedicoLaboral" *ngIf="idEmpresa!='22'">Caso de mesa laboral
-                        <p-sortIcon field="casoMedicoLaboral"></p-sortIcon>
+                    <th pSortableColumn="casoMedicoLaboral" *ngIf="idEmpresa!='22'">
+                        <div class="table-column">
+                            <div>Caso de mesa laboral</div>
+                            <p-sortIcon field="casoMedicoLaboral"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="diagnostico" *ngIf="idEmpresa=='22'">Diagnostico
-                        <p-sortIcon field="diagnostico"></p-sortIcon>
+                    <th pSortableColumn="diagnostico" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>Diagnostico</div>
+                            <p-sortIcon field="diagnostico"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="prioridadCaso">Prioridad
-                        <p-sortIcon field="prioridadCaso"></p-sortIcon>
+                    <th pSortableColumn="prioridadCaso">
+                        <div class="table-column">
+                            <div>Prioridad</div>
+                            <p-sortIcon field="prioridadCaso"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="tipoCaso">Tipo de caso
-                        <p-sortIcon field="tipoCaso"></p-sortIcon>
+                    <th pSortableColumn="tipoCaso">
+                        <div class="table-column">
+                            <div>Tipo de caso</div>
+                            <p-sortIcon field="tipoCaso"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="tipoReporte" *ngIf="idEmpresa=='22'">Tipo de retorno
-                        <p-sortIcon field="tipoReporte"></p-sortIcon>
+                    <th pSortableColumn="tipoReporte" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>Tipo de retorno</div>
+                            <p-sortIcon field="tipoReporte"></p-sortIcon>
+                        </div>
+
                     </th>
-                    <th pSortableColumn="proximoseguimiento">Proximo seguimiento
-                        <p-sortIcon field="proximoseguimiento"></p-sortIcon>
+                    <th pSortableColumn="proximoseguimiento">
+                        <div class="table-column">
+                            <div>Proximo seguimiento</div>
+                            <p-sortIcon field="proximoseguimiento"></p-sortIcon>
+                        </div>
+
                     </th>
                 </tr>
                 <tr class="filters">
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                            <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                                                    
+
                             <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
-                            </s-rangoFechaSelector>                      
-    
+                            </s-rangoFechaSelector>
+
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'region', 'contains')">
+
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'region', 'contains')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'pkUser.area.padreNombre')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value,'pkUser.area.padreNombre')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'ciudad', 'contains')">
+
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'ciudad', 'contains')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')">
+
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerApellido')"> -->
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerApellido')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'pkUser.primerApellido')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerNombre')"> -->
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerNombre')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'pkUser.primerNombre')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'documento', 'contains')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'documento', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter(DecodificacionEstado($event.target.value), 'statusCaso', 'contains')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter(DecodificacionEstado($event.target.value), 'statusCaso', 'contains')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
-                            <input pInputText type="text" (input)="dt.filter(DecodificacionSiNo($event.target.value), 'casoMedicoLaboral', 'contains')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter(DecodificacionSiNo($event.target.value), 'casoMedicoLaboral', 'contains')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'diagnostico', 'contains')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'diagnostico', 'contains')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'prioridadCaso','contains')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'prioridadCaso','contains')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoCaso','contains')">
+
+                            <input pInputText type="text"
+                                (input)="dt.filter($event.target.value, 'tipoCaso','contains')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
-                            
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoReporte')">
+
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoReporte')"
+                                class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
@@ -167,7 +247,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-case>
-    
+
                 <tr [pSelectableRow]="case" class="table-row table-row-selectable">
                     <td class="p-text-center">{{case.id}}</td>
                     <td class="p-text-center">{{case.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
@@ -181,9 +261,11 @@
                     <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.pkUser.primerNombre}} </td>
                     <td class="p-text-center">{{case.documento}}</td>
                     <td class="p-text-center">{{case.statusCaso == 1 ? 'Abierto' : 'Cerrado'}}</td>
-                    <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.casoMedicoLaboral == 1 ? 'Si' :case.casoMedicoLaboral == 2 ? 'En seguimiento':case.casoMedicoLaboral == 3 ?'No aplica':case.casoMedicoLaboral == 0 ?'No':''}}</td>
+                    <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.casoMedicoLaboral == 1 ? 'Si'
+                        :case.casoMedicoLaboral == 2 ? 'En seguimiento':case.casoMedicoLaboral == 3 ?'No
+                        aplica':case.casoMedicoLaboral == 0 ?'No':''}}</td>
                     <td class="p-text-center" *ngIf="idEmpresa=='22'">{{case.diagnostico}}</td>
-                    <!-- <td class="p-text-center">{{case.casoMedicoLaboral == 1 ? 'Si' : 'No'}}</td> -->                
+                    <!-- <td class="p-text-center">{{case.casoMedicoLaboral == 1 ? 'Si' : 'No'}}</td> -->
                     <td class="p-text-center status" [ngClass]="{
                         'status--danger': case.prioridadCaso === 'Alta' , 
                         'status--success': case.prioridadCaso === 'Baja',
@@ -203,64 +285,52 @@
                 <!--  <button *sTienePermiso="'ADM_DELETE_USR'" pButton type="button" icon="pi pi-trash" label="Eliminar" class="p-button-danger"
                 (click)="eliminar()" [disabled]="!usuarioSelect"></button>-->
                 <div class="d-flex justify-content-center">
-                    <div class="btn-group" role="group">                
-                      <button *sTienePermiso="'SCM_CREATE_CASE'" 
-                        class="p-button-raised p-button-primary margin-right" 
-                        pButton type="button" 
-                        icon="bi bi-plus" 
-                        label="Adicionar" [routerLink]="['/app/scm/creacion']"></button>
-                      <button *sTienePermiso="'SCM_PUT_CASE'" 
-                        class="p-button-raised p-button-success margin-right margin-left" 
-                        pButton type="button" 
-                        icon="bi bi-pencil" 
-                        label="Modificar"
-                        (click)="openCase()" 
-                        [disabled]="!caseSelect"></button>
-                      <button *sTienePermiso="'SCM_LIST_CASE'" 
-                        pButton type="button" 
-                        icon="bi bi-search" 
-                        label="Consultar" 
-                        style="color: var(--white)"
-                        class="p-button-raised p-button-warning margin-right margin-left"
-                        (click)="openCaseConsultar()" 
-                        [disabled]="!caseSelect"></button>
+                    <div class="btn-group" role="group">
+                        <button *sTienePermiso="'SCM_CREATE_CASE'" class="p-button-raised p-button-primary margin-right"
+                            pButton type="button" icon="bi bi-plus" label="Adicionar"
+                            [routerLink]="['/app/scm/creacion']"></button>
+                        <button *sTienePermiso="'SCM_PUT_CASE'"
+                            class="p-button-raised p-button-success margin-right margin-left" pButton type="button"
+                            icon="bi bi-pencil" label="Modificar" (click)="openCase()"
+                            [disabled]="!caseSelect"></button>
+                        <button *sTienePermiso="'SCM_LIST_CASE'" pButton type="button" icon="bi bi-search"
+                            label="Consultar" style="color: var(--white)"
+                            class="p-button-raised p-button-warning margin-right margin-left"
+                            (click)="openCaseConsultar()" ></button>
                     </div>
-                </div>           
+                </div>
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="9" class="p-text-center">No hay registro de casos médicos o con los términos de filtro usados
+                    <td colspan="9" class="p-text-center">No hay registro de casos médicos o con los términos de filtro
+                        usados
                     </td>
                 </tr>
             </ng-template>
         </p-table>
-    
-    
+
+
     </p-panel>
 </div>
 
 <p-dialog header="Informe Casos Medicos" [(visible)]="visibleDlgInforme" [style]="{width: '40%', height: '35%'}">
-    
-    <div >
+
+    <div>
         Seleccione el rango de fechas en el que desea el informe
     </div>
     <br>
-    <div >
-        <p-calendar 
-        [(ngModel)]="rangeDatesInforme"
-        dateFormat="dd/MM/yyyy"
-        selectionMode="range"
-        (onSelect)="habilitarindSCM()"
-        (onClearClick)="onResetDate()"
-        placeholder="Seleccione un rango"
-        appendTo="body"
-        showButtonBar="true">
-        <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
+    <div>
+        <p-calendar [(ngModel)]="rangeDatesInforme" dateFormat="dd/MM/yyyy" selectionMode="range"
+            (onSelect)="habilitarindSCM()" (onClearClick)="onResetDate()" placeholder="Seleccione un rango"
+            appendTo="body" showButtonBar="true">
+            <p-header style="text-align: center;">
+                <h5>Seleccione un rango</h5>
+            </p-header>
         </p-calendar>
     </div>
     <p-footer>
         <button pButton type="button" (click)="exportexcel()" label="Descargar" [disabled]="flagInforme"></button>
         <button pButton type="button" (click)="cerrarDialogo()" class="p-button-secondary" label="Cancelar"></button>
     </p-footer>
-    
-  </p-dialog>
+
+</p-dialog>
