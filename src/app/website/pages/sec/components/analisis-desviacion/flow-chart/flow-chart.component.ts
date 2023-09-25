@@ -360,15 +360,16 @@ export class FlowChartComponent {
   }
 
   loadFC(){
-    let y = JSON.parse(this.dataFlowChart?.flow_chart!).nodes;
-
-    y.forEach((element:any) => {
-        if (element.id.includes('factor')) {
-            this.listFC.push({id:this.listFC.length+1, nombre:element.annotations[0].content});
-        }
-       
-    });
-
+      let y = JSON.parse(this.dataFlowChart?.flow_chart).nodes;
+  
+      for(const element of y){
+      // y.forEach((element:any) => {
+          if (element.id.includes('factor')) {
+              this.listFC.push({id:this.listFC.length+1, nombre:element.annotations[0].content});
+          }
+         
+      }
+      // );
   }
   saveDiagram(){
     this.diagramSave.emit(this.diagram?.saveDiagram())

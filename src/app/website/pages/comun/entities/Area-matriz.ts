@@ -8,4 +8,5 @@ export class AreaMatriz {
   empresaId?: Empresa;
   plantas?:Plantas;
   estado?:string;
+  eliminado?:boolean;
 }

@@ -33,8 +33,17 @@ p-header {
   .left-button {
     margin-right: 10px; /* Espacio entre el botón y el texto */
   }
-.TexareaClass{
-// background-color: #c8c8c8;
-// width: 100%;
-//   float: left
-}
+
+  /* Estilos para evitar que los eventos lleguen a los elementos subyacentes */
+  .overlay-content * {
+    pointer-events:none;//all
+  }
+
+  .overlay * {
+    pointer-events:all;//all
+  }
+
+  :host ::ng-deep 
+    .p-toast{
+        margin-top: 50px;
+    }

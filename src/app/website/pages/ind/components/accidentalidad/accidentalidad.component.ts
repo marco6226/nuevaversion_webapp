@@ -267,6 +267,11 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   filterMemoryTasas_1?:string;
   filterMemoryTasas_2?:String;
+
+  radioGra0:number=0
+  radioGra1:number=0
+  radioGra2:number=0
+  radioGra3:number=0
   
 
   constructor(

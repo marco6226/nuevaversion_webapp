@@ -183,7 +183,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         },
         {
             label: 'IPECR',
-            icon: 'pi pi-money-bill',
+            icon: 'pi pi-exclamation-triangle',
             codigo: 'IPECR',
             expanded: false,
             items:
@@ -192,7 +192,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     // { label: 'Elaboración IPECR', codigo: 'IPECR_ELABIPECR', routerLink: ['/app/ipr/formularioIpecr'], icon: 'bi bi-info-circle'},
                     // { label: 'Consulta IPECR', codigo: 'IPECR_GET_IPECR', routerLink: ['/app/ipr/consultaIpecr'], icon: 'bi bi-list-task'},
                     { label: 'Registro matriz peligros', codigo: 'IPECR_GET_MATRIZPELIGROS', routerLink: ['/app/ipr/matrizPeligros'], icon: 'bi bi-pencil-square'},
-                    { label: 'Listado matriz peligros', codigo: 'IPECR_GET_LISTMPELIGROS', routerLink: ['/app/ipr/listadomatrizPeligros'], icon: 'bi bi-card-list'},
+                    { label: 'Matrices peligros', codigo: 'IPECR_GET_LISTMPELIGROS', routerLink: ['/app/ipr/listadomatrizPeligros'], icon: 'pi pi-table'},
                 ]
         },
         {
@@ -282,8 +282,8 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     { label: 'Reporte de accidentes', codigo: 'IND_GET_RAI', routerLink: ['/app/ind/rai'], icon: 'pi pi-sitemap'},
                     { label: 'Inspecciones', codigo: 'IND_GET_INP', routerLink: ['/app/ind/inp'], icon: 'pi pi-sitemap'},
                     { label: 'Accidentalidad', codigo: 'IND_GET_ACD', routerLink: ['/app/ind/accidentalidad'], icon: 'pi pi-exclamation-triangle' },
-                    { label: 'Ind. casos medicos corporativo', codigo: 'IND_GET_SCM', routerLink: ['/app/ind/indcasosmedicos'], icon: 'pi pi-heart' },
-                    { label: 'Ind. casos medicos gestión', codigo: 'IND_GET_SCMGESTION', routerLink: ['/app/ind/indcasosmedicosgestion'], icon: 'pi pi-heart' },
+                    { label: 'Ind. casos medicos corporativo', codigo: 'IND_GET_SCM', routerLink: ['/app/ind/indcasosmedicos'], icon: 'bi bi-building-check' },
+                    { label: 'Ind. casos medicos gestión', codigo: 'IND_GET_SCMGESTION', routerLink: ['/app/ind/indcasosmedicosgestion'], icon: 'bi bi-bounding-box' },
                     { label: 'Ind. caracterización', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indcaracterizacion'], icon: 'pi pi-list' }
                 ]
         },

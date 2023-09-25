@@ -1000,12 +1000,16 @@ export class AnalisisDesviacionComponent implements OnInit {
             this.informeJson = this.infoIn.value;
             // this.informeJson.Diagrama=this.imgIN;
             setTimeout(async () => {
+                
                 this.diagram = await this.FlowchartService.getDiagram();
+                console.log(this.diagram)
                 let printOptions: IExportOptions = {};
                 printOptions.mode = 'Data';
                 printOptions.region = 'PageSettings';
                 if (this.diagram) {
+                    console.log(this.diagram.exportDiagram(printOptions).toString())
                     this.imgIN = this.diagram.exportDiagram(printOptions).toString()
+                    
                     if (this.imgIN != undefined && this.informeJson) {
                         this.informeJson.Diagrama = this.imgIN;
                     }
@@ -1061,7 +1065,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                     this.tareaList3()
                 }, 1000);
 
-            }, 2000);
+            }, 3000);
             this.flagBotonModificar()
         } else {
             this.guardando = false

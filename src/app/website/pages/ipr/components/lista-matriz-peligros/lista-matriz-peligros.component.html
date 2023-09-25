@@ -24,132 +24,279 @@
         </form>
         <br/>
         <br/>
+        <p-tabView *ngIf="formCreacionMatriz.valid">
+            <p-tabPanel header="Registros">
+                <div  *ngIf="formCreacionMatriz.valid">
+                    <h1>Registro individual</h1>
+                </div>
 
-        <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
-            <!-- dataKey="id" sortField="id" sortOrder="-1" -->
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th pSortableColumn="id">Id Matriz
-                        <p-sortIcon field="id"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="fechaCreacion">Fecha de creación
-                        <p-sortIcon field="fechaCreacion"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="area.nombre">Área
-                        <p-sortIcon field="area.nombre"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="peligro.Peligro.nombre">Peligro
-                        <p-sortIcon field="peligro.Peligro.nombre"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
-                        <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
-                        <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
-                    </th>
-                    <th> Estado
-                    </th>
-                </tr>
-                <tr class="filters">
-                    <td class="text-center bg-light">
-                        <div class="ui-inputgroup">
-                            <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
-                        </div>
-                    </td>
-                    <td class="text-center bg-light">
-                        <div class="ui-inputgroup">
-                                                    
-                            <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
-                            </s-rangoFechaSelector>                      
-    
-                        </div>
-                    </td>
-                    <td class="text-center bg-light">
-                        <div class="ui-inputgroup">    
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'area.nombre')">
-                        </div>
-                    </td>
-                    <td class="text-center bg-light">
-                        <div class="ui-inputgroup">
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
-                        </div>
-                    </td>
-                    <td class="text-center bg-light">
-                        <div class="ui-inputgroup">    
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
-                        </div>
-                    </td>
-                    <td class="text-center bg-light">
-                        <div class="ui-inputgroup">    
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
-                        </div>
-                    </td>
-                    <td class="text-center bg-light">
-                        <div class="ui-inputgroup">    
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
-                        </div>
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-matriz>
-    
-                <tr [pSelectableRow]="matriz" class="table-row table-row-selectable">
-                    <td class="p-text-center">{{matriz?.id}}</td>
-                    <td class="p-text-center">{{matriz?.fechaCreacion | date:'dd/MM/yyyy'}}</td>
-                    <td class="p-text-center">{{matriz?.area?.nombre}}</td>
-                    <td class="p-text-center">{{matriz?.peligro?.Peligro?.nombre}}</td>
-                    <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
-                    <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
-                    <td class="p-text-center">Sin plan de acción</td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="summary" let-rowData>
+                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
+                    <!-- dataKey="id" sortField="id" sortOrder="-1" -->
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th pSortableColumn="id">Id Matriz
+                                <p-sortIcon field="id"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="fechaCreacion">Fecha de creación
+                                <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="area.nombre">Área
+                                <p-sortIcon field="area.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="proceso.nombre">Proceso
+                                <p-sortIcon field="proceso.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="subProceso.nombre">Subproceso
+                                <p-sortIcon field="subProceso.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="peligro.Peligro.nombre">Peligro
+                                <p-sortIcon field="peligro.Peligro.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
+                                <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="valoracionRiesgoInicial.NRCualitativo"> Nivel de riesgo (Cualitativo)
+                                <p-sortIcon field="valoracionRiesgoInicial.NRCualitativo"></p-sortIcon>
+                            </th>
+                            <th> Estado
+                            </th>
+                        </tr>
+                        <tr class="filters">
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">
+                                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">
+                                                            
+                                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
+                                    </s-rangoFechaSelector>                      
+            
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'area.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'proceso.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'subProceso.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estadoPlanAccion')">
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-matriz>
+            
+                        <tr [pSelectableRow]="matriz" class="table-row table-row-selectable">
+                            <td class="p-text-center">{{matriz?.id}}</td>
+                            <td class="p-text-center">{{matriz?.fechaCreacion | date:'dd/MM/yyyy'}}</td>
+                            <td class="p-text-center">{{matriz?.area?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.proceso?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.subProceso?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.peligro?.Peligro?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
+                            <td [class]="matriz?.valoracionRiesgoInicial?.NRCualitativo=='Muy Alto'?'muyalto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Alto'?'alto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Medio'?'medio':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Bajo'?'bajo':'blanco')))">{{matriz?.valoracionRiesgoInicial?.NRCualitativo}}</td>
+                            <td class="p-text-center">{{matriz?.estadoPlanAccion}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary" let-rowData let-matriz>
 
-                <div class="d-flex justify-content-center">
-                    <div class="btn-group" role="group">                
-                      <button 
-                        class="p-button-raised p-button-primary margin-right" 
-                        pButton type="button" 
-                        icon="bi bi-plus" 
-                        label="Adicionar" 
-                        (click)="CRUDMatriz('PUT')" 
-                        ></button>
-                      <button 
-                        class="p-button-raised p-button-success margin-right margin-left" 
-                        pButton type="button" 
-                        icon="bi bi-pencil" 
-                        label="Modificar"
-                        (click)="CRUDMatriz('POST')"
-                        [disabled]="!matrizSelect"
-                        ></button>
-                      <button 
-                        pButton type="button" 
-                        icon="bi bi-search" 
-                        label="Consultar" 
-                        style="color: var(--white)"
-                        class="p-button-raised p-button-warning margin-right margin-left"
-                        (click)="CRUDMatriz('DELETE')"
-                        [disabled]="!matrizSelect"
-                        ></button>
-                    <button 
-                        pButton type="button" 
-                        icon="bi bi-plus" 
-                        label="Crear Matriz" 
-                        style="color: var(--white)"
-                        class="p-button-raised p-button-primary margin-right margin-left"
-                        ></button>
-                    </div>
-                </div>           
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="4" class="p-text-center">No hay registro de casos médicos o con los términos de filtro usados
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-    
-    
+                        <div class="d-flex justify-content-center">
+                            <div class="btn-group" role="group">                
+                            <button 
+                                class="p-button-raised p-button-primary margin-right" 
+                                pButton type="button" 
+                                icon="bi bi-plus" 
+                                label="Adicionar" 
+                                (click)="CRUDMatriz('PUT','ALONE')" 
+                                ></button>
+                            <button 
+                                class="p-button-raised p-button-success margin-right margin-left" 
+                                pButton type="button" 
+                                icon="bi bi-pencil" 
+                                label="Modificar"
+                                (click)="CRUDMatriz('POST','ALONE')"
+                                [disabled]="!matrizSelect"
+                                ></button>
+                            <button 
+                                pButton type="button" 
+                                icon="bi bi-search" 
+                                label="Consultar" 
+                                style="color: var(--white)"
+                                class="p-button-raised p-button-warning margin-right margin-left"
+                                (click)="CRUDMatriz('GET','ALONE')"
+                                [disabled]="!matrizSelect"
+                                ></button>
+                            <button 
+                                pButton type="button" 
+                                icon="bi bi-plus" 
+                                label="Historico" 
+                                style="color: var(--white)"
+                                class="p-button-raised p-button-primary margin-right margin-left"
+                                (click)="historicoCargar()"
+                                [disabled]="!matrizSelect"
+                                ></button>
+                            </div>
+                        </div>           
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="9" class="p-text-center">No hay registro de peligros en esta planta
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <br>    
+                <br>
+                <div *ngIf="flagtreeTable">
+                    <h1>Registro por grupo</h1>
+                </div>
+                <!-- <button pButton (click)="test()">test</button> -->
+                <p-treeTable #tt [value]="matrizPList2" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}" *ngIf="flagtreeTable">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th [style]="{'width': '5rem'}">
+                                &nbsp;
+                            </th>
+                            <th *ngFor="let col of cols">
+                                {{ col.header }}
+                            </th>
+                        
+                        </tr>
+                        <tr>
+                            <th>
+                                &nbsp;
+                            </th>
+                            <th *ngFor="let col of cols">
+                                <input pInputText type="text" style="width: 100%" (input)="tt.filter($event.target.value, col.field, col.filterMatchMode)" />
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                        <tr>
+                            
+                            <td [style]="{'width': '5rem'}">
+                                <p-checkbox name="peligroSelect" [value]="rowData" [(ngModel)]="peligroSelect" (click)="matricSelect()"></p-checkbox>
+                            </td>
+                            
+                            <ng-container *ngFor="let col of cols; let i = index">
+
+                                <td *ngIf="col.field!='NRCualitativo' && col.field!='fechaCreacion'">
+                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
+                                    {{ rowData[col.field] }}
+                                </td>
+                                <td *ngIf="col.field=='NRCualitativo'"
+                                [class]="rowData[col.field]=='Muy Alto'?'muyalto':(rowData[col.field]=='Alto'?'alto':(rowData[col.field]=='Medio'?'medio':(rowData[col.field]=='Bajo'?'bajo':'blanco')))"
+                                >
+                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
+                                    {{ rowData[col.field] }}
+                                </td>
+                                <td *ngIf="col.field=='fechaCreacion'">
+                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
+                                    {{ rowData[col.field] | date:'dd/MM/yyyy'}}
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary" let-rowData>
+
+                        <div class="d-flex justify-content-center">
+                            <div class="btn-group" role="group">                
+                            <button 
+                                class="p-button-raised p-button-primary margin-right" 
+                                pButton type="button" 
+                                icon="bi bi-plus" 
+                                label="Adicionar" 
+                                (click)="CRUDMatriz('PUT','GROUP')" 
+                                ></button>
+                            <button 
+                                class="p-button-raised p-button-success margin-right margin-left" 
+                                pButton type="button" 
+                                icon="bi bi-pencil" 
+                                label="Modificar"
+                                (click)="CRUDMatriz('POST','GROUP')"
+                                [disabled]="peligroSelect.length==0"
+                                ></button>
+                            <button 
+                                pButton type="button" 
+                                icon="bi bi-search" 
+                                label="Consultar" 
+                                style="color: var(--white)"
+                                class="p-button-raised p-button-warning margin-right margin-left"
+                                (click)="CRUDMatriz('GET','GROUP')"
+                                [disabled]="peligroSelect.length==0"
+                                ></button>
+                            </div>
+                        </div>           
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="9">No hay peligros registrados en esta planta.</td>
+                        </tr>
+                    </ng-template>
+                </p-treeTable>
+            </p-tabPanel>
+            <p-tabPanel header="Historicos">
+                <p-treeTable #tt [value]="historicoList" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of cols2">
+                                {{ col.header }}
+                            </th>
+                        
+                        </tr>
+                        <tr>
+                            <th *ngFor="let col of cols2">
+                                <input pInputText type="text" style="width: 100%" (input)="tt.filter($event.target.value, col.field, col.filterMatchMode)" />
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                        <tr>
+                            <ng-container *ngFor="let col of cols2; let i = index">
+                                <td>
+                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
+                                    {{ rowData[col.field]}}
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="5">No hay historicos registrados en este id.</td>
+                        </tr>
+                    </ng-template>
+                </p-treeTable>
+            </p-tabPanel>
+        </p-tabView>
     </p-panel>
 </div>
 

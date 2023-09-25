@@ -10,7 +10,7 @@ let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 // let port = '5858';
 // let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
-//Produccion
+//Produccionz
 // let protocol = 'https';
 // let host = 'sigess.app';
 // let port = '5858';
@@ -129,6 +129,7 @@ export const endPoints: string | any = {
   ViewscmcoService: path + "indscmco/",
   ViewscmgeService: path + "indscmge/",
 
+  MatrizPeligrosLogService: path +"matrizPlog/",
   MatrizPeligrosService: path + "matrizP/",
   TipoPeligroService: path + "tipoPeligro/",
   PeligroService: path + "peligro/",
