@@ -14,7 +14,7 @@ import { Localidades} from 'src/app/website/pages/ctr/entities/aliados';
 import { PrimeNGConfig } from 'primeng/api';
 import { locale_es } from "src/app/website/pages/comun/entities/reporte-enumeraciones";
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
-import{firma} from 'src/app/website/pages/comun/entities/firma';
+import {firma} from 'src/app/website/pages/comun/entities/firma';
 import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado.service';
 import { endPoints } from 'src/environments/environment';
 
@@ -194,9 +194,6 @@ export class RemisionComponent implements OnInit {
   firmasAnexoLink:any=[]
   nombreSesion!:string
   async ngOnInit(): Promise<void> {
-    // document.getElementById("flagAjustes")!.style.display = "block";
-    // document.getElementById("flagCambioPuesto")!.style.display = "block";
-    // document.getElementById("flagEntrenamiento")!.style.display = "block";
 
     this.config.setTranslation(this.localeES);
     this.idEmpresa=Number(this.sesionService.getEmpresa()?.id!)
@@ -217,19 +214,22 @@ export class RemisionComponent implements OnInit {
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "pk_case", value1: this.idCase });
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "tipo", value1: this.anexo });
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "eliminado", value1: 'false' });
-    await this.anexoSCM.getAnexWithFilter(filterQuery).then((resp:any)=>{
-      this.anexolist=resp.data
-      this.anexolist.sort(function(a,b){
-        if(a.id < b.id){
-          return 1
-        }else if(a.id > b.id){
-          return -1;
-        }
-          return 0;
-        });
-        if(this.anexolist.length>0)this.maxIdAnexo=this.anexolist[this.anexolist.length-1].id
-        this.anexolist.map(ele=>ele.firmas=JSON.parse(ele.firmas))
-    })
+
+    if(this.idCase){
+      await this.anexoSCM.getAnexWithFilter(filterQuery).then((resp:any)=>{
+        this.anexolist=resp.data
+        this.anexolist.sort(function(a,b){
+          if(a.id < b.id){
+            return 1
+          }else if(a.id > b.id){
+            return -1;
+          }
+            return 0;
+          });
+          if(this.anexolist.length>0)this.maxIdAnexo=this.anexolist[this.anexolist.length-1].id
+          this.anexolist.map(ele=>ele.firmas=JSON.parse(ele.firmas))
+      })
+    }
     this.loading=false
   }
   

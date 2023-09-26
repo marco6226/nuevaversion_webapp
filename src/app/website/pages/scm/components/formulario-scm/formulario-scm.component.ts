@@ -354,8 +354,10 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.jefeInmediato = fb.group({
             id: ["", Validators.required],
             numeroIdentificacion: ["", Validators.required],
-            primerNombre: [{ value: "", disabled: true }, Validators.required],
-            segundoNombre: { value: "", disabled: true },
+            primerNombre: [null],
+            segundoNombre: [null],
+            primerApellido: [null],
+            segundoApellido: [null],
             email: { value: "", disabled: true },
             corporativePhone: [{ value: "", disabled: true }],
             cargoId: [{ value: "", disabled: true }, Validators.required],
@@ -822,6 +824,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let emp = <Empleado>this.value;
         this.casosList = await this.scmService.getCaseList(emp.id!);
         this.empleadoSelect = emp;
+        console.log(this.empleadoSelect)
         this.empresaForm!.reset()
         if(this.empleadoSelect){
             this.empresaForm!.value.nit = this.empleadoSelect.nit
@@ -969,6 +972,10 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         empleado.direccionGerencia = this.empleadoForm.value.correoPersonal;
         empleado.businessPartner = this.empleadoForm.value.businessPartner;
         empleado.jefeInmediato = this.empleadoForm.value.jefeInmediato;
+        console.log(this.empleadoSelect)
+        console.log(this.empleadoForm.value.jefeInmediato)
+        console.log(this.jefeInmediato)
+
         empleado.usuario.usuarioEmpresaList = [];
         this.empleadoForm.value.perfilesId.forEach((perfilId: any) => {
             let ue = new UsuarioEmpresa();
@@ -992,7 +999,14 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
         this.empleadoService.update(empleado)
             .then(async data => {
+                console.log(data)
                 this.jefeInmediatoName=this.jefeInmediatoName0
+                this.empleadoSelect!.jefeInmediato = this.jefeInmediato.value
+                // this.empleadoSelect?.jefeInmediato?.primerNombre!=this.jefeInmediato.value.primerNombre
+                // this.empleadoSelect?.jefeInmediato?.segundoNombre!=this.jefeInmediato.value.segundoNombre
+                // this.empleadoSelect?.jefeInmediato?.primerApellido!=this.jefeInmediato.value.primerApellido
+                // this.empleadoSelect?.jefeInmediato?.segundoApellido!=this.jefeInmediato.value.segundoApellido
+                console.log(this.empleadoSelect)
                 this.msgs=[]
                 this.messageService.add({
                 // this.msgs.push({
@@ -1135,7 +1149,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.jefeInmediato.patchValue({
             id: empleado.id,
             primerNombre: empleado.primerNombre,
-            primerApellido: empleado.primerApellido,
+            segundoNombre: empleado.segundoNombre,
+            primerApellido: empleado.primerNombre,
+            segundoApellido: empleado.segundoApellido,
             numeroIdentificacion: empleado.numeroIdentificacion,
             corporativePhone: empleado.corporativePhone,
             area: empleado.area,
@@ -1144,6 +1160,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             cargoId: empleado.cargo.id,
             email: [empleado.usuario.email],
         });
+        console.log(this.jefeInmediato)
         this.jefeInmediatoName0=(empleado.primerNombre || "") + " " + (empleado.segundoNombre || "") + " " + (empleado.primerApellido || "") + " " + (empleado.segundoApellido || " ")
     }
 
