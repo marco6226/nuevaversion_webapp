@@ -12,60 +12,103 @@
             [totalRecords]="totalRecords" (onFilter)="onFilter($event)">
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th pSortableColumn="id">#CASO
-                        <p-sortIcon field="id"></p-sortIcon>
+                    <th pSortableColumn="id">
+                        <div class="table-column">
+                            <div>#CASO</div>
+                            <p-sortIcon field="id"></p-sortIcon>
+                        </div>
                     </th>
-                    <th pSortableColumn="id">Fecha de apertura
-                        <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                    <th pSortableColumn="fechaCreacion">
+                        <div class="table-column">
+                            <div>Fecha de apertura</div>
+                            <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                        </div>
+                    </th>                  
+                    <th pSortableColumn="nombrePadre" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>División/Unidad</div>
+                            <p-sortIcon field="nombrePadre"></p-sortIcon>
+                        </div>
+                    </th>                
+                    <th pSortableColumn="region" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>Ubicación</div>
+                            <p-sortIcon field="region"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="pkUser">
+                        <div class="table-column">
+                            <div>Apellido</div>
+                            <p-sortIcon field="pkUser"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="pkUser">
+                        <div class="table-column">
+                            <div>Nombre</div>
+                            <p-sortIcon field="pkUser"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="documento">
+                        <div class="table-column">
+                            <div>Documento</div>
+                            <p-sortIcon field="documento"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="statusCaso">
+                        <div class="table-column">
+                            <div>Estado de caso</div>
+                            <p-sortIcon field="statusCaso"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="proximoseguimiento">
+                        <div class="table-column">
+                            <div>Proximo seguimiento</div>
+                            <p-sortIcon field="proximoseguimiento"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="casoMedicoLaboral" *ngIf="idEmpresa!='22'">
+                        <div class="table-column">
+                            <div>Caso de mesa laboral</div>
+                            <p-sortIcon field="casoMedicoLaboral"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="diagnostico" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>Diagnostico</div>
+                            <p-sortIcon field="diagnostico"></p-sortIcon>
+                        </div>
+                    </th>
+                    <th pSortableColumn="prioridadCaso">
+                        <div class="table-column">
+                            <div>Prioridad</div>
+                            <p-sortIcon field="prioridadCaso"></p-sortIcon>
+                        </div>
+                    </th>
+                    
+                    <th pSortableColumn="tipoReporte" *ngIf="idEmpresa=='22'">
+                        <div class="table-column">
+                            <div>Tipo de retorno</div>
+                            <p-sortIcon field="tipoReporte"></p-sortIcon>
+                        </div>                        
+                    </th>                    
+                    <th pSortableColumn="tipoCaso">
+                        <div class="table-column">
+                            <div>Tipo de caso</div>
+                            <p-sortIcon field="tipoCaso"></p-sortIcon>
+                        </div>
                     </th>
                     <th pSortableColumn="region" *ngIf="idEmpresa!='22'">Regional
                         <p-sortIcon field="region"></p-sortIcon>
                     </th>
-                    <th pSortableColumn="nombrePadre" *ngIf="idEmpresa=='22'">División/Unidad
-                        <p-sortIcon field="nombrePadre"></p-sortIcon>
-                    </th>
                     <th pSortableColumn="ciudad" *ngIf="idEmpresa!='22'">Ciudad
                         <p-sortIcon field="ciudad"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="region" *ngIf="idEmpresa=='22'">Ubicación
-                        <p-sortIcon field="region"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="pkUser">Apellido
-                        <p-sortIcon field="pkUser"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="pkUser">Nombre
-                        <p-sortIcon field="pkUser"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="documento">Documento
-                        <p-sortIcon field="documento"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="statusCaso">Estado de caso
-                        <p-sortIcon field="statusCaso"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="casoMedicoLaboral" *ngIf="idEmpresa!='22'">Caso de mesa laboral
-                        <p-sortIcon field="casoMedicoLaboral"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="diagnostico" *ngIf="idEmpresa=='22'">Diagnostico
-                        <p-sortIcon field="diagnostico"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="prioridadCaso">Prioridad
-                        <p-sortIcon field="prioridadCaso"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="tipoCaso">Tipo de caso
-                        <p-sortIcon field="tipoCaso"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="tipoReporte" *ngIf="idEmpresa=='22'">Tipo de retorno
-                        <p-sortIcon field="tipoReporte"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="proximoseguimiento">Proximo seguimiento
-                        <p-sortIcon field="proximoseguimiento"></p-sortIcon>
                     </th>
                 </tr>
                 <tr class="filters">
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                            <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
@@ -79,83 +122,83 @@
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'region', 'contains')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'region', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'pkUser.area.padreNombre')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'pkUser.area.padreNombre')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'ciudad', 'contains')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'ciudad', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
                             <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerApellido')"> -->
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerApellido')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerApellido')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
                             <!-- <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerNombre')"> -->
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerNombre')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'pkUser.primerNombre')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'documento', 'contains')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'documento', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter(DecodificacionEstado($event.target.value), 'statusCaso', 'contains')">
+                            <input pInputText type="text" (input)="dt.filter(DecodificacionEstado($event.target.value), 'statusCaso', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
                             <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
-                            <input pInputText type="text" (input)="dt.filter(DecodificacionSiNo($event.target.value), 'casoMedicoLaboral', 'contains')">
+                            <input pInputText type="text" (input)="dt.filter(DecodificacionSiNo($event.target.value), 'casoMedicoLaboral', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
                             <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'diagnostico', 'contains')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'diagnostico', 'contains')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'prioridadCaso','contains')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'prioridadCaso','contains')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoCaso','contains')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoCaso','contains')" class="filter-input">
                         </div>
                     </td>
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
-                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoReporte')">
+                            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoReporte')" class="filter-input">
                         </div>
                     </td>
                     <td class="text-center bg-light">
