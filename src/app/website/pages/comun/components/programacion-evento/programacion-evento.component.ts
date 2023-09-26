@@ -139,6 +139,15 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     this.programacionService.findAuditoriasWithFilter(filterQuery)
     .then((res: any) => {
       let programacion: Programacion = res.data.length > 0 ? res.data[0] : {} as Programacion;
+      // console.log(this.listasInspeccionList);
+      if(programacion.listaInspeccion.estado === 'inactivo' && this.deshabilitar){
+        let listaInp = {
+          label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
+          value: {id: programacion.listaInspeccion.listaInspeccionPK.id, version: programacion.listaInspeccion.listaInspeccionPK.version},
+          disabled: true
+        } as SelectItem;
+        this.listasInspeccionList.push(listaInp);
+      }
       this.form?.get('id')?.setValue(programacion.id);
       this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
       this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
@@ -430,6 +439,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
   hideDialog(){
     this.form?.reset();
+    this.listasInspeccionList = this.listasInspeccionList.filter(lista => !lista.disabled);
     this.visible = false;
     this.diaSelected = null;
     this.numeroOrdinalSelected = null;
