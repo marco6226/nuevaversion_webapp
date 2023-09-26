@@ -60,6 +60,18 @@
               "outputHashing": "all"
             },
             "qa": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": true,
