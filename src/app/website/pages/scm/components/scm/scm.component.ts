@@ -105,7 +105,7 @@ export class ScmComponent implements OnInit {
             localStorage.setItem('scmShowCase', 'false');
             this.router.navigate(['/app/scm/case/', this.caseSelect.id])
         }else{
-            this.messageService.add({key: 'msgScm',severity: "warn", summary:"Opción no disponible.", detail:"Este caso se encuentra cerrado y no se puede editar.\nPuede intentar la opción de consulta.", life: 6000});
+            this.messageService.add({severity: "warn", summary:"Opción no disponible.", detail:"Este caso se encuentra cerrado y no se puede editar.\nPuede intentar la opción de consulta.", life: 6000});
         }
     }
 
