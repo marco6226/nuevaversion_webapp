@@ -41,6 +41,7 @@ export class FormularioComponent implements OnInit {
         weekHeader: 'Wk'
     };
     this.formulario.campoList.forEach(campo => {
+      // console.log(campo);
       if (campo.tipo == 'multiple_select' || campo.tipo == 'single_select') {
         this.selectorsMap[campo.id] = [];
         campo.opciones.forEach(opcion => {
@@ -74,7 +75,7 @@ export class FormularioComponent implements OnInit {
         if(this.respuestaCampos){
           campo.respuestaCampo = new RespuestaCampo();
           let respuesta = this.respuestaCampos.filter(item => item.campoId == campo.id);
-          console.log(respuesta);
+          // console.log(respuesta);
           campo.respuestaCampo.campoId = respuesta.length > 0 ? respuesta[0].campoId : campo.respuestaCampo.campoId;
           campo.respuestaCampo.valor = respuesta.length > 0 ? respuesta[0].valor : null;
         } else {
@@ -89,7 +90,7 @@ export class FormularioComponent implements OnInit {
           this.onValidChange.emit(this.form.valid);
         }
       );
-      group[campo.nombre] = formControl;
+      group[campo.nombre+campo.id] = formControl;
     });
     this.form = new FormGroup(group);
     this.onValidChange.emit(this.form.valid);
