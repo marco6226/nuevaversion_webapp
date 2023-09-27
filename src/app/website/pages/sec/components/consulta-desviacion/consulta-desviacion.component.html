@@ -159,11 +159,20 @@
 
                             <div class="d-flex justify-content-center">
                                 <div class="btn-group" role="group">
-                                    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-search"
+                                    <td *ngIf="empresaId=='8'">
+                                    <button   *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-search"
                                         label="Iniciar investigación"
                                         class="p-button-raised p-button-warning margin-right margin-left"
                                         style="color: var(--white)" (click)="analizarDesviacion()"
                                         [disabled]="desviacionesListSelect == null || desviacionesListSelect.length <= 0"></button>
+                                    </td>
+                                    <td *ngIf="empresaId=='22'">
+                                    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-search"
+                                        label="Iniciar Plan de trabajo"
+                                        class="p-button-raised p-button-warning margin-right margin-left"
+                                        style="color: var(--white)" (click)="analizarDesviacion()"
+                                        [disabled]="desviacionesListSelect == null || desviacionesListSelect.length <= 0"></button>
+                                    </td>
                                     <button *sTienePermiso="'SEC_GET_CONSINV'"
                                         class="p-button-raised p-button-secondary margin-right" pButton type="button"
                                         icon="bi bi-download" 
