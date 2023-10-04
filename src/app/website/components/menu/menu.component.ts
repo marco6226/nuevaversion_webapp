@@ -32,6 +32,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
   canSaveReportCtr: boolean = false;
   isTemporal: boolean = false;
   permisosAliados: any[] = [];
+  version!: string;
 
   constructor(
     private router: Router,
@@ -41,6 +42,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
 
   async ngOnInit() {
         // this.toogleMenu();
+        this.version = this.sesionService.getAppVersion();
   }
 
   async ngAfterContentInit() {
