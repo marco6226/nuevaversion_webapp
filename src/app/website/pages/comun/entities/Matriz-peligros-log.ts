@@ -13,6 +13,7 @@ export class MatrizPeligrosLog {
   peligro?: string;
   controlesexistentes?:string;
   valoracionRiesgoInicial?:string;
+  valoracionRiesgoResidual?:string;
   planAccion?:string;
   area?:AreaMatriz;
   proceso?:ProcesoMatriz;
@@ -24,4 +25,5 @@ export class MatrizPeligrosLog {
   eliminado?: Boolean;
   idEdicion?:Number;
   usuario?:string;
+  fkmatrizpeligros?: Number;//padre
 }

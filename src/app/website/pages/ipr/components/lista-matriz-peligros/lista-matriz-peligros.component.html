@@ -1,8 +1,5 @@
 <div class="shadow">
-    <p-panel styleClass="material-panel">
-        <p-header >
-            Peligros registrados de la matriz
-        </p-header>
+    <p-panel styleClass="material-panel" header="Peligros registrados de la matriz">
         <form [formGroup]="formCreacionMatriz">
             <div class="grid">
                 <div class="col-6 col-sm-12">
@@ -24,8 +21,8 @@
         </form>
         <br/>
         <br/>
-        <p-tabView *ngIf="formCreacionMatriz.valid">
-            <p-tabPanel header="Registros">
+        <p-tabView *ngIf="formCreacionMatriz.valid" [(activeIndex)]="activeTab">
+            <p-tabPanel header="Consolidado">
                 <div  *ngIf="formCreacionMatriz.valid">
                     <h1>Registro individual</h1>
                 </div>
@@ -55,8 +52,13 @@
                             <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
                                 <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="valoracionRiesgoInicial.NRCualitativo"> Nivel de riesgo (Cualitativo)
+                            <th pSortableColumn="valoracionRiesgoInicial.NRCualitativo"> Nivel de riesgo inicial
                                 <p-sortIcon field="valoracionRiesgoInicial.NRCualitativo"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="valoracionRiesgoResidual.NRCualitativo"> Nivel de riesgo residual
+                                <p-sortIcon field="valoracionRiesgoResidual.NRCualitativo"></p-sortIcon>
+                            </th>
+                            <th> Plan de acción
                             </th>
                             <th> Estado
                             </th>
@@ -107,7 +109,17 @@
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
                                     <input pInputText type="text" (input)="dt.filter($event.target.value,'estadoPlanAccion')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estado')">
                                 </div>
                             </td>
                         </tr>
@@ -123,7 +135,9 @@
                             <td class="p-text-center">{{matriz?.peligro?.Peligro?.nombre}}</td>
                             <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
                             <td [class]="matriz?.valoracionRiesgoInicial?.NRCualitativo=='Muy Alto'?'muyalto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Alto'?'alto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Medio'?'medio':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Bajo'?'bajo':'blanco')))">{{matriz?.valoracionRiesgoInicial?.NRCualitativo}}</td>
+                            <td [class]="matriz?.valoracionRiesgoResidual?.NRCualitativo=='Muy Alto'?'muyalto':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Alto'?'alto':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Medio'?'medio':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Bajo'?'bajo':'blanco')))">{{matriz?.valoracionRiesgoResidual?.NRCualitativo}}</td>
                             <td class="p-text-center">{{matriz?.estadoPlanAccion}}</td>
+                            <td class="p-text-center">{{matriz?.estado}}</td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="summary" let-rowData let-matriz>
@@ -156,7 +170,7 @@
                                 ></button>
                             <button 
                                 pButton type="button" 
-                                icon="bi bi-plus" 
+                                icon="bi bi-eye-fill" 
                                 label="Historico" 
                                 style="color: var(--white)"
                                 class="p-button-raised p-button-primary margin-right margin-left"
@@ -168,7 +182,7 @@
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                         <tr>
-                            <td colspan="9" class="p-text-center">No hay registro de peligros en esta planta
+                            <td colspan="10" class="p-text-center">No hay registro de peligros en esta planta
                             </td>
                         </tr>
                     </ng-template>
@@ -231,13 +245,6 @@
                         <div class="d-flex justify-content-center">
                             <div class="btn-group" role="group">                
                             <button 
-                                class="p-button-raised p-button-primary margin-right" 
-                                pButton type="button" 
-                                icon="bi bi-plus" 
-                                label="Adicionar" 
-                                (click)="CRUDMatriz('PUT','GROUP')" 
-                                ></button>
-                            <button 
                                 class="p-button-raised p-button-success margin-right margin-left" 
                                 pButton type="button" 
                                 icon="bi bi-pencil" 
@@ -264,39 +271,146 @@
                     </ng-template>
                 </p-treeTable>
             </p-tabPanel>
-            <p-tabPanel header="Historicos">
-                <p-treeTable #tt [value]="historicoList" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}">
+            <p-tabPanel header="Historial Actualizaciones">
+                <br>
+                <!-- <button pButton type="button" (click)="visibleDlgExcelHistorico=true" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
+                <!-- <button pButton type="button" (click)="exportexcelHistorico()" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
+
+                <br>
+                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizPList3Select" [value]="this.historicoList" [paginator]="true" [rows]="10" >
+                    <!-- dataKey="id" sortField="id" sortOrder="-1" -->
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th *ngFor="let col of cols2">
-                                {{ col.header }}
+                            <th pSortableColumn="idriesgo">Id Matriz
+                                <p-sortIcon field="idriesgo"></p-sortIcon>
                             </th>
-                        
+                            <th pSortableColumn="fechaEdicion">Fecha edición
+                                <p-sortIcon field="fechaEdicion"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="area.nombre">Área
+                                <p-sortIcon field="area.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="proceso.nombre">Proceso
+                                <p-sortIcon field="proceso.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="subProceso.nombre">Subproceso
+                                <p-sortIcon field="subProceso.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="peligro.Peligro.nombre">Peligro
+                                <p-sortIcon field="peligro.Peligro.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
+                                <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="valoracionRiesgoInicial.NRCualitativo"> Nivel de riesgo inicial
+                                <p-sortIcon field="valoracionRiesgoInicial.NRCualitativo"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="valoracionRiesgoResidual.NRCualitativo"> Nivel de riesgo residual
+                                <p-sortIcon field="valoracionRiesgoResidual.NRCualitativo"></p-sortIcon>
+                            </th>
                         </tr>
-                        <tr>
-                            <th *ngFor="let col of cols2">
-                                <input pInputText type="text" style="width: 100%" (input)="tt.filter($event.target.value, col.field, col.filterMatchMode)" />
-                            </th>
+                        <tr class="filters">
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">
+                                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">
+                                                            
+                                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaEdicion', 'bt')">
+                                    </s-rangoFechaSelector>                      
+            
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'area.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'proceso.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'subProceso.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo')">
+                                </div>
+                            </td>
+                            <td class="text-center bg-light">
+                                <div class="ui-inputgroup">    
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo')">
+                                </div>
+                            </td>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-                        <tr>
-                            <ng-container *ngFor="let col of cols2; let i = index">
-                                <td>
-                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
-                                    {{ rowData[col.field]}}
-                                </td>
-                            </ng-container>
+                    <ng-template pTemplate="body" let-matriz>
+            
+                        <tr [pSelectableRow]="matriz" class="table-row table-row-selectable">
+                            <td class="p-text-center">{{matriz?.idriesgo}}</td>
+                            <td class="p-text-center">{{matriz?.fechaEdicion | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td class="p-text-center">{{matriz?.area?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.proceso?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.subProceso?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.peligro?.Peligro?.nombre}}</td>
+                            <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
+                            <td [class]="matriz?.valoracionRiesgoInicial?.NRCualitativo=='Muy Alto'?'muyalto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Alto'?'alto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Medio'?'medio':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Bajo'?'bajo':'blanco')))">{{matriz?.valoracionRiesgoInicial?.NRCualitativo}}</td>
+                            <td [class]="matriz?.valoracionRiesgoResidual?.NRCualitativo=='Muy Alto'?'muyalto':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Alto'?'alto':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Medio'?'medio':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Bajo'?'bajo':'blanco')))">{{matriz?.valoracionRiesgoResidual?.NRCualitativo}}</td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                         <tr>
-                            <td [attr.colspan]="5">No hay historicos registrados en este id.</td>
+                            <td colspan="9" class="p-text-center">No hay historicos registrados en este id.
+                            </td>
                         </tr>
                     </ng-template>
-                </p-treeTable>
+                </p-table>
             </p-tabPanel>
         </p-tabView>
     </p-panel>
 </div>
+
+
+<!---------------------------------Excel Historico---------------------------- -->
+<p-dialog header="Informe Casos Medicos" [(visible)]="visibleDlgExcelHistorico" [style]="{width: '40%', height: '35%'}">
+    
+    <div >
+        Seleccione el rango de fechas en el que desea imprimir el excel historico
+    </div>
+    <br>
+    <div >
+        <p-calendar 
+        [(ngModel)]="rangeDatesExcelHistorico"
+        dateFormat="dd/MM/yyyy"
+        selectionMode="range"
+        (onSelect)="habilitarindSCM()"
+        (onClearClick)="onResetDate()"
+        placeholder="Seleccione un rango"
+        appendTo="body"
+        showButtonBar="true">
+        <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
+        </p-calendar>
+    </div>
+    <p-footer>
+        <button pButton type="button" (click)="exportexcelHistorico()" label="Descargar" [disabled]="flagExcelHistorico"></button>
+        <button pButton type="button" (click)="cerrarDlgExcelHistorico()" class="p-button-secondary" label="Cancelar"></button>
+    </p-footer>
+    
+  </p-dialog>
 

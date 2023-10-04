@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ParametroNavegacionService } from '../../../core/services/parametro-navegacion.service';
 import { MatrizPeligrosLogService } from '../../../core/services/matriz-peligros-log.service';
 import { MatrizPeligrosLog } from '../../../comun/entities/Matriz-peligros-log';
+import * as XLSX from 'xlsx';
 
 interface Column {
   field: string;
@@ -24,6 +25,7 @@ interface Column {
   styleUrls: ['./lista-matriz-peligros.component.scss']
 })
 export class ListaMatrizPeligrosComponent  implements OnInit {
+  
   matrizPList: MatrizPeligros[] = [];
   matrizPListT: MatrizPeligros[] = [];
   matrizSelect!: MatrizPeligros;
@@ -43,6 +45,24 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   historicoList:any
 
   flagtreeTable:boolean=false
+
+  activeTab: number = 0;
+
+  visibleDlgExcelHistorico:boolean=false
+  rangeDatesExcelHistorico: any;
+  flagExcelHistorico:boolean=false
+
+  tipoDescripcion:any=
+    {generalInf:"Información general - Descripción: ",
+    peligro:"Identificación del peligro: ",
+    controlesexistentes:"Evaluación del riesgo controles existentes: ",
+    area:"Información general - Descripción: ",
+    proceso:"Información general - Descripción: ",
+    subProceso:"Información general - Descripción: ",
+    plantas:"Información general - Descripción: ",
+    valoracionRiesgoInicial:"Valoración del riesgo inicial: ",
+    planAccion:"Control de riesgo - Plan de acción: "}
+  
 
   constructor( 
     private fb: FormBuilder,
@@ -78,7 +98,8 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       { field: 'subProceso', header: 'Subproceso' },
       { field: 'peligro', header: 'Peligro' },
       { field: 'descripcionPeligro', header: 'Descripción de peligros' },
-      { field: 'NRCualitativo', header: 'Nivel de riesgo (Cualitativo)' },
+      { field: 'NRCualitativo', header: 'Nivel de riesgo Inicial(Cualitativo)' },
+      { field: 'NRCualitativoR', header: 'Nivel de riesgo Residual(Cualitativo)' },
       { field: 'estadoPlanAccion', header: 'Plan de acción' },
     ];
     this.cols2 = [
@@ -161,10 +182,22 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
         // matrizPList.map(resp=>resp.planAccion=(JSON.parse(resp.planAccion!).length>0)?'Con plan de Acción':'Sin plan de acción')
         matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
+        matrizPList.map(resp=>resp.valoracionRiesgoResidual=JSON.parse(resp.valoracionRiesgoResidual!))
+        matrizPList.map(resp=>resp.id=(resp.fkmatrizpeligros)?resp.id+'-'+resp.fkmatrizpeligros:resp.id)
         matrizPList2=new Array(matrizPList)
         for(const [i,v] of matrizPList.entries()){
           let valor:any=v
+          let estado='Sin estado'
+          if(valor.planAccion.length>0){
+            estado='Riesgo vigente'
+            for(const paccion of valor.planAccion){
+              if(paccion.jerarquia=='Sustitución' && paccion.estado=='Ejecutado')estado='Riesgo sustituido'
+              if(paccion.jerarquia=='Eliminación' && paccion.estado=='Ejecutado')estado='Riesgo eliminado'
+            }
+          }
+          
           matrizPList2[0][i].estadoPlanAccion=(valor.planAccion.length>0)?'Con plan de Acción':'Sin plan de acción'
+          matrizPList2[0][i].estado=estado
         }
       }).catch(er=>console.log(er))
 
@@ -194,9 +227,13 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
           matrizPList.map(resp=>resp.peligro=JSON.parse(resp.peligro!))
           matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
           matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
+          matrizPList.map(resp=>resp.valoracionRiesgoResidual=JSON.parse(resp.valoracionRiesgoResidual!))
 
           // for(let element of matrizPList){
+        
           matrizPList.forEach((element:any) => {
+
+            element.planAccion
             matrizPList2.push({
               id:element.id,
               fechaCreacion:element.fechaCreacion,
@@ -206,8 +243,10 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
               peligro:element?.peligro?.Peligro?.nombre,
               descripcionPeligro:element?.peligro?.DescripcionPeligro?.nombre,
               NRCualitativo:element?.valoracionRiesgoInicial?.NRCualitativo,
+              NRCualitativoR:element?.valoracionRiesgoResidual?.NRCualitativo,
               planAccion:element?.planAccion,
-              estadoPlanAccion:(element?.planAccion>0)?'Con plan de Acción':'Sin plan de acción'
+              estadoPlanAccion:(element?.planAccion>0)?'Con plan de Acción':'Sin plan de acción',
+              estado:(element?.planAccion>0)?'Con plan de Acción':'Sin plan de acción'
             })
           })
 
@@ -238,19 +277,27 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         this.paramNav.setAccion<string>('PUT');
         this.router.navigate(['/app/ipr/matrizPeligros'])
       break;
-        case 'POST':
-          if(tipo=='ALONE'){
+      case 'POST':
+        if(tipo=='ALONE'){
           this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
+        }else{
+          this.paramNav.setParametro<MatrizPeligros[]>(this.matricesSelect)
+        }
+        this.paramNav.setAccion<string>('POST');
+        this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
+
+        this.router.navigate(['/app/ipr/matrizPeligros'])
+      break;
+      case 'GET':
+          if(tipo=='ALONE'){
+            this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
           }else{
             this.paramNav.setParametro<MatrizPeligros[]>(this.matricesSelect)
           }
-          this.paramNav.setAccion<string>('POST');
+          this.paramNav.setAccion<string>('GET');
           this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
-
+  
           this.router.navigate(['/app/ipr/matrizPeligros'])
-        break;
-      case 'GET':
-        
         break;
     
       default:
@@ -270,78 +317,204 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
 
   ///------------------Historico------------//
+  matrizPList3:MatrizPeligrosLog[]=[]
+  matrizPList3Select!:MatrizPeligrosLog
   async historicoCargar(){
     let filterHistorico = new FilterQuery();
     filterHistorico.sortField = "id";
     filterHistorico.sortOrder = -1;
     filterHistorico.filterList = [{ field: 'idriesgo', criteria: Criteria.EQUALS, value1: this.matrizSelect?.id!.toString()}];
-    let matrizPList:MatrizPeligrosLog[]=[];
+    let matrizPList:any[]=[];
     await this.matrizPeligrosLogService.getmpRWithFilter(filterHistorico).then((resp:any)=>{
+      // this.matrizPList3 = (<MatrizPeligrosLog[]>resp.data).map(matriz => matriz);
       matrizPList = (<MatrizPeligrosLog[]>resp.data).map(matriz => matriz);
       matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+      matrizPList.map(resp=>resp.fechaEdicion=resp.fechaEdicion?new Date(resp.fechaEdicion!):null)
       matrizPList.map(resp=>resp.controlesexistentes=JSON.parse(resp.controlesexistentes!))
       matrizPList.map(resp=>resp.generalInf=JSON.parse(resp.generalInf!))
       matrizPList.map(resp=>resp.peligro=JSON.parse(resp.peligro!))
       matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
       matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
-      console.log(matrizPList)
+      matrizPList.map(resp=>resp.valoracionRiesgoResidual=JSON.parse(resp.valoracionRiesgoResidual!))
+
+      this.matrizPList3=[...matrizPList]
       this.historicoList=[]
+
       for(const [i,ele] of matrizPList.entries()){
-        if(i>0){
-          const diferencias = this.encontrarDiferencias(matrizPList[i-1], ele);
-          console.log("Diferencias"+i, diferencias);
-          // console.log("Diferencias en array2:", diferencias[1]);
+        if(i==0){this.historicoList.push(ele)
         }else{
-          let objeto1 = new MatrizPeligrosLog()
-          objeto1.id=undefined
-          objeto1.idriesgo=undefined
-          objeto1.accion=undefined
-          objeto1.generalInf=undefined
-          objeto1.peligro=undefined
-          objeto1.controlesexistentes=undefined
-          objeto1.valoracionRiesgoInicial=undefined
-          objeto1.planAccion=undefined
-          objeto1.area=undefined
-          objeto1.proceso=undefined
-          objeto1.subProceso=undefined
-          objeto1.plantas=undefined
-          objeto1.empresa=undefined
-          objeto1.fechaCreacion=undefined
-          objeto1.fechaEdicion=undefined
-          objeto1.eliminado=undefined
-          objeto1.idEdicion=undefined
-          objeto1.usuario=undefined
-          const diferencias = this.encontrarDiferencias(objeto1, ele);
-          console.log("Diferencias"+i, diferencias);
-        }
+          if(ele.valoracionRiesgoInicial?.NRCualitativo != matrizPList[i-1].valoracionRiesgoInicial?.NRCualitativo || ele.valoracionRiesgoResidual?.NRCualitativo != matrizPList[i-1].valoracionRiesgoResidual?.NRCualitativo)this.historicoList.push(ele)
+        }        
       }
+      this.activeTab=1
     })
   }
+
+
+  diferencias:any = {};
+  firstFlag:boolean=true;
   encontrarDiferencias(objeto1:any, objeto2:any) {
-    const clavesObjeto1 = Object.keys(objeto1);
-    const clavesObjeto2 = Object.keys(objeto2);
-  
-    const diferencias:any = {};
 
-    for (const clave of clavesObjeto1) {
-      if (!clavesObjeto2.includes(clave)) {
-       
-      } else if (objeto1[clave] !== objeto2[clave]) {
-
-        if(typeof objeto1[clave] =='object' ){
-          const clavesObjeto3 = Object.keys(objeto1[clave]);
-     
-          for (const clave2 of clavesObjeto3){
-            if (objeto1[clave][clave2] !== objeto2[clave][clave2]) {
-              diferencias[clave2] = objeto2[clave][clave2]
-            }
-          }
-        }else{
-          diferencias[clave] = objeto2[clave];
+    let diferencias = {};
+    if(typeof objeto1 =='object'){
+      const clavesObjeto1 = Object.keys(objeto1);
+      for (const clave of clavesObjeto1) {
+        
+        if (objeto1[clave] !== objeto2[clave]) {
+          diferencias=this.diferenciaObject(diferencias,objeto1[clave],objeto2[clave],clave,this.tipoDescripcion[clave])
         }
       }
+      return diferencias;
+    }else{
+      return null
     }
-  
-    return diferencias;
+  }
+
+  diferenciaObject(diferencias:any,objeto1:any, objeto2:any, value:any,ubicacion:string){
+    if(objeto1 !==objeto2){
+      let valueOut:any=['id','Area','Proceso','Subproceso','Efectos','eliminado','estado','plantas','planAccion','proceso','subProceso','accion','idriesgo','idEdicion','accion','fechaEdicion']
+      if(objeto2 && !valueOut.includes(value) ){
+        if(typeof objeto2=='object'){
+          const clavesObjeto1 = Object.keys(objeto2);
+          for (const clave of clavesObjeto1){
+            if(!valueOut.includes(clave)){
+              if(typeof objeto2[clave] =='object' ){
+                diferencias=this.diferenciaObject(diferencias,objeto1[clave],objeto2[clave],clave,ubicacion)
+              }else {
+                if(objeto2[clave]){
+                  let clave2:string=(clave!='nombre')?clave:value;
+                  if(!objeto1){
+                    diferencias[ubicacion+clave2] = objeto2[clave]
+                  }else if(objeto1){
+                    if(!objeto1[clave]){
+                      diferencias[ubicacion+clave2] = objeto2[clave]
+                    }
+                    else if(objeto1[clave] !== objeto2[clave]){
+                      diferencias[ubicacion+clave2] = objeto2[clave]
+                    }
+                  }
+                  
+                }
+              }
+            }
+          }
+          return diferencias;
+        }else if(objeto1 !== objeto2){
+          diferencias[value] = objeto2
+          return diferencias;
+        }
+      }else{
+        return diferencias
+      }
+    }else{
+      return diferencias
+    }
+  }
+
+  diferenciaCreacion(objeto1:any){
+    let diferencias = {};
+    if(typeof objeto1 =='object'){
+      const clavesObjeto1 = Object.keys(objeto1);
+      console.log(clavesObjeto1)
+      for (const clave of clavesObjeto1){
+        diferencias=this.diferenciaObjetCreacion(diferencias,objeto1[clave],clave,null,this.tipoDescripcion[clave])
+      }
+      return diferencias
+    }else{
+      return null
+    }
+  }
+  diferenciaObjetCreacion(diferencias:any,objeto1:any,value:any,value0:any=null,ubicacion:string){
+    let valueOut:any=['id','Area','Proceso','Subproceso','Efectos','eliminado','estado','plantas','planAccion','proceso','subProceso','accion','idriesgo','idEdicion','accion','fechaEdicion']
+    if(objeto1 && !valueOut.includes(value)){
+      if(typeof objeto1 =='object'){
+        const clavesObjeto1 = Object.keys(objeto1);
+        for (const clave of clavesObjeto1){
+          diferencias=this.diferenciaObjetCreacion(diferencias,objeto1[clave],clave,value,ubicacion)
+        }
+      }else{
+        let clave2:string=(value!='nombre')?value:value0;
+        diferencias[ubicacion+clave2] = objeto1
+      }
+      return diferencias
+    }else{
+      return diferencias
+    }
+  }
+
+
+  ///-----------------------Excel historioco --------------------------////
+  habilitarindSCM(){
+    if(this.rangeDatesExcelHistorico[0] && this.rangeDatesExcelHistorico[1]){this.flagExcelHistorico=false}
+    else{this.flagExcelHistorico=true}
+}
+  onResetDate(){
+    this.flagExcelHistorico=true
+  }
+
+  async exportexcelHistoricoPrueba(): Promise<void> {
+
+    const filaDestino = 5; // Por ejemplo, fila 2
+    const columnaDestino = 3; // Por ejemplo, columna C
+
+    await this.datosExcel()
+
+    const readyToExport = this.excel;
+
+    const destinoFilePath = '../../../../../../assets/excelbase/HistoricoExcel-corona.xlsx';
+    const workBook = XLSX.readFile(destinoFilePath);
+    const workSheet = XLSX.utils.json_to_sheet(readyToExport);
+
+    XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
+ 
+    XLSX.writeFile(workBook, 'Excel historicos.xlsx'); // initiate a file download in browser
+     
+    this.cerrarDlgExcelHistorico();
+
+  }
+
+  async exportexcelHistorico(): Promise<void> 
+    {
+        await this.datosExcel()
+
+        const readyToExport = this.excel;
+ 
+       const workBook = XLSX.utils.book_new(); // create a new blank book
+ 
+       const workSheet = XLSX.utils.json_to_sheet(readyToExport);
+ 
+       XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
+ 
+       XLSX.writeFile(workBook, 'Excel historicos.xlsx'); // initiate a file download in browser
+        
+       this.cerrarDlgExcelHistorico();
+    }
+
+    cerrarDlgExcelHistorico(){
+      this.visibleDlgExcelHistorico = false;
+    }
+
+    excel:any=[]
+    async datosExcel(): Promise<void>{
+      // let dataExcel:any
+
+      // let filterQuery = new FilterQuery();
+      // filterQuery.sortField = "id";
+      // filterQuery.sortOrder = 1;
+
+      // filterQuery.filterList = [
+      //   {criteria: Criteria.EQUALS, field: "idriesgo", value1: empresaId}
+      // ];    
+      // try {
+      //     let res: any = await this.matrizPeligrosLogService.getmpRWithFilter(filterQuery)
+      //     dataExcel = res.data;
+
+      // } catch (error) {
+      //     console.error(error)
+      // }
+
+      this.excel=[...this.matrizPList3]
+      console.log(this.excel)
+      // this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
   }
 }

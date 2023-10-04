@@ -972,9 +972,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         empleado.direccionGerencia = this.empleadoForm.value.correoPersonal;
         empleado.businessPartner = this.empleadoForm.value.businessPartner;
         empleado.jefeInmediato = this.empleadoForm.value.jefeInmediato;
-        console.log(this.empleadoSelect)
-        console.log(this.empleadoForm.value.jefeInmediato)
-        console.log(this.jefeInmediato)
 
         empleado.usuario.usuarioEmpresaList = [];
         this.empleadoForm.value.perfilesId.forEach((perfilId: any) => {
@@ -999,14 +996,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
         this.empleadoService.update(empleado)
             .then(async data => {
-                console.log(data)
                 this.jefeInmediatoName=this.jefeInmediatoName0
                 this.empleadoSelect!.jefeInmediato = this.jefeInmediato.value
-                // this.empleadoSelect?.jefeInmediato?.primerNombre!=this.jefeInmediato.value.primerNombre
-                // this.empleadoSelect?.jefeInmediato?.segundoNombre!=this.jefeInmediato.value.segundoNombre
-                // this.empleadoSelect?.jefeInmediato?.primerApellido!=this.jefeInmediato.value.primerApellido
-                // this.empleadoSelect?.jefeInmediato?.segundoApellido!=this.jefeInmediato.value.segundoApellido
-                console.log(this.empleadoSelect)
                 this.msgs=[]
                 this.messageService.add({
                 // this.msgs.push({
