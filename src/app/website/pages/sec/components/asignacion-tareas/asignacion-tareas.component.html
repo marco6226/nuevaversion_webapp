@@ -10,7 +10,7 @@
 <p-panel header="Listado de tareas" styleClass="material-panel" [style.display]="(tareasList && tareasList.length > 0) || loading ? 'block':'none'">
     <button pButton type="button" (click)="abrirDialogo()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>
     
-    <div class="grid" >        
+    <div class="grid" >
         <div class="col-12">
             <p-table  #dt id="excel-table" styleClass="material-table" autoLayout="true" selectionMode="single" [loading]="loading" [(selection)]="tareaSelect" selectionMode="single" [value]="tareasList" [paginator]="true" [rows]="10"
             (onFilter)="onFilter($event)">
@@ -22,17 +22,26 @@
                         <th pSortableColumn="fecha_reporte">Fecha de reporte
                             <p-sortIcon field="fecha_reporte"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="regional" *ngIf="idEmpresa!='22'"> Regional
+                        <th pSortableColumn="aliado" *ngIf="mostrarColumna('aliado')">Aliado
+                            <p-sortIcon field="aliado"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="regional" *ngIf="mostrarColumna('regional')"> Regional
                             <p-sortIcon field="regional"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="division" *ngIf="idEmpresa=='22'"> División / Unidad
+                        <th pSortableColumn="division" *ngIf="mostrarColumna('division')"> División / Unidad
                             <p-sortIcon field="division"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="area" *ngIf="idEmpresa!='22'"> Sede
+                        <th pSortableColumn="division_aliado" *ngIf="mostrarColumna('division_aliado')">División / Unidad
+                            <p-sortIcon field="division_aliado"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="area" *ngIf="mostrarColumna('area')"> Sede
                             <p-sortIcon field="area"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="area" *ngIf="idEmpresa=='22'"> Ubicación
+                        <th pSortableColumn="area" *ngIf="mostrarColumna('areaUb')"> Ubicación
                             <p-sortIcon field="area"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="localidad" *ngIf="mostrarColumna('localidad')">Localidad
+                            <p-sortIcon field="localidad"></p-sortIcon>
                         </th>
                         <th pSortableColumn="hash_id"> Código
                             <p-sortIcon field="hash_id"></p-sortIcon>
@@ -40,7 +49,7 @@
                         <th pSortableColumn="nombre" style="width: 10%">Actividad
                             <p-sortIcon field="nombre"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="empResponsable.primer_nombre"> Responsable
+                        <th pSortableColumn="empResponsable.primer_nombre" *ngIf="mostrarColumna('empResponsable')">Responsable
                             <p-sortIcon field="empResponsable.primer_nombre"></p-sortIcon>
                         </th>
 
@@ -56,83 +65,69 @@
                     <tr class="filters">
                         <td>
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
-                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'module', 'contains')">
+                                <p-dropdown appendTo="body" [options]="opcionesModulos" [(ngModel)]="moduloSelected"
+                                (onChange)="dt.filter($event.value, 'module', 'equals');moduloSelected = $event.value;"></p-dropdown>
                             </div>
                         </td>
                         <td>
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
                                 <p-calendar appendTo="body" (onSelect)="dt.filter($event, 'fecha_reporte', 'dateFilter')" showButtonBar="true" dateFormat="dd-mm-yy"  (onClearClick)="dt.filter(undefined, 'fecha_reporte', 'dateFilter')" [yearNavigator]="true" [yearRange]="yearRange" styleClass="ui-inputtext"
                                     inputStyleClass="ui-inputclean" readonlyInput="true"></p-calendar>
                             </div>
                         </td>
-                        <td *ngIf="idEmpresa=='22'">
+                        <td *ngIf="mostrarColumna('aliado')">
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'aliado', 'contains')">
+                            </div>
+                        </td>
+                        <td *ngIf="mostrarColumna('division')">
+                            <div class="ui-inputgroup">
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'division', 'contains')">
                             </div>
                         </td>
-                        <td *ngIf="idEmpresa!='22'">
+                        <td *ngIf="mostrarColumna('regional')">
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'regional', 'contains')">
                             </div>
                         </td>
-                        <td>
+                        <div *ngIf="mostrarColumna('division_aliado')">
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'division_aliado', 'contains')">
+                            </div>
+                        </div>
+                        <td *ngIf="mostrarColumna('area') || mostrarColumna('areaUb')">
+                            <div class="ui-inputgroup">
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'area', 'contains')">
+                            </div>
+                        </td>
+                        <td *ngIf="mostrarColumna('localidad')">
+                            <div class="ui-inputgroup">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'localidad', 'contains')">
                             </div>
                         </td>
                         <td>
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'hash_id', 'contains')">
                             </div>
                         </td>
                         <td>
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
                             </div>
                         </td>
-                        <td>
+                        <td *ngIf="mostrarColumna('empResponsable')">
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'empResponsable.primer_nombre', 'contains')">
                             </div>
                         </td>
                         <td>
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
                                 <p-calendar  appendTo="body"  (onSelect)="dt.filter($event, 'fecha_proyectada', 'dateFilter')" showButtonBar="true" dateFormat="dd-mm-yy"  (onClearClick)="dt.filter(undefined, 'fecha_proyectada', 'dateFilter')" [yearNavigator]="true" [yearRange]="yearRange"
                                     styleClass="ui-inputtext" inputStyleClass="ui-inputclean" readonlyInput="true"></p-calendar>
                             </div>
                         </td>
                         <td>
                             <div class="ui-inputgroup">
-                                <span class="ui-inputgroup-addon">
-                                    <em class="pi pi-search"></em>
-                                </span>
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
                             </div>
                         </td>
@@ -145,12 +140,15 @@
 
                         <td class="p-text-center">{{tarea.module}}</td>
                         <td class="p-text-center">{{tarea.fecha_reporte | date:'dd-MM-yyyy' : 'UTC'}}</td>
-                        <td *ngIf="idEmpresa!='22'">{{tarea.regional}}</td>
-                        <td *ngIf="idEmpresa=='22'">{{tarea.division}}</td>
-                        <td>{{tarea.area}}</td>
+                        <td *ngIf="mostrarColumna('aliado')">{{tarea.aliado}}</td>
+                        <td *ngIf="mostrarColumna('regional')">{{tarea.regional}}</td>
+                        <td *ngIf="mostrarColumna('division')">{{tarea.division}}</td>
+                        <td *ngIf="mostrarColumna('division_aliado')">{{tarea.division_aliado}}</td>
+                        <td *ngIf="mostrarColumna('area') || mostrarColumna('areaUb')">{{tarea.area}}</td>
+                        <td *ngIf="mostrarColumna('localidad')">{{tarea.localidad}}</td>
                         <td>{{tarea.hash_id}}</td>
                         <td>{{tarea.nombre}}</td>
-                        <td class="p-text-center">{{(tarea?.empResponsable) ? tarea?.empResponsable?.primer_nombre + ' ' + tarea?.empResponsable?.primer_apellido : 'No posee responsable'}}</td>
+                        <td class="p-text-center" *ngIf="mostrarColumna('empResponsable')">{{(tarea?.empResponsable) ? tarea?.empResponsable?.primer_nombre + ' ' + tarea?.empResponsable?.primer_apellido : 'No posee responsable'}}</td>
                         <td class="p-text-center">{{ tarea?.fecha_proyectada | date:'dd-MM-yyyy' : 'UTC'}}</td>
                         <td class="p-text-center status" [ngClass]="{
                             'status--danger': tarea.estado === 'Vencida' || tarea.estado === 'Cerrada fuera de tiempo', 
@@ -158,8 +156,6 @@
                             'status--info': tarea.estado === 'En seguimiento',
                             'status--warning': tarea.estado === 'N/A'
                         }">{{tarea.estado}}</td>
-
-
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -168,7 +164,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>
-                    <button pButton type="button" icon="bi bi-search" label="Consultar" (click)="onClick()" routerLinkActive="router-link-active" class="p-button-warning" [disabled]="!tareaSelect"></button>
+                    <button pButton type="button" icon="bi bi-search" label="Gestionar tarea" (click)="onClick()" routerLinkActive="router-link-active" class="p-button-warning" [disabled]="!tareaSelect"></button>
                 </ng-template>
             </p-table>
         </div>

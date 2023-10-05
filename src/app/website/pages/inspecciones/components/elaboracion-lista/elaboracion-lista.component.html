@@ -62,6 +62,7 @@
                                             <th>Valor</th>
                                             <th>Despreciable</th>
                                             <th>Obligar foto</th>
+                                            <th>Obligar descripción</th>
                                             <th></th>
                                         </tr>
                                     </ng-template>
@@ -84,6 +85,11 @@
                                             <td style="text-align: center;">
                                                 <p-checkbox name="groupname" binary="true"
                                                     [(ngModel)]="rowData.requerirDoc"
+                                                    [disabled]="consultar"></p-checkbox>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <p-checkbox name="groupname" binary="true"
+                                                    [(ngModel)]="rowData.requerirDesc"
                                                     [disabled]="consultar"></p-checkbox>
                                             </td>
                                             <td style="width:3em;">

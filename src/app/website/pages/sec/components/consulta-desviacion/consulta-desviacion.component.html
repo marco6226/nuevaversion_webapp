@@ -16,46 +16,55 @@
                         <!-- paginatorPosition="both" [rowsPerPageOptions]="[5,10,15,20]"-->
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="analisisId" style="width:9%;" title="Investigado">Investigado
+                                <th pSortableColumn="analisisId" title="Investigado">Investigado
                                     <p-sortIcon field="analisisId"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="modulo" style="width: 9%;">Módulo
+                                <th pSortableColumn="modulo">Módulo
                                     <p-sortIcon field="modulo"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="modulo" style="width: 9%;" *ngIf="empresaId=='22'">No. FURAT
+                                <th pSortableColumn="modulo" *ngIf="empresaId=='22' && flagArea">No. FURAT
                                     <p-sortIcon field="modulo"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="hashId" style="width: 11%;">Código
+                                <th pSortableColumn="hashId">Código
                                     <p-sortIcon field="hashId"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="fechaReporte" style="width: 9%;">Fecha Reporte
+                                <th pSortableColumn="fechaReporte">Fecha Reporte
                                     <p-sortIcon field="fechaReporte.date:'yyyy-MM-dd HH:mm'"
                                         ariaLabel="Activate to sort"
                                         ariaLabelDesc="Activate to sort in descending order"
                                         ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="area.nombre" style="width: 10%;" *ngIf="empresaId!='22'  && flagArea">Área
+                                <th pSortableColumn="area.nombre" *ngIf="empresaId!='22' && flagArea">Área
                                     origen
                                     <p-sortIcon field="area.nombre"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="area.padreNombre" style="width: 10%;" *ngIf="empresaId=='22'  && flagArea">
+                                <th pSortableColumn="area.padreNombre" *ngIf="empresaId=='22' && flagArea">
                                     División/Unidad
                                     <p-sortIcon field="area.padreNombre"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="area.nombre" style="width: 10%;" *ngIf="empresaId=='22'  && flagArea">Ubicación
+                                <th pSortableColumn="area.nombre" *ngIf="empresaId=='22' && flagArea">Ubicación
                                     <p-sortIcon field="area.nombre"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="concepto" style="width: 30%;">Concepto
+                                <th pSortableColumn="aliado" *ngIf="!flagArea">Aliado
+                                    <p-sortIcon field="aliado"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="division" *ngIf="!flagArea">
+                                    Division / Unidad
+                                    <p-sortIcon field="division"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="localidad" *ngIf="!flagArea">Localidad
+                                    <p-sortIcon field="localidad"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="concepto">Concepto
                                     <p-sortIcon field="concepto"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="aspectoCausante" style="width: 30%;">Aspecto causante
+                                <th pSortableColumn="aspectoCausante">Aspecto causante
                                     <p-sortIcon field="aspectoCausante"></p-sortIcon>
                                 </th>
-                                <th *ngIf="empresaCriticidadPermiso==empresaId" pSortableColumn="aspectoCausante"
-                                    style="width: 30%;">Criticidad
+                                <th *ngIf="empresaCriticidadPermiso==empresaId" pSortableColumn="aspectoCausante">Criticidad
                                     <p-sortIcon field="aspectoCausante"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="email" style="width: 10%;" *ngIf="empresaId=='8'">email encargado
+                                <th pSortableColumn="email" *ngIf="empresaId=='8'">email encargado
                                     <p-sortIcon field="email"></p-sortIcon>
                                 </th>
                             </tr>
@@ -63,14 +72,13 @@
                                 <td class="text-center bg-light">
                                     <p-dropdown appendTo="body"
                                         [options]="[{label:'', value:null},{label:'Si', value:true},{label:'No', value:false}]"
-                                        [style]="{'min-width':'0em'}"
                                         (onChange)="dt.filter($event.value, 'analisisId', 'is_not_null')"></p-dropdown>
                                 </td>
                                 <td class="text-center bg-light">
-                                    <p-dropdown appendTo="body" [options]="opcionesModulos" [style]="{'min-width':'0em'}"
+                                    <p-dropdown appendTo="body" [options]="opcionesModulos" [(ngModel)]="moduloSelected"
                                         (onChange)="dt.filter($event.value, 'modulo', 'equals');changeModulos($event)"></p-dropdown>
                                 </td>
-                                <td *ngIf="empresaId=='22'" class="text-center bg-light">
+                                <td *ngIf="empresaId=='22' && flagArea" class="text-center bg-light">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'furat', 'contains')">
                                 </td>
@@ -89,6 +97,15 @@
                                 <td class="text-center bg-light" *ngIf="flagArea">
                                     <input pInputText type="text"
                                         (input)="dt.filter($event.target.value.toUpperCase(), 'area.nombre', 'contains')">
+                                </td>
+                                <td class="text-center bg-light" *ngIf="!flagArea">
+                                    <input type="text" pInputText (input)="dt.filter($event.target.value, 'aliado', 'contains')">
+                                </td>
+                                <td class="text-center bg-light" *ngIf="!flagArea">
+                                    <input pInputText type="text" (input)="dt.filter($evet.target.value, 'division', 'contains')">
+                                </td>
+                                <td class="text-center bg-light" *ngIf="!flagArea">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'localidad', 'contains')">
                                 </td>
                                 <td class="text-center bg-light">
                                     <input pInputText type="text"
@@ -125,11 +142,14 @@
                                         *ngIf="!desviacion.analisisId"></p-tableCheckbox>
                                 </td>
                                 <td>{{desviacion.modulo}}</td>
-                                <td *ngIf="empresaId=='22'">{{desviacion.furat}}</td>
+                                <td *ngIf="empresaId=='22' && flagArea">{{desviacion.furat}}</td>
                                 <td>{{desviacion.hashId}}</td>
                                 <td>{{desviacion.fechaReporte | date:'dd/MM/yyyy'}}</td>
                                 <td *ngIf="empresaId=='22' && flagArea">{{desviacion?.area?.padreNombre}}</td>
                                 <td *ngIf="flagArea">{{desviacion?.area?.nombre}}</td>
+                                <td *ngIf="!flagArea">{{desviacion?.aliado}}</td>
+                                <td *ngIf="!flagArea">{{desviacion?.division}}</td>
+                                <td *ngIf="!flagArea">{{desviacion?.localidad}}</td>
                                 <td>{{desviacion.concepto}}</td>
                                 <td [pTooltip]="desviacion.aspectoCausante" tooltipPosition="top">
                                     {{desviacion.aspectoCausante | slice:0:100}}...</td>
@@ -159,16 +179,9 @@
 
                             <div class="d-flex justify-content-center">
                                 <div class="btn-group" role="group">
-                                    <td *ngIf="empresaId=='8'">
-                                    <button   *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-search"
-                                        label="Iniciar investigación"
-                                        class="p-button-raised p-button-warning margin-right margin-left"
-                                        style="color: var(--white)" (click)="analizarDesviacion()"
-                                        [disabled]="desviacionesListSelect == null || desviacionesListSelect.length <= 0"></button>
-                                    </td>
-                                    <td *ngIf="empresaId=='22'">
+                                    <td>
                                     <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-search"
-                                        label="Iniciar Plan de trabajo"
+                                        [label]="desviacionesListSelect && desviacionesListSelect[0]?.modulo == 'Reporte A/I' ? 'Iniciar investigación' : 'Plan de trabajo'"
                                         class="p-button-raised p-button-warning margin-right margin-left"
                                         style="color: var(--white)" (click)="analizarDesviacion()"
                                         [disabled]="desviacionesListSelect == null || desviacionesListSelect.length <= 0"></button>

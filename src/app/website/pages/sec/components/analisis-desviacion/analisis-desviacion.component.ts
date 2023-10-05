@@ -193,6 +193,8 @@ export class AnalisisDesviacionComponent implements OnInit {
     tempData: listFactores[] = [];
     validators: boolean = true;
 
+    esAliado: boolean = false;
+
     constructor(
         private sistCausAdminService: SistemaCausaAdministrativaService,
         private analisisDesviacionService: AnalisisDesviacionService,
@@ -242,7 +244,8 @@ export class AnalisisDesviacionComponent implements OnInit {
         this.nitEmpresa = this.sesionService.getEmpresa()!.nit;
         this.nombreEmpresa = this.sesionService.getEmpresa()!.nombreComercial;
         this.idEmpresa = this.sesionService.getEmpresa()!.id;
-        console.log(localStorage.getItem('Accion'))
+        this.esAliado = this.sesionService.getEmpresa()?.idEmpresaAliada ? true : false;
+        // console.log(localStorage.getItem('Accion'))
         if (this.value == null) {
             // switch (this.paramNav.getAccion<string>()) {
             switch (localStorage.getItem('Accion')) {
@@ -261,7 +264,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                             // (resp: SistemaCausaAdministrativa) => {
                             (resp: any) => {
                                 this.causaAdminList = this.buildTreeNode(
-                                    resp.causaAdminList,
+                                    resp?.causaAdminList,
                                     null,
                                     "causaAdminList"
                                 );
@@ -288,6 +291,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                             this.paramNav.setParametro<Desviacion>(JSON.parse(localStorage.getItem('Desviacion')!));
                             this.desviacionesList =
                                 await this.paramNav.getParametro<Desviacion[]>();
+                                // console.log(this.desviacionesList);
                             // await JSON.parse(localStorage.getItem('Desviacion')!)
                             this.adicionar = true;
                         });
@@ -303,10 +307,6 @@ export class AnalisisDesviacionComponent implements OnInit {
 
                     break;
             }
-            setTimeout(() => {
-                localStorage.removeItem('Desviacion')
-                localStorage.removeItem('Accion')
-            }, 5000);
         } else {
             this.consultar = true;
             await this.consultarAnalisis(this.value.id!);
@@ -342,31 +342,37 @@ export class AnalisisDesviacionComponent implements OnInit {
         }, 3000);
         this.usuario = await this.sesionService.getUsuario()!;
         this.idUsuario = this.usuario?.id!
+        console.log(this.desviacionesList);
+        setTimeout(() => {
+            localStorage.removeItem('Desviacion')
+            localStorage.removeItem('Accion')
+        }, 5000);
     }
 
     async consultarAnalisis(analisisId: string) {
+        setTimeout(() => {}, 5000);
         let fq = new FilterQuery();
         fq.filterList = [
             { criteria: Criteria.EQUALS, field: "id", value1: analisisId },
         ];
-        await this.analisisDesviacionService.findByFilter(fq).then(async (resp: any) => {
-            let analisis = <AnalisisDesviacion>resp["data"][0];
-            this.Evidencias = resp['data'][0].documentosList;
-            this.dataFlow = resp["data"][0];
-            this.flowChart = resp["data"][0].flow_chart;
-            this.flowChartSave = resp["data"][0].flow_chart;
-            this.factorCusal = JSON.parse(resp["data"][0].factor_causal);
-            this.informacionComplementaria = JSON.parse(resp["data"][0].complementaria);
-            if (JSON.parse(resp["data"][0].plan_accion) != null) {
-                this.listPlanAccion = await JSON.parse(resp["data"][0].plan_accion);
+        await this.analisisDesviacionService.find(analisisId).then(async (resp: any) => {
+            console.log(resp['data']);
+            let analisis = <AnalisisDesviacion>resp;
+            this.Evidencias = resp.documentosList;
+            this.dataFlow = resp;
+            this.flowChart = resp.flow_chart;
+            this.flowChartSave = resp.flow_chart;
+            this.factorCusal = JSON.parse(resp.factor_causal);
+            this.informacionComplementaria = JSON.parse(resp.complementaria);
+            if (JSON.parse(resp.plan_accion) != null) {
+                this.listPlanAccion = await JSON.parse(resp.plan_accion);
                 this.habilitarInforme();
             }
 
-            if (JSON.parse(resp["data"][0].miembros_equipo) != null) {
-                this.miembros = JSON.parse(resp["data"][0].miembros_equipo);
+            if (JSON.parse(resp.miembros_equipo) != null) {
+                this.miembros = JSON.parse(resp.miembros_equipo);
             }
-
-            this.informeJson = JSON.parse(resp["data"][0].informe);
+            this.informeJson = JSON.parse(resp.informe);
             this.habilitarInforme()
             if (this.informacionComplementaria != null) {
                 this.analisisPeligros.patchValue({
@@ -397,11 +403,9 @@ export class AnalisisDesviacionComponent implements OnInit {
                 });
                 this.guardando = false;
             }
-
             this.setListDataFactor();
 
-
-            this.incapacidadesList = JSON.parse(resp["data"][0].incapacidades)
+            this.incapacidadesList = JSON.parse(resp.incapacidades)
             this.desviacionesList = analisis.desviacionesList;
             if (this.desviacionesList)
                 this.severidad = this.desviacionesList[0].severidad;
@@ -472,7 +476,7 @@ export class AnalisisDesviacionComponent implements OnInit {
         causasSelectList?: any[]
     ): any {
         let treeNodeList: TreeNode[] = [];
-        list.forEach((ci) => {
+        list?.forEach((ci) => {
             let node: any = {
                 id: ci.id,
                 label: ci.nombre,
@@ -959,15 +963,26 @@ export class AnalisisDesviacionComponent implements OnInit {
             ad.jerarquia = ad.jerarquia;
             ad.complementaria = JSON.stringify(this.informacionComplementaria);
             ad.informe = JSON.stringify(this.informeJson);
-            this.analisisDesviacionService.create(ad).then((data) => {
-                let analisisDesviacion = <AnalisisDesviacion>data;
-                this.manageResponse(analisisDesviacion);
-                //this.idUsuario=analisisDesviacion
-                this.analisisId = analisisDesviacion.id;
-                this.documentos = [];
-                this.modificar = true;
-                this.adicionar = false;
-            });
+            if(!this.esAliado) {
+                this.analisisDesviacionService.create(ad).then((data) => {
+                    let analisisDesviacion = <AnalisisDesviacion>data;
+                    this.manageResponse(analisisDesviacion);
+                    //this.idUsuario=analisisDesviacion
+                    this.analisisId = analisisDesviacion.id;
+                    this.documentos = [];
+                    this.modificar = true;
+                    this.adicionar = false;
+                });
+            } else {
+                this.analisisDesviacionService.createAnalisisAliado(ad).then((data) => {
+                    let analisisDesviacion = <AnalisisDesviacion>data;
+                    this.manageResponse(analisisDesviacion);
+                    this.analisisId = analisisDesviacion.id;
+                    this.documentos = [];
+                    this.modificar = true;
+                    this.adicionar = false;
+                });
+            }
         } else {
             this.guardando = false
             this.msgs = [];
@@ -1044,13 +1059,22 @@ export class AnalisisDesviacionComponent implements OnInit {
 
                 }
 
-                this.analisisDesviacionService.update(ad).then((data) => {
+                if(!this.esAliado){
+                    this.analisisDesviacionService.update(ad).then((data) => {
 
-                    this.manageResponse(<AnalisisDesviacion>data);
-                    this.modificar = true;
-                    this.adicionar = false;
-                    this.disabled = false;
-                });
+                        this.manageResponse(<AnalisisDesviacion>data);
+                        this.modificar = true;
+                        this.adicionar = false;
+                        this.disabled = false;
+                    });
+                } else {
+                    this.analisisDesviacionService.updateAnalisisAliado(ad).then((data) => {
+                        this.manageResponse(<AnalisisDesviacion>data);
+                        this.modificar = true;
+                        this.adicionar = false;
+                        this.disabled = false;
+                    });
+                }
                 // }, 1000);
                 setTimeout(async () => {
                     this.buttonPrint = false;
@@ -1132,7 +1156,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                             });
                             this.visibleLnkResetPasswd = true;
                         });
-                } else {
+                } else if(this.desviacionesList[0].modulo != 'Inspecciones CC') {
                     this.msgs = [];
                     this.msgs.push({
                         severity: "warn",

@@ -581,7 +581,7 @@ export class ElaboracionInspeccionesComponent implements OnInit {
 
         for (let i = 0; i < this.listaInspeccionForm.opciones.length; i++) {
             if (elementoSelect.calificacion.opcionCalificacion.id === this.listaInspeccionForm.opciones[i].id) {
-                elementoSelect.calificacion.opcionCalificacion.requerirDoc = this.listaInspeccionForm.opciones[i].requerirDoc;
+                elementoSelect.calificacion.opcionCalificacion.requerirDesc = this.listaInspeccionForm.opciones[i].requerirDesc;
             }
         }
         elementoSelect.calificacion.recomendacion = elementoSelect.calificacion.recomendacion === undefined ? '' : elementoSelect.calificacion.recomendacion;
@@ -589,7 +589,7 @@ export class ElaboracionInspeccionesComponent implements OnInit {
             elementoSelect != null &&
             elementoSelect.calificacion != null &&
             elementoSelect.calificacion.recomendacion != null &&
-            elementoSelect.calificacion.opcionCalificacion.requerirDoc === true &&
+            elementoSelect.calificacion.opcionCalificacion.requerirDesc === true &&
             (elementoSelect.calificacion.recomendacion == null || elementoSelect.calificacion.recomendacion === '')
         ) {
             throw new Error("Debe agregar una descripción al adjuntar evidencia de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");

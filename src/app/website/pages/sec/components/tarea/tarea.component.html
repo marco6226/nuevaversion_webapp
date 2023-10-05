@@ -109,7 +109,7 @@
                 </div>
             </div>
 
-            <div class="col-12 md:col-6 lg:col-4">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="!esInspeccionCC; else localidad">
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Area" class="form-material" [value]="tarea?.area"
                         readonly="true" />
@@ -118,15 +118,30 @@
                 </div>
             </div>
 
+            <ng-template #localidad>
+                <div class="col-12 md:col-6 lg:col-4">
+                    <div class="input-field">
+                        <input type="text" pInputText placeholder="Localidad" class="form-material" [value]="tarea?.localidad"
+                            readonly="true" />
+                        <label for="" class="active">Localidad</label>
+                    </div>
+                </div>
+            </ng-template>
+
             <div class="col-12 md:col-6 lg:col-4">
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Responsable" class="form-material"
-                        [value]="(tarea?.responsable)? tarea?.responsable : 'No posee responsable'" readonly="true" />
+                        [value]="(tarea?.responsable)? tarea?.responsable : 'No posee responsable'" readonly="true"
+                        *ngIf="tarea?.module != 'Inspecciones CC';else responsableAliado"/>
+                    <ng-template #responsableAliado>
+                        <input type="text" pInputText placeholder="Responsable" class="form-material"
+                        [value]="(tarea?.responsableAliado) ? tarea.responsableAliado : 'No posee responsable'" readonly="true" >
+                    </ng-template>
                     <label for="" class="active">Responsable</label>
                 </div>
             </div>
 
-            <div class="col-12 md:col-6 lg:col-4">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="tarea?.module != 'Inspecciones CC'">
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Correo Electronico" class="form-material"
                         [value]="(tarea?.email) ? tarea?.email : 'No posee responsable'" readonly="true" />
@@ -154,7 +169,7 @@
     <p-tabPanel header="Seguimientos">
 
         <app-seguimientos-tareas [tarea]="tarea" [tareaClose]="tareaClose" [status]="status" [tareaId]="tareaId"
-            (isFollowExist)="isFollows($event)">
+            (isFollowExist)="isFollows($event)" [esInspeccionCC]="esInspeccionCC">
         </app-seguimientos-tareas>
 
     </p-tabPanel>
@@ -171,7 +186,7 @@
                     <h5 class="title-header p-mb-2">Cierre</h5>
                 </div>
 
-                <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-4" *ngIf="!esInspeccionCC">
                     <div class="input-field">
                         <p-autoComplete styleClass="form-material-autocomplete" #autocomplete placeholder="Digite"
                             formControlName="email" [style]="{'width':'100%'}" (onSelect)="onSelection($event)"
@@ -207,13 +222,22 @@
 
                 </div>
 
-                <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-4" *ngIf="!esInspeccionCC; else nombreCompleto">
                     <div class="input-field">
                         <input type="text" pInputText placeholder="Nombres y apellidos" [value]="fullName"
                             class="form-material" [attr.disabled]="true" />
                         <label for="" class="active">Nombres y apellidos</label>
                     </div>
                 </div>
+
+                <ng-template #nombreCompleto>
+                    <div class="col-12 md:col-6 lg:col-6">
+                        <div class="input-field">
+                            <input type="text" pInputText placeholder="Nombres y apellidos" formControlName="responsableAliado" [required]="true">
+                            <label for="" class="active">Nombres y apellidos</label>
+                        </div>
+                    </div>
+                </ng-template>
 
                 <div class="col-12 md:col-6 lg:col-4">
                     <div class="input-field">
@@ -281,9 +305,8 @@
                 <!-- Start send button -->
                 <ng-template [sTienePermiso]="'RAI_GET_TAREAEVI'" (flagTienePermiso)="TienePermiso($event)">
                 </ng-template>
-                <button pButton *ngIf="cargando == false && !tareaClose" type="submit" icon="bi bi-save
-"
-                    class="float-btn" style="bottom: 100px;" title="Guardar tarea"></button>
+                <button pButton *ngIf="cargando == false && !tareaClose" type="submit" icon="pi pi-save"
+                    class="float-btn" style="right: 10px;" title="Guardar tarea"></button>
 
                 <p-progressSpinner *ngIf="cargando == true" class="float-btn" strokeWidth="8"
                     [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
@@ -295,8 +318,10 @@
 
     </p-tabPanel>
 
-    <p-tabPanel header="Verificación" *ngIf="tareaClose">
-        <app-verificacion-tarea [tarea]="tarea" [tareaVerify]="tareaVerify" (loadTareas)="getTarea($event)">
-        </app-verificacion-tarea>
-    </p-tabPanel>
+    <ng-container *sTienePermiso="'SEC_TAREA_VERIFICACION'">
+        <p-tabPanel header="Verificación" *ngIf="tareaClose">
+            <app-verificacion-tarea [tarea]="tarea" [tareaVerify]="tareaVerify" (loadTareas)="getTarea($event)">
+            </app-verificacion-tarea>
+        </p-tabPanel>
+    </ng-container>
 </p-tabView>

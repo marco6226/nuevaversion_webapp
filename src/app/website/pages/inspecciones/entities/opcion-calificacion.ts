@@ -6,4 +6,5 @@ export interface OpcionCalificacion {
     despreciable: boolean;
     requerirDoc: boolean;
     numeral: number;
+    requerirDesc: boolean;
 }

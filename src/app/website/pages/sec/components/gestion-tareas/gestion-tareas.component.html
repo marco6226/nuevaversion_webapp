@@ -50,24 +50,29 @@
                 dateFormat="dd/mm/yy" id="fechaProyectada" formControlName="fechaProyectada" required></p-calendar>
         </div>
 
-        <div class="col-12 md:col-2 lg:col-2">
+        <div class="col-12 md:col-2 lg:col-2" *ngIf="!esAliado && tipoLista != 'Inspecciones CC'">
             <label for="areaResponsable">Area Responsable</label>
         </div>
-        <div class="col-12 md:col-10 lg:col-10">
-            <area-selector formControlName="areaResponsable"></area-selector>
+        <div class="col-12 md:col-10 lg:col-10" *ngIf="!esAliado && tipoLista != 'Inspecciones CC'">
+            <area-selector formControlName="areaResponsable" required></area-selector>
         </div>
 
         <div class="col-12 md:col-2 lg:col-2">
             <label for="empResponsable">Empleado Responsable</label>
         </div>
-        <div class="col-12 md:col-10 lg:col-10">
-            <s-empleadoSelector formControlName="empResponsable" required></s-empleadoSelector>
+        <div class="col-12 md:col-10 lg:col-10" *ngIf="!esAliado && tipoLista != 'Inspecciones CC';else empResponsableTemplate">
+            <s-empleadoSelector formControlName="empResponsable" [required]="true"></s-empleadoSelector>
         </div>
+        <ng-template #empResponsableTemplate>
+            <div class="col-12 md:col-10 lg:col-10">
+                <input type="text" pInputText formControlName="responsableAliado" required>
+            </div>
+        </ng-template>
     </div>
     <p-footer>
         <div>
             <ng-container *ngIf="adicionar">
-                <button *sTienePermiso="'SEC_POST_TAR'" pButton type="submit" icon="fa fa-plus" [disabled]="!form.valid"
+                <button *sTienePermiso="'SEC_POST_TAR'" pButton type="submit" icon="bi bi-plus" [disabled]="!form.valid"
                     label="Adicionar actividad"></button>
             </ng-container>
             <ng-container *ngIf="modificar">
@@ -90,9 +95,8 @@
             <th>Jerarquía de control</th>
             <th>Estado</th>
             <th>Fecha proyectada</th>
-            <th>Area responsable</th>
+            <th *ngIf="tipoLista != 'Inspecciones CC'">Area responsable</th>
             <th>Empleado responsable</th>
-
             <th style="width: 7em;" *ngIf="!readOnly"></th>
         </tr>
     </ng-template>
@@ -104,8 +108,11 @@
             <td>{{tarea.jerarquia}}</td>
             <td>{{tarea.estado}}</td>
             <td>{{tarea.fechaProyectada | date:'yyyy-MM-dd'}}</td>
-            <td>{{tarea?.areaResponsable?.nombre}}</td>
-            <td>{{tarea?.empResponsable?.primerNombre}} {{tarea?.empResponsable?.primerApellido}}</td>
+            <td *ngIf="tipoLista != 'Inspecciones CC'">{{tarea?.areaResponsable?.nombre}}</td>
+            <td *ngIf="!esAliado && tipoLista != 'Inspecciones CC'; else responsableAliadoColumn">{{tarea?.empResponsable?.primerNombre}} {{tarea?.empResponsable?.primerApellido}}</td>
+            <ng-template #responsableAliadoColumn>
+                <td>{{ tarea?.responsableAliado }}</td>
+            </ng-template>
             <td *ngIf="!readOnly">
                 <button *sTienePermiso="'SEC_DELETE_TAR'" pButton type="button" icon="bi bi-x-lg" class="soft-icon"
                     (click)="removeTarea(tarea)" [disabled]="tarea.estado != 'NUEVO'"

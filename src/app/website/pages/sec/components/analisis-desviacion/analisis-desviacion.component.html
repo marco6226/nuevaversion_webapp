@@ -5,8 +5,8 @@
             <tr>
                 <th>Módulo</th>
                 <th>Código</th>
-                <th *ngIf="idEmpresa != '22'">Área origen</th>
-                <th *ngIf="idEmpresa == '22'">Ubicación</th>
+                <th *ngIf="idEmpresa != '22' && !esAliado">Área origen</th>
+                <th *ngIf="idEmpresa == '22' || esAliado">Ubicación</th>
                 <th>Concepto</th>
                 <th>Aspecto causante</th>
                 <th style="width:3em;"></th>
@@ -20,9 +20,14 @@
                 <td>
                     {{rowData.hashId}}
                 </td>
-                <td>
+                <td *ngIf="rowData.modulo!='Inspecciones CC'; else division">
                     {{rowData.area.nombre}}
                 </td>
+                <ng-template #division>
+                    <td>
+                        {{rowData.division}}
+                    </td>
+                </ng-template>
                 <td>
                     {{rowData.concepto}}
                 </td>
@@ -41,6 +46,7 @@
 <br />
 
 <p-tabView>
+    <ng-container *ngIf="desviacionesList && desviacionesList[0]?.modulo != 'Inspecciones CC'">
     <p-tabPanel header="INVESTIGACIÓN" *sTienePermiso="'SEC_POST_INVESTIGACIONES'">
         <div class="grid">
             <div class="col-12">
@@ -479,15 +485,16 @@
             </div>
         </div>
     </p-tabPanel>
-    <p-tabPanel *ngIf="idEmpresa != '22' " header="PLAN DE TRABAJO">
-        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar"></s-gestionTareas>
+    </ng-container>
+    <p-tabPanel *ngIf="idEmpresa != '22' || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones CC')" header="PLAN DE TRABAJO">
+        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar" [tipoLista]="desviacionesList[0]?.modulo"></s-gestionTareas>
     </p-tabPanel>
 
 </p-tabView>
 
 <div class="loader float-btn" *ngIf="guardando" style="position:absolute; top:340px; left:53%; "></div>
 <ng-container *ngIf="adicionar && !consultar">
-    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-save" 
+    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="pi pi-save" 
 title="Guardar Análisis" (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled"></button>
 </ng-container>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DesviacionService } from 'src/app/website/pages/core/services/desviacion.service';
 import { Desviacion } from 'src/app/website/pages/comun/entities/desviacion';
@@ -10,24 +10,28 @@ import { Criteria } from 'src/app/website/pages/core/entities/filter';
 import * as XLSX from 'xlsx'; 
 import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/website/pages/rai/entities/reporte-enumeraciones';
 import { PrimeNGConfig } from 'primeng/api';
+import { Empresa } from '../../../empresa/entities/empresa';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-consulta-desviacion',
   templateUrl: './consulta-desviacion.component.html',
   styleUrls: ['./consulta-desviacion.component.scss']
 })
-export class ConsultaDesviacionComponent implements OnInit {
+export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
+  @ViewChild('dt') table!: Table;
+
   localeES: any = locale_es;
   desviacionesList?: Desviacion[];
   desviacionesListOnFilter?: Desviacion[];
   desviacionesListSelect?: Desviacion[];
-  opcionesModulos = [
-    { label: '', value: null }, 
+  opcionesModulos = [ 
     { label: 'Inspecciones', value: 'Inspecciones' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Reporte A/I', value: 'Reporte A/I' },
     { label: 'Inspecciones CC', value: 'Inspecciones CC'}
   ];
+  moduloSelected: string = 'Reporte A/I';
 
   empresaCriticidadPermiso: number=11;
   empresaId?: number;
@@ -59,13 +63,20 @@ export class ConsultaDesviacionComponent implements OnInit {
   desde?: Date;
   hasta?: Date;
   downloading?: boolean;
+
+  empresa: Empresa | null = null;
+  esAliado: boolean  = false;
+
   constructor(
     private sesionService: SesionService,
     private desviacionService: DesviacionService,
     private paramNav: ParametroNavegacionService,
     private router: Router,
-    private config: PrimeNGConfig
-  ) { }
+    private config: PrimeNGConfig,
+    private cdRef: ChangeDetectorRef,
+  ) {
+    // this.cdRef.detectChanges();
+  }
 
   ngOnInit(): void {
     this.config.setTranslation(this.localeES);
@@ -79,6 +90,24 @@ export class ConsultaDesviacionComponent implements OnInit {
       return areasPermiso2?.indexOf(ele) == pos;
     }) 
     this.areasPermiso='{'+filteredArea?.toString()+'}';
+    this.empresa = this.sesionService.getEmpresa();
+    this.esAliado = this.empresa?.idEmpresaAliada ? true : false;
+    this.flagArea = this.esAliado ? false : true;
+
+  }
+
+  ngAfterViewInit(): void {
+    // console.log(this.table);
+    if(this.esAliado){
+      this.opcionesModulos = [
+        {label: 'Inspecciones CC', value: 'Inspecciones CC'}
+      ];
+      this.moduloSelected = 'Inspecciones CC';
+      this.table.filter(this.moduloSelected, 'modulo', 'equals');
+    } else {  
+      this.moduloSelected = 'Reporte A/I';
+      this.table.filter(this.moduloSelected, 'modulo', 'equals');
+    }
   }
 
   async exportexcel(event: any): Promise<void> 
@@ -121,6 +150,7 @@ export class ConsultaDesviacionComponent implements OnInit {
 
   async lazyLoad(event: any) {
     // this.desviacionService.findAll().then(resp=>console.log(resp))
+    if(this.moduloSelected == null) return;
     this.loading = true;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
@@ -129,10 +159,19 @@ export class ConsultaDesviacionComponent implements OnInit {
     // filterQuery.rows = event.rows;
     filterQuery.count = true;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso  });
-    // filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: "area.id" });
-    filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: "emptemporal" });
 
+    if(this.empresa && this.empresa.idEmpresaAliada !== null) {
+      // console.log('filtro empresa aliada');
+      filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso  });
+      filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'modulo', value1: 'Inspecciones CC'});
+      filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'empresaId', value1: this.empresa.idEmpresaAliada?.toString()});
+    } else {
+      filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso  });
+      // filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'empresaId', value1: empresaUsuario.id});
+      filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: "emptemporal" });
+    }
+
+    
     await this.desviacionService.findByFilter(filterQuery).then(
       (resp:any) => {
         this.totalRecords = resp['count'];
@@ -217,8 +256,9 @@ export class ConsultaDesviacionComponent implements OnInit {
 
   onFilter(event:any){
     this.desviacionesListOnFilter=event.filteredValue
-}
-flagArea:boolean=true
+  }
+  
+  flagArea:boolean=true
   changeModulos(eve:any){
     if(eve.value=='Inspecciones CC')this.flagArea=false
     else this.flagArea=true
