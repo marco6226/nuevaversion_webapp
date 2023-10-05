@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { TareaService } from 'src/app/website/pages/core/services/tarea.service'
 import { ParametroNavegacionService } from 'src/app/website/pages/core/services/parametro-navegacion.service';
 import { Tarea } from 'src/app/website/pages/comun/entities/tarea'
@@ -11,13 +11,14 @@ import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
 import {formatDate} from '@angular/common';
+import { columnasPorModulo } from '../utils/entities/modulos';
 
 @Component({
   selector: 'app-asignacion-tareas',
   templateUrl: './asignacion-tareas.component.html',
   styleUrls: ['./asignacion-tareas.component.scss']
 })
-export class AsignacionTareasComponent implements OnInit {
+export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   @ViewChild("dt") dataTableComponent: Table | null = null;
   loading: boolean = true;
   yearRange?:any;
@@ -27,22 +28,35 @@ export class AsignacionTareasComponent implements OnInit {
   msgs: Message[] = [];
   observacionesRealizacion?: string;
   arrayIdsareas:any  = [];
-  idEmpresa?: string | null;
+  idEmpresa: string = '';
    
   modalExcel = false;
   fileName= 'ListadoSeguimiento.xlsx';
+
+  esAliado: boolean = false;
+  opcionesModulos = [
+    { label: 'Reporte A/I', value: 'Reporte A/I' },
+    { label: 'Observaciones', value: 'Observaciones' },
+    { label: 'Inspecciones', value: 'Inspecciones' },
+    { label: 'Inspecciones CC', value: 'Inspecciones CC'}
+  ];
+  moduloSelected: string = 'Reporte A/I';
 
   localeES=locale_es
   constructor(
     private tareaService: TareaService,
     private paramNav: ParametroNavegacionService,
     private sesionService: SesionService,
-    private config: PrimeNGConfig
-  ) { }
+    private config: PrimeNGConfig,
+    private cdr: ChangeDetectorRef,
+  ) { 
+    // this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
 
-    this.idEmpresa = this.sesionService.getEmpresa()!.id;
+    this.esAliado = this.sesionService.getEmpresa()?.idEmpresaAliada ? true : false;
+    this.idEmpresa = this.esAliado ? new String(this.sesionService.getEmpresa()?.idEmpresaAliada).toString() : new String(this.sesionService.getEmpresa()?.id).toString();
 
     let date = new Date().getFullYear().toString();
 
@@ -56,7 +70,7 @@ export class AsignacionTareasComponent implements OnInit {
       monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
       today: 'Hoy',
       clear: 'Borrar'
-  });
+    });
 
     this.loading = true;
 
@@ -72,6 +86,20 @@ export class AsignacionTareasComponent implements OnInit {
 
     //     return filt.isSame(val);
     // }
+  }
+
+  ngAfterViewInit(): void {
+    this.loading = true;
+    if(this.esAliado) {
+      this.opcionesModulos = [
+        {label: 'Inspecciones CC', value: 'Inspecciones CC'}
+      ];
+      this.moduloSelected = 'Inspecciones CC';
+      this.dataTableComponent?.filter(this.moduloSelected, 'module', 'equals');
+    } else {
+      this.dataTableComponent?.filter(this.moduloSelected, 'module', 'equals');
+    }
+    this.loading = false;
   }
 
   getTareas() {
@@ -100,6 +128,7 @@ export class AsignacionTareasComponent implements OnInit {
     this.tareaService.findByDetails(this.arrayIdsareas).then(
         async resp => { 
             this.tareasList = resp;
+            if(this.esAliado) this.tareasList = this.tareasList.filter((tarea: any) => tarea.module === 'Inspecciones CC');
             this.tareasList.sort(function(a:any,b:any){
                   if(a.id < b.id){
                     return 1
@@ -266,5 +295,18 @@ export class AsignacionTareasComponent implements OnInit {
 
     onFilter(event:any){
         this.tareaListFilter=event.filteredValue
+    }
+
+    mostrarColumna(nombreColumna: string){
+      let moduloInfo = columnasPorModulo[this.moduloSelected];
+      if(Object.keys(moduloInfo).includes(this.idEmpresa)){
+        return moduloInfo[this.idEmpresa!].includes(nombreColumna);
+      }
+      
+      return columnasPorModulo['default'].includes(nombreColumna)
+    }
+
+    test(event: any){
+      console.log(event);
     }
 }

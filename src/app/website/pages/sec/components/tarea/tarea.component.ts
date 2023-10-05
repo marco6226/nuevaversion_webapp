@@ -50,7 +50,8 @@ export class TareaComponent implements OnInit {
   idEmpresa?: string | null;
   flagEvidencias: boolean=false;
   permisoFlag:boolean=false
-  localeES=locale_es
+  localeES=locale_es;
+  esInspeccionCC: boolean = false;
 
   constructor(
     fb: FormBuilder,
@@ -66,19 +67,25 @@ export class TareaComponent implements OnInit {
   ) {
     this.tareaForm = fb.group({
       id: ["", Validators.required],
-      usuarioCierre: ["", Validators.required],
-      email: ["", null],
-      fechaCierre: ["", Validators.required],
-      descripcionCierre: ["", Validators.required],
+      usuarioCierre: [null],
+      nombreCompleto:[null],
+      email: [null],
+      responsableAliado: [null],
+      fechaCierre: [null, Validators.required],
+      descripcionCierre: [null, Validators.required],
       evidences: [[]],
   });
    }
 
   ngOnInit(): void {
     this.config.setTranslation(this.localeES)
-    this.idEmpresa = this.sesionService.getEmpresa()!.id;
+    this.idEmpresa = this.sesionService.getEmpresa()?.idEmpresaAliada ? this.sesionService.getEmpresa()?.idEmpresaAliada?.toString() : this.sesionService.getEmpresa()!.id;
     this.tareaId = this.route.snapshot.paramMap.get("id");
-    this.getTarea();
+    this.getTarea().then(() => {
+        this.esInspeccionCC = this.tarea?.hash_id?.includes('INPCC') ?? false;
+        // console.log(this.esInspeccionCC);
+    });
+
 
     /* Preload data */
     this.estadoList = [
@@ -161,24 +168,39 @@ export class TareaComponent implements OnInit {
         if (this.status === 3 || this.status === 4) {
             this.tareaClose = true;
             let fq = new FilterQuery();
-            fq.filterList = [
-                {
-                    criteria: Criteria.EQUALS,
-                    field: "id",
-                    value1: this.tarea.fk_usuario_cierre,
-                    value2: null,
-                },
-            ];
-            this.empleadoService.findByFilter(fq).then(async (resp:any) => {
-                let empleado = resp["data"][0];
-                this.onSelection(empleado);
-                await this.getEvidences(this.tarea.id);
+            if(this.tarea.fk_usuario_cierre){
+                fq.filterList = [
+                    {
+                        criteria: Criteria.EQUALS,
+                        field: "id",
+                        value1: this.tarea.fk_usuario_cierre,
+                        value2: null,
+                    },
+                ];
+            }
+
+            if(fq.filterList && fq.filterList?.length > 0){
+                this.empleadoService.findByFilter(fq).then(async (resp:any) => {
+                    let empleado = resp["data"][0];
+                    this.onSelection(empleado);
+                }).finally(() => {
+                    this.getEvidences(this.tarea.id);
+                    this.tareaForm!.patchValue({
+                        usuarioCierre: this.tarea.fk_usuario_cierre,
+                        fechaCierre: new Date(this.tarea.fecha_cierre),
+                        descripcionCierre: this.tarea.descripcion_cierre,
+                        responsableAliado: this.tarea.responsableAliado,
+                    });
+                });
+            } else {
+                this.getEvidences(this.tarea.id);
                 this.tareaForm!.patchValue({
                     usuarioCierre: this.tarea.fk_usuario_cierre,
                     fechaCierre: new Date(this.tarea.fecha_cierre),
                     descripcionCierre: this.tarea.descripcion_cierre,
+                    responsableAliado: this.tarea.responsableAliado,
                 });
-            });
+            }
         }else{
             this.flagEvidencias=true}
         }, 600);
@@ -277,13 +299,15 @@ async onSubmit() {
     this.submitted = true;
     this.cargando = true;
     this.msgs = [];
+    console.log(this.tareaForm);
+    
     if(!this.permisoFlag){
         if (!this.tareaForm!.valid || this.evidences.length==0) {
             this.cargando = false;
             this.msgs.push({
                 severity: "info",
                 summary: "Mensaje del sistema",
-                detail: "Debe completar todos los campos",
+                detail: "Debe completar todos los campos.",
             });
             return;
         }
@@ -324,6 +348,7 @@ async onSubmit() {
             detail: "Ocurrió un inconveniente al cerrar la tarea",
         });
     }
+    this.cargando = false;
   }
 
   buscarEmpleado(event:any) {

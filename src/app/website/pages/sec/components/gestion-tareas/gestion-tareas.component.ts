@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ConfirmationService } from 'primeng/api';
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado';
 import { PrimeNGConfig } from 'primeng/api';
+import { SesionService } from '../../../core/services/session.service';
 
 @Component({
   selector: 's-gestionTareas',
@@ -16,6 +17,7 @@ export class GestionTareasComponent implements OnInit {
 
   @Input('tareasList') tareasList?: Tarea[];
   @Input('readOnly') readOnly?: boolean;
+  @Input('tipoLista') tipoLista: string | null = null;
   
   modificar?: boolean;
   adicionar?: boolean;
@@ -23,10 +25,13 @@ export class GestionTareasComponent implements OnInit {
   es: any;
   fechaActual = new Date();
   yearRange: string = this.fechaActual.getFullYear() + ":" + (this.fechaActual.getFullYear() + 1);
+  esAliado: boolean = false;
+
   constructor(
     private confirmationService: ConfirmationService,
     public fb: FormBuilder,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private sessionService: SesionService,
   ) { 
     this.form = fb.group({
       'id': [null],
@@ -36,7 +41,8 @@ export class GestionTareasComponent implements OnInit {
       'jerarquia': [null, Validators.required],
       'fechaProyectada': [null, Validators.required],
       'areaResponsable': [null],
-      'empResponsable': [null, Validators.required],
+      'empResponsable': [null],
+      'responsableAliado': [null],
       'modulo': [null],
   });
   this.es = {
@@ -53,6 +59,11 @@ export class GestionTareasComponent implements OnInit {
     this.config.setTranslation(this.es);
     this.adicionar = !this.readOnly;
     this.modificar = false;
+
+    let empresaUsuario = this.sessionService.getEmpresa();
+    if (empresaUsuario?.idEmpresaAliada !== null) this.esAliado = true;
+    console.log(this.tareasList);
+    
   }
 
   onSubmit() {
@@ -69,13 +80,16 @@ export class GestionTareasComponent implements OnInit {
         tarea.areaResponsable.id = this.form.value.areaResponsable.id;
         tarea.areaResponsable.nombre = this.form.value.areaResponsable.nombre;
     }
-    if (this.form.value.empResponsable != null) {
+
+    if (this.form.value.empResponsable != null && !this.esAliado) {
         tarea.empResponsable = new Empleado();
         tarea.empResponsable.id = this.form.value.empResponsable.id;
         tarea.empResponsable.primerNombre = this.form.value.empResponsable.primerNombre;
         tarea.empResponsable.primerApellido = this.form.value.empResponsable.primerApellido;
         tarea.empResponsable.usuario= this.form.value.empResponsable.usuario;
 
+    }else {
+      tarea.responsableAliado = this.form.value.responsableAliado;
     }
     if (this.modificar) {
         tarea.id = this.form.value.id;
@@ -134,7 +148,8 @@ cargarTarea(tarea: Tarea) {
       modulo: tarea.modulo,
       fechaProyectada: new Date(tarea!.fechaProyectada!),
       areaResponsable: tarea.areaResponsable,
-      empResponsable: tarea.empResponsable
+      empResponsable: tarea.empResponsable,
+      responsableAliado: tarea.responsableAliado,
   });
   this.modificar = true;
   this.adicionar = false;

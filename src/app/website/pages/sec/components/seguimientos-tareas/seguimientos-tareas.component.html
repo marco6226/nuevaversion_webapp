@@ -18,7 +18,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-tracking>
                 <tr>
-                    <td class="p-text-center">{{ tracking.pkUser.usuario.email }}</td>
+                    <td class="p-text-center">{{ tracking.pkUser?.usuario?.email ?? tracking.nombreCompleto }}</td>
                     <td>{{ tracking.description }}</td>
                     <td class="p-text-center">{{ tracking.followDate | date:'dd-MM-yyyy' }}</td>
                     <td class="p-text-center">
@@ -51,7 +51,7 @@
                 <h5 class="title-header p-mb-2">Información</h5>
             </div>
 
-            <div class="col-12 md:col-6 lg:col-12">
+            <div class="col-12 md:col-6 lg:col-12" *ngIf="!esInspeccionCC">
                 <div class="input-field">
                     <p-autoComplete styleClass="form-material-autocomplete" #autocomplete placeholder="Digite" formControlName="email" field="usuario.email" [style]="{'width':'100%'}" (onSelect)="onSelection($event)" [suggestions]="empleadosList" (completeMethod)="buscarEmpleado($event)">
                         <ng-template let-empleado pTemplate="item">
@@ -82,12 +82,21 @@
 
             </div>
 
-            <div class="col-12 md:col-6 lg:col-12">
+            <div class="col-12 md:col-6 lg:col-12" *ngIf="!esInspeccionCC; else nombreCompletoTemplate">
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Apellidos y nombres" [value]="fullName" class="form-material" id="nameAndLastName" [attr.disabled]="true" />
                     <label for="" class="active">Apellidos y nombres</label>
                 </div>
             </div>
+            <ng-template #nombreCompletoTemplate>
+                <div class="col-12 md:col-6 sm:col-12">
+                    <div class="input-field">
+                        <input type="text" pInputText formControlName="nombreCompleto"
+                        class="form-material" id="nombreCompleto" required>
+                        <label for="" class="active">Apellidos y nombres</label>
+                    </div>
+                </div>
+            </ng-template>
 
             <div class="col-12 md:col-6 lg:col-12">
                 <div class="input-field">

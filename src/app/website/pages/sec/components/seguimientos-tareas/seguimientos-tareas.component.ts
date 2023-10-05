@@ -21,6 +21,7 @@ export class SeguimientosTareasComponent implements OnInit {
     @Input() tarea?:any;
     @Input() tareaClose: boolean = false;
     @Input() tareaId?:any;
+    @Input() esInspeccionCC: boolean = false;
     @Output() isFollowExist: EventEmitter<boolean> = new EventEmitter();
 
     loading: boolean = false;
@@ -53,7 +54,8 @@ export class SeguimientosTareasComponent implements OnInit {
         this.trackingForm = fb.group({
             tareaId: ["", Validators.required],
             email: [""],
-            pkUser: ["", Validators.required],
+            pkUser: [null],
+            nombreCompleto: [null],
             followDate: ["", Validators.required],
             description: ["", Validators.required],
             evidences: [[]],
@@ -176,6 +178,7 @@ export class SeguimientosTareasComponent implements OnInit {
 
     if (!this.trackingForm.valid) {
         this.cargando = false;
+        console.log(this.trackingForm.controls);
         this.msgs.push({
             severity: "error",
             summary: "Mensaje del sistema",
@@ -192,6 +195,7 @@ export class SeguimientosTareasComponent implements OnInit {
             followDate: this.trackingForm.get('followDate')!.value,
             description: this.trackingForm.get('description')!.value,
             evidences: this.trackingForm.get('evidences')!.value,
+            nombreCompleto: this.trackingForm.get('nombreCompleto')?.value,
         }
         
         let res = await this.seguimientoService.createSeg(follow);

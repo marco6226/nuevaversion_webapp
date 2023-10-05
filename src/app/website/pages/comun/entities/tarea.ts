@@ -23,5 +23,6 @@ export class Tarea {
     modulo?: string | null;
     codigo?: string | null;
     envioCorreo?: boolean;
+    responsableAliado?: string;
     // plandeAccion
 }
