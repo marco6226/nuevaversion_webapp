@@ -161,7 +161,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       });
     })
   }
-
+  lastFecha:Date | any;
   async cargarRegistrosMatriz(){
     this.flagtreeTable=false
     let filterMatriz = new FilterQuery();
@@ -266,7 +266,21 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       }
       this.flagtreeTable=true
     }
-    
+    console.log(this.matrizPList)
+    let cont=0
+    this.lastFecha=null
+    this.matrizPList.forEach((ele:any) => {
+      if(cont==0){
+        if(ele.fechaCreacion)this.lastFecha=new Date(ele.fechaCreacion)
+      }else{
+        if(ele.fechaCreacion){
+          if(ele.fechaCreacion>this.matrizPList[cont-1])this.lastFecha=new Date(ele.fechaCreacion)
+        }
+      }
+      cont ++;
+    });
+      
+
   }
 
   CRUDMatriz(CRUD:string,tipo:string){

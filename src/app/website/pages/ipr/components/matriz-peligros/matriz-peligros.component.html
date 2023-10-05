@@ -597,8 +597,8 @@
                 <!-- </div> -->
             </p-accordionTab>
 
-            <p-accordionTab header="VI. VALORACIÓN DEL RIESGO RESIDUAL" [disabled]="!(this.tareasList.length>0 && (this.tareasListPendiente.length==0 || flagEliminadoSustituido))">
-                <div [class]="(!(this.tareasList.length>0 && (this.tareasListPendiente.length==0 || flagEliminadoSustituido)) || flagConsulta)?'overlay-content':'overlay'">
+            <p-accordionTab header="VI. VALORACIÓN DEL RIESGO RESIDUAL" [disabled]="!(this.tareasList.length>0 && (this.tareasListPendiente.length==0 || flagEliminadoSustituido) || flagResidual)">
+                <div [class]="(!(this.tareasList.length>0 && (this.tareasListPendiente.length==0 || flagEliminadoSustituido)) || flagConsulta  || flagResidual)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizRiesgosIResidual">
                         <div class="grid accordionTab">
                             <div class="col-12">

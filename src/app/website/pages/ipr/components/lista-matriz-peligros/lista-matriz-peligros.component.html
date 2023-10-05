@@ -17,6 +17,10 @@
                     <!-- <p-dropdown required [filter]="true" placeholder="Seleccione una área"[options]="area" appendTo="body" formControlName="area" (onChange)="cargarRegistrosMatriz($event.value)"></p-dropdown> -->
                     <p-multiSelect placeholder="Seleccione un área" formControlName="area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="areaMatrizItemList" (onChange)="cargarRegistrosMatriz()" ></p-multiSelect>
                 </div>
+                <div class="col-6 col-sm-12" *ngIf="this.lastFecha">
+                    <br>
+                    <span>Última edición: {{this.lastFecha | date:'dd/MM/yyyy' }}</span>
+                </div>
             </div>
         </form>
         <br/>

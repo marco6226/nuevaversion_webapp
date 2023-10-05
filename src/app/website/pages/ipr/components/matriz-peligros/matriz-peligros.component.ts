@@ -779,6 +779,7 @@ export class MatrizPeligrosComponent implements OnInit {
     this.nivelRiesgo(tipo)
   }
   falgTable:boolean=true
+  flagResidual:boolean=false
   nivelRiesgo(tipo:string){
 
     let valoracionRI1_1:any
@@ -797,7 +798,7 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-
+    this.flagResidual=false
     valoracionRI1_1[0].NR=valoracionRI1_1[0].NP*valoracionRI1_1[0].NC
     if(20>=valoracionRI1_1[0].NR && valoracionRI1_1[0].NR>=0){
       valoracionRI2_1[0].CN='I'
@@ -815,6 +816,7 @@ export class MatrizPeligrosComponent implements OnInit {
           NRCualitativo: this.formMatrizRiesgosI.value.NRCualitativo
         })
         this.nivelProbabilidad('residual')
+        this.flagResidual=true
       }
 
     }else if(120>=valoracionRI1_1[0].NR && valoracionRI1_1[0].NR>=40){
@@ -1411,7 +1413,7 @@ export class MatrizPeligrosComponent implements OnInit {
         
         break;
       case 'POST':
-        matrizPeligros.fechaCreacion=this.fechaCreacion;
+        matrizPeligros.fechaCreacion=(this.fechaCreacion)?this.fechaCreacion:new Date();
         matrizPeligros.idEdicion=this.idEdicion
         //Separar por subproceso el guardado
         for(const [i,ele1] of this.formMatrizGeneral.value.Subproceso.entries()){
