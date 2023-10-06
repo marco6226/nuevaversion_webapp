@@ -781,6 +781,7 @@ export class ElaboracionInspeccionesComponent implements OnInit {
         setTimeout(() => {
             var WinPrint = window.open('', '_blank');
 
+            WinPrint?.document.write('<style>@media print {th{ background-color: #ccc; font-weight: normal;}}</style>');
             WinPrint!.document.write(template!.innerHTML);
             WinPrint!.document.close();
             WinPrint!.focus();
