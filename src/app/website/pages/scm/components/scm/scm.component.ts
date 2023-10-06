@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ import * as XLSX from 'xlsx';
 import { ViewscmInformeService } from 'src/app/website/pages/core/services/view-informescm.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
+import { Calendar } from 'primeng/calendar';
 
 @Component({
     selector: 'app-scm',
@@ -23,6 +24,7 @@ import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 })
 
 export class ScmComponent implements OnInit {
+    @ViewChild('myCalendar') myCalendar!: Calendar;
     localeES:any = locale_es;
     reintegroList: Reintegro[] =[]
     idEmpresa!: string | null;
@@ -179,32 +181,42 @@ export class ScmComponent implements OnInit {
     async datosExcel(): Promise<void>{
         let dataExcel:any
 
-        let filterQuery = new FilterQuery();
-        filterQuery.sortField = this.filtrosExcel.sortField;
-        filterQuery.sortOrder = this.filtrosExcel.sortOrder;
-        // filterQuery.offset = this.filtrosExcel.first;
-        filterQuery.count = true;
-        let filterEliminado = new Filter();
-        filterEliminado.criteria = Criteria.EQUALS;
-        filterEliminado.field = 'eliminado';
-        filterEliminado.value1 = 'false';
+        // let filterQuery = new FilterQuery();
+        // filterQuery.sortField = this.filtrosExcel.sortField;
+        // filterQuery.sortOrder = this.filtrosExcel.sortOrder;
+        // // filterQuery.offset = this.filtrosExcel.first;
+        // filterQuery.count = true;
+        // let filterEliminado = new Filter();
+        // filterEliminado.criteria = Criteria.EQUALS;
+        // filterEliminado.field = 'eliminado';
+        // filterEliminado.value1 = 'false';
 
-        filterQuery.fieldList = this.fields;
-        filterQuery.filterList = FilterQuery.filtersToArray(this.filtrosExcel.filters);
-        filterQuery.filterList.push(filterEliminado);      
-        try {
-            let res: any = await this.scmService.findByFilter(filterQuery);
-            dataExcel = res.data;
+        // filterQuery.fieldList = this.fields;
+        // filterQuery.filterList = FilterQuery.filtersToArray(this.filtrosExcel.filters);
+        // filterQuery.filterList.push(filterEliminado);      
+        // try {
+        //     let res: any = await this.scmService.findByFilter(filterQuery);
+        //     dataExcel = res.data;
 
-        } catch (error) {
-            console.error(error)
-        }
+        // } catch (error) {
+        //     console.error(error)
+        // }
+
+
         // console.log(this.casosListFilter)
         // this.casosListFilter
         // this.excel=[]
-        // await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
-            this.excel=[...dataExcel]
-            this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
+        console.log(dataExcel)
+        await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
+            dataExcel = resp;
+        })
+        // await this.viewscmInformeService.getscminformeFilter(filterQuery).then((resp:any)=>{
+        //     console.log(resp)
+        // })
+        
+        this.excel=[...dataExcel]
+        
+        this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
         // })
     }
     cerrarDialogo(){
@@ -221,5 +233,8 @@ export class ScmComponent implements OnInit {
 
     onFilter(event:any){
         this.casosListFilter=event.filteredValue
+    }
+    closeCalendar(){
+        this.myCalendar.hideOverlay();
     }
 }

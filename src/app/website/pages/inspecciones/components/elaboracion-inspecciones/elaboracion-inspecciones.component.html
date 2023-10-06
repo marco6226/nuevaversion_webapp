@@ -84,6 +84,17 @@
     </div>
   </p-panel>
 
+  <p-panel *ngIf="listaInspeccion?.nombre=='Inspección General'">
+    <p-header>
+      <i class="fa fa-th-list" aria-hidden="true"></i>
+      <label class="ui-panel-title">Observaciones</label>
+    </p-header>
+    <div class="input-field">
+      <textarea [readOnly]="accion=='GET'" pInputTextarea [(ngModel)]="observacion" [value]="observacion"
+        rows="3"></textarea>
+    </div>
+  </p-panel>
+
   <br />
 
   <p-panel *ngIf="permisoHse">
@@ -256,7 +267,7 @@
 
       </tr>
       <tr>
-        <td colspan="3" style="background-color:#eee;border:solid thin #ccc;padding: 8px;">
+        <td colspan="3" style="background-color:#da2929;border:solid thin #ccc;padding: 8px;">
           <label id="P_formulario_nombre"></label>
         </td>
       </tr>
@@ -304,6 +315,24 @@
 
       </tr>
 
+    </table>
+    <br>
+    <table width="100%" style="border-collapse: collapse;border: solid thin #ccc;"
+    *ngIf="listaInspeccion?.nombre=='Inspección General'">
+      <thead>
+        <tr>
+          <th  width="100%">Observaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td width="100%" style="border: solid thin #ccc; padding: 8px;">
+            {{observacion}}
+          </td>
+        </tr>
+        <tr>
+        </tr>
+      </tbody>
     </table>
 
     <table width="100%" style="border-collapse: collapse;border: solid thin #ccc;"
