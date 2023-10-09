@@ -57,6 +57,7 @@ export class GestionDocumentalComponent implements OnInit {
     flagSCMPPrivado: boolean = false;
     perfiles: any = [];
     perfilList: SelectItem[] = [];
+    flagCasosMedicos:boolean=false;
 
 
     constructor(
@@ -82,6 +83,7 @@ export class GestionDocumentalComponent implements OnInit {
         } catch (error) {
             this.esConsulta = false;
         }
+        if(window.location.pathname=='/app/ado/gestionDocumental')this.flagCasosMedicos=true
     }
 
     loadNodes(event: any) {
