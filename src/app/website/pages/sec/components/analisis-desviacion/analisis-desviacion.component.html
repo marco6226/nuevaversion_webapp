@@ -491,8 +491,9 @@
     </p-tabPanel>
 
 </p-tabView>
-
-<div class="loader float-btn" *ngIf="guardando" style="position:absolute; top:340px; left:53%; "></div>
+<div *ngIf="guardando" class="loader-container">
+    <div class="loader float-btn" style="position:absolute; top:340px; left:53%; "></div>
+</div>
 <ng-container *ngIf="adicionar && !consultar">
     <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="pi pi-save" 
 title="Guardar Análisis" (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled"></button>
