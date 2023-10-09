@@ -910,21 +910,16 @@ export class AnalisisDesviacionComponent implements OnInit {
         if (this.participantes == null) this.participantes = [];
         this.participantes.push({});
     }
+
     onEvent(event: any) {
+        console.log(event);
         this.tareasList = event.data;
     }
     
     guardarAnalisis() {
         this.guardando = true;
 
-        let flagIncapacidades: boolean = false
-        if (this.incapacidadesList) {
-            if (this.incapacidadesList.length > 0) {
-                flagIncapacidades = true
-            }
-        }
-
-        if ((!this.analisisPeligros.invalid && flagIncapacidades) || this.idEmpresa != '22') {
+        if (this.validarData()) {
             this.informacionComplementaria = this.analisisPeligros.value;
             this.informeJson = this.infoIn.value;
             this.diagram = this.FlowchartService.getDiagram();
@@ -972,6 +967,8 @@ export class AnalisisDesviacionComponent implements OnInit {
                     this.documentos = [];
                     this.modificar = true;
                     this.adicionar = false;
+                }).finally(() => {
+                    this.guardando = false;
                 });
             } else {
                 this.analisisDesviacionService.createAnalisisAliado(ad).then((data) => {
@@ -981,6 +978,8 @@ export class AnalisisDesviacionComponent implements OnInit {
                     this.documentos = [];
                     this.modificar = true;
                     this.adicionar = false;
+                }).finally(() => {
+                    this.guardando = false;
                 });
             }
         } else {
@@ -996,25 +995,22 @@ export class AnalisisDesviacionComponent implements OnInit {
                 detail: "Debe diligenciar información complementaria para guardar.",
             });
         }
+        window.scrollTo(0, 0);
     }
+
     async modificarAnalisis() {
         this.guardando = true;
         this.disabled = true;
         // this.flagModificar=true;
-        let flagIncapacidades: boolean = false
-        if (this.incapacidadesList) {
-            if (this.incapacidadesList.length > 0) {
-                flagIncapacidades = true
-            }
-        }
 
-        if ((!this.analisisPeligros.invalid && flagIncapacidades) || this.idEmpresa != '22') {
-            if (this.idEmpresa == '22') { await this.tareaList2(); }
+        if (this.validarData()) {
+            if (this.idEmpresa == '22'&& this.desviacionesList && this.desviacionesList[0].modulo !== 'Inspecciones CC') { await this.tareaList2(); }
             this.buttonPrint = true;
             this.informacionComplementaria = this.analisisPeligros.value;
             this.informeJson = this.infoIn.value;
             // this.informeJson.Diagrama=this.imgIN;
             setTimeout(async () => {
+                // console.log(this.tareasList);
                 
                 this.diagram = await this.FlowchartService.getDiagram();
                 console.log(this.diagram)
@@ -1044,7 +1040,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                 // ad.flow_chart = JSON.stringify(this.flowChartSave);
                 ad.flow_chart = this.flowChartSave ?? null;
                 ad.participantes = JSON.stringify(this.participantes);
-                ad.tareaDesviacionList = this.tareasList ?? null;
+                ad.tareaDesviacionList = this.tareasList ? Array.from(this.tareasList) : null;
 
                 ad.jerarquia = this.jerarquia ?? null;
                 ad.complementaria = JSON.stringify(this.informacionComplementaria);
@@ -1061,11 +1057,23 @@ export class AnalisisDesviacionComponent implements OnInit {
 
                 if(!this.esAliado){
                     this.analisisDesviacionService.update(ad).then((data) => {
-
                         this.manageResponse(<AnalisisDesviacion>data);
                         this.modificar = true;
                         this.adicionar = false;
                         this.disabled = false;
+                    }).then(async () => {
+                        this.buttonPrint = false;
+                        let fq = new FilterQuery();
+                        fq.filterList = [
+                            { criteria: Criteria.EQUALS, field: "id", value1: this.analisisId },
+                        ];
+                        await this.analisisDesviacionService.findByFilter(fq).then((resp: any) => {
+                            let analisis = <AnalisisDesviacion>resp["data"][0];
+                            this.tareasList = analisis.tareaDesviacionList;
+                        })
+                        this.tareaList3();
+                    }).finally(() => {
+                        this.guardando = false;
                     });
                 } else {
                     this.analisisDesviacionService.updateAnalisisAliado(ad).then((data) => {
@@ -1073,21 +1081,34 @@ export class AnalisisDesviacionComponent implements OnInit {
                         this.modificar = true;
                         this.adicionar = false;
                         this.disabled = false;
+                    }).then(async () => {
+                        this.buttonPrint = false;
+                        let fq = new FilterQuery();
+                        fq.filterList = [
+                            { criteria: Criteria.EQUALS, field: "id", value1: this.analisisId },
+                        ];
+                        await this.analisisDesviacionService.findByFilter(fq).then((resp: any) => {
+                            let analisis = <AnalisisDesviacion>resp["data"][0];
+                            this.tareasList = analisis.tareaDesviacionList;
+                        })
+                        this.tareaList3();
+                    }).finally(() => {
+                        this.guardando = false;
                     });
                 }
                 // }, 1000);
-                setTimeout(async () => {
-                    this.buttonPrint = false;
-                    let fq = new FilterQuery();
-                    fq.filterList = [
-                        { criteria: Criteria.EQUALS, field: "id", value1: this.analisisId },
-                    ];
-                    await this.analisisDesviacionService.findByFilter(fq).then((resp: any) => {
-                        let analisis = <AnalisisDesviacion>resp["data"][0];
-                        this.tareasList = analisis.tareaDesviacionList;
-                    })
-                    this.tareaList3()
-                }, 1000);
+                // setTimeout(async () => {
+                //     this.buttonPrint = false;
+                //     let fq = new FilterQuery();
+                //     fq.filterList = [
+                //         { criteria: Criteria.EQUALS, field: "id", value1: this.analisisId },
+                //     ];
+                //     await this.analisisDesviacionService.findByFilter(fq).then((resp: any) => {
+                //         let analisis = <AnalisisDesviacion>resp["data"][0];
+                //         this.tareasList = analisis.tareaDesviacionList;
+                //     })
+                //     this.tareaList3();
+                // }, 1000);
 
             }, 3000);
             this.flagBotonModificar()
@@ -1104,7 +1125,27 @@ export class AnalisisDesviacionComponent implements OnInit {
                 detail: "Debe diligenciar información complementaria para guardar.",
             });
         }
+        window.scrollTo(0, 0);
     }
+
+    validarData(): boolean {
+
+        let flagIncapacidades: boolean = false
+        if (this.incapacidadesList) {
+            if (this.incapacidadesList.length > 0) {
+                flagIncapacidades = true
+            }
+        }
+
+        let flagTareas: boolean = false;
+        if(this.tareasList && this.tareasList.length > 0) flagTareas = true;
+
+        return (!this.analisisPeligros.invalid && flagIncapacidades && flagTareas)
+        || (this.desviacionesList && this.desviacionesList[0].modulo === 'Inspecciones CC' && this.tareasList && this.tareasList.length > 0)
+        || (Number(this.idEmpresa) == 22 && !this.analisisPeligros.invalid && flagIncapacidades)
+        || (Number(this.idEmpresa) == 8 && flagTareas);
+    }
+
     buildList(list: any[]): any[] | null {
         if (list == null) {
             return null;
