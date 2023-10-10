@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<p-panel class="shadow" header="Creación Seguimiento Caso Medico" >
+<!-- <p-panel class="shadow" header="Creación Seguimiento Caso Medico" > -->
     <p-tabView styleClass="custom-panel" [scrollable]="true" [(activeIndex)]="tabIndex">
         <!-- Inicio información general -->
         <ng-container *sTienePermiso="'SCM_GET_PERSONAL'">
@@ -620,7 +620,7 @@
                 </p-panel>
                 <div *ngIf="!consultar2" style="text-align: center; width: 100%;">
                     <button pButton *ngIf="solicitando == false" (click)="submitEmp()" type="submit"
-                        icon="pi pi-save" class="float-btn" style="bottom: 140px;height: 50px;"
+                        icon="pi pi-save" class="float-btn" style="bottom: 100px;"
                         title="Guardar datos de Empleado" [disabled]="!this.empleadoForm.valid"></button>
                 
                     <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
@@ -933,11 +933,11 @@
                     <div style="text-align: center; width: 100%;">
                         <button pButton *ngIf="solicitando == false" type="button" (click)="onCancel.emit()"
                             icon="bi bi-arrow-left-right" class="float-btn" (click)="closeForm()"
-                            title="Volver a listado de empleados" style="bottom: 190px;"></button>
+                            title="Volver a listado de empleados"></button>
                         <button pButton *ngIf="solicitando == false && !this.consultar2" type="submit" icon="bi bi-save"
                             class="float-btn"
                             [disabled]="(this.consultar || this.flagGuardado || !this.empleadoForm.valid)"
-                            style="bottom: 260px;" title="Guardar datos medicos"></button>
+                            style="bottom: 100px;" title="Guardar datos medicos"></button>
                         <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
                             [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
                     </div>
@@ -2023,7 +2023,7 @@
         </ng-container>
         <!-- Finaliza trazabilidad -->
     </p-tabView>
-</p-panel>
+<!-- </p-panel> -->
 
 <!-- <div *ngIf="!consultar2" style="text-align: center; width: 100%;">
     <button pButton *ngIf="solicitando == false" (click)="submitEmp()" type="submit" icon="pi pi-save" class="float-btn"
@@ -2036,7 +2036,7 @@
 
 <!-- Inicio de modales -->
 <p-dialog header="Persistencia de datos" *ngIf="logSelected" [(visible)]="logSelected" [style]="{width: '50vw'}"
-    [modal]="true" [closable]="true" [draggable]="false" [resizable]="false" styleClass="text-center">
+    [modal]="true" [closable]="true" [draggable]="false" [resizable]="false">
     <app-logmodal *ngIf="logsList" [log]="logSelected" [logList]="logsList">
     </app-logmodal>
 </p-dialog>

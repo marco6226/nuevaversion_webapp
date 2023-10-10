@@ -53,6 +53,9 @@ export interface TreeNode {
         ComunService, CargoService, UsuarioService, CasosMedicosService, PerfilService, ConfirmService, ConfirmationService]
 })
 export class FormularioScmComponent implements OnInit, OnDestroy {
+    @ViewChild('general', {static:false}) generalPanel!:ElementRef;
+    @ViewChild('medico', {static:false}) medicoPanel!:ElementRef;
+
     tabIndex:any
     msgs?: Message[];
     listaPCL: any;
@@ -1690,6 +1693,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             return true;
         }
         return false;
+    }
+    test(eve:any){
+        console.log(eve.index)
     }
 }
 interface empresaNit{
