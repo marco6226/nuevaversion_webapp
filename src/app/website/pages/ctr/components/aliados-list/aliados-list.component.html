@@ -62,55 +62,55 @@
                     <th></th>
                 </tr>
                 <tr class="filters">
-                    <th>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em class="bi bi-search"></em>
                             </span>
                             <input class="form-control" pInputText type="text" (input)="dt.filter($event.target.value, 'nit', 'contains')">
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em class="bi bi-search"></em>
                             </span>
                             <input class="form-control" pInputText type="text" (input)="dt.filter($event.target.value, 'razonSocial', 'contains')">
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em class="pi pi-search"></em>
                             </span>
                             <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'tipo_persona', 'contains')">
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em class="pi pi-search"></em>
                             </span>
                             <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'division', 'contains')">
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em class="pi pi-search"></em>
                             </span>
                             <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em class="pi pi-search"></em>
                             </span>
                             <input pInputText class="form-control" type="text" (input)="dt.filter($event.target.value, 'calificacion', 'contains')">
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em  class="pi pi-calendar"></em>
@@ -126,12 +126,12 @@
                             (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
                             (onClearClick)="onResetDate(dt, 'fechaCreacion')"
                             [locale]="es"
-                            class="form-control">
+                            class="form-control" style="padding: 0;">
                                 <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
                             </p-calendar>
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <em class="pi pi-calendar"></em>
@@ -147,26 +147,26 @@
                             (onTodayClick)="dt.filter(rangeDatesActualizacion, 'fechaActualizacion', 'FechaActualizacionFilter')"
                             (onClearClick)="onResetDate(dt, 'fechaActualizacion')"
                             [locale]="es"
-                            class="form-control">
+                            class="form-control" style="padding: 0;">
                                 <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
                             </p-calendar>
                         </div>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <span>
                             Consultar
                         </span>
-                    </th>
-                    <th>
+                    </td>
+                    <td class="text-center">
                         <span>
                             Editar
                         </span>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <span>
                             Desactivar/Activar
                         </span>
-                    </th>
+                    </td>
                     
                 </tr>
             </ng-template>
