@@ -184,7 +184,7 @@
 
 <ng-container *ngIf="flagRegistroMatriz">
     <p-panel>
-        <ng-template pTemplate="header"><div style="display: flex; justify-content: space-between; width: 100%;"><h1><b>MATRIZ DE PELIGROS</b></h1> <span>Estado: {{estado}}</span></div></ng-template>
+        <ng-template pTemplate="header"><div style="display: flex; justify-content: space-between; width: 100%;"><h1><b>MATRIZ DE PELIGROS</b></h1> <div><span>Estado: {{estado}}</span><ng-container *ngIf="idMostrar!=''"><br><span> id: {{idMostrar}}</span></ng-container></div> </div></ng-template>
 
         <p-accordion [multiple]="true">
 
@@ -199,7 +199,10 @@
                                 <p-multiSelect formControlName="Area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event.value)" >
                                 </p-multiSelect>
                             </div>
-                            <div class="col-md-6 col-sm-12 gridcol" *ngIf="putArea;else blanco1">
+                            <div class="col-md-6 col-sm-12">
+                                &nbsp;
+                            </div>
+                            <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putArea;else blanco1">
                                 <label for="">Agregar una nueva área de no estar registrada</label><br>
                                 <ng-containter style="display: flex;">
                                     <input type="text">
@@ -208,7 +211,7 @@
                                     class="p-button-raised p-button-primary"
                                     ></button>
                                 </ng-containter>
-                            </div>
+                            </div> -->
                             <br>
                             <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
                                 <label for="">Proceso</label>
@@ -217,7 +220,10 @@
                                 <p-multiSelect  formControlName="Proceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event.value)">
                                 </p-multiSelect>
                             </div>
-                            <div class="col-md-6 col-sm-12 gridcol" *ngIf="putProceso;else blanco1">
+                            <div class="col-md-6 col-sm-12">
+                                &nbsp;
+                            </div>
+                            <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putProceso;else blanco1">
                                 <label for="">Agregar un nuevo proceso de no estar registrado</label><br>
                                 <ng-containter style="display: flex;">
                                     <input type="text">
@@ -226,7 +232,7 @@
                                     class="p-button-raised p-button-primary"
                                     ></button>
                                 </ng-containter>
-                            </div>
+                            </div> -->
                             <br>
                             <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
                                 <label for="">Subproceso (cargo/oficio)</label>
@@ -235,7 +241,10 @@
                                 <p-multiSelect  formControlName="Subproceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
                                 </p-multiSelect>
                             </div>
-                            <div class="col-md-6 col-sm-12 gridcol" *ngIf="putSubproceso;else blanco1">
+                            <div class="col-md-6 col-sm-12">
+                                &nbsp;
+                            </div>
+                            <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putSubproceso;else blanco1">
                                 <label for="">Agregar un nuevo subproceso (cargo/oficio) de no estar registrado</label><br>
                                 <ng-containter style="display: flex;">
                                     <input type="text">
@@ -244,7 +253,7 @@
                                     class="p-button-raised p-button-primary"
                                     ></button>
                                 </ng-containter>
-                            </div>
+                            </div> -->
                             <br>
                             <br>
                             <div class="col-md-12 col-sm-12 gridcol">
@@ -294,13 +303,13 @@
                         <div class="grid accordionTab">
                             <div class="col-md-6 col-sm-12 gridcol">
                                 <label for="">Clasificación</label>
-                                <p-dropdown  [filter]="true" required [options]="this.tipoPeligroItemList" formControlName="Peligro" (onChange)="SelectPeligro($event.value)" >
+                                <p-dropdown  [filter]="true" required [options]="this.tipoPeligroItemList" formControlName="Peligro" (onChange)="SelectPeligro($event.value,'actual')" >
                                 </p-dropdown>
                             </div>
                             <br>
                             <div class="col-md-6 col-sm-12 gridcol">
                                 <label for="">Descripción del peligro</label>
-                                <p-dropdown  [filter]="true" [options]="this.peligroItemList" formControlName="DescripcionPeligro" (onChange)="SelectEfecto($event.value)" required></p-dropdown>
+                                <p-dropdown  [filter]="true" [options]="this.peligroItemList" formControlName="DescripcionPeligro" (onChange)="SelectEfecto($event.value,'actual')" required></p-dropdown>
                             </div>
                             <br>
                             <div class="col-md-12 col-sm-12 gridcol">
@@ -597,8 +606,8 @@
                 <!-- </div> -->
             </p-accordionTab>
 
-            <p-accordionTab header="VI. VALORACIÓN DEL RIESGO RESIDUAL" [disabled]="!(this.tareasList.length>0 && (this.tareasListPendiente.length==0 || flagEliminadoSustituido) || flagResidual)">
-                <div [class]="(!(this.tareasList.length>0 && (this.tareasListPendiente.length==0 || flagEliminadoSustituido)) || flagConsulta  || flagResidual)?'overlay-content':'overlay'">
+            <p-accordionTab header="VI. VALORACIÓN DEL RIESGO RESIDUAL" [disabled]="!(this.tareasList.length>0 && (this.tareasListPendiente.length==0) || flagResidual)">
+                <div [class]="!(this.tareasList.length>0 && (this.tareasListPendiente.length==0) || flagResidual)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizRiesgosIResidual">
                         <div class="grid accordionTab">
                             <div class="col-12">
@@ -755,6 +764,7 @@
         style="bottom: 140px;"
         [title]="CRUDMatriz=='PUT'?'Guardar datos de matriz de peligros':'Modificar datos de matriz de peligros'"
         style="bottom: 70px; z-index: 10000;"
+        [disabled]="!(((!flagSustitucion && !formMatrizPeligrosSustitucion.valid) || (flagSustitucion && formMatrizPeligrosSustitucion.valid))) || guardadoSustitucion"
         ></button>
     </p-panel>
 </ng-container>
@@ -763,70 +773,33 @@
     <p-panel>
         <ng-template pTemplate="header"><div style="display: flex; justify-content: space-between; width: 100%;"><h1><b>MATRIZ DE PELIGROS (Sustitución)</b></h1></div></ng-template>
 
-        <h1>I. INFORMACIÓN GENERAL - DESCRIPCIÓN</h1>
-        <form [formGroup]="formMatrizGeneralSustitucion">
-            <div class="grid accordionTab">
-                <div class="col-md-6 col-sm-12 gridcol">
-                    <label for="">Área</label><br>
-                    <p-dropdown placeholder="Seleccionar" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso2($event.value)" formControlName="Area">
-                    </p-dropdown>
-                    <!-- <p-multiSelect formControlName="Area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event.value)" >
-                    </p-multiSelect> -->
+        <h1>II. IDENTIFICACIÓN DEL PELIGRO</h1>
+
+        <div [class]="(flagidPadre)?'overlay-content':'overlay'">
+            <form [formGroup]="formMatrizPeligrosSustitucion">
+                <div class="grid accordionTab">
+                    <div class="col-md-6 col-sm-12 gridcol">
+                        <label for="">Clasificación</label>
+                        <p-dropdown  [filter]="true" required [options]="this.tipoPeligroItemList" formControlName="Peligro" (onChange)="SelectPeligro($event.value,'sustituto')" >
+                        </p-dropdown>
+                    </div>
+                    <br>
+                    <div class="col-md-6 col-sm-12 gridcol">
+                        <label for="">Descripción del peligro</label>
+                        <p-dropdown  [filter]="true" [options]="this.peligroItemList2" formControlName="DescripcionPeligro" (onChange)="SelectEfecto($event.value,'sustituto')" required></p-dropdown>
+                    </div>
+                    <br>
+                    <div class="col-md-12 col-sm-12 gridcol">
+                        <label for="">Fuente generadora</label>
+                        <textarea cols="10" rows="3" formControlName="FuenteGeneradora" required></textarea>
+                    </div>
+                    <br>
+                    <div class="col-md-12 col-sm-12 gridcol">
+                        <label for="">Consecuencia/Efectos a la salud</label>
+                        <textarea [readonly]="true" cols="10" rows="3" formControlName="Efectos"></textarea>
+                    </div>
                 </div>
-                <div class="col-md-6 col-sm-12 gridcol" *ngIf="putArea;else blanco1">
-                    <label for="">Agregar una nueva área de no estar registrada</label><br>
-                    <ng-containter style="display: flex;">
-                        <input type="text">
-                        <button pButton type="button" 
-                        icon="bi bi-plus"
-                        class="p-button-raised p-button-primary"
-                        ></button>
-                    </ng-containter>
-                </div>
-                <br>
-                <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
-                    <label for="">Proceso</label>
-                    <p-dropdown placeholder="Seleccionar" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList2" (onChange)="cargarSubproceso2($event.value)" formControlName="Proceso">
-                    </p-dropdown>
-                    <!-- <p-multiSelect  formControlName="Proceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event.value)">
-                    </p-multiSelect> -->
-                </div>
-                <div class="col-md-6 col-sm-12 gridcol" *ngIf="putProceso;else blanco1">
-                    <label for="">Agregar un nuevo proceso de no estar registrado</label><br>
-                    <ng-containter style="display: flex;">
-                        <input type="text">
-                        <button pButton type="button" 
-                        icon="bi bi-plus"
-                        class="p-button-raised p-button-primary"
-                        ></button>
-                    </ng-containter>
-                </div>
-                <br>
-                <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
-                    <label for="">Subproceso (cargo/oficio)</label>
-                    <p-dropdown placeholder="Seleccionar" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList2" formControlName="Subproceso">
-                    </p-dropdown>
-                    <!-- <p-multiSelect  formControlName="Subproceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
-                    </p-multiSelect> -->
-                </div>
-                <div class="col-md-6 col-sm-12 gridcol" *ngIf="putSubproceso;else blanco1">
-                    <label for="">Agregar un nuevo subproceso (cargo/oficio) de no estar registrado</label><br>
-                    <ng-containter style="display: flex;">
-                        <input type="text">
-                        <button pButton type="button" 
-                        icon="bi bi-plus"
-                        class="p-button-raised p-button-primary"
-                        ></button>
-                    </ng-containter>
-                </div>
-            </div>
-        </form>
-        <div *ngIf="formMatrizGeneralSustitucion.valid">
-            <button pButton type="button" 
-            icon="bi bi-search"
-            class="p-button-raised p-button-primary"
-            label="Modificar"
-            ></button>
+            </form>
         </div>
     </p-panel>
 </ng-container>     

@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { PlantasService } from '../../../core/services/Plantas.service';
 import { SesionService } from '../../../core/services/session.service';
 import { SelectItem, ConfirmationService, MessageService } from 'primeng/api';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TipoPeligroService } from '../../../core/services/tipo-peligro.service';
 import { TipoPeligro } from '../../../comun/entities/tipo-peligro';
 import { FilterQuery } from '../../../core/entities/filter-query';
@@ -52,10 +52,16 @@ export class MatrizPeligrosComponent implements OnInit {
   formMatrizGeneral2?: FormGroup | any;
   formMatrizGeneral2Sustitucion?: FormGroup | any;
   formMatrizPeligros?: FormGroup | any;
+  formMatrizPeligrosSustitucion?: FormGroup | any;
   formMatrizRiesgosC?: FormGroup | any;
   formMatrizRiesgosI?: FormGroup | any;
   formMatrizRiesgosIResidual?: FormGroup | any;
   formPlanAccion?: FormGroup | any;
+
+  formMatrizRiesgosI2?: FormGroup | any;
+  formMatrizRiesgosIResidual2?: FormGroup | any;
+  formMatrizRiesgosC2?: FormGroup | any;
+
 
   flagRegistroMatriz:boolean=false
   flagRegistroMatrizTree:boolean=false
@@ -65,7 +71,10 @@ export class MatrizPeligrosComponent implements OnInit {
   listDivision:any=[]
 
   tipoPeligroItemList?: SelectItem[];
-  peligroItemList?: SelectItem[];
+  peligroItemList?: SelectItem[] | any;
+
+  tipoPeligroItemList2?: SelectItem[];
+  peligroItemList2?: SelectItem[] | any;
 
   areaMatrizItemList?: SelectItem[];
   procesoMatrizItemList?: SelectItem[];
@@ -140,6 +149,7 @@ export class MatrizPeligrosComponent implements OnInit {
   idMatrizPeligro:any=[]
 
   estado:string='Sin estado'
+  guardadoSustitucion:boolean=false
 
   constructor(
     private fb: FormBuilder,
@@ -167,6 +177,12 @@ export class MatrizPeligrosComponent implements OnInit {
       DescripcionPeligro: [null], //Descripción del peligro
       FuenteGeneradora: [null],
       Efectos: [null]
+    });
+    this.formMatrizPeligrosSustitucion = this.fb.group({
+      Peligro: [null, Validators.required], //Clasificación
+      DescripcionPeligro: [null, Validators.required], //Descripción del peligro
+      FuenteGeneradora: [null, Validators.required],
+      Efectos: [null, Validators.required]
     });
     this.formMatrizGeneral = this.fb.group({
       Area: [null], //Clasificación
@@ -230,6 +246,28 @@ export class MatrizPeligrosComponent implements OnInit {
       NRCualitativo: [null]
     });
 
+    this.formMatrizRiesgosC2= this.fb.group({
+      Ingenieria: [null], //Clasificación
+      Administrativos: [null], //Descripción del peligro
+      ElementosPro: [null],
+    });
+    this.formMatrizRiesgosI2= this.fb.group({
+      ND: [null], //Clasificación
+      NE: [null], //Descripción del peligro
+      NP: [null],
+      NC: [null],
+      NR: [null],
+      NRCualitativo: [null]
+    });
+    this.formMatrizRiesgosIResidual2= this.fb.group({
+      ND: [null], //Clasificación
+      NE: [null], //Descripción del peligro
+      NP: [null],
+      NC: [null],
+      NR: [null],
+      NRCualitativo: [null]
+    });
+
     this.formPlanAccion= this.fb.group({
       fechaCreacion: [null], //Clasificación
       jerarquia: [null], //Descripción del peligro
@@ -283,7 +321,8 @@ export class MatrizPeligrosComponent implements OnInit {
         break;
     }
   }
-  
+  idMostrar:string=''
+  flagidPadre:boolean=false
   async postGet(){
     this.CRUDMatriz='POST'
     this.cargarPlanta(this.paramNav.getParametro2<FormGroup>().value.ubicacion)
@@ -308,22 +347,24 @@ export class MatrizPeligrosComponent implements OnInit {
       console.log(error)
       idPadre=0
     }
-
     if(idPadre!=0){
-      console.log('entre')
       let filterhijo = new FilterQuery();
       // filterhijo.fieldList=["id","idEdicion"];
       filterhijo.filterList = [{ field: 'id', criteria: Criteria.EQUALS, value1: idPadre.toString()}];
 
+      let mPeligros:any
       await this.matrizPeligrosService.getmpRWithFilter(filterhijo).then((resp:any)=>{
-        let genIf=JSON.parse(resp.data[0].generalInf)
-        this.cargarProceso2(genIf.Area)
-        this.cargarSubproceso2(genIf.Proceso)
-        this.formMatrizGeneralSustitucion.patchValue({
-          Area:genIf.Area,
-          Proceso:genIf.Proceso,
-          Subproceso:genIf.Subproceso
-        })
+        mPeligros=JSON.parse(resp.data[0].peligro)
+        //II-Identificación del peligro
+        this.formMatrizPeligrosSustitucion.patchValue({
+          Peligro: mPeligros?.Peligro,
+          DescripcionPeligro: mPeligros?.DescripcionPeligro,
+          FuenteGeneradora: mPeligros?.FuenteGeneradora,
+          Efectos: mPeligros?.Efectos,
+        });
+        this.SelectPeligro(this.formMatrizPeligrosSustitucion.value.Peligro,'sustituto')
+        this.flagidPadre=true
+        this.guardadoSustitucion=true
       })
     }
 
@@ -333,11 +374,13 @@ export class MatrizPeligrosComponent implements OnInit {
 
     this.fechaCreacion=(matrizPeligro.fechaCreacion)?new Date(matrizPeligro.fechaCreacion):null
 
-    for(const ele of matrizPeligro2){
+    for(const [i,ele] of matrizPeligro2.entries()){
       area.push(ele.generalInf.Area[0])
       proceso.push(ele.generalInf.Proceso[0])
       subproceso.push(ele.generalInf.Subproceso[0])
       this.idMatrizPeligro.push(ele.id)
+      if(i!=0)this.idMostrar += ', '+ele.id
+      else this.idMostrar +=ele.id
     }
 
     let filterMatriz = new FilterQuery();
@@ -395,7 +438,7 @@ export class MatrizPeligrosComponent implements OnInit {
       FuenteGeneradora: matrizPeligro?.peligro?.FuenteGeneradora,
       Efectos: matrizPeligro?.peligro?.Efectos,
     });
-    this.SelectPeligro(this.formMatrizPeligros.value.Peligro)
+    this.SelectPeligro(this.formMatrizPeligros.value.Peligro,'actual')
 
     //III-Evaluación del riesgo control existente
     this.formMatrizRiesgosC.patchValue({
@@ -498,12 +541,21 @@ export class MatrizPeligrosComponent implements OnInit {
     })
   }
   //-----------------------Cargar peligros-----------------------------//
-  SelectPeligro(a: string){
-    this.cargarPeligro(a)
+  SelectPeligro(a: string, tipo:string){
+    if (tipo=='actual') {
+      this.cargarPeligro(a)
+    } else {
+      this.cargarPeligroSustitucion(a)
+    }
+    
   }
 
-  SelectEfecto(a: string){
-    this.cargarEfectos(a)
+  SelectEfecto(a: string, tipo:string){
+    if (tipo=='actual') {
+      this.cargarEfectos(a)
+    } else {
+      this.cargarEfectosSutitucion(a)
+    }
   }
 
   cargarEfectos(ide:any) {
@@ -523,27 +575,64 @@ export class MatrizPeligrosComponent implements OnInit {
       })
      }
   }
-
-  cargarPeligro(idtp:any) {
-    if(idtp != null){
+  cargarEfectosSutitucion(ide:any) {
+    if(ide != null){
     let filter = new FilterQuery();
-    filter.filterList = [{ field: 'tipoPeligro.id', criteria: Criteria.EQUALS, value1: idtp['id'] }];
-    this.peligroService.findByFilter(filter).then(
-      resp => {
-        this.peligroItemList = [{ label: '--Seleccione--', value: null}];
-        (<Peligro[]>resp).forEach(
-          data => 
-            {
-                this.peligroItemList?.push({ label: data.nombre, value: {id:data.id,nombre: data.nombre} })
-            }
-        )
+    filter.filterList = [{ field: 'peligro.id', criteria: Criteria.EQUALS, value1: ide['id'] }];
+    this.efectoService.findByFilter(filter).then(
+      (resp:any) => {
+        this.formMatrizPeligrosSustitucion.patchValue({
+          'Efectos': resp[0].nombre
+        })
       }
     );
      }else{
-        this.peligroItemList = [{ label: '--Seleccione Peligro--', value: [null, null]}];
+      this.formMatrizPeligrosSustitucion.patchValue({
+        'Efectos': ''
+      })
      }
   }
+
+  async cargarPeligro(idtp:any) {
+    if(idtp != null){
+      let filter = new FilterQuery();
+      filter.filterList = [{ field: 'tipoPeligro.id', criteria: Criteria.EQUALS, value1: idtp['id'] }];
+      await this.peligroService.findByFilter(filter).then(
+        resp => {
+          this.peligroItemList = [{ label: '--Seleccione--', value: null}];
+          (<Peligro[]>resp).forEach(
+            data => 
+              {
+                this.peligroItemList?.push({ label: data.nombre, value: {id:data.id,nombre: data.nombre} })
+              }
+          )
+        }
+      );
+    }else{
+      this.peligroItemList = [{ label: '--Seleccione Peligro--', value: [null, null]}];
+    }
+  }
   
+  async cargarPeligroSustitucion(idtp:any) {
+    if(idtp != null){
+      let filter = new FilterQuery();
+      filter.filterList = [{ field: 'tipoPeligro.id', criteria: Criteria.EQUALS, value1: idtp['id'] }];
+      await this.peligroService.findByFilter(filter).then(
+        resp => {
+          this.peligroItemList2 = [{ label: '--Seleccione--', value: null}];
+          (<Peligro[]>resp).forEach(
+            data => 
+              {
+                this.peligroItemList2?.push({ label: data.nombre, value: {id:data.id,nombre: data.nombre} })
+              }
+          )
+        }
+      );
+    }else{
+      this.peligroItemList2 = [{ label: '--Seleccione Peligro--', value: [null, null]}];
+    }
+  }
+
   cargarTiposPeligro() {
     this.tipoPeligroService.findAll().then(
       (resp : any) => {
@@ -609,7 +698,6 @@ export class MatrizPeligrosComponent implements OnInit {
   }
 
   cargarProceso(idp:any) {
-    console.log(idp)
     this.subprocesoMatrizItemList=[]
     if(idp != null ){
       if(idp !=0){
@@ -776,7 +864,7 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    this.nivelRiesgo(tipo)
+    if(this.formMatrizRiesgosI.valid){this.nivelRiesgo(tipo)}
   }
   falgTable:boolean=true
   flagResidual:boolean=false
@@ -824,16 +912,31 @@ export class MatrizPeligrosComponent implements OnInit {
       valoracionRI2_1[0].CL='Medio'
       valoracionRI2_1[0].color='medio'
       valoracionRI2_1[0].accion='1. Mantenga los controles existentes \n 2. Identifique mejoras'
+      if(tipo=='inicial'){
+        // this.formMatrizRiesgosIResidual.reset()
+        // this.valoracionRI1Residual=[]
+        this.nivelProbabilidad('residual')
+      }
     }else if(500>=valoracionRI1_1[0].NR && valoracionRI1_1[0].NR>=150){
       valoracionRI2_1[0].CN='III'
       valoracionRI2_1[0].CL='Alto'
       valoracionRI2_1[0].color='alto'
       valoracionRI2_1[0].accion='1. Intervenga de inmediato \n 2. Implemente controles (existentes o adicionales) \n 3. Identifique desviaciones si existe'
+      if(tipo=='inicial'){
+        // this.formMatrizRiesgosIResidual.reset()
+        // this.valoracionRI1Residual=[]
+        this.nivelProbabilidad('residual')
+      }
     }else if(valoracionRI1_1[0].NR>=600){
       valoracionRI2_1[0].CN='IV'
       valoracionRI2_1[0].CL='Muy Alto'
       valoracionRI2_1[0].color='muyalto'
       valoracionRI2_1[0].accion='1. Suspenda la actividad.\n 2. intervenga de inmediato \n 3.Implemente controles. Intervenir es comunicar la situación a los diferentes responsables y ejecutores de la tarea (requiere reporte y gestión de acto y condiciones) Alto'
+      if(tipo=='inicial'){
+        // this.formMatrizRiesgosIResidual.reset()
+        // this.valoracionRI1Residual=[]
+        this.nivelProbabilidad('residual')
+      }
     }
 
     switch (tipo) {
@@ -1282,6 +1385,7 @@ export class MatrizPeligrosComponent implements OnInit {
 
   //--------guardar---------//
   idEdicion:any
+  idEdicion2:any
   flagSustitucion:boolean=false
   async guardarMatriz(CRUD:string){
     //guardado matriz peligros
@@ -1330,8 +1434,6 @@ export class MatrizPeligrosComponent implements OnInit {
     this.tareasListEjecutadoPorcentaje=this.tareasList.filter((resp:any)=>(resp.estado=='Ejecutado'))
     if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
         else this.flagplanElimsust=false
-
-    if(this.tareasList.filter((el:any) => (el.jerarquia=='Sustitución' && el.estado=='Ejecutado')).length>0)this.flagSustitucion=true
     
     if(this.tareasListPendiente.filter((resp:any)=>((resp.jerarquia=='Eliminación' && resp.estado=='Ejecutado') || (resp.jerarquia=='Sustitución' && resp.estado=='Ejecutado'))).length>0)
       this.flagEliminadoSustituido=true
@@ -1371,10 +1473,11 @@ export class MatrizPeligrosComponent implements OnInit {
           this.idEdicion=1
         })
 
-        // this.idEdicion=await this.identificarIdGrupo()
         matrizPeligros.idEdicion=this.idEdicion
 
         //Separar por subproceso el guardado
+        let i=0
+        this.idMostrar=''
         this.formMatrizGeneral.value.Subproceso.forEach((ele1:any) => {
           let findProceso= this.formMatrizGeneral.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
           let findArea= this.formMatrizGeneral.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
@@ -1400,24 +1503,50 @@ export class MatrizPeligrosComponent implements OnInit {
           matrizPeligrosLog.accion='Creado'
           matrizPeligrosLog.fechaEdicion=new Date()
           this.idMatrizPeligro=[]
+
           this.matrizPeligrosService.create(matrizPeligros).then((resp:any)=>{
             console.log(resp)
             this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro guardado', summary: 'Guardado', life: 6000});
             matrizPeligrosLog.idriesgo=resp.id
             this.idMatrizPeligro.push(resp.id)
+
+            if(i!=0)this.idMostrar += ', '+resp.id
+            else this.idMostrar =resp.id
+
             this.matrizPeligrosLogService.create(matrizPeligrosLog)
             this.CRUDMatriz='POST'
+            i +=1
           }).catch(er=>console.log(er))
 
         })
         
         break;
       case 'POST':
+        let filterMatriz2 = new FilterQuery();
+        filterMatriz2.sortField = "idEdicion";
+        filterMatriz2.fieldList=["idEdicion"];
+        filterMatriz2.filterList = [{ field: 'idEdicion', criteria: Criteria.IS_NOT_NULL}];
+        filterMatriz2.sortOrder = 1;
+        
+        await this.matrizPeligrosService.getmpRWithFilter(filterMatriz2).then((resp:any)=>{
+          resp.data[0].idEdicion+1
+          this.idEdicion2=resp.data[0].idEdicion+1
+        }).catch(er=>{
+          this.idEdicion2=1
+        })
+
         matrizPeligros.fechaCreacion=(this.fechaCreacion)?this.fechaCreacion:new Date();
         matrizPeligros.idEdicion=this.idEdicion
         //Separar por subproceso el guardado
         for(const [i,ele1] of this.formMatrizGeneral.value.Subproceso.entries()){
-          matrizPeligros.id=this.idMatrizPeligro[i]
+          // matrizPeligros.id=this.idMatrizPeligro[i]
+          console.log(this.idMatrizPeligro[i])
+          console.log(this.idMatrizPeligro)
+          try {
+            matrizPeligros.id=this.idMatrizPeligro[i].split('-')[0]
+          } catch (error) {
+            matrizPeligros.id=this.idMatrizPeligro[i]
+          }
         // this.formMatrizGeneral.value.Subproceso.forEach((ele1:any) => {
           let findProceso= this.formMatrizGeneral.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
           let findArea= this.formMatrizGeneral.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
@@ -1439,68 +1568,72 @@ export class MatrizPeligrosComponent implements OnInit {
 
           matrizPeligros.generalInf=JSON.stringify(this.formMatrizGeneral2.value);
 
-          let matrizPeligrosLog = new MatrizPeligrosLog()
+          let matrizPeligrosLog:any = new MatrizPeligrosLog()
           matrizPeligrosLog = {...matrizPeligros}
+          // matrizPeligrosLog = matrizPeligros.map((mp:any) => ({ ...mp }));
           matrizPeligrosLog.accion='Actualizado'
           matrizPeligrosLog.fechaEdicion=new Date()
-          matrizPeligrosLog.idriesgo=this.idMatrizPeligro[i]
+          try {
+            matrizPeligrosLog.idriesgo=this.idMatrizPeligro[i].split('-')[0]
+          } catch (error) {
+            matrizPeligrosLog.idriesgo=this.idMatrizPeligro[i]
+          }
+          // console.log(this.idMatrizPeligro[i])
+          // matrizPeligrosLog.idriesgo=this.idMatrizPeligro[i]
           matrizPeligrosLog.id=null
 
           if(!this.flagSustitucion){
-            this.matrizPeligrosService.update(matrizPeligros).then(resp=>{
+            await this.matrizPeligrosService.update(matrizPeligros).then(resp=>{
               this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro modificado', summary: 'Modificado', life: 6000});
               this.matrizPeligrosLogService.create(matrizPeligrosLog)
             }).catch(er=>console.log(er))
           }else{
+
             let matrizPeligros2= new MatrizPeligros()
-            matrizPeligros2.generalInf=JSON.stringify(this.formMatrizGeneralSustitucion.value);
-            
-            let area2= new AreaMatriz()
-            let proceso2= new ProcesoMatriz()
-            let subproceso2= new SubprocesoMatriz()
-
-            area2.id=this.formMatrizGeneralSustitucion.value.Area.id
-            matrizPeligros2.area=area2
-
-            proceso2.id=this.formMatrizGeneralSustitucion.value.Proceso.id
-            matrizPeligros2.proceso=proceso2
-
-            subproceso2.id=this.formMatrizGeneralSustitucion.value.Subproceso.id
-            matrizPeligros2.subProceso=subproceso2
-
             matrizPeligros2.eliminado=false
+            matrizPeligros2.generalInf=JSON.stringify(this.formMatrizGeneral2.value);
+            matrizPeligros2.peligro=JSON.stringify(this.formMatrizPeligrosSustitucion.value);
+            matrizPeligros2.plantas=planta;
+            matrizPeligros2.area=area
+            matrizPeligros2.proceso=proceso
+            matrizPeligros2.subProceso=subproceso
+            matrizPeligros2.fechaCreacion=new Date();
+            matrizPeligros2.idEdicion=this.idEdicion2
 
-            await this.matrizPeligrosService.create(matrizPeligros2).then((resp:any)=>{
-              console.log(resp)
-              matrizPeligros.fkmatrizpeligros=resp.id
+            matrizPeligros2.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI2.value);
+            matrizPeligros2.valoracionRiesgoResidual=JSON.stringify(this.formMatrizRiesgosIResidual2.value);
+            matrizPeligros2.controlesexistentes==JSON.stringify(this.formMatrizRiesgosC2.value);
+            matrizPeligros2.planAccion='[]'
+
+            let matrizPeligrosLog2 = new MatrizPeligrosLog()
+            matrizPeligrosLog2 = {...matrizPeligros2}
+            matrizPeligrosLog2.accion='Creado'
+            matrizPeligrosLog2.fechaEdicion=new Date()
+            matrizPeligrosLog2.id=null
+
+            await this.matrizPeligrosService.create(matrizPeligros2).then(async (resp:any)=>{
               this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro guardado', summary: 'Guardado', life: 6000});
-              
-              let matrizPeligrosLog2 = new MatrizPeligrosLog()
-              matrizPeligrosLog2 = {...matrizPeligros2}
-              matrizPeligrosLog2.accion='Creado'
-              matrizPeligrosLog2.fechaCreacion=new Date()
-              matrizPeligrosLog2.fechaEdicion=new Date()
+              matrizPeligros.fkmatrizpeligros=resp.id
               matrizPeligrosLog2.idriesgo=resp.id
-              matrizPeligrosLog2.id=null
-
-              this.matrizPeligrosLogService.create(matrizPeligrosLog)
-              this.matrizPeligrosService.update(matrizPeligros).then(resp=>{
-                this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro modificado', summary: 'Modificado', life: 6000});
-                this.matrizPeligrosLogService.create(matrizPeligrosLog)
-              }).catch(er=>console.log(er))
-
-            }).catch(er=>console.log(er))
-            
+              await this.matrizPeligrosService.update(matrizPeligros)
+              await this.matrizPeligrosLogService.create(matrizPeligrosLog)
+              .catch(er=>console.log(er))
+              await this.matrizPeligrosLogService.create(matrizPeligrosLog2)
+              .catch(er=>console.log(er))
+              this.guardadoSustitucion=true
+            }).catch(er=>console.log(er))            
           }
 
         }
         // )
-        
+
         break;
     
       default:
         break;
     }
+    if(this.tareasList.filter((el:any) => (el.jerarquia=='Sustitución' && el.estado=='Ejecutado')).length>0)this.flagSustitucion=true
+
   }
   test(){
     console.log(this.formMatrizGeneralSustitucion)
@@ -1521,4 +1654,7 @@ export class MatrizPeligrosComponent implements OnInit {
         })
   }
 
+  xnor(a:any, b:any) {
+    return (a === b) ? true : false;
+  }
 }

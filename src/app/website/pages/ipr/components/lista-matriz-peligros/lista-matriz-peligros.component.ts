@@ -98,8 +98,8 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       { field: 'subProceso', header: 'Subproceso' },
       { field: 'peligro', header: 'Peligro' },
       { field: 'descripcionPeligro', header: 'Descripción de peligros' },
-      { field: 'NRCualitativo', header: 'Nivel de riesgo Inicial(Cualitativo)' },
-      { field: 'NRCualitativoR', header: 'Nivel de riesgo Residual(Cualitativo)' },
+      { field: 'NRCualitativo', header: 'Nivel de riesgo Inicial (Cualitativo)' },
+      { field: 'NRCualitativoR', header: 'Nivel de riesgo Residual (Cualitativo)' },
       { field: 'estadoPlanAccion', header: 'Plan de acción' },
     ];
     this.cols2 = [
@@ -468,6 +468,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
   async exportexcelHistoricoPrueba(): Promise<void> {
 
+    const XLSX = require('xlsx');
+    // const fs = require('fs');
+
     const filaDestino = 5; // Por ejemplo, fila 2
     const columnaDestino = 3; // Por ejemplo, columna C
 
@@ -475,14 +478,21 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
     const readyToExport = this.excel;
 
-    const destinoFilePath = '../../../../../../assets/excelbase/HistoricoExcel-corona.xlsx';
+    const destinoFilePath = '../../../../../assets/excelbase/HistoricoExcel-corona.xlsx';
     const workBook = XLSX.readFile(destinoFilePath);
-    const workSheet = XLSX.utils.json_to_sheet(readyToExport);
+    // const workSheet = XLSX.utils.json_to_sheet(readyToExport);
 
-    XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
+    // XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
  
-    XLSX.writeFile(workBook, 'Excel historicos.xlsx'); // initiate a file download in browser
-     
+    XLSX.writeFile(workBook, 'historicos.xlsx'); // initiate a file download in browser
+    // fs.unlink(destinoFilePath, (err:any) => {
+    //   if (err) {
+    //     console.error('Error al eliminar el archivo original:', err);
+    //   } else {
+    //     console.log('Archivo original eliminado con éxito.');
+    //   }
+    // })
+
     this.cerrarDlgExcelHistorico();
 
   }

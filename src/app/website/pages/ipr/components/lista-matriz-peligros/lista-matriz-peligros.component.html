@@ -70,7 +70,7 @@
                         <tr class="filters">
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'container')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
@@ -278,7 +278,7 @@
             <p-tabPanel header="Historial Actualizaciones">
                 <br>
                 <!-- <button pButton type="button" (click)="visibleDlgExcelHistorico=true" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
-                <!-- <button pButton type="button" (click)="exportexcelHistorico()" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
+                <button pButton type="button" (click)="exportexcelHistoricoPrueba()" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button>
 
                 <br>
                 <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizPList3Select" [value]="this.historicoList" [paginator]="true" [rows]="10" >

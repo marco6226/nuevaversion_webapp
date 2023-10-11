@@ -25,7 +25,9 @@ export class LogmodalComponent implements OnInit {
         }
         this.arrayByentity = this.logList.filter((logU:any) => logU.entity === this.log.entity);
         let index = this.arrayByentity.findIndex((logU:any) => logU.id == this.log.id)
-        this.comparador(this.arrayByentity[index - 1], this.log);
+        console.log(index+1)
+        console.log(this.arrayByentity[index+1])
+        this.comparador(this.arrayByentity[index+1], this.log);
     }
 
 
@@ -58,7 +60,11 @@ export class LogmodalComponent implements OnInit {
     }
 
     comparador(anterior:any, editado:any) {
-        anterior = JSON.parse(anterior.json); editado = JSON.parse(editado.json)
+        console.log(anterior)
+        anterior = JSON.parse(anterior.json); 
+        editado = JSON.parse(editado.json)
+        console.log(anterior)
+        console.log(editado)
         for (const key in anterior) {
             if (Object.prototype.hasOwnProperty.call(anterior, key)) {
                 const sinEditar = anterior[key];
