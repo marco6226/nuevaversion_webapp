@@ -95,8 +95,8 @@
             border: none;
             background-color: #ed1f24;
             border-radius: 100%;
-            width: 20px !important;
-            height: 20px !important;
+            width: 30px !important;
+            height: 30px !important;
             color: #ffffff;
             opacity: 0;
             cursor: pointer;
@@ -105,10 +105,10 @@
             }
             &.show {
                 position: absolute;
-                top: -0.5rem;
-                right: -0.5rem;
+                top: -0.55rem;
+                right: -0.55rem;
                 opacity: 1;
-                z-index: 5;
+                z-index: 10;
             }
             em {
                 font-size: 0.85rem;

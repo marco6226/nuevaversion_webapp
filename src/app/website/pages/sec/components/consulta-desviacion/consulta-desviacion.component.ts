@@ -160,11 +160,12 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
     filterQuery.count = true;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
 
-    if(this.empresa && this.empresa.idEmpresaAliada !== null) {
+    if(this.empresa && this.empresa.idEmpresaAliada) {
       // console.log('filtro empresa aliada');
       filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso  });
       filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'modulo', value1: 'Inspecciones CC'});
       filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'empresaId', value1: this.empresa.idEmpresaAliada?.toString()});
+      filterQuery.filterList.push({ criteria: Criteria.LIKE, field: 'aliado', value1: `%${this.empresa.razonSocial}%`});
     } else {
       filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso  });
       // filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'empresaId', value1: empresaUsuario.id});
@@ -182,23 +183,23 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
       }
     ).catch(err => this.loading = false);
     
-    let filterQuery2 = new FilterQuery();
-    filterQuery2.sortField = event.sortField;
-    filterQuery2.sortOrder = event.sortOrder;
-    filterQuery2.offset = event.first;
-    filterQuery2.count = true;
-    filterQuery2.filterList = FilterQuery.filtersToArray(event.filters);
+    // let filterQuery2 = new FilterQuery();
+    // filterQuery2.sortField = event.sortField;
+    // filterQuery2.sortOrder = event.sortOrder;
+    // filterQuery2.offset = event.first;
+    // filterQuery2.count = true;
+    // filterQuery2.filterList = FilterQuery.filtersToArray(event.filters);
     // filterQuery2.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso ,value2:null });
 
-    filterQuery2.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: this.areasPermiso });
+    // filterQuery2.filterList.push({ criteria: Criteria.LIKE, field: "area.id", value1: this.areasPermiso });
     // filterQuery2.filterList.push({ criteria: Criteria.IS_NULL, field: "area.id" });
 
-    await this.desviacionService.findByFilter(filterQuery2).then(
-      (resp:any) => {
+    // await this.desviacionService.findByFilter(filterQuery2).then(
+    //   (resp:any) => {
         
-        this.getDatosDesv = resp['data'];
-      }
-    ).catch(err => this.loading = false);
+    //     this.getDatosDesv = resp['data'];
+    //   }
+    // ).catch(err => this.loading = false);
   }
 
   consultarAnalisis(desviacion: Desviacion) {

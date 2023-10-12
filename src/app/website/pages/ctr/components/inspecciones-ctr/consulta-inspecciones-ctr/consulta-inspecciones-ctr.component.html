@@ -24,14 +24,17 @@
                             <th pSortableColumn="empresaAliadaConNit">Aliado
                                 <p-sortIcon field="empresaAliadaConNit"></p-sortIcon>
                             </th>
+                            <th pSortableColumn="division">División de negocio
+                                <p-sortIcon field="division"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="programacion.localidad.localidad">Localidad
+                                <p-sortIcon field="programacion.localidad.localidad"></p-sortIcon>
+                            </th>
                             <th pSortableColumn="nombreUsuarioRegistra">Usuario elabora
                                 <p-sortIcon field="nombreUsuarioRegistra"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="programacion.listaInspeccion.nombre">Lista o formato
+                            <th pSortableColumn="listaInspeccion.codigo">Lista o formato
                                 <p-sortIcon field="listaInspeccion.codigo"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="programacion.localidad.nombre">Localidad
-                                <p-sortIcon field="programacion.localidad.localidad"></p-sortIcon>
                             </th>
                             <th pSortableColumn="estado">Estado
                                 <p-sortIcon field="estado"></p-sortIcon>
@@ -58,13 +61,16 @@
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'empresaAliadaConNit', 'contains')">
                             </td>
                             <td class="text-center bg-light">
-                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombreUsuarioRegistra', 'contains')">
-                            </td>
-                            <td class="text-center bg-light">
-                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'listaInspeccion.codigo', 'contains')">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'division', 'contains')">
                             </td>
                             <td class="text-center bg-light">
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'programacion.localidad.localidad', 'contains')">
+                            </td>
+                            <td class="text-center bg-light">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombreUsuarioRegistra', 'contains')">
+                            </td>
+                            <td class="text-center bg-light">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'listaInspeccion_codigo', 'contains')">
                             </td>
                             <td class="text-center bg-light">
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
@@ -79,14 +85,15 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-inspeccion>
                         <tr [pSelectableRow]="inspeccion" class="table-row table-row-selectable">
-                            <td>{{'INP-' + inspeccion.id}}</td>
+                            <td>{{'INPCC-' + inspeccion.id}}</td>
                             <td>{{inspeccion.programacion.fecha | date:'dd/MM/yyyy'}}</td>
                             <td>{{inspeccion.fecha | date:'dd/MM/yyyy'}}</td>
                             <td>{{inspeccion.tipoInspeccion}}</td>
                             <td>{{inspeccion.empresaAliadaConNit}}</td>
-                            <td>{{inspeccion.nombreUsuarioRegistra}}</td>
-                            <td>{{inspeccion.listaInspeccion?.codigo + ' v' + inspeccion.listaInspeccion.listaInspeccionPK?.version}} </td>
+                            <td>{{inspeccion.division}}</td>
                             <td>{{inspeccion.programacion?.localidad?.localidad}}</td>
+                            <td>{{inspeccion.nombreUsuarioRegistra}}</td>
+                            <td>{{inspeccion?.listaInspeccion?.codigo + ' v' + inspeccion?.listaInspeccion?.listaInspeccionPK?.version}} </td>
                             <td>{{inspeccion.estado}}</td>
                             <td>{{(inspeccion.calificacion/100 | percent:'1.1-2') ?? "N/A"}}</td>
                             <td style="text-align: center; vertical-align: middle;">

@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewCh
 import { TareaService } from 'src/app/website/pages/core/services/tarea.service'
 import { ParametroNavegacionService } from 'src/app/website/pages/core/services/parametro-navegacion.service';
 import { Tarea } from 'src/app/website/pages/comun/entities/tarea'
-import { Message } from 'primeng/api';
+import { FilterService, Message } from 'primeng/api';
 // import {FilterUtils} from 'primeng/utils';
 import * as moment from "moment";
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
@@ -16,13 +16,14 @@ import { columnasPorModulo } from '../utils/entities/modulos';
 @Component({
   selector: 'app-asignacion-tareas',
   templateUrl: './asignacion-tareas.component.html',
-  styleUrls: ['./asignacion-tareas.component.scss']
+  styleUrls: ['./asignacion-tareas.component.scss'],
+  providers: [FilterService]
 })
 export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   @ViewChild("dt") dataTableComponent: Table | null = null;
   loading: boolean = true;
   yearRange?:any;
-  tareasList: any;
+  tareasList: any[] = [];
   tareaListFilter: any;
   tareaSelect?: Tarea | null;
   msgs: Message[] = [];
@@ -49,6 +50,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     private sesionService: SesionService,
     private config: PrimeNGConfig,
     private cdr: ChangeDetectorRef,
+    private filterService: FilterService,
   ) { 
     // this.cdr.detectChanges();
   }
@@ -86,6 +88,24 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
 
     //     return filt.isSame(val);
     // }
+
+    this.filterService.register('btDate', (value: any, filter: any) => {
+      // console.log(value, filter);
+      if (filter === undefined || filter === null) {
+        return true;
+      }
+    
+      if (value === undefined || value === null) {
+        return false;
+      }
+      
+      let value1: Date = filter[0];
+      let value2: Date = filter[1];
+      if(filter[0] && !filter[1]) return filter[0] <= new Date(value);
+      if(!filter[0] && filter[1]) return new Date(value) <= filter[1];
+      if(!filter[0] && !filter[1]) return true;
+      return (value1 <= new Date(value) && value2 >= new Date(value)) ? value : false;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -126,9 +146,17 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     this.arrayIdsareas.push (areas.valueOf());
    
     this.tareaService.findByDetails(this.arrayIdsareas).then(
-        async resp => { 
+        async (resp: any) => { 
             this.tareasList = resp;
-            if(this.esAliado) this.tareasList = this.tareasList.filter((tarea: any) => tarea.module === 'Inspecciones CC');
+            if(this.esAliado){
+              let nombre_aliado = this.sesionService.getEmpresa()?.razonSocial;
+              this.tareasList = this.tareasList.filter((tarea: any) => tarea.module === 'Inspecciones CC')
+              .filter(tar => {
+                let aliado: string = tar.aliado;
+                aliado = aliado.split('-')[0];
+                return nombre_aliado == aliado.trim() ? tar : false;
+              });
+            }
             this.tareasList.sort(function(a:any,b:any){
                   if(a.id < b.id){
                     return 1
@@ -140,10 +168,11 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
             this.tareasList = await Promise.all(this.tareasList.map(async (tarea:any) => {
                 let status = await this.verifyStatus(tarea);
                 tarea.estado = statuses[status];
+                tarea.fecha_reporte = new Date(tarea.fecha_reporte).toISOString();
                 tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
                 return tarea;
             }));
-            this.loading = false;
+            this.loading = false;            
         }
 
     );

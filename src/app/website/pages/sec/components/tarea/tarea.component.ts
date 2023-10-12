@@ -368,8 +368,10 @@ async onSubmit() {
   }
 
   removeImage(index:any) {
-      let evidences:any = this.tareaForm!.get("evidences")!.value;
-      if (index > -1) evidences.splice(index, 1);
+    console.log(index);
+    let evidences:any = this.tareaForm!.get("evidences")!.value;
+    if (index > -1) evidences.splice(index, 1);
+    console.log(evidences);
   }
 
   TienePermiso(e:any){

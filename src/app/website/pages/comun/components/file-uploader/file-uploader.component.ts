@@ -45,6 +45,7 @@ export class FileUploaderComponent implements OnInit, OnChanges  {
     @Input() index?: number;
     @Input() show: boolean = false;
     @Input() clear: boolean = false;
+    activeInput: boolean = true;
 
     @Output() loadedImage: EventEmitter<any> = new EventEmitter();
     @Output() removeImage: EventEmitter<any> = new EventEmitter();
@@ -147,6 +148,7 @@ export class FileUploaderComponent implements OnInit, OnChanges  {
             let res = await this.directorioService.uploadv2(file, "Test");
 
             if (res) {
+                this.activeInput = false;
                 this.loading = false;
                 if (file.type.match('image.*')) {
                     this.imgURL = urlData;
@@ -179,8 +181,8 @@ export class FileUploaderComponent implements OnInit, OnChanges  {
     }
 
     removeImg() {
-        this.input!.nativeElement.value = "";
-        this.imgURL = '';
+        this.imgURL = undefined;
+        this.activeInput = true;
         this.removeImage.emit(this.index);
     }
 }
