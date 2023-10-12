@@ -11,7 +11,7 @@ import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { Filter, Criteria } from 'src/app/website/pages/core/entities/filter';
 import { TreeNode } from 'primeng/api';
 import { Util } from 'src/app/website/pages/comun/entities/util';
-import { Console } from 'console';
+// import { Console } from 'console';
 import { PerfilService } from 'src/app/website/pages/admin/services/perfil.service';
 import { Perfil } from 'src/app/website/pages/empresa/entities/perfil';
 

@@ -468,7 +468,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
   async exportexcelHistoricoPrueba(): Promise<void> {
 
-    const XLSX = require('xlsx');
+    // const XLSX = require('xlsx');
     // const fs = require('fs');
 
     const filaDestino = 5; // Por ejemplo, fila 2

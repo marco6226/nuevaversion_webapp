@@ -665,6 +665,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                     detail: 'Debe actualizar la ubicación del trabajador involucrado en la pestaña Información General',
                     life: 6000,
                 });
+                this.flagGuardado=false
                 return;
             }
             let ciudad = this.empleadoForm.get("ciudad")?.value.nombre;
@@ -676,6 +677,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 detail: 'Por favor revise los campos ciudad de residencia en la pestaña información general.',
                 life: 6000,
             });
+            this.flagGuardado=false
             return this.markFormGroupTouched(this.empleadoForm);
         }
 
@@ -738,7 +740,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             });
             this.createCase = false;
         }
-        this.flagGuardado=true
+        this.flagGuardado=false
     }
 
     async buildPerfilesIdList() {

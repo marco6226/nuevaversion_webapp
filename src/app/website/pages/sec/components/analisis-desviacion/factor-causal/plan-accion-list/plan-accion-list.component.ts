@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Message, SelectItem, ConfirmationService } from 'primeng/api';
 import {TreeNode} from 'primeng/api';
-import { Console } from 'console';
+// import { Console } from 'console';
 import { listPlanAccion } from 'src/app/website/pages/comun/entities/factor-causal';
 
 @Component({

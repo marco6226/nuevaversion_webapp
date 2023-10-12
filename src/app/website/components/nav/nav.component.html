@@ -10,7 +10,7 @@
         <img class="logo-Empresa" *ngIf="empresaSelect?.logo" [src]="empresaSelect?.logo" alt="">          
         <button type="button" class="button-round button-white" mat-raised-button color="primary" (click)="showDialog()">  
             <mat-icon type="button"  class="logo-Empresa" *ngIf="!empresaSelect?.logo" fontIcon="apartment" style="color: #052f6e;"></mat-icon>
-            <label type="button"  for="">{{empresaSelect?.nombreComercial}}</label>           
+            <label type="button"  for="" style="width:100%">{{empresaSelect?.nombreComercial}}</label>           
         </button>       
     </div>
     <div class="col4">
