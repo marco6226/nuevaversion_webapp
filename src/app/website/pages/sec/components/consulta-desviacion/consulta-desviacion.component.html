@@ -3,7 +3,7 @@
         <!-- <div><strong>  Investigación</strong> -->
         <!-- </div> -->
         <button pButton type="button" (click)="exportexcel($event)" title="Exportar a archivo Excel"
-            icon="bi bi-file-earmark-excel" class="p-button-success"></button>
+            icon="bi bi-file-earmark-excel" class="p-button-success" *sTienePermiso="'SEC_GET_XLSXINV'"></button>
 
         <p-tabView>
 
