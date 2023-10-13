@@ -152,7 +152,7 @@ export class ScmpermisosComponent implements OnInit {
         }
         this.permisoService.update(permiso).then(
             resp => {
-                this.messageServices.add({summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success' });
+                this.messageServices.add({summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success', key: 'scmPermisos' });
                 if(resp){
                     this.isOnEdit=false;
                 }
