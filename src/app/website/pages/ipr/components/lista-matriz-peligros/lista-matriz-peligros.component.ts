@@ -13,6 +13,7 @@ import { ParametroNavegacionService } from '../../../core/services/parametro-nav
 import { MatrizPeligrosLogService } from '../../../core/services/matriz-peligros-log.service';
 import { MatrizPeligrosLog } from '../../../comun/entities/Matriz-peligros-log';
 import * as XLSX from 'xlsx';
+// import * as XLSXStyle from "xlsx-style";
 
 interface Column {
   field: string;
@@ -478,13 +479,17 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
     const readyToExport = this.excel;
 
-    const destinoFilePath = '../../../../../assets/excelbase/HistoricoExcel-corona.xlsx';
-    const workBook = XLSX.readFile(destinoFilePath);
+    const destinoFilePath = '../../../../../assets/excelbase/historicoexcelcorona.xlsx';
+
+    // const buffer = fs.readFileSync(destinoFilePath);
+    // const workbook = XLSX.read(buffer, { type: 'buffer' });
+
+    // const workbook = XLSX.readFile(destinoFilePath);
     // const workSheet = XLSX.utils.json_to_sheet(readyToExport);
 
     // XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
  
-    XLSX.writeFile(workBook, 'historicos.xlsx'); // initiate a file download in browser
+    // XLSX.writeFile(workbook, 'historicos.xlsx'); // initiate a file download in browser
     // fs.unlink(destinoFilePath, (err:any) => {
     //   if (err) {
     //     console.error('Error al eliminar el archivo original:', err);
@@ -493,26 +498,43 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     //   }
     // })
 
-    this.cerrarDlgExcelHistorico();
+    fetch(destinoFilePath)
+  .then((response) => response.arrayBuffer())
+  .then((data) => {
+    const workbook = XLSX.read(data);
 
+    // Accede a la hoja de cálculo que deseas procesar (por ejemplo, la primera hoja)
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+    // Procesa los datos como desees, por ejemplo, conviértelos a JSON
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+    XLSX.writeFile(workbook, 'historicos.xlsx');
+    // console.log(jsonData);
+  })
+  .catch((error) => {
+    console.error('Error al cargar el archivo Excel:', error);
+  });
+
+    this.cerrarDlgExcelHistorico();
   }
 
-  async exportexcelHistorico(): Promise<void> 
-    {
-        await this.datosExcel()
+  // async exportexcelHistorico(): Promise<void> 
+  //   {
+  //       await this.datosExcel()
 
-        const readyToExport = this.excel;
+  //       const readyToExport = this.excel;
  
-       const workBook = XLSX.utils.book_new(); // create a new blank book
+  //      const workBook = XLSX.utils.book_new(); // create a new blank book
  
-       const workSheet = XLSX.utils.json_to_sheet(readyToExport);
+  //      const workSheet = XLSX.utils.json_to_sheet(readyToExport);
  
-       XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
+  //      XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
  
-       XLSX.writeFile(workBook, 'Excel historicos.xlsx'); // initiate a file download in browser
+  //      XLSX.writeFile(workBook, 'Excel historicos.xlsx'); // initiate a file download in browser
         
-       this.cerrarDlgExcelHistorico();
-    }
+  //      this.cerrarDlgExcelHistorico();
+  //   }
 
     cerrarDlgExcelHistorico(){
       this.visibleDlgExcelHistorico = false;

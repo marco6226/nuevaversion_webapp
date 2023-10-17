@@ -4,7 +4,7 @@
     // width: 350px;
     // padding-left: 14px;
     padding-bottom: 12px;
-    border-radius: 20px;
+    border-radius: 20px !important;
 }
 
 .container-show{
@@ -67,6 +67,7 @@
     padding: 6px;
     display: flex;
     align-items: center;
+    border-radius: 20px !important;
 }
 
 .data-show:hover{
@@ -92,7 +93,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 20%;
+    border-radius: 20% !important;
 }
 
 .data-hide:hover{
@@ -112,9 +113,9 @@
 .child-items{
     display: flex;
     align-items: center;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    margin-left: 8px;
+    // padding-top: 4px;
+    // padding-bottom: 4px;
+    // margin-left: 8px;
 
 }
 
