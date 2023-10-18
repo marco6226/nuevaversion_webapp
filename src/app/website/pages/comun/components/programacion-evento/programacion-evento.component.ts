@@ -51,7 +51,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   diaSelected: number | null = null;
   radioBSelected: string | null = null;
   inputDia: number | null = null;
-
+  esListaInactiva: boolean = false;
 
   @Input('visible') visible: boolean = false;
   @Input('modulo') modulo: string = 'INP';
@@ -133,6 +133,13 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     // }
   }
 
+  onChangeListaInspeccion(event: DropdownChangeEvent) {
+    // console.log(event);
+    this.deshabilitar = false;
+    this.esListaInactiva = false;
+    if(this.form?.get('numeroRealizadas')?.value && this.form?.get('numeroRealizadas')?.value > 0) this.deshabilitar = true;
+  }
+
   async loadDataEvento() {
     let filterQuery: FilterQuery = new FilterQuery();
     filterQuery.filterList = [{criteria: Criteria.EQUALS, field: 'id', value1: this.idProgramacion}]
@@ -140,7 +147,11 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     .then((res: any) => {
       let programacion: Programacion = res.data.length > 0 ? res.data[0] : {} as Programacion;
       // console.log(this.listasInspeccionList);
-      if(programacion.listaInspeccion.estado === 'inactivo' && this.deshabilitar){
+      // console.log(programacion);
+      if(programacion.listaInspeccion.estado === 'inactivo'){
+        if(!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
+        this.deshabilitar = true;
+        // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
         let listaInp = {
           label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
           value: {id: programacion.listaInspeccion.listaInspeccionPK.id, version: programacion.listaInspeccion.listaInspeccionPK.version},
@@ -448,6 +459,8 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     this.diasSemanaSelected = null;
     this.programacionSwitch = false;
     this.idProgramacion = null;
+    this.esListaInactiva = false;
+    this.deshabilitar = false;
     this.valueChange.emit(null);
     this.visibleChange.emit(false);
   }
