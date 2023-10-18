@@ -149,12 +149,13 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
         async (resp: any) => { 
             this.tareasList = resp;
             if(this.esAliado){
-              let nombre_aliado = this.sesionService.getEmpresa()?.razonSocial;
+              let nit_aliado = this.sesionService.getEmpresa()?.nit;
               this.tareasList = this.tareasList.filter((tarea: any) => tarea.module === 'Inspecciones CC')
               .filter(tar => {
                 let aliado: string = tar.aliado;
-                aliado = aliado.split('-')[0];
-                return nombre_aliado == aliado.trim() ? tar : false;
+                aliado = aliado.split('-')[1];
+                // console.log(nit_aliado, aliado);
+                return aliado.trim() == nit_aliado ? tar : false;
               });
             }
             this.tareasList.sort(function(a:any,b:any){
