@@ -94,20 +94,19 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
     this.esAliado = this.empresa?.idEmpresaAliada ? true : false;
     this.flagArea = this.esAliado ? false : true;
 
-  }
-
-  ngAfterViewInit(): void {
-    // console.log(this.table);
     if(this.esAliado){
       this.opcionesModulos = [
         {label: 'Inspecciones CC', value: 'Inspecciones CC'}
       ];
       this.moduloSelected = 'Inspecciones CC';
-      this.table.filter(this.moduloSelected, 'modulo', 'equals');
     } else {  
       this.moduloSelected = 'Reporte A/I';
-      this.table.filter(this.moduloSelected, 'modulo', 'equals');
     }
+  }
+
+  ngAfterViewInit(): void {
+    // console.log(this.table);
+    this.table.filter(this.moduloSelected, 'modulo', 'equals');
   }
 
   async exportexcel(event: any): Promise<void> 

@@ -108,22 +108,28 @@
                             class="p-button-success" (click)="redirect(false)" [disabled]="!inspeccionSelect"></button> -->
     
                             <div class="d-flex justify-content-center">
-                                <div class="btn-group" role="group">                
-                                  <button *sTienePermiso="'INP_PUT_INP'" 
-                                    class="p-button-raised p-button-success margin-right margin-left" 
-                                    pButton type="button" 
-                                    icon="bi bi-pencil" 
-                                    label="Modificar"
-                                    (click)="redirect(false)" 
-                                    [disabled]="!inspeccionSelect"></button>
-                                  <button *sTienePermiso="'INP_GET_INP'" 
-                                    pButton type="button" 
-                                    icon="bi bi-search" 
-                                    label="Consultar" 
-                                    style="color: var(--white)"
-                                    class="p-button-raised p-button-warning margin-right margin-left"
-                                    (click)="redirect(true)" 
-                                    [disabled]="!inspeccionSelect"></button>
+                                <div class="btn-group" role="group">
+                                    <ng-container *sTienePermiso="'CTR_PUT_INP'">
+                                        <button 
+                                          class="p-button-raised p-button-success margin-right margin-left" 
+                                          pButton type="button" 
+                                          icon="bi bi-pencil" 
+                                          label="Modificar"
+                                          (click)="redirect(false)" 
+                                          [disabled]="!inspeccionSelect">
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *sTienePermiso="'CTR_GET_INP'">
+                                        <button
+                                          pButton type="button" 
+                                          icon="bi bi-search" 
+                                          label="Consultar" 
+                                          style="color: var(--white)"
+                                          class="p-button-raised p-button-warning margin-right margin-left"
+                                          (click)="redirect(true)" 
+                                          [disabled]="!inspeccionSelect">
+                                      </button>
+                                    </ng-container>
                                 </div>
                               </div>           
                     </ng-template>
@@ -148,7 +154,7 @@
             </p-tabPanel>
     
     
-            <p-tabPanel header="Resumen">
+            <p-tabPanel header="Resumen" *sTienePermiso="'CTR_GET_RESUMEN_INP'">
                 <p-table #dtr [value]="dataResumen" autoLayout="true" selectionMode="single" 
                 [(selection)]="resumenSelected" [rows]="10" [paginator]="true" dataKey="id" [lazy]="true"
                 (onLazyLoad)="lazyLoadResumen($event)" [totalRecords]="totalRecordsResumen" [loading]="loadingResumen"

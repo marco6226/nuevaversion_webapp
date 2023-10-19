@@ -1,11 +1,13 @@
 <!-- <p-growl [value]="msgs"></p-growl> -->
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
-<s-dataNotFound *ngIf="(!tareasList || tareasList.length <= 0) && !loading" icon="fa-tasks" message="No se cuenta con registros de tareas generadas">
-    <div *sTienePermiso="'SEC_GET_ANADESV'">
-        Genera nuevas tareas a partir de un análisis de desviación
-        <a (click)="navegar()">aqui</a>
-    </div>
-</s-dataNotFound>
+<ng-container *ngIf="(!tareasList || tareasList.length <= 0) && !loading">
+    <s-dataNotFound icon="fa-tasks" message="No se cuenta con registros de tareas generadas">
+        <div *sTienePermiso="'SEC_GET_ANADESV'">
+            Genera nuevas tareas a partir de un análisis de desviación
+            <a (click)="navegar()">aqui</a>
+        </div>
+    </s-dataNotFound>
+</ng-container>
             
 <p-panel header="Listado de tareas" styleClass="material-panel" [style.display]="(tareasList && tareasList.length > 0) || loading ? 'block':'none'">
     <button pButton type="button" (click)="abrirDialogo()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>

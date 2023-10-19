@@ -106,9 +106,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
       if(!filter[0] && !filter[1]) return true;
       return (value1 <= new Date(value) && value2 >= new Date(value)) ? value : false;
     });
-  }
 
-  ngAfterViewInit(): void {
     this.loading = true;
     if(this.esAliado) {
       this.opcionesModulos = [
@@ -120,6 +118,10 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
       this.dataTableComponent?.filter(this.moduloSelected, 'module', 'equals');
     }
     this.loading = false;
+  }
+
+  ngAfterViewInit(): void {
+    
   }
 
   getTareas() {

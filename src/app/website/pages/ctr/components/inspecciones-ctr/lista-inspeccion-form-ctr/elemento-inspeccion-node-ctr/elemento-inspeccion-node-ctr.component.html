@@ -54,11 +54,13 @@
               [diligenciable]="diligenciable" (onElementoClick)="emitirEventoSelecElemento($event)"
               [tiposHallazgo]="tiposHallazgo" [tipoLista]="tipoLista"></app-elemento-inspeccion-node-ctr>
           </tr>
-          <tr *ngIf="conPeso && elem.elementoInspeccionList" style="height: 35px; background-color: #eeeeee; color: #333333; text-align: right;">
-            <td style=" padding-right: 10px; font-size: large;">
-              Porcentaje de cumplimiento {{ (porcentajeCumplimiento(elem.elementoInspeccionList)/100 | percent:'1.1-2') ?? 'N/A' }}
-            </td>
-          </tr>
+          <ng-container *sTienePermiso="'CTR_GET_CUMP_INP'">
+            <tr *ngIf="conPeso && elem.elementoInspeccionList" style="height: 35px; background-color: #eeeeee; color: #333333; text-align: right;">
+              <td style=" padding-right: 10px; font-size: large;">
+                Porcentaje de cumplimiento {{ (porcentajeCumplimiento(elem.elementoInspeccionList)/100 | percent:'1.1-2') ?? 'N/A' }}
+              </td>
+            </tr>
+          </ng-container>
         </table>
       </div>
     </p-panel>
