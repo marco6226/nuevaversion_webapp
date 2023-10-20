@@ -293,13 +293,13 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
     this.visibleDlgCorreo = false;
   }
   
-  envioEmails(){
+  async envioEmails(){
 
     // console.log(this.formEmail)
-    // console.log(this.emails)
+    // console.log(this.emails, this.inpID)
     try {
-      if(this.emails.length>0){  
-        this.emails.forEach(async (element:any) => {
+      if(this.emails.length>0){
+        await this.emails.forEach(async (element:any) => {
           await this.usuarioService.emailAliadoCicloCorto(element, this.inpID.toString());
         });
         this.messageService.add({severity: 'success', summary: 'Correo enviado'});

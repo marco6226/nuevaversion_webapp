@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <td class="text-center bg-light">
-                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'equals')">
                             </td>
                             <td class="text-center bg-light">
                                 <s-rangoFechaSelector (onSelect)="dt.filter($event, 'programacion.fecha', 'bt')"></s-rangoFechaSelector>
@@ -268,7 +268,7 @@
                 <label for="emails" class="col-12 mb-2 md:col-2 md:mb-0">Para:</label>
                 <div class="col-12 md:col-10">
                     <!-- <p-chips id="emails" formControlName="emails" required></p-chips> -->
-                    <p-chips id="emails" [(ngModel)]="emails" required></p-chips>
+                    <p-chips id="emails" [(ngModel)]="emails" separator="," required></p-chips>
                 </div>
             </div>
         </div>
