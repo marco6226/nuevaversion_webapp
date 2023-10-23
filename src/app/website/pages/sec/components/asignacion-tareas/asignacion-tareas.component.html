@@ -10,6 +10,7 @@
 </ng-container>
             
 <p-panel header="Listado de tareas" styleClass="material-panel" [style.display]="(tareasList && tareasList.length > 0) || loading ? 'block':'none'">
+    <!-- Mover aquí el permiso -->
     <button pButton type="button" (click)="abrirDialogo()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>
     
     <div class="grid" >

@@ -154,7 +154,7 @@
         <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="pi pi-save" label="Guardar" 
         [disabled]="!form.valid" (click)="onSubmit()"></button>
       </ng-container>
-      <ng-container *ngIf="!esNueva && loading == false">
+      <ng-container *ngIf="!esNueva && loading == false && !(form.value.numeroRealizadas && form.value.numeroRealizadas > 0)">
         <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="pi pi-pencil"
            label="Modificar" (click)="onSubmit()" [disabled]="!form.valid"></button>
       </ng-container>
@@ -163,7 +163,7 @@
           label="Inspección" (click)="irInspeccion()" [disabled]="btnInspDisable">
         </button>
       </ng-container>
-      <ng-container *ngIf="!esNueva && loading == false">
+      <ng-container *ngIf="!esNueva && loading == false && !(form.value.numeroRealizadas && form.value.numeroRealizadas > 0)">
         <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="p-button-danger"
           label="Eliminar" (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
       </ng-container>
