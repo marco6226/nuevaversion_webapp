@@ -110,33 +110,40 @@ export class SeguimientosgenericoformComponent implements OnInit, OnChanges {
         try {
             let res: any;
             if (this.seguigenericoSelect) {
-                this.scmService.updateSeguimientogenerico(body)
+                await this.scmService.updateSeguimientogenerico(body)
                 .then(response => {
                     this.messageService.add({
                         severity: "success",
                         summary: 'Mensaje del sistema',
                         detail: "El seguimiento fue actualizado exitosamente",
+                        key: "scmGenerico"
                     });
                 }).catch(() => {
                     throw 'Error';
                 });
             } else {
-                this.scmService.createSeguimientogenerico(body)
+                await this.scmService.createSeguimientogenerico(body)
                 .then((response) => {
                     this.messageService.add({
                         severity: "success",
                         summary: 'Mensaje del sistema',
                         detail: "El seguimiento fue creado exitosamente",
+                        key: "scmGenerico"
                     });
                 }).catch((err) => {
                     throw 'Error';
                 });
             }
-            this.eventClose.emit();
+            setTimeout(() => {
+                this.seguimientogenerico.reset();
+                this.eventClose.emit();
+            }, 1000);
         } catch (error) {
             this.messageService.add({
                 severity: "error",
                 summary: "Error",
+                detail: "No se pudo completar la acción.",
+                key: "scmGenerico"
             });
         }
     }

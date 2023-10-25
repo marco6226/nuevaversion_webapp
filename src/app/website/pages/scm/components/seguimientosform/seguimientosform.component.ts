@@ -148,7 +148,13 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
         try {
             let res: any;
             if (this.seguiSelect) {
-                res = await this.scmService.updateSeguimiento(body);
+                res = await this.scmService.updateSeguimiento(body)
+                .then(resU => {
+                    res = resU;
+                })
+                .catch(err => {
+                    throw new Error(err);
+                });
             } else {
                 let firm= new firma();
                 firm.idempresa=this.idEmpresa
@@ -159,6 +165,9 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
                     await this.firmaservice.create(firm)
                     res=ele
                 })
+                .catch(err => {
+                    throw new Error(err);
+                });
             }
 
             if (res) {
@@ -166,6 +175,7 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
                     severity: "success",
                     summary: 'Mensaje del sistema',
                     detail: this.seguiSelect ? "El seguimiento fue actualizado exitosamente" : "El seguimiento fue creado exitosamente",
+                    key: "segForm"
                 });
                 setTimeout(() => {
                     this.accions = [];
@@ -178,6 +188,8 @@ export class SeguimientosformComponent implements OnInit, OnChanges {
             this.messageService.add({
                 severity: "error",
                 summary: "Error",
+                detail: 'No se pudo completar la acción.',
+                key: 'segForm'
             });
 
         }
