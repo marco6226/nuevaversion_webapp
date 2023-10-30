@@ -156,6 +156,7 @@
   </p-panel> -->
 
   <br>
+<ng-container *sTienePermiso="'CTR_GET_CUMP_INP'">
   <p-panel *ngIf="listaInspeccion && esListaConPeso">
     <p-header>
       <i class="pi pi-chart-bar" style="margin-right: 10px;" aria-hidden="true"></i>
@@ -186,16 +187,21 @@
       </tfoot>
     </table>
   </p-panel>
+</ng-container>
 
   <br>
   <br>
-  <button pButton type="button" icon="pi pi-save" 
-    *ngIf="adicionar && solicitando == false" class="float-btn"
-    data-toggle="tooltip" data-placement="bottom" title="Guardar" (click)="onSubmitInpAliado()"></button>
+  <ng-container *sTienePermiso="'CTR_POST_INP'">
+    <button pButton type="button" icon="pi pi-save" 
+      *ngIf="adicionar && solicitando == false" class="float-btn"
+      data-toggle="tooltip" data-placement="bottom" title="Guardar" (click)="onSubmitInpAliado()"></button>
+  </ng-container>
 
-  <button pButton type="button" icon="pi pi-pencil" *ngIf="modificar && solicitando == false"
+  <ng-container *sTienePermiso="'CTR_PUT_INP'">
+    <button pButton type="button" icon="pi pi-pencil" *ngIf="modificar && solicitando == false"
     class="float-btn p-button-success p-button-success" data-toggle="tooltip"
     data-placement="bottom" title="Modificar" (click)="onSubmitInpAliado()"></button>
+  </ng-container>
 
   <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
     [style]="{width: '35px', height: '35px'}"></p-progressSpinner>

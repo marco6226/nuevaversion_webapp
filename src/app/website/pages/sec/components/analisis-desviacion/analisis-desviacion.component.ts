@@ -1219,15 +1219,16 @@ export class AnalisisDesviacionComponent implements OnInit {
                     });
                 }
             }
+            let esInvestigacion: boolean = this.desviacionesList[0].modulo != 'Inspecciones CC' ? true : false;
             this.msgs.push({
                 severity: "success",
                 summary:
-                    "Investigación de desviación " +
-                    (this.modificar ? "actualizada" : "registrada"),
+                    (esInvestigacion ? "Investigación de desviación ": "Plan de trabajo ") +
+                    (this.modificar ? (esInvestigacion ? "actualizada": "actualizado") : (esInvestigacion ? "registrado": "registrado")),
                 detail:
                     "Se ha " +
                     (this.modificar ? "actualizado" : "generado") +
-                    " correctamente la investigación",
+                    " correctamente " + (this.desviacionesList[0].modulo != 'Inspecciones CC' ? 'la investigación' : 'el plan de trabajo'),
             });
             this.guardando = false;
         }

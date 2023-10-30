@@ -79,6 +79,7 @@ export class ListasInspeccionComponent implements OnInit {
     filterQuery.fieldList = this.fields;
     
     filterQuery.filterList = FilterQuery.filtersToArray(event?.filters);
+    filterQuery.filterList.push({criteria: Criteria.NOT_EQUALS, field: 'tipoLista', value1: 'Ciclo corto'});
     
     this.listaInspeccionService.findByFilter(filterQuery).then(
       (resp: any) => {

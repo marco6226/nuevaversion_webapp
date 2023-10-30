@@ -76,17 +76,16 @@
                             </s-rangoFechaSelector>                      
     
                         </div>
-                    </td>
-                    
-                    <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
-                        <div class="ui-inputgroup">
-                            <input class="filter-input" pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')">
-                        </div>
-                    </td>                    
+                    </td>               
                     <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
                         <div class="ui-inputgroup">
                             
                             <input class="filter-input" pInputText type="text" (input)="dt.filter($event.target.value,'pkUser.area.padreNombre')">
+                        </div>
+                    </td>
+                    <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
+                        <div class="ui-inputgroup">
+                            <input class="filter-input" pInputText type="text" (input)="dt.filter($event.target.value,'region', 'contains')">
                         </div>
                     </td>
                     <td class="text-center bg-light">

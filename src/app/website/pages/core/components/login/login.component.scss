@@ -83,4 +83,11 @@ button{
     position: absolute;
     bottom: 21px;
     left: 17px;    
+    display: flex;
+    align-items: flex-end;
+    a{
+        img{
+            width: 250px;
+        }
+    }
 }

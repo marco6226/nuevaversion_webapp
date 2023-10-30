@@ -16,11 +16,15 @@
         <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required />
       </div>
       <div class="col-12 md:col-4 lg:col-4">
-        <label for="listaInsp">Auditoría a realizar</label>
+        <label for="listaInsp">Inspección a realizar</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
         <p-dropdown id="listaInsp" [options]="listasInspeccionList" placeholder="-- Seleccione --" [filter]="true" formControlName="listaInspeccionPK"
-          appendTo="body" required></p-dropdown>
+          appendTo="body" required (onChange)="onChangeListaInspeccion($event)"></p-dropdown>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4" *ngIf="esListaInactiva"></div>
+      <div class="col-12 md:col-8 lg:col-8" *ngIf="esListaInactiva">
+        <label style="color: red;">*Se recomienda usar la versión mas reciente de esta lista de inspeccion.</label>
       </div>
       <div class="col-12 md:col-4 lg:col-4">
         <label for="empresa">Empresa Aliada</label>
@@ -62,6 +66,10 @@
       <div class="col-12 md:col-8 lg:col-8">
         <p-dropdown id="listaInsp" [options]="listasInspeccionList" [filter]="true" formControlName="listaInspeccionPK"
           appendTo="body" required></p-dropdown>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4" *ngIf="esListaInactiva"></div>
+      <div class="col-12 md:col-8 lg:col-8" *ngIf="esListaInactiva">
+        <label style="color: red;">*Se recomienda usar la versión mas reciente de esta lista de inspeccion.</label>
       </div>
       <div class="col-12 md:col-4 lg:col-4">
         <label for="areaResponsable">Ubicación responsable</label>
@@ -146,7 +154,7 @@
         <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="pi pi-save" label="Guardar" 
         [disabled]="!form.valid" (click)="onSubmit()"></button>
       </ng-container>
-      <ng-container *ngIf="!esNueva && loading == false">
+      <ng-container *ngIf="!esNueva && loading == false && !(form.value.numeroRealizadas && form.value.numeroRealizadas > 0)">
         <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="pi pi-pencil"
            label="Modificar" (click)="onSubmit()" [disabled]="!form.valid"></button>
       </ng-container>
@@ -155,7 +163,7 @@
           label="Inspección" (click)="irInspeccion()" [disabled]="btnInspDisable">
         </button>
       </ng-container>
-      <ng-container *ngIf="!esNueva && loading == false">
+      <ng-container *ngIf="!esNueva && loading == false && !(form.value.numeroRealizadas && form.value.numeroRealizadas > 0)">
         <button *sTienePermiso="'INP_DELETE_PROG'" type="button" pButton icon="pi pi-trash" class="p-button-danger"
           label="Eliminar" (click)="eliminarProgramacion()" [disabled]="!form.valid"></button>
       </ng-container>

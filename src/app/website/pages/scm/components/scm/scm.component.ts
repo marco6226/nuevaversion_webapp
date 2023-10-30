@@ -57,7 +57,9 @@ export class ScmComponent implements OnInit {
         'statusCaso',
         'casoMedicoLaboral',
         'razon',
-        'pkUser',
+        'pkUser_area_padreNombre',
+        'pkUser_primerApellido',
+        'pkUser_primerNombre',
         'sve',
         'eliminado',
         'prioridadCaso',
@@ -143,7 +145,10 @@ export class ScmComponent implements OnInit {
         filterQuery.filterList.push(filterEliminado);      
         try {
             let res: any = await this.scmService.findByFilter(filterQuery);
-            this.casosList = res.data;
+            this.casosList = [];
+            res?.data?.forEach((dto: any) => {
+                this.casosList.push(FilterQuery.dtoToObject(dto));
+            });
             this.totalRecords = res.count;
 
         } catch (error) {

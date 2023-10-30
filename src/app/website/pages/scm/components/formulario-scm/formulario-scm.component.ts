@@ -1035,7 +1035,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         if(this.sesionService.getPermisosMap()["SCM_LIST_CASE_RECO"])this.recomendationList = await this.scmService.getRecomendations(this.caseSelect.id);
         this.modalRecomendatios = false;
         this.recoSelect = null;
-        this.logsList = await this.scmService.getLogs(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_LOG"]) this.logsList = await this.scmService.getLogs(this.caseSelect.id);
     }
 
     async onCloseModalseguimiento() {
@@ -1045,8 +1045,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
         this.modalSeguimientos = false;
         this.seguiSelect = null;
-        this.logsList = await this.scmService.getLogs(this.caseSelect.id);
-
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_LOG"]) this.logsList = await this.scmService.getLogs(this.caseSelect.id);
     }
     
     async onCloseModalseguimientogenerico() {       
@@ -1055,8 +1054,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
         this.modalSeguimientosgenerico = false;
         this.seguigenericoSelect = null;
-        this.logsList = await this.scmService.getLogs(this.caseSelect.id);
-
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_LOG"]) this.logsList = await this.scmService.getLogs(this.caseSelect.id);
     }
 
     async copiarLinkSeguimiento(idSeguimiento:number, usuario:string){
@@ -1116,7 +1114,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_DIAG"])this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
         this.modalDianostico = false;
         this.diagSelect = null;
-        this.logsList = await this.scmService.getLogs(this.caseSelect.id);
+        if(this.sesionService.getPermisosMap()["SCM_GET_CASE_LOG"]) this.logsList = await this.scmService.getLogs(this.caseSelect.id);
     }
 
     onSelectionBP(event: any) {
@@ -1193,7 +1191,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.empresaId = this.sesionService.getEmpresa()?.id;
             this.aonRegisters();
             this.status = (this.casoMedicoForm.get("statusCaso")?.value !== null) ? this.caseStatus.find(sta => sta.value == this.casoMedicoForm.get("statusCaso")?.value)?.label : 'N/A'
-            this.logsList = await this.scmService.getLogs(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_GET_CASE_LOG"]) this.logsList = await this.scmService.getLogs(this.caseSelect.id);
         } catch (error) {
             console.error(error);
         }
@@ -1218,7 +1216,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             if(this.sesionService.getPermisosMap()["SCM_GET_CASE_DIAG"])this.diagnosticoList = await this.scmService.getDiagnosticos(this.caseSelect.id);
             this.fechaSeg()
             this.aonRegisters();
-            this.logsList = await this.scmService.getLogs(this.caseSelect.id);
+            if(this.sesionService.getPermisosMap()["SCM_GET_CASE_LOG"]) this.logsList = await this.scmService.getLogs(this.caseSelect.id);
         } catch (error) {
             console.error(error);
         }
