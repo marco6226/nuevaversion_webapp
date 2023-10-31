@@ -14,12 +14,13 @@ import { Programacion } from '../../../inspecciones/entities/programacion';
 import { ProgramacionService } from '../../../inspecciones/services/programacion.service';
 import { locale_es } from '../../entities/reporte-enumeraciones';
 import { Serie } from '../../entities/serie';
+import { SesionService } from '../../../core/services/session.service';
 
 @Component({
   selector: 's-programacion-evento',
   templateUrl: './programacion-evento.component.html',
   styleUrls: ['./programacion-evento.component.scss'],
-  providers: [SerieService]
+  providers: [SerieService, SesionService]
 })
 export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
@@ -97,7 +98,8 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     private messageService: MessageService,
     private serieService: SerieService,
     private paramNav: ParametroNavegacionService,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private sessionService: SesionService
   ) {
     this.form = this.fb.group({
       id: null,
@@ -143,9 +145,17 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   async loadDataEvento() {
     let filterQuery: FilterQuery = new FilterQuery();
     filterQuery.filterList = [{criteria: Criteria.EQUALS, field: 'id', value1: this.idProgramacion}]
-    this.programacionService.findAuditoriasWithFilter(filterQuery)
+
+    if(this.modulo === 'INP') {
+      let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
+      filterQuery.filterList.push({criteria: Criteria.CONTAINS, field: 'area.id', value1: areas});
+    }
+
+    let findProgramacion = this.modulo === 'INP' ? this.programacionService.findByFilter.bind(this.programacionService) : this.programacionService.findAuditoriasWithFilter.bind(this.programacionService);
+
+    findProgramacion(filterQuery)
     .then((res: any) => {
-      let programacion: Programacion = res.data.length > 0 ? res.data[0] : {} as Programacion;
+      let programacion: Programacion =  res?.data && res?.data?.length > 0 ? res.data[0] : {} as Programacion;
       // console.log(this.listasInspeccionList);
       // console.log(programacion);
       if(programacion.listaInspeccion.estado === 'inactivo'){
