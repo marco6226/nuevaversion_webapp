@@ -7,7 +7,7 @@
             <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
         </div>
         <div class="contenedor-cuadrado">
-            <div class="" style="margin-top: 73px;" *ngIf="flag">
+            <div style="padding-top: 95px; height: 100%;" *ngIf="flag">
                 <form [formGroup]="formLogin" role="form">
                     <mat-form-field appearance="outline" style=" width: 74%;">
                         <mat-label>Correo</mat-label>
@@ -31,6 +31,13 @@
                 <p class="predec-link">¿No puedes ingresar?
                     <a class="link" routerLink="/reset-password">Recordar Contraseña</a>
                 </p>
+                
+                <div class="urlLer">
+                    <span>Desarrollado por: </span>
+                    <a href="https://lerprevencion.co/" target="_blank">
+                        <img src="../../../../../../assets/png/LogoLer.png" />
+                    </a>
+                </div>
 
             </div>
 
@@ -38,9 +45,6 @@
     </div>
     <div class="footer">
         <label class="version">v {{version}}</label>
-        <a href="https://lerprevencion.co/" target="_blank">
-            <img src="../../../../../../assets/png/LogoLer.png" />
-        </a>
     </div>
 </div>
 <app-whatsapp></app-whatsapp>
