@@ -990,10 +990,23 @@ export class AnalisisDesviacionComponent implements OnInit {
             //       detail: "Si el accidente es grave o mortal, se debe enviar reporte a  entes de control o si selecciona el campo sí se debe diligenciar la fecha de envío a entes de control.",
             //   });
 
-            this.msgs.push({
-                severity: "error",
-                detail: "Debe diligenciar información complementaria para guardar.",
-            });
+            if(Number(this.idEmpresa) == 8){
+                this.msgs.push({
+                    severity: "error",
+                    detail: "Debe adicionar actividad.",
+                });
+            }
+            else if(Number(this.idEmpresa) == 22){
+                this.msgs.push({
+                    severity: "error",
+                    detail: "Debe diligenciar información complementaria para guardar.",
+                });
+            }else{
+                this.msgs.push({
+                    severity: "error",
+                    detail: "Falta información por diligenciar.",
+                });
+            }
         }
         window.scrollTo(0, 0);
     }
