@@ -102,11 +102,12 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
     } else {  
       this.moduloSelected = 'Reporte A/I';
     }
+    
+    // this.table.filter(this.moduloSelected, 'modulo', 'equals');
   }
 
   ngAfterViewInit(): void {
     // console.log(this.table);
-    this.table.filter(this.moduloSelected, 'modulo', 'equals');
   }
 
   async exportexcel(event: any): Promise<void> 
@@ -171,7 +172,8 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
       filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: "emptemporal" });
     }
 
-    
+    if(!filterQuery.filterList.find(filter => filter.field == 'modulo')) filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'modulo', value1: this.moduloSelected});
+
     await this.desviacionService.findByFilter(filterQuery).then(
       (resp:any) => {
         this.totalRecords = resp['count'];
