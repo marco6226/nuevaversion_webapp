@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           let url: string | null = localStorage.getItem('url');
           this.router.navigate([url ?? 'app/home']);
           localStorage.removeItem('url');
-          this.IsVisible = false;   
+          // this.IsVisible = false;   
         } else {
           let url = this.authGuardService.Geturl();
           this.router.navigate([aceptaTerm ? url : '/app/terminos']);
