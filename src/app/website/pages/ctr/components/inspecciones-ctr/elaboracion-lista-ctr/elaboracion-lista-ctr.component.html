@@ -7,14 +7,14 @@
 <p-toast key="elaboracionLista"></p-toast>
 <div *ngIf="!finalizado" class="shadow">
 
-    <p-panel header="ELABORACIÓN DE AUDITORÍA">
+    <p-panel header="ELABORACIÓN DE INNSPECCIÓN">
 
         <div class="grid mb-2">
             <div class="col">
                 <form [formGroup]="form">
                     <p-panel>
                         <p-header>
-                            <i class="pi pi-list" aria-hidden="true"></i> Información de la auditoría
+                            <i class="pi pi-list" aria-hidden="true"></i> Información de la inspección
                         </p-header>
                         <label class="s-float-label">Código</label>
                         <input type="text" pInputText formControlName="codigo" required />
@@ -24,7 +24,7 @@
                         <label class="s-float-label">Versión</label>
                         <input type="number" pInputText formControlName="version" required />
 
-                        <label class="s-float-label">Tipo de auditoría</label>
+                        <label class="s-float-label">Tipo de inspección</label>
                         <p-dropdown [options]="tipoListaOpts" formControlName="tipoLista" editable="true"
                             placeholder="--Seleccione--" required></p-dropdown>
 

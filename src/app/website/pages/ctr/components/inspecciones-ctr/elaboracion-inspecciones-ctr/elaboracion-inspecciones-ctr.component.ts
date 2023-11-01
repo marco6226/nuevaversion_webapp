@@ -673,7 +673,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
         this.messageService.add({
             severity: 'success',
             summary: 'Inspección ' + (this.adicionar ? 'creada' : 'modificada'),
-            detail: 'Se ha ' + (this.adicionar ? 'creado' : 'modificado') + ' correctamente la inspección' + ' INP-' + insp.id
+            detail: 'Se ha ' + (this.adicionar ? 'creado' : 'modificado') + ' correctamente la inspección' + ' INPCC-' + insp.id
         });
         this.finalizado = true;
 
