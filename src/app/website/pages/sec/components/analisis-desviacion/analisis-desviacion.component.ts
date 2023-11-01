@@ -1190,9 +1190,10 @@ export class AnalisisDesviacionComponent implements OnInit {
                 ad.tareaDesviacionList[i].modulo = this.desviacionesList[0].modulo;
                 ad.tareaDesviacionList[i].codigo = this.desviacionesList[0].hashId;
                 if (ad.tareaDesviacionList[i].empResponsable != null) {
-                    let email =
-                        ad?.tareaDesviacionList[i]?.empResponsable?.usuarioBasic?.email;
-                    if (email == null || email == "") {
+                    let email1 = ad?.tareaDesviacionList[i]?.empResponsable?.usuarioBasic?.email;
+                    let email2 = ad?.tareaDesviacionList[i]?.empResponsable?.usuario?.email;
+                    let email :any=""
+                    if ((email1 == null || email1 == "") && (email2 == null || email2 == "")) {
                         this.msgs = [];
                         this.msgs.push({
                             severity: "warn",
@@ -1201,6 +1202,9 @@ export class AnalisisDesviacionComponent implements OnInit {
                         });
                         return;
                     }
+
+                    email=(email1 == null || email1 == "")?email2:email1;
+                    
                     this.authService
                         .sendNotification(email, ad.tareaDesviacionList[i])
                         .then((resp: any) => {
