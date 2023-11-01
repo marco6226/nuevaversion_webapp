@@ -100,7 +100,8 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
 
     onDepartamentoChange(event: any) {
         this.value = null;
-        this.loadCiudades(event.value);
+        if(event.value)this.loadCiudades(event.value);
+        else this.ciudadesItems = []
     }
 
     async loadCiudades(departamentoId: string) {
