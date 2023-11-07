@@ -55,7 +55,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     // this.cdr.detectChanges();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
 
     this.esAliado = this.sesionService.getEmpresa()?.idEmpresaAliada ? true : false;
     this.idEmpresa = this.esAliado ? new String(this.sesionService.getEmpresa()?.idEmpresaAliada).toString() : new String(this.sesionService.getEmpresa()?.id).toString();
@@ -76,7 +76,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
 
     this.loading = true;
 
-    this.getTareas();
+    await this.getTareas();
 
     // FilterUtils['dateFilter'] = (value, filter):boolean => {
     //     if (filter === undefined || filter === null) return true;
@@ -124,7 +124,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     
   }
 
-  getTareas() {
+  async getTareas() {
     let statuses:any = {
         0: 'N/A',
         1: 'En seguimiento',
@@ -147,7 +147,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     areas = areas.replace('}', '');     
     this.arrayIdsareas.push (areas.valueOf());
    
-    this.tareaService.findByDetails(this.arrayIdsareas).then(
+    await this.tareaService.findByDetails(this.arrayIdsareas).then(
         async (resp: any) => { 
             this.tareasList = resp;
             if(this.esAliado){
