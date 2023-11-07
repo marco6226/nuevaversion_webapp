@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, catchError, retry } from 'rxjs';
 import * as CryptoJS from "crypto-js";
 import { HttpInt } from 'src/app/httpInt';
 import { endPoints } from 'src/environments/environment';
@@ -57,6 +57,12 @@ export class AuthService {
                     recordar +
                     (pin != null ? "&pin=" + pin : ""),
                 body
+            ).pipe(
+                retry(3),
+                catchError((error) => {
+                    console.log('Error en la solicitud:', error);
+                    throw error;
+                  })
             )
             .subscribe(
                 (res: unknown) => {
