@@ -90,7 +90,6 @@ export class ListasInspeccionCtrComponent implements OnInit {
         (<any[]>resp['data']).forEach(dto => {
           let obj = FilterQuery.dtoToObject(dto)
           obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
-         try {
            for (const profile of userParray.data) {
 
             let perfilArray = JSON.parse(obj.fkPerfilId)
@@ -102,10 +101,7 @@ export class ListasInspeccionCtrComponent implements OnInit {
                 }              
             }
             });
-          }
-         } catch (error) {
-           
-         } 
+          } 
         });
       }
     );

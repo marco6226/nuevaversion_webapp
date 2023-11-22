@@ -24,11 +24,10 @@ export class CalificacionComponent implements OnInit{
       this.selectedPermanencia = dataIn[6];
       this.selectedTamano = dataIn[7];
       this.selectedClaseRiesgo = dataIn[8];
-      try{
-        this.valoracionActual = Number(this.riesgo) + Number(this.selectedPermanencia.value) + Number(this.impacto)
-                            + Number(this.selectedTamano.value) + Number(this.selectedClaseRiesgo.value) + Number(this.transversalidad);
-        this.valoracionActual = Number(this.valoracionActual.toFixed(2));
-      }catch(exeption){}
+      this.valoracionActual = Number(this.riesgo) + Number(this.selectedPermanencia.value) + Number(this.impacto)
+                          + Number(this.selectedTamano.value) + Number(this.selectedClaseRiesgo.value) + Number(this.transversalidad);
+      this.valoracionActual = Number(this.valoracionActual.toFixed(2));
+
       
     }    
     this.flagValid=(this.riesgo!=null && this.selectedPermanencia!=null && this.impacto!=null && this.selectedTamano!=null && this.selectedClaseRiesgo!=null && this.transversalidad!=null)?true:false
@@ -94,13 +93,10 @@ export class CalificacionComponent implements OnInit{
     this.values.push(this.selectedPermanencia);
     this.values.push(this.selectedTamano);
     this.values.push(this.selectedClaseRiesgo);
-    try{
-      this.valoracionActual = Number(this.riesgo) + Number(this.selectedPermanencia.value) + Number(this.impacto)
-                          + Number(this.selectedTamano.value) + Number(this.selectedClaseRiesgo.value) + Number(this.transversalidad);
-      this.valoracionActual = Number(this.valoracionActual.toFixed(2));
-    } catch (exeption){
-      
-    }
+    this.valoracionActual = Number(this.riesgo) + Number(this.selectedPermanencia.value) + Number(this.impacto)
+                        + Number(this.selectedTamano.value) + Number(this.selectedClaseRiesgo.value) + Number(this.transversalidad);
+    this.valoracionActual = Number(this.valoracionActual.toFixed(2));
+
     this.data.emit(JSON.stringify(this.values))
   }
 
