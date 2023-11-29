@@ -1068,7 +1068,7 @@ export class AnalisisDesviacionComponent implements OnInit {
 
                 }
 
-                ad.tareaDesviacionList?.forEach((td: any) => {
+                ad?.tareaDesviacionList?.forEach((td: any) => {
                     if(td.usuarioCierre) {
                         td.usuarioCierre = null;
                     }
