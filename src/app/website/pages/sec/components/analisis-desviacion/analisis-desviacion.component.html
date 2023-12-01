@@ -125,13 +125,45 @@
                                 <p-table [value]="desviacionesList" autoLayout="true" [formGroup]="analisisPeligros">
                                     <ng-template  pTemplate="body" let-aus let-rowIndex="rowIndex">
                                         <ng-container *ngIf="rowIndex==0">
+                                            <ng-container *ngIf="usuarioPrueba == '6051'">
+                                                    <tr>
+                                                        <th style="border: 1px solid #c8c8c8;">Area</th>
+                                                        <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                                                        <th style="border: 1px solid #c8c8c8;">
+                                                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                                                            <p-dropdown placeholder="-- Seleccione --"  [options]="this.areaMatrizItemList"
+                                                                formControlName="Area" (onChange)="cargarProceso($event.value)" appendTo="body">
+                                                            </p-dropdown>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="border: 1px solid #c8c8c8;">Proceso</th>
+                                                        <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                                                        <th style="border: 1px solid #c8c8c8;">
+                                                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                                                            <p-dropdown placeholder="-- Seleccione --"  [options]="this.procesoMatrizItemList"
+                                                                formControlName="Proceso" (onChange)="cargarSubproceso($event.value)" appendTo="body">
+                                                            </p-dropdown>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="border: 1px solid #c8c8c8;">SubProceso (cargo/oficio)</th>
+                                                        <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                                                        <th style="border: 1px solid #c8c8c8;">
+                                                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                                                            <p-dropdown placeholder="-- Seleccione --"  [options]="this.subprocesoMatrizItemList"
+                                                                formControlName="subProceso" (onChange)="cargarMatricez()" appendTo="body">
+                                                            </p-dropdown>
+                                                        </th>
+                                                    </tr>
+                                            </ng-container>
                                             <tr>
                                                 <th style="border: 1px solid #c8c8c8;">Peligro</th>
                                                 <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
                                                 <th style="border: 1px solid #c8c8c8;">
                                                     <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
                                                     <p-dropdown required [options]="this.tipoPeligroItemList"
-                                                        formControlName="Peligro" (onChange)="SelectPeligro($event.value)">
+                                                        formControlName="Peligro" (onChange)="SelectPeligro($event.value)" appendTo="body">
                                                     </p-dropdown>
                                                 </th>
                                             </tr>
@@ -142,7 +174,7 @@
                                                     <!-- <p-dropdown [options]="this.peligroItemList" formControlName="tipoCaso"></p-dropdown> -->
     
                                                     <p-dropdown [options]="this.peligroItemList"
-                                                        formControlName="DescripcionPeligro" required></p-dropdown>
+                                                        formControlName="DescripcionPeligro" required appendTo="body" (onChange)="cargarMatricez()"></p-dropdown>
                                                 </th>
                                             </tr>
                                             <tr>
@@ -150,7 +182,7 @@
                                                 <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
                                                 <th style="border: 1px solid #c8c8c8;">
                                                     <p-dropdown [options]="ARLfirme" formControlName="EnventoARL"
-                                                        required></p-dropdown>
+                                                        required appendTo="body"></p-dropdown>
                                             </tr>
                                             <tr>
                                                 <th style="border: 1px solid #c8c8c8;">Reporte a entes de control
@@ -225,6 +257,152 @@
 
                                 <app-incapacidades-complementaria (listIncapacidades)="getListIncapacidades($event)"
                                     [incapacidades]="incapacidadesList"></app-incapacidades-complementaria>
+
+
+                            </p-tabPanel>
+                            <p-tabPanel *ngIf="flagMatriz && analisisPeligros.valid" header="Matriz de peligros">
+
+                                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="flagMatriz" >
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th pSortableColumn="id">Id Matriz
+                                                <p-sortIcon field="id"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="fechaCreacion">Fecha de creación
+                                                <p-sortIcon field="fechaCreacion"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="area.nombre">Área
+                                                <p-sortIcon field="area.nombre"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="proceso.nombre">Proceso
+                                                <p-sortIcon field="proceso.nombre"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="subProceso.nombre">Subproceso (cargo/oficio)
+                                                <p-sortIcon field="subProceso.nombre"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="peligro.Peligro.nombre">Peligro
+                                                <p-sortIcon field="peligro.Peligro.nombre"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="peligro.DescripcionPeligro.nombre"> Descripción del peligro
+                                                <p-sortIcon field="peligro.DescripcionPeligro.nombre"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="valoracionRiesgoInicial.NRCualitativo"> Nivel de riesgo inicial
+                                                <p-sortIcon field="valoracionRiesgoInicial.NRCualitativo"></p-sortIcon>
+                                            </th>
+                                            <th pSortableColumn="valoracionRiesgoResidual.NRCualitativo"> Nivel de riesgo residual
+                                                <p-sortIcon field="valoracionRiesgoResidual.NRCualitativo"></p-sortIcon>
+                                            </th>
+                                            <th> Plan de acción
+                                            </th>
+                                            <th> Estado
+                                            </th>
+                                        </tr>
+                                        <tr class="filters">
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">
+                                                                            
+                                                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
+                                                    </s-rangoFechaSelector>                      
+                            
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'area.nombre')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'proceso.nombre')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'subProceso.nombre')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estadoPlanAccion')">
+                                                </div>
+                                            </td>
+                                            <td class="text-center bg-light">
+                                                <div class="ui-inputgroup">    
+                                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estado')">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-matriz>
+                            
+                                        <tr [pSelectableRow]="matriz" class="table-row table-row-selectable">
+                                            <td class="p-text-center">{{matriz?.id}}</td>
+                                            <td class="p-text-center">{{matriz?.fechaCreacion | date:'dd/MM/yyyy'}}</td>
+                                            <td class="p-text-center">{{matriz?.area?.nombre}}</td>
+                                            <td class="p-text-center">{{matriz?.proceso?.nombre}}</td>
+                                            <td class="p-text-center">{{matriz?.subProceso?.nombre}}</td>
+                                            <td class="p-text-center">{{matriz?.peligro?.Peligro?.nombre}}</td>
+                                            <td class="p-text-center">{{matriz?.peligro?.DescripcionPeligro?.nombre}}</td>
+                                            <td [class]="matriz?.valoracionRiesgoInicial?.NRCualitativo=='Muy Alto'?'muyalto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Alto'?'alto':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Medio'?'medio':(matriz?.valoracionRiesgoInicial?.NRCualitativo=='Bajo'?'bajo':'blanco')))">{{matriz?.valoracionRiesgoInicial?.NRCualitativo}}</td>
+                                            <td [class]="matriz?.valoracionRiesgoResidual?.NRCualitativo=='Muy Alto'?'muyalto':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Alto'?'alto':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Medio'?'medio':(matriz?.valoracionRiesgoResidual?.NRCualitativo=='Bajo'?'bajo':'blanco')))">{{matriz?.valoracionRiesgoResidual?.NRCualitativo}}</td>
+                                            <td class="p-text-center">{{matriz?.estadoPlanAccion}}</td>
+                                            <td class="p-text-center">{{matriz?.estado}}</td>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="summary" let-rowData let-matriz>
+                
+                                        <div class="d-flex justify-content-center">
+                                            <div class="btn-group" role="group">                
+                                            <button 
+                                                class="p-button-raised p-button-primary margin-right" 
+                                                pButton type="button" 
+                                                icon="bi bi-plus" 
+                                                label="Asociar" 
+                                                ></button>
+                                            <button 
+                                                pButton type="button" 
+                                                icon="bi bi-search" 
+                                                label="Consultar" 
+                                                style="color: var(--white)"
+                                                class="p-button-raised p-button-warning margin-right margin-left"
+                                                (click)="CRUDMatriz()"
+                                                [disabled]="!matrizSelect"
+                                                ></button>
+                                            </div>
+                                        </div>           
+                                    </ng-template>
+                                    <ng-template pTemplate="emptymessage">
+                                        <tr>
+                                            <td colspan="10" class="p-text-center">No hay registro de peligros en esta planta
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
 
 
                             </p-tabPanel>

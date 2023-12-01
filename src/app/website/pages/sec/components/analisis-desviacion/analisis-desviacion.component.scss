@@ -47,3 +47,24 @@ input[type="text"]{
   :host ::ng-deep .p-dropdown   {
     width:100% !important;
   }
+
+  .muyalto{
+    background-color: red;
+    font-weight: bold;
+    color:white;
+}
+.alto{
+    background-color: rgb(245, 125, 81);
+    font-weight: bold;
+    color:rgb(0, 0, 0);
+}
+.medio{
+    background-color:yellow;
+    font-weight: bold;
+    color:rgb(0, 0, 0);
+}
+.bajo{
+    background-color: rgb(30, 237, 30);
+    font-weight: bold;
+    color:rgb(0, 0, 0);
+}
