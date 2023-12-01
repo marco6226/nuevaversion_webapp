@@ -1,3 +1,4 @@
+import { Documento } from "../../ado/entities/documento";
 import { Empresa } from "../../empresa/entities/empresa";
 import { AreaMatriz } from "./Area-matriz";
 import { Plantas } from "./Plantas";
@@ -19,7 +20,10 @@ export class MatrizPeligros {
   plantas?:Plantas;
   empresa?:Empresa;
   fechaCreacion?:Date | null;
+  fechaEdicion?:Date | null;
   eliminado?: Boolean;
   idEdicion?:Number;
   fkmatrizpeligros?: Number;//padre
+  efectividadControles?:string;
+  documentosList!:Documento[] | null;
 }

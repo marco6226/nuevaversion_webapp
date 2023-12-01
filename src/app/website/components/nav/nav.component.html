@@ -14,7 +14,7 @@
         </button>       
     </div>
     <div class="col4">
-        <mat-icon [matBadge]="tareasPendientesTotal" (mouseover)="op.toggle($event)" (mouseover)="cargartareas()" [matBadgeColor]="BadgeColor" aria-hidden="false" fontIcon="notifications"></mat-icon>
+        <mat-icon [matBadge]="notificacionesPendientes" (mouseover)="op.toggle($event)" (mouseover)="mouseCampana()" [matBadgeColor]="BadgeColor" aria-hidden="false" fontIcon="notifications"></mat-icon>
     </div>
     <div class="col5" (click)="showDialogSideBar()" type="button">
         <mat-icon *ngIf="!usuario?.avatar" aria-hidden="false" fontIcon="account_circle"></mat-icon>
@@ -111,8 +111,8 @@
 
 <p-overlayPanel #op>
     <ng-template pTemplate="content">
-        <div *ngIf="tareasPendientesTotal == 0">
-            <h4>No tiene tareas Pendientes</h4>
+        <div *ngIf="tareasPendientesTotal == 0 && matricezPendientesTotal == 0">
+            <h4>No tiene notificaciones pendientes</h4>
         </div>
         <div *ngIf="tareasPendientesTotal > 0">
             <h4>Usted tiene asignadas las siguientes tareas:</h4>
@@ -127,6 +127,21 @@
                         label="ir"
                         class="p-button-raised p-button-primary margin-right" 
                         (click)="irtareas()"></button>
+        </div>
+        <div *ngIf="matricezPendientesTotal > 0">
+            <h4>Matrices disponibles para descarga:</h4>
+            <div *ngFor="let datos of matricezPendientes">
+                <hr>
+                <label >Planta:{{datos.nombre}}, Tipo documento:{{datos.tipo}} </label>
+                <br/>
+            </div>
+            <br/>
+
+            <button 
+                        pButton type="button" 
+                        label="ir"
+                        class="p-button-raised p-button-primary margin-right" 
+                        (click)="irmatriz()"></button>
         </div>
         
     </ng-template>

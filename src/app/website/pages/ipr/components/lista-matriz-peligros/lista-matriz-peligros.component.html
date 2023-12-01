@@ -1,3 +1,7 @@
+<!-- <p-messages [(value)]="msgs" [closable]="true"></p-messages> -->
+<p-toast key="mnsgMatrizPeligros"></p-toast>
+
+<a style="visibility: hidden" id="dwldLink"></a>
 <div class="shadow">
     <p-panel styleClass="material-panel" header="Peligros registrados de la matriz">
         <form [formGroup]="formCreacionMatriz">
@@ -23,14 +27,55 @@
                 </div>
             </div>
         </form>
+
+        <!-- <br>
+        <ng-container *ngIf="flagPlantaSelect">
+            <div class="grid">
+                <div class="col-3">
+                    <button pButton style="width: 100%;" type="button" (click)="exportexcelConsolidado()" title="Generar consolidado" icon="pi pi-file-excel" class="p-button-primary" label="Generar consolidado" [disabled]="flagGConsolidado"></button>
+                </div>
+                <div class="col-3" *ngIf="flagGConsolidado">
+                    <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                    <span>&nbsp;Creando consolidado...</span>
+                </div>
+                <div class="col-3" *ngIf="flagDConsolidado">
+                    <button pButton style="width: 100%;" type="button" (click)="descargarexcelConsolidado()" title="Descargar Consolidado" icon="pi pi-download" class="p-button-success" label="Descargar consolidado"></button>
+                </div>
+                <div class="col-3" *ngIf="flagDConsolidado">
+                    Generado el: {{fechaConsolidado | date:'dd/MM/yyyy HH:mm:ss'}}
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="col-3">
+                    <button pButton style="width: 100%;" type="button" (click)="exportexcelHistorico()" title="Generar historico" icon="pi pi-file-excel" class="p-button-primary" label="Generar historico" [disabled]="flagGHistorico"></button>
+                </div>
+                <div class="col-3" *ngIf="flagGHistorico">
+                    <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                    <span>&nbsp;Creando historico...</span>
+                </div>
+                <div class="col-3" *ngIf="flagDHistorico">
+                    <button pButton style="width: 100%;"type="button" (click)="descargarexcelHistorico()" title="Descargar historico" icon="pi pi-download" class="p-button-success" label="Descargar historico"></button>
+                </div>
+                <div class="col-3" *ngIf="flagDHistorico">
+                    Generado el: {{fechaHistorico | date:'dd/MM/yyyy HH:mm:ss'}}
+                </div>
+            </div>
+
+        </ng-container>
+        <br/> -->
         <br/>
-        <br/>
-        <p-tabView *ngIf="formCreacionMatriz.valid" [(activeIndex)]="activeTab">
-            <p-tabPanel header="Consolidado">
+        <p-tabView *ngIf="formCreacionMatriz.valid || flagPlantaSelect" [(activeIndex)]="activeTab">
+            <p-tabPanel header="Consolidado" *ngIf="formCreacionMatriz.valid">
                 <div  *ngIf="formCreacionMatriz.valid">
                     <h1>Registro individual</h1>
                 </div>
-
+                <br>
+                <div style="display: flex;" *ngIf="flagICR">
+                    <div>GPI:  {{GPI}}</div>&nbsp;
+                    <div>GPF:  {{GPF}}</div>&nbsp;
+                    <div>ICR:  {{ICR.toFixed(2)}}%</div>
+                </div>
                 <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
                     <!-- dataKey="id" sortField="id" sortOrder="-1" -->
                     <ng-template pTemplate="header" let-columns>
@@ -70,7 +115,7 @@
                         <tr class="filters">
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'container')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
@@ -153,7 +198,7 @@
                                 pButton type="button" 
                                 icon="bi bi-plus" 
                                 label="Adicionar" 
-                                (click)="CRUDMatriz('PUT','ALONE')" 
+                                (click)="CRUDMatriz('PUT','ALONE')"
                                 ></button>
                             <button 
                                 class="p-button-raised p-button-success margin-right margin-left" 
@@ -197,7 +242,7 @@
                     <h1>Registro por grupo</h1>
                 </div>
                 <!-- <button pButton (click)="test()">test</button> -->
-                <p-treeTable #tt [value]="matrizPList2" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}" *ngIf="flagtreeTable">
+                <p-treeTable #tt  [paginator]="true" [rows]="10" [value]="matrizPList2" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}" *ngIf="flagtreeTable">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th [style]="{'width': '5rem'}">
@@ -275,10 +320,10 @@
                     </ng-template>
                 </p-treeTable>
             </p-tabPanel>
-            <p-tabPanel header="Historial Actualizaciones">
+            <p-tabPanel header="Historial Actualizaciones" *ngIf="formCreacionMatriz.valid">
                 <br>
                 <!-- <button pButton type="button" (click)="visibleDlgExcelHistorico=true" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
-                <button pButton type="button" (click)="exportexcelHistoricoPrueba()" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button>
+                <!-- <button pButton type="button" (click)="exportexcelHistoricoPrueba()" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
 
                 <br>
                 <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizPList3Select" [value]="this.historicoList" [paginator]="true" [rows]="10" >
@@ -386,35 +431,102 @@
                     </ng-template>
                 </p-table>
             </p-tabPanel>
+            <p-tabPanel header="Descargables" *ngIf="flagPlantaSelect">
+                <div >
+                    <h1>Historico y consolidado</h1>
+                </div>
+                <br>
+                <p-table [value]="docList" styleClass="material-table">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Tipo
+                            </th>
+                            <th>Inicio generación documento
+                            </th>
+                            <th>Finalización generación documento
+                            </th>
+                            <th>Usuario que genero
+                            </th>
+                            <th>Estado
+                            </th>
+                            <th>Generar
+                            </th>
+                            <th>Descargar
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-doc>
+                        <tr>
+                            <td>Consolidado</td>
+                            <td>{{fechaConsolidadoStart | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{fechaConsolidado | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{usuarioConsolidado}}</td>
+                            <td>{{estadoConsolidado}}</td>
+                            <td>                            
+                                <button [disabled]="estadoConsolidado=='En procceso...'" pButton style="width: 100%;" type="button" (click)="exportexcelConsolidado()" title="Generar consolidado" icon="pi pi-file-excel" class="p-button-primary" label="Generar consolidado" [disabled]="flagGConsolidado"></button>
+                            </td>
+                            <td>
+                                <button [disabled]="estadoConsolidado!='Documento listo'" pButton style="width: 100%;" type="button" (click)="descargarexcelConsolidado()" title="Descargar Consolidado" icon="pi pi-download" class="p-button-success" label="Descargar consolidado"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Historico </td>
+                            <td>{{fechaHistoricoStart | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{fechaHistorico | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{usuarioHistorico}}</td>
+                            <td>{{estadoHistorico}}</td>
+                            <td>                            
+                                <button [disabled]="estadoHistorico=='En procceso...'" pButton style="width: 100%;" type="button" (click)="exportexcelHistorico()" title="Generar historico" icon="pi pi-file-excel" class="p-button-primary" label="Generar historico" [disabled]="flagGHistorico"></button>
+                            </td>
+                            <td>                            
+                                <button [disabled]="estadoHistorico!='Documento listo'" pButton style="width: 100%;"type="button" (click)="descargarexcelHistorico()" title="Descargar historico" icon="pi pi-download" class="p-button-success" label="Descargar historico"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <!-- <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="7" class="p-text-center">No hay registro de peligros en esta planta
+                            </td>
+                        </tr>
+                    </ng-template> -->
+                </p-table>
+                <!-- <ng-container>
+                    <div class="grid">
+                        <div class="col-3">
+                            <button pButton style="width: 100%;" type="button" (click)="exportexcelConsolidado()" title="Generar consolidado" icon="pi pi-file-excel" class="p-button-primary" label="Generar consolidado" [disabled]="flagGConsolidado"></button>
+                        </div>
+                        <div class="col-3" *ngIf="flagGConsolidado">
+                            <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                            <span>&nbsp;Creando consolidado...</span>
+                        </div>
+                        <div class="col-3" *ngIf="flagDConsolidado">
+                            <button pButton style="width: 100%;" type="button" (click)="descargarexcelConsolidado()" title="Descargar Consolidado" icon="pi pi-download" class="p-button-success" label="Descargar consolidado"></button>
+                        </div>
+                        <div class="col-3" *ngIf="flagDConsolidado">
+                            Generado el: {{fechaConsolidado | date:'dd/MM/yyyy HH:mm:ss'}}
+                        </div>
+                    </div>
+        
+                    <div class="grid">
+                        <div class="col-3">
+                            <button pButton style="width: 100%;" type="button" (click)="exportexcelHistorico()" title="Generar historico" icon="pi pi-file-excel" class="p-button-primary" label="Generar historico" [disabled]="flagGHistorico"></button>
+                        </div>
+                        <div class="col-3" *ngIf="flagGHistorico">
+                            <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                            <span>&nbsp;Creando historico...</span>
+                        </div>
+                        <div class="col-3" *ngIf="flagDHistorico">
+                            <button pButton style="width: 100%;"type="button" (click)="descargarexcelHistorico()" title="Descargar historico" icon="pi pi-download" class="p-button-success" label="Descargar historico"></button>
+                        </div>
+                        <div class="col-3" *ngIf="flagDHistorico">
+                            Generado el: {{fechaHistorico | date:'dd/MM/yyyy HH:mm:ss'}}
+                        </div>
+                    </div>
+        
+                </ng-container> -->
+            </p-tabPanel>
         </p-tabView>
     </p-panel>
 </div>
 
-
-<!---------------------------------Excel Historico---------------------------- -->
-<p-dialog header="Informe Casos Medicos" [(visible)]="visibleDlgExcelHistorico" [style]="{width: '40%', height: '35%'}">
-    
-    <div >
-        Seleccione el rango de fechas en el que desea imprimir el excel historico
-    </div>
-    <br>
-    <div >
-        <p-calendar 
-        [(ngModel)]="rangeDatesExcelHistorico"
-        dateFormat="dd/MM/yyyy"
-        selectionMode="range"
-        (onSelect)="habilitarindSCM()"
-        (onClearClick)="onResetDate()"
-        placeholder="Seleccione un rango"
-        appendTo="body"
-        showButtonBar="true">
-        <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
-        </p-calendar>
-    </div>
-    <p-footer>
-        <button pButton type="button" (click)="exportexcelHistoricoPrueba()" label="Descargar" [disabled]="flagExcelHistorico"></button>
-        <button pButton type="button" (click)="cerrarDlgExcelHistorico()" class="p-button-secondary" label="Cancelar"></button>
-    </p-footer>
-    
-  </p-dialog>
 

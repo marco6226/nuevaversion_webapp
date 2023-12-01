@@ -10,6 +10,12 @@ import { Usuario } from '../../pages/empresa/entities/usuario';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
 import { MisTareasComponent } from '../../pages/sec/components/mis-tareas/mis-tareas.component';
 import { UsuarioService } from '../../pages/admin/services/usuario.service';
+import { FilterQuery } from '../../pages/core/entities/filter-query';
+import { Criteria } from '../../pages/core/entities/filter';
+import { MatrizPeligrosService } from '../../pages/core/services/matriz-peligros.service';
+import { PlantasService } from '../../pages/core/services/Plantas.service';
+import { Subscription } from 'rxjs';
+import { MatrizPeligrosLogService } from '../../pages/core/services/matriz-peligros-log.service';
 
 @Component({
   selector: 'app-nav',
@@ -43,6 +49,14 @@ export class NavComponent implements OnInit {
   canvas: any;
   changePasswordRequired: boolean = false;
 
+  matricezPendientesTotal:number=0;
+  public matricezPendientes:any=[];
+
+  notificacionesPendientes:number=0;
+
+  private subscription: Subscription;
+  private subscription2: Subscription;
+
   constructor(
 		private authService: AuthService,
 		private router: Router,
@@ -53,6 +67,9 @@ export class NavComponent implements OnInit {
     private sessionService: SesionService,
     private usuarioService: UsuarioService,
 		private mistareas: MisTareasComponent,
+    private plantasService: PlantasService,
+    private matrizPeligrosService: MatrizPeligrosService,
+    private matrizPeligrosLogService: MatrizPeligrosLogService
     ) {
       cambioPasswdService.getObservable().subscribe(value => {
         if(value){
@@ -67,12 +84,21 @@ export class NavComponent implements OnInit {
       this.canvas = document.createElement('canvas');
       this.canvas.width = 48;
       this.canvas.height = 48;
+      this.subscription = this.matrizPeligrosService.obtenerNotificadorEvento().subscribe(() => {
+        this.mouseCampana();
+      });
+      this.subscription2 = this.matrizPeligrosLogService.obtenerNotificadorEvento().subscribe(() => {
+        this.mouseCampana();
+      });
     }
 
   async ngOnInit(): Promise<void> {  
     // debugger
     await this.reloadEmpresa.emit();
     await this.cargartareas()
+    await this.cargarNotificacionesMatrizConsolidado()
+    await this.cargarNotificacionesMatrizHistorico()
+
   }
 
   
@@ -158,27 +184,32 @@ export class NavComponent implements OnInit {
         
 		//this.nom= this.mistareas.ngOnInit() as any;
 		// setTimeout(() => {           
-			this.tareasPendientes= await this.mistareas.devolverEstados()
-        // }, 500);
-      var cantidad = Object.values(this.tareasPendientes)
-      this.tareasPendientesTotal = 0;
-      cantidad.forEach((element:any) => {
-        this.tareasPendientesTotal += element
-      });
+    this.tareasPendientes= await this.mistareas.devolverEstados()
+      // }, 500);
+    var cantidad = Object.values(this.tareasPendientes)
+    this.tareasPendientesTotal = 0;
+    cantidad.forEach((element:any) => {
+      this.tareasPendientesTotal += element
+    });
 
-      if (this.tareasPendientesTotal > 0) {
-        this.BadgeColor = 'warn'
-      } else {
-        this.BadgeColor = 'primary'
-      }
-		
-		
+    this.notificacionesPendientes=this.tareasPendientesTotal+this.matricezPendientesTotal
+
+    if (this.tareasPendientesTotal > 0) {
+      this.BadgeColor = 'warn'
+    } else {
+      this.BadgeColor = 'primary'
+    }
+  
 		return this.tareasPendientes
 	}
 
 	irtareas(): void {
 	this.router.navigate(['app//sec/misTareas']);
 	}
+
+  irmatriz(): void {
+    this.router.navigate(['app/ipr/listadomatrizPeligros']);
+    }
 
   dashBoard(){
     this.router.navigate([('/app/home')]);
@@ -201,6 +232,40 @@ export class NavComponent implements OnInit {
       }
     );
   }
+  public async mouseCampana(){
+    this.matricezPendientesTotal=0
+    this.matricezPendientes=[]
+    await this.cargartareas()
+    await this.cargarNotificacionesMatrizConsolidado()
+    await this.cargarNotificacionesMatrizHistorico()
+  }
+  async cargarNotificacionesMatrizConsolidado(){
+    let filterPlanta = new FilterQuery();
+    filterPlanta.filterList = [{ field: 'usuarioConsolidado.id', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).usuario.id}];
+    filterPlanta.filterList.push({ field: 'descargaConsolidado', criteria: Criteria.EQUALS, value1: 'false'});
+    filterPlanta.filterList.push({ field: 'id_empresa', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).empresa.id});
+    await this.plantasService.getPlantaWithFilter(filterPlanta).then((resp:any)=>{
+      resp.data.forEach((element:any) => {
+        this.matricezPendientes.push({nombre:element.nombre,tipo:'Consolidado'})
+      });
+      this.matricezPendientesTotal+=resp.data.length
+    })
+    this.notificacionesPendientes=this.tareasPendientesTotal+this.matricezPendientesTotal
+  }
+  async cargarNotificacionesMatrizHistorico(){
+    let filterPlanta = new FilterQuery();
+    filterPlanta.filterList = [{ field: 'usuarioHistorico.id', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).usuario.id}];
+    filterPlanta.filterList.push({ field: 'descargaHistorico', criteria: Criteria.EQUALS, value1: 'false'});
+    filterPlanta.filterList.push({ field: 'id_empresa', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).empresa.id});
+    await this.plantasService.getPlantaWithFilter(filterPlanta).then((resp:any)=>{
+      resp.data.forEach((element:any) => {
+        this.matricezPendientes.push({nombre:element.nombre,tipo:'Historico'})
+      });
+      this.matricezPendientesTotal+=resp.data.length
+    })
+    this.notificacionesPendientes=this.tareasPendientesTotal+this.matricezPendientesTotal
+  }
+  
 }
 
 

@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { MatrizPeligrosService } from '../../../core/services/matriz-peligros.service';
 import { MatrizPeligros } from '../../../comun/entities/Matriz-peligros';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { SelectItem } from 'primeng/api';
+import { Message, MessageService, SelectItem } from 'primeng/api';
 import { PlantasService } from '../../../core/services/Plantas.service';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { Criteria } from '../../../core/entities/filter';
@@ -13,7 +13,13 @@ import { ParametroNavegacionService } from '../../../core/services/parametro-nav
 import { MatrizPeligrosLogService } from '../../../core/services/matriz-peligros-log.service';
 import { MatrizPeligrosLog } from '../../../comun/entities/Matriz-peligros-log';
 import * as XLSX from 'xlsx';
+import { DirectorioService } from '../../../core/services/directorio.service';
+import { Plantas } from '../../../comun/entities/Plantas';
+import { DatePipe } from '@angular/common';
 // import * as XLSXStyle from "xlsx-style";
+import { Usuario } from '../../../empresa/entities/usuario';
+import { ViewMatrizPeligrosService } from '../../../core/services/view-matriz-peligros.service';
+import { ViewMatrizPeligrosLogService } from '../../../core/services/view-matriz-peligros-log.service';
 
 interface Column {
   field: string;
@@ -23,10 +29,13 @@ interface Column {
 @Component({
   selector: 'app-lista-matriz-peligros',
   templateUrl: './lista-matriz-peligros.component.html',
-  styleUrls: ['./lista-matriz-peligros.component.scss']
+  styleUrls: ['./lista-matriz-peligros.component.scss'],
+  providers: [ DatePipe ]
 })
 export class ListaMatrizPeligrosComponent  implements OnInit {
-  
+
+  docList:any[]=[{label:null}]
+
   matrizPList: MatrizPeligros[] = [];
   matrizPListT: MatrizPeligros[] = [];
   matrizSelect!: MatrizPeligros;
@@ -49,7 +58,6 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
   activeTab: number = 0;
 
-  visibleDlgExcelHistorico:boolean=false
   rangeDatesExcelHistorico: any;
   flagExcelHistorico:boolean=false
 
@@ -68,12 +76,17 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   constructor( 
     private fb: FormBuilder,
     private matrizPeligrosService: MatrizPeligrosService,
+    private viewmatrizPeligrosService: ViewMatrizPeligrosService,
+    private viewmatrizPeligrosLogService: ViewMatrizPeligrosLogService,
     private plantasService: PlantasService,
     private areaService: AreaService,
     private areaMatrizService: AreaMatrizService,
     private paramNav: ParametroNavegacionService,
     private matrizPeligrosLogService: MatrizPeligrosLogService,
-    private router: Router,
+    private directorioService: DirectorioService,
+    private messageService: MessageService,
+    private datePipe: DatePipe,
+    private router: Router
   ) { 
     this.formCreacionMatriz = this.fb.group({
       planta: [null],
@@ -144,9 +157,17 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         this.planta.push({label:element.nombre,value:element.id})
       });
       
-    })
+    }).catch(er=>console.log(er))
   }
+  flagPlantaSelect:boolean=false
+  fechaConsolidado:Date | null=null
+  fechaHistorico:Date | null=null
 
+  fechaConsolidadoStart:Date | null=null
+  fechaHistoricoStart:Date | null=null
+
+  usuarioConsolidado!:string | null;
+  usuarioHistorico!:string | null;
   async cargarArea(eve:any) {
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
@@ -161,9 +182,64 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         // this.area.push({label:element.nombre,value:{id:element.id,nombre:element.nombre}})
       });
     })
+
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.fieldList = ["id","idDocConsolidado","idDocHistorico","fechaConsolidado","fechaHistorico","usuarioConsolidado_email","usuarioHistorico_email","fechaConsolidadoStart","fechaHistoricoStart"];
+    filterPlantaQuery.filterList = [{ field: 'id', criteria: Criteria.EQUALS, value1: eve }];
+    let plantas:any[]=[];
+    this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+      plantas = (<any[]>resp.data).map(matriz => matriz);
+      plantas.map(resp=>resp.fechaConsolidado=resp.fechaConsolidado?new Date(resp.fechaConsolidado!):null)
+      plantas.map(resp=>resp.fechaHistorico=resp.fechaHistorico?new Date(resp.fechaHistorico!):null)
+      plantas.map(resp=>resp.fechaConsolidadoStart=resp.fechaConsolidadoStart?new Date(resp.fechaConsolidadoStart!):null)
+      plantas.map(resp=>resp.fechaHistoricoStart=resp.fechaHistoricoStart?new Date(resp.fechaHistoricoStart!):null)
+      this.usuarioConsolidado=plantas[0].usuarioConsolidado_email
+      this.usuarioHistorico=plantas[0].usuarioHistorico_email
+      this.fechaConsolidado =plantas[0].fechaConsolidado!
+      this.fechaHistorico=plantas[0].fechaHistorico!
+      this.fechaConsolidadoStart =plantas[0].fechaConsolidadoStart!
+      this.fechaHistoricoStart=plantas[0].fechaHistoricoStart!
+
+      if(resp.data[0].idDocConsolidado){
+        this.docIdConsolidado=resp.data[0].idDocConsolidado
+        this.flagDConsolidado=true
+        this.estadoConsolidado='Documento listo'
+      }else if(resp.data[0].idDocConsolidado==0){
+        this.estadoConsolidado='En procceso...'
+      }else{
+        this.estadoConsolidado='Sin estado'
+      }
+
+      if(resp.data[0].idDocHistorico){
+        this.docIdHistorico=resp.data[0].idDocHistorico
+        this.flagDHistorico=true
+        this.estadoHistorico='Documento listo'
+      }else if(resp.data[0].idDocHistorico==0){
+        this.estadoHistorico='En procceso...'
+      }else{
+        this.estadoHistorico='Sin estado'
+      }
+      
+    }).catch(er=>console.log(er))
+    this.flagPlantaSelect=true
   }
+
   lastFecha:Date | any;
+  estadoConsolidado:string='Sin estado'
+  estadoHistorico:string='Sin estado'
+  GPI:number=0;
+  GPF:number=0;
+  ICR:number=0;
+  flagICR:boolean=false
   async cargarRegistrosMatriz(){
+    this.flagICR=false
+    this.GPI=0;
+    this.GPF=0;
+    this.ICR=0;
+    this.activeTab=2;
+    setTimeout(() => {
+      this.activeTab=0;
+    }, 500);
     this.flagtreeTable=false
     let filterMatriz = new FilterQuery();
     filterMatriz.sortField = "id";
@@ -177,6 +253,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       await this.matrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
         matrizPList = (<MatrizPeligros[]>resp.data).map(matriz => matriz);
         matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+        matrizPList.map(resp=>resp.fechaEdicion=resp.fechaEdicion?new Date(resp.fechaEdicion!):null)
         matrizPList.map(resp=>resp.controlesexistentes=JSON.parse(resp.controlesexistentes!))
         matrizPList.map(resp=>resp.generalInf=JSON.parse(resp.generalInf!))
         matrizPList.map(resp=>resp.peligro=JSON.parse(resp.peligro!))
@@ -185,6 +262,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
         matrizPList.map(resp=>resp.valoracionRiesgoResidual=JSON.parse(resp.valoracionRiesgoResidual!))
         matrizPList.map(resp=>resp.id=(resp.fkmatrizpeligros)?resp.id+'-'+resp.fkmatrizpeligros:resp.id)
+        matrizPList.map(resp=>resp.efectividadControles=JSON.parse(resp.efectividadControles!))
         matrizPList2=new Array(matrizPList)
         for(const [i,v] of matrizPList.entries()){
           let valor:any=v
@@ -267,50 +345,69 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       }
       this.flagtreeTable=true
     }
-    console.log(this.matrizPList)
     let cont=0
     this.lastFecha=null
     this.matrizPList.forEach((ele:any) => {
       if(cont==0){
-        if(ele.fechaCreacion)this.lastFecha=new Date(ele.fechaCreacion)
+        if(ele.fechaEdicion)this.lastFecha=new Date(ele.fechaEdicion)
       }else{
-        if(ele.fechaCreacion){
-          if(ele.fechaCreacion>this.matrizPList[cont-1])this.lastFecha=new Date(ele.fechaCreacion)
+        if(ele.fechaEdicion){
+          if(ele.fechaEdicion>this.matrizPList[cont-1])this.lastFecha=new Date(ele.fechaEdicion)
         }
       }
       cont ++;
+      this.GPI+=ele.valoracionRiesgoInicial.NR
+      this.GPF+=ele.valoracionRiesgoResidual.NR
     });
-      
+
+    this.ICR=((this. GPI-this.GPF)/this.GPI)*100
+    this.flagICR=true
 
   }
 
   CRUDMatriz(CRUD:string,tipo:string){
-
+    let formCreacionMatrizLocal:any=null
     switch (CRUD) {
       case 'PUT':
-        this.paramNav.setParametro<FormGroup>(this.formCreacionMatriz);
-        this.paramNav.setAccion<string>('PUT');
+        // this.paramNav.setParametro<FormGroup>(this.formCreacionMatriz);
+        // this.paramNav.setAccion<string>('PUT');
+        formCreacionMatrizLocal=Object.assign({} , {value:this.formCreacionMatriz.value})
+
+        localStorage.setItem('formCreacionMatriz', JSON.stringify(formCreacionMatrizLocal));
+        localStorage.setItem('Accion1', 'PUT');
         this.router.navigate(['/app/ipr/matrizPeligros'])
       break;
       case 'POST':
         if(tipo=='ALONE'){
-          this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
+          // this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
+          localStorage.setItem('matrizSelect', JSON.stringify([this.matrizSelect]));
+
         }else{
-          this.paramNav.setParametro<MatrizPeligros[]>(this.matricesSelect)
+          // this.paramNav.setParametro<MatrizPeligros[]>(this.matricesSelect)
+          localStorage.setItem('matrizSelect', JSON.stringify(this.matricesSelect));
+
         }
-        this.paramNav.setAccion<string>('POST');
-        this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
+        formCreacionMatrizLocal=Object.assign({} , {value:this.formCreacionMatriz.value})
+        localStorage.setItem('formCreacionMatriz', JSON.stringify(formCreacionMatrizLocal));
+        localStorage.setItem('Accion1', 'POST');
+        // this.paramNav.setAccion<string>('POST');
+        // this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
 
         this.router.navigate(['/app/ipr/matrizPeligros'])
       break;
       case 'GET':
           if(tipo=='ALONE'){
-            this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
+            // this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
+            localStorage.setItem('matrizSelect', JSON.stringify([this.matrizSelect]));
           }else{
-            this.paramNav.setParametro<MatrizPeligros[]>(this.matricesSelect)
+            // this.paramNav.setParametro<MatrizPeligros[]>(this.matricesSelect)
+            localStorage.setItem('matrizSelect', JSON.stringify(this.matricesSelect));
           }
-          this.paramNav.setAccion<string>('GET');
-          this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
+          // this.paramNav.setAccion<string>('GET');
+          // this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
+          formCreacionMatrizLocal=Object.assign({} , {value:this.formCreacionMatriz.value})
+          localStorage.setItem('formCreacionMatriz', JSON.stringify(formCreacionMatrizLocal));
+          localStorage.setItem('Accion1', 'GET');
   
           this.router.navigate(['/app/ipr/matrizPeligros'])
         break;
@@ -335,10 +432,17 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   matrizPList3:MatrizPeligrosLog[]=[]
   matrizPList3Select!:MatrizPeligrosLog
   async historicoCargar(){
+    let idpadre
+    try {
+      idpadre=this.matrizSelect?.id!.toString().split('-')[0]
+    } catch (error) {
+      idpadre=this.matrizSelect?.id!.toString()
+    }
+
     let filterHistorico = new FilterQuery();
     filterHistorico.sortField = "id";
     filterHistorico.sortOrder = -1;
-    filterHistorico.filterList = [{ field: 'idriesgo', criteria: Criteria.EQUALS, value1: this.matrizSelect?.id!.toString()}];
+    filterHistorico.filterList = [{ field: 'idriesgo', criteria: Criteria.EQUALS, value1: idpadre}];
     let matrizPList:any[]=[];
     await this.matrizPeligrosLogService.getmpRWithFilter(filterHistorico).then((resp:any)=>{
       // this.matrizPList3 = (<MatrizPeligrosLog[]>resp.data).map(matriz => matriz);
@@ -351,6 +455,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
       matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
       matrizPList.map(resp=>resp.valoracionRiesgoResidual=JSON.parse(resp.valoracionRiesgoResidual!))
+      matrizPList.map(resp=>resp.efectividadControles=JSON.parse(resp.efectividadControles!))
 
       this.matrizPList3=[...matrizPList]
       this.historicoList=[]
@@ -467,100 +572,157 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     this.flagExcelHistorico=true
   }
 
-  async exportexcelHistoricoPrueba(): Promise<void> {
+  docIdConsolidado:string='null'
+  docIdHistorico:string='null'
+  flagGConsolidado:boolean=false
+  flagDConsolidado:boolean=false
+  async exportexcelConsolidado(): Promise<void> 
+    {      
+      let filterMatriz = new FilterQuery();
+      // filterMatriz.sortField = "area.nombre";
+      // filterMatriz.filterList = [{ field: 'plantas.id', criteria: Criteria.EQUALS, value1: this.formCreacionMatriz.value.planta}];
+      filterMatriz.filterList = [{ field: 'idplantas', criteria: Criteria.EQUALS, value1: this.formCreacionMatriz.value.planta}];
+      filterMatriz.filterList.push({ field: 'planAccion', criteria: Criteria.NOT_EQUALS, value1: "[]"});
 
-    // const XLSX = require('xlsx');
-    // const fs = require('fs');
+      filterMatriz.sortOrder = -1;
+      this.flagGConsolidado=true
+      this.flagDConsolidado=false
 
-    const filaDestino = 5; // Por ejemplo, fila 2
-    const columnaDestino = 3; // Por ejemplo, columna C
+      let usuario = new Usuario()
+      usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
+      let planta = new Plantas()
+      planta.idDocConsolidado="0"
+      planta.usuarioConsolidado=usuario
+      planta.descargaConsolidado=false
+      planta.idDocHistorico='null'
+      planta.id=this.formCreacionMatriz.value.planta
+      planta.fechaConsolidadoStart=new Date()
+      planta.fechaConsolidado=null
+      this.fechaConsolidadoStart=new Date()
+      this.fechaConsolidado=null
+      this.estadoConsolidado='En procceso...'
+      await this.plantasService.update(planta)
+      
+      // this.matrizPeligrosService.getmpExcelConsolidado(filterMatriz).then((resp:any)=>{
+      this.viewmatrizPeligrosService.getmpExcelConsolidado(filterMatriz).then((resp:any)=>{
 
-    await this.datosExcel()
-
-    const readyToExport = this.excel;
-
-    const destinoFilePath = '../../../../../assets/excelbase/historicoexcelcorona.xlsx';
-
-    // const buffer = fs.readFileSync(destinoFilePath);
-    // const workbook = XLSX.read(buffer, { type: 'buffer' });
-
-    // const workbook = XLSX.readFile(destinoFilePath);
-    // const workSheet = XLSX.utils.json_to_sheet(readyToExport);
-
-    // XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
- 
-    // XLSX.writeFile(workbook, 'historicos.xlsx'); // initiate a file download in browser
-    // fs.unlink(destinoFilePath, (err:any) => {
-    //   if (err) {
-    //     console.error('Error al eliminar el archivo original:', err);
-    //   } else {
-    //     console.log('Archivo original eliminado con éxito.');
-    //   }
-    // })
-
-    fetch(destinoFilePath)
-  .then((response) => response.arrayBuffer())
-  .then((data) => {
-    const workbook = XLSX.read(data);
-
-    // Accede a la hoja de cálculo que deseas procesar (por ejemplo, la primera hoja)
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-
-    // Procesa los datos como desees, por ejemplo, conviértelos a JSON
-    const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-    XLSX.writeFile(workbook, 'historicos.xlsx');
-    // console.log(jsonData);
-  })
-  .catch((error) => {
-    console.error('Error al cargar el archivo Excel:', error);
-  });
-
-    this.cerrarDlgExcelHistorico();
-  }
-
-  // async exportexcelHistorico(): Promise<void> 
-  //   {
-  //       await this.datosExcel()
-
-  //       const readyToExport = this.excel;
- 
-  //      const workBook = XLSX.utils.book_new(); // create a new blank book
- 
-  //      const workSheet = XLSX.utils.json_to_sheet(readyToExport);
- 
-  //      XLSX.utils.book_append_sheet(workBook, workSheet, 'Excel historicos'); // add the worksheet to the book
- 
-  //      XLSX.writeFile(workBook, 'Excel historicos.xlsx'); // initiate a file download in browser
-        
-  //      this.cerrarDlgExcelHistorico();
-  //   }
-
-    cerrarDlgExcelHistorico(){
-      this.visibleDlgExcelHistorico = false;
+        this.docIdConsolidado=resp.data2.id
+        this.fechaConsolidado=new Date()
+        this.flagDConsolidado=true
+        this.estadoConsolidado='Documento listo'
+      })
+      .finally(()=>{
+        this.flagGConsolidado=false
+      })
+      
     }
 
-    excel:any=[]
-    async datosExcel(): Promise<void>{
-      // let dataExcel:any
+    async descargarexcelConsolidado(): Promise<void> 
+    {
+      if(this.docIdConsolidado != 'null'){
+      
+      let findPlanta:any= this.planta.find((ele3:any)=>ele3.value==this.formCreacionMatriz.value.planta)
+      this.directorioService.download(this.docIdConsolidado).then(
+        async resp => {
+          if (resp != null) {
+            var blob = new Blob([<any>resp]);
+            let url = URL.createObjectURL(blob);
+            let dwldLink = document.getElementById("dwldLink");
+            dwldLink?.setAttribute("href", url);
+            dwldLink?.setAttribute("download", 'Consolidado-'+findPlanta.label+'-'+this.datePipe.transform(new Date(this.fechaConsolidado!), 'dd/MM/yyyy HH:mm')?.toString()+'.xlsx');
+            dwldLink?.click();
+          }
+          let usuario = new Usuario()
+          usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
+          let planta = new Plantas()
+          planta.idDocConsolidado=this.docIdConsolidado
+          planta.usuarioConsolidado=usuario
+          planta.descargaConsolidado=true
+          planta.idDocHistorico='null'
+          planta.id=this.formCreacionMatriz.value.planta
+          planta.fechaConsolidadoStart=new Date(this.fechaConsolidadoStart!)
+          planta.fechaConsolidado=new Date(this.fechaConsolidado!)
+          await this.plantasService.update(planta)
+          // this.matrizPeligrosService.descargarExcelConsolidado()
+          this.viewmatrizPeligrosService.descargarExcelConsolidado()
+          this.messageService.add({key: 'mnsgMatrizPeligros', severity:'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo'});
+        }
+      )}
+    }
 
-      // let filterQuery = new FilterQuery();
-      // filterQuery.sortField = "id";
-      // filterQuery.sortOrder = 1;
+    flagGHistorico:boolean=false
+    flagDHistorico:boolean=false
+    async exportexcelHistorico(): Promise<void> 
+      {     
+        let filterMatriz = new FilterQuery();
+        // filterMatriz.sortField = "idRiesgo";
+        filterMatriz.filterList = [{ field: 'idplantas', criteria: Criteria.EQUALS, value1: this.formCreacionMatriz.value.planta}];
+        // filterMatriz.filterList = [{ field: 'plantas.id', criteria: Criteria.EQUALS, value1: this.formCreacionMatriz.value.planta}];
+        filterMatriz.filterList.push({ field: 'planAccion', criteria: Criteria.NOT_EQUALS, value1: "[]"});
+  
+        filterMatriz.sortOrder = -1;
+        this.flagGHistorico=true
+        this.flagDHistorico=false
 
-      // filterQuery.filterList = [
-      //   {criteria: Criteria.EQUALS, field: "idriesgo", value1: empresaId}
-      // ];    
-      // try {
-      //     let res: any = await this.matrizPeligrosLogService.getmpRWithFilter(filterQuery)
-      //     dataExcel = res.data;
+        let usuario = new Usuario()
+        usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
+        let planta = new Plantas()
+        planta.idDocHistorico="0"
+        planta.usuarioHistorico=usuario
+        planta.descargaHistorico=false
+        planta.idDocConsolidado='null'
+        planta.id=this.formCreacionMatriz.value.planta
+        planta.fechaHistoricoStart=new Date()
+        planta.fechaHistorico=null
+        this.fechaHistoricoStart=new Date()
+        this.fechaHistorico=null
+        this.estadoHistorico='En procceso...'
+        await this.plantasService.update(planta)
+        
+        this.viewmatrizPeligrosLogService.getmpExcelHistorico(filterMatriz).then((resp:any)=>{
+        // this.matrizPeligrosLogService.getmpExcelHistorico(filterMatriz).then((resp:any)=>{
+          this.docIdHistorico=resp.data2.id
+          this.fechaHistorico=new Date()
+          this.flagDHistorico=true
+          this.estadoHistorico='Documento listo'
+        }).finally(()=>{
+          this.flagGHistorico=false
+        })
+        
+      }
+  
+      async descargarexcelHistorico(): Promise<void> 
+      {
+        if(this.docIdHistorico != 'null'){
+        let findPlanta:any= this.planta.find((ele3:any)=>ele3.value==this.formCreacionMatriz.value.planta)
+        this.directorioService.download(this.docIdHistorico).then(
+          async resp => {
+            if (resp != null) {
+              var blob = new Blob([<any>resp]);
+              let url = URL.createObjectURL(blob);
+              let dwldLink = document.getElementById("dwldLink");
+              dwldLink?.setAttribute("href", url);
+              dwldLink?.setAttribute("download", 'Historico-'+findPlanta.label+'-'+this.datePipe.transform(new Date(this.fechaHistorico!), 'dd/MM/yyyy HH:mm')+'.xlsx');
+              dwldLink?.click();
+            }
 
-      // } catch (error) {
-      //     console.error(error)
-      // }
+            let usuario = new Usuario()
+            usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
+            let planta = new Plantas()
+            planta.idDocHistorico=this.docIdHistorico
+            planta.usuarioHistorico=usuario
+            planta.descargaHistorico=true
+            planta.idDocConsolidado='null'
+            planta.id=this.formCreacionMatriz.value.planta
+            planta.fechaHistoricoStart=new Date(this.fechaHistoricoStart!)
+            planta.fechaHistorico=new Date(this.fechaHistorico!)
+            await this.plantasService.update(planta)
+            // this.matrizPeligrosLogService.descargarExcelHistorico()
+            this.viewmatrizPeligrosLogService.descargarExcelHistorico()
+            this.messageService.add({key: 'mnsgMatrizPeligros', severity:'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo'});
 
-      this.excel=[...this.matrizPList3]
-      console.log(this.excel)
-      // this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
-  }
+          }
+        )}
+      }
+
 }

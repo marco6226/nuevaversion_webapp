@@ -1,5 +1,7 @@
 <p-confirmDialog key="matrizp"></p-confirmDialog>
 <p-toast  key="mpeligros"></p-toast>
+<a style="visibility: hidden" id="dwldLink"></a>
+
 <form [formGroup]="formCreacionMatriz">
     <p-panel header="REGISTRO MATRIZ DE PELIGROS">
     <!-- <p-panel> -->
@@ -13,13 +15,13 @@
             <div class="col-6">
                 <strong>Planta - Localidad:</strong>
                 <br/>
-                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una planta"[options]="planta" appendTo="body" formControlName="planta" (onChange)="cargarArea($event.value)"></p-dropdown>
+                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una planta"[options]="planta" appendTo="body" formControlName="planta" ></p-dropdown>
             </div>
         </div>
         <br/>
         <br/>
         <ng-container *ngIf="!flagRegistroMatrizAcording">
-            <button pButton type="button " icon="bi bi-arrow-right " label="Continuar " (click)="flagRegistroMatrizAcording=true;flagRegistroMatrizTree=true;activeIndex=0" [disabled]="!formCreacionMatriz.valid && !flagContinuar"></button>
+            <button pButton type="button " icon="bi bi-arrow-right " label="Continuar " (click)="habilitarGuiaProceso()" [disabled]="!formCreacionMatriz.valid && !flagContinuar"></button>
         </ng-container>
     </p-panel>
 </form>
@@ -333,22 +335,68 @@
                         <div class="grid accordionTab">
                             <div class="col-12 gridcol">
                                 
-                                <div style="display: flex;" class="grid">
-                                    <div class="col-4 col-md-6 col-sm-12"><label for="">Control de ingeniería:</label></div>
-                                    <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                <div style="display: flex;" >
+                                    <div class="col-4 col-6"><h2 for="">Control de ingeniería:</h2></div>
+                                    <div class="col-4 col-6">
                                         <label for="">¿Aplica?</label>&nbsp;
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                     </div>
                                 </div>
                                 <div id="flagControlIng">
-                                    <textarea [required]="flagControlIng" formControlName="Ingenieria" cols="10" rows="3" ></textarea>
+                                    <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlIng" [value]="controlIngList" [paginator]="true" [rows]="10" >
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>Fecha creación</th>
+                                                <th>Descripción</th>
+                                                <th>Tipo de barrera</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
+                                                </td>
+                                                <td>
+                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                </td>
+                                                <td>
+                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera','contains')">
+                                                </td>
+                                                
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-control>
+                                            <tr [pSelectableRow]="control" class="table-row table-row-selectable">
+                                                <td>{{control.fechaCreacion}}</td>
+                                                <td>{{control.descripcion}}</td>
+                                                <td>{{control.barrera}}</td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="summary" let-rowData>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <div class="flex justify-content-end flex-wrap">
+                                                        <button  pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="controlFunc('POST','ing')"></button>
+                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','ing')"></button>
+                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','ing')"></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td [attr.colspan]="2">No hay control de ingeniería existente</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                    <!-- <textarea [required]="flagControlIng" formControlName="Ingenieria" cols="10" rows="3" ></textarea> -->
                                 </div>
                             </div>
+                            <hr>
                             <div class="col-12 gridcol">
-                                <div style="display: flex;" class="grid">
-                                    <div class="col-4 col-md-6 col-sm-12"><label for="">Controles administrativos:</label></div>
-                                    <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                <div style="display: flex;">
+                                    <div class="col-4 col-6"><h2 for="">Controles administrativos:</h2></div>
+                                    <div class="col-4 col-6">
                                         <label for="">¿Aplica?</label>&nbsp;
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
@@ -356,13 +404,59 @@
                                 </div>
                                 <!-- <label for="">Controles administrativos:</label> -->
                                 <div id="flagControlAdm">
-                                    <textarea [required]="flagControlAdm" formControlName="Administrativos" cols="10" rows="3"></textarea>
+                                    <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlAdm" [value]="controlAdmList" [paginator]="true" [rows]="10" >
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>Fecha creación</th>
+                                                <th>Descripción</th>
+                                                <th>Tipo de barrera</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
+                                                </td>
+                                                <td>
+                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                </td>
+                                                <td>
+                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera','contains')">
+                                                </td>
+                                                
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-control>
+                                            <tr [pSelectableRow]="control" class="table-row table-row-selectable">
+                                                <td>{{control.fechaCreacion}}</td>
+                                                <td>{{control.descripcion}}</td>
+                                                <td>{{control.barrera}}</td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="summary" let-rowData>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <div class="flex justify-content-end flex-wrap">
+                                                        <button  pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="controlFunc('POST','adm')"></button>
+                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','adm')"></button>
+                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','adm')"></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td [attr.colspan]="3">No hay control administrativos existente</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                    <!-- <textarea [required]="flagControlAdm" formControlName="Administrativos" cols="10" rows="3"></textarea> -->
                                 </div>
                             </div>
+                            <hr>
                             <div class="col-12 gridcol">
-                                <div style="display: flex;" class="grid">
-                                    <div class="col-4 col-md-6 col-sm-12"><label for="">Equipos y elementos de protección personal:</label></div>
-                                    <div class="col-4 col-md-6 col-sm-12" style="display: flex;">
+                                <div style="display: flex;">
+                                    <div class="col-4 col-6"><h2 for="">Equipos y elementos de protección personal:</h2></div>
+                                    <div class="col-4 col-6">
                                         <label for="">¿Aplica?</label>&nbsp;
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
@@ -370,14 +464,59 @@
                                 </div>
                                 <!-- <label for="">Equipos y elementos de protección personal:</label> -->
                                 <div id="flagEquiposEle">
-                                    <textarea  [required]="flagEquiposEle" formControlName="ElementosPro" cols="10" rows="3"></textarea>
+                                    <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlEqu" [value]="controlEquList" [paginator]="true" [rows]="10" >
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th>Fecha creación</th>
+                                                <th>Descripción</th>
+                                                <th>Tipo de barrera</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
+                                                </td>
+                                                <td>
+                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                </td>
+                                                <td>
+                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera','contains')">
+                                                </td>
+                                                
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-control>
+                                            <tr [pSelectableRow]="control" class="table-row table-row-selectable">
+                                                <td>{{control.fechaCreacion}}</td>
+                                                <td>{{control.descripcion}}</td>
+                                                <td>{{control.barrera}}</td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="summary" let-rowData>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <div class="flex justify-content-end flex-wrap">
+                                                        <button  pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="controlFunc('POST','equ')"></button>
+                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','equ')"></button>
+                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','equ')"></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td [attr.colspan]="3">No hay equipos y elementos de protección personal existente</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                    <!-- <textarea  [required]="flagEquiposEle" formControlName="ElementosPro" cols="10" rows="3"></textarea> -->
                                 </div>
                             </div>
                         </div>
                     </form>
                     <div *ngIf="tareasListEjecutado.length>0">
                         <br><br>
-                        <h1>Planes de acción ejecutados</h1>
+                        <h2 for="" >Planes de acción ejecutados:</h2>
                         <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasListEjecutado" [paginator]="true" [rows]="10" >
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
@@ -420,7 +559,7 @@
                 </div>
             </p-accordionTab>
 
-            <p-accordionTab header="IV. VALORACIÓN DEL RIESGO INICIAL" [disabled]="!formMatrizRiesgosC.valid">
+            <p-accordionTab header="IV. VALORACIÓN DEL RIESGO INICIAL" [disabled]="!((!flagControlIng || (flagControlIng && controlIngList.length>0)) && (!flagControlAdm || (flagControlAdm && controlAdmList.length>0)) && (!flagEquiposEle || (flagEquiposEle && controlEquList.length>0)))">
                 <div [class]="(!formMatrizRiesgosC.valid  || flagEliminadoSustituido)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizRiesgosI">
                         <div class="grid accordionTab">
@@ -545,6 +684,80 @@
                                 <textarea [readonly]="true" cols="10" rows="5"  [(ngModel)]="accion" [ngModelOptions]="{standalone: true}"></textarea>
                             </div> -->
                         </div>
+                        <br>
+                        <h1>Evidencia riesgo inicial</h1>
+                        <button pButton type="button" (click)="visibleDlgFoto1=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosI.valid"></button>
+                        <s-documentoUpload tipoEvidencia="matrizRExistente" [(visible)]="visibleDlgFoto1" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)"></s-documentoUpload>
+                        <div *ngFor="let doc of documentosList">
+                            <table class="dwrapper" *ngIf="doc.proceso=='matrizRExistente'">
+                            <tr>
+                                <td>
+                                <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
+                                <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
+                                </td>
+                                <td style="text-align: right;">
+                                <a class="bi bi-pencil-square" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!readOnly"></a>
+                                <a>&nbsp;</a>
+                                <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!readOnly" style="color: red;"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253"></textarea>
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
+                        <h1>¿Puede generar accidente mayor?</h1>
+                        <div class="grid accordionTab">
+                            <div style="display: flex;">
+                                <p-radioButton required name="accMayor" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="accMayor"></p-radioButton>
+                                <p-radioButton name="accMayor" label="No" [value]="'No'" [style]="{'margin-left': '15px'}" formControlName="accMayor"></p-radioButton>
+                            </div>
+                        </div>
+                    <!-- </form> -->
+                    <br>
+                    <div *ngIf="this.formMatrizRiesgosI.value.accMayor=='Sí'">
+                        <!-- <form [formGroup]="formValoracionRiesgo"> -->
+        
+                            <h1>¿Realizo evaluación de riesgo?</h1>
+                            <div style="display: flex;">
+                                <p-radioButton required name="realizoValoracion" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="realizoValoracion"></p-radioButton>
+                                <p-radioButton name="realizoValoracion" label="No" [value]="'No'" [style]="{'margin-left': '15px'}" formControlName="realizoValoracion"></p-radioButton>
+                            </div>
+                            <hr>
+                            <div *ngIf="formMatrizRiesgosI.value.realizoValoracion=='Sí'">
+                                <h2>Evidencias</h2>
+                                <button pButton type="button" (click)="visibleDlgFoto2=true" icon="fa fa-plus" label="Adjuntar soporte" style="margin-bottom: 10px;"></button>
+        
+                                <s-documentoUpload tipoEvidencia="matrizERiesgo" [(visible)]="visibleDlgFoto2" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)"></s-documentoUpload>
+                                <div *ngFor="let doc of documentosList">
+                                    <table class="dwrapper" *ngIf="doc.proceso=='matrizERiesgo'">
+                                        <tr>
+                                        <td>
+                                            <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
+                                            <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <a class="bi bi-pencil-square" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!readOnly"></a>
+                                            <a>&nbsp;</a>
+                                            <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!readOnly" style="color: red;"></a>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td colspan="2">
+                                            <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253"></textarea>
+                                        </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div *ngIf="formMatrizRiesgosI.value.realizoValoracion=='No'">
+                                <h2>Plan de acción</h2>
+                                <label for="">Descripción</label>
+                                <textarea cols="10" rows="3" formControlName="planAccion"></textarea>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </p-accordionTab>
@@ -559,6 +772,7 @@
                             <th>Fecha creación</th>
                             <th>Descripción</th>
                             <th>Jerarquía de control</th>
+                            <th>Tipo de barrera</th>
                             <th>Estado del plan de acción</th>
                         </tr>
                         <tr>
@@ -568,6 +782,9 @@
                             </td>
                             <td>
                                 <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                            </td>
+                            <td>
+                                <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'jerarquia', 'contains')">
                             </td>
                             <td>
                                 <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'jerarquia', 'contains')">
@@ -583,6 +800,7 @@
                             <td>{{tarea.fechaCreacion}}</td>
                             <td>{{tarea.descripcion}}</td>
                             <td>{{tarea.jerarquia}}</td>
+                            <td>{{tarea.barreras}}</td>
                             <td>{{tarea.estado}}</td>
                         </tr>
                     </ng-template>
@@ -603,6 +821,7 @@
                         </tr>
                     </ng-template>
                 </p-table>
+                
                 <!-- </div> -->
             </p-accordionTab>
 
@@ -731,28 +950,77 @@
                                 <textarea [readonly]="true" cols="10" rows="5"  [(ngModel)]="accion" [ngModelOptions]="{standalone: true}"></textarea>
                             </div> -->
                         </div>
+                        <br>
+                        <h1>Evidencia riesgo residual</h1>
+                        <button pButton type="button" (click)="visibleDlgFoto2=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosIResidual.valid"></button>
+                        <s-documentoUpload tipoEvidencia="matrizRResidual" [(visible)]="visibleDlgFoto2" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)"></s-documentoUpload>
+                        <div *ngFor="let doc of documentosList">
+                            <table class="dwrapper" *ngIf="doc.proceso=='matrizRResidual'">
+                            <tr>
+                                <td>
+                                <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
+                                <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
+                                </td>
+                                <td style="text-align: right;">
+                                <a class="bi bi-pencil-square" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!readOnly"></a>
+                                <a>&nbsp;</a>
+                                <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!readOnly" style="color: red;"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253"></textarea>
+                                </td>
+                            </tr>
+                            </table>
+                        </div>
                     </form>
                 </div>
             </p-accordionTab>
             <p-accordionTab header="VII. EFECTIVIDAD EN LOS CONTROLES" [disabled]="!(this.tareasList.length>0 || this.tareasListPendiente.length>0 || this.tareasListEjecutado.length>0)">
                 <!-- <div [class]="(this.tareasList.length>0 || this.tareasListPendiente.length>0 || this.tareasListEjecutado.length>0)?'overlay':'overlay-content'"> -->
+                <form [formGroup]="formEfectividadControles">
+
                     <h1>Indicador de gestión</h1>
                     <div class="grid accordionTab">
                         <div class="col-3 col-sm-6 gridcol">
                             <label for="">Controles ejecutados: &nbsp;</label>
-                            <span>{{tareasListEjecutadoPorcentaje.length}}</span>
+                            <input type="text" formControlName="controlEjecutados" readonly>
+                            <!-- <span>{{tareasListEjecutadoPorcentaje.length}}</span> -->
                         </div>
                         <div class="col-3 col-sm-6 gridcol">
                             <label for="">Controles propuestos: &nbsp;</label>
-                            <span>{{tareasList.length}}</span>
+                            <input type="text" formControlName="controlPropuestos" readonly>
+                            <!-- <span>{{tareasList.length}}</span> -->
                         </div>
                         <div class="col-3 col-sm-6 gridcol">
                             <label for="">Cumplimiento: &nbsp;</label>
-                            <span>{{((tareasListEjecutadoPorcentaje.length*100)/(tareasList.length)).toFixed(2)}}%</span>
+                            <input type="text" formControlName="cumplimiento" readonly>
+                            <!-- <span>{{((tareasListEjecutadoPorcentaje.length*100)/(tareasList.length)).toFixed(2)}}%</span> -->
                         </div>
                     </div>
+                    <hr>
+                    <h1>Indicador de impacto</h1>
+                    <div class="grid accordionTab">
+                        <div class="col-3 col-sm-6 gridcol">
+                            <label for="">Cantidad de AT asociados: &nbsp;</label>
+                            <input type="number" formControlName="ATasociados" readonly>
+                        </div>
+                        <div class="col-3 col-sm-6 gridcol">
+                            <label for="">Cantidad de EL asociados: &nbsp;</label>
+                            <input type="number" formControlName="ELasociados" readonly>
+                        </div>
+                    </div>
+                    <hr>
+                </form>
                 <!-- </div> -->
             </p-accordionTab>
+            <p-accordionTab header="IX. INDICADOR ICR">
+                <label>ICR: </label> &nbsp;
+                <span>{{(valoracionRI1[0].NR>0)?(((valoracionRI1[0].NR-valoracionRI1Residual[0].NR)/valoracionRI1[0].NR)*100).toFixed(2):0}}%</span>
+            </p-accordionTab>
+            
+            
         </p-accordion>
         <button pButton
         *ngIf="!flagConsulta" 
@@ -797,6 +1065,10 @@
                     <div class="col-md-12 col-sm-12 gridcol">
                         <label for="">Consecuencia/Efectos a la salud</label>
                         <textarea [readonly]="true" cols="10" rows="3" formControlName="Efectos"></textarea>
+                    </div>
+                    <div class="col-md-12 col-sm-12 gridcol">
+                        <label for="">Descripción</label>
+                        <textarea cols="10" rows="3" formControlName="Descripcion"></textarea>
                     </div>
                 </div>
             </form>
@@ -911,6 +1183,13 @@
                 <textarea required name="descripcion"  formControlName="descripcion" cols="10" rows="3"></textarea>
             </div>
             <div class="col-12">
+                <span>Tipo de barrera:</span> <br>
+                <div style="display: flex;">
+                    <p-radioButton required name="barreras" label="Barrera dura" [value]="'Barrera dura'"  [style]="{'margin-left': '15px'}" formControlName="barreras"></p-radioButton>
+                    <p-radioButton name="barreras" label="Barrera blanda" [value]="'Barrera blanda'" [style]="{'margin-left': '15px'}"  formControlName="barreras"></p-radioButton>
+                </div>
+            </div>
+            <div class="col-12">
                 <span>Estado del plan de acción</span> <br>
                 <p-dropdown  required formControlName="estado" appendTo="body" [options]="estadosPlanAccion">
                 </p-dropdown>
@@ -934,6 +1213,53 @@
                     label="Editar"
                     title="Editar plan de acción"
                     (click)="planAccionCRUD('PUT')"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<!--Riesgo existente -->
+<p-dialog [(visible)]="controlFlag" modal="true" [style]= "{'width': '80%'}">
+    <form [formGroup]="formControl">
+        <div class="grid">
+            <div class="col-12">
+                <span>Jerarquía de control:</span><br>
+                <!-- <span>{{jerarquiaExistente}}</span> -->
+                <input pInputText type="text" style="width:100%" [value]="jerarquiaExistente" readonly="true">
+                <!-- <div>Control Ingenieria</div> -->
+            </div>
+            <div class="col-12">
+                <span>Descripción:</span> <br>
+                <textarea required name="descripcion"  formControlName="descripcion" cols="10" rows="3"></textarea>
+            </div>
+            <div class="col-12">
+                <span>Tipo de barrera:</span> <br>
+                <div style="display: flex;">
+                    <p-radioButton required name="barrera" label="Barrera dura" [value]="'Barrera dura'"  [style]="{'margin-left': '15px'}" formControlName="barrera"></p-radioButton>
+                    <p-radioButton name="barrera" label="Barrera blanda" [value]="'Barrera blanda'" [style]="{'margin-left': '15px'}"  formControlName="barrera"></p-radioButton>
+                </div>
+            </div>
+            <div class="col-12">
+                <div *ngIf="CRUDcontrol=='POST'">
+                    <button pButton type="button" 
+                    [disabled]="!formControl.valid"
+                    icon="bi bi-plus"
+                    class="p-button-primary"
+                    label="Agregar"
+                    title="Agregar control existente"
+                    (click)="controlCRUD('POST')"
+                    ></button>
+                </div>
+                <div *ngIf="CRUDcontrol=='PUT'">
+                    <button pButton type="button" 
+                    [disabled]="!formControl.valid"
+                    icon="bi bi-pencil"
+                    class="p-button-success"
+                    label="Editar"
+                    title="Editar control existente"
+                    (click)="controlCRUD('PUT')"
                     ></button>
                 </div>
             </div>

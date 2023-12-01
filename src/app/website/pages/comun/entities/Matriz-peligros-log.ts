@@ -25,5 +25,6 @@ export class MatrizPeligrosLog {
   eliminado?: Boolean;
   idEdicion?:Number;
   usuario?:string;
+  efectividadControles?:string;
   fkmatrizpeligros?: Number;//padre
 }
