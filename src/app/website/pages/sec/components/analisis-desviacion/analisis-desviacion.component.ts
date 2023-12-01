@@ -1093,6 +1093,12 @@ export class AnalisisDesviacionComponent implements OnInit {
 
                 }
 
+                ad?.tareaDesviacionList?.forEach((td: any) => {
+                    if(td.usuarioCierre) {
+                        td.usuarioCierre = null;
+                    }
+                })
+
                 if(!this.esAliado){
                     this.analisisDesviacionService.update(ad).then((data) => {
                         this.manageResponse(<AnalisisDesviacion>data);
