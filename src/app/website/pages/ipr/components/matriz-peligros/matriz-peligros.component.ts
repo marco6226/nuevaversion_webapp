@@ -1069,7 +1069,14 @@ export class MatrizPeligrosComponent implements OnInit {
         break;
     }
   }
-
+  planAccionRiesgoInicial(){
+    if(this.formMatrizRiesgosI.value.realizoValoracion=='No'){
+      document.getElementById("planAccionInicial")!.style.display = 'block'
+    }else{
+      document.getElementById("planAccionInicial")!.style.display = 'none'
+      this.formMatrizRiesgosI.patchValue({planAccion:null})
+    }
+  }
 
   CRUDAreaTreeFunc(eve:any,CRUD:string){
     this.CRUDarea=CRUD

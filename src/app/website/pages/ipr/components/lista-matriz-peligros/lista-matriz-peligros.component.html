@@ -74,7 +74,7 @@
                 <div style="display: flex;" *ngIf="flagICR">
                     <div>GPI:  {{GPI}}</div>&nbsp;
                     <div>GPF:  {{GPF}}</div>&nbsp;
-                    <div>ICR:  {{ICR.toFixed(2)}}%</div>
+                    <div>ICR:  {{(GPI>0)?ICR.toFixed(2):0}}%</div>
                 </div>
                 <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
                     <!-- dataKey="id" sortField="id" sortOrder="-1" -->

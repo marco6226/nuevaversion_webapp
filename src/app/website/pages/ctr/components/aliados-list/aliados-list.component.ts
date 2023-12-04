@@ -72,8 +72,14 @@ export class AliadosListComponent implements OnInit {
                 : await this.sesionService.getEmpresa()?.id;
     filterAliadoID.value1 = String(idAux);
 
+    let filterAliadoEstado = new Filter();
+    filterAliadoEstado.criteria = Criteria.EQUALS;
+    filterAliadoEstado.field = 'activo';
+    filterAliadoEstado.value1 = 'true';
+
     filterQuery.filterList.push(filtPadre);
     filterQuery.filterList.push(filterAliadoID);
+    filterQuery.filterList.push(filterAliadoEstado);
     filterQuery.sortField = "id";
     filterQuery.sortOrder = 1;
     
