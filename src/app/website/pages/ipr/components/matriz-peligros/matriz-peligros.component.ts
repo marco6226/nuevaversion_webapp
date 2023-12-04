@@ -199,7 +199,7 @@ export class MatrizPeligrosComponent implements OnInit {
     this.formMatrizGeneral = this.fb.group({
       Area: [null], //Clasificación
       Proceso: [null], //Descripción del peligro
-      Subproceso: [null],
+      Subproceso: [[]],
       Actividades: [null],
       Rutinaria: [null],
       Propios: [null],
@@ -1631,16 +1631,21 @@ export class MatrizPeligrosComponent implements OnInit {
 
     // if(this.valoracionRI1Residual[0].NP){
       this.formMatrizRiesgosIResidual.patchValue({
-        NP:this.valoracionRI1Residual[0].NP
+        NP:(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)?this.valoracionRI1Residual[0].NP:null
       })
     // }
     // if(this.valoracionRI1Residual[0].NR){
       this.formMatrizRiesgosIResidual.patchValue({
-        NR:this.valoracionRI1Residual[0].NR,
-        NRCualitativo:this.valoracionRI2Residual[0].CL
+        NR:(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)?this.valoracionRI1Residual[0].NR:null,
+        NRCualitativo:(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)?this.valoracionRI2Residual[0].CL:null
       })
     // }
     matrizPeligros.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI.value);
+    // if(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)
+    // this.formMatrizRiesgosIResidual.patchValue({
+    //   NP: null,
+    //   NR: null
+    // });
     matrizPeligros.valoracionRiesgoResidual=JSON.stringify(this.formMatrizRiesgosIResidual.value);
     this.tareasList=this.tareasListPendiente.concat(this.tareasListEjecutado)
     this.formEfectividadControles.patchValue({controlPropuestos:this.tareasList.length})

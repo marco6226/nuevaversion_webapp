@@ -168,7 +168,20 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
   usuarioConsolidado!:string | null;
   usuarioHistorico!:string | null;
+  flagBottonPUTGET : boolean =true;
   async cargarArea(eve:any) {
+    let filterMatriz = new FilterQuery();
+    filterMatriz.fieldList = [
+      'id',
+    ];
+    filterMatriz.filterList = [{ field: 'idplantas', criteria: Criteria.EQUALS, value1: this.formCreacionMatriz.value.planta}];
+    filterMatriz.filterList.push({ field: 'planAccion', criteria: Criteria.NOT_EQUALS, value1: "[]"});
+    filterMatriz.count =true
+    this.viewmatrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
+      if(resp.count>0)this.flagBottonPUTGET=false
+      else this.flagBottonPUTGET=true
+    }).catch(er=>console.log(er))
+
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
     filterArea.sortOrder = -1;

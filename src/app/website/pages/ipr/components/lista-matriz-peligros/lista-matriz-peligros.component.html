@@ -463,10 +463,10 @@
                             <td>{{usuarioConsolidado}}</td>
                             <td>{{estadoConsolidado}}</td>
                             <td>                            
-                                <button [disabled]="estadoConsolidado=='En procceso...'" pButton style="width: 100%;" type="button" (click)="exportexcelConsolidado()" title="Generar consolidado" icon="pi pi-file-excel" class="p-button-primary" label="Generar consolidado" [disabled]="flagGConsolidado"></button>
+                                <button [disabled]="estadoConsolidado=='En procceso...' || flagBottonPUTGET" pButton style="width: 100%;" type="button" (click)="exportexcelConsolidado()" title="Generar consolidado" icon="pi pi-file-excel" class="p-button-primary" label="Generar consolidado" [disabled]="flagGConsolidado"></button>
                             </td>
                             <td>
-                                <button [disabled]="estadoConsolidado!='Documento listo'" pButton style="width: 100%;" type="button" (click)="descargarexcelConsolidado()" title="Descargar Consolidado" icon="pi pi-download" class="p-button-success" label="Descargar consolidado"></button>
+                                <button [disabled]="estadoConsolidado!='Documento listo' || flagBottonPUTGET" pButton style="width: 100%;" type="button" (click)="descargarexcelConsolidado()" title="Descargar Consolidado" icon="pi pi-download" class="p-button-success" label="Descargar consolidado"></button>
                             </td>
                         </tr>
                         <tr>
@@ -476,10 +476,10 @@
                             <td>{{usuarioHistorico}}</td>
                             <td>{{estadoHistorico}}</td>
                             <td>                            
-                                <button [disabled]="estadoHistorico=='En procceso...'" pButton style="width: 100%;" type="button" (click)="exportexcelHistorico()" title="Generar historico" icon="pi pi-file-excel" class="p-button-primary" label="Generar historico" [disabled]="flagGHistorico"></button>
+                                <button [disabled]="estadoHistorico=='En procceso...' || flagBottonPUTGET" pButton style="width: 100%;" type="button" (click)="exportexcelHistorico()" title="Generar historico" icon="pi pi-file-excel" class="p-button-primary" label="Generar historico" [disabled]="flagGHistorico"></button>
                             </td>
                             <td>                            
-                                <button [disabled]="estadoHistorico!='Documento listo'" pButton style="width: 100%;"type="button" (click)="descargarexcelHistorico()" title="Descargar historico" icon="pi pi-download" class="p-button-success" label="Descargar historico"></button>
+                                <button [disabled]="estadoHistorico!='Documento listo' || flagBottonPUTGET" pButton style="width: 100%;"type="button" (click)="descargarexcelHistorico()" title="Descargar historico" icon="pi pi-download" class="p-button-success" label="Descargar historico"></button>
                             </td>
                         </tr>
                     </ng-template>

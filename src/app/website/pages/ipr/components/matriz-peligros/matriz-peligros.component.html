@@ -335,14 +335,15 @@
                         <div class="grid accordionTab">
                             <div class="col-12 gridcol">
                                 
-                                <div style="display: flex;" >
-                                    <div class="col-4 col-6"><h2 for="">Control de ingeniería:</h2></div>
-                                    <div class="col-4 col-6">
+                                <div>
+                                    <h2 for="" style="margin-bottom: 4px;" >Control de ingeniería:&nbsp;</h2>
+                                    <div style="display: flex;">
                                         <label for="">¿Aplica?</label>&nbsp;
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlIng')" name="GRUPO1"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlIng" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                     </div>
                                 </div>
+                                <br>
                                 <div id="flagControlIng">
                                     <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlIng" [value]="controlIngList" [paginator]="true" [rows]="10" >
                                         <ng-template pTemplate="header" let-columns>
@@ -394,14 +395,15 @@
                             </div>
                             <hr>
                             <div class="col-12 gridcol">
-                                <div style="display: flex;">
-                                    <div class="col-4 col-6"><h2 for="">Controles administrativos:</h2></div>
-                                    <div class="col-4 col-6">
+                                <div>
+                                    <h2 for="" style="margin-bottom: 4px;" >Controles administrativos:&nbsp;</h2>
+                                    <div style="display: flex;">
                                         <label for="">¿Aplica?</label>&nbsp;
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagControlAdm')" name="GRUPO2"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagControlAdm" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                     </div>
                                 </div>
+                                <br>
                                 <!-- <label for="">Controles administrativos:</label> -->
                                 <div id="flagControlAdm">
                                     <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlAdm" [value]="controlAdmList" [paginator]="true" [rows]="10" >
@@ -454,14 +456,15 @@
                             </div>
                             <hr>
                             <div class="col-12 gridcol">
-                                <div style="display: flex;">
-                                    <div class="col-4 col-6"><h2 for="">Equipos y elementos de protección personal:</h2></div>
-                                    <div class="col-4 col-6">
+                                <div>
+                                    <h2 for="" style="margin-bottom: 4px;" >Equipos y elementos de protección personal:&nbsp;</h2>
+                                    <div style="display: flex;">
                                         <label for="">¿Aplica?</label>&nbsp;
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3" label="Sí" [value]="true"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                         <p-radioButton (onClick)="visualEvaluacionRiesgo('flagEquiposEle')" name="GRUPO3"  [value]="false" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagEquiposEle" [ngModelOptions]="{standalone: true}"></p-radioButton>
                                     </div>
                                 </div>
+                                <br>
                                 <!-- <label for="">Equipos y elementos de protección personal:</label> -->
                                 <div id="flagEquiposEle">
                                     <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlEqu" [value]="controlEquList" [paginator]="true" [rows]="10" >
@@ -1032,7 +1035,7 @@
         style="bottom: 140px;"
         [title]="CRUDMatriz=='PUT'?'Guardar datos de matriz de peligros':'Modificar datos de matriz de peligros'"
         style="bottom: 70px; z-index: 10000;"
-        [disabled]="!(((!flagSustitucion && !formMatrizPeligrosSustitucion.valid) || (flagSustitucion && formMatrizPeligrosSustitucion.valid))) || guardadoSustitucion"
+        [disabled]="!(((!flagSustitucion && !formMatrizPeligrosSustitucion.valid) || (flagSustitucion && formMatrizPeligrosSustitucion.valid))) || guardadoSustitucion || this.formMatrizGeneral.value.Subproceso.length==0"
         ></button>
     </p-panel>
 </ng-container>
