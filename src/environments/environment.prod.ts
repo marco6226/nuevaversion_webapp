@@ -106,6 +106,8 @@ export const endPoints: string | any = {
 
   MatrizPeligrosLogService: path +"matrizPlog/",
   MatrizPeligrosService: path + "matrizP/",
+  ViewMatrizPeligrosService: path + "vmatrizP/",
+  ViewMatrizPeligrosLogService: path + "vmatrizPLog/",
   TipoPeligroService: path + "tipoPeligro/",
   PeligroService: path + "peligro/",
   FuenteService: path + "fuente/",
