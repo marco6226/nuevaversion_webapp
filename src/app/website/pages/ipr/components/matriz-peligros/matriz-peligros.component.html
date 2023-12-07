@@ -711,7 +711,9 @@
                             </tr>
                             </table>
                         </div>
-                        <h1>¿Puede generar accidente mayor?</h1>
+                        <hr>
+                        <h1>¿Este riesgo está en el PPAM?</h1>
+                        <!-- <h2>¿Puede generar accidente mayor?</h2> -->
                         <div class="grid accordionTab">
                             <div style="display: flex;">
                                 <p-radioButton required name="accMayor" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="accMayor"></p-radioButton>
@@ -723,14 +725,14 @@
                     <div *ngIf="this.formMatrizRiesgosI.value.accMayor=='Sí'">
                         <!-- <form [formGroup]="formValoracionRiesgo"> -->
         
-                            <h1>¿Realizo evaluación de riesgo?</h1>
+                            <h2>¿Realizo evaluación de riesgo?</h2>
                             <div style="display: flex;">
                                 <p-radioButton required name="realizoValoracion" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="realizoValoracion" (onClick)="planAccionRiesgoInicial()"></p-radioButton>
                                 <p-radioButton name="realizoValoracion" label="No" [value]="'No'" [style]="{'margin-left': '15px'}" formControlName="realizoValoracion" (onClick)="planAccionRiesgoInicial()"></p-radioButton>
                             </div>
                             <hr>
                             <div *ngIf="formMatrizRiesgosI.value.realizoValoracion=='Sí'">
-                                <h2>Evidencias</h2>
+                                <h3>Evidencias</h3>
                                 <button pButton type="button" (click)="visibleDlgFoto2=true" icon="fa fa-plus" label="Adjuntar soporte" style="margin-bottom: 10px;" [disabled]="CRUDMatriz=='PUT'"></button>
         
                                 <s-documentoUpload tipoEvidencia="matrizERiesgo" [(visible)]="visibleDlgFoto2" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)"></s-documentoUpload>
@@ -756,7 +758,7 @@
                                 </div>
                             </div>
                             <div id="planAccionInicial">
-                                <h2>Plan de acción</h2>
+                                <h3>Plan de acción</h3>
                                 <label for="">Descripción</label>
                                 <textarea cols="10" rows="3" formControlName="planAccion" [required]="formMatrizRiesgosI.value.realizoValoracion=='No'"></textarea>
                             </div>

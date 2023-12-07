@@ -1163,10 +1163,9 @@ export class MatrizPeligrosComponent implements OnInit {
     planta.id=this.idPlanta
     area.plantas= planta;
     area.nombre=this.newArea;
-    area.estado='No evaluada';
-
     switch (eve) {
       case 'POST':
+        area.estado='No evaluada';
         area.eliminado=false
         await this.areaMatrizService.create(area).then((resp:any)=>{
           this.flagRegistroMatrizTree=false
@@ -1221,9 +1220,9 @@ export class MatrizPeligrosComponent implements OnInit {
     let areaMatriz =new AreaMatriz();
     areaMatriz.id=this.idArea
     proceso.areaMatriz=areaMatriz;
-    proceso.estado='No evaluada';
     switch (eve) {
       case 'POST':
+        proceso.estado='No evaluada';
         proceso.eliminado=false
         this.procesoMatrizService.create(proceso).then((resp:any)=>{
           this.flagRegistroMatrizTree=false
@@ -1283,10 +1282,10 @@ export class MatrizPeligrosComponent implements OnInit {
     let procesoMatriz =new ProcesoMatriz();
     procesoMatriz.id=this.idProceso;
     subproceso.procesoMatriz=procesoMatriz;
-    subproceso.estado='No evaluada';
 
     switch (eve) {
       case 'POST':
+        subproceso.estado='No evaluada';
         subproceso.eliminado=false
         this.subprocesoMatrizService.create(subproceso).then((resp:any)=>{
           this.flagRegistroMatrizTree=false
@@ -1711,6 +1710,7 @@ export class MatrizPeligrosComponent implements OnInit {
         //Separar por subproceso el guardado
         let i=0
         this.idMostrar=''
+        this.flagRegistroMatrizTree=false
         this.formMatrizGeneral.value.Subproceso.forEach((ele1:any) => {
           let findProceso= this.formMatrizGeneral.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
           let findArea= this.formMatrizGeneral.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
@@ -1740,6 +1740,17 @@ export class MatrizPeligrosComponent implements OnInit {
           this.idMatrizPeligro=[]
 
           this.matrizPeligrosService.create(matrizPeligros).then((resp:any)=>{
+            
+            console.log(this.matrizdescripcion)
+            const indexarea = this.matrizdescripcion.findIndex((el:any) => el.data.id == findArea.id )
+            const indexproceso = this.matrizdescripcion[indexarea].children.findIndex((el:any) => el.data.id == findProceso.id )
+            const indexsubproceso = this.matrizdescripcion[indexarea].children[indexproceso].children.findIndex((el:any) => el.data.id == ele1.id )
+
+            this.matrizdescripcion[indexarea].children[indexproceso].children[indexsubproceso].data.estado='Evaluado'
+// fgh 
+            this.estadoProcesoArea('Proceso',indexarea,indexproceso);
+            this.estadoProcesoArea('Area',indexarea,0);
+
             this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro guardado', summary: 'Guardado', life: 6000});
             matrizPeligrosLog.idriesgo=resp.id
             this.idMatrizPeligro.push(resp.id)
@@ -1754,6 +1765,7 @@ export class MatrizPeligrosComponent implements OnInit {
           }).catch(er=>console.log(er))
 
         })
+        this.flagRegistroMatrizTree=true
         
         break;
       case 'POST':
@@ -1880,8 +1892,22 @@ export class MatrizPeligrosComponent implements OnInit {
     if(this.tareasList.filter((el:any) => (el.jerarquia=='Sustitución' && el.estado=='Ejecutado')).length>0)this.flagSustitucion=true
 
   }
-  test(){
-    console.log(this.formMatrizGeneralSustitucion)
+  estadoProcesoArea(variable:string, indexArea:number,indexProceso:number){
+// fds
+    switch (variable) {
+      case 'Proceso':
+        let listsubProceso = this.matrizdescripcion[indexArea].children[indexProceso].children.filter((resp:any)=> resp.data.estado == 'No evaluada')
+        console.log(listsubProceso)
+        if(listsubProceso.legth==0)this.matrizdescripcion[indexArea].children[indexProceso].data.estado='Evaluado'
+        break;
+      case 'Area':
+        let listProceso = this.matrizdescripcion[indexArea].children.filter((resp:any)=> resp.data.estado == 'No evaluada')
+        console.log(listProceso)
+        if(listProceso.legth==0)this.matrizdescripcion[indexArea].data.estado='Evaluado'
+        break;
+      default:
+        break;
+    }
   }
   async identificarIdGrupo(){
         //Identificar el id

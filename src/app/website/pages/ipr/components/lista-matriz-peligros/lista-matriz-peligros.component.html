@@ -76,6 +76,9 @@
                     <div>GPF:  {{GPF}}</div>&nbsp;
                     <div>ICR:  {{(GPI>0)?ICR.toFixed(2):0}}%</div>
                 </div>
+                <div *ngIf="!flagICR">
+                    <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
+                </div>
                 <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
                     <!-- dataKey="id" sortField="id" sortOrder="-1" -->
                     <ng-template pTemplate="header" let-columns>
