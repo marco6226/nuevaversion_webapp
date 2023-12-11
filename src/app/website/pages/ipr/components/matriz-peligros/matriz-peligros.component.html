@@ -21,7 +21,7 @@
         <br/>
         <br/>
         <ng-container *ngIf="!flagRegistroMatrizAcording">
-            <button pButton type="button " icon="bi bi-arrow-right " label="Continuar " (click)="habilitarGuiaProceso()" [disabled]="!formCreacionMatriz.valid && !flagContinuar"></button>
+            <button *sTienePermiso="'IPECR_PUT_MATRIZPELIGROS'" pButton type="button " icon="bi bi-arrow-right " label="Continuar " (click)="habilitarGuiaProceso()" [disabled]="!formCreacionMatriz.valid && !flagContinuar"></button>
         </ng-container>
     </p-panel>
 </form>
@@ -562,7 +562,7 @@
                 </div>
             </p-accordionTab>
 
-            <p-accordionTab header="IV. VALORACIÓN DEL RIESGO INICIAL" [disabled]="!((!flagControlIng || (flagControlIng && controlIngList.length>0)) && (!flagControlAdm || (flagControlAdm && controlAdmList.length>0)) && (!flagEquiposEle || (flagEquiposEle && controlEquList.length>0)))">
+            <p-accordionTab header="IV. VALORACIÓN DEL RIESGO INICIAL" [disabled]="!((!flagControlIng || (flagControlIng && controlIngList.length>0)) && (!flagControlAdm || (flagControlAdm && controlAdmList.length>0)) && (!flagEquiposEle || (flagEquiposEle && controlEquList.length>0))) || !formMatrizPeligros.valid">
                 <div [class]="(!formMatrizRiesgosC.valid  || flagEliminadoSustituido)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizRiesgosI">
                         <div class="grid accordionTab">
@@ -689,7 +689,7 @@
                         </div>
                         <br>
                         <h1>Evidencia riesgo inicial</h1>
-                        <button pButton type="button" (click)="visibleDlgFoto1=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosI.valid || CRUDMatriz=='PUT'"></button>
+                        <button pButton type="button" (click)="visibleDlgFoto1=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosI.valid || CRUDMatriz=='PUT' || formMatrizGeneral.value.Subproceso.length>1"></button>
                         <s-documentoUpload tipoEvidencia="matrizRExistente" [(visible)]="visibleDlgFoto1" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)"></s-documentoUpload>
                         <div *ngFor="let doc of documentosList">
                             <table class="dwrapper" *ngIf="doc.proceso=='matrizRExistente'">
@@ -733,7 +733,7 @@
                             <hr>
                             <div *ngIf="formMatrizRiesgosI.value.realizoValoracion=='Sí'">
                                 <h3>Evidencias</h3>
-                                <button pButton type="button" (click)="visibleDlgFoto2=true" icon="fa fa-plus" label="Adjuntar soporte" style="margin-bottom: 10px;" [disabled]="CRUDMatriz=='PUT'"></button>
+                                <button pButton type="button" (click)="visibleDlgFoto2=true" icon="fa fa-plus" label="Adjuntar soporte" style="margin-bottom: 10px;" [disabled]="CRUDMatriz=='PUT' || formMatrizGeneral.value.Subproceso.length>1"></button>
         
                                 <s-documentoUpload tipoEvidencia="matrizERiesgo" [(visible)]="visibleDlgFoto2" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)"></s-documentoUpload>
                                 <div *ngFor="let doc of documentosList">
@@ -957,7 +957,7 @@
                         </div>
                         <br>
                         <h1>Evidencia riesgo residual</h1>
-                        <button pButton type="button" (click)="visibleDlgFoto2=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosIResidual.valid  || CRUDMatriz=='PUT'"></button>
+                        <button pButton type="button" (click)="visibleDlgFoto2=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosIResidual.valid  || CRUDMatriz=='PUT' || formMatrizGeneral.value.Subproceso.length>1"></button>
                         <s-documentoUpload tipoEvidencia="matrizRResidual" [(visible)]="visibleDlgFoto2" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)"></s-documentoUpload>
                         <div *ngFor="let doc of documentosList">
                             <table class="dwrapper" *ngIf="doc.proceso=='matrizRResidual'">
@@ -1013,7 +1013,8 @@
                         </div>
                         <div class="col-3 col-sm-6 gridcol">
                             <label for="">Cantidad de EL asociados: &nbsp;</label>
-                            <input type="number" formControlName="ELasociados" readonly>
+
+                            <input *sTienePermiso="'IPECR_PUT_ELASOCIADOS'" type="number" formControlName="ELasociados" readonly>
                         </div>
                     </div>
                     <hr>
@@ -1027,6 +1028,7 @@
             
             
         </p-accordion>
+        
         <button pButton
         *ngIf="!flagConsulta" 
         (click)="guardarMatriz()"

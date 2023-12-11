@@ -196,14 +196,14 @@
 
                         <div class="d-flex justify-content-center">
                             <div class="btn-group" role="group">                
-                            <button 
+                            <button *sTienePermiso="'IPECR_PUT_MATRIZPELIGROS'"
                                 class="p-button-raised p-button-primary margin-right" 
                                 pButton type="button" 
                                 icon="bi bi-plus" 
                                 label="Adicionar" 
                                 (click)="CRUDMatriz('PUT','ALONE')"
                                 ></button>
-                            <button 
+                            <button *sTienePermiso="'IPECR_PUT_MATRIZPELIGROS'"
                                 class="p-button-raised p-button-success margin-right margin-left" 
                                 pButton type="button" 
                                 icon="bi bi-pencil" 
@@ -297,6 +297,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="btn-group" role="group">                
                             <button 
+                                *sTienePermiso="'IPECR_PUT_MATRIZPELIGROS'"
                                 class="p-button-raised p-button-success margin-right margin-left" 
                                 pButton type="button" 
                                 icon="bi bi-pencil" 

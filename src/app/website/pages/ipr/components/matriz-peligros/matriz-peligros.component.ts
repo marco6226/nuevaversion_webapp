@@ -1711,7 +1711,7 @@ export class MatrizPeligrosComponent implements OnInit {
         let i=0
         this.idMostrar=''
         this.flagRegistroMatrizTree=false
-        this.formMatrizGeneral.value.Subproceso.forEach((ele1:any) => {
+        this.formMatrizGeneral.value.Subproceso.forEach(async (ele1:any) => {
           let findProceso= this.formMatrizGeneral.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
           let findArea= this.formMatrizGeneral.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
 
@@ -1739,15 +1739,13 @@ export class MatrizPeligrosComponent implements OnInit {
           matrizPeligrosLog.fechaEdicion=new Date()
           this.idMatrizPeligro=[]
 
-          this.matrizPeligrosService.create(matrizPeligros).then((resp:any)=>{
+          await this.matrizPeligrosService.create(matrizPeligros).then((resp:any)=>{
             
-            console.log(this.matrizdescripcion)
             const indexarea = this.matrizdescripcion.findIndex((el:any) => el.data.id == findArea.id )
             const indexproceso = this.matrizdescripcion[indexarea].children.findIndex((el:any) => el.data.id == findProceso.id )
             const indexsubproceso = this.matrizdescripcion[indexarea].children[indexproceso].children.findIndex((el:any) => el.data.id == ele1.id )
 
             this.matrizdescripcion[indexarea].children[indexproceso].children[indexsubproceso].data.estado='Evaluado'
-// fgh 
             this.estadoProcesoArea('Proceso',indexarea,indexproceso);
             this.estadoProcesoArea('Area',indexarea,0);
 
@@ -1897,13 +1895,11 @@ export class MatrizPeligrosComponent implements OnInit {
     switch (variable) {
       case 'Proceso':
         let listsubProceso = this.matrizdescripcion[indexArea].children[indexProceso].children.filter((resp:any)=> resp.data.estado == 'No evaluada')
-        console.log(listsubProceso)
-        if(listsubProceso.legth==0)this.matrizdescripcion[indexArea].children[indexProceso].data.estado='Evaluado'
+        if(listsubProceso.length==0)this.matrizdescripcion[indexArea].children[indexProceso].data.estado='Evaluado'
         break;
       case 'Area':
         let listProceso = this.matrizdescripcion[indexArea].children.filter((resp:any)=> resp.data.estado == 'No evaluada')
-        console.log(listProceso)
-        if(listProceso.legth==0)this.matrizdescripcion[indexArea].data.estado='Evaluado'
+        if(listProceso.length==0)this.matrizdescripcion[indexArea].data.estado='Evaluado'
         break;
       default:
         break;

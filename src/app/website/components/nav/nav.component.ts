@@ -12,10 +12,10 @@ import { MisTareasComponent } from '../../pages/sec/components/mis-tareas/mis-ta
 import { UsuarioService } from '../../pages/admin/services/usuario.service';
 import { FilterQuery } from '../../pages/core/entities/filter-query';
 import { Criteria } from '../../pages/core/entities/filter';
-import { MatrizPeligrosService } from '../../pages/core/services/matriz-peligros.service';
 import { PlantasService } from '../../pages/core/services/Plantas.service';
 import { Subscription } from 'rxjs';
-import { MatrizPeligrosLogService } from '../../pages/core/services/matriz-peligros-log.service';
+import { ViewMatrizPeligrosLogService } from '../../pages/core/services/view-matriz-peligros-log.service';
+import { ViewMatrizPeligrosService } from '../../pages/core/services/view-matriz-peligros.service';
 
 @Component({
   selector: 'app-nav',
@@ -68,8 +68,8 @@ export class NavComponent implements OnInit {
     private usuarioService: UsuarioService,
 		private mistareas: MisTareasComponent,
     private plantasService: PlantasService,
-    private matrizPeligrosService: MatrizPeligrosService,
-    private matrizPeligrosLogService: MatrizPeligrosLogService
+    private viewMatrizPeligrosService: ViewMatrizPeligrosService,
+    private viewMatrizPeligrosLogService: ViewMatrizPeligrosLogService
     ) {
       cambioPasswdService.getObservable().subscribe(value => {
         if(value){
@@ -84,10 +84,10 @@ export class NavComponent implements OnInit {
       this.canvas = document.createElement('canvas');
       this.canvas.width = 48;
       this.canvas.height = 48;
-      this.subscription = this.matrizPeligrosService.obtenerNotificadorEvento().subscribe(() => {
+      this.subscription = this.viewMatrizPeligrosService.obtenerNotificadorEvento().subscribe(() => {
         this.mouseCampana();
       });
-      this.subscription2 = this.matrizPeligrosLogService.obtenerNotificadorEvento().subscribe(() => {
+      this.subscription2 = this.viewMatrizPeligrosLogService.obtenerNotificadorEvento().subscribe(() => {
         this.mouseCampana();
       });
     }
