@@ -255,7 +255,7 @@
     <div >
         <p-calendar #myCalendar
         [(ngModel)]="rangeDatesInforme"
-        dateFormat="dd/MM/yyyy"
+        dateFormat="dd/MM/yy"
         selectionMode="range"
         (onSelect)="habilitarindSCM()"
         (onClearClick)="onResetDate()"
@@ -265,7 +265,7 @@
         <p-header style="text-align: center;"><div style="display:flex; justify-content: space-between;"><h5>Seleccione un rango</h5>
         <a type="button"
         (click)="closeCalendar()"
-        >x
+        ><b>Listo  &nbsp; &nbsp; &nbsp; &nbsp; X</b>
         </a>
         </div>
         </p-header>
