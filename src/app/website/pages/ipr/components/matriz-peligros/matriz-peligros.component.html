@@ -1013,8 +1013,9 @@
                         </div>
                         <div class="col-3 col-sm-6 gridcol">
                             <label for="">Cantidad de EL asociados: &nbsp;</label>
-
-                            <input *sTienePermiso="'IPECR_PUT_ELASOCIADOS'" type="number" formControlName="ELasociados" readonly>
+                            <ng-template [sTienePermiso]="'IPECR_PUT_ELASOCIADOS'" (flagTienePermiso)="TienePermiso($event)">
+                            </ng-template>
+                            <input  type="number" formControlName="ELasociados" [readonly]="!this.permisoFlagELASOCIADOS">
                         </div>
                     </div>
                     <hr>

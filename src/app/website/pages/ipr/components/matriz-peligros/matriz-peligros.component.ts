@@ -1975,4 +1975,8 @@ export class MatrizPeligrosComponent implements OnInit {
       }
   });
   }
+  permisoFlagELASOCIADOS: boolean=false
+  TienePermiso(e:boolean){
+    this.permisoFlagELASOCIADOS=e
+}
 }
