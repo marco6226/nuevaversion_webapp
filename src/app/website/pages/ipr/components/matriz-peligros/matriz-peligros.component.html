@@ -712,8 +712,8 @@
                             </table>
                         </div>
                         <hr>
-                        <h1>¿Este riesgo está en el PPAM?</h1>
-                        <!-- <h2>¿Puede generar accidente mayor?</h2> -->
+                        <!-- <h2>¿Este riesgo está en el PPAM?</h2> -->
+                        <h2>¿Este riesgo puede generar accidentes mayores?</h2>
                         <div class="grid accordionTab">
                             <div style="display: flex;">
                                 <p-radioButton required name="accMayor" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="accMayor"></p-radioButton>
@@ -725,7 +725,8 @@
                     <div *ngIf="this.formMatrizRiesgosI.value.accMayor=='Sí'">
                         <!-- <form [formGroup]="formValoracionRiesgo"> -->
         
-                            <h2>¿Realizo evaluación de riesgo?</h2>
+                            <h2>¿Este riesgo está en el PPAM?</h2>
+
                             <div style="display: flex;">
                                 <p-radioButton required name="realizoValoracion" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="realizoValoracion" (onClick)="planAccionRiesgoInicial()"></p-radioButton>
                                 <p-radioButton name="realizoValoracion" label="No" [value]="'No'" [style]="{'margin-left': '15px'}" formControlName="realizoValoracion" (onClick)="planAccionRiesgoInicial()"></p-radioButton>
@@ -999,7 +1000,7 @@
                             <!-- <span>{{tareasList.length}}</span> -->
                         </div>
                         <div class="col-3 col-sm-6 gridcol">
-                            <label for="">Cumplimiento: &nbsp;</label>
+                            <label for="">Cumplimiento (%): &nbsp;</label>
                             <input type="text" formControlName="cumplimiento" readonly>
                             <!-- <span>{{((tareasListEjecutadoPorcentaje.length*100)/(tareasList.length)).toFixed(2)}}%</span> -->
                         </div>
@@ -1018,7 +1019,6 @@
                             <input  type="number" formControlName="ELasociados" [readonly]="!this.permisoFlagELASOCIADOS">
                         </div>
                     </div>
-                    <hr>
                 </form>
                 <!-- </div> -->
             </p-accordionTab>

@@ -185,19 +185,19 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   async ngOnInit() {
     this.config.setTranslation(this.localeES);
 
-      setTimeout(() => {
-          this.idEmpresa = this.sesionService.getEmpresa()!.id;
-          this.testing = false;
-          this.show = true
-          this.showData = true;            
-          this.loadAreas();
-      }, 2000); 
-      //let arrtest = [1, 2, 4, 5, 4];
+    setTimeout(() => {
+        this.idEmpresa = this.sesionService.getEmpresa()!.id;
+        this.testing = false;
+        this.show = true
+        this.showData = true;            
+        if(this.idEmpresa == '8' || this.idEmpresa == '2')this.loadAreas();
+    }, 2000); 
+    //let arrtest = [1, 2, 4, 5, 4];
 
 
-      // this.usuarioService.consultarHistoriaLogin().then(
-      //     resp => this.evtLogList = resp['data']
-      // );
+    // this.usuarioService.consultarHistoriaLogin().then(
+    //     resp => this.evtLogList = resp['data']
+    // );
 
       
   }
