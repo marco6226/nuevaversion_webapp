@@ -1,6 +1,16 @@
 <p-toast position="bottom-center"></p-toast>
 <sg-loading [visible]="IsVisible"></sg-loading>
 
+<div *ngIf="contadorFallas >= intentosMax" class="contador-container">
+    <div>
+        <p>
+            Se ha alcanzado el número máximo de intentos.
+        </p>
+        Podrá volver a intentar en
+        <label style="color:#3ba2dc;font-weight: bold;">{{relojText}}</label>
+    </div>
+</div>
+
 <div class="background blue contenedor">
     <div class="sub-contenedor">
         <div class="contenedor-circular">
