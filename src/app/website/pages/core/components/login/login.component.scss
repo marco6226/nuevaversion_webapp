@@ -112,3 +112,20 @@ button{
         }
     }
 }
+
+.contador-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(#fff, 0.7);
+    z-index: 2040;
+}
+
+.contador-container div {
+    text-align: center;
+    margin: auto;
+    background-color: #fff;
+    padding: 10px;
+    width: 300px;
+    box-shadow: 2px 2px 5px #ccc;
+}
