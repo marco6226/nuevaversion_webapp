@@ -591,6 +591,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 }, 500);
         });
 
+        this.obligatoriedadSVE()
+
     }
 
     areaChange(event: any) {
@@ -1696,6 +1698,20 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
     test(eve:any){
         console.log(eve.index)
+    }
+
+    flagObligatorioSVE:boolean=false
+    obligatoriedadSVE(){
+        if(this.casoMedicoForm.value.requiereIntervencion)
+        if(this.casoMedicoForm.value.requiereIntervencion==1){
+            document.getElementById("SVE")!.style.display = 'block'
+            this.flagObligatorioSVE=true
+        }else{
+            document.getElementById("SVE")!.style.display = 'none'
+            this.casoMedicoForm.patchValue({sve:null})
+
+            this.flagObligatorioSVE=false
+        }
     }
 }
 interface empresaNit{

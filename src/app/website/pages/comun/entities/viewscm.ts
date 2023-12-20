@@ -15,4 +15,5 @@ export interface viewscm{
     empresaId: number;
     recomendaciones:number;
     planAccion:number;
+    sve:string;
 }
