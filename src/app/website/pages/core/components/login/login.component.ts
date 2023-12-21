@@ -89,19 +89,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
     let res: any;
     try {
       res = await this.authService.checkisLoginExist(value.username, value.passwd);
-
-
-        if (res.exit == "true") {
-            if (confirm('Se perderan los cambios no guardados de sus otras sesiones')) {
-                // Save it!
-                this.login(value);
-            }
-        } else {
-            this.login(value);
+      if (res.exit == "true") {
+        if (confirm('Se perderan los cambios no guardados de sus otras sesiones')) {
+          // Save it!
+          this.login(value);
         }
+      } else {
+        this.login(value);
+      }
     } catch (error: any) {
-        if (error.status === 400) res = { exit: "false" }
-        location.reload();
+      if (error.status === 400) res = { exit: "false" }
+      location.reload();
     }
   }
 
@@ -123,7 +121,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.router.navigate([aceptaTerm ? url : '/app/terminos']);
           this.authGuardService.Seturl('/app/home');
         }
-      });      
+      });     
     } catch (err: any) {      
       this.IsVisible = false;      
       this.msgs = [];

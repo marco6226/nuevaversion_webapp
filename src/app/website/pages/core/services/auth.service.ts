@@ -57,13 +57,15 @@ export class AuthService {
                     recordar +
                     (pin != null ? "&pin=" + pin : ""),
                 body
-            ).pipe(
                 retry(1),
-                catchError((error) => {
-                    console.log('Error en la solicitud:', error);
-                    throw error;
-                  })
             )
+            // .pipe(
+            //     retry(3),
+            //     catchError((error) => {
+            //         console.log('Error en la solicitud:', error);
+            //         throw error;
+            //       })
+            // )
             .subscribe(
                 (res: unknown) => {
                     this.setSession(res, recordar);

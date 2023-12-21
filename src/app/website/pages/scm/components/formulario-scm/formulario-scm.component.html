@@ -769,16 +769,16 @@
                                         <div>
                                             <p-dropdown required [readonly]="consultar2" [options]="IntervencionOptionList"
                                                 formControlName="requiereIntervencion" class="select-material"
-                                                styleClass="select-material">
+                                                styleClass="select-material" (onChange)="obligatoriedadSVE()">
                                             </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col-6 lg:col-3" *ngIf="casoMedicoForm.get('requiereIntervencion').value != 0">
+                                    <div id="SVE" class="col-6 lg:col-3">
                                         <div>
                                             <label for="" class="active">SVE</label>
                                         </div>
                                         <div>
-                                            <p-dropdown [readonly]="consultar2" [options]="sveOptionList"
+                                            <p-dropdown [required]="flagObligatorioSVE" [readonly]="consultar2" [options]="sveOptionList"
                                                 formControlName="sve" class="select-material"
                                                 styleClass="select-material">
                                             </p-dropdown>
