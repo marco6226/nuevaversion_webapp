@@ -58,7 +58,7 @@ export class AuthService {
                     (pin != null ? "&pin=" + pin : ""),
                 body
             ).pipe(
-                retry(3),
+                retry(1),
                 catchError((error) => {
                     console.log('Error en la solicitud:', error);
                     throw error;
