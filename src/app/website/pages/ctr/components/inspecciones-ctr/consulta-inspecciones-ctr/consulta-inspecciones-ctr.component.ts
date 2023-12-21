@@ -27,18 +27,6 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
   inspeccionSelect!: Inspeccion;
   totalRecords!: number;
   loading: boolean = true;
-  fields: string[] = [
-    'id',
-    'programacion_fecha',
-    'fechaRealizada',
-    'usuarioRegistra_email',
-    'programacion_listaInspeccion_nombre',
-    'programacion_area_id',
-    'programacion_area_nombre',
-    'fechaModificacion',
-    'usuarioModifica_email',
-    'listaInspeccion'
-  ];
   areasPermiso!: string;
   userParray: any;
   listaInspeccion!: ListaInspeccion;
@@ -196,12 +184,12 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
     filterQuery.offset = event.first;
     filterQuery.rows = event.rows;
     filterQuery.count = true;
-    // filterQuery.fieldList = this.fields;
-    filterQuery.fieldList = [
-      'id', 'programacion_localidad_localidad', 'programacion_fecha', 'fecha', 'listaInspeccion_codigo',
-      'listaInspeccion_formulario', 'listaInspeccion_listaInspeccionPK_version', 'listaInspeccion_fkPerfilId',
-      'usuarioRegistra', 'nombreUsuarioRegistra', 'empresaAliada', 'tipoInspeccion', 'empresaAliadaConNit',
-      'calificacion', 'estado', 'division']
+    // filterQuery.fieldList = [
+    //   'id', 'programacion_localidad_localidad', 'programacion_fecha', 'fecha', 'listaInspeccion_codigo',
+    //   'listaInspeccion_formulario', 'listaInspeccion_listaInspeccionPK_version', 'listaInspeccion_fkPerfilId',
+    //   'usuarioRegistra', 'nombreUsuarioRegistra', 'empresaAliada', 'tipoInspeccion', 'empresaAliadaConNit',
+    //   'calificacion', 'estado', 'division',]
+
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
     let sesionEmpresa = this.sesionService.getEmpresa();
     if(sesionEmpresa?.idEmpresaAliada !== null){
@@ -209,7 +197,7 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
       filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresaAliada.id', value1: sesionEmpresa?.id});
     }else{
       filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresa.id', value1: sesionEmpresa?.id});
-    }
+    };
 
     await this.viewInspeccionCtrService.findByFilter(filterQuery).then(
       (resp: any) => {
