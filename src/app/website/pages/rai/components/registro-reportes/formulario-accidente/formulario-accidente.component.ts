@@ -28,6 +28,8 @@ import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
 import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado.service'
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado'
 import { PrimeNGConfig } from 'primeng/api';
+import { Localidades } from 'src/app/website/pages/ctr/entities/aliados';
+import { RadioButtonClickEvent } from 'primeng/radiobutton';
 
 @Component({
   selector: 's-form-accidente',
@@ -70,6 +72,9 @@ export class FormularioAccidenteComponent implements OnInit {
   deltaDia?:number;
   deltaMes?:number;
   empleadoSelect?: Empleado;
+  localidadList?: any[];
+  mostrarDialogLocalidades: boolean = false;
+  filtroLocalidades: string|null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -102,6 +107,7 @@ export class FormularioAccidenteComponent implements OnInit {
 
     this.visibleCamposAccidente = this.reporte?.tipo?.includes('ACCIDENTE');
     this.cdRef.detectChanges();
+    this.cargarLocalidades();
   }
 
   cargarDatos(){
@@ -214,6 +220,7 @@ export class FormularioAccidenteComponent implements OnInit {
             cargoResponsable: this.reporte?.cargoResponsable,
             fechaReporte: this.reporte?.fechaReporte == null ? null : new Date(this.reporte.fechaReporte),
             // ciudadEmpleado2: this.reporte?.ciudadEmpleado
+            localidad: this.reporte?.localidad
            
         });
 
@@ -250,6 +257,7 @@ export class FormularioAccidenteComponent implements OnInit {
     })
 
   }
+
   onSubmit() {
     let reporte = <Reporte>this.form?.value;
     reporte.testigoReporteList = this.testigoReporteList;
@@ -285,24 +293,58 @@ export class FormularioAccidenteComponent implements OnInit {
                 mesesLaborHabitual: this.reporte.mesesLaborHabitual,
             });
         }
-}
-adicionarTestigo() {
-  if (this.testigoReporteList == null) {
-      this.testigoReporteList = [];
-  }
-  let testigo = new TestigoReporte();
-  testigo.codigo = this.testigoReporteList.length;
-  this.testigoReporteList.push(testigo);
-  this.testigoReporteList = this.testigoReporteList.slice();
-}
-removerTestigo(testigo: TestigoReporte) {
-  if(this.testigoReporteList)
-  for (let i = 0; i < this.testigoReporteList.length; i++) {
-      if (this.testigoReporteList[i].codigo === testigo.codigo) {
-          this.testigoReporteList.splice(i, 1);
-          this.testigoReporteList = this.testigoReporteList.slice();
-          break;
-      }
-  }
-}
+    }
+
+    async cargarLocalidades(){
+        this.localidadList = [];
+        await this.empresaService.getLocalidades().then((elem: Localidades[]) => {
+            elem.forEach(item => {
+                this.localidadList?.push({label: item.localidad, value: item});
+            })
+        });
+
+        this.localidadList?.sort(function (a, b) {
+            if(a.label > b.label){
+                return 1
+            }else if(a.label < b.label){
+                return -1;
+            }
+                return 0;
+        });
+        // console.log(this.localidadList);
+    }
+
+    filtrarLocalidad(localidad: any){
+        if (this.filtroLocalidades === null || this.filtroLocalidades === '') {
+          return true;
+        } else {
+          return  localidad.label.toLowerCase().includes(this.filtroLocalidades.toLowerCase());
+        }
+    }
+
+    onSelectLocalidad(event: RadioButtonClickEvent){
+        // console.log(event);
+        this.form?.get('localidad')?.setValue(event.value);
+    }
+
+    adicionarTestigo() {
+        if (this.testigoReporteList == null) {
+            this.testigoReporteList = [];
+        }
+        let testigo = new TestigoReporte();
+        testigo.codigo = this.testigoReporteList.length;
+        this.testigoReporteList.push(testigo);
+        this.testigoReporteList = this.testigoReporteList.slice();
+    }
+
+    removerTestigo(testigo: TestigoReporte) {
+        if (this.testigoReporteList)
+            for (let i = 0; i < this.testigoReporteList.length; i++) {
+                if (this.testigoReporteList[i].codigo === testigo.codigo) {
+                    this.testigoReporteList.splice(i, 1);
+                    this.testigoReporteList = this.testigoReporteList.slice();
+                    break;
+                }
+            }
+    }
 }
