@@ -127,7 +127,7 @@ datosGraf3Print:any;
 
 nameGraf3:string='Antiguedad'
 
-//grafica tres
+//grafica cuatro
 flag4:boolean=true
 flagReturnDatos4:boolean=false
 visibleDlg4:boolean=false
@@ -159,6 +159,60 @@ conteo=[
   {label: 'Documento', value:'documento'}
 ]
 
+//grafica cinco
+flag5:boolean=false
+
+radioButon5:number=0;
+opcion5?:any;
+
+selectDivisiones5:any=[]
+selectEvento5:any=[]
+
+fechaDesde5?:Date;
+fechaHasta5?:Date;
+
+datosGraf5?:any;
+datosGraf5Print:any;
+
+nameGraf5:string='Antiguedad'
+
+opcionesGraf5=[
+  {label: 'Sí', value:'Sí'},
+  {label: 'No', value:'No'}
+]
+
+sumdatosGraf5Print:any;
+
+//grafica seis
+flag6:boolean=false
+
+radioButon6:number=0;
+opcion6?:any;
+
+selectDivisiones6:any=[]
+selectEvento6:any=[]
+
+fechaDesde6?:Date;
+fechaHasta6?:Date;
+
+datosGraf6?:any;
+datosGraf6Print:any;
+
+nameGraf6:string='Antiguedad'
+
+opcionesGraf6=[
+  {label: 'Auditivo', value:'Auditivo'},
+  {label: 'Cardiovascular', value:'Cardiovascular'},
+  {label: 'COVID19', value:'COVID19'},
+  {label: 'Desordenes musculoesqueléticos', value:'Desordenes musculoesqueléticos'},
+  {label: 'Psicosocial', value:'Psicosocial'},
+  {label: 'Respiratorio', value:'Respiratorio'},
+  {label: 'Visual', value:'Visual'}
+]
+
+sumdatosGraf6Print:any;
+
+
 constructor(
   private ViewscmgeService: ViewscmgeService,
   private areaService: AreaService,
@@ -172,6 +226,8 @@ async ngOnInit() {
   this.DatosGrafica1()
   this.DatosGrafica2()
   this.DatosGrafica3()
+  this.DatosGrafica5()
+  this.DatosGrafica6()
   this.loadAreas()
 }
 
@@ -372,6 +428,71 @@ agregarDivision4(opcion:any){
 
 }
 
+// Quinta grafica
+DatosGrafica5(){
+  this.flag5=false
+  this.datosGraf5=Array.from(this.datos!)
+  this.datosGraf5=this.filtroFecha(this.fechaDesde5!,this.fechaHasta5!,this.datosGraf5)
+
+  this.opcion5=this.opcionesGraf5
+  let nombre:any='requiereIntervencion';
+  this.nameGraf2='Requieren intervención'
+
+  let divisiones=this.filtroDivisionMultiple(this.selectDivisiones5,this.divisiones_)
+
+  let opcion5=this.filtroEventoMultiple(this.selectEvento5,this.opcion5)
+
+  this.sumdatosGraf5Print=null
+  let datosGraf5Print:any
+
+
+  datosGraf5Print=this.datosGraf2DDivisiones(divisiones,this.datosGraf5,opcion5,nombre,'divisionUnidad')
+  this.sumdatosGraf5Print=this.SumdatosGraf2DDivisiones(divisiones,this.datosGraf5,opcion5,nombre,'divisionUnidad',this.sumdatosGraf5Print)
+  
+
+  this.datosGraf5Print=this.datosGraf2DDivisiones2(divisiones,this.datosGraf5,opcion5,'divisionUnidad')
+
+  this.flag5=true
+}
+returnDatos5(){
+  this.selectEvento5=[]
+  this.selectDivisiones5=[]
+  this.DatosGrafica5()
+}
+
+// Sexta grafica
+DatosGrafica6(){
+  this.flag6=false
+  this.datosGraf6=Array.from(this.datos!)
+  this.datosGraf6=this.filtroFecha(this.fechaDesde6!,this.fechaHasta6!,this.datosGraf6)
+
+  this.opcion6=this.opcionesGraf6
+  let nombre:any='sveNombre';
+  this.nameGraf6='SVE'
+
+  let divisiones=this.filtroDivisionMultiple(this.selectDivisiones6,this.divisiones_)
+
+  let opcion6=this.filtroEventoMultiple(this.selectEvento6,this.opcion6)
+
+  this.sumdatosGraf6Print=null
+  let datosGraf6Print:any
+
+
+  datosGraf6Print=this.datosGraf2DDivisiones(divisiones,this.datosGraf6,opcion6,nombre,'divisionUnidad')
+  this.sumdatosGraf6Print=this.SumdatosGraf2DDivisiones(divisiones,this.datosGraf6,opcion6,nombre,'divisionUnidad',this.sumdatosGraf6Print)
+  
+
+  this.datosGraf6Print=this.datosGraf2DDivisiones2(divisiones,this.datosGraf6,opcion6,'divisionUnidad')
+
+  this.flag6=true
+}
+returnDatos6(){
+  this.selectEvento6=[]
+  this.selectDivisiones6=[]
+  this.DatosGrafica6()
+}
+
+
 //codigo comun
 difAnios(date:any, otherDate:any):Number{
   var tiempo=Math.abs(otherDate.getTime() - date.getTime())
@@ -430,6 +551,7 @@ async cargarDatos(){
   this.divisiones0.push({label:this.nombreEmpresa,value:this.nombreEmpresa})
   await this.ViewscmgeService.findByEmpresaId().then((resp:any)=>{
     this.datos=resp
+    console.log(resp)
   })
 }
 
