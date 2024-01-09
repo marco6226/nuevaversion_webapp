@@ -1,3 +1,5 @@
+import { Plantas } from "../../comun/entities/Plantas";
+
 export interface Aliados {
     nit: string;
     razonSocial: string;
@@ -105,6 +107,7 @@ export interface Localidades{
     id: number;
     empresa_id: number;
     localidad: string;
+    plantas: Plantas;
 }
 
 export interface Subcontratista{

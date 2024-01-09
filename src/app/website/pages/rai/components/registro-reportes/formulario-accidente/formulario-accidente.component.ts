@@ -30,6 +30,7 @@ import { Empleado } from 'src/app/website/pages/empresa/entities/empleado'
 import { PrimeNGConfig } from 'primeng/api';
 import { Localidades } from 'src/app/website/pages/ctr/entities/aliados';
 import { RadioButtonClickEvent } from 'primeng/radiobutton';
+import { AreaService } from 'src/app/website/pages/empresa/services/area.service';
 
 @Component({
   selector: 's-form-accidente',
@@ -81,6 +82,7 @@ export class FormularioAccidenteComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private reporteService: ReporteService,
     private empresaService: EmpresaService,
+    private areaService: AreaService,
     private sesionService: SesionService,
     private empleadoService: EmpleadoService,
     private config: PrimeNGConfig
@@ -347,4 +349,31 @@ export class FormularioAccidenteComponent implements OnInit {
                 }
             }
     }
+    async listadoLocalidades(event:any){
+        let filterArea = new FilterQuery();
+        filterArea.fieldList = [
+            'id',
+        ];
+        filterArea.filterList = [{ field: 'nombre', criteria: Criteria.EQUALS, value1: event}];
+        filterArea.filterList.push({ field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59'})
+        let idDivision:any
+        await this.areaService.getAreaRWithFilter(filterArea).then((resp:any)=>{
+            idDivision=resp.data[0].id
+        })
+
+        let filterLocalidad = new FilterQuery();
+        filterLocalidad.fieldList = [
+            'localidad',
+        ];
+        filterLocalidad.filterList = [{ field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: idDivision}];
+        this.localidadesList=[]
+        await this.empresaService.getLocalidadesRWithFilter(filterLocalidad).then((ele:any)=>{
+            for(let loc of ele.data){
+                this.localidadesList.push({label:loc.localidad,value:loc.localidad})
+            }
+        })
+    }
+    localidadesList:any
+
+
 }

@@ -29,6 +29,16 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   añoActual:number=this.dateValue.getFullYear();
   yearRangeNumber= Array.from({length: this.añoActual - this.añoPrimero+1}, (f, g) => g + this.añoPrimero);
   yearRange = new Array();
+  paisSelect:any;
+  pais: Array<any> = [
+    {label: 'Colombia', value: 'Colombia'},
+    {label: 'Costa Rica', value: 'Costa Rica'},
+    {label: 'EEUU', value: 'EEUU'},
+    {label: 'Guatemala', value: 'Guatemala'},
+    {label: 'Honduras', value: 'Honduras'},
+    {label: 'Mexico', value: 'Mexico'},
+    {label: 'Nicaragua', value: 'Nicaragua'}
+  ];
   anioSelected?: any;
   empresaSelected?: string;
   mostrarForm: boolean = false;
@@ -73,6 +83,14 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   ) { }
 
   async ngOnInit() {
+
+  }
+
+  ngAfterViewInit(): void {
+  }
+  flagHHT:boolean=false
+  async onSelectPais(){
+    this.flagHHT=false
     this.yearRange=[]
     for (let i = 0; i < this.yearRangeNumber.length; i++) {
       this.yearRange.push({label:this.yearRangeNumber[i],value:this.yearRangeNumber[i]});
@@ -92,13 +110,11 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
       this.Empresas = [];
       this.Empresas.push({label: empresa.razonSocial, value: empresa.id});
     }
-
-    
     await this.getAreas().then();
     await this.getPlantas(empresa.idEmpresaAliada == null ? Number(empresa.id) : Number(empresa.idEmpresaAliada)).then();
-  }
-
-  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.flagHHT=true
+    }, 500);
   }
 
   async getAreas(){
@@ -119,13 +135,13 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
 
   async getPlantas(empresaId: number){
     // this.plantasService.getPlantasByEmpresaId(empresaId)
-
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
     filterPlantaQuery.filterList = [
       { field: 'id_empresa', criteria: Criteria.EQUALS, value1: empresaId.toString() },
       { field: 'tipo', criteria: Criteria.EQUALS, value1: 'HHT' },
+      { field: 'pais', criteria: Criteria.EQUALS, value1: this.paisSelect },
     ];
     this.plantasService.getPlantaWithFilter(filterPlantaQuery)
       .then((res:any) => {

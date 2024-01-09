@@ -3,6 +3,7 @@ import { endPoints } from 'src/environments/environment';
 import { CRUDService } from '../../core/services/crud.service';
 import { ActividadesContratadas, AliadoInformacion, Localidades, SST, Subcontratista } from '../../ctr/entities/aliados';
 import { Empresa } from '../entities/empresa';
+import { FilterQuery } from '../../core/entities/filter-query';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,21 @@ export class EmpresaService extends CRUDService<Empresa>{
           }
         )
     );
+  }
+
+  getLocalidadesRWithFilter(filterQuery?: FilterQuery){
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(this.end_point + 'filterLocalidades/?' + this.buildUrlParams(filterQuery!))
+      .subscribe(
+        res => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err);
+        }
+      )
+    });
   }
 
   obtenerContratistas(empresaId: string): Promise<Empresa> {
