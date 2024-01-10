@@ -40,7 +40,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
     {label: 'Nicaragua', value: 'Nicaragua'}
   ];
   anioSelected?: any;
-  empresaSelected?: string;
+  empresaSelected?: any;
   mostrarForm: boolean = false;
   guardarFlag:boolean=true;
   dataHHT:DataHht[] = [];
@@ -63,7 +63,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
     {label: 'Noviembre', value: 'Noviembre'},
     {label: 'Diciembre', value: 'Diciembre'}
   ];
-  selectedMes?: string;
+  selectedMes?: any;
   Empresas: Array<any> = [
     // {label: 'Corona', value: '22'},
     // {label: 'Temporal uno', value: '12341'},
@@ -83,13 +83,20 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
   ) { }
 
   async ngOnInit() {
-
   }
 
   ngAfterViewInit(): void {
   }
   flagHHT:boolean=false
   async onSelectPais(){
+    this.selectedMes=null
+    this.anioSelected=null
+    this.empresaSelected=null
+    this.cargando = false;
+    this.mostrarBotones = false;
+    this.esNuevoRegistro = true;
+    this.metaAnualILI=0;
+    this.metaMensualILI=0;
     this.flagHHT=false
     this.yearRange=[]
     for (let i = 0; i < this.yearRangeNumber.length; i++) {

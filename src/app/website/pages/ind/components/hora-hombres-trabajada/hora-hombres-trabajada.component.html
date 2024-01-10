@@ -66,7 +66,8 @@
                         
                         <div *ngIf="areaList">
                             <ng-container *ngFor="let area of areaList; let j = index;">
-                                <p-accordionTab header={{area.nombre}} >
+                                <!-- <p-accordionTab header={{area.nombre}}> -->
+                                <p-accordionTab header={{area.nombre}} *ngIf="getPlantasByArea(area.id)">
 
                                     <div class="grid">
                                         <div class="col-12 md:col-2 lg:col-2">
