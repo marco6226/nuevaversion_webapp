@@ -9,7 +9,7 @@
             <div class="col-6">
                 <strong>División:</strong>
                 <!-- <area-selector  [disabled]="flagRegistroMatrizAcording" required formControlName="ubicacion"></area-selector>        -->
-                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion" (onChange)="cargarPlanta($event.value);flagContinuar=false"></p-dropdown>
+                <p-dropdown [readonly]="flagRegistroMatrizAcording" required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion" (onChange)="cargarPlantaLocalidad($event.value);flagContinuar=false"></p-dropdown>
 
             </div>
             <div class="col-6">

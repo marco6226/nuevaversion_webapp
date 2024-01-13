@@ -1,4 +1,5 @@
 import { Documento } from "../../ado/entities/documento";
+import { Localidades } from "../../ctr/entities/aliados";
 import { Empresa } from "../../empresa/entities/empresa";
 import { AreaMatriz } from "./Area-matriz";
 import { Plantas } from "./Plantas";
@@ -18,6 +19,7 @@ export class MatrizPeligros {
   proceso?:ProcesoMatriz;
   subProceso?:SubprocesoMatriz;
   plantas?:Plantas;
+  localidad?:Localidades;
   empresa?:Empresa;
   fechaCreacion?:Date | null;
   fechaEdicion?:Date | null;

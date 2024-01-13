@@ -1,3 +1,4 @@
+import { Localidades } from "../../ctr/entities/aliados";
 import { Empresa } from "../../empresa/entities/empresa";
 import { Plantas } from "./Plantas";
 
@@ -7,6 +8,7 @@ export class AreaMatriz {
   nombre?: string;
   empresaId?: Empresa;
   plantas?:Plantas;
+  localidad?:Localidades;
   estado?:string;
   eliminado?:boolean;
 }

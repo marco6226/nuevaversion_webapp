@@ -8,7 +8,7 @@
             <div class="grid">
                 <div class="col-6 col-sm-12">
                     <strong>División:</strong>
-                    <p-dropdown  required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion" (onChange)="cargarPlanta($event.value)"></p-dropdown>
+                    <p-dropdown  required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body" formControlName="ubicacion" (onChange)="cargarPlantaLocalidad($event.value)"></p-dropdown>
                 </div>
                 <div class="col-6 col-sm-12">
                     <strong>Planta:</strong>

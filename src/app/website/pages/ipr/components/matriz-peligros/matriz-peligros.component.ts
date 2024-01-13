@@ -30,6 +30,9 @@ import { Modulo } from '../../../core/enums/enumeraciones';
 import { Documento } from '../../../ado/entities/documento';
 import { Directorio } from '../../../ado/entities/directorio';
 import { DirectorioService } from '../../../core/services/directorio.service';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { Localidades } from "../../../ctr/entities/aliados";
+
 
 interface Column {
   field: string;
@@ -162,6 +165,7 @@ export class MatrizPeligrosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private plantasService: PlantasService,
+    private empresaService: EmpresaService,
     private sessionService: SesionService,
     private tipoPeligroService: TipoPeligroService,
     private peligroService: PeligroService,
@@ -334,7 +338,7 @@ export class MatrizPeligrosComponent implements OnInit {
         let formCreacionMatriz:any=JSON.parse(localStorage.getItem('formCreacionMatriz')!)
         this.CRUDMatriz='PUT'
         // this.cargarPlanta(this.paramNav.getParametro<FormGroup>().value.ubicacion)
-        this.cargarPlanta(formCreacionMatriz.value.ubicacion)
+        this.cargarPlantaLocalidad(formCreacionMatriz.value.ubicacion)
         // this.formCreacionMatriz.patchValue({
         //     planta: this.paramNav.getParametro<FormGroup>().value.planta,
         //     ubicacion: this.paramNav.getParametro<FormGroup>().value.ubicacion,
@@ -370,7 +374,7 @@ export class MatrizPeligrosComponent implements OnInit {
     this.CRUDMatriz='POST'
     let formCreacionMatriz:any=JSON.parse(localStorage.getItem('formCreacionMatriz')!)
     let matrizSelect:any=JSON.parse(localStorage.getItem('matrizSelect')!)
-    this.cargarPlanta(formCreacionMatriz.value.ubicacion)
+    this.cargarPlantaLocalidad(formCreacionMatriz.value.ubicacion)
     this.formCreacionMatriz.patchValue({
       planta: formCreacionMatriz.value.planta,
       ubicacion: formCreacionMatriz.value.ubicacion,
@@ -605,25 +609,41 @@ export class MatrizPeligrosComponent implements OnInit {
       });
     })
   }
-  plantasList: Plantas[] = [];
-  cargarPlanta(eve:any){
+  plantasList: Localidades[] = [];
+  // cargarPlanta(eve:any){
+  //   let filterPlantaQuery = new FilterQuery();
+  //   filterPlantaQuery.sortField = "id";
+  //   filterPlantaQuery.sortOrder = -1;
+  //   filterPlantaQuery.fieldList = ["id","nombre"];
+  //   filterPlantaQuery.filterList = [
+  //     { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
+  //     // { field: 'tipo', criteria: Criteria.EQUALS, value1: 'IPER' },
+  //   ];
+  //   this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+  //     this.planta=[]
+  //     this.plantasList=resp.data
+  //     resp.data.forEach((element:any) => {
+  //       this.planta.push({label:element.nombre,value:element.id})
+  //     });
+  //   })
+  // }
+  async cargarPlantaLocalidad(eve:any){
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
-    filterPlantaQuery.fieldList = ["id","nombre"];
+    filterPlantaQuery.fieldList = ["id","localidad"];
     filterPlantaQuery.filterList = [
-      { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
-      { field: 'tipo', criteria: Criteria.EQUALS, value1: 'IPER' },
+      { field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
     ];
-    this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+    await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp:any)=>{
       this.planta=[]
       this.plantasList=resp.data
       resp.data.forEach((element:any) => {
-        this.planta.push({label:element.nombre,value:element.id})
+        this.planta.push({label:element.localidad,value:element.id})
       });
-      
     })
   }
+
   //--------Cargar matriz------------------//
   async habilitarGuiaProceso(){
     await this.cargarArea(this.formCreacionMatriz.value.planta)
@@ -752,7 +772,7 @@ export class MatrizPeligrosComponent implements OnInit {
     
     let filterArea = new FilterQuery();
     filterArea.fieldList= this.fieldList
-    filterArea.filterList = [{ field: 'plantas.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
+    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
     await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
       resp['data'].forEach(async (data1:any) => {
@@ -1159,9 +1179,11 @@ export class MatrizPeligrosComponent implements OnInit {
 
   async CRUDArea(eve:string){
     let area = new AreaMatriz();
-    let planta =new Plantas();
-    planta.id=this.idPlanta
-    area.plantas= planta;
+    // let planta =new Plantas();
+    let planta: Localidades = {} as Localidades;
+    planta.id = this.idPlanta;
+
+    area.localidad= planta;
     area.nombre=this.newArea;
     switch (eve) {
       case 'POST':
@@ -1364,7 +1386,7 @@ export class MatrizPeligrosComponent implements OnInit {
     this.areaMatrizItemList = [];
     let filterArea = new FilterQuery();
     filterArea.fieldList= this.fieldList
-    filterArea.filterList = [{ field: 'plantas.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
+    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
     await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
       resp['data'].forEach(async (data1:any) => {
@@ -1621,7 +1643,7 @@ export class MatrizPeligrosComponent implements OnInit {
 
     matrizPeligros.controlesexistentes=JSON.stringify(this.formMatrizRiesgosC.value);
     matrizPeligros.peligro=JSON.stringify(this.formMatrizPeligros.value);
-    matrizPeligros.plantas=planta;
+    matrizPeligros.localidad=planta;
     // if(this.valoracionRI1[0].NP){
       // console.log(this.valoracionRI1[0].NP)
       this.formMatrizRiesgosI.patchValue({

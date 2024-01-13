@@ -68,6 +68,21 @@ export class EmpresaService extends CRUDService<Empresa>{
     });
   }
 
+  putLocalidad(localidad: Localidades): Promise<Localidades>{
+    return new Promise((resolve, reject) => {
+      this.httpInt.put(this.end_point + "updateLocalidades",localidad)
+            .subscribe(
+              (res:any) => {
+                resolve(res);
+              },
+              err => {
+                this.manageError(err);
+                reject(err);
+              }
+            )        
+    });
+  }
+
   obtenerContratistas(empresaId: string): Promise<Empresa> {
     return new Promise((resolve, reject) => {
         this.httpInt.get(this.end_point + "contratistas/" + empresaId)

@@ -1,4 +1,5 @@
 import { Plantas } from "../../comun/entities/Plantas";
+import { Usuario } from "../../empresa/entities/usuario";
 
 export interface Aliados {
     nit: string;
@@ -108,6 +109,18 @@ export interface Localidades{
     empresa_id: number;
     localidad: string;
     plantas: Plantas;
+    idDocConsolidado?: string | null;
+    idDocHistorico?: string | null;
+    fechaConsolidado?:Date | null;
+    fechaHistorico?:Date | null
+
+    fechaConsolidadoStart?:Date | null;
+    fechaHistoricoStart?:Date | null
+
+    usuarioConsolidado?: Usuario | null;
+    usuarioHistorico?: Usuario | null;
+    descargaConsolidado?:boolean;
+    descargaHistorico?:boolean
 }
 
 export interface Subcontratista{

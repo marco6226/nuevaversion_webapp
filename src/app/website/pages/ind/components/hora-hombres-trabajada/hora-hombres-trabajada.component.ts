@@ -147,7 +147,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
     filterPlantaQuery.sortOrder = -1;
     filterPlantaQuery.filterList = [
       { field: 'id_empresa', criteria: Criteria.EQUALS, value1: empresaId.toString() },
-      { field: 'tipo', criteria: Criteria.EQUALS, value1: 'HHT' },
+      // { field: 'tipo', criteria: Criteria.EQUALS, value1: 'HHT' },
       { field: 'pais', criteria: Criteria.EQUALS, value1: this.paisSelect },
     ];
     this.plantasService.getPlantaWithFilter(filterPlantaQuery)
