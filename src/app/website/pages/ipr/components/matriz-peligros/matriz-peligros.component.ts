@@ -1192,7 +1192,12 @@ export class MatrizPeligrosComponent implements OnInit {
         await this.areaMatrizService.create(area).then((resp:any)=>{
           this.flagRegistroMatrizTree=false
           this.matrizdescripcion.push({children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado},parent:null})
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putAreaTree=false
+          }, 500);
+        });
         break;
       case 'PUT':
         area.id=this.idArea
@@ -1202,7 +1207,12 @@ export class MatrizPeligrosComponent implements OnInit {
           const indexarea = this.matrizdescripcion.findIndex((el:any) => el.data.id == resp.id )
           let children = this.matrizdescripcion[indexarea].children
           this.matrizdescripcion[indexarea]={children:children,data:{id:resp.id,nombre:resp.nombre,estado:resp.estado},parent:null}
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putAreaTree=false
+          }, 500);
+        });
         break;
       case 'DELETE':
         this.confirmationService.confirm({
@@ -1216,11 +1226,16 @@ export class MatrizPeligrosComponent implements OnInit {
             // await this.areaMatrizService.delete(this.idArea.toString()).then((resp:any)=>{
             await this.areaMatrizService.update(area).then((resp:any)=>{
               this.matrizdescripcion=this.matrizdescripcion.filter((fil:any) => fil.data.id !== resp.id)
+              // setTimeout(() => {
+              //   this.flagRegistroMatrizTree=true
+              //   this.putAreaTree=false
+              // }, 500);
+            }).then(() => {
               setTimeout(() => {
                 this.flagRegistroMatrizTree=true
                 this.putAreaTree=false
               }, 500);
-            })
+            });
           },
           acceptLabel: 'Sí',
           rejectLabel: 'No'
@@ -1230,10 +1245,10 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    setTimeout(() => {
-      this.flagRegistroMatrizTree=true
-      this.putAreaTree=false
-    }, 500);
+    // setTimeout(() => {
+    //   this.flagRegistroMatrizTree=true
+    //   this.putAreaTree=false
+    // }, 500);
   }
 
   async CRUDProceso(eve:string){
@@ -1330,7 +1345,12 @@ export class MatrizPeligrosComponent implements OnInit {
           const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea )
           const indexProceso = this.matrizdescripcion[indexArea].children.findIndex((el:any) => el.data.id == this.idProceso )
           this.matrizdescripcion[indexArea].children[indexProceso].children.push(subproceso)
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putSubprocesoTree=false
+          }, 500);
+        });
         break;
       case 'PUT':
         subproceso.eliminado=false
@@ -1344,7 +1364,12 @@ export class MatrizPeligrosComponent implements OnInit {
           let children = this.matrizdescripcion[indexArea].children[indexProceso].children[indexSubproceso].children
 
           this.matrizdescripcion[indexArea].children[indexProceso].children[indexSubproceso]={children:children,data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putSubprocesoTree=false
+          }, 500);
+        });
         break;
       case 'DELETE':
         this.confirmationService.confirm({
@@ -1360,11 +1385,16 @@ export class MatrizPeligrosComponent implements OnInit {
               const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea )
               const indexProceso = this.matrizdescripcion[indexArea].children.findIndex((el:any) => el.data.id == this.idProceso )
               this.matrizdescripcion[indexArea].children[indexProceso].children=this.matrizdescripcion[indexArea].children[indexProceso].children.filter((fil:any) => fil.data.id !== resp.id)
+              // setTimeout(() => {
+              //   this.flagRegistroMatrizTree=true
+              //   this.putSubprocesoTree=false
+              // }, 500);
+            }).then(() => {
               setTimeout(() => {
                 this.flagRegistroMatrizTree=true
                 this.putSubprocesoTree=false
               }, 500);
-            })
+            });
           },
           acceptLabel: 'Sí',
           rejectLabel: 'No'
@@ -1374,10 +1404,10 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    setTimeout(() => {
-      this.flagRegistroMatrizTree=true
-      this.putSubprocesoTree=false
-    }, 500);
+    // setTimeout(() => {
+    //   this.flagRegistroMatrizTree=true
+    //   this.putSubprocesoTree=false
+    // }, 500);
   }
 
   //-----------------Crear matriz peligros-----------------//
