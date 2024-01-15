@@ -769,7 +769,7 @@ export class MatrizPeligrosComponent implements OnInit {
 
     this.matrizdescripcion=[]
     // this.areaMatrizItemList = [{ label: '--Seleccione--', value: null }];
-    
+
     let filterArea = new FilterQuery();
     filterArea.fieldList= this.fieldList
     filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
@@ -1249,8 +1249,13 @@ export class MatrizPeligrosComponent implements OnInit {
         this.procesoMatrizService.create(proceso).then((resp:any)=>{
           this.flagRegistroMatrizTree=false
           let proceso:any={children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
-          const indexobj = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea )
-          this.matrizdescripcion[indexobj].children.push(proceso)
+          const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea );
+          this.matrizdescripcion[indexArea].children.push(proceso);
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true;
+            this.putProcesoTree=false;
+          }, 500);
         })
         break;
       case 'PUT':
@@ -1264,6 +1269,11 @@ export class MatrizPeligrosComponent implements OnInit {
           let children = this.matrizdescripcion[indexArea].children[indexProceso].children
 
           this.matrizdescripcion[indexArea].children[indexProceso]={children:children,data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putProcesoTree=false
+          }, 500);
         })
         break;
       case 'DELETE':
@@ -1283,6 +1293,11 @@ export class MatrizPeligrosComponent implements OnInit {
                 this.flagRegistroMatrizTree=true
                 this.putProcesoTree=false
               }, 500);
+            }).then(() => {
+              setTimeout(() => {
+                this.flagRegistroMatrizTree=true
+                this.putProcesoTree=false
+              }, 500);
             })
           },
           acceptLabel: 'Sí',
@@ -1293,10 +1308,10 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    setTimeout(() => {
-      this.flagRegistroMatrizTree=true
-      this.putProcesoTree=false
-    }, 500);
+    // setTimeout(() => {
+    //   this.flagRegistroMatrizTree=true
+    //   this.putProcesoTree=false
+    // }, 500);
   }
   CRUDSubproceso(eve:string){
     let subproceso = new SubprocesoMatriz()
