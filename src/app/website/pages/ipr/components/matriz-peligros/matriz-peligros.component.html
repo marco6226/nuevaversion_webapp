@@ -139,13 +139,7 @@
                                 ></button>
                             </ng-container>
                             <ng-container *ngIf="rowNode.level==2">
-                                <button pButton type="button" 
-                                icon="bi bi-pencil"
-                                class="p-button-success"
-                                tooltipPosition="left"
-                                pTooltip="Editar subproceso (cargo/oficio)"
-                                (click)="CRUDSubprocesoTreeFunc(rowNode,'PUT')"
-                                ></button>
+                                
                                 <button pButton type="button" 
                                 icon="bi bi-trash"
                                 class="p-button-danger"
@@ -1146,15 +1140,17 @@
     </div>
 </p-dialog>
 
-<p-dialog [(visible)]="putSubprocesoTree" modal="true" [style]="{width:'80%'}">
+<p-dialog [(visible)]="putSubprocesoTree" modal="true" [style]="{width:'80%', heigh:'50%'}">
     <div *ngIf="CRUDsubproceso=='POST'">
         <label for="">Agregar nuevo subproceso (cargo/oficio) al proceso {{this.nombreProcesoTree}}:</label><br>
-        <input type="text" [(ngModel)]="newSubproceso">
+        <div>
+            <p-dropdown [filter]="true" [options]="cargoList" [(ngModel)]="newSubproceso"
+                class="select-material" styleClass="select-material">
+            </p-dropdown>
+        </div>
+        
     </div>
-    <div *ngIf="CRUDsubproceso=='PUT'">
-        <label for="">Editar subproceso (cargo/oficio):</label><br>
-        <input type="text" [(ngModel)]="newSubproceso">
-    </div>
+    
     <br>
     <div *ngIf="CRUDsubproceso=='POST'">
         <button pButton type="button" 
@@ -1165,15 +1161,7 @@
         (click)="CRUDSubproceso('POST')"
         ></button>
     </div>
-    <div *ngIf="CRUDsubproceso=='PUT'">
-        <button pButton type="button" 
-        icon="bi bi-pencil"
-        class="p-button-success"
-        label="Editar"
-        title="Editar subproceso (cargo/oficio)"
-        (click)="CRUDSubproceso('PUT')"
-        ></button>
-    </div>
+    
 </p-dialog>
 
 

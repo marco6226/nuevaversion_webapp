@@ -32,6 +32,8 @@ import { Directorio } from '../../../ado/entities/directorio';
 import { DirectorioService } from '../../../core/services/directorio.service';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { Localidades } from "../../../ctr/entities/aliados";
+import { CargoService } from 'src/app/website/pages/empresa/services/cargo.service';
+import { Cargo } from 'src/app/website/pages/empresa/entities/cargo';
 
 
 interface Column {
@@ -78,7 +80,7 @@ export class MatrizPeligrosComponent implements OnInit {
   flagButtonMatrizAcording:boolean=true
 
   listDivision:any=[]
-
+  cargoList: SelectItem[] = [];
   tipoPeligroItemList?: SelectItem[];
   peligroItemList?: SelectItem[] | any;
 
@@ -180,6 +182,7 @@ export class MatrizPeligrosComponent implements OnInit {
     private directorioService: DirectorioService,
     private paramNav: ParametroNavegacionService,
     private messageService: MessageService,
+    private cargoService: CargoService,
   ) { 
     this.modulo = Modulo.IPR.value;
     
@@ -312,6 +315,12 @@ export class MatrizPeligrosComponent implements OnInit {
 
   async ngOnInit() {
     this.cargarDatos()
+    this.cargoService.findByEmpresa().then((resp) => {
+      this.cargoList = [];
+      this.cargoList.push({ label: '--Seleccione--', value: null });
+      (<Cargo[]>resp).forEach((cargo:any) => {
+          this.cargoList.push({ label: cargo, value: cargo });
+      });})
   }
 
   async cargarDatos(){
