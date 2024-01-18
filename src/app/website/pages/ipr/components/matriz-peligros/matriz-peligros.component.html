@@ -1144,7 +1144,7 @@
     <div *ngIf="CRUDsubproceso=='POST'">
         <label for="">Agregar nuevo subproceso (cargo/oficio) al proceso {{this.nombreProcesoTree}}:</label><br>
         <div>
-            <p-dropdown [filter]="true" [options]="cargoList" [(ngModel)]="newSubproceso"
+            <p-dropdown [filter]="true" [options]="cargoList" [(ngModel)]="newSubproceso" appendTo="body"
                 class="select-material" styleClass="select-material">
             </p-dropdown>
         </div>
