@@ -263,7 +263,10 @@ export class FormularioAccidenteComponent implements OnInit {
   onSubmit() {
     let reporte = <Reporte>this.form?.value;
     reporte.testigoReporteList = this.testigoReporteList;
-
+    let localidades: Localidades = {} as Localidades;
+    localidades.id=this.form?.value.localidad
+    reporte.localidad=localidades
+    
     if (this.adicionar) {
         this.reporteService.create(reporte).then(
             data => {
@@ -350,6 +353,7 @@ export class FormularioAccidenteComponent implements OnInit {
             }
     }
     async listadoLocalidades(event:any){
+        console.log(event)
         let filterArea = new FilterQuery();
         filterArea.fieldList = [
             'id',
@@ -363,13 +367,14 @@ export class FormularioAccidenteComponent implements OnInit {
 
         let filterLocalidad = new FilterQuery();
         filterLocalidad.fieldList = [
-            'localidad',
+            'id',
+            'localidad'
         ];
         filterLocalidad.filterList = [{ field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: idDivision}];
         this.localidadesList=[]
         await this.empresaService.getLocalidadesRWithFilter(filterLocalidad).then((ele:any)=>{
             for(let loc of ele.data){
-                this.localidadesList.push({label:loc.localidad,value:loc.localidad})
+                this.localidadesList.push({label:loc.localidad,value:loc.id})
             }
         })
     }

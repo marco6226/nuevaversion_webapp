@@ -54,3 +54,36 @@ p-header {
     .p-toast{
         margin-top: 50px;
     }
+
+.calendar-icon-wrapper{
+    position: relative;
+}
+      
+.calendar-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Para evitar que el icono bloquee el input */
+    color: gray;
+}
+:host ::ng-deep 
+    .p-calendar{
+        .p-button{
+            background: white;
+            color: gray;
+            pointer-events: none;
+        }
+        
+        .p-inputtext {
+            background: white;
+        }
+        
+    }
+
+    .readonly-calendar {
+        pointer-events: none; /* Evita que el usuario interactúe con el input */
+      }
+    .notreadonly-calendar{
+        pointer-events:all;
+    }
