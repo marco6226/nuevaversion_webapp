@@ -182,7 +182,7 @@
     <p-panel>
         <ng-template pTemplate="header"><div style="display: flex; justify-content: space-between; width: 100%;"><h1><b>MATRIZ DE PELIGROS</b></h1> <div><span>Estado: {{estado}}</span><ng-container *ngIf="idMostrar!=''"><br><span> id: {{idMostrar}}</span></ng-container></div> </div></ng-template>
 
-        <p-accordion [multiple]="true">
+        <p-accordion [multiple]="true" #acordionMat>
 
             <p-accordionTab header="I. INFORMACIÓN GENERAL - DESCRIPCIÓN">
                 <div [class]="(flagEliminadoSustituido)?'overlay-content':'overlay'">
@@ -314,7 +314,7 @@
                             </div>
                             <br>
                             <div class="col-md-12 col-sm-12 gridcol">
-                                <label for="">Posibles consecuencias/efectos a la salud</label>
+                                <label for="">Posibles consecuencias/efectos a la salud.</label>
                                 <textarea [readonly]="true" cols="10" rows="3" formControlName="Efectos"></textarea>
                             </div>
                         </div>
@@ -1061,6 +1061,16 @@
         [title]="CRUDMatriz=='PUT'?'Guardar datos de matriz de peligros':'Modificar datos de matriz de peligros'"
         style="bottom: 70px; z-index: 10000;"
         [disabled]="!(((!flagSustitucion && !formMatrizPeligrosSustitucion.valid) || (flagSustitucion && formMatrizPeligrosSustitucion.valid))) || guardadoSustitucion || this.formMatrizGeneral.value.Subproceso.length==0"
+        ></button>
+
+        <button pButton 
+        *ngIf="!flagConsulta && CRUDMatriz != 'PUT'"
+        (click)="nuevoPeligroEnSubprocesoActual();"
+        type="button"
+        [icon]="'pi pi-clone'"
+        class="float-btn"
+        style="bottom: 150px; z-index: 10000;"
+        [title]="'Crear nuevo peligro a partir del subproceso actual'"
         ></button>
     </p-panel>
 </ng-container>
