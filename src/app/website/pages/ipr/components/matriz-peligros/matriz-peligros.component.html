@@ -348,14 +348,20 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
+                                                    <p-calendar [class]="controlIngList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                                 </td>
                                                 <td>
-                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input placeholder="Buscar..." [readOnly]="controlIngList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                    </span>
                                                 </td>
                                                 <td>
-                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera','contains')">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input placeholder="Buscar..." [readOnly]="controlIngList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera', 'contains')">
+                                                    </span>
                                                 </td>
                                                 
                                             </tr>
@@ -409,14 +415,20 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
+                                                    <p-calendar [class]="controlAdmList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                                 </td>
                                                 <td>
-                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input placeholder="Buscar..." [readOnly]="controlAdmList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                    </span>
                                                 </td>
                                                 <td>
-                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera','contains')">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input placeholder="Buscar..." [readOnly]="controlAdmList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera', 'contains')">
+                                                    </span>
                                                 </td>
                                                 
                                             </tr>
@@ -470,14 +482,26 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')"></p-calendar>
+                                                    <!-- [class]="controlEquList.length==0?'overlay-content':'overlay'" -->
+                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                        (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                 
+                                                    <!-- <div class="calendar-icon-wrapper">
+                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                        (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                    </div> -->
                                                 </td>
                                                 <td>
-                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input placeholder="Buscar..." [readOnly]="controlEquList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                    </span>
                                                 </td>
                                                 <td>
-                                                    <input  style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera','contains')">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input placeholder="Buscar..." [readOnly]="controlEquList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera', 'contains')">
+                                                    </span>
                                                 </td>
                                                 
                                             </tr>
@@ -520,29 +544,36 @@
                                     <th>Fecha creación</th>
                                     <th>Descripción</th>
                                     <th>Jerarquía de control</th>
+                                    <th>Tipo de barrera</th>
                                     <th>Estado del plan de acción</th>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p-calendar [class]="tareasListEjecutado.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yyyy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                        <p-calendar [class]="tareasListEjecutado.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
                                         (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
                                             <i class="pi pi-search"></i>
-                                            <input [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                            <input placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
                                         </span>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
                                             <i class="pi pi-search"></i>
-                                            <input  [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'jerarquia', 'contains')">
+                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'jerarquia', 'contains')">
                                         </span>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
                                             <i class="pi pi-search"></i>
-                                            <input  [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barreras', 'contains')">
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="p-input-icon-left ml-auto">
+                                            <i class="pi pi-search"></i>
+                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
                                         </span>
                                     </td>
                                 </tr>
@@ -552,6 +583,7 @@
                                     <td>{{tarea.fechaCreacion}}</td>
                                     <td>{{tarea.descripcion}}</td>
                                     <td>{{tarea.jerarquia}}</td>
+                                    <td>{{tarea.barreras}}</td>
                                     <td>{{tarea.estado}}</td>
                                 </tr>
                             </ng-template>

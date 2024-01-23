@@ -82,8 +82,8 @@ p-header {
     }
 
     .readonly-calendar {
-        pointer-events: none; /* Evita que el usuario interactúe con el input */
+        pointer-events: none !important;
       }
     .notreadonly-calendar{
-        pointer-events:all;
+        pointer-events:all !important;
     }
