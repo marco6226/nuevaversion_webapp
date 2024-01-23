@@ -1076,7 +1076,7 @@
             </p-accordionTab>
             <p-accordionTab header="IX. INDICADOR ICR">
                 <label>ICR: </label> &nbsp;
-                <span>{{(valoracionRI1[0].NR>0)?(((valoracionRI1[0].NR-valoracionRI1Residual[0].NR)/valoracionRI1[0].NR)*100).toFixed(2):0}}%</span>
+                <span>{{(valoracionRI1[0].NR>0 && valoracionRI1Residual[0].NR !=null && valoracionRI1Residual[0].NE !=null && valoracionRI1Residual[0].NC !=null)?(((valoracionRI1[0].NR-valoracionRI1Residual[0].NR)/valoracionRI1[0].NR)*100).toFixed(2):0}}%</span>
             </p-accordionTab>
             
             
