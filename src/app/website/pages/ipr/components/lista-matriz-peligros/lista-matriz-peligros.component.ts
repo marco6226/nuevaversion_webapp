@@ -215,23 +215,24 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         // this.area.push({label:element.nombre,value:{id:element.id,nombre:element.nombre}})
       });
     })
-
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.fieldList = ["id","idDocConsolidado","idDocHistorico","fechaConsolidado","fechaHistorico","usuarioConsolidado_email","usuarioHistorico_email","fechaConsolidadoStart","fechaHistoricoStart"];
     filterPlantaQuery.filterList = [{ field: 'id', criteria: Criteria.EQUALS, value1: eve }];
-    let plantas:any[]=[];
-    this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
-      plantas = (<any[]>resp.data).map(matriz => matriz);
-      plantas.map(resp=>resp.fechaConsolidado=resp.fechaConsolidado?new Date(resp.fechaConsolidado!):null)
-      plantas.map(resp=>resp.fechaHistorico=resp.fechaHistorico?new Date(resp.fechaHistorico!):null)
-      plantas.map(resp=>resp.fechaConsolidadoStart=resp.fechaConsolidadoStart?new Date(resp.fechaConsolidadoStart!):null)
-      plantas.map(resp=>resp.fechaHistoricoStart=resp.fechaHistoricoStart?new Date(resp.fechaHistoricoStart!):null)
-      this.usuarioConsolidado=plantas[0].usuarioConsolidado_email
-      this.usuarioHistorico=plantas[0].usuarioHistorico_email
-      this.fechaConsolidado =plantas[0].fechaConsolidado!
-      this.fechaHistorico=plantas[0].fechaHistorico!
-      this.fechaConsolidadoStart =plantas[0].fechaConsolidadoStart!
-      this.fechaHistoricoStart=plantas[0].fechaHistoricoStart!
+    let localidades:any[]=[];
+    // this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+    this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp:any)=>{
+
+      localidades = (<any[]>resp.data).map(matriz => matriz);
+      localidades.map(resp=>resp.fechaConsolidado=resp.fechaConsolidado?new Date(resp.fechaConsolidado!):null)
+      localidades.map(resp=>resp.fechaHistorico=resp.fechaHistorico?new Date(resp.fechaHistorico!):null)
+      localidades.map(resp=>resp.fechaConsolidadoStart=resp.fechaConsolidadoStart?new Date(resp.fechaConsolidadoStart!):null)
+      localidades.map(resp=>resp.fechaHistoricoStart=resp.fechaHistoricoStart?new Date(resp.fechaHistoricoStart!):null)
+      this.usuarioConsolidado=localidades[0].usuarioConsolidado_email
+      this.usuarioHistorico=localidades[0].usuarioHistorico_email
+      this.fechaConsolidado =localidades[0].fechaConsolidado!
+      this.fechaHistorico=localidades[0].fechaHistorico!
+      this.fechaConsolidadoStart =localidades[0].fechaConsolidadoStart!
+      this.fechaHistoricoStart=localidades[0].fechaHistoricoStart!
 
       if(resp.data[0].idDocConsolidado){
         this.docIdConsolidado=resp.data[0].idDocConsolidado
