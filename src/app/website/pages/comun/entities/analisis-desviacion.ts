@@ -6,6 +6,7 @@ import { AnalisisCosto } from 'src/app/website/pages/comun/entities/analisis-cos
 import { Documento } from 'src/app/website/pages/ado/entities/documento';
 import { CausaAdministrativa } from 'src/app/website/pages/comun/entities/sistema-causa-administrativa';
 import { Tarea } from 'src/app/website/pages/comun/entities/tarea';
+import { Localidades } from '../../ctr/entities/aliados';
 
 export class AnalisisDesviacion {
   id!: string | null;
@@ -34,4 +35,6 @@ export class AnalisisDesviacion {
   seguimiento!: string | null;
   observacion_causas!: string | null;
   idCausasSelect?: string;
+  railocalidad?: Localidades
+  matrizPeligro?: number;
 }

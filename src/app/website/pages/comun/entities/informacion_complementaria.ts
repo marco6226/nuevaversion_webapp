@@ -6,6 +6,9 @@ export interface InformacionComplementaria{
     FechaControl: Date;
     CopiaTrabajador: string;
     FechaCopia: Date;
+    Area: string;
+    Proceso: string;
+    subProceso: string;
 }
 export interface DatoPeligro{
     id:number;

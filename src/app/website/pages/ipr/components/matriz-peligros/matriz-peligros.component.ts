@@ -2128,4 +2128,13 @@ export class MatrizPeligrosComponent implements OnInit {
       }
     });
   }
+
+  //---VIIEfectividad en los controles
+  flagATasociados:boolean=false
+  reporteATSum(){
+    this.flagATasociados=true
+    this.formEfectividadControles?.patchValue({
+      ATasociados:this.formEfectividadControles.value.ATasociados+1
+    })
+  }
 }

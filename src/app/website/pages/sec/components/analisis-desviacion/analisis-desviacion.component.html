@@ -125,7 +125,9 @@
                                 <p-table [value]="desviacionesList" autoLayout="true" [formGroup]="analisisPeligros">
                                     <ng-template  pTemplate="body" let-aus let-rowIndex="rowIndex">
                                         <ng-container *ngIf="rowIndex==0">
-                                            <ng-container *ngIf="usuarioPrueba == '6051'">
+                                            <!-- matriz Peligros -->
+                                            <!-- <ng-container *ngIf="usuarioPrueba == '6051'"> -->
+                                            <ng-container *ngIf="false">
                                                     <tr>
                                                         <th style="border: 1px solid #c8c8c8;">Area</th>
                                                         <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
@@ -260,8 +262,10 @@
 
 
                             </p-tabPanel>
-                            <p-tabPanel *ngIf="flagMatriz && analisisPeligros.valid" header="Matriz de peligros">
+                            <!-- matriz Peligros -->
 
+                            <!-- <p-tabPanel *ngIf="flagMatriz && analisisPeligros.valid && !adicionar" header="Matriz de peligros">
+                                <span *ngIf="matrizPeligros"><br><h4>ID matriz asociada: &nbsp;{{matrizPeligros}}</h4><br></span>
                                 <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="flagMatriz" >
                                     <ng-template pTemplate="header" let-columns>
                                         <tr>
@@ -379,10 +383,12 @@
                                         <div class="d-flex justify-content-center">
                                             <div class="btn-group" role="group">                
                                             <button 
-                                                class="p-button-raised p-button-primary margin-right" 
+                                                [class]="!matrizPeligros?' p-button-primary':'p-button-success'"
                                                 pButton type="button" 
-                                                icon="bi bi-plus" 
-                                                label="Asociar" 
+                                                [icon]="!matrizPeligros?'bi bi-plus':'bi bi-pencil'" 
+                                                (click)="asociarMatrizPeligros()"
+                                                [label]="!matrizPeligros?'Asociar':'Modificar'"
+                                                [disabled]="!matrizSelect" 
                                                 ></button>
                                             <button 
                                                 pButton type="button" 
@@ -405,7 +411,7 @@
                                 </p-table>
 
 
-                            </p-tabPanel>
+                            </p-tabPanel> -->
                         </p-tabView>
 
                     </p-tabPanel>

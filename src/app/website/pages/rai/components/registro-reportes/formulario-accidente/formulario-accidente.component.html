@@ -366,7 +366,7 @@
                         Cargo
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
-                        <input style="width: 100%;" pInputText formControlName="cargoEmpleado" required/>
+                        <input [readOnly]="true" style="width: 100%;" pInputText formControlName="cargoEmpleado" required/>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
                         <input style="width: 100%;" pInputText formControlName="cargoEmpleado" />
@@ -441,7 +441,7 @@
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa=='22'">
                         Localidad
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa=='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa=='22' && flagLocalidades">
                         <p-dropdown  required [filter]="true" placeholder="Seleccione una localidad" appendTo="body" [options]="localidadesList"  formControlName="localidad"></p-dropdown>
                     </div>
                 </div>

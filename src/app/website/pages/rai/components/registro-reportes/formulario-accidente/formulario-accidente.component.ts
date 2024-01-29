@@ -109,10 +109,12 @@ export class FormularioAccidenteComponent implements OnInit {
 
     this.visibleCamposAccidente = this.reporte?.tipo?.includes('ACCIDENTE');
     this.cdRef.detectChanges();
-    this.cargarLocalidades();
+    // this.cargarLocalidades();
   }
 
+  flagLocalidades:boolean=false
   cargarDatos(){
+    this.flagLocalidades=false
     if(this.reporte)
         if(this.reporte.fechaIngresoEmpleado != null && this.reporte.fechaAccidente != null){
             this.fechaIngreso=new Date(this.reporte.fechaIngresoEmpleado)
@@ -222,12 +224,13 @@ export class FormularioAccidenteComponent implements OnInit {
             cargoResponsable: this.reporte?.cargoResponsable,
             fechaReporte: this.reporte?.fechaReporte == null ? null : new Date(this.reporte.fechaReporte),
             // ciudadEmpleado2: this.reporte?.ciudadEmpleado
-            localidad: this.reporte?.localidad
+            localidad:(this.reporte?.localidad)?this.reporte?.localidad?.id:null
            
         });
 
 
-        setTimeout(() => {
+        setTimeout(async () => {
+            if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
             this.form?.patchValue({
                 ciudadEmpleado: this.reporte?.ciudadEmpleado,
                 ciudadAccidente: this.reporte?.ciudadAccidente,
@@ -300,37 +303,37 @@ export class FormularioAccidenteComponent implements OnInit {
         }
     }
 
-    async cargarLocalidades(){
-        this.localidadList = [];
-        await this.empresaService.getLocalidades().then((elem: Localidades[]) => {
-            elem.forEach(item => {
-                this.localidadList?.push({label: item.localidad, value: item});
-            })
-        });
+    // async cargarLocalidades(){
+    //     this.localidadList = [];
+    //     await this.empresaService.getLocalidades().then((elem: Localidades[]) => {
+    //         elem.forEach(item => {
+    //             this.localidadList?.push({label: item.localidad, value: item});
+    //         })
+    //     });
 
-        this.localidadList?.sort(function (a, b) {
-            if(a.label > b.label){
-                return 1
-            }else if(a.label < b.label){
-                return -1;
-            }
-                return 0;
-        });
-        // console.log(this.localidadList);
-    }
+    //     this.localidadList?.sort(function (a, b) {
+    //         if(a.label > b.label){
+    //             return 1
+    //         }else if(a.label < b.label){
+    //             return -1;
+    //         }
+    //             return 0;
+    //     });
+    //     // console.log(this.localidadList);
+    // }
 
-    filtrarLocalidad(localidad: any){
-        if (this.filtroLocalidades === null || this.filtroLocalidades === '') {
-          return true;
-        } else {
-          return  localidad.label.toLowerCase().includes(this.filtroLocalidades.toLowerCase());
-        }
-    }
+    // filtrarLocalidad(localidad: any){
+    //     if (this.filtroLocalidades === null || this.filtroLocalidades === '') {
+    //       return true;
+    //     } else {
+    //       return  localidad.label.toLowerCase().includes(this.filtroLocalidades.toLowerCase());
+    //     }
+    // }
 
-    onSelectLocalidad(event: RadioButtonClickEvent){
-        // console.log(event);
-        this.form?.get('localidad')?.setValue(event.value);
-    }
+    // onSelectLocalidad(event: RadioButtonClickEvent){
+    //     // console.log(event);
+    //     this.form?.get('localidad')?.setValue(event.value);
+    // }
 
     adicionarTestigo() {
         if (this.testigoReporteList == null) {
@@ -353,7 +356,6 @@ export class FormularioAccidenteComponent implements OnInit {
             }
     }
     async listadoLocalidades(event:any){
-        console.log(event)
         let filterArea = new FilterQuery();
         filterArea.fieldList = [
             'id',
@@ -376,7 +378,7 @@ export class FormularioAccidenteComponent implements OnInit {
             for(let loc of ele.data){
                 this.localidadesList.push({label:loc.localidad,value:loc.id})
             }
-        })
+        }).catch((er:any)=>console.log(er)).finally(()=>this.flagLocalidades=true)
     }
     localidadesList:any
 

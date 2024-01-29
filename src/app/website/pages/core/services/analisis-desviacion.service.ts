@@ -110,4 +110,19 @@ export class AnalisisDesviacionService extends CRUDService<AnalisisDesviacion>{
     });
   }
 
+  updateMP(analisisDesviacion: AnalisisDesviacion) {
+    return new Promise((resolve, reject) => {
+      this.httpInt.put(`${this.end_point}analisisDesviacionMP`, analisisDesviacion)
+      .subscribe(
+        (res: any) => {
+          resolve(res);
+        },
+        (err: any) => {
+          this.manageError(err);
+          reject(err);
+        }
+      )
+    });
+  }
+
 }
