@@ -1,53 +1,70 @@
- <div id="container" class="container container-hide">
-    <div style="padding-top: 5px; border: none; border-bottom: solid thin #8d8d8d" type="button" (click)="toogleMenu()">
-        <div class="child-item" [pTooltip]="'Expandir'" tooltipPosition="right" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-            <div id="data" class="data-hide">
-                <i class="bi bi-arrow-left-right icon-size" ></i>
-                <span id="text-toggle" class="text-hide">Contraer</span>
-            </div>            
-        </div>
-    </div>  
-    <!-- <hr>   -->
-    <div *ngFor="let item of items; index as j;">
-        <div *sTienePermiso="item.codigo" class="child-item" [pTooltip]="item.label" tooltipPosition="right" type="button" data-bs-toggle="collapse" [attr.data-bs-target]= "'#'+ item.codigo" aria-expanded="false" aria-label="Toggle navigation">
-            <div id="data" class="data-hide">
-                <i [class]="item.icon" class="icon-size"></i>
-                <span id="text-toggle" class="text-hide">{{item.label}}</span>
-            </div>            
-        </div>
-        <ng-template ngFor let-subItem [ngForOf]="item.items"let-i="index">
-            <ng-container *ngIf="routerLinkIsValid(subItem.routerLink);else subMenu">
-                <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem.routerLink" (click)="indexSelect(j,i,0)">
-                    <ng-container>
-                        
-                        <div id="data" class="child-items data-hide" [ngStyle]="{'background-color': (Ipadre==j && Ihijo==i && Ihijo2 ==0) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i && Ihijo2 ==0) ? 'white' : 'black'}">
-                            <i [class]="subItem.icon" class="icon-size-child"></i>
-                            <span id="text-toggle" class="text-hide" >{{subItem.label}}</span >
-                        </div>    
-                    </ng-container>
-                     
+<div id="container" class="container container-hide">
+    <div class="menu-scroll">
+
+
+        <div style="padding-top: 5px; border: none; border-bottom: solid thin #8d8d8d" type="button"
+            (click)="toogleMenu()">
+            <div class="child-item" [pTooltip]="'Expandir'" tooltipPosition="right" data-bs-toggle="collapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <div id="data" class="data-hide">
+                    <i class="bi bi-arrow-left-right icon-size"></i>
+                    <span id="text-toggle" class="text-hide">Contraer</span>
                 </div>
-            </ng-container>
-            <ng-template #subMenu>
-                <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right" [id]="item.codigo" class="collapse navbar-collapse child-item" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+subItem.codigo" aria-expanded="false" aria-label="Toggle navigation">
-                    <div id="data" class="child-items data-hide">
-                        <i [class]="subItem.icon" class="icon-size"></i>
-                        <span id="text-toggle" class="text-hide">{{subItem.label}}</span>
-                    </div>
+            </div>
+        </div>
+        <!-- <hr>   -->
+        <div *ngFor="let item of items; index as j;">
+            <div *sTienePermiso="item.codigo" class="child-item" [pTooltip]="item.label" tooltipPosition="right"
+                type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ item.codigo" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <div id="data" class="data-hide">
+                    <i [class]="item.icon" class="icon-size"></i>
+                    <span id="text-toggle" class="text-hide">{{item.label}}</span>
                 </div>
-                <ng-template ngFor let-subItem2 [ngForOf]="getItems2For(item, subItem)" let-k="index">
-                    <div *sTienePermiso="subItem2.codigo" [pTooltip]="subItem2.label" tooltipPosition="right" [id]="subItem.codigo" class="collapse navbar-collapse" type="button"  [routerLink]="subItem2.routerLink">
-                        <div [id]="item.codigo" class="collapse navbar-collapse" (click)="indexSelect(j,i,k)">
-                            <div id="data" class="child-items data-hide"  [ngStyle]="{'background-color': (Ipadre==j && Ihijo==i && Ihijo2 ==k) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i && Ihijo2 ==k) ? 'white' : 'black'}">
-                                <!-- style="border-radius: 20px;" -->
-                                <i [class]="subItem2.icon" class="icon-size-child"></i>
-                                <span id="text-toggle" class="text-hide">{{subItem2.label}}</span >
+            </div>
+            <ng-template ngFor let-subItem [ngForOf]="item.items" let-i="index">
+                <ng-container *ngIf="routerLinkIsValid(subItem.routerLink);else subMenu">
+                    <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right"
+                        [id]="item.codigo" class="collapse navbar-collapse" type="button"
+                        [routerLink]="subItem.routerLink" (click)="indexSelect(j,i,0)">
+                        <ng-container>
+
+                            <div id="data" class="child-items data-hide"
+                                [ngStyle]="{'background-color': (Ipadre==j && Ihijo==i && Ihijo2 ==0) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i && Ihijo2 ==0) ? 'white' : 'black'}">
+                                <i [class]="subItem.icon" class="icon-size-child"></i>
+                                <span id="text-toggle" class="text-hide">{{subItem.label}}</span>
                             </div>
+                        </ng-container>
+
+                    </div>
+                </ng-container>
+                <ng-template #subMenu>
+                    <div *sTienePermiso="subItem.codigo" [pTooltip]="subItem.label" tooltipPosition="right"
+                        [id]="item.codigo" class="collapse navbar-collapse child-item" type="button"
+                        data-bs-toggle="collapse" [attr.data-bs-target]="'#'+subItem.codigo" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <div id="data" class="child-items data-hide">
+                            <i [class]="subItem.icon" class="icon-size"></i>
+                            <span id="text-toggle" class="text-hide">{{subItem.label}}</span>
                         </div>
                     </div>
+                    <ng-template ngFor let-subItem2 [ngForOf]="getItems2For(item, subItem)" let-k="index">
+                        <div *sTienePermiso="subItem2.codigo" [pTooltip]="subItem2.label" tooltipPosition="right"
+                            [id]="subItem.codigo" class="collapse navbar-collapse" type="button"
+                            [routerLink]="subItem2.routerLink">
+                            <div [id]="item.codigo" class="collapse navbar-collapse" (click)="indexSelect(j,i,k)">
+                                <div id="data" class="child-items data-hide"
+                                    [ngStyle]="{'background-color': (Ipadre==j && Ihijo==i && Ihijo2 ==k) ? '#5abbf3':'#ffffff00','color': (Ipadre==j && Ihijo==i && Ihijo2 ==k) ? 'white' : 'black'}">
+                                    <!-- style="border-radius: 20px;" -->
+                                    <i [class]="subItem2.icon" class="icon-size-child"></i>
+                                    <span id="text-toggle" class="text-hide">{{subItem2.label}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
                 </ng-template>
             </ng-template>
-        </ng-template>
+        </div>
+        <label class="version" style="font-size: 0.6rem;">v {{version}}</label>
     </div>
-    <label class="version" style="font-size: 0.6rem;">v {{version}}</label>
- </div>
+</div>
