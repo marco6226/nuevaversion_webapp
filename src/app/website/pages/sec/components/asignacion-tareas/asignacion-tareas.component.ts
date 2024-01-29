@@ -332,13 +332,18 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
         this.tareaListFilter=event.filteredValue
     }
 
+    // Esta función valida en el objeto json columnasPorModulo, en ese objeto están detalladas las columnas que quiere ver cada empresa 
     mostrarColumna(nombreColumna: string){
       let moduloInfo = columnasPorModulo[this.moduloSelected];
       if(Object.keys(moduloInfo).includes(this.idEmpresa)){
         return moduloInfo[this.idEmpresa!].includes(nombreColumna);
       }
       
-      return columnasPorModulo['default'].includes(nombreColumna)
+      if(Object.keys(columnasPorModulo['default']).includes(this.moduloSelected)){
+        return (columnasPorModulo['default'])[this.moduloSelected].includes(nombreColumna);
+      }
+
+      return columnasPorModulo['default']['values'].includes(nombreColumna)
     }
 
     cerrarCalendarDialog(){
