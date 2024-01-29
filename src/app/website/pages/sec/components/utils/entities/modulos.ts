@@ -71,6 +71,7 @@ export let columnasPorModulo: any = {
         'fecha_reporte',
         'regional',
         'area',
+        'tipo_lista',
         'hash_id',
         'nombre',
         'empResponsable',
