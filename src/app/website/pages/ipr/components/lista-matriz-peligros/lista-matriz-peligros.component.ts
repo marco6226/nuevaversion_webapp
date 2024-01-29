@@ -20,6 +20,8 @@ import { DatePipe } from '@angular/common';
 import { Usuario } from '../../../empresa/entities/usuario';
 import { ViewMatrizPeligrosService } from '../../../core/services/view-matriz-peligros.service';
 import { ViewMatrizPeligrosLogService } from '../../../core/services/view-matriz-peligros-log.service';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { Localidades } from '../../../ctr/entities/aliados';
 
 interface Column {
   field: string;
@@ -75,6 +77,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
   constructor( 
     private fb: FormBuilder,
+    private empresaService: EmpresaService,
     private matrizPeligrosService: MatrizPeligrosService,
     private viewmatrizPeligrosService: ViewMatrizPeligrosService,
     private viewmatrizPeligrosLogService: ViewMatrizPeligrosLogService,
@@ -142,23 +145,40 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     })
   }
 
-  cargarPlanta(eve:any){
+  // cargarPlanta(eve:any){
+  //   let filterPlantaQuery = new FilterQuery();
+  //   filterPlantaQuery.sortField = "id";
+  //   filterPlantaQuery.sortOrder = -1;
+  //   filterPlantaQuery.fieldList = ["id","nombre"];
+  //   filterPlantaQuery.filterList = [
+  //     { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
+  //     // { field: 'tipo', criteria: Criteria.EQUALS, value1: 'IPER' },
+  //   ];
+  //   this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+  //     this.planta=[]
+  //     resp.data.forEach((element:any) => {
+  //       this.planta.push({label:element.nombre,value:element.id})
+  //     });
+      
+  //   }).catch(er=>console.log(er))
+  // }
+
+  async cargarPlantaLocalidad(eve:any){
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
-    filterPlantaQuery.fieldList = ["id","nombre"];
+    filterPlantaQuery.fieldList = ["id","localidad"];
     filterPlantaQuery.filterList = [
-      { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
-      { field: 'tipo', criteria: Criteria.EQUALS, value1: 'IPER' },
+      { field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
     ];
-    this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+    await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp:any)=>{
       this.planta=[]
       resp.data.forEach((element:any) => {
-        this.planta.push({label:element.nombre,value:element.id})
+        this.planta.push({label:element.localidad,value:element.id})
       });
-      
     }).catch(er=>console.log(er))
   }
+
   flagPlantaSelect:boolean=false
   fechaConsolidado:Date | null=null
   fechaHistorico:Date | null=null
@@ -186,7 +206,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     filterArea.sortField = "id";
     filterArea.sortOrder = -1;
     filterArea.fieldList= ['id','nombre']
-    filterArea.filterList = [{ field: 'plantas.id', criteria: Criteria.EQUALS, value1: eve}];
+    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve}];
     await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
       this.area=[]
       this.areaMatrizItemList=[]
@@ -195,23 +215,24 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         // this.area.push({label:element.nombre,value:{id:element.id,nombre:element.nombre}})
       });
     })
-
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.fieldList = ["id","idDocConsolidado","idDocHistorico","fechaConsolidado","fechaHistorico","usuarioConsolidado_email","usuarioHistorico_email","fechaConsolidadoStart","fechaHistoricoStart"];
     filterPlantaQuery.filterList = [{ field: 'id', criteria: Criteria.EQUALS, value1: eve }];
-    let plantas:any[]=[];
-    this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
-      plantas = (<any[]>resp.data).map(matriz => matriz);
-      plantas.map(resp=>resp.fechaConsolidado=resp.fechaConsolidado?new Date(resp.fechaConsolidado!):null)
-      plantas.map(resp=>resp.fechaHistorico=resp.fechaHistorico?new Date(resp.fechaHistorico!):null)
-      plantas.map(resp=>resp.fechaConsolidadoStart=resp.fechaConsolidadoStart?new Date(resp.fechaConsolidadoStart!):null)
-      plantas.map(resp=>resp.fechaHistoricoStart=resp.fechaHistoricoStart?new Date(resp.fechaHistoricoStart!):null)
-      this.usuarioConsolidado=plantas[0].usuarioConsolidado_email
-      this.usuarioHistorico=plantas[0].usuarioHistorico_email
-      this.fechaConsolidado =plantas[0].fechaConsolidado!
-      this.fechaHistorico=plantas[0].fechaHistorico!
-      this.fechaConsolidadoStart =plantas[0].fechaConsolidadoStart!
-      this.fechaHistoricoStart=plantas[0].fechaHistoricoStart!
+    let localidades:any[]=[];
+    // this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+    this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp:any)=>{
+
+      localidades = (<any[]>resp.data).map(matriz => matriz);
+      localidades.map(resp=>resp.fechaConsolidado=resp.fechaConsolidado?new Date(resp.fechaConsolidado!):null)
+      localidades.map(resp=>resp.fechaHistorico=resp.fechaHistorico?new Date(resp.fechaHistorico!):null)
+      localidades.map(resp=>resp.fechaConsolidadoStart=resp.fechaConsolidadoStart?new Date(resp.fechaConsolidadoStart!):null)
+      localidades.map(resp=>resp.fechaHistoricoStart=resp.fechaHistoricoStart?new Date(resp.fechaHistoricoStart!):null)
+      this.usuarioConsolidado=localidades[0].usuarioConsolidado_email
+      this.usuarioHistorico=localidades[0].usuarioHistorico_email
+      this.fechaConsolidado =localidades[0].fechaConsolidado!
+      this.fechaHistorico=localidades[0].fechaHistorico!
+      this.fechaConsolidadoStart =localidades[0].fechaConsolidadoStart!
+      this.fechaHistoricoStart=localidades[0].fechaHistoricoStart!
 
       if(resp.data[0].idDocConsolidado){
         this.docIdConsolidado=resp.data[0].idDocConsolidado
@@ -603,7 +624,18 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
       let usuario = new Usuario()
       usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
-      let planta = new Plantas()
+      // let planta = new Plantas()
+      // planta.idDocConsolidado="0"
+      // planta.usuarioConsolidado=usuario
+      // planta.descargaConsolidado=false
+      // planta.idDocHistorico='null'
+      // planta.id=this.formCreacionMatriz.value.planta
+      // planta.fechaConsolidadoStart=new Date()
+      // planta.fechaConsolidado=null
+      
+      // let planta = new Localidades()
+      let planta: Localidades = {} as Localidades;
+
       planta.idDocConsolidado="0"
       planta.usuarioConsolidado=usuario
       planta.descargaConsolidado=false
@@ -611,10 +643,13 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       planta.id=this.formCreacionMatriz.value.planta
       planta.fechaConsolidadoStart=new Date()
       planta.fechaConsolidado=null
+
       this.fechaConsolidadoStart=new Date()
       this.fechaConsolidado=null
       this.estadoConsolidado='En procceso...'
-      await this.plantasService.update(planta)
+      await this.empresaService.putLocalidad(planta)
+
+      // await this.plantasService.update(planta)
       
       // this.matrizPeligrosService.getmpExcelConsolidado(filterMatriz).then((resp:any)=>{
       this.viewmatrizPeligrosService.getmpExcelConsolidado(filterMatriz).then((resp:any)=>{
@@ -647,7 +682,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
           }
           let usuario = new Usuario()
           usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
-          let planta = new Plantas()
+          // let planta = new Plantas()
+          let planta: Localidades = {} as Localidades;
+
           planta.idDocConsolidado=this.docIdConsolidado
           planta.usuarioConsolidado=usuario
           planta.descargaConsolidado=true
@@ -655,7 +692,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
           planta.id=this.formCreacionMatriz.value.planta
           planta.fechaConsolidadoStart=new Date(this.fechaConsolidadoStart!)
           planta.fechaConsolidado=new Date(this.fechaConsolidado!)
-          await this.plantasService.update(planta)
+          // await this.plantasService.update(planta)
+          await this.empresaService.putLocalidad(planta)
+
           // this.matrizPeligrosService.descargarExcelConsolidado()
           this.viewmatrizPeligrosService.descargarExcelConsolidado()
           this.messageService.add({key: 'mnsgMatrizPeligros', severity:'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo'});
@@ -679,7 +718,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
         let usuario = new Usuario()
         usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
-        let planta = new Plantas()
+        // let planta = new Plantas()
+        let planta: Localidades = {} as Localidades;
+
         planta.idDocHistorico="0"
         planta.usuarioHistorico=usuario
         planta.descargaHistorico=false
@@ -690,7 +731,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         this.fechaHistoricoStart=new Date()
         this.fechaHistorico=null
         this.estadoHistorico='En procceso...'
-        await this.plantasService.update(planta)
+        // await this.plantasService.update(planta)
+        await this.empresaService.putLocalidad(planta)
+
         
         this.viewmatrizPeligrosLogService.getmpExcelHistorico(filterMatriz).then((resp:any)=>{
         // this.matrizPeligrosLogService.getmpExcelHistorico(filterMatriz).then((resp:any)=>{
@@ -721,7 +764,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
             let usuario = new Usuario()
             usuario.id=JSON.parse(localStorage.getItem('session')!).usuario.id
-            let planta = new Plantas()
+            // let planta = new Plantas()
+            let planta: Localidades = {} as Localidades;
+
             planta.idDocHistorico=this.docIdHistorico
             planta.usuarioHistorico=usuario
             planta.descargaHistorico=true
@@ -729,7 +774,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
             planta.id=this.formCreacionMatriz.value.planta
             planta.fechaHistoricoStart=new Date(this.fechaHistoricoStart!)
             planta.fechaHistorico=new Date(this.fechaHistorico!)
-            await this.plantasService.update(planta)
+            // await this.plantasService.update(planta)
+            await this.empresaService.putLocalidad(planta)
+
             // this.matrizPeligrosLogService.descargarExcelHistorico()
             this.viewmatrizPeligrosLogService.descargarExcelHistorico()
             this.messageService.add({key: 'mnsgMatrizPeligros', severity:'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo'});

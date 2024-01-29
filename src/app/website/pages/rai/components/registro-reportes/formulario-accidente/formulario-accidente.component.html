@@ -434,56 +434,15 @@
                         Ubicación
                     </div>
                     <div class="col-12 md:col-4 lg:col-4">
-                        <area-selector formControlName="areaAccidente" style="width: 350px;"
-                            [name]="this.reporte?.areaAccidente ?this.reporte?.areaAccidente.nombre:''" required>
+                        <area-selector formControlName="areaAccidente" style="width: 350px;" 
+                            [name]="this.reporte?.areaAccidente ?this.reporte?.areaAccidente.nombre:''"  (onDivision)="listadoLocalidades($event)" required>
                         </area-selector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa=='22'">
                         Localidad
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa=='22'">
-                        <input pInputText type="text" [value]="this.form?.value?.localidad?.localidad"
-                        [ngModelOptions]="{standalone: true}" style="width: 90%;" 
-                        [style]="{'border-left': '2px solid', 'border-left-color': this.form?.value?.localidad?.localidad ? '#73d216' : 'red'}"
-                        required readonly>
-                        <p-button icon="pi pi-search" (click)="mostrarDialogLocalidades=true"></p-button>
-                        
-                        <!-- Para que se haga obligatorio el campo -->
-                        <input formControlName="localidad" style="display: contents;" required>
-
-                        <p-dialog header="Localidades" [(visible)]="mostrarDialogLocalidades" [closable]="false"
-                        [style]="{width: '50vw'}" [modal]="true" appendTo="body">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">
-                                    <em class="bi bi-search"></em>
-                                </span>
-                                <input type="text" pInputText class="form-control" 
-                                [ngModelOptions]="{standalone: true}" [(ngModel)]="filtroLocalidades">
-                                <button pButton class="p-button-rounded p-button-danger" icon="pi pi-times"
-                                (click)="filtroLocalidades=null;"></button>
-                            </div>
-                            
-                            <div *ngFor="let data of localidadList">
-                                <div class="grid" style="width: 300px;margin-bottom: 10px;"
-                                *ngIf="filtrarLocalidad(data)">
-                                    <div class="col-12">
-                                        <p-radioButton [inputId]="data.value.localidad" [value]="data.value" 
-                                        [label]="data.label"
-                                        [(ngModel)]="form.value.localidad" [ngModelOptions]="{standalone: true}"
-                                        (onClick)="onSelectLocalidad($event)"></p-radioButton>
-                                        <!-- <label  class="ml-2">
-                                            {{data.value.localidad}}
-                                        </label> -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <p-footer>
-                                <!-- <button pButton class="p-button-danger" (click)="form.value.localidad = null; mostrarDialogLocalidades = false"
-                                >Cancelar</button> -->
-                                <button pButton (click)="mostrarDialogLocalidades = false">Aceptar</button>
-                            </p-footer>
-                        </p-dialog>
+                        <p-dropdown  required [filter]="true" placeholder="Seleccione una localidad" appendTo="body" [options]="localidadesList"  formControlName="localidad"></p-dropdown>
                     </div>
                 </div>
             </p-accordionTab>

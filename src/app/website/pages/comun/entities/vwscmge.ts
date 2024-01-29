@@ -22,5 +22,7 @@ export class Vwscmge {
     seguimiento?: number;
     documento?: number;
     planAccion?: number;
+    requiereIntervencion?:string;
+    sveNombre?:string;
 
 }

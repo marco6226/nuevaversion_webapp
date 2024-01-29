@@ -1,3 +1,4 @@
+import { Localidades } from "../../ctr/entities/aliados";
 import { Empresa } from "../../empresa/entities/empresa";
 import { AreaMatriz } from "./Area-matriz";
 import { Plantas } from "./Plantas";
@@ -19,6 +20,7 @@ export class MatrizPeligrosLog {
   proceso?:ProcesoMatriz;
   subProceso?:SubprocesoMatriz;
   plantas?:Plantas;
+  localidad?:Localidades;
   empresa?:Empresa;
   fechaCreacion?:Date | null;
   fechaEdicion?:Date | null;

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { PlantasService } from '../../../core/services/Plantas.service';
 import { SesionService } from '../../../core/services/session.service';
 import { SelectItem, ConfirmationService, MessageService, Message } from 'primeng/api';
@@ -30,6 +30,12 @@ import { Modulo } from '../../../core/enums/enumeraciones';
 import { Documento } from '../../../ado/entities/documento';
 import { Directorio } from '../../../ado/entities/directorio';
 import { DirectorioService } from '../../../core/services/directorio.service';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { Localidades } from "../../../ctr/entities/aliados";
+import { CargoService } from 'src/app/website/pages/empresa/services/cargo.service';
+import { Cargo } from 'src/app/website/pages/empresa/entities/cargo';
+import { Accordion } from 'primeng/accordion';
+
 
 interface Column {
   field: string;
@@ -51,23 +57,23 @@ export class MatrizPeligrosComponent implements OnInit {
   idProceso:any;
   idSubproceso:any;
   planta:SelectItem[] =[]
-  formCreacionMatriz?: FormGroup | any;
-  formMatrizGeneral?: FormGroup | any;
-  formMatrizGeneralSustitucion?: FormGroup | any;
-  formMatrizGeneral2?: FormGroup | any;
-  formMatrizGeneral2Sustitucion?: FormGroup | any;
-  formMatrizPeligros?: FormGroup | any;
-  formMatrizPeligrosSustitucion?: FormGroup | any;
-  formMatrizRiesgosC?: FormGroup | any;
-  formMatrizRiesgosI?: FormGroup | any;
-  formMatrizRiesgosIResidual?: FormGroup | any;
-  formPlanAccion?: FormGroup | any;
-  formEfectividadControles?: FormGroup | any;
-  formValoracionRiesgo?: FormGroup | any;
+  formCreacionMatriz?: FormGroup;
+  formMatrizGeneral?: FormGroup;
+  formMatrizGeneralSustitucion?: FormGroup;
+  formMatrizGeneral2?: FormGroup;
+  formMatrizGeneral2Sustitucion?: FormGroup;
+  formMatrizPeligros?: FormGroup;
+  formMatrizPeligrosSustitucion?: FormGroup;
+  formMatrizRiesgosC?: FormGroup;
+  formMatrizRiesgosI?: FormGroup;
+  formMatrizRiesgosIResidual?: FormGroup;
+  formPlanAccion?: FormGroup;
+  formEfectividadControles?: FormGroup;
+  formValoracionRiesgo?: FormGroup;
 
-  formMatrizRiesgosI2?: FormGroup | any;
-  formMatrizRiesgosIResidual2?: FormGroup | any;
-  formMatrizRiesgosC2?: FormGroup | any;
+  formMatrizRiesgosI2?: FormGroup;
+  formMatrizRiesgosIResidual2?: FormGroup;
+  formMatrizRiesgosC2?: FormGroup;
 
   flagRegistroMatriz:boolean=false
   flagRegistroMatrizTree:boolean=false
@@ -75,7 +81,7 @@ export class MatrizPeligrosComponent implements OnInit {
   flagButtonMatrizAcording:boolean=true
 
   listDivision:any=[]
-
+  cargoList: SelectItem[] = [];
   tipoPeligroItemList?: SelectItem[];
   peligroItemList?: SelectItem[] | any;
 
@@ -154,14 +160,44 @@ export class MatrizPeligrosComponent implements OnInit {
 
   idMatrizPeligro:any=[]
 
-  estado:string='Sin estado'
-  guardadoSustitucion:boolean=false
+  estado:string='Sin estado';
+  guardadoSustitucion:boolean=false;
+
+  controlIng:any=[];
+  controlIngList:any=[];
+
+  controlAdm:any=[];
+  controlAdmList:any=[];
+
+  controlEqu:any=[];
+  controlEquList:any=[];
+  
+  controlFlag:boolean=false;
+
+  formControl?: FormGroup | any;
+  CRUDcontrol:string='POST';
+  tipoControl:string='';
+
+  jerarquiaExistente:string='';
 
   modulo?: string;
+
+  @ViewChild('acordionMat') acordionMatriz: Accordion | undefined = undefined;
+  
+  //-----------------------------------Plan Acción----------------------///
+  tareasList:any=[];
+  tareasListEjecutado:any=[];
+  tareasListPendiente:any=[];
+  tareasListEjecutadoPorcentaje:any=[];
+  tarea:any;
+  flagPlanAccion:boolean=false;
+  jControl:any=[{label:'Seleccione',value:null},{label:'Eliminación',value:'Eliminación'},{label:'Sustitución',value:'Sustitución'},{label:'Control de ingeniería',value:'Control de ingeniería'},{label:'Controles administrativos',value:'Controles administrativos'},{label:'Elementos de protección personal',value:'Elementos de protección personal'}];
+  estadosPlanAccion:any=[{label:'Seleccione',value:null},{label:'Pendiente',value:'Pendiente'},{label:'Ejecutado',value:'Ejecutado'}];
 
   constructor(
     private fb: FormBuilder,
     private plantasService: PlantasService,
+    private empresaService: EmpresaService,
     private sessionService: SesionService,
     private tipoPeligroService: TipoPeligroService,
     private peligroService: PeligroService,
@@ -176,6 +212,7 @@ export class MatrizPeligrosComponent implements OnInit {
     private directorioService: DirectorioService,
     private paramNav: ParametroNavegacionService,
     private messageService: MessageService,
+    private cargoService: CargoService,
   ) { 
     this.modulo = Modulo.IPR.value;
     
@@ -308,6 +345,12 @@ export class MatrizPeligrosComponent implements OnInit {
 
   async ngOnInit() {
     this.cargarDatos()
+    this.cargoService.findByEmpresa().then((resp) => {
+      this.cargoList = [];
+      this.cargoList.push({ label: '--Seleccione--', value: null });
+      (<Cargo[]>resp).forEach((cargo:any) => {
+          this.cargoList.push({ label: cargo, value: cargo });
+      });})
   }
 
   async cargarDatos(){
@@ -334,12 +377,12 @@ export class MatrizPeligrosComponent implements OnInit {
         let formCreacionMatriz:any=JSON.parse(localStorage.getItem('formCreacionMatriz')!)
         this.CRUDMatriz='PUT'
         // this.cargarPlanta(this.paramNav.getParametro<FormGroup>().value.ubicacion)
-        this.cargarPlanta(formCreacionMatriz.value.ubicacion)
+        this.cargarPlantaLocalidad(formCreacionMatriz.value.ubicacion)
         // this.formCreacionMatriz.patchValue({
         //     planta: this.paramNav.getParametro<FormGroup>().value.planta,
         //     ubicacion: this.paramNav.getParametro<FormGroup>().value.ubicacion,
         // })
-        this.formCreacionMatriz.patchValue({
+        this.formCreacionMatriz?.patchValue({
           planta: formCreacionMatriz.value.planta,
           ubicacion: formCreacionMatriz.value.ubicacion,
         })
@@ -370,8 +413,8 @@ export class MatrizPeligrosComponent implements OnInit {
     this.CRUDMatriz='POST'
     let formCreacionMatriz:any=JSON.parse(localStorage.getItem('formCreacionMatriz')!)
     let matrizSelect:any=JSON.parse(localStorage.getItem('matrizSelect')!)
-    this.cargarPlanta(formCreacionMatriz.value.ubicacion)
-    this.formCreacionMatriz.patchValue({
+    this.cargarPlantaLocalidad(formCreacionMatriz.value.ubicacion)
+    this.formCreacionMatriz?.patchValue({
       planta: formCreacionMatriz.value.planta,
       ubicacion: formCreacionMatriz.value.ubicacion,
     })
@@ -409,14 +452,14 @@ export class MatrizPeligrosComponent implements OnInit {
       await this.matrizPeligrosService.getmpRWithFilter(filterhijo).then((resp:any)=>{
         mPeligros=JSON.parse(resp.data[0].peligro)
         //II-Identificación del peligro
-        this.formMatrizPeligrosSustitucion.patchValue({
+        this.formMatrizPeligrosSustitucion?.patchValue({
           Peligro: mPeligros?.Peligro,
           DescripcionPeligro: mPeligros?.DescripcionPeligro,
           FuenteGeneradora: mPeligros?.FuenteGeneradora,
           Efectos: mPeligros?.Efectos,
           Descripcion: mPeligros?.Descripcion
         });
-        this.SelectPeligro(this.formMatrizPeligrosSustitucion.value.Peligro,'sustituto')
+        this.SelectPeligro(this.formMatrizPeligrosSustitucion?.value.Peligro,'sustituto')
         this.flagidPadre=true
         this.guardadoSustitucion=true
       })
@@ -464,7 +507,7 @@ export class MatrizPeligrosComponent implements OnInit {
 
 
     //I-Información general
-    this.formMatrizGeneral.patchValue({
+    this.formMatrizGeneral?.patchValue({
       Area: area, //Clasificación
       Proceso: proceso, //Descripción del peligro
       Subproceso: subproceso,
@@ -474,8 +517,8 @@ export class MatrizPeligrosComponent implements OnInit {
       Temporales: matrizPeligro?.generalInf?.Temporales,
       Contratistas: matrizPeligro?.generalInf?.Contratistas,
     });
-    this.cargarProceso(this.formMatrizGeneral.value.Area)
-    this.cargarSubproceso(this.formMatrizGeneral.value.Proceso)
+    this.cargarProceso(this.formMatrizGeneral?.value.Area)
+    this.cargarSubproceso(this.formMatrizGeneral?.value.Proceso)
     setTimeout(() => {
       this.flagProcesoSubP=false
       setTimeout(() => {
@@ -485,24 +528,24 @@ export class MatrizPeligrosComponent implements OnInit {
     }, 500); 
     
     //II-Identificación del peligro
-    this.formMatrizPeligros.patchValue({
+    this.formMatrizPeligros?.patchValue({
       Peligro: matrizPeligro?.peligro?.Peligro,
       DescripcionPeligro: matrizPeligro?.peligro?.DescripcionPeligro,
       FuenteGeneradora: matrizPeligro?.peligro?.FuenteGeneradora,
       Efectos: matrizPeligro?.peligro?.Efectos
     });
-    this.SelectPeligro(this.formMatrizPeligros.value.Peligro,'actual')
+    this.SelectPeligro(this.formMatrizPeligros?.value.Peligro,'actual')
 
     //III-Evaluación del riesgo control existente
 
-    this.formMatrizRiesgosC.patchValue({
+    this.formMatrizRiesgosC?.patchValue({
       Ingenieria: matrizPeligro?.controlesexistentes?.Ingenieria, //Clasificación
       Administrativos: matrizPeligro?.controlesexistentes?.Administrativos, //Descripción del peligro
       ElementosPro: matrizPeligro?.controlesexistentes?.ElementosPro
     });
-    this.controlIngList=(this.formMatrizRiesgosC.value.Ingenieria)?this.formMatrizRiesgosC.value.Ingenieria:[]
-    this.controlAdmList=(this.formMatrizRiesgosC.value.Administrativos)?this.formMatrizRiesgosC.value.Administrativos:[]
-    this.controlEquList=(this.formMatrizRiesgosC.value.ElementosPro)?this.formMatrizRiesgosC.value.ElementosPro:[]
+    this.controlIngList=(this.formMatrizRiesgosC?.value.Ingenieria)?this.formMatrizRiesgosC.value.Ingenieria:[]
+    this.controlAdmList=(this.formMatrizRiesgosC?.value.Administrativos)?this.formMatrizRiesgosC?.value.Administrativos:[]
+    this.controlEquList=(this.formMatrizRiesgosC?.value.ElementosPro)?this.formMatrizRiesgosC?.value.ElementosPro:[]
 
     this.flagControlIng=(this.controlIngList.length>0)?true:false
     this.flagControlAdm=(this.controlAdmList.length>0)?true:false
@@ -514,7 +557,7 @@ export class MatrizPeligrosComponent implements OnInit {
     }
 
     //IV-Valoración del riesgo inicial
-    this.formMatrizRiesgosI.patchValue({
+    this.formMatrizRiesgosI?.patchValue({
       ND: matrizPeligro?.valoracionRiesgoInicial?.ND, //Clasificación
       NE: matrizPeligro?.valoracionRiesgoInicial?.NE, //Descripción del peligro
       NP: matrizPeligro?.valoracionRiesgoInicial?.NP,
@@ -523,13 +566,13 @@ export class MatrizPeligrosComponent implements OnInit {
       NRCualitativo: matrizPeligro?.valoracionRiesgoInicial?.NRCualitativo,
     });
     this.nivelProbabilidad('inicial')
-    if(!this.formMatrizRiesgosC.value.Ingenieria && !this.formMatrizRiesgosC.value.Administrativos && !this.formMatrizRiesgosC.value.ElementosPro && !this.formMatrizRiesgosI.valid){
+    if(!this.formMatrizRiesgosC?.value.Ingenieria && !this.formMatrizRiesgosC?.value.Administrativos && !this.formMatrizRiesgosC?.value.ElementosPro && !this.formMatrizRiesgosI?.valid){
       this.flagControlIng = true
       this.flagControlAdm = true
       this.flagEquiposEle = true
     }
 
-    this.formMatrizRiesgosI.patchValue({
+    this.formMatrizRiesgosI?.patchValue({
       accMayor:matrizPeligro?.valoracionRiesgoInicial?.accMayor,
       realizoValoracion:matrizPeligro?.valoracionRiesgoInicial?.realizoValoracion,
       planAccion:matrizPeligro?.valoracionRiesgoInicial?.planAccion
@@ -537,14 +580,14 @@ export class MatrizPeligrosComponent implements OnInit {
     
     //V-Plan de acción
     this.tareasList=matrizPeligro?.planAccion
-    this.formEfectividadControles.patchValue({controlPropuestos:this.tareasList.length})
-    this.formEfectividadControles.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
+    this.formEfectividadControles?.patchValue({controlPropuestos:this.tareasList.length})
+    this.formEfectividadControles?.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
 
     this.tareasListPendiente=this.tareasList.filter((resp:any)=>(resp.estado=='Pendiente' || resp.jerarquia=='Eliminación' || resp.jerarquia=='Sustitución'))
     this.tareasListEjecutado=this.tareasList.filter((resp:any)=>(resp.estado=='Ejecutado' && resp.jerarquia!='Eliminación' && resp.jerarquia!='Sustitución'))
     this.tareasListEjecutadoPorcentaje=this.tareasList.filter((resp:any)=>(resp.estado=='Ejecutado'))
-    this.formEfectividadControles.patchValue({controlEjecutados:this.tareasListEjecutadoPorcentaje.length})
-    this.formEfectividadControles.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
+    this.formEfectividadControles?.patchValue({controlEjecutados:this.tareasListEjecutadoPorcentaje.length})
+    this.formEfectividadControles?.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
 
     if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
         else this.flagplanElimsust=false
@@ -562,7 +605,7 @@ export class MatrizPeligrosComponent implements OnInit {
     {this.estado='Riesgo vigente'}
 
     //VI-Valoración del riesgo residual
-    this.formMatrizRiesgosIResidual.patchValue({
+    this.formMatrizRiesgosIResidual?.patchValue({
       ND: matrizPeligro?.valoracionRiesgoResidual?.ND, //Clasificación
       NE: matrizPeligro?.valoracionRiesgoResidual?.NE, //Descripción del peligro
       NP: matrizPeligro?.valoracionRiesgoResidual?.NP,
@@ -570,7 +613,7 @@ export class MatrizPeligrosComponent implements OnInit {
       NR: matrizPeligro?.valoracionRiesgoResidual?.NR,
       NRCualitativo: matrizPeligro?.valoracionRiesgoResidual?.NRCualitativo,
     });
-    this.nivelProbabilidad('residual')
+    if(this.formMatrizRiesgosIResidual?.valid) this.nivelProbabilidad('residual');
 
     //Evidencias
     this.documentosList=matrizPeligro.documentosList    
@@ -605,28 +648,44 @@ export class MatrizPeligrosComponent implements OnInit {
       });
     })
   }
-  plantasList: Plantas[] = [];
-  cargarPlanta(eve:any){
+  plantasList: Localidades[] = [];
+  // cargarPlanta(eve:any){
+  //   let filterPlantaQuery = new FilterQuery();
+  //   filterPlantaQuery.sortField = "id";
+  //   filterPlantaQuery.sortOrder = -1;
+  //   filterPlantaQuery.fieldList = ["id","nombre"];
+  //   filterPlantaQuery.filterList = [
+  //     { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
+  //     // { field: 'tipo', criteria: Criteria.EQUALS, value1: 'IPER' },
+  //   ];
+  //   this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+  //     this.planta=[]
+  //     this.plantasList=resp.data
+  //     resp.data.forEach((element:any) => {
+  //       this.planta.push({label:element.nombre,value:element.id})
+  //     });
+  //   })
+  // }
+  async cargarPlantaLocalidad(eve:any){
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
-    filterPlantaQuery.fieldList = ["id","nombre"];
+    filterPlantaQuery.fieldList = ["id","localidad"];
     filterPlantaQuery.filterList = [
-      { field: 'id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
-      { field: 'tipo', criteria: Criteria.EQUALS, value1: 'IPER' },
+      { field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
     ];
-    this.plantasService.getPlantaWithFilter(filterPlantaQuery).then((resp:any)=>{
+    await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp:any)=>{
       this.planta=[]
       this.plantasList=resp.data
       resp.data.forEach((element:any) => {
-        this.planta.push({label:element.nombre,value:element.id})
+        this.planta.push({label:element.localidad,value:element.id})
       });
-      
     })
   }
+
   //--------Cargar matriz------------------//
   async habilitarGuiaProceso(){
-    await this.cargarArea(this.formCreacionMatriz.value.planta)
+    await this.cargarArea(this.formCreacionMatriz?.value.planta)
     setTimeout(() => {
       this.flagRegistroMatrizAcording=true
       this.flagRegistroMatrizTree=true
@@ -657,13 +716,13 @@ export class MatrizPeligrosComponent implements OnInit {
     filter.filterList = [{ field: 'peligro.id', criteria: Criteria.EQUALS, value1: ide['id'] }];
     this.efectoService.findByFilter(filter).then(
       (resp:any) => {
-        this.formMatrizPeligros.patchValue({
+        this.formMatrizPeligros?.patchValue({
           'Efectos': resp[0].nombre
         })
       }
     );
      }else{
-      this.formMatrizPeligros.patchValue({
+      this.formMatrizPeligros?.patchValue({
         'Efectos': ''
       })
      }
@@ -674,13 +733,13 @@ export class MatrizPeligrosComponent implements OnInit {
     filter.filterList = [{ field: 'peligro.id', criteria: Criteria.EQUALS, value1: ide['id'] }];
     this.efectoService.findByFilter(filter).then(
       (resp:any) => {
-        this.formMatrizPeligrosSustitucion.patchValue({
+        this.formMatrizPeligrosSustitucion?.patchValue({
           'Efectos': resp[0].nombre
         })
       }
     );
      }else{
-      this.formMatrizPeligrosSustitucion.patchValue({
+      this.formMatrizPeligrosSustitucion?.patchValue({
         'Efectos': ''
       })
      }
@@ -749,10 +808,10 @@ export class MatrizPeligrosComponent implements OnInit {
 
     this.matrizdescripcion=[]
     // this.areaMatrizItemList = [{ label: '--Seleccione--', value: null }];
-    
+
     let filterArea = new FilterQuery();
     filterArea.fieldList= this.fieldList
-    filterArea.filterList = [{ field: 'plantas.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
+    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
     await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
       resp['data'].forEach(async (data1:any) => {
@@ -955,8 +1014,9 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    if(this.formMatrizRiesgosI.valid){this.nivelRiesgo(tipo)}
+    if(this.formMatrizRiesgosI?.valid){this.nivelRiesgo(tipo)}
   }
+  
   falgTable:boolean=true
   flagResidual:boolean=false
   nivelRiesgo(tipo:string){
@@ -986,15 +1046,15 @@ export class MatrizPeligrosComponent implements OnInit {
       valoracionRI2_1[0].accion='Mantenga los controles existentes'
       // this.falgTable=false
       if(tipo=='inicial'){
-        this.formMatrizRiesgosIResidual.patchValue({
-          ND: this.formMatrizRiesgosI.value.ND, //Clasificación
-          NE: this.formMatrizRiesgosI.value.NE, //Descripción del peligro
-          NP: this.formMatrizRiesgosI.value.NP,
-          NC: this.formMatrizRiesgosI.value.NC,
-          NR: this.formMatrizRiesgosI.value.NR,
-          NRCualitativo: this.formMatrizRiesgosI.value.NRCualitativo
+        this.formMatrizRiesgosIResidual?.patchValue({
+          ND: this.formMatrizRiesgosI?.value.ND, //Clasificación
+          NE: this.formMatrizRiesgosI?.value.NE, //Descripción del peligro
+          NP: this.formMatrizRiesgosI?.value.NP,
+          NC: this.formMatrizRiesgosI?.value.NC,
+          NR: this.formMatrizRiesgosI?.value.NR,
+          NRCualitativo: this.formMatrizRiesgosI?.value.NRCualitativo
         })
-        this.nivelProbabilidad('residual')
+        // this.nivelProbabilidad('residual')
         this.flagResidual=true
       }
 
@@ -1006,7 +1066,7 @@ export class MatrizPeligrosComponent implements OnInit {
       if(tipo=='inicial'){
         // this.formMatrizRiesgosIResidual.reset()
         // this.valoracionRI1Residual=[]
-        this.nivelProbabilidad('residual')
+        // this.nivelProbabilidad('residual')
       }
     }else if(500>=valoracionRI1_1[0].NR && valoracionRI1_1[0].NR>=150){
       valoracionRI2_1[0].CN='II'
@@ -1016,7 +1076,7 @@ export class MatrizPeligrosComponent implements OnInit {
       if(tipo=='inicial'){
         // this.formMatrizRiesgosIResidual.reset()
         // this.valoracionRI1Residual=[]
-        this.nivelProbabilidad('residual')
+        // this.nivelProbabilidad('residual')
       }
     }else if(valoracionRI1_1[0].NR>=600){
       valoracionRI2_1[0].CN='I'
@@ -1026,7 +1086,7 @@ export class MatrizPeligrosComponent implements OnInit {
       if(tipo=='inicial'){
         // this.formMatrizRiesgosIResidual.reset()
         // this.valoracionRI1Residual=[]
-        this.nivelProbabilidad('residual')
+        // this.nivelProbabilidad('residual')
       }
     }
 
@@ -1070,11 +1130,11 @@ export class MatrizPeligrosComponent implements OnInit {
     }
   }
   planAccionRiesgoInicial(){
-    if(this.formMatrizRiesgosI.value.realizoValoracion=='No'){
+    if(this.formMatrizRiesgosI?.value.realizoValoracion=='No'){
       document.getElementById("planAccionInicial")!.style.display = 'block'
     }else{
       document.getElementById("planAccionInicial")!.style.display = 'none'
-      this.formMatrizRiesgosI.patchValue({planAccion:null})
+      this.formMatrizRiesgosI?.patchValue({planAccion:null})
     }
   }
 
@@ -1159,9 +1219,11 @@ export class MatrizPeligrosComponent implements OnInit {
 
   async CRUDArea(eve:string){
     let area = new AreaMatriz();
-    let planta =new Plantas();
-    planta.id=this.idPlanta
-    area.plantas= planta;
+    // let planta =new Plantas();
+    let planta: Localidades = {} as Localidades;
+    planta.id = this.idPlanta;
+
+    area.localidad= planta;
     area.nombre=this.newArea;
     switch (eve) {
       case 'POST':
@@ -1170,7 +1232,12 @@ export class MatrizPeligrosComponent implements OnInit {
         await this.areaMatrizService.create(area).then((resp:any)=>{
           this.flagRegistroMatrizTree=false
           this.matrizdescripcion.push({children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado},parent:null})
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putAreaTree=false
+          }, 500);
+        });
         break;
       case 'PUT':
         area.id=this.idArea
@@ -1180,7 +1247,12 @@ export class MatrizPeligrosComponent implements OnInit {
           const indexarea = this.matrizdescripcion.findIndex((el:any) => el.data.id == resp.id )
           let children = this.matrizdescripcion[indexarea].children
           this.matrizdescripcion[indexarea]={children:children,data:{id:resp.id,nombre:resp.nombre,estado:resp.estado},parent:null}
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putAreaTree=false
+          }, 500);
+        });
         break;
       case 'DELETE':
         this.confirmationService.confirm({
@@ -1194,11 +1266,16 @@ export class MatrizPeligrosComponent implements OnInit {
             // await this.areaMatrizService.delete(this.idArea.toString()).then((resp:any)=>{
             await this.areaMatrizService.update(area).then((resp:any)=>{
               this.matrizdescripcion=this.matrizdescripcion.filter((fil:any) => fil.data.id !== resp.id)
+              // setTimeout(() => {
+              //   this.flagRegistroMatrizTree=true
+              //   this.putAreaTree=false
+              // }, 500);
+            }).then(() => {
               setTimeout(() => {
                 this.flagRegistroMatrizTree=true
                 this.putAreaTree=false
               }, 500);
-            })
+            });
           },
           acceptLabel: 'Sí',
           rejectLabel: 'No'
@@ -1208,10 +1285,10 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    setTimeout(() => {
-      this.flagRegistroMatrizTree=true
-      this.putAreaTree=false
-    }, 500);
+    // setTimeout(() => {
+    //   this.flagRegistroMatrizTree=true
+    //   this.putAreaTree=false
+    // }, 500);
   }
 
   async CRUDProceso(eve:string){
@@ -1227,8 +1304,13 @@ export class MatrizPeligrosComponent implements OnInit {
         this.procesoMatrizService.create(proceso).then((resp:any)=>{
           this.flagRegistroMatrizTree=false
           let proceso:any={children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
-          const indexobj = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea )
-          this.matrizdescripcion[indexobj].children.push(proceso)
+          const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea );
+          this.matrizdescripcion[indexArea].children.push(proceso);
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true;
+            this.putProcesoTree=false;
+          }, 500);
         })
         break;
       case 'PUT':
@@ -1242,6 +1324,11 @@ export class MatrizPeligrosComponent implements OnInit {
           let children = this.matrizdescripcion[indexArea].children[indexProceso].children
 
           this.matrizdescripcion[indexArea].children[indexProceso]={children:children,data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putProcesoTree=false
+          }, 500);
         })
         break;
       case 'DELETE':
@@ -1261,6 +1348,11 @@ export class MatrizPeligrosComponent implements OnInit {
                 this.flagRegistroMatrizTree=true
                 this.putProcesoTree=false
               }, 500);
+            }).then(() => {
+              setTimeout(() => {
+                this.flagRegistroMatrizTree=true
+                this.putProcesoTree=false
+              }, 500);
             })
           },
           acceptLabel: 'Sí',
@@ -1271,10 +1363,10 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    setTimeout(() => {
-      this.flagRegistroMatrizTree=true
-      this.putProcesoTree=false
-    }, 500);
+    // setTimeout(() => {
+    //   this.flagRegistroMatrizTree=true
+    //   this.putProcesoTree=false
+    // }, 500);
   }
   CRUDSubproceso(eve:string){
     let subproceso = new SubprocesoMatriz()
@@ -1293,7 +1385,12 @@ export class MatrizPeligrosComponent implements OnInit {
           const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea )
           const indexProceso = this.matrizdescripcion[indexArea].children.findIndex((el:any) => el.data.id == this.idProceso )
           this.matrizdescripcion[indexArea].children[indexProceso].children.push(subproceso)
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putSubprocesoTree=false
+          }, 500);
+        });
         break;
       case 'PUT':
         subproceso.eliminado=false
@@ -1307,7 +1404,12 @@ export class MatrizPeligrosComponent implements OnInit {
           let children = this.matrizdescripcion[indexArea].children[indexProceso].children[indexSubproceso].children
 
           this.matrizdescripcion[indexArea].children[indexProceso].children[indexSubproceso]={children:children,data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
-        })
+        }).then(() => {
+          setTimeout(() => {
+            this.flagRegistroMatrizTree=true
+            this.putSubprocesoTree=false
+          }, 500);
+        });
         break;
       case 'DELETE':
         this.confirmationService.confirm({
@@ -1323,11 +1425,16 @@ export class MatrizPeligrosComponent implements OnInit {
               const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea )
               const indexProceso = this.matrizdescripcion[indexArea].children.findIndex((el:any) => el.data.id == this.idProceso )
               this.matrizdescripcion[indexArea].children[indexProceso].children=this.matrizdescripcion[indexArea].children[indexProceso].children.filter((fil:any) => fil.data.id !== resp.id)
+              // setTimeout(() => {
+              //   this.flagRegistroMatrizTree=true
+              //   this.putSubprocesoTree=false
+              // }, 500);
+            }).then(() => {
               setTimeout(() => {
                 this.flagRegistroMatrizTree=true
                 this.putSubprocesoTree=false
               }, 500);
-            })
+            });
           },
           acceptLabel: 'Sí',
           rejectLabel: 'No'
@@ -1337,10 +1444,10 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    setTimeout(() => {
-      this.flagRegistroMatrizTree=true
-      this.putSubprocesoTree=false
-    }, 500);
+    // setTimeout(() => {
+    //   this.flagRegistroMatrizTree=true
+    //   this.putSubprocesoTree=false
+    // }, 500);
   }
 
   //-----------------Crear matriz peligros-----------------//
@@ -1364,7 +1471,7 @@ export class MatrizPeligrosComponent implements OnInit {
     this.areaMatrizItemList = [];
     let filterArea = new FilterQuery();
     filterArea.fieldList= this.fieldList
-    filterArea.filterList = [{ field: 'plantas.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
+    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
     await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
       resp['data'].forEach(async (data1:any) => {
@@ -1402,22 +1509,6 @@ export class MatrizPeligrosComponent implements OnInit {
 
   }
 
-  controlIng:any=[]
-  controlIngList:any=[]
-
-  controlAdm:any=[]
-  controlAdmList:any=[]
-
-  controlEqu:any=[]
-  controlEquList:any=[]
-  
-  controlFlag:boolean=false
-
-  formControl?: FormGroup | any;
-  CRUDcontrol:string='POST';
-  tipoControl:string=''
-
-  jerarquiaExistente:string=''
   controlFunc(CRUD:string ,tipo:string){
     this.tipoControl=tipo
     this.CRUDcontrol=CRUD
@@ -1519,23 +1610,11 @@ export class MatrizPeligrosComponent implements OnInit {
     this.formControl.reset()
   }
 
-
-
-  //-----------------------------------Plan Acción----------------------///
-  tareasList:any=[]
-  tareasListEjecutado:any=[]
-  tareasListPendiente:any=[]
-  tareasListEjecutadoPorcentaje:any=[]
-
-  tarea:any
-  flagPlanAccion:boolean=false
-  jControl:any=[{label:'Seleccione',value:null},{label:'Eliminación',value:'Eliminación'},{label:'Sustitución',value:'Sustitución'},{label:'Control de ingeniería',value:'Control de ingeniería'},{label:'Controles administrativos',value:'Controles administrativos'},{label:'Elementos de protección personal',value:'Elementos de protección personal'}]
-  estadosPlanAccion:any=[{label:'Seleccione',value:null},{label:'Pendiente',value:'Pendiente'},{label:'Ejecutado',value:'Ejecutado'}]
   planAccion(CRUD:string){
     this.CRUDplanAccion=CRUD
     switch (CRUD) {
       case 'PUT':
-        this.formPlanAccion.patchValue({
+        this.formPlanAccion?.patchValue({
           'id': this.tarea.id,
           'fechaCreacion': this.tarea.fechaCreacion,
           'jerarquia': this.tarea.jerarquia,
@@ -1546,7 +1625,7 @@ export class MatrizPeligrosComponent implements OnInit {
         this.flagPlanAccion=true
         break;
       case 'POST':
-        this.formPlanAccion.reset()
+        this.formPlanAccion?.reset()
         this.flagPlanAccion=true
         break;
       case 'DELETE':
@@ -1572,10 +1651,10 @@ export class MatrizPeligrosComponent implements OnInit {
   planAccionCRUD(CRUD:string){
     switch (CRUD) {
       case 'POST':
-        this.formPlanAccion.patchValue({
+        this.formPlanAccion?.patchValue({
           fechaCreacion: new Date().toLocaleDateString('es-CO')
         })
-        this.tareasListPendiente.push({id:this.cont,fechaCreacion:this.formPlanAccion.value.fechaCreacion,jerarquia:this.formPlanAccion.value.jerarquia,descripcion:this.formPlanAccion.value.descripcion,estado:this.formPlanAccion.value.estado,barreras:this.formPlanAccion.value.barreras})
+        this.tareasListPendiente.push({id:this.cont,fechaCreacion:this.formPlanAccion?.value.fechaCreacion,jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras})
         this.cont++
 
         if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
@@ -1585,8 +1664,8 @@ export class MatrizPeligrosComponent implements OnInit {
         break;
       case 'PUT':
         const indexPlanAccion = this.tareasListPendiente.findIndex((el:any) => el.id == this.tarea.id)
-        this.tareasListPendiente[indexPlanAccion]={id:this.tarea.id,fechaCreacion:this.formPlanAccion.value.fechaCreacion,jerarquia:this.formPlanAccion.value.jerarquia,descripcion:this.formPlanAccion.value.descripcion,estado:this.formPlanAccion.value.estado,barreras:this.formPlanAccion.value.barreras}
-        if(this.formPlanAccion.value.estado=='Sustitución' || this.formPlanAccion.value.estado=='Eliminación')this.flagplanElimsust=true
+        this.tareasListPendiente[indexPlanAccion]={id:this.tarea.id,fechaCreacion:this.formPlanAccion?.value.fechaCreacion,jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras}
+        if(this.formPlanAccion?.value.estado=='Sustitución' || this.formPlanAccion?.value.estado=='Eliminación')this.flagplanElimsust=true
         
         if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
         else this.flagplanElimsust=false
@@ -1596,7 +1675,7 @@ export class MatrizPeligrosComponent implements OnInit {
       default:
         break;
     }
-    this.formPlanAccion.reset()
+    this.formPlanAccion?.reset()
   }
 
   //--------guardar---------//
@@ -1610,58 +1689,58 @@ export class MatrizPeligrosComponent implements OnInit {
     let proceso= new ProcesoMatriz()
     let subproceso= new SubprocesoMatriz()
     let matrizPeligros= new MatrizPeligros()
-    this.formMatrizRiesgosC.patchValue({
+    this.formMatrizRiesgosC?.patchValue({
       Ingenieria:this.controlIngList,
       Administrativos:this.controlAdmList,
       ElementosPro:this.controlEquList
     })
-    if(!this.flagControlIng)this.formMatrizRiesgosC.patchValue({Ingenieria:null})
-    if(!this.flagControlAdm)this.formMatrizRiesgosC.patchValue({Administrativos:null})
-    if(!this.flagEquiposEle)this.formMatrizRiesgosC.patchValue({ElementosPro:null})
+    if(!this.flagControlIng)this.formMatrizRiesgosC?.patchValue({Ingenieria:null})
+    if(!this.flagControlAdm)this.formMatrizRiesgosC?.patchValue({Administrativos:null})
+    if(!this.flagEquiposEle)this.formMatrizRiesgosC?.patchValue({ElementosPro:null})
 
-    matrizPeligros.controlesexistentes=JSON.stringify(this.formMatrizRiesgosC.value);
-    matrizPeligros.peligro=JSON.stringify(this.formMatrizPeligros.value);
-    matrizPeligros.plantas=planta;
+    matrizPeligros.controlesexistentes=JSON.stringify(this.formMatrizRiesgosC?.value);
+    matrizPeligros.peligro=JSON.stringify(this.formMatrizPeligros?.value);
+    matrizPeligros.localidad=planta;
     // if(this.valoracionRI1[0].NP){
       // console.log(this.valoracionRI1[0].NP)
-      this.formMatrizRiesgosI.patchValue({
+      this.formMatrizRiesgosI?.patchValue({
         NP:this.valoracionRI1[0].NP
       })
     // }
     // if(this.valoracionRI1[0].NR){
-      this.formMatrizRiesgosI.patchValue({
+      this.formMatrizRiesgosI?.patchValue({
         NR:this.valoracionRI1[0].NR,
         NRCualitativo:this.valoracionRI2[0].CL
       })
     // }
 
     // if(this.valoracionRI1Residual[0].NP){
-      this.formMatrizRiesgosIResidual.patchValue({
-        NP:(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)?this.valoracionRI1Residual[0].NP:null
+      this.formMatrizRiesgosIResidual?.patchValue({
+        NP:(this.formMatrizRiesgosIResidual?.value.ND || this.formMatrizRiesgosIResidual?.value.NE)?this.valoracionRI1Residual[0].NP:null
       })
     // }
     // if(this.valoracionRI1Residual[0].NR){
-      this.formMatrizRiesgosIResidual.patchValue({
-        NR:(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)?this.valoracionRI1Residual[0].NR:null,
-        NRCualitativo:(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)?this.valoracionRI2Residual[0].CL:null
+      this.formMatrizRiesgosIResidual?.patchValue({
+        NR:(this.formMatrizRiesgosIResidual?.value.ND || this.formMatrizRiesgosIResidual?.value.NE)?this.valoracionRI1Residual[0].NR:null,
+        NRCualitativo:(this.formMatrizRiesgosIResidual?.value.ND || this.formMatrizRiesgosIResidual?.value.NE)?this.valoracionRI2Residual[0].CL:null
       })
     // }
-    matrizPeligros.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI.value);
+    matrizPeligros.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI?.value);
     // if(this.formMatrizRiesgosIResidual.value.ND || this.formMatrizRiesgosIResidual.value.NE)
     // this.formMatrizRiesgosIResidual.patchValue({
     //   NP: null,
     //   NR: null
     // });
-    matrizPeligros.valoracionRiesgoResidual=JSON.stringify(this.formMatrizRiesgosIResidual.value);
+    matrizPeligros.valoracionRiesgoResidual=JSON.stringify(this.formMatrizRiesgosIResidual?.value);
     this.tareasList=this.tareasListPendiente.concat(this.tareasListEjecutado)
-    this.formEfectividadControles.patchValue({controlPropuestos:this.tareasList.length})
-    this.formEfectividadControles.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
+    this.formEfectividadControles?.patchValue({controlPropuestos:this.tareasList.length})
+    this.formEfectividadControles?.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
 
     this.tareasListPendiente=this.tareasList.filter((resp:any)=>(resp.estado=='Pendiente' || resp.jerarquia=='Eliminación' || resp.jerarquia=='Sustitución'))
     this.tareasListEjecutado=this.tareasList.filter((resp:any)=>(resp.estado=='Ejecutado' && resp.jerarquia!='Eliminación' && resp.jerarquia!='Sustitución'))
     this.tareasListEjecutadoPorcentaje=this.tareasList.filter((resp:any)=>(resp.estado=='Ejecutado'))
-    this.formEfectividadControles.patchValue({controlEjecutados:this.tareasListEjecutadoPorcentaje.length})
-    this.formEfectividadControles.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
+    this.formEfectividadControles?.patchValue({controlEjecutados:this.tareasListEjecutadoPorcentaje.length})
+    this.formEfectividadControles?.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
 
     if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
         else this.flagplanElimsust=false
@@ -1679,12 +1758,12 @@ export class MatrizPeligrosComponent implements OnInit {
     matrizPeligros.planAccion=JSON.stringify(this.tareasList);
     matrizPeligros.eliminado=false
 
-    this.formMatrizGeneral2.patchValue({
-      Actividades: this.formMatrizGeneral.value.Actividades,
-      Rutinaria: this.formMatrizGeneral.value.Rutinaria,
-      Propios: this.formMatrizGeneral.value.Propios,
-      Temporales: this.formMatrizGeneral.value.Temporales,
-      Contratistas: this.formMatrizGeneral.value.Contratistas,
+    this.formMatrizGeneral2?.patchValue({
+      Actividades: this.formMatrizGeneral?.value.Actividades,
+      Rutinaria: this.formMatrizGeneral?.value.Rutinaria,
+      Propios: this.formMatrizGeneral?.value.Propios,
+      Temporales: this.formMatrizGeneral?.value.Temporales,
+      Contratistas: this.formMatrizGeneral?.value.Contratistas,
     });
 
     switch (this.CRUDMatriz) {
@@ -1711,9 +1790,9 @@ export class MatrizPeligrosComponent implements OnInit {
         let i=0
         this.idMostrar=''
         this.flagRegistroMatrizTree=false
-        this.formMatrizGeneral.value.Subproceso.forEach(async (ele1:any) => {
-          let findProceso= this.formMatrizGeneral.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
-          let findArea= this.formMatrizGeneral.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
+        this.formMatrizGeneral?.value.Subproceso.forEach(async (ele1:any) => {
+          let findProceso= this.formMatrizGeneral?.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
+          let findArea= this.formMatrizGeneral?.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
 
           area.id=findArea.id
           matrizPeligros.area=area
@@ -1724,15 +1803,15 @@ export class MatrizPeligrosComponent implements OnInit {
           subproceso.id=ele1.id
           matrizPeligros.subProceso=subproceso
 
-          this.formMatrizGeneral2.patchValue({
+          this.formMatrizGeneral2?.patchValue({
             Area: [findArea], //Clasificación
             Proceso: [findProceso], //Descripción del peligro
             Subproceso: [ele1],
           });
 
-          matrizPeligros.generalInf=JSON.stringify(this.formMatrizGeneral2.value);
-          this.formEfectividadControles.patchValue({estado:this.estado})
-          matrizPeligros.efectividadControles=JSON.stringify(this.formEfectividadControles.value)
+          matrizPeligros.generalInf=JSON.stringify(this.formMatrizGeneral2?.value);
+          this.formEfectividadControles?.patchValue({estado:this.estado})
+          matrizPeligros.efectividadControles=JSON.stringify(this.formEfectividadControles?.value)
           let matrizPeligrosLog = new MatrizPeligrosLog()
           matrizPeligrosLog = {...matrizPeligros}
           matrizPeligrosLog.accion='Creado'
@@ -1783,11 +1862,11 @@ export class MatrizPeligrosComponent implements OnInit {
         matrizPeligros.fechaCreacion=(this.fechaCreacion)?this.fechaCreacion:new Date();
         matrizPeligros.fechaEdicion=new Date()
         matrizPeligros.idEdicion=this.idEdicion
-        this.formEfectividadControles.patchValue({estado:this.estado})
-        matrizPeligros.efectividadControles=JSON.stringify(this.formEfectividadControles.value)
+        this.formEfectividadControles?.patchValue({estado:this.estado})
+        matrizPeligros.efectividadControles=JSON.stringify(this.formEfectividadControles?.value)
         //Separar por subproceso el guardado
         let idMostrar=""
-        for(const [i,ele1] of this.formMatrizGeneral.value.Subproceso.entries()){
+        for(const [i,ele1] of this.formMatrizGeneral?.value.Subproceso.entries()){
 
           try {
             matrizPeligros.id=this.idMatrizPeligro[i].split('-')[0]
@@ -1795,8 +1874,8 @@ export class MatrizPeligrosComponent implements OnInit {
             matrizPeligros.id=this.idMatrizPeligro[i]
           }
         // this.formMatrizGeneral.value.Subproceso.forEach((ele1:any) => {
-          let findProceso= this.formMatrizGeneral.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
-          let findArea= this.formMatrizGeneral.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
+          let findProceso= this.formMatrizGeneral?.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
+          let findArea= this.formMatrizGeneral?.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
 
           area.id=findArea.id
           matrizPeligros.area=area
@@ -1807,13 +1886,13 @@ export class MatrizPeligrosComponent implements OnInit {
           subproceso.id=ele1.id
           matrizPeligros.subProceso=subproceso
 
-          this.formMatrizGeneral2.patchValue({
+          this.formMatrizGeneral2?.patchValue({
             Area: [findArea], //Clasificación
             Proceso: [findProceso], //Descripción del peligro
             Subproceso: [ele1],
           });
 
-          matrizPeligros.generalInf=JSON.stringify(this.formMatrizGeneral2.value);
+          matrizPeligros.generalInf=JSON.stringify(this.formMatrizGeneral2?.value);
 
           let matrizPeligrosLog:any = new MatrizPeligrosLog()
           matrizPeligrosLog = {...matrizPeligros}
@@ -1839,8 +1918,8 @@ export class MatrizPeligrosComponent implements OnInit {
 
             let matrizPeligros2= new MatrizPeligros()
             matrizPeligros2.eliminado=false
-            matrizPeligros2.generalInf=JSON.stringify(this.formMatrizGeneral2.value);
-            matrizPeligros2.peligro=JSON.stringify(this.formMatrizPeligrosSustitucion.value);
+            matrizPeligros2.generalInf=JSON.stringify(this.formMatrizGeneral2?.value);
+            matrizPeligros2.peligro=JSON.stringify(this.formMatrizPeligrosSustitucion?.value);
             matrizPeligros2.plantas=planta;
             matrizPeligros2.area=area
             matrizPeligros2.proceso=proceso
@@ -1848,12 +1927,12 @@ export class MatrizPeligrosComponent implements OnInit {
             matrizPeligros2.fechaCreacion=new Date();
             matrizPeligros2.idEdicion=this.idEdicion2
 
-            matrizPeligros2.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI2.value);
-            matrizPeligros2.valoracionRiesgoResidual=JSON.stringify(this.formMatrizRiesgosIResidual2.value);
-            matrizPeligros2.controlesexistentes==JSON.stringify(this.formMatrizRiesgosC2.value);
+            matrizPeligros2.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI2?.value);
+            matrizPeligros2.valoracionRiesgoResidual=JSON.stringify(this.formMatrizRiesgosIResidual2?.value);
+            matrizPeligros2.controlesexistentes==JSON.stringify(this.formMatrizRiesgosC2?.value);
             matrizPeligros2.planAccion='[]'
-            this.formEfectividadControles.patchValue({estado:this.estado})
-            matrizPeligros2.efectividadControles=JSON.stringify(this.formEfectividadControles.value)
+            this.formEfectividadControles?.patchValue({estado:this.estado})
+            matrizPeligros2.efectividadControles=JSON.stringify(this.formEfectividadControles?.value)
 
 
             let matrizPeligrosLog2 = new MatrizPeligrosLog()
@@ -1975,8 +2054,78 @@ export class MatrizPeligrosComponent implements OnInit {
       }
   });
   }
+  
   permisoFlagELASOCIADOS: boolean=false
   TienePermiso(e:boolean){
     this.permisoFlagELASOCIADOS=e
-}
+  }
+
+  nuevoPeligroEnSubprocesoActual(){
+    this.confirmationService.confirm({
+      message: 'Esta acción generará un nuevo peligro a partir del subproceso actual, asegúrese de guardar antes de continuar.',
+      header: 'Confirmar acción',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Continuar',
+      rejectLabel: 'Cancelar',
+      key: 'matrizp',
+      accept: () => {
+        this.acordionMatriz?.tabs?.map((accTab, index) => {
+          accTab.selected = index == 0 ? true : false;
+          return accTab;
+        })
+        console.log(this.acordionMatriz);
+        this.CRUDMatriz = 'PUT';
+        this.CRUDarea = 'POST';
+        this.CRUDproceso = 'POST';
+        this.CRUDsubproceso = 'POST';
+        this.CRUDplanAccion = 'POST';
+        this.CRUDcontrol = 'POST';
+        this.estado = 'Sin estado';
+        this.idMostrar = '';
+        this.formMatrizPeligros?.reset();
+        this.formMatrizGeneralSustitucion?.reset();
+        this.formMatrizGeneral2?.reset();
+        this.formMatrizGeneral2Sustitucion?.reset();
+        this.formMatrizPeligrosSustitucion?.reset();
+        this.formMatrizRiesgosC?.reset();
+        this.formMatrizRiesgosI?.reset();
+        this.formMatrizRiesgosI?.get('planAccion')?.clearValidators();
+        this.formMatrizRiesgosI?.get('planAccion')?.updateValueAndValidity();
+        this.formMatrizRiesgosI?.get('realizoValoracion')?.clearValidators();
+        this.formMatrizRiesgosI?.get('realizoValoracion')?.updateValueAndValidity();
+        this.formMatrizRiesgosI?.updateValueAndValidity();
+        this.formMatrizRiesgosIResidual?.reset();
+        this.formMatrizRiesgosIResidual?.get('NC')?.setValue('');
+        this.formPlanAccion?.reset();
+        this.formEfectividadControles?.reset();
+        this.formValoracionRiesgo?.reset();
+        this.formMatrizRiesgosI2?.reset();
+        this.formMatrizRiesgosIResidual2?.reset();
+        this.formMatrizRiesgosC2?.reset();
+        this.controlIngList = [];
+        this.controlIng = [];
+        this.controlAdmList = [];
+        this.controlAdm = [];
+        this.controlEqu = [];
+        this.controlEquList = [];
+        this.controlFlag = false;
+        this.flagControlAdm = true;
+        this.flagControlIng = true;
+        this.flagEquiposEle = true;
+        this.visualEvaluacionRiesgo('flagControlIng');
+        this.visualEvaluacionRiesgo('flagControlAdm');
+        this.visualEvaluacionRiesgo('flagEquiposEle');
+        this.tareasList = [];
+        this.tareasListEjecutado = [];
+        this.tareasListPendiente = [];
+        this.tareasListEjecutadoPorcentaje = [];
+        this.tarea = undefined;
+        this.flagPlanAccion = false;  
+        this.valoracionRI1 =[{ND:null,NE:null,NP:0,I:'',NC:null,NR:0,CN:'',CL:''}];
+        this.valoracionRI1Residual = [{ND:null,NE:null,NP:0,I:'',NC:null,NR:0,CN:'',CL:''}];
+        this.valoracionRI2 = [{CN:'',CL:'',accion:'',color:''}];
+        this.valoracionRI2Residual = [{CN:'',CL:'',accion:'',color:''}];
+      }
+    });
+  }
 }

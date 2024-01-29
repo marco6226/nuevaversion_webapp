@@ -243,8 +243,10 @@ export class NavComponent implements OnInit {
     let filterPlanta = new FilterQuery();
     filterPlanta.filterList = [{ field: 'usuarioConsolidado.id', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).usuario.id}];
     filterPlanta.filterList.push({ field: 'descargaConsolidado', criteria: Criteria.EQUALS, value1: 'false'});
-    filterPlanta.filterList.push({ field: 'id_empresa', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).empresa.id});
-    await this.plantasService.getPlantaWithFilter(filterPlanta).then((resp:any)=>{
+    filterPlanta.filterList.push({ field: 'plantas.id_empresa', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).empresa.id});
+    // await this.plantasService.getPlantaWithFilter(filterPlanta).then((resp:any)=>{
+    await this.empresaService.getLocalidadesRWithFilter(filterPlanta).then((resp:any)=>{
+
       resp.data.forEach((element:any) => {
         this.matricezPendientes.push({nombre:element.nombre,tipo:'Consolidado'})
       });
@@ -256,8 +258,10 @@ export class NavComponent implements OnInit {
     let filterPlanta = new FilterQuery();
     filterPlanta.filterList = [{ field: 'usuarioHistorico.id', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).usuario.id}];
     filterPlanta.filterList.push({ field: 'descargaHistorico', criteria: Criteria.EQUALS, value1: 'false'});
-    filterPlanta.filterList.push({ field: 'id_empresa', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).empresa.id});
-    await this.plantasService.getPlantaWithFilter(filterPlanta).then((resp:any)=>{
+    filterPlanta.filterList.push({ field: 'plantas.id_empresa', criteria: Criteria.EQUALS, value1: JSON.parse(localStorage.getItem('session')!).empresa.id});
+    // await this.plantasService.getPlantaWithFilter(filterPlanta).then((resp:any)=>{
+    await this.empresaService.getLocalidadesRWithFilter(filterPlanta).then((resp:any)=>{
+
       resp.data.forEach((element:any) => {
         this.matricezPendientes.push({nombre:element.nombre,tipo:'Historico'})
       });

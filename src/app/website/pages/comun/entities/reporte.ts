@@ -100,4 +100,5 @@ export class Reporte {
   istemporal?: boolean | null;
   subcontratista?: Subcontratista | null;
   localidad?: Localidades | null;
+
 }
