@@ -66,15 +66,29 @@ export let columnasPorModulo: any = {
             'estado'
         ]
     },
-    'default': [
-        'module',
-        'fecha_reporte',
-        'regional',
-        'area',
-        'hash_id',
-        'nombre',
-        'empResponsable',
-        'fecha_proyectada',
-        'estado'
-    ]
+    'default': {
+        'Inspecciones': [
+            'module',
+            'fecha_reporte',
+            'regional',
+            'area',
+            'tipo_lista',
+            'hash_id',
+            'nombre',
+            'empResponsable',
+            'fecha_proyectada',
+            'estado'
+        ],
+        'values': [
+            'module',
+            'fecha_reporte',
+            'regional',
+            'area',
+            'hash_id',
+            'nombre',
+            'empResponsable',
+            'fecha_proyectada',
+            'estado'
+        ]
+    }
 };

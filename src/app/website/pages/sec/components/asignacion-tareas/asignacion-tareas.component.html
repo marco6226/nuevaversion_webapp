@@ -46,6 +46,12 @@
                         <th pSortableColumn="localidad" *ngIf="mostrarColumna('localidad')">Localidad
                             <p-sortIcon field="localidad"></p-sortIcon>
                         </th>
+                        <th pSortableColumn="tipo_lista" *ngIf="mostrarColumna('tipo_lista')">Tipo de lista
+                            <p-sortIcon field="tipo_lista"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lista_inspeccion" *ngIf="mostrarColumna('lista_inspeccion')">Lista de Inspeccion
+                            <p-sortIcon field="lista_inspeccion"></p-sortIcon>
+                        </th>
                         <th pSortableColumn="hash_id"> Código
                             <p-sortIcon field="hash_id"></p-sortIcon>
                         </th>
@@ -109,6 +115,16 @@
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'localidad', 'contains')">
                             </div>
                         </td>
+                        <td *ngIf="mostrarColumna('tipo_lista')">
+                            <div class="ui-inputgroup">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipo_lista', 'contains')">
+                            </div>
+                        </td>
+                        <td *ngIf="mostrarColumna('lista_inspeccion')">
+                            <div class="ui-inputgroup">
+                                <input pInputText type="text" (input)="dt.filter($event.target.value, 'lista_inspeccion', 'contains')">
+                            </div>
+                        </td>
                         <td>
                             <div class="ui-inputgroup">
                                 <input pInputText type="text" (input)="dt.filter($event.target.value, 'hash_id', 'contains')">
@@ -151,6 +167,8 @@
                         <td *ngIf="mostrarColumna('division_aliado')">{{tarea.division_aliado}}</td>
                         <td *ngIf="mostrarColumna('area') || mostrarColumna('areaUb')">{{tarea.area}}</td>
                         <td *ngIf="mostrarColumna('localidad')">{{tarea.localidad}}</td>
+                        <td *ngIf="mostrarColumna('tipo_lista')">{{tarea.tipo_lista}}</td>
+                        <td *ngIf="mostrarColumna('lista_inspeccion')">{{tarea.lista_inspeccion}}</td>
                         <td>{{tarea.hash_id}}</td>
                         <td>{{tarea.nombre}}</td>
                         <td class="p-text-center" *ngIf="mostrarColumna('empResponsable')">{{(tarea?.empResponsable) ? tarea?.empResponsable?.primer_nombre + ' ' + tarea?.empResponsable?.primer_apellido : 'No posee responsable'}}</td>
@@ -242,23 +260,28 @@
     <button pButton type="button" (click)="exportexcel()" title="Exportar a archivo Excel" icon="pi pi-file-excel-o" class="p-button-success"></button>
 </p-dialog>
 
-<p-dialog header="Informe tareas" [(visible)]="visibleDlgInforme" [style]="{width: '40%', height: '35%'}">
+<p-dialog header="Informe tareas" [(visible)]="visibleDlgInforme" [style]="{width: '40%', height: '35%'}" [modal]="true">
     
     <div >
         Seleccione rango de fechas en el que desea el informe
     </div>
     <br>
     <div>
-        <p-calendar 
+        <p-calendar #calendarExcel
         [(ngModel)]="rangeDatesInforme"
-        dateFormat="dd/MM/yyyy"
+        dateFormat="dd/MM/yy"
         selectionMode="range"
         (onSelect)="habilitarindSCM()"
         (onClearClick)="onResetDate()"
         placeholder="buscar"
         appendTo="body"
         showButtonBar="true">
-            <p-header style="text-align: center;"><h5>Seleccione un rango</h5></p-header>
+            <p-header style="display: flex; flex-direction: row-reverse; justify-content: space-between;">
+                <button pButton icon="bi bi-x-lg" class="p-button-rounded p-button-secondary p-button-text" [title]="'Cerrar'" (click)="calendarExcel?.toggle()"
+                ></button>
+                <div><h4>Seleccione un rango</h4></div>
+                <div>&nbsp;</div>
+            </p-header>
         </p-calendar>
     </div>
     <p-footer>

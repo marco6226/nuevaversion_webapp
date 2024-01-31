@@ -12,6 +12,7 @@ import { Table } from 'primeng/table';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
 import {formatDate} from '@angular/common';
 import { columnasPorModulo } from '../utils/entities/modulos';
+import { Calendar } from 'primeng/calendar';
 
 @Component({
   selector: 'app-asignacion-tareas',
@@ -21,6 +22,7 @@ import { columnasPorModulo } from '../utils/entities/modulos';
 })
 export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   @ViewChild("dt") dataTableComponent: Table | null = null;
+  @ViewChild("calendarExcel") calendarExcel: Calendar | null = null;
   loading: boolean = true;
   yearRange?:any;
   tareasList: any[] = [];
@@ -279,6 +281,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
             Fecha_de_Reporte:formatDate(new Date(tarea.fecha_reporte), 'yyyy/MM/dd', 'en'),
             División_Unidad:tarea.regional,
             Ubicación:tarea.division,
+            Tipo_de_lista: tarea.tipo_lista,
             Código:tarea.area,
             Actividad:tarea.hash_id,
             Responsable:(tarea.empResponsable)? tarea.empResponsable.primer_nombre + ' ' + tarea.empResponsable.primer_apellido : 'No posee responsable',
@@ -329,13 +332,22 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
         this.tareaListFilter=event.filteredValue
     }
 
+    // Esta función valida en el objeto json columnasPorModulo, en ese objeto están detalladas las columnas que quiere ver cada empresa 
     mostrarColumna(nombreColumna: string){
       let moduloInfo = columnasPorModulo[this.moduloSelected];
       if(Object.keys(moduloInfo).includes(this.idEmpresa)){
         return moduloInfo[this.idEmpresa!].includes(nombreColumna);
       }
       
-      return columnasPorModulo['default'].includes(nombreColumna)
+      if(Object.keys(columnasPorModulo['default']).includes(this.moduloSelected)){
+        return (columnasPorModulo['default'])[this.moduloSelected].includes(nombreColumna);
+      }
+
+      return columnasPorModulo['default']['values'].includes(nombreColumna)
+    }
+
+    cerrarCalendarDialog(){
+      this.calendarExcel?.toggle();
     }
 
     test(event: any){
