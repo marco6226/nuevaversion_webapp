@@ -391,7 +391,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       }
       cont ++;
       this.GPI+=ele.valoracionRiesgoInicial.NR
-      this.GPF+=ele.valoracionRiesgoResidual.NR
+      this.GPF+=(ele.valoracionRiesgoResidual.NR)?ele.valoracionRiesgoResidual.NR:ele.valoracionRiesgoInicial.NR
     });
 
     this.ICR=((this. GPI-this.GPF)/this.GPI)*100

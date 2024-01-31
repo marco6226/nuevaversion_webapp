@@ -1060,20 +1060,57 @@
                     <hr>
                     <h1>Indicador de impacto</h1>
                     <div class="grid accordionTab">
-                        <div class="col-3 col-sm-6 gridcol">
-                            <label for="">Cantidad de AT asociados: &nbsp;</label>
-                            <input type="number" formControlName="ATasociados" readonly>
-                            <button 
-                                    pButton type="button"icon="pi pi-plus"
-                                        class="p-button-success"
-                                        pTooltip="Agregar AT"
-                                        (click)="reporteATSum()"></button>
-                        </div>
-                        <div class="col-3 col-sm-6 gridcol">
+                        <div class="col-12 gridcol">
                             <label for="">Cantidad de EL asociados: &nbsp;</label>
                             <ng-template [sTienePermiso]="'IPECR_PUT_ELASOCIADOS'" (flagTienePermiso)="TienePermiso($event)">
                             </ng-template>
                             <input  type="number" formControlName="ELasociados" [readonly]="!this.permisoFlagELASOCIADOS">
+                        </div>
+                        <div class="col-12 gridcol">
+                            <label for="">Cantidad de AT asociados: &nbsp;</label>
+                            <input type="number" formControlName="ATasociados" readonly>&nbsp;
+                            <button 
+                                    pButton type="button"icon="pi pi-plus"
+                                        class="p-button-primary"
+                                        pTooltip="Agregar AT"
+                                        (click)="reporteATSum()"></button>
+                        </div>
+                        <div class="col-12">
+                            <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [value]="ATTable" [paginator]="true" [rows]="10" >
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th>RAI</th>
+                                        <th>Fecha de Reporte</th>
+                                        <th>Fecha de Accidente</th>
+                                        <th>Primer Nombre Empleadp</th>
+                                        <th>Primer Apellido Empleado</th>
+                                        <th>Numero de Identificaciópn Empleado</th>
+                                        <th>Numero Furat</th>
+                                        <th>Area de Accidente</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-at>
+                                    <tr class="table-row table-row-selectable">
+                                        <td>RAI-{{at.id}}</td>
+                                        <td>{{at.fechaReporte}}</td>
+                                        <td>{{at.fechaAccidente}}</td>
+                                        <td>{{at.primerNombreEmpleado}}</td>
+                                        <td>{{at.primerApellidoEmpleado}}</td>
+                                        <td>{{at.numeroIdentificacionEmpleado}}</td>
+                                        <td>{{at.numerofurat}}</td>
+                                        <td>{{at.areaAccidente.nombre}}</td>
+                                        <td>
+                                            <button  pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="eliminarATTabla(at.id)"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td [attr.colspan]="9">No hay AT asociados a esta matriz</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </div>
                 </form>
@@ -1107,7 +1144,7 @@
         [icon]="'pi pi-clone'"
         class="float-btn"
         style="bottom: 150px; z-index: 10000;"
-        [title]="'Crear nuevo peligro a partir del subproceso actual'"
+        [title]="'Esta acción evaluará  un nuevo peligro a partir de la información general - descripción actual, asegúrese de guardar antes de continuar.'"
         ></button>
     </p-panel>
 </ng-container>
@@ -1335,5 +1372,73 @@
         </div>
     </form>
 </p-dialog>
-<p-dialog [(visible)]="flagATasociados" modal="true" [style]= "{'width': '80%'}">
+<p-dialog header="AGREGAR AT A LA MATRIZ DE PELIGROS" [(visible)]="flagATasociados" modal="true" [style]= "{'width': '80%'}">
+    <p-toast  key="mpeligrosDialog"></p-toast>
+
+    <div class="grid">
+        <div class="col-12">
+            <span>Escriba el RAI para asociar el accidente a la matriz</span><br>
+        </div>
+        <div class="col-12">
+            <p-autoComplete placeholder="Buscar por numero RAI" [style]="{'width':'100%'}"
+            (onSelect)="onSelectionAT($event)" [suggestions]="ATList" (completeMethod)="buscarRAI($event)" appendTo="body" [(ngModel)]="ATSelect">
+                <ng-template let-at pTemplate="item">
+                    <div class="ui-helper-clearfix" >
+                        <div class="wrapper" >
+                            <div style="margin-left:20px">
+                                <label>RAI-{{at.id}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+        </div>
+        <div class="col-12">
+            <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [value]="ATTableDialog" [paginator]="true" [rows]="10" >
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>RAI</th>
+                        <th>Fecha de Reporte</th>
+                        <th>Fecha de Accidente</th>
+                        <th>Primer Nombre Empleadp</th>
+                        <th>Primer Apellido Empleado</th>
+                        <th>Numero de Identificaciópn Empleado</th>
+                        <th>Numero Furat</th>
+                        <th>Area de Accidente</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-at>
+                    <tr class="table-row table-row-selectable">
+                        <td>RAI-{{at.id}}</td>
+                        <td>{{at.fechaReporte}}</td>
+                        <td>{{at.fechaAccidente}}</td>
+                        <td>{{at.primerNombreEmpleado}}</td>
+                        <td>{{at.primerApellidoEmpleado}}</td>
+                        <td>{{at.numeroIdentificacionEmpleado}}</td>
+                        <td>{{at.numerofurat}}</td>
+                        <td>{{at.areaAccidente.nombre}}</td>
+                        <td>
+                            <button  pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="eliminarATTablaDialog(at.id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary" let-rowData>
+                    <tr>
+                        <td colspan="4">
+                            <div class="flex justify-content-end flex-wrap">
+                                <button  pButton class="flex m-2 p-button-primary p-button-sm" label="Asociar" icon="pi pi-plus" (click)="asociarATTablaDialog()"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="9">No hay AT asociados a esta matriz</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
 </p-dialog>

@@ -72,6 +72,21 @@ export class ReporteService extends CRUDService<Reporte>{
     });
   }
 
+  buscar(parametro: string): Promise<Reporte> {
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(this.end_point + "buscar/" + parametro)
+        .subscribe(
+          (res) => {
+            resolve(res);
+          }
+          ,
+          (err: any) => {
+            this.manageError(err);
+            reject(err)}
+        )
+    });
+  }
+
   getClassName(): string {
     return "ReporteService";
   }

@@ -35,6 +35,8 @@ import { Localidades } from "../../../ctr/entities/aliados";
 import { CargoService } from 'src/app/website/pages/empresa/services/cargo.service';
 import { Cargo } from 'src/app/website/pages/empresa/entities/cargo';
 import { Accordion } from 'primeng/accordion';
+import { ReporteService } from '../../../core/services/reporte.service';
+import { Reporte } from '../../../comun/entities/reporte';
 
 
 interface Column {
@@ -213,6 +215,8 @@ export class MatrizPeligrosComponent implements OnInit {
     private paramNav: ParametroNavegacionService,
     private messageService: MessageService,
     private cargoService: CargoService,
+    private reporteService: ReporteService,
+
   ) { 
     this.modulo = Modulo.IPR.value;
     
@@ -338,7 +342,9 @@ export class MatrizPeligrosComponent implements OnInit {
       controlPropuestos: [0],
       cumplimiento: [0],
       ATasociados: [0],
+      ATasociadosArray:null,
       ELasociados: [0],
+      ELasociadosArray:null,
       estado:[null]
     });
   }
@@ -614,6 +620,18 @@ export class MatrizPeligrosComponent implements OnInit {
       NRCualitativo: matrizPeligro?.valoracionRiesgoResidual?.NRCualitativo,
     });
     if(this.formMatrizRiesgosIResidual?.valid) this.nivelProbabilidad('residual');
+    // matrizPeligros.efectividadControles=JSON.stringify(this.formEfectividadControles?.value)
+
+    //VII-Efectividad en los controles
+    this.formEfectividadControles?.patchValue({ELasociados:matrizPeligro.efectividadControles.ELasociados})
+    this.formEfectividadControles?.patchValue({ATasociadosArray:matrizPeligro?.efectividadControles?.ATasociadosArray})
+    this.ATTable=(matrizPeligro?.efectividadControles?.ATasociadosArray)?JSON.parse(matrizPeligro?.efectividadControles?.ATasociadosArray):[]
+    this.formEfectividadControles?.patchValue({ATasociados:matrizPeligro.efectividadControles.ATasociados})
+    this.formEfectividadControles?.patchValue({ATasociadosArray:matrizPeligro?.efectividadControles?.ATasociadosArray})
+    // this.formEfectividadControles?.patchValue({ATasociadosArray:JSON.parse(this.ATTable)})
+
+
+
 
     //Evidencias
     this.documentosList=matrizPeligro.documentosList    
@@ -624,6 +642,7 @@ export class MatrizPeligrosComponent implements OnInit {
     localStorage.removeItem('formCreacionMatriz');
     localStorage.removeItem('Accion1');
   }
+
 
   cargarEvidencias(){
     // dsafsd
@@ -2098,6 +2117,7 @@ export class MatrizPeligrosComponent implements OnInit {
         this.formMatrizRiesgosIResidual?.get('NC')?.setValue('');
         this.formPlanAccion?.reset();
         this.formEfectividadControles?.reset();
+        this.ATTable=[]
         this.formValoracionRiesgo?.reset();
         this.formMatrizRiesgosI2?.reset();
         this.formMatrizRiesgosIResidual2?.reset();
@@ -2133,8 +2153,49 @@ export class MatrizPeligrosComponent implements OnInit {
   flagATasociados:boolean=false
   reporteATSum(){
     this.flagATasociados=true
+  }
+  ATList?: any[];
+  ATSelect:any
+  ATTableDialog:any=[];
+  ATTable:any=[];
+
+  buscarRAI(ele:any){
+    this.reporteService.buscar(ele.query).then(
+      (data:any) => {
+        this.ATList = <Reporte[]>data}
+    );
+  }
+  onSelectionAT(ele:any){
+    let flagIdDialog = this.ATTableDialog?.find((item:any) => item.id === ele.id);
+    let flagId = this.ATTable?.find((item:any) => item.id === ele.id);
+
+    if(!flagIdDialog && !flagId){
+      this.ATTableDialog.push(ele)
+    }else{
+      this.messageService.add({key: 'mpeligrosDialog', severity: 'info', detail: 'El RAI-'+ele.id+' ya se encuentra asociado o esta en la lista por asociar.', summary: 'Error', life: 6000});
+    }
+
+    this.ATSelect=null
+  }
+  eliminarATTablaDialog(ele:any){
+    this.ATTableDialog=this.ATTableDialog.filter((resp1:any)=>{return resp1.id !=ele})
+  }
+  asociarATTablaDialog(){
+    this.ATTable=(this.ATTable)?this.ATTable:[]
+
+    this.ATTable=this.ATTable.concat(this.ATTableDialog)
+    this.flagATasociados=false
+    this.ATTableDialog=[]
     this.formEfectividadControles?.patchValue({
-      ATasociados:this.formEfectividadControles.value.ATasociados+1
+      ATasociados:this.ATTable.length
+    })
+    this.formEfectividadControles?.patchValue({ATasociadosArray:JSON.stringify(this.ATTable)})
+  }
+
+  eliminarATTabla(ele:any){
+    this.ATTable=this.ATTable.filter((resp1:any)=>{return resp1.id !=ele})
+    this.formEfectividadControles?.patchValue({
+      ATasociados:this.ATTable.length
     })
   }
 }
