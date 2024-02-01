@@ -2081,7 +2081,7 @@ export class MatrizPeligrosComponent implements OnInit {
 
   nuevoPeligroEnSubprocesoActual(){
     this.confirmationService.confirm({
-      message: 'Esta acción generará un nuevo peligro a partir del subproceso actual, asegúrese de guardar antes de continuar.',
+      message: 'Esta acción evaluará  un nuevo peligro a partir de la información general - descripción actual, asegúrese de guardar antes de continuar.',
       header: 'Confirmar acción',
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Continuar',
@@ -2190,6 +2190,8 @@ export class MatrizPeligrosComponent implements OnInit {
       ATasociados:this.ATTable.length
     })
     this.formEfectividadControles?.patchValue({ATasociadosArray:JSON.stringify(this.ATTable)})
+    this.messageService.add({key: 'mpeligros', severity: 'info', detail: 'Es necesario evaluar nuevamente los riesgos y los planes de acción existentes - Recuerde guardar para la conservación de la información.', summary: 'Recordatorio', life: 6000});
+
   }
 
   eliminarATTabla(ele:any){
