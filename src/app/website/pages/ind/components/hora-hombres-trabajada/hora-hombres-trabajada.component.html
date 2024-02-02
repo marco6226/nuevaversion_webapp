@@ -1,9 +1,9 @@
 <p-toast key="hht"></p-toast>
-<p-panel [header]="'HORA HOMBRES TRABAJADAS'">
+<p-panel [header]="'HORAS HOMBRE TRABAJADAS'">
     <p-accordion [multiple]="true">
         <div class="p-fluid p-grid p-formgrid grid">
             <div class="col-12 md:col-3 lg:col-3">
-                <label for="">Pais:</label>
+                <label for="">País:</label>
                 <p-dropdown appendTo="body" [options]="pais" placeholder="Seleccionar pais" [(ngModel)]="paisSelect" (onChange)="onSelectPais()"></p-dropdown>
             </div>
         </div>
@@ -16,13 +16,16 @@
                 </div>
                 <div class="col-12 md:col-3 lg:col-3">
                     <label for="">Seleccionar empresa:</label>
-                    <p-dropdown appendTo="body" [options]="Empresas" placeholder="Seleccionar empresa" (onChange)="onSelectEmpresa($event)"></p-dropdown>
+                    <p-dropdown appendTo="body" [options]="Empresas" placeholder="Seleccionar empresa" (onChange)="onSelectEmpresa($event)" *ngIf="paisSelect!=='Total'; else multipleEmpresa"></p-dropdown>
+                    <ng-template #multipleEmpresa>
+                        <p-multiSelect appendTo="body" [options]="Empresas" placeholder="Seleccionar empresa" (onChange)="onSelectEmpresa($event)"></p-multiSelect>
+                    </ng-template>
                 </div>
             </div><br><hr><br>
             <ng-container> <!--  *ngIf="mostrarForm" -->
                 <div class="grid">
                     <div class="col-12 md:col-3 lg:col-3">
-                        <label for="" style="margin-right: 10px;">Mes a editar:</label>
+                        <label for="" style="margin-right: 10px;">Seleccionar mes:</label>
                         <p-dropdown [options]="meses"
                         [(ngModel)]="selectedMes"
                         placeholder="--Seleccione--"
@@ -36,13 +39,32 @@
                     </div> -->
                 </div>
                 <div class="grid" style="margin-top: 20px;">
-                    <div class="col-12 md:col-3 lg:col-3" *ngIf="anioSelected && empresaSelected && empresaSelected=='22'">
+                    <div class="col-12 md:col-3 lg:col-3" *ngIf="anioSelected && empresaSelected && empresaSelected=='22' && paisSelect!=='Total'">
                         <label for="" style="margin-right: 10px;">Meta total para {{findEmpresaById(empresaSelected)}}:</label>
                         <input pInputText [(ngModel)]="metaAnualILI" placeholder="0" type="number"/>
                     </div>
                 </div>
+                <p-accordionTab *ngIf="paisSelect==='Total' && !selectedMes" [header]="'Año ' + anioSelected?.value" [selected]="true" [disabled]="true">
+                    <div class="grid">
+                        <div class="col-6 md:col-2 lg:col-2">
+                            Total No. personas:
+                        </div>
+                        <div class="col-6 md:col-2 lg:col-2">
+                            <input type="number" pInputText
+                            readonly placeholder="0" [(ngModel)]="totalesAnio.hombres">
+                        </div>
+                        <div class="col-6 md:col-2 lg:col-2">
+                            Total HHT:
+                        </div>
+                        <div class="col-6 md:col-2 lg:col-2">
+                            <input type="number" pInputText
+                            readonly placeholder="0" [(ngModel)]="totalesAnio.hht">
+                        </div>
+                    </div>
+                </p-accordionTab>
                 <ng-container *ngFor="let mes of meses; let i = index;">
-                    <p-accordionTab *ngIf="mes.value === selectedMes" header={{mes.label}} [selected]="true" [disabled]="true">
+                    <p-accordionTab *ngIf="mes.value === selectedMes || (paisSelect === 'Total' && !selectedMes)" 
+                    header={{mes.label}} [selected]="selectedMes" [disabled]="paisSelect !== 'Total'">
                         <div class="grid">
                             <div class="col-6 md:col-2 lg:col-2">
                                 Total mes No. PERSONAS:
@@ -92,7 +114,7 @@
                                             [(ngModel)]="dataHHT[i].Areas[j].HhtArea" 
                                             type="number"/>
                                         </div>
-                                        <ng-container *ngIf="empresaSelected==22">
+                                        <ng-container *ngIf="empresaSelected==22 && paisSelect!=='Total'">
                                             <div class="col-12 md:col-2 lg:col-2" >
                                                 Meta {{area.nombre}}:
                                             </div>
@@ -106,7 +128,7 @@
                                         </ng-container>
                                     </div>
 
-                                    <div *ngIf="plantasList">
+                                    <div *ngIf="plantasList && paisSelect!=='Total'">
                                     <!-- <div> -->
                                         <ng-container *ngFor="let pl of getPlantasByArea(area.id); let k = index;"><!-- {{test([i,j,k])}} -->
                                         <!-- <ng-container *ngFor="let pl of plantasList; let k = index;"> -->
@@ -146,13 +168,13 @@
     </p-accordion>
 </p-panel>
 
-<ng-container *ngIf="anioSelected && empresaSelected && esNuevoRegistro && mostrarBotones">
-    <button pButton type="button" icon="pi pi-save" title="Guardar"
+<ng-container *ngIf="anioSelected && empresaSelected && esNuevoRegistro && mostrarBotones && paisSelect!=='Total'">
+    <button pButton type="button" icon="pi pi-save" title="Guardar" [disabled]="cargando"
         (click)="guardarHht()" class="float-btn" *sTienePermiso="'EMP_POST_HHT'"></button>
         <!-- guardarHht() -->
 </ng-container>
 
-<ng-container *ngIf="anioSelected && empresaSelected && !esNuevoRegistro && mostrarBotones">
-    <button  pButton type="button" icon="pi pi-pencil" title="Modificar"
+<ng-container *ngIf="anioSelected && empresaSelected && !esNuevoRegistro && mostrarBotones && paisSelect!=='Total'">
+    <button  pButton type="button" icon="pi pi-pencil" title="Modificar" [disabled]="cargando"
         (click)="actualizarHht()" class="p-button-success float-btn" style="z-index: 100;" *sTienePermiso="'EMP_PUT_HHT'"></button>
 </ng-container>

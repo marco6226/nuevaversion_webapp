@@ -1,10 +1,14 @@
+import { Plantas } from "./Plantas";
+
 export class Hht {
   id?: string | null;
   anio?: number | null | undefined;
   mes?: string;
   valor?: string;
   empresaSelect?:string;
-
+  planta?: Plantas;
+  numeroPersonas?: number;
+  hht?: number;
   // nombreMes?:string;
 }
 
@@ -44,4 +48,15 @@ export class DataHht {
   NumPersonasMes?: number | null;
   HhtMes?: number | null;
   Areas?: DataArea[];
+}
+
+export class HhtIli {
+  id?: number | null;
+  idDivision?: number;
+  anio?: number;
+  iliDivision?: number;
+  iliEmpresa?: number;
+  idEmpresa?: number;
+  pais?: string;
+  empresaSelected?: number;
 }
