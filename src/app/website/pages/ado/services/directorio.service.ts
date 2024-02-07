@@ -403,14 +403,10 @@ export class DirectorioService extends CRUDService<Directorio> {
                 withCredentials: true,
                 
             };
-            
-
-            let formData: FormData = new FormData();
-            formData.append('data', encryptedId);
-            
+           
 
             await this.httpInt.http
-                .post(endPoint, formData, options)
+                .get(endPoint + encryptedId, options)
                 .subscribe(
                     (res) => {
                         resolve(res);
