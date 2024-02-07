@@ -11,6 +11,7 @@ import { InspeccionService } from '../../services/inspeccion.service';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/website/pages/rai/entities/reporte-enumeraciones';
 import { PrimeNGConfig } from 'primeng/api';
+import { ViewListaInspeccionService } from '../../services/viewlista-inspeccion.service';
 
 @Component({
   selector: 'app-listas-inspeccion',
@@ -42,6 +43,7 @@ export class ListasInspeccionComponent implements OnInit {
 
   constructor(
     private listaInspeccionService: ListaInspeccionService,
+    private viewListaInspeccionService: ViewListaInspeccionService,
     private userService: PerfilService,
     private paramNav: ParametroNavegacionService,
     private router: Router,
@@ -80,30 +82,48 @@ export class ListasInspeccionComponent implements OnInit {
     
     filterQuery.filterList = FilterQuery.filtersToArray(event?.filters);
     filterQuery.filterList.push({criteria: Criteria.NOT_EQUALS, field: 'tipoLista', value1: 'Ciclo corto'});
-    
-    this.listaInspeccionService.findByFilter(filterQuery).then(
-      (resp: any) => {
+
+    // await this.listaInspeccionService.findByFilter(filterQuery).then(
+    //   (resp: any) => {
+    //     console.log(resp)
+    //     this.totalRecords = resp['count'];
+    //     this.loading = false;
+    //     this.listaInspeccionList = [];
+    //     (<any[]>resp['data']).forEach(dto => {
+    //       let obj = FilterQuery.dtoToObject(dto)
+    //       obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
+    //        for (const profile of userParray.data) {
+
+    //         let perfilArray = JSON.parse(obj.fkPerfilId)
+
+    //         if(perfilArray)
+    //         perfilArray.forEach((perfil: any) => {
+    //           if (perfil===profile.id) {
+    //             if(!this.listaInspeccionList.find(element=>element==obj)){
+    //               this.listaInspeccionList.push(obj);
+    //             }              
+    //         }
+    //         });
+    //       }
+    //     });
+    //   }
+    // );
+
+    filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'pkUsuarioId', value1: user.usuario.id.toString()});
+    filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresa.id', value1: user.empresa.id.toString()});
+
+    await this.viewListaInspeccionService.getFilterListInspeccionToPerfilToUsuario(filterQuery).then((resp:any)=>{
         this.totalRecords = resp['count'];
         this.loading = false;
         this.listaInspeccionList = [];
-        (<any[]>resp['data']).forEach(dto => {
-          let obj = FilterQuery.dtoToObject(dto)
-          obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
-           for (const profile of userParray.data) {
-
-            let perfilArray = JSON.parse(obj.fkPerfilId)
-
-            perfilArray.forEach((perfil: any) => {
-              if (perfil===profile.id) {
-                if(!this.listaInspeccionList.find(element=>element==obj)){
-                  this.listaInspeccionList.push(obj);
-                }              
-            }
-            });
-          }
-        });
-      }
-    );
+  
+        if((<any[]>resp['data']).length > 0)
+          (<any[]>resp['data']).forEach(dto => {
+            let obj = FilterQuery.dtoToObject(dto)
+            obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
+            this.listaInspeccionList.push(obj);
+          });
+    }).catch(er=>console.log(er))
   }
 
   modificar() {
