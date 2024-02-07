@@ -56,6 +56,7 @@ export const endPoints: string | any = {
   ConfiguracionJornadaService: path + "configuracionJornada/",
   HorasExtraService: path + "horasExtra/",
   HhtService: path + "hht/",
+  HhtIliService: path + "hhtIli",
   emp_perfil: path + "perfil/",
 
   anexoSCM:path + "anexscm/",

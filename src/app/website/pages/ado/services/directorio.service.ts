@@ -14,6 +14,7 @@ import { CRUDService } from '../../core/services/crud.service';
 import { Directorio } from '../entities/directorio';
 import { endPoints } from 'src/environments/environment';
 import { Documento } from '../entities/documento';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable()
 export class DirectorioService extends CRUDService<Directorio> {
@@ -249,10 +250,36 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     override delete(id: string, modulo?: string) {
+
+        console.log('eliminarDocumento');
+        
+        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+        
+        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(id), CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString();
+          
+
+        
+        
         let endPoint = modulo == null ? this.end_point : this.end_point + modulo + '/';
         return new Promise((resolve) => {
+            let options: any = {
+                // responseType: 'blob',
+                headers: new HttpHeaders()
+                    .set('Param-Emp', this.httpInt.getSesionService().getParamEmp())
+                    .set('app-version', this.httpInt.getSesionService().getAppVersion())
+                    .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
+                withCredentials: true,
+                
+            };
+            console.log(options);
+            
+
             let end_point = this.httpInt
-                .delete(endPoint + id)
+                // .delete(endPoint + id)
+                .delete(endPoint + 'documento/' + encryptedId)
                 .subscribe(
                     (res) => {
                         resolve(res);
@@ -290,7 +317,7 @@ export class DirectorioService extends CRUDService<Directorio> {
         });
     }
 
-    eliminarDocumento(id: string) {
+    eliminarDocumento(id: string) {        
         return new Promise((resolve) => {
             let end_point = this.httpInt
                 .delete(this.end_point + 'documento/' + id)
@@ -347,6 +374,24 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     download(directorioId: string, modulo?: string) {
+                
+        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+        
+        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(directorioId), CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+          }).toString();
+          
+        // let keyBytes = CryptoJS.enc.Hex.parse(key);
+
+        // let decryptedBytes = CryptoJS.AES.decrypt(encryptedId, keyBytes, {
+        //     mode: CryptoJS.mode.ECB,
+        //     padding: CryptoJS.pad.Pkcs7
+        // });
+          
+        // let decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+          
+
         let endPoint = modulo == null ? this.end_point + 'download/' : this.end_point + modulo + '/download/';
         return new Promise(async (resolve) => {
             let options: any = {
@@ -356,9 +401,12 @@ export class DirectorioService extends CRUDService<Directorio> {
                     .set('app-version', this.httpInt.getSesionService().getAppVersion())
                     .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
                 withCredentials: true,
+                
             };
+           
+
             await this.httpInt.http
-                .get(endPoint + directorioId, options)
+                .get(endPoint + encryptedId, options)
                 .subscribe(
                     (res) => {
                         resolve(res);
