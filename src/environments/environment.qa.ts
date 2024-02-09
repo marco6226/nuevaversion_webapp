@@ -74,6 +74,8 @@ export const endPoints: string | any = {
   
     ListaInspeccionService: path + "listaInspeccion/",
     ViewListaInspeccionService: path + "vlistainpperfil/",
+    ViewInspeccionService:path+"vinpperfil/",
+
     ProgramacionService: path + "programacion/",
     InspeccionService: path + "inspeccion/",
     ViewInspeccionCtr: path + "viewInspeccionesCtr/",
