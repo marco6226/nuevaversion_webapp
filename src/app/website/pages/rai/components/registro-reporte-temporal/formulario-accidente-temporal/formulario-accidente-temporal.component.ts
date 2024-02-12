@@ -411,10 +411,11 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
 }
   async cargarTiposPeligro() {
     await this.tipoPeligroService.getForEmpresa().then((resp:any)=>{
+
       let tipoPeligroItemList: any[] = []
       this.tipoPeligroItemList = [{ label: '--Seleccione--', value: null }];
       resp.forEach(
-        (data: any) => tipoPeligroItemList.push({ label: data[2], value: data[0] })
+        (data: any) => tipoPeligroItemList.push({ label: data[2], value: {id:data[0],nombre:data[2]} })
       )
       tipoPeligroItemList=this.order(tipoPeligroItemList)
       tipoPeligroItemList.forEach(resp=>{
@@ -422,11 +423,11 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
       })
     })
   }
-  async cargarPeligro(idtp: string) {
+  async cargarPeligro(idtp: any) {
     let peligroItemList: any[] = [];
     if(idtp != null){
     let filter = new FilterQuery();
-    filter.filterList = [{ field: 'tipoPeligro.id', criteria: Criteria.EQUALS, value1: idtp }];
+    filter.filterList = [{ field: 'tipoPeligro.id', criteria: Criteria.EQUALS, value1: idtp['id'] }];
     await this.peligroService.findByFilter(filter).then(
       resp => {
         this.peligroItemList = [];
@@ -532,6 +533,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
     if (this.adicionar) {
         let reporte = <Reporte>this.form?.value;
         reporte.testigoReporteList = this.testigoReporteList;
+        reporte.fechaReporte=new Date()
         // reporte.identificacionEmpresa = this.selectedTemporal;
         // let selectedTemporal=this.temporales.find((data)=>{
         //   return data.value==this.selectedTemporal
