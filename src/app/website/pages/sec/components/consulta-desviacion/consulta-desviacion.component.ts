@@ -118,7 +118,10 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
      
     // let datos = await this.cargarDatosExcel(event);
     this.loading = false;
-     const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.desviacionesListOnFilter!);
+    this.desviacionesListOnFilter?.map((item: any) => {item.fechaReporte=new Date(item.fechaReporte).toDateString()})
+  
+    //  const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.desviacionesListOnFilter!);
+    const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(this.desviacionesList!);
 
     //  const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
      const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -147,7 +150,7 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
 
     return getDatosDesv!;
   }
-
+  
   async lazyLoad(event: any) {
     // this.desviacionService.findAll().then(resp=>console.log(resp))
     if(this.moduloSelected == null) return;
@@ -176,9 +179,11 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
 
     await this.desviacionService.findByFilter(filterQuery).then(
       (resp:any) => {
+        console.log(resp['data'])
         this.totalRecords = resp['count'];
         this.loading = false;
         this.desviacionesList = resp['data'];
+        
         if(this.desviacionesList)
         this.empresaId = this.desviacionesList[0].empresaId
       }
