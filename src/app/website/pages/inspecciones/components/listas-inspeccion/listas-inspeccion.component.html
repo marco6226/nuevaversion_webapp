@@ -7,7 +7,7 @@
 
 <div class="shadow">
     <p-panel header="Listas de inspección">
-        <p-table #dt [value]="listaInspeccionList" autoLayout="true" selectionMode="single" [(selection)]="listaInpSelect" [rows]="12" [paginator]="true" dataKey="hash" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+        <p-table #dt [value]="listaInspeccionList" autoLayout="true" selectionMode="single" [(selection)]="listaInpSelect" [rows]="10" [paginator]="true" dataKey="hash" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
            
             <ng-template pTemplate="header">
                 <tr>
