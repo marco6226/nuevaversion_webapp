@@ -13,7 +13,7 @@ import { ParametroNavegacionService } from '../../../core/services/parametro-nav
 import { MatrizPeligrosLogService } from '../../../core/services/matriz-peligros-log.service';
 import { MatrizPeligrosLog } from '../../../comun/entities/Matriz-peligros-log';
 import * as XLSX from 'xlsx';
-import { DirectorioService } from '../../../core/services/directorio.service';
+import { DirectorioService } from '../../../ado/services/directorio.service';
 import { Plantas } from '../../../comun/entities/Plantas';
 import { DatePipe } from '@angular/common';
 // import * as XLSXStyle from "xlsx-style";

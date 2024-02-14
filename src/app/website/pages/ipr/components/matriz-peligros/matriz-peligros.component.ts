@@ -29,7 +29,7 @@ import { MatrizPeligrosLog } from '../../../comun/entities/Matriz-peligros-log';
 import { Modulo } from '../../../core/enums/enumeraciones';
 import { Documento } from '../../../ado/entities/documento';
 import { Directorio } from '../../../ado/entities/directorio';
-import { DirectorioService } from '../../../core/services/directorio.service';
+import { DirectorioService } from '../../../ado/services/directorio.service';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { Localidades } from "../../../ctr/entities/aliados";
 import { CargoService } from 'src/app/website/pages/empresa/services/cargo.service';
