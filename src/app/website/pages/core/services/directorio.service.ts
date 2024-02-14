@@ -337,6 +337,13 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     download(directorioId: string, modulo?: string) {
+        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+        
+        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(directorioId), CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+          }).toString();
+
         let endPoint = modulo == null ? this.end_point + 'download/' : this.end_point + modulo + '/download/';
         return new Promise(async (resolve) => {
             let options: any = {
@@ -346,9 +353,12 @@ export class DirectorioService extends CRUDService<Directorio> {
                     .set('app-version', this.httpInt.getSesionService().getAppVersion())
                     .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
                 withCredentials: true,
+                
             };
+           
+
             await this.httpInt.http
-                .get(endPoint + directorioId, options)
+                .get(endPoint + encryptedId, options)
                 .subscribe(
                     (res) => {
                         resolve(res);
