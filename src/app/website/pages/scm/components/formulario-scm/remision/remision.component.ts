@@ -233,7 +233,8 @@ export class RemisionComponent implements OnInit {
     this.loading=false
   }
   
-  async imprimirAnexo5() {
+  
+async imprimirAnexo5() {
     if(this.anexo=='5'){
     let anexo5=JSON.parse(this.anexo5Select.informacion)
 
@@ -278,7 +279,7 @@ export class RemisionComponent implements OnInit {
         template!.querySelector('#P_solicitud')!.textContent = anexo5.solicitud
         template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion
 
-        var WinPrint = window.open('', '_blank');
+        var WinPrint = window.open('', '_blank', 'noopener,noreferrer')
         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
         WinPrint?.document.write(template?.innerHTML!);
         // WinPrint?.document.write('<footer>Usuario que imprime</footer>');
@@ -286,7 +287,8 @@ export class RemisionComponent implements OnInit {
         WinPrint?.document.close();
         WinPrint?.focus();
         WinPrint?.print();
-      }, 2000);
+      }
+, 2000);
       
     }
     if(this.anexo=='1'){
