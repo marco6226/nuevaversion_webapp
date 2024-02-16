@@ -273,19 +273,19 @@
                             <div class="col-md-12 col-sm-12 gridcol grid">
                                 <div class="col-md-6 col-sm-12 col-3">
                                     <label for="">Propios</label><br>
-                                    <input required formControlName="Propios" type="number" [(ngModel)]="sumaP" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">
+                                    <input #positiveNumber min="0" required formControlName="Propios" type="number" [(ngModel)]="sumaP" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">
                                 </div>
                                 <div  class="col-md-6 col-sm-12 col-3">
                                     <label for="">Temporales</label>
-                                    <input required formControlName="Temporales" type="number" [(ngModel)]="sumaC" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">                              
+                                    <input #positiveNumber min="0" required formControlName="Temporales" type="number" [(ngModel)]="sumaC" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">                              
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-3">
                                     <label for="">Contratistas</label>
-                                    <input required formControlName="Contratistas" type="number" [(ngModel)]="sumaT" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()"> 
+                                    <input #positiveNumber min="0"  required formControlName="Contratistas" type="number" [(ngModel)]="sumaT" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()"> 
                                 </div>
                                 <div class="col-md-5 col-sm-11 col-2">
                                     <label for="">Total</label>
-                                    <input type="number" [readonly]="true" [(ngModel)]="sumaExpuestos" [ngModelOptions]="{standalone: true}"> 
+                                    <input #positiveNumber min="0" type="number" [readonly]="true" [(ngModel)]="sumaExpuestos" [ngModelOptions]="{standalone: true}"> 
                                 </div>
                             </div>
                         </div>
@@ -339,7 +339,7 @@
                                 </div>
                                 <br>
                                 <div id="flagControlIng">
-                                    <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlIng" [value]="controlIngList" [paginator]="true" [rows]="10" >
+                                    <p-table #dtContIng styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlIng" [value]="controlIngList" [paginator]="true" [rows]="10" >
                                         <ng-template pTemplate="header" let-columns>
                                             <tr>
                                                 <th>Fecha creación</th>
@@ -348,19 +348,19 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <p-calendar [class]="controlIngList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                    <p-calendar [class]="controlIngList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtContIng.filter(rangeDatesCreacion, 'fechaCreacion', 'contains')"
+                                                    (onClearClick)="onResetDate(dtContIng, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                                 </td>
                                                 <td>
                                                     <span class="p-input-icon-left ml-auto">
                                                         <i class="pi pi-search"></i>
-                                                        <input placeholder="Buscar..." [readOnly]="controlIngList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                        <input placeholder="Buscar..." [readOnly]="controlIngList.length==0" style="width: 100%;" pInputText type="text" (input)="dtContIng.filter($event.target.value, 'descripcion', 'contains')">
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span class="p-input-icon-left ml-auto">
                                                         <i class="pi pi-search"></i>
-                                                        <input placeholder="Buscar..." [readOnly]="controlIngList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera', 'contains')">
+                                                        <input placeholder="Buscar..." [readOnly]="controlIngList.length==0" style="width: 100%;" pInputText type="text" (input)="dtContIng.filter($event.target.value, 'barrera', 'contains')">
                                                     </span>
                                                 </td>
                                                 
@@ -406,7 +406,7 @@
                                 <br>
                                 <!-- <label for="">Controles administrativos:</label> -->
                                 <div id="flagControlAdm">
-                                    <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlAdm" [value]="controlAdmList" [paginator]="true" [rows]="10" >
+                                    <p-table #dtAdm styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlAdm" [value]="controlAdmList" [paginator]="true" [rows]="10" >
                                         <ng-template pTemplate="header" let-columns>
                                             <tr>
                                                 <th>Fecha creación</th>
@@ -415,29 +415,31 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <p-calendar [class]="controlAdmList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                                    (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                    <p-calendar [class]="controlAdmList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dtAdm.filter"
+                                                    (onClearClick)="onResetDate(dtAdm, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                    <!-- <s-rangoFechaSelector (onSelect)="dtAdm.filter($event, 'fechaCreacion', 'bt')"></s-rangoFechaSelector> -->
+
                                                 </td>
                                                 <td>
                                                     <span class="p-input-icon-left ml-auto">
                                                         <i class="pi pi-search"></i>
-                                                        <input placeholder="Buscar..." [readOnly]="controlAdmList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                        <input placeholder="Buscar..." [readOnly]="controlAdmList.length==0" style="width: 100%;" pInputText type="text" (input)="dtAdm.filter($event.target.value, 'descripcion', 'contains')">
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span class="p-input-icon-left ml-auto">
                                                         <i class="pi pi-search"></i>
-                                                        <input placeholder="Buscar..." [readOnly]="controlAdmList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera', 'contains')">
+                                                        <input placeholder="Buscar..." [readOnly]="controlAdmList.length==0" style="width: 100%;" pInputText type="text" (input)="dtAdm.filter($event.target.value, 'barrera', 'contains')">
                                                     </span>
                                                 </td>
                                                 
                                             </tr>
                                         </ng-template>
-                                        <ng-template pTemplate="body" let-control>
-                                            <tr [pSelectableRow]="control" class="table-row table-row-selectable">
-                                                <td>{{control.fechaCreacion}}</td>
-                                                <td>{{control.descripcion}}</td>
-                                                <td>{{control.barrera}}</td>
+                                        <ng-template pTemplate="body" let-controlAdm>
+                                            <tr [pSelectableRow]="controlAdm" class="table-row table-row-selectable">
+                                                <td>{{controlAdm.fechaCreacion}}</td>
+                                                <td>{{controlAdm.descripcion}}</td>
+                                                <td>{{controlAdm.barrera}}</td>
                                             </tr>
                                         </ng-template>
                                         <ng-template pTemplate="summary" let-rowData>
@@ -473,7 +475,7 @@
                                 <br>
                                 <!-- <label for="">Equipos y elementos de protección personal:</label> -->
                                 <div id="flagEquiposEle">
-                                    <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlEqu" [value]="controlEquList" [paginator]="true" [rows]="10" >
+                                    <p-table #dtEqu styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlEqu" [value]="controlEquList" [paginator]="true" [rows]="10" >
                                         <ng-template pTemplate="header" let-columns>
                                             <tr>
                                                 <th>Fecha creación</th>
@@ -483,24 +485,24 @@
                                             <tr>
                                                 <td>
                                                     <!-- [class]="controlEquList.length==0?'overlay-content':'overlay'" -->
-                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                                        (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtEqu.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                        (onClearClick)="onResetDate(dtEqu, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                                  
                                                     <!-- <div class="calendar-icon-wrapper">
-                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
                                                         (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                                     </div> -->
                                                 </td>
                                                 <td>
                                                     <span class="p-input-icon-left ml-auto">
                                                         <i class="pi pi-search"></i>
-                                                        <input placeholder="Buscar..." [readOnly]="controlEquList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                                        <input placeholder="Buscar..." [readOnly]="controlEquList.length==0" style="width: 100%;" pInputText type="text" (input)="dtEqu.filter($event.target.value, 'descripcion', 'contains')">
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span class="p-input-icon-left ml-auto">
                                                         <i class="pi pi-search"></i>
-                                                        <input placeholder="Buscar..." [readOnly]="controlEquList.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barrera', 'contains')">
+                                                        <input placeholder="Buscar..." [readOnly]="controlEquList.length==0" style="width: 100%;" pInputText type="text" (input)="dtEqu.filter($event.target.value, 'barrera', 'contains')">
                                                     </span>
                                                 </td>
                                                 
@@ -538,7 +540,7 @@
                     <div *ngIf="tareasListEjecutado.length>0">
                         <br><br>
                         <h2 for="" >Planes de acción ejecutados:</h2>
-                        <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasListEjecutado" [paginator]="true" [rows]="10" >
+                        <p-table #dtEje styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasListEjecutado" [paginator]="true" [rows]="10" >
                             <ng-template pTemplate="header" let-columns>
                                 <tr>
                                     <th>Fecha creación</th>
@@ -549,31 +551,31 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p-calendar [class]="tareasListEjecutado.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                        (onClearClick)="onResetDate(dt, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                        <p-calendar [class]="tareasListEjecutado.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtEje.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                        (onClearClick)="onResetDate(dtEje, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
                                             <i class="pi pi-search"></i>
-                                            <input placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
+                                            <input placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dtEje.filter($event.target.value, 'descripcion', 'contains')">
                                         </span>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
                                             <i class="pi pi-search"></i>
-                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'jerarquia', 'contains')">
+                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dtEje.filter($event.target.value, 'jerarquia', 'contains')">
                                         </span>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
                                             <i class="pi pi-search"></i>
-                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'barreras', 'contains')">
+                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dtEje.filter($event.target.value, 'barreras', 'contains')">
                                         </span>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
                                             <i class="pi pi-search"></i>
-                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
+                                            <input  placeholder="Buscar..." [readOnly]="tareasListEjecutado.length==0" style="width: 100%;" pInputText type="text" (input)="dtEje.filter($event.target.value, 'estado', 'contains')">
                                         </span>
                                     </td>
                                 </tr>
@@ -807,7 +809,7 @@
                 <!-- <div [class]="(!formMatrizRiesgosI.valid  || flagEliminadoSustituido)?'overlay-content':'overlay'"> -->
                 <!-- <p-accordionTab header="V. CONTROL DE RIESGO - PLAN DE ACCIÓN" [disabled]="false"> -->
 
-                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasListPendiente" [paginator]="true" [rows]="10" >
+                <p-table #dtPlanAccion styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasListPendiente" [paginator]="true" [rows]="10" >
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th>Fecha creación</th>
@@ -820,7 +822,7 @@
                             <td>
                         
                                 <div class="calendar-icon-wrapper">
-                                    <p-calendar [class]="tareasListPendiente.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/MM/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                    <p-calendar [class]="tareasListPendiente.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtPlanAccion.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                     <!-- <i class="pi pi-search calendar-icon"></i> -->
                                 </div>
@@ -829,25 +831,25 @@
                             <td>
                                 <span class="p-input-icon-left ml-auto">
                                     <i class="pi pi-search"></i>
-                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')" placeholder="Buscar..." />
+                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dtPlanAccion.filter($event.target.value, 'descripcion', 'contains')" placeholder="Buscar..." />
                                 </span>
                             </td>
                             <td>
                                 <span class="p-input-icon-left ml-auto">
                                     <i class="pi pi-search"></i>
-                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dt.filter($event.target.value, 'jerarquia', 'contains')" placeholder="Buscar..." />
+                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dtPlanAccion.filter($event.target.value, 'jerarquia', 'contains')" placeholder="Buscar..." />
                                 </span>
                             </td>
                             <td>
                                 <span class="p-input-icon-left ml-auto">
                                     <i class="pi pi-search"></i>
-                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dt.filter($event.target.value, 'barreras', 'contains')" placeholder="Buscar..." />
+                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dtPlanAccion.filter($event.target.value, 'barreras', 'contains')" placeholder="Buscar..." />
                                 </span>
                             </td>
                             <td>
                                 <span class="p-input-icon-left ml-auto">
                                     <i class="pi pi-search"></i>
-                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')" placeholder="Buscar..." />
+                                    <input [readOnly]="tareasListPendiente.length==0" pInputText type="text" (input)="dtPlanAccion.filter($event.target.value, 'estado', 'contains')" placeholder="Buscar..." />
                                 </span>
                             </td>
                             
@@ -1076,7 +1078,7 @@
                                         (click)="reporteATSum()"></button>
                         </div>
                         <div class="col-12">
-                            <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [value]="ATTable" [paginator]="true" [rows]="10" >
+                            <p-table #dtEf styleClass="material-table" autoLayout="true" selectionMode="single" [value]="ATTable" [paginator]="true" [rows]="10" >
                                 <ng-template pTemplate="header" let-columns>
                                     <tr>
                                         <th>RAI</th>
@@ -1134,7 +1136,7 @@
         style="bottom: 140px;"
         [title]="CRUDMatriz=='PUT'?'Guardar datos de matriz de peligros':'Modificar datos de matriz de peligros'"
         style="bottom: 70px; z-index: 10000;"
-        [disabled]="!(((!flagSustitucion && !formMatrizPeligrosSustitucion.valid) || (flagSustitucion && formMatrizPeligrosSustitucion.valid))) || guardadoSustitucion || this.formMatrizGeneral.value.Subproceso.length==0"
+        [disabled]="!(((!flagSustitucion && !formMatrizPeligrosSustitucion.valid) || (flagSustitucion && formMatrizPeligrosSustitucion.valid))) || guardadoSustitucion || !formMatrizGeneral.valid"
         ></button>
 
         <button pButton 
@@ -1170,18 +1172,14 @@
                     </div>
                     <br>
                     <div class="col-md-12 col-sm-12 gridcol">
-                        <label for="">Fuente generadora</label>
-                        <textarea cols="10" rows="3" formControlName="FuenteGeneradora" required></textarea>
+                        <label for="">Posibles consecuencias/efectos a la salud.</label>
+                        <textarea [readonly]="true" cols="10" rows="3" formControlName="Efectos"></textarea>
                     </div>
                     <br>
                     <div class="col-md-12 col-sm-12 gridcol">
-                        <label for="">Consecuencia/Efectos a la salud</label>
-                        <textarea [readonly]="true" cols="10" rows="3" formControlName="Efectos"></textarea>
-                    </div>
-                    <div class="col-md-12 col-sm-12 gridcol">
-                        <label for="">Descripción</label>
-                        <textarea cols="10" rows="3" formControlName="Descripcion"></textarea>
-                    </div>
+                        <label for="">Fuente generadora</label>
+                        <textarea cols="10" rows="3" formControlName="FuenteGeneradora" required></textarea>
+                    </div>                   
                 </div>
             </form>
         </div>
@@ -1394,7 +1392,7 @@
             </p-autoComplete>
         </div>
         <div class="col-12">
-            <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [value]="ATTableDialog" [paginator]="true" [rows]="10" >
+            <p-table #dtEfDial styleClass="material-table" autoLayout="true" selectionMode="single" [value]="ATTableDialog" [paginator]="true" [rows]="10" >
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th>RAI</th>

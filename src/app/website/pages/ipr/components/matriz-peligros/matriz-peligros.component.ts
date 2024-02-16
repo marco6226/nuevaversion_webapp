@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { PlantasService } from '../../../core/services/Plantas.service';
 import { SesionService } from '../../../core/services/session.service';
 import { SelectItem, ConfirmationService, MessageService, Message } from 'primeng/api';
@@ -51,8 +51,9 @@ interface Column {
   providers: [DirectorioService]
 })
 
-export class MatrizPeligrosComponent implements OnInit {
-  
+export class MatrizPeligrosComponent implements OnInit  {
+  @ViewChild('positiveNumber') inputElement!: ElementRef;
+
   empresaId:any
   idPlanta:any;
   idArea:any;
@@ -234,8 +235,7 @@ export class MatrizPeligrosComponent implements OnInit {
       Peligro: [null, Validators.required], //Clasificación
       DescripcionPeligro: [null, Validators.required], //Descripción del peligro
       FuenteGeneradora: [null, Validators.required],
-      Efectos: [null, Validators.required],
-      Descripcion: [null, Validators.required]
+      Efectos: [null],
     });
     this.formMatrizGeneral = this.fb.group({
       Area: [null], //Clasificación
@@ -347,6 +347,7 @@ export class MatrizPeligrosComponent implements OnInit {
       ELasociadosArray:null,
       estado:[null]
     });
+    
   }
 
   async ngOnInit() {
@@ -357,7 +358,9 @@ export class MatrizPeligrosComponent implements OnInit {
       (<Cargo[]>resp).forEach((cargo:any) => {
           this.cargoList.push({ label: cargo, value: cargo });
       });})
+
   }
+
 
   async cargarDatos(){
     await this.getArea()
@@ -832,8 +835,9 @@ export class MatrizPeligrosComponent implements OnInit {
     filterArea.fieldList= this.fieldList
     filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: this.idPlanta},
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
-    await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
-      resp['data'].forEach(async (data1:any) => {
+    await this.areaMatrizService.findByFilter(filterArea).then(async (resp:any)=>{
+      // resp['data'].forEach(async (data1:any) => {
+      for(const data1 of resp['data']){
         // this.areaMatrizItemList?.push({ label: data1.nombre, value: data1.id})
         
         let filterProceso = new FilterQuery();
@@ -841,8 +845,9 @@ export class MatrizPeligrosComponent implements OnInit {
         filterProceso.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1:data1.id},
         { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
         let procesoMatrizItemList:any=[]
-        await this.procesoMatrizService.findByFilter(filterProceso).then((resp:any)=>{
-          resp['data'].forEach(async (data2:any) => {
+        await this.procesoMatrizService.findByFilter(filterProceso).then(async (resp:any)=>{
+          // resp['data'].forEach(async (data2:any) => {
+          for(const data2 of resp['data']){
             // this.procesoMatrizItemList?.push({ label: data2.nombre, value: data2.id})
               let filterSubproceso = new FilterQuery();
               filterSubproceso.fieldList= this.fieldList
@@ -861,10 +866,12 @@ export class MatrizPeligrosComponent implements OnInit {
               procesoMatrizItemList.push({data:{id:data2.id, nombre:data2.nombre,estado: data2.estado},children:subprocesoMatrizItemList})
               
 
-          })
+          }
+          // )
         })
         this.matrizdescripcion!.push({data:{id:data1.id, nombre:data1.nombre,estado: data1.estado},children:procesoMatrizItemList})
-      })   
+      }
+      // )   
     })
   }
 
@@ -991,8 +998,13 @@ export class MatrizPeligrosComponent implements OnInit {
   //----------------sumaExpuestos-------------//
 
   sumaExpuestosFunc(){
+    if(this.sumaP<0)this.sumaP=0
+    if(this.sumaC<0)this.sumaC=0
+    if(this.sumaT<0)this.sumaT=0
+
     this.sumaExpuestos=this.sumaP+this.sumaC+this.sumaT;
   }
+  
 
   nivelProbabilidad(tipo:string){
 
@@ -1708,6 +1720,10 @@ export class MatrizPeligrosComponent implements OnInit {
     let proceso= new ProcesoMatriz()
     let subproceso= new SubprocesoMatriz()
     let matrizPeligros= new MatrizPeligros()
+
+    let flagModificado:boolean=false
+    let flagGuardado:boolean=false
+
     this.formMatrizRiesgosC?.patchValue({
       Ingenieria:this.controlIngList,
       Administrativos:this.controlAdmList,
@@ -1809,7 +1825,9 @@ export class MatrizPeligrosComponent implements OnInit {
         let i=0
         this.idMostrar=''
         this.flagRegistroMatrizTree=false
-        this.formMatrizGeneral?.value.Subproceso.forEach(async (ele1:any) => {
+        // this.formMatrizGeneral?.value.Subproceso.forEach(async (ele1:any) => {
+        for(const ele1 of this.formMatrizGeneral?.value.Subproceso){
+        // this.formMatrizGeneral?.value.Subproceso.forEach(async (ele1:any) => {
           let findProceso= this.formMatrizGeneral?.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
           let findArea= this.formMatrizGeneral?.value.Area.find((ele3:any)=>ele3.id==findProceso.idpadre)
 
@@ -1838,7 +1856,7 @@ export class MatrizPeligrosComponent implements OnInit {
           this.idMatrizPeligro=[]
 
           await this.matrizPeligrosService.create(matrizPeligros).then((resp:any)=>{
-            
+            flagGuardado=true
             const indexarea = this.matrizdescripcion.findIndex((el:any) => el.data.id == findArea.id )
             const indexproceso = this.matrizdescripcion[indexarea].children.findIndex((el:any) => el.data.id == findProceso.id )
             const indexsubproceso = this.matrizdescripcion[indexarea].children[indexproceso].children.findIndex((el:any) => el.data.id == ele1.id )
@@ -1846,8 +1864,7 @@ export class MatrizPeligrosComponent implements OnInit {
             this.matrizdescripcion[indexarea].children[indexproceso].children[indexsubproceso].data.estado='Evaluado'
             this.estadoProcesoArea('Proceso',indexarea,indexproceso);
             this.estadoProcesoArea('Area',indexarea,0);
-
-            this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro guardado', summary: 'Guardado', life: 6000});
+            
             matrizPeligrosLog.idriesgo=resp.id
             this.idMatrizPeligro.push(resp.id)
             this.idMatriz=resp.id
@@ -1858,9 +1875,15 @@ export class MatrizPeligrosComponent implements OnInit {
             this.matrizPeligrosLogService.create(matrizPeligrosLog)
             this.CRUDMatriz='POST'
             i +=1
-          }).catch(er=>console.log(er))
+          }).catch(er=>{console.log(er)
+            flagGuardado=false
+          })
 
-        })
+        }
+        // )
+
+        if(flagGuardado)this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro guardado', summary: 'Guardado', life: 6000});
+
         this.flagRegistroMatrizTree=true
         
         break;
@@ -1927,19 +1950,19 @@ export class MatrizPeligrosComponent implements OnInit {
           // matrizPeligrosLog.idriesgo=this.idMatrizPeligro[i]
           matrizPeligrosLog.id=null
 
-          
           if(!this.flagSustitucion){
             await this.matrizPeligrosService.update(matrizPeligros).then(resp=>{
-              this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro modificado', summary: 'Modificado', life: 6000});
+              flagModificado=true
               this.matrizPeligrosLogService.create(matrizPeligrosLog)
-            }).catch(er=>console.log(er))
+            }).catch(er=>{console.log(er)
+              flagModificado=false})
           }else{
 
             let matrizPeligros2= new MatrizPeligros()
             matrizPeligros2.eliminado=false
             matrizPeligros2.generalInf=JSON.stringify(this.formMatrizGeneral2?.value);
             matrizPeligros2.peligro=JSON.stringify(this.formMatrizPeligrosSustitucion?.value);
-            matrizPeligros2.plantas=planta;
+            matrizPeligros2.localidad=planta;
             matrizPeligros2.area=area
             matrizPeligros2.proceso=proceso
             matrizPeligros2.subProceso=subproceso
@@ -1961,7 +1984,7 @@ export class MatrizPeligrosComponent implements OnInit {
             matrizPeligrosLog2.id=null
 
             await this.matrizPeligrosService.create(matrizPeligros2).then(async (resp:any)=>{
-              this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro guardado', summary: 'Guardado', life: 6000});
+
               this.idMatriz=resp.id
               matrizPeligros.fkmatrizpeligros=resp.id
               matrizPeligrosLog2.idriesgo=resp.id
@@ -1973,11 +1996,17 @@ export class MatrizPeligrosComponent implements OnInit {
               await this.matrizPeligrosLogService.create(matrizPeligrosLog2)
               .catch(er=>console.log(er))
               this.guardadoSustitucion=true
-            }).catch(er=>console.log(er))   
+              flagGuardado=true
+            }).catch(er=>{console.log(er)
+              flagGuardado=false})   
             this.idMostrar =idMostrar      
           }
 
         }
+        if(flagModificado)this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro modificado', summary: 'Modificado', life: 6000});
+        if(flagGuardado)this.messageService.add({key: 'mpeligros', severity: 'success', detail: 'Peligro guardado', summary: 'Guardado', life: 6000});
+
+
         // )
 
         break;
