@@ -284,9 +284,16 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     eliminarDocumento(id: string) {
+        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+        
+        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(id), CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString();
+
         return new Promise((resolve) => {
             let end_point = this.httpInt
-                .delete(this.end_point + 'documento/' + id)
+                .delete(this.end_point + 'documento/' + encryptedId)
                 .subscribe(
                     (res) => {
                         resolve(res);
