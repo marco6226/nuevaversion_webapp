@@ -418,6 +418,16 @@ export class MatrizPeligrosComponent implements OnInit  {
   idMostrar:string=''
   idMatriz:number=0;
   flagidPadre:boolean=false
+
+  convertDMYtoISO(dateString:string) {
+    // Separar el string de fecha en partes
+    const parts = dateString.split('/');
+    // Reordenar las partes para formar un string en formato ISO 8601 (yyyy-MM-dd)
+    const isoFormattedString = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    // Crear y devolver el objeto Date
+    return new Date(isoFormattedString);
+  }
+
   async postGet(){
     this.CRUDMatriz='POST'
     let formCreacionMatriz:any=JSON.parse(localStorage.getItem('formCreacionMatriz')!)
@@ -553,8 +563,13 @@ export class MatrizPeligrosComponent implements OnInit  {
       ElementosPro: matrizPeligro?.controlesexistentes?.ElementosPro
     });
     this.controlIngList=(this.formMatrizRiesgosC?.value.Ingenieria)?this.formMatrizRiesgosC.value.Ingenieria:[]
+    if(this.controlIngList.length>0)this.controlIngList.map((res:any)=>res.fechaCreacion=new Date(res.fechaCreacion))
+
     this.controlAdmList=(this.formMatrizRiesgosC?.value.Administrativos)?this.formMatrizRiesgosC?.value.Administrativos:[]
+    if(this.controlAdmList.length>0)this.controlAdmList.map((res:any)=>res.fechaCreacion=new Date(res.fechaCreacion))
+
     this.controlEquList=(this.formMatrizRiesgosC?.value.ElementosPro)?this.formMatrizRiesgosC?.value.ElementosPro:[]
+    if(this.controlEquList.length>0)this.controlEquList.map((res:any)=>res.fechaCreacion=new Date(res.fechaCreacion))
 
     this.flagControlIng=(this.controlIngList.length>0)?true:false
     this.flagControlAdm=(this.controlAdmList.length>0)?true:false
@@ -589,6 +604,10 @@ export class MatrizPeligrosComponent implements OnInit  {
     
     //V-Plan de acción
     this.tareasList=matrizPeligro?.planAccion
+    console.log(this.tareasList)
+    if(this.tareasList.length>0)this.tareasList.map((res:any)=>res.fechaCreacion=new Date(res.fechaCreacion))
+    // console.log(this.tareasList)
+
     this.formEfectividadControles?.patchValue({controlPropuestos:this.tareasList.length})
     this.formEfectividadControles?.patchValue({cumplimiento:(this.tareasList.length>0)?((this.tareasListEjecutadoPorcentaje.length*100)/(this.tareasList.length)).toFixed(2):0})
 
@@ -1556,7 +1575,7 @@ export class MatrizPeligrosComponent implements OnInit  {
         if(this.tipoControl=='adm')
         this.formControl.patchValue({
           'id': this.controlAdm.id,
-          'fechaCreacion': this.controlAdm.fechaCreacion,
+          'fechaCreacion': new Date(),
           'descripcion': this.controlAdm.descripcion,
           'barrera': this.controlAdm.barrera
         })
@@ -1564,7 +1583,7 @@ export class MatrizPeligrosComponent implements OnInit  {
         if(this.tipoControl=='equ')
         this.formControl.patchValue({
           'id': this.controlEqu.id,
-          'fechaCreacion': this.controlEqu.fechaCreacion,
+          'fechaCreacion': new Date(),
           'descripcion': this.controlEqu.descripcion,
           'barrera': this.controlEqu.barrera
         })
@@ -1612,13 +1631,13 @@ export class MatrizPeligrosComponent implements OnInit  {
           fechaCreacion: new Date().toLocaleDateString('es-CO')
         })
         if(this.tipoControl=='ing'){
-          this.controlIngList.push({id:this.contIDIng,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera})
+          this.controlIngList.push({id:this.contIDIng,fechaCreacion: this.convertDMYtoISO(this.formControl.value.fechaCreacion),descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera})
           this.contIDIng++}
         if(this.tipoControl=='adm'){
-          this.controlAdmList.push({id:this.contIDAdm,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera})
+          this.controlAdmList.push({id:this.contIDAdm,fechaCreacion:this.convertDMYtoISO(this.formControl.value.fechaCreacion),descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera})
           this.contIDAdm++}
         if(this.tipoControl=='equ'){
-          this.controlEquList.push({id:this.contIDEqui,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera})
+          this.controlEquList.push({id:this.contIDEqui,fechaCreacion:this.convertDMYtoISO(this.formControl.value.fechaCreacion),descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera})
           this.contIDEqui++}
 
         this.controlFlag=false
@@ -1626,7 +1645,7 @@ export class MatrizPeligrosComponent implements OnInit  {
       case 'PUT':
         if(this.tipoControl=='ing'){
           const indexPlanAccion = this.controlIngList.findIndex((el:any) => el.id == this.controlIng.id)
-          this.controlIngList[indexPlanAccion]={id:this.controlIng.id,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
+          this.controlIngList[indexPlanAccion]={id:this.controlIng.id,fechaCreacion:new Date(this.formControl.value.fechaCreacion),descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
         if(this.tipoControl=='adm'){
           const indexPlanAccion = this.controlAdmList.findIndex((el:any) => el.id == this.controlIng.id)
           this.controlAdmList[indexPlanAccion]={id:this.controlIng.id,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
@@ -1685,7 +1704,7 @@ export class MatrizPeligrosComponent implements OnInit  {
         this.formPlanAccion?.patchValue({
           fechaCreacion: new Date().toLocaleDateString('es-CO')
         })
-        this.tareasListPendiente.push({id:this.cont,fechaCreacion:this.formPlanAccion?.value.fechaCreacion,jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras})
+        this.tareasListPendiente.push({id:this.cont,fechaCreacion:this.convertDMYtoISO(this.formPlanAccion?.value.fechaCreacion),jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras})
         this.cont++
 
         if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
@@ -1695,7 +1714,7 @@ export class MatrizPeligrosComponent implements OnInit  {
         break;
       case 'PUT':
         const indexPlanAccion = this.tareasListPendiente.findIndex((el:any) => el.id == this.tarea.id)
-        this.tareasListPendiente[indexPlanAccion]={id:this.tarea.id,fechaCreacion:this.formPlanAccion?.value.fechaCreacion,jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras}
+        this.tareasListPendiente[indexPlanAccion]={id:this.tarea.id,fechaCreacion:new Date(this.formPlanAccion?.value.fechaCreacion),jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras}
         if(this.formPlanAccion?.value.estado=='Sustitución' || this.formPlanAccion?.value.estado=='Eliminación')this.flagplanElimsust=true
         
         if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true

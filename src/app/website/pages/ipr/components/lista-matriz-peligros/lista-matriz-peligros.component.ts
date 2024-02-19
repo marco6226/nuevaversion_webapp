@@ -206,7 +206,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     filterArea.sortField = "id";
     filterArea.sortOrder = -1;
     filterArea.fieldList= ['id','nombre']
-    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve}];
+    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve},
+                            { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
+
     await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
       this.area=[]
       this.areaMatrizItemList=[]

@@ -348,8 +348,10 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <p-calendar [class]="controlIngList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtContIng.filter(rangeDatesCreacion, 'fechaCreacion', 'contains')"
-                                                    (onClearClick)="onResetDate(dtContIng, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                    <p-calendar [class]="controlIngList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dtContIng.filter($event, 'fechaCreacion','contains')"
+                                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                     <!-- <p-calendar [class]="controlIngList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="filtroFechas($event, 'ctrIng')"
+                                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar> -->
                                                 </td>
                                                 <td>
                                                     <span class="p-input-icon-left ml-auto">
@@ -368,7 +370,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-control>
                                             <tr [pSelectableRow]="control" class="table-row table-row-selectable">
-                                                <td>{{control.fechaCreacion}}</td>
+                                                <td>{{control.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{control.descripcion}}</td>
                                                 <td>{{control.barrera}}</td>
                                             </tr>
@@ -415,8 +417,8 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <p-calendar [class]="controlAdmList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dtAdm.filter"
-                                                    (onClearClick)="onResetDate(dtAdm, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                    <p-calendar [class]="controlAdmList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dtAdm.filter($event, 'fechaCreacion', 'contains')"
+                                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                                     <!-- <s-rangoFechaSelector (onSelect)="dtAdm.filter($event, 'fechaCreacion', 'bt')"></s-rangoFechaSelector> -->
 
                                                 </td>
@@ -437,7 +439,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-controlAdm>
                                             <tr [pSelectableRow]="controlAdm" class="table-row table-row-selectable">
-                                                <td>{{controlAdm.fechaCreacion}}</td>
+                                                <td>{{controlAdm.fechaCreacion  | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{controlAdm.descripcion}}</td>
                                                 <td>{{controlAdm.barrera}}</td>
                                             </tr>
@@ -485,8 +487,8 @@
                                             <tr>
                                                 <td>
                                                     <!-- [class]="controlEquList.length==0?'overlay-content':'overlay'" -->
-                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtEqu.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                                        (onClearClick)="onResetDate(dtEqu, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                                        <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dtEqu.filter($event, 'fechaCreacion', 'contains')"
+                                                         placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                                  
                                                     <!-- <div class="calendar-icon-wrapper">
                                                         <p-calendar [class]="controlEquList.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dt.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
@@ -510,7 +512,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="body" let-control>
                                             <tr [pSelectableRow]="control" class="table-row table-row-selectable">
-                                                <td>{{control.fechaCreacion}}</td>
+                                                <td>{{control.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
                                                 <td>{{control.descripcion}}</td>
                                                 <td>{{control.barrera}}</td>
                                             </tr>
@@ -551,8 +553,8 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p-calendar [class]="tareasListEjecutado.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtEje.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
-                                        (onClearClick)="onResetDate(dtEje, 'fechaCreacion')" placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                        <p-calendar [class]="tareasListEjecutado.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dtEje.filter($event, 'fechaCreacion', 'contains')"
+                                         placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                     </td>
                                     <td>
                                         <span class="p-input-icon-left ml-auto">
@@ -582,7 +584,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-tarea>
                                 <tr [pSelectableRow]="tarea" class="table-row table-row-selectable">
-                                    <td>{{tarea.fechaCreacion}}</td>
+                                    <td>{{tarea.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
                                     <td>{{tarea.descripcion}}</td>
                                     <td>{{tarea.jerarquia}}</td>
                                     <td>{{tarea.barreras}}</td>
@@ -822,7 +824,7 @@
                             <td>
                         
                                 <div class="calendar-icon-wrapper">
-                                    <p-calendar [class]="tareasListPendiente.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onTodayClick)="dtPlanAccion.filter(rangeDatesCreacion, 'fechaCreacion', 'fechaCreacionFilter')"
+                                    <p-calendar [class]="tareasListPendiente.length==0?'readonly-calendar':'notreadonly-calendar'" style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dtPlanAccion.filter($event, 'fechaCreacion', 'contains')"
                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar>
                                     <!-- <i class="pi pi-search calendar-icon"></i> -->
                                 </div>
@@ -857,7 +859,7 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-tarea>
                         <tr [pSelectableRow]="tarea" class="table-row table-row-selectable">
-                            <td>{{tarea.fechaCreacion}}</td>
+                            <td>{{tarea.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
                             <td>{{tarea.descripcion}}</td>
                             <td>{{tarea.jerarquia}}</td>
                             <td>{{tarea.barreras}}</td>
