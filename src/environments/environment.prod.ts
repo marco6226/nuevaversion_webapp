@@ -108,6 +108,8 @@ export const endPoints: string | any = {
   ViewscmcoService: path + "indscmco/",
   ViewscmgeService: path + "indscmge/",
 
+  metaService: path + "meta/",
+
   MatrizPeligrosLogService: path +"matrizPlog/",
   MatrizPeligrosService: path + "matrizP/",
   ViewMatrizPeligrosService: path + "vmatrizP/",

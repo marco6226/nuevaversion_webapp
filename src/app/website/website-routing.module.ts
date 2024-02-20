@@ -76,6 +76,7 @@ import { ProgramacionCtrComponent } from './pages/ctr/components/inspecciones-ct
 import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecciones-ctr/consulta-inspecciones-ctr/consulta-inspecciones-ctr.component';
 import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/matriz-peligros.component';
 import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matriz-peligros/lista-matriz-peligros.component';
+import { MetasComponent } from './pages/ind/components/metas/metas.component';
 
 const routes: Routes = [
   {
@@ -225,7 +226,8 @@ const routes: Routes = [
           { path: 'accidentalidad', component: AccidentalidadComponent },
           { path: 'indcasosmedicos', component: IndCasosMedicosComponent },
           { path: 'indcasosmedicosgestion', component: IndCasosMedicosGestionComponent },
-          { path: 'indcaracterizacion', component: IndCaracterizacionComponent }
+          { path: 'indcaracterizacion', component: IndCaracterizacionComponent },
+          { path: 'metas', component: MetasComponent }
         ]
       },
       {

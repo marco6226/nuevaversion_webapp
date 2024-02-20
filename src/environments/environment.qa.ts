@@ -106,6 +106,8 @@ export const endPoints: string | any = {
     Plantas: path + "plantas/",
     ViewscmcoService: path + "indscmco/",
     ViewscmgeService: path + "indscmge/",
+    
+  metaService: path + "meta/",
   
     MatrizPeligrosLogService: path +"matrizPlog/",
     MatrizPeligrosService: path + "matrizP/",

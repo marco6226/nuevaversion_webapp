@@ -286,7 +286,8 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     { label: 'Accidentalidad', codigo: 'IND_GET_ACD', routerLink: ['/app/ind/accidentalidad'], icon: 'pi pi-exclamation-triangle' },
                     { label: 'Ind. casos medicos corporativo', codigo: 'IND_GET_SCM', routerLink: ['/app/ind/indcasosmedicos'], icon: 'bi bi-building-check' },
                     { label: 'Ind. casos medicos gestión', codigo: 'IND_GET_SCMGESTION', routerLink: ['/app/ind/indcasosmedicosgestion'], icon: 'bi bi-bounding-box' },
-                    { label: 'Ind. caracterización', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indcaracterizacion'], icon: 'pi pi-list' }
+                    { label: 'Ind. caracterización', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indcaracterizacion'], icon: 'pi pi-list' },
+                    { label: 'Metas', codigo: 'IND_GET_METAS', routerLink: ['/app/ind/metas'], icon: 'pi pi-chart-line' },
                 ]
         },
         {
