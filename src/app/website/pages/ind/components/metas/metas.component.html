@@ -1,0 +1,61 @@
+<p-toast key="metaToast"></p-toast>
+<p-panel header="Metas">
+  <div class="p-fluid p-grid p-formgrid grid">
+    <div class="col-6 md:col-6 lg:col-3">
+      <label for="">Módulo</label>
+      <p-dropdown appendTo="body" [options]="moduloList" placeholder="-- Seleccione --" [(ngModel)]="modulo" (onChange)="onSelectFiltro()" required></p-dropdown>
+    </div>
+    <div class="col-6 md:col-6 lg:col-3">
+      <label for="yearSelector">Año</label>
+      <p-calendar view="year" id="yearSelector" placeholder="yyyy" dateFormat="yy" [(ngModel)]="anio" (onSelect)="onSelectFiltro()" required></p-calendar>
+    </div>
+    <div class="col-6 md:col-6 lg:col-3">
+      <label for="">País</label>
+      <p-dropdown appendTo="body" [options]="pais" placeholder="-- Seleccione --" [(ngModel)]="paisSelected" (onChange)="onSelectFiltro()" required></p-dropdown>
+    </div>
+  </div>
+  <hr>
+  <div class="p-fluid p-grid p-formgrid grid" *ngIf="modulo && anio && paisSelected && formularioCargado">
+    <!-- <div class="col-3" *ngIf="anio">
+      <label for="{{'meta_'}}">Meta {{anio.getFullYear()}}: </label>
+      <input pInputText [id]="'meta_'" type="number" [(ngModel)]="metaAnual" required>
+    </div> -->
+    <div class="col-2" *ngFor="let metaTotal of metasData[metasData.length - 1].valorMeta">
+      <label>Meta {{metaTotal.referencia}} {{anio.getFullYear()}}</label>
+      <input pInputText type="number" [(ngModel)]="metaTotal.value">
+    </div>
+  </div>
+  <hr *ngIf="modulo && anio && paisSelected && formularioCargado">
+  <div *ngIf="modulo && anio && paisSelected && formularioCargado" class="grid">
+    <p-accordion class="col-12" [multiple]="true" >
+      <ng-container *ngFor="let metaArea of metasData; let iArea = index; let isLast = last" >
+        <p-accordionTab *ngIf="!isLast" [header]="getAreaNombre(metaArea.referencia)">
+          <div class="grid">
+            <div class="col-2" *ngFor="let meta of metaArea.valorMeta">
+              <label>Meta {{meta.referencia}}</label><br>
+              <input pInputText type="number" [(ngModel)]="meta.value">
+            </div>
+          </div>
+          <p-accordion>
+            <ng-container *ngFor="let metaLocalidad of metaArea.metas; let iLocalidad = index;">
+              <p-accordionTab  [header]="getLocalidadNombre(metaLocalidad.referencia)">
+                <div class="grid">
+                  <div class="col-2" *ngFor="let meta of metaLocalidad.valorMeta">
+                    <label>Meta {{meta.referencia}}</label><br>
+                    <input pInputText type="number" [(ngModel)]="meta.value">
+                  </div>
+                </div>
+              </p-accordionTab>
+            </ng-container>
+          </p-accordion>
+        </p-accordionTab>
+      </ng-container>
+    </p-accordion>
+  </div>
+</p-panel>
+
+<ng-container *sTienePermiso="esNuevo ? 'IND_POST_META':'IND_PUT_META'">
+  <button pButton [icon]="esNuevo ? 'pi pi-save' : 'pi pi-pencil'"
+  [ngClass]="esNuevo ? 'float-btn p-button-primary' : 'float-btn p-button-success'"
+  title="Guardar" [disabled]="cargando" (click)="onSubmit()" *ngIf="modulo && anio && paisSelected && formularioCargado"></button>
+</ng-container>

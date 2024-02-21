@@ -218,6 +218,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ProgramacionEventoComponent } from './pages/comun/components/programacion-evento/programacion-evento.component';
 import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matriz-peligros/lista-matriz-peligros.component';
 import { GridModule, EditService } from '@syncfusion/ej2-angular-grids';
+import { MetasComponent } from './pages/ind/components/metas/metas.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -396,6 +397,7 @@ import { GridModule, EditService } from '@syncfusion/ej2-angular-grids';
     ChangePasswordComponent,
     ProgramacionEventoComponent,
     ListaMatrizPeligrosComponent,
+    MetasComponent,
   ],
   imports: [
     GridModule,
