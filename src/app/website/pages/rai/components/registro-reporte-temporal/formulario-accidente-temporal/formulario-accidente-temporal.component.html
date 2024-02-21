@@ -88,8 +88,12 @@
                             <label for="">Ubicación</label>
                             <area-selector required formControlName="areaAccidente" style="width: 350px;"  
                             [name]="this.reporte ? this.reporte.areaAccidente?.nombre:''"
-                            required>
+                            required (onDivision)="listadoLocalidades($event)">
                             </area-selector>
+                        </div>
+                        <div class="col-md-6 col-sm-12" *ngIf="idEmpresa=='22' && flagLocalidades">
+                            <label for="">Localidades</label>
+                            <p-dropdown  required [filter]="true" placeholder="Seleccione una localidad" appendTo="body" [options]="localidadesList"  formControlName="localidad"></p-dropdown>
                         </div>
                     </div>
                 </div>

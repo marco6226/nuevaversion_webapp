@@ -149,11 +149,11 @@
                 <label>Ubicación</label>
                 <area-selector *ngIf="!infPersonaAccidentada.get('ubicacion')?.value;else editarUbicacion"
                 formControlName="ubicacion" required 
-                [name]="this.infPersonaAccidentada.get('ubicacion').value">
+                [name]="this.infPersonaAccidentada.get('ubicacion').value" (onDivision)="listadoLocalidades($event)">
                 </area-selector>
                 <ng-template #editarUbicacion>
                   <area-selector formControlName="ubicacion" required 
-                  [name]="this.infPersonaAccidentada.get('ubicacion').value.nombre">
+                  [name]="this.infPersonaAccidentada.get('ubicacion').value.nombre" (onDivision)="listadoLocalidades($event)">
                   </area-selector>
                 </ng-template>
               </div>
@@ -161,11 +161,15 @@
           </div>
           <div class="row mb-3 g-6">
             <div class="col-md-6 col-sm-12">
-              <div class="input-field">
+              <div class="col-md-6 col-sm-12" *ngIf="idEmpresa=='22' && flagLocalidades">
+                <label for="">Localidades</label>
+                <p-dropdown  required [filter]="true" placeholder="Seleccione una localidad" appendTo="body" [options]="localidadesList"  formControlName="localidad"></p-dropdown>
+              </div>
+              <!-- <div class="input-field">
                 <label>Localidad</label>
                 <p-dropdown placeholder="-- seleccione --" [ngStyle]="{width: '-webkit-fill-available'}"
                 [showClear]="true" [options]="localidadesOpt" formControlName="localidad" required></p-dropdown>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

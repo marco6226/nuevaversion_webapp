@@ -33,6 +33,8 @@ import { Empresa } from 'src/app/website/pages/empresa/entities/empresa';
 import { AnalisisDesviacion } from 'src/app/website/pages/comun/entities/analisis-desviacion';
 import { Directorio } from 'src/app/website/pages/ado/entities/directorio';
 import { PrimeNGConfig } from 'primeng/api';
+import { AreaService } from 'src/app/website/pages/empresa/services/area.service';
+import { Localidades } from 'src/app/website/pages/ctr/entities/aliados';
 
 @Component({
   selector: 'app-formulario-accidente-temporal',
@@ -77,7 +79,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
   formplanaccion: FormGroup | null = null;
   testigoReporteList: TestigoReporte[] = [];
   visibleCamposAccidente: boolean=true;
-  idEmpresa: string| null = null;
+  idEmpresa: string | number | null = null;
   fechaIngreso: Date | null = null;
   fechaAccidente: Date | null = null;
   deltaFecha: Date | null = null;
@@ -137,6 +139,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
       private confirmationService: ConfirmationService,
       private directorioService: DirectorioService,
       private cargoService: CargoService,
+      private areaService: AreaService,
       private messageService: MessageService,
       private config: PrimeNGConfig
   ) {
@@ -183,8 +186,8 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
       return areasPermiso2?.indexOf(ele) == pos;
     }) 
     this.areasPermiso='{'+filteredArea?.toString()+'}';
-    
-    this.idEmpresa = this.sesionService.getEmpresa()?.id ?? null;
+    this.idEmpresa = (this.sesionService.getEmpresa()?.idEmpresaAliada ? this.sesionService.getEmpresa()?.idEmpresaAliada : this.sesionService.getEmpresa()?.id) ?? null;
+
     if(!this.modificar && !this.consultar){
     this.infoEmpresa()}
       this.formplanaccion=this.fb.group({
@@ -282,6 +285,8 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
           cargoResponsable:null,
           fechaReporte: null,
           temporal:null,
+          localidad:null
+
       });
       
       setTimeout(async () => {
@@ -377,8 +382,6 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
             cualMecanismo: this.reporte?.cualMecanismo,
             ciudadEmpresa: this.reporte?.ciudadEmpresa,
             ciudadCentroTrabajo: this.reporte?.ciudadCentroTrabajo,
-            ciudadEmpleado: this.reporte?.ciudadEmpleado,
-            ciudadAccidente: this.reporte?.ciudadAccidente,
             severidad:this.reporte?.severidad,
             areaAccidente: this.reporte?.areaAccidente,
             usuarioReporta: this.reporte?.usuarioReporta,
@@ -389,8 +392,18 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
             numeroIdentificacionResponsable: this.reporte?.numeroIdentificacionResponsable,
             cargoResponsable: this.reporte?.cargoResponsable,
             fechaReporte: this.reporte?.fechaReporte == null ? null : new Date(this.reporte.fechaReporte),
-            temporal:this.reporte?.temporal
+            temporal:this.reporte?.temporal,
+            localidad:(this.reporte?.localidad)?this.reporte?.localidad?.id:null
         });
+
+        setTimeout(async () => {
+          if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
+          this.form?.patchValue({
+            localidad:(this.reporte?.localidad)?this.reporte?.localidad?.id:null,
+            ciudadEmpleado: this.reporte?.ciudadEmpleado,
+            ciudadAccidente: this.reporte?.ciudadAccidente,
+          })
+      }, 2000);
 
         let filterQuery = new FilterQuery();
         filterQuery.fieldList = this.fields;
@@ -532,8 +545,13 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
     
     if (this.adicionar) {
         let reporte = <Reporte>this.form?.value;
+        
         reporte.testigoReporteList = this.testigoReporteList;
         reporte.fechaReporte=new Date()
+
+        let localidades: Localidades = {} as Localidades;
+        localidades.id=this.form?.value.localidad
+        reporte.localidad=localidades
         // reporte.identificacionEmpresa = this.selectedTemporal;
         // let selectedTemporal=this.temporales.find((data)=>{
         //   return data.value==this.selectedTemporal
@@ -579,6 +597,11 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
         let reporte = <Reporte>this.form?.value;
         reporte.testigoReporteList = this.testigoReporteList;
         reporte.istemporal = true;
+
+        let localidades: Localidades = {} as Localidades;
+        localidades.id=this.form?.value.localidad
+        reporte.localidad=localidades
+
         this.reporteService.update(reporte).then(
             data => this.onSave.emit(<Reporte>data)
         );
@@ -734,5 +757,33 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
     });
     return ele
   }
+
+  flagLocalidades:boolean=false
+  async listadoLocalidades(event:any){
+    let filterArea = new FilterQuery();
+    filterArea.fieldList = [
+        'id',
+    ];
+    filterArea.filterList = [{ field: 'nombre', criteria: Criteria.EQUALS, value1: event}];
+    filterArea.filterList.push({ field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59'})
+    let idDivision:any
+    await this.areaService.getAreaRWithFilter(filterArea).then((resp:any)=>{
+        idDivision=resp.data[0].id
+    })
+
+    let filterLocalidad = new FilterQuery();
+    filterLocalidad.fieldList = [
+        'id',
+        'localidad'
+    ];
+    filterLocalidad.filterList = [{ field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: idDivision}];
+    this.localidadesList=[]
+    await this.empresaService.getLocalidadesRWithFilter(filterLocalidad).then((ele:any)=>{
+        for(let loc of ele.data){
+            this.localidadesList.push({label:loc.localidad,value:loc.id})
+        }
+    }).catch((er:any)=>console.log(er)).finally(()=>this.flagLocalidades=true)
+}
+localidadesList:any
 
 }

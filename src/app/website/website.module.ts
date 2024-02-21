@@ -107,6 +107,7 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {FieldsetModule} from 'primeng/fieldset';
 import {TreeTableModule} from 'primeng/treetable';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 import { EmpleadoComponent } from './pages/empresa/components/empleado/empleado.component';
 import { EmpleadoFormComponent } from './pages/empresa/components/empleado/empleado-form/empleado-form.component';
 import { TabViewModule } from 'primeng/tabview';
@@ -412,6 +413,7 @@ import { GridModule, EditService } from '@syncfusion/ej2-angular-grids';
     MessageModule,
     FieldsetModule,
     TreeTableModule,
+    TieredMenuModule,
     InputTextModule,
     PanelModule,
     CalendarModule,

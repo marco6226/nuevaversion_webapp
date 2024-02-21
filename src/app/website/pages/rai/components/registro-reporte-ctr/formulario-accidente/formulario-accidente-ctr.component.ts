@@ -243,7 +243,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     this.cargarTiposPeligro();
     this.cargarCausasInmediatas();
     this.cargarCausasBasicas();
-    this.cargarLocalidades();
+    // this.cargarLocalidades();
 
     //Cargar información de accidente para modificar
     if (this.reporteId) {
@@ -288,7 +288,11 @@ export class FormularioAccidenteCtrComponent implements OnInit {
         this.infPersonaAccidentada.get('cargo')?.setValue(this.reporte.cargoEmpleado);
         this.infPersonaAccidentada.get('jornada')?.setValue(this.reporte.jornadaHabitual);
         this.infPersonaAccidentada.get('ubicacion')?.setValue(this.reporte.areaAccidente);
-        this.infPersonaAccidentada.get('localidad')?.setValue(this.reporte.localidad);
+
+        setTimeout(async () => {
+          if(this.idEmpresa=='22')await this.listadoLocalidades(this.reporte.areaAccidente!.padreNombre)
+          this.infPersonaAccidentada.get('localidad')?.setValue(this.reporte.localidad?((typeof this.reporte.localidad)=="string")?this.reporte.localidad:this.reporte.localidad!.id:null);
+        }, 2000);
 
         
         this.infAccidente.get('fechaAccidente')?.setValue(this.reporte.fechaAccidente ? new Date(this.reporte.fechaAccidente): null);
@@ -477,14 +481,46 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     });
   }
 
-  async cargarLocalidades() {
-    await this.empresaService.getLocalidades()
-    .then((res: Localidades[]) => {
-      this.localidadesOpt = res.map((localidad: Localidades) => {
-        return {label: localidad.localidad, value: localidad};
-      });
-    });
+  // async cargarLocalidades() {
+  //   await this.empresaService.getLocalidades()
+  //   .then((res: Localidades[]) => {
+  //     this.localidadesOpt = res.map((localidad: Localidades) => {
+  //       return {label: localidad.localidad, value: localidad};
+  //     });
+  //     console.log(this.localidadesOpt)
+  //   });
+  // }
+
+  flagLocalidades:boolean=false
+  async listadoLocalidades(event:any){
+    console.log(event)
+    let filterArea = new FilterQuery();
+    filterArea.fieldList = [
+        'id',
+    ];
+    filterArea.filterList = [{ field: 'nombre', criteria: Criteria.EQUALS, value1: event}];
+    filterArea.filterList.push({ field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59'})
+    let idDivision:any
+    await this.areaService.getAreaRWithFilter(filterArea).then((resp:any)=>{
+        idDivision=resp.data[0].id
+    })
+
+    let filterLocalidad = new FilterQuery();
+    filterLocalidad.fieldList = [
+        'id',
+        'localidad'
+    ];
+    filterLocalidad.filterList = [{ field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: idDivision}];
+    this.localidadesList=[]
+    await this.empresaService.getLocalidadesRWithFilter(filterLocalidad).then((ele:any)=>{
+        for(let loc of ele.data){
+            this.localidadesList.push({label:loc.localidad,value:loc.id})
+        }
+    }).catch((er:any)=>console.log(er)).finally(()=>this.flagLocalidades=true)
+    console.log(this.idEmpresa)
+    console.log(this.flagLocalidades)
   }
+  localidadesList:any
 
   buildTreeNode(list: any[], parentNode: any, listField: string, causasList?: any[], causasSelectList?: any[]): any {
     let treeNodeList: TreeNode[] = [];
@@ -580,6 +616,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     let formControls:any = {};
     let values:any = null;
     if(this.formCausasInmediatas) values = this.formCausasInmediatas.value; 
+    if(this.idCausasSelectInmediata)
     this.idCausasSelectInmediata.forEach((ci:any) => {
       formControls[ci.label] = new FormControl(null, Validators.required);
     });
@@ -621,6 +658,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     let formControls:any = {};
     let values:any = null;
     if(this.formCausasRaiz) values = this.formCausasRaiz.value;
+    if(this.idCausasSelectBasic)
     this.idCausasSelectBasic.forEach((cb:any) => {
       formControls[cb.label] = new FormControl(null, Validators.required);
     });
@@ -713,7 +751,10 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     this.reporte.cargoEmpleado = (this.infPersonaAccidentada.get('cargo')?.value).toUpperCase();
     this.reporte.jornadaHabitual = this.infPersonaAccidentada.get('jornada')?.value;
     this.reporte.areaAccidente = this.infPersonaAccidentada.get('ubicacion')?.value;
-    this.reporte.localidad = this.infPersonaAccidentada.get('localidad')?.value;
+    let localidades: Localidades = {} as Localidades;
+        localidades.id=this.infPersonaAccidentada.get('localidad')?.value;
+        this.reporte.localidad=localidades
+    // this.reporte.localidad = this.infPersonaAccidentada.get('localidad')?.value;
 
     // Almacenar datos del accidente
     this.reporte.fechaAccidente = this.infAccidente.get('fechaAccidente')?.value;
