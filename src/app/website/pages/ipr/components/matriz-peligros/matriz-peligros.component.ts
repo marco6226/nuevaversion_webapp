@@ -238,9 +238,9 @@ export class MatrizPeligrosComponent implements OnInit  {
       Efectos: [null],
     });
     this.formMatrizGeneral = this.fb.group({
-      Area: [null], //Clasificación
-      Proceso: [null], //Descripción del peligro
-      Subproceso: [[]],
+      Area: [{value:null, disabled: false}], //Clasificación
+      Proceso: [{value:null, disabled: false}], //Descripción del peligro
+      Subproceso: [{value:[], disabled: false}],
       Actividades: [null],
       Rutinaria: [null],
       Propios: [null],
@@ -351,17 +351,14 @@ export class MatrizPeligrosComponent implements OnInit  {
   }
 
   async ngOnInit() {
-    this.cargarDatos()
-    this.cargoService.findByEmpresa().then((resp) => {
+    await this.cargarDatos()
+    await this.cargoService.findByEmpresa().then((resp) => {
       this.cargoList = [];
       this.cargoList.push({ label: '--Seleccione--', value: null });
       (<Cargo[]>resp).forEach((cargo:any) => {
           this.cargoList.push({ label: cargo, value: cargo });
       });})
-
   }
-
-
   async cargarDatos(){
     await this.getArea()
     this.cols = [
@@ -1845,6 +1842,7 @@ export class MatrizPeligrosComponent implements OnInit  {
         this.idMostrar=''
         this.flagRegistroMatrizTree=false
         // this.formMatrizGeneral?.value.Subproceso.forEach(async (ele1:any) => {
+        this.idMatrizPeligro=[]
         for(const ele1 of this.formMatrizGeneral?.value.Subproceso){
         // this.formMatrizGeneral?.value.Subproceso.forEach(async (ele1:any) => {
           let findProceso= this.formMatrizGeneral?.value.Proceso.find((ele2:any)=>ele2.id==ele1.idpadre)
@@ -1872,7 +1870,7 @@ export class MatrizPeligrosComponent implements OnInit  {
           matrizPeligrosLog = {...matrizPeligros}
           matrizPeligrosLog.accion='Creado'
           matrizPeligrosLog.fechaEdicion=new Date()
-          this.idMatrizPeligro=[]
+          
 
           await this.matrizPeligrosService.create(matrizPeligros).then((resp:any)=>{
             flagGuardado=true
@@ -1960,6 +1958,7 @@ export class MatrizPeligrosComponent implements OnInit  {
           // matrizPeligrosLog = matrizPeligros.map((mp:any) => ({ ...mp }));
           matrizPeligrosLog.accion='Actualizado'
           matrizPeligrosLog.fechaEdicion=new Date()
+          console.log(this.idMatrizPeligro)
           try {
             matrizPeligrosLog.idriesgo=this.idMatrizPeligro[i].split('-')[0]
           } catch (error) {

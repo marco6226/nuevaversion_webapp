@@ -185,61 +185,64 @@
         <p-accordion [multiple]="true" #acordionMat>
 
             <p-accordionTab header="I. INFORMACIÓN GENERAL - DESCRIPCIÓN">
-                <div [class]="(flagEliminadoSustituido)?'overlay-content':'overlay'">
+                <div >
                     <form [formGroup]="formMatrizGeneral">
-                        <div class="grid accordionTab">
-                            <div class="col-md-6 col-sm-12 gridcol">
-                                <label for="">Área</label><br>
-                                <!-- <p-dropdown appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event)" >
-                                </p-dropdown> -->
-                                <p-multiSelect formControlName="Area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event.value)" >
-                                </p-multiSelect>
+                        <div class="accordionTab">
+                            <div [class]="(CRUDMatriz!='PUT' || flagEliminadoSustituido)?'overlay-content grid':'overlay grid'">
+                                <div class="col-md-6 col-sm-12 gridcol">
+                                    <label for="">Área</label><br>
+                                    <!-- <p-dropdown appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event)" >
+                                    </p-dropdown> -->
+                                    <p-multiSelect formControlName="Area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event.value)">
+                                    </p-multiSelect>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    &nbsp;
+                                </div>
+                                <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putArea;else blanco1">
+                                    <label for="">Agregar una nueva área de no estar registrada</label><br>
+                                    <ng-containter style="display: flex;">
+                                        <input type="text">
+                                        <button pButton type="button" 
+                                        icon="bi bi-plus"
+                                        class="p-button-raised p-button-primary"
+                                        ></button>
+                                    </ng-containter>
+                                </div> -->
+                                <br>
+                                <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
+                                    <label for="">Proceso</label>
+                                    <!-- <p-dropdown  [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event)">
+                                    </p-dropdown> -->
+                                    <p-multiSelect  formControlName="Proceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event.value)">
+                                    </p-multiSelect>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    &nbsp;
+                                </div>
+                                <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putProceso;else blanco1">
+                                    <label for="">Agregar un nuevo proceso de no estar registrado</label><br>
+                                    <ng-containter style="display: flex;">
+                                        <input type="text">
+                                        <button pButton type="button" 
+                                        icon="bi bi-plus"
+                                        class="p-button-raised p-button-primary"
+                                        ></button>
+                                    </ng-containter>
+                                </div> -->
+                                <br>
+                                <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
+                                    <label for="">Subproceso (cargo/oficio)</label>
+                                    <!-- <p-dropdown  [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
+                                    </p-dropdown> -->
+                                    <p-multiSelect  formControlName="Subproceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
+                                    </p-multiSelect>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    &nbsp;
+                                </div>
                             </div>
-                            <div class="col-md-6 col-sm-12">
-                                &nbsp;
-                            </div>
-                            <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putArea;else blanco1">
-                                <label for="">Agregar una nueva área de no estar registrada</label><br>
-                                <ng-containter style="display: flex;">
-                                    <input type="text">
-                                    <button pButton type="button" 
-                                    icon="bi bi-plus"
-                                    class="p-button-raised p-button-primary"
-                                    ></button>
-                                </ng-containter>
-                            </div> -->
-                            <br>
-                            <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
-                                <label for="">Proceso</label>
-                                <!-- <p-dropdown  [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event)">
-                                </p-dropdown> -->
-                                <p-multiSelect  formControlName="Proceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event.value)">
-                                </p-multiSelect>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                &nbsp;
-                            </div>
-                            <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putProceso;else blanco1">
-                                <label for="">Agregar un nuevo proceso de no estar registrado</label><br>
-                                <ng-containter style="display: flex;">
-                                    <input type="text">
-                                    <button pButton type="button" 
-                                    icon="bi bi-plus"
-                                    class="p-button-raised p-button-primary"
-                                    ></button>
-                                </ng-containter>
-                            </div> -->
-                            <br>
-                            <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
-                                <label for="">Subproceso (cargo/oficio)</label>
-                                <!-- <p-dropdown  [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
-                                </p-dropdown> -->
-                                <p-multiSelect  formControlName="Subproceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.subprocesoMatrizItemList">
-                                </p-multiSelect>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                &nbsp;
-                            </div>
+                            
                             <!-- <div class="col-md-6 col-sm-12 gridcol" *ngIf="putSubproceso;else blanco1">
                                 <label for="">Agregar un nuevo subproceso (cargo/oficio) de no estar registrado</label><br>
                                 <ng-containter style="display: flex;">
@@ -252,40 +255,42 @@
                             </div> -->
                             <br>
                             <br>
-                            <div class="col-md-12 col-sm-12 gridcol">
-                                <label for="">Actividades o tareas</label>
-                                <textarea required cols="10" rows="3" formControlName="Actividades"></textarea>
-                            </div>
-                            <br>
-                            <div class="col-md-12 col-sm-12 gridcol">
-                                <label for="">¿Rutinaria?</label><br>
-                                <div style="display: flex;">
-                                    <p-radioButton required name="Rutinaria" label="Sí" [value]="1"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagRutinaria" [ngModelOptions]="{standalone: true}" formControlName="Rutinaria"></p-radioButton>
-                                    <p-radioButton name="Rutinaria"  [value]="0" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagRutinaria" [ngModelOptions]="{standalone: true}" formControlName="Rutinaria"></p-radioButton>
+                            <div [class]="(flagEliminadoSustituido)?'overlay-content grid':'overlay grid'">
+                                <div class="col-md-12 col-sm-12 gridcol">
+                                    <label for="">Actividades o tareas</label>
+                                    <textarea required cols="10" rows="3" formControlName="Actividades"></textarea>
                                 </div>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="col-12">
-                                &nbsp;
-                            </div>
-                            <h3># Expuestos</h3>
-                            <div class="col-md-12 col-sm-12 gridcol grid">
-                                <div class="col-md-6 col-sm-12 col-3">
-                                    <label for="">Propios</label><br>
-                                    <input #positiveNumber min="0" required formControlName="Propios" type="number" [(ngModel)]="sumaP" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">
+                                <br>
+                                <div class="col-md-12 col-sm-12 gridcol">
+                                    <label for="">¿Rutinaria?</label><br>
+                                    <div style="display: flex;">
+                                        <p-radioButton required name="Rutinaria" label="Sí" [value]="1"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagRutinaria" [ngModelOptions]="{standalone: true}" formControlName="Rutinaria"></p-radioButton>
+                                        <p-radioButton name="Rutinaria"  [value]="0" label="No"  [style]="{'margin-left': '15px'}" [(ngModel)]="flagRutinaria" [ngModelOptions]="{standalone: true}" formControlName="Rutinaria"></p-radioButton>
+                                    </div>
                                 </div>
-                                <div  class="col-md-6 col-sm-12 col-3">
-                                    <label for="">Temporales</label>
-                                    <input #positiveNumber min="0" required formControlName="Temporales" type="number" [(ngModel)]="sumaC" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">                              
+                                <br>
+                                <br>
+                                <div class="col-12">
+                                    &nbsp;
                                 </div>
-                                <div class="col-md-6 col-sm-12 col-3">
-                                    <label for="">Contratistas</label>
-                                    <input #positiveNumber min="0"  required formControlName="Contratistas" type="number" [(ngModel)]="sumaT" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()"> 
-                                </div>
-                                <div class="col-md-5 col-sm-11 col-2">
-                                    <label for="">Total</label>
-                                    <input #positiveNumber min="0" type="number" [readonly]="true" [(ngModel)]="sumaExpuestos" [ngModelOptions]="{standalone: true}"> 
+                                <h3># Expuestos</h3>
+                                <div class="col-md-12 col-sm-12 gridcol grid">
+                                    <div class="col-md-6 col-sm-12 col-3">
+                                        <label for="">Propios</label><br>
+                                        <input #positiveNumber min="0" required formControlName="Propios" type="number" [(ngModel)]="sumaP" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">
+                                    </div>
+                                    <div  class="col-md-6 col-sm-12 col-3">
+                                        <label for="">Temporales</label>
+                                        <input #positiveNumber min="0" required formControlName="Temporales" type="number" [(ngModel)]="sumaC" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()">                              
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-3">
+                                        <label for="">Contratistas</label>
+                                        <input #positiveNumber min="0"  required formControlName="Contratistas" type="number" [(ngModel)]="sumaT" [ngModelOptions]="{standalone: true}" (input)="sumaExpuestosFunc()"> 
+                                    </div>
+                                    <div class="col-md-5 col-sm-11 col-2">
+                                        <label for="">Total</label>
+                                        <input #positiveNumber min="0" type="number" [readonly]="true" [(ngModel)]="sumaExpuestos" [ngModelOptions]="{standalone: true}"> 
+                                    </div>
                                 </div>
                             </div>
                         </div>
