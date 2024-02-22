@@ -44,12 +44,10 @@ p-header {
   /* Estilos para evitar que los eventos lleguen a los elementos subyacentes */
   .overlay-content * {
     pointer-events:none;//all
-    width: 100%;
   }
 
   .overlay * {
     pointer-events:all;//all
-    width: 100%;
   }
 
   :host ::ng-deep 

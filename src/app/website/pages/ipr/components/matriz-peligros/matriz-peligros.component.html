@@ -760,8 +760,8 @@
                         <h2>¿Este riesgo puede generar accidentes mayores?</h2>
                         <div class="grid accordionTab">
                             <div style="display: flex;">
-                                <p-radioButton required name="accMayor" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="accMayor"></p-radioButton>
-                                <p-radioButton name="accMayor" label="No" [value]="'No'" [style]="{'margin-left': '15px'}" formControlName="accMayor"></p-radioButton>
+                                <p-radioButton required name="accMayor" label="Sí" [value]="'Sí'"  [style]="{'margin-left': '15px'}" formControlName="accMayor" (onClick)="funcAccidentesMayores()"></p-radioButton>
+                                <p-radioButton name="accMayor" label="No" [value]="'No'" [style]="{'margin-left': '15px'}" formControlName="accMayor" (onClick)="funcAccidentesMayores()"></p-radioButton>
                             </div>
                         </div>
                     <!-- </form> -->

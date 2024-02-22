@@ -1461,7 +1461,7 @@ export class MatrizPeligrosComponent implements OnInit  {
       case 'DELETE':
         this.confirmationService.confirm({
           header: 'Eliminar subproceso (cargo/oficio)',
-          message: '¿Está seguro de eliminar el proceso '+this.newSubproceso+'?',
+          message: '¿Está seguro de eliminar el subproceso (cargo/oficio) '+this.newSubproceso+'?',
           key: 'matrizp',
           accept: async () => {
             this.flagRegistroMatrizTree=false
@@ -1725,6 +1725,17 @@ export class MatrizPeligrosComponent implements OnInit  {
     this.formPlanAccion?.reset()
   }
 
+  funcAccidentesMayores(){
+    if(this.formMatrizRiesgosI!.value.accMayor!='Sí'){
+      const miCampo = this.formMatrizRiesgosI!.get('realizoValoracion');
+      const miCampo2 = this.formMatrizRiesgosI!.get('planAccion');
+
+      miCampo!.clearValidators();
+      miCampo!.updateValueAndValidity();
+
+      miCampo2!.clearValidators();
+      miCampo2!.updateValueAndValidity();}
+  }
   //--------guardar---------//
   idEdicion:any
   idEdicion2:any
