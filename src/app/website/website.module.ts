@@ -95,6 +95,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { EmpresaListComponent } from './components/empresa-list/empresa-list.component';
 import { TienePermisoDirective } from './pages/comun/directives/tiene-permiso.directive';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown'; // Add this line
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputMaskModule } from 'primeng/inputmask';
 import { RadioButtonModule } from 'primeng/radiobutton';
