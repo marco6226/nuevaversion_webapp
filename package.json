@@ -68,7 +68,7 @@
     "word-wrap": "1.2.5",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
     "xlsx-style": "^0.8.13",
-    "zone.js": "0.13.0"
+    "zone.js": "^0.14.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.10",
