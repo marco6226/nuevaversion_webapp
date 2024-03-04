@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
-import { timeout } from 'rxjs/operators';
 import { SelectItem } from "primeng/api";
 import { Message } from "primeng/api";
 import { Empleado } from "src/app/website/pages/empresa/entities/empleado";
