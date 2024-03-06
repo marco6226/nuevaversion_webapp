@@ -79,7 +79,7 @@
                 <div *ngIf="!flagICR">
                     <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
                 </div>
-                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
+                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid">
                     <!-- dataKey="id" sortField="id" sortOrder="-1" -->
                     <ng-template pTemplate="header" let-columns>
                         <tr>
@@ -118,12 +118,13 @@
                         <tr class="filters">
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'equals')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                                            
+                                    <!-- <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dt.filter($event, 'fechaCreacion','contains');test()"
+                                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar> -->
                                     <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
                                     </s-rangoFechaSelector>                      
             
@@ -146,7 +147,7 @@
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
@@ -156,22 +157,22 @@
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estadoPlanAccion')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estadoPlanAccion', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estado')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estado', 'contains')">
                                 </div>
                             </td>
                         </tr>
@@ -330,7 +331,7 @@
                 <!-- <button pButton type="button" (click)="exportexcelHistoricoPrueba()" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
 
                 <br>
-                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizPList3Select" [value]="this.historicoList" [paginator]="true" [rows]="10" >
+                <p-table #dt1 styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizPList3Select" [value]="this.historicoList" [paginator]="true" [rows]="10" >
                     <!-- dataKey="id" sortField="id" sortOrder="-1" -->
                     <ng-template pTemplate="header" let-columns>
                         <tr>
@@ -365,50 +366,50 @@
                         <tr class="filters">
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                                    <input pInputText type="number" (input)="dt1.filter($event.target.value, 'id', 'equals')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
                                                             
-                                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaEdicion', 'bt')">
+                                    <s-rangoFechaSelector (onSelect)="dt1.filter($event, 'fechaEdicion', 'bt')">
                                     </s-rangoFechaSelector>                      
             
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'area.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'area.nombre')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'proceso.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'proceso.nombre')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'subProceso.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'subProceso.nombre')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value, 'peligro.Peligro.nombre', 'contains', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'peligro.DescripcionPeligro.nombre', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                         </tr>

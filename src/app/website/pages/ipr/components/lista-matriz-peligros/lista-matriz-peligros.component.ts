@@ -288,7 +288,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       let matrizPList2:any[]=[];
       await this.matrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
         matrizPList = (<MatrizPeligros[]>resp.data).map(matriz => matriz);
-        matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+        // matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+        // matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+
         matrizPList.map(resp=>resp.fechaEdicion=resp.fechaEdicion?new Date(resp.fechaEdicion!):null)
         matrizPList.map(resp=>resp.controlesexistentes=JSON.parse(resp.controlesexistentes!))
         matrizPList.map(resp=>resp.generalInf=JSON.parse(resp.generalInf!))
@@ -786,5 +788,6 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
           }
         )}
       }
-
+      test(){
+      console.log(this.matrizPList)}
 }
