@@ -2261,4 +2261,5 @@ export class MatrizPeligrosComponent implements OnInit  {
       ATasociados:this.ATTable.length
     })
   }
+
 }

@@ -62,6 +62,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
 
   rangeDatesExcelHistorico: any;
   flagExcelHistorico:boolean=false
+  flagHistoric:boolean=false
 
   tipoDescripcion:any=
     {generalInf:"Información general - Descripción: ",
@@ -346,11 +347,18 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
           matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
           matrizPList.map(resp=>resp.valoracionRiesgoResidual=JSON.parse(resp.valoracionRiesgoResidual!))
 
-          // for(let element of matrizPList){
+          for(let element of matrizPList){
         
-          matrizPList.forEach((element:any) => {
+          // matrizPList.forEach((element:any) => {
+            let estado='Sin estado'
+            if(element.planAccion.length>0){
+              estado='Riesgo vigente'
+              for(const paccion of element.planAccion){
+                if(paccion.jerarquia=='Sustitución' && paccion.estado=='Ejecutado')estado='Riesgo sustituido'
+                if(paccion.jerarquia=='Eliminación' && paccion.estado=='Ejecutado')estado='Riesgo eliminado'
+              }
+            }
 
-            element.planAccion
             matrizPList2.push({
               id:element.id,
               fechaCreacion:element.fechaCreacion,
@@ -362,10 +370,11 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
               NRCualitativo:element?.valoracionRiesgoInicial?.NRCualitativo,
               NRCualitativoR:element?.valoracionRiesgoResidual?.NRCualitativo,
               planAccion:element?.planAccion,
-              estadoPlanAccion:(element?.planAccion>0)?'Con plan de Acción':'Sin plan de acción',
-              estado:(element?.planAccion>0)?'Con plan de Acción':'Sin plan de acción'
+              estadoPlanAccion:(element?.planAccion.length>0)?'Con plan de Acción':'Sin plan de acción',
+              estado:estado
             })
-          })
+          }
+          // )
 
           if(matrizPList.length>0)this.matrizPListT=this.matrizPListT.concat(matrizPList);
 
@@ -470,6 +479,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   matrizPList3:MatrizPeligrosLog[]=[]
   matrizPList3Select!:MatrizPeligrosLog
   async historicoCargar(){
+    this.flagHistoric=true
     let idpadre
     try {
       idpadre=this.matrizSelect?.id!.toString().split('-')[0]
@@ -504,7 +514,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
           if(ele.valoracionRiesgoInicial?.NRCualitativo != matrizPList[i-1].valoracionRiesgoInicial?.NRCualitativo || ele.valoracionRiesgoResidual?.NRCualitativo != matrizPList[i-1].valoracionRiesgoResidual?.NRCualitativo)this.historicoList.push(ele)
         }        
       }
-      this.activeTab=1
+      setTimeout(() => {
+        this.activeTab=1
+      }, 500);
     })
   }
 

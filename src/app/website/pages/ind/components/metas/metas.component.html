@@ -33,7 +33,7 @@
           <div class="grid">
             <div class="col-2" *ngFor="let meta of metaArea.valorMeta">
               <label>Meta {{meta.referencia}}</label><br>
-              <input pInputText type="number" [(ngModel)]="meta.value">
+              <input pInputText type="number" [(ngModel)]="meta.value" [readOnly]="(metaArea.metas.length>1)?false:true">
             </div>
           </div>
           <p-accordion>
@@ -42,7 +42,12 @@
                 <div class="grid">
                   <div class="col-2" *ngFor="let meta of metaLocalidad.valorMeta">
                     <label>Meta {{meta.referencia}}</label><br>
-                    <input pInputText type="number" [(ngModel)]="meta.value">
+                    <ng-container *ngIf="metaArea.metas.length>1;else el">
+                      <input pInputText type="number" [(ngModel)]="meta.value">
+                    </ng-container>
+                    <ng-template #el>
+                      <input pInputText type="number" [(ngModel)]="meta.value" (ngModelChange)="updateMetaValue(metaArea.id,meta.referencia,meta.value)">
+                    </ng-template>
                   </div>
                 </div>
               </p-accordionTab>
