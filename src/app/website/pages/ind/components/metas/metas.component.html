@@ -29,7 +29,7 @@
   <div *ngIf="modulo && anio && paisSelected && formularioCargado" class="grid">
     <p-accordion class="col-12" [multiple]="true" >
       <ng-container *ngFor="let metaArea of metasData; let iArea = index; let isLast = last" >
-        <p-accordionTab *ngIf="!isLast" [header]="getAreaNombre(metaArea.referencia)">
+        <p-accordionTab *ngIf="!isLast && (metaArea.metas.length>0 || paisSelected=='Corona Total')" [header]="getAreaNombre(metaArea.referencia)">
           <div class="grid">
             <div class="col-2" *ngFor="let meta of metaArea.valorMeta">
               <label>Meta {{meta.referencia}}</label><br>
