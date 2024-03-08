@@ -4,6 +4,8 @@ import { DatePipe } from '@angular/common';
 import { ReporteAtService } from "../../service/reporte-at.service";
 import { SesionService } from "../../../core/services/session.service";
 import { HhtService } from "../../../empresa/services/hht.service";
+import { Meta, Modulos, ValorMeta } from '../../entities/meta';
+import { MetaService } from '../../service/meta.service';
 import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 import { Area } from "../../../empresa/entities/area";
 import { AreaService } from "../../../empresa/services/area.service";
@@ -25,13 +27,14 @@ class division {
   selector: "s-accidentalidad",
   templateUrl: "./accidentalidad.component.html",
   styleUrls: ["./accidentalidad.component.scss"],
-  providers: [HhtService, SesionService, ReporteAtService],
+  providers: [HhtService, SesionService, ReporteAtService,MetaService],
 })
 
 export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy {
   
   ili:number=0;
   metaIli:number=0;
+  metaIlidivision:number =0;
   colorIli?:string;
   categoriesCombo: any=[];
   seriesCombo: any=[];
@@ -89,7 +92,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     {name:'Octubre',code:9},
     {name:'Noviembre',code:10},
     {name:'Diciembre',code:11},
-    {name:'Corona total',code:12}
+    {name:'prueba total',code:12}
   ]
   fieldsR: string[] = [
     'id'
@@ -194,7 +197,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   tasasNotFound: boolean = false;
   tasasNotFound2: boolean = false;
   filtroAnioTasa_1: number = new Date().getFullYear();
-  divisionesCorona: string[] = ['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas','Corona total'];
+  divisionesCorona: string[] = ['Almacenes prueba', 'Bathrooms and Kitchen', 'Comercial prueba Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas','prueba total'];
   divisionesCoronaConId: any[] = [];
   divisionesCoronaIli1: string[] = [];
   filtroAnioTasa_2: number = new Date().getFullYear();
@@ -279,7 +282,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     private areaService: AreaService,
     private hhtService: HhtService,
     private sessionService: SesionService,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private MetaService: MetaService
     ) {}
     
     
@@ -374,8 +378,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           this.divisiones4.push({name:element['nombre'],code:cont})
           cont+=1
         });
-        this.divisiones4.push({name:'Corona total',code:cont})
-        this.divisiones2.push({label:'Corona total',value:'Corona total'})
+        this.divisiones4.push({name:'prueba total',code:cont})
+        this.divisiones2.push({label:'prueba total',value:'prueba total'})
       }
     );
       this.reporteTabla=[]
@@ -415,6 +419,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     let filterQueryTemp = new FilterQuery();
     let empresaId = this.sessionService.getEmpresa()?.id;
     let hhtEmpresa: Hht[] = [];
+    let MetaEmpresa: Meta[] = [];
     let hhtTemp: Hht[] = [];
     let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).map((at:any) => at);
 
@@ -485,7 +490,17 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     }).catch(err => {
       console.error('Error al obtener hht de la empresa');
     });
-
+    await this.MetaService.findByFilter(filterQueryTemp)
+    .then(async (res: any) => {
+      if(res.data.length > 0){
+        MetaEmpresa= Array.from(res.data);
+        console.log(MetaEmpresa);
+      }else{
+        console.error('No se obtuvieron registros metas de division');
+      }
+    }).catch(err => {
+      console.error('Error al obtener meta de division');
+    });
     await this.hhtService.findByFilter(filterQueryTemp)
     .then(async (res: any) => {
       if(res.data.length > 0){
@@ -982,7 +997,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             
             tasaFrecuencia1.push(data);
           });
-          // Corona total
+          // prueba total
           let mesesYear=(this.filtroAnioTasa_1==new Date().getFullYear())?new Date().getMonth()+1:12;
           let numMesesSelect=(this.selectedMesesTasa1.length>0?this.selectedMesesTasa1.length:mesesYear)
           let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
@@ -999,7 +1014,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           }
 
           let dataTotal:any = {
-            name: 'Corona total',
+            name: 'prueba total',
             series: []
           };
           
@@ -1017,7 +1032,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           });
           
           tasaFrecuencia1.push(dataTotal);
-          // Fin Corona total
+          // Fin prueba total
           Object.assign(this, {tasaFrecuencia1});
           localStorage.setItem('tasaFrecuencia1', JSON.stringify(tasaFrecuencia1.map(item => item)));
           this.filtroTasas1_1();
@@ -1065,7 +1080,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       }
     } catch (error) {
       
-      if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total') reportesAt = reportesAt
+      if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'prueba total') reportesAt = reportesAt
       .filter(at => this.filtroDivisionesTasa_2 === at.padreNombre);
 
       filterQuery.sortOrder = SortOrder.ASC;
@@ -1108,7 +1123,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               let data: DataHht = <DataHht>JSON.parse(elem.valor).Data;
               let trabajadoresPorArea = 0;
               
-              if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
+              if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'prueba total'){
                 if(data.mes === mes.label){
                   data.Areas!.forEach((dataArea, indexArea) => {
                     let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
@@ -1132,7 +1147,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
               let trabajadoresTemPorArea = 0;
 
-              if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
+              if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'prueba total'){
                 data.Areas!.forEach((dataArea, index) => {
                   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
                   if(div.nombre === this.filtroDivisionesTasa_2){
@@ -1298,7 +1313,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       });
       
       let dataTotal:any = {
-        name: 'Corona total',
+        name: 'prueba total',
         series: []
       }
 
@@ -1652,7 +1667,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
     ];
     this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
-      if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'Corona total'){
+      if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'prueba total'){
         reportesAt = reportesAt.filter(at => this.selectDivisionesILI2 === at.padreNombre);
       }
 
@@ -1688,7 +1703,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let hhtCorona = 0;
         res.data.forEach((elem:any) => {
           let dataHHT: DataHht = <DataHht>JSON.parse(elem.valor).Data;
-          if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'Corona total'){
+          if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'prueba total'){
             if(mes == dataHHT.mes){
               dataHHT.Areas!.forEach(area => {
                 let areaActual = this.divisionesCoronaConId.find(ar => ar.id == area.id).nombre;
@@ -1711,7 +1726,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         let hhtTemp = 0;
         listaHhtTemp.forEach((hht, index) => {
           let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
-          if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'Corona total'){
+          if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'prueba total'){
             if(mes == data.mes){
               data.Areas!.forEach(area => {
                 let areaActual = this.divisionesCoronaConId.find(ar => ar.id == area.id).nombre;
@@ -1779,7 +1794,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       datosGrafica_total.push({name:resp,value:total.get(resp)})
     })
     
-    datos.push({name:'Corona total',series:datosGrafica_total})
+    datos.push({name:'prueba total',series:datosGrafica_total})
   
     return datos
   }

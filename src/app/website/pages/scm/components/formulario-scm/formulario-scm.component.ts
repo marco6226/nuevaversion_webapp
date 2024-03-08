@@ -163,7 +163,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     empresaList2: empresaNit[] = [
         { label: "--Seleccione--", empresa: null, nit: null },
         { label: "Agromil S.A.S", empresa: "Agromil S.A.S", nit:"830511745" },
-        { label: "Almacenes Corona", empresa: "Almacenes Corona", nit:"860500480-8" },
+        { label: "Almacenes prueba", empresa: "Almacenes prueba", nit:"01234-8" },
         { label: "Compañía Colombiana de Ceramica S.A.S", empresa: "Compañía Colombiana de Ceramica S.A.S",nit:"860002536-5" },
         { label: "Corlanc S.A.S", empresa: "Corlanc S.A.S",nit:"900481586-1" },
         { label: "Corona Industrial", empresa: "Corona Industrial",nit:"900696296-4" },

@@ -33,8 +33,8 @@ divisionesTelefonica_=['CARIBE','CENTRO','NOROCCIDENTE','ORIENTE','SUR','TELEFON
 divisionesTelefonica=['CARIBE','CENTRO','NOROCCIDENTE','ORIENTE','SUR']
 
 
-divisionesCorona_=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas','Corona total'];
-divisionesCorona=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
+divisionesCorona_=['Almacenes prueba', 'Bathrooms and Kitchen', 'Comercial prueba Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas','prueba total'];
+divisionesCorona=['Almacenes prueba', 'Bathrooms and Kitchen', 'Comercial prueba Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
 divisiones1:any=[]
 
 entidades=['EPS','ARL','AFP','Junta Regional','Junta Nacional']
@@ -518,7 +518,7 @@ async cargarDatos(){
     case 22:
       this.divisiones=Array.from(this.divisionesCorona)
       this.divisiones_=Array.from(this.divisionesCorona_)
-      this.nombreEmpresa='Corona total'
+      this.nombreEmpresa='prueba total'
       this.nameX='Divisiones'
       break;
     default:

@@ -102,7 +102,7 @@ export class IndCaracterizacionComponent implements OnInit {
 
   NombreGra1=['Sexo','Lugar','Jornada'];
   NombreGra2=['Edad','Antigüedad','Hora accidente'];
-  divisiones1=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
+  divisiones1=['Almacenes prueba', 'Bathrooms and Kitchen', 'Comercial prueba Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
   filtroEventos: any[] = [[{label: 'Sexo masculino', value: 'Sexo masculino'}, {label: 'Sexo femenino', value: 'Sexo femenino'}],[{label: 'Lugar fuera', value: 'Lugar fuera'},{label: 'Lugar adentro', value: 'Lugar adentro'}],[{label: 'Jornada normal', value: 'Jornada normal'},{label: 'Jornada extra', value: 'Jornada extra'}]];
   filtroEventos2: any[] = [[{name: '18 a 25 años', code: '18 a 25 años'}, {name: '26 a 35 años', code: '26 a 35 años'}, {name: '36 a 45 años', code: '36 a 45 años'}, {name: '46 a 59 años', code: '46 a 59 años'}, {name: '60 años en adelante', code: '60 años en adelante'}],
     [{name: '0 a 1 años', code: '0 a 1 años'},{name: '2 a 5 años', code: '2 a 5 años'}, {name: '6 a 10 años', code: '6 a 10 años'}, {name: '11 a 20 años', code: '11 a 20 años'}, {name: '21 a 30 años', code: '21 a 30 años'}, {name: '31 años en adelante', code: '31 años en adelante'}],
@@ -212,7 +212,7 @@ export class IndCaracterizacionComponent implements OnInit {
     {name:'Octubre',code:9},
     {name:'Noviembre',code:10},
     {name:'Diciembre',code:11},
-    {name:'Corona total',code:12}
+    {name:'prueba total',code:12}
   ];
   yearRange = new Array();
   añoPrimero:number=2015;
@@ -268,8 +268,8 @@ export class IndCaracterizacionComponent implements OnInit {
       this.divisiones5.push({label:div,value:div})
       cont=cont+1;
     });
-    this.divisiones2.push({label:'Corona total',value:'Corona total'})
-    this.divisiones3.push({name:'Corona total',code:cont})
+    this.divisiones2.push({label:'prueba total',value:'prueba total'})
+    this.divisiones3.push({name:'prueba total',code:cont})
 
     this.yearRange=[]
     for (let i = 0; i < this.yearRangeNumber.length; i++) {
@@ -345,16 +345,16 @@ export class IndCaracterizacionComponent implements OnInit {
 
     this.CaracterizacionView1.forEach((element:any) => {
       if(this.radioGra0==0){
-        if(this.selectArea.length==0 || this.selectArea.toString()=='Corona total')this.ContCardsClasificacion(element);
-        if(this.selectArea==element.padrenombre  && this.selectArea.toString()!='Corona total')this.ContCardsClasificacion(element);
+        if(this.selectArea.length==0 || this.selectArea.toString()=='prueba total')this.ContCardsClasificacion(element);
+        if(this.selectArea==element.padrenombre  && this.selectArea.toString()!='prueba total')this.ContCardsClasificacion(element);
       }
       if(this.radioGra0==1 && element.emptemporal!=null){
-        if(this.selectArea.length==0 || this.selectArea.toString()=='Corona total')this.ContCardsClasificacion(element);
-        if(this.selectArea==element.padrenombre  && this.selectArea.toString()!='Corona total')this.ContCardsClasificacion(element);
+        if(this.selectArea.length==0 || this.selectArea.toString()=='prueba total')this.ContCardsClasificacion(element);
+        if(this.selectArea==element.padrenombre  && this.selectArea.toString()!='prueba total')this.ContCardsClasificacion(element);
       }
       if(this.radioGra0==2 && element.emptemporal==null){
-        if(this.selectArea.length==0 || this.selectArea.toString()=='Corona total')this.ContCardsClasificacion(element);
-        if(this.selectArea==element.padrenombre  && this.selectArea.toString()!='Corona total')this.ContCardsClasificacion(element);
+        if(this.selectArea.length==0 || this.selectArea.toString()=='prueba total')this.ContCardsClasificacion(element);
+        if(this.selectArea==element.padrenombre  && this.selectArea.toString()!='prueba total')this.ContCardsClasificacion(element);
       }
 
 
@@ -425,7 +425,7 @@ export class IndCaracterizacionComponent implements OnInit {
 
   ContDatosGraf1(element:any){
     switch (element.padrenombre) {
-      case 'Almacenes Corona':
+      case 'Almacenes prueba':
         if(element.generoempleado=='M'){this.ContHombres[0]=this.ContHombres[0]+1;}
         if(element.generoempleado=='F'){this.ContMujeres[0]=this.ContMujeres[0]+1;}
         if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[0]=this.ContLugarFuera[0]+1;}
@@ -441,7 +441,7 @@ export class IndCaracterizacionComponent implements OnInit {
         if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[1]=this.ContJornadaNormal[1]+1;}
         if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[1]=this.ContJornadaExtra[1]+1;}
         break;
-      case 'Comercial Corona Colombia':
+      case 'Comercial prueba Colombia':
         if(element.generoempleado=='M'){this.ContHombres[2]=this.ContHombres[2]+1;}
         if(element.generoempleado=='F'){this.ContMujeres[2]=this.ContMujeres[2]+1;}
         if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[2]=this.ContLugarFuera[2]+1;}
@@ -499,7 +499,7 @@ export class IndCaracterizacionComponent implements OnInit {
       this.datosGrafica1.push({name:div,series:[{name:'Sexo masculino',value:this.ContHombres[cont1]},{name:'Sexo femenino',value:this.ContMujeres[cont1]}]})
       cont1=cont1+1;
     });
-    this.datosGrafica1.push({name:'Corona total',series:[{name:'Sexo masculino',value:sum1},{name:'Sexo femenino',value:sum2}]})
+    this.datosGrafica1.push({name:'prueba total',series:[{name:'Sexo masculino',value:sum1},{name:'Sexo femenino',value:sum2}]})
   }
 
     if(this.radioGra1_1==1){
@@ -511,7 +511,7 @@ export class IndCaracterizacionComponent implements OnInit {
       this.datosGrafica1.push({name:div,series:[{name:'Lugar fuera',value:this.ContLugarFuera[cont1]},{name:'Lugar adentro',value:this.ContLugarDentro[cont1]}]})
       cont1=cont1+1;
     });
-    this.datosGrafica1.push({name:'Corona total',series:[{name:'Lugar fuera',value:sum1},{name:'Lugar adentro',value:sum2}]})
+    this.datosGrafica1.push({name:'prueba total',series:[{name:'Lugar fuera',value:sum1},{name:'Lugar adentro',value:sum2}]})
   }
 
     if(this.radioGra1_1==2){
@@ -523,7 +523,7 @@ export class IndCaracterizacionComponent implements OnInit {
       this.datosGrafica1.push({name:div,series:[{name:'Jornada normal',value:this.ContJornadaNormal[cont1]},{name:'Jornada extra',value:this.ContJornadaExtra[cont1]}]})
       cont1=cont1+1;
     });
-    this.datosGrafica1.push({name:'Corona total',series:[{name:'Jornada normal',value:sum1},{name:'Jornada extra',value:sum2}]})
+    this.datosGrafica1.push({name:'prueba total',series:[{name:'Jornada normal',value:sum1},{name:'Jornada extra',value:sum2}]})
   }
 
     this.flagevent1=true
@@ -703,7 +703,7 @@ resetVarGraf2(){
   }
   fechaNacimiento(element:any,element2:any){
     switch (element2.padrenombre) {
-      case 'Almacenes Corona':
+      case 'Almacenes prueba':
         if(element>=18 && element<=25){this.ContFechaNacimiento_1[0]=this.ContFechaNacimiento_1[0]+1;}
         if( element>=26 && element<=35){this.ContFechaNacimiento_1[1]=this.ContFechaNacimiento_1[1]+1;}
         if( element>=36 && element<=45)this.ContFechaNacimiento_1[2]=this.ContFechaNacimiento_1[2]+1;
@@ -717,7 +717,7 @@ resetVarGraf2(){
         if( element>=46 && element<=59)this.ContFechaNacimiento_2[3]=this.ContFechaNacimiento_2[3]+1;
         if( element>=60)this.ContFechaNacimiento_2[4]=this.ContFechaNacimiento_2[4]+1;
         break;
-      case 'Comercial Corona Colombia':
+      case 'Comercial prueba Colombia':
         if(element>=18 && element<=25)this.ContFechaNacimiento_3[0]=this.ContFechaNacimiento_3[0]+1;
         if( element>=26 && element<=35)this.ContFechaNacimiento_3[1]=this.ContFechaNacimiento_3[1]+1;
         if( element>=36 && element<=45)this.ContFechaNacimiento_3[2]=this.ContFechaNacimiento_3[2]+1;
@@ -764,7 +764,7 @@ resetVarGraf2(){
 
   fechaAntiguedad(element:any,element2:any){
     switch (element2.padrenombre) {
-      case 'Almacenes Corona':
+      case 'Almacenes prueba':
         if(element>=0 && element<=1)this.ContFechaIngreso_1[0]=this.ContFechaIngreso_1[0]+1;
         if( element>=2 && element<=5)this.ContFechaIngreso_1[1]=this.ContFechaIngreso_1[1]+1;
         if( element>=6 && element<=10)this.ContFechaIngreso_1[2]=this.ContFechaIngreso_1[2]+1;
@@ -780,7 +780,7 @@ resetVarGraf2(){
         if( element>=21 && element<=30)this.ContFechaIngreso_2[4]=this.ContFechaIngreso_2[4]+1;
         if( element>=30)this.ContFechaIngreso_2[5]=this.ContFechaIngreso_2[5]+1;
         break;
-      case 'Comercial Corona Colombia':
+      case 'Comercial prueba Colombia':
         if(element>=0 && element<=1)this.ContFechaIngreso_3[0]=this.ContFechaIngreso_3[0]+1;
         if( element>=2 && element<=5)this.ContFechaIngreso_3[1]=this.ContFechaIngreso_3[1]+1;
         if( element>=6 && element<=10)this.ContFechaIngreso_3[2]=this.ContFechaIngreso_3[2]+1;
@@ -835,7 +835,7 @@ resetVarGraf2(){
 
   horaAccidente(element:any,element2:any){
     switch (element2.padrenombre) {
-      case 'Almacenes Corona':
+      case 'Almacenes prueba':
         if(element>=0 && element<4){this.ContHoraAccidente_1[0]=this.ContHoraAccidente_1[0]+1;}
         if( element>=4 && element<8){this.ContHoraAccidente_1[1]=this.ContHoraAccidente_1[1]+1;}
         if( element>=8 && element<12){this.ContHoraAccidente_1[2]=this.ContHoraAccidente_1[2]+1;}
@@ -851,7 +851,7 @@ resetVarGraf2(){
         if( element>=16 && element<20){this.ContHoraAccidente_2[4]=this.ContHoraAccidente_2[4]+1;}
         if( element>=20){this.ContHoraAccidente_2[5]=this.ContHoraAccidente_2[5]+1;}
         break;
-      case 'Comercial Corona Colombia':
+      case 'Comercial prueba Colombia':
         if(element>=0 && element<4){this.ContHoraAccidente_3[0]=this.ContHoraAccidente_3[0]+1;}
         if( element>=4 && element<8){this.ContHoraAccidente_3[1]=this.ContHoraAccidente_3[1]+1;}
         if( element>=8 && element<12){this.ContHoraAccidente_3[2]=this.ContHoraAccidente_3[2]+1;}
@@ -935,40 +935,40 @@ resetVarGraf2(){
     this.datosGrafica2=[]
     if(this.radioGra2_1==0){
 
-      this.datosGrafica2.push({name:'Almacenes Corona',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_1)})
+      this.datosGrafica2.push({name:'Almacenes prueba',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_1)})
       this.datosGrafica2.push({name:'Bathrooms and Kitchen',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_2)})
-      this.datosGrafica2.push({name:'Comercial Corona Colombia',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_3)})
+      this.datosGrafica2.push({name:'Comercial prueba Colombia',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_3)})
       this.datosGrafica2.push({name:'Funciones Transversales',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_4)})
       this.datosGrafica2.push({name:'Insumos Industriales y Energias',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_5)})
       this.datosGrafica2.push({name:'Mesa Servida',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_6)})
       this.datosGrafica2.push({name:'Superficies, materiales y pinturas',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_7)})
-      this.datosGrafica2.push({name:'Corona total',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_total)})
+      this.datosGrafica2.push({name:'prueba total',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_total)})
 
   }
 
     if(this.radioGra2_1==1){
-      this.datosGrafica2.push({name:'Almacenes Corona',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_1)})
+      this.datosGrafica2.push({name:'Almacenes prueba',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_1)})
       this.datosGrafica2.push({name:'Bathrooms and Kitchen',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_2)})
-      this.datosGrafica2.push({name:'Comercial Corona Colombia',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_3)})
+      this.datosGrafica2.push({name:'Comercial prueba Colombia',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_3)})
       this.datosGrafica2.push({name:'Funciones Transversales',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_4)})
       this.datosGrafica2.push({name:'Insumos Industriales y Energias',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_5)})
       this.datosGrafica2.push({name:'Mesa Servida',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_6)})
       this.datosGrafica2.push({name:'Superficies, materiales y pinturas',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_7)})
-      this.datosGrafica2.push({name:'Corona total',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_total)})
+      this.datosGrafica2.push({name:'prueba total',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_total)})
 
  
   }
 
     if(this.radioGra2_1==2){
 
-      this.datosGrafica2.push({name:'Almacenes Corona',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_1)})
+      this.datosGrafica2.push({name:'Almacenes prueba',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_1)})
       this.datosGrafica2.push({name:'Bathrooms and Kitchen',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_2)})
-      this.datosGrafica2.push({name:'Comercial Corona Colombia',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_3)})
+      this.datosGrafica2.push({name:'Comercial prueba Colombia',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_3)})
       this.datosGrafica2.push({name:'Funciones Transversales',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_4)})
       this.datosGrafica2.push({name:'Insumos Industriales y Energias',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_5)})
       this.datosGrafica2.push({name:'Mesa Servida',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_6)})
       this.datosGrafica2.push({name:'Superficies, materiales y pinturas',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_7)})
-      this.datosGrafica2.push({name:'Corona total',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_total)})
+      this.datosGrafica2.push({name:'prueba total',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_total)})
   }
 
     this.flagevent2=true
@@ -1184,7 +1184,7 @@ Map7:any[]=[]
 
   ContDatosGraf3(element:any){
   switch (element.padrenombre) {
-    case 'Almacenes Corona':
+    case 'Almacenes prueba':
       if(this.hashmap1.has(element.cargoempleado)){
         this.hashmap1.set(element.cargoempleado,this.hashmap1.get(element.cargoempleado)+1)
       }else{
@@ -1200,7 +1200,7 @@ Map7:any[]=[]
         this.Map2.push(element.cargoempleado);
       }
       break;
-    case 'Comercial Corona Colombia':
+    case 'Comercial prueba Colombia':
       if(this.hashmap3.has(element.cargoempleado)){
         this.hashmap3.set(element.cargoempleado,this.hashmap3.get(element.cargoempleado)+1)
       }else{
@@ -1527,7 +1527,7 @@ datos4_7:division=new division();
 
 ContDatosGraf4(element:any){
   switch (element.padrenombre) {
-    case 'Almacenes Corona':
+    case 'Almacenes prueba':
       this.datos4_1.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont] = this.datos4_1.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1;
       this.datos4_1.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_1.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
       this.datos4_1.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_1.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
@@ -1543,7 +1543,7 @@ ContDatosGraf4(element:any){
       this.datos4_2.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_2.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
       this.datos4_2.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_2.datos!.sitioCont![element.sitio as keyof sitioCont]+1
       break;
-    case 'Comercial Corona Colombia':
+    case 'Comercial prueba Colombia':
       this.datos4_3.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]=this.datos4_3.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1
       this.datos4_3.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_3.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
       this.datos4_3.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_3.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
@@ -1603,7 +1603,7 @@ reinciarVariable(){
   this.datos4_6=new division();
   this.datos4_7=new division();
 
-  this.datos4_1.padrenombre='Almacenes Corona';
+  this.datos4_1.padrenombre='Almacenes prueba';
   this.datos4_1.datos= new datos
   this.datos4_1.datos.tipoAccidenteCont=new tipoAccidenteCont()
   this.datos4_1.datos.tipo_lesionCont=new tipo_lesionCont()
@@ -1621,7 +1621,7 @@ reinciarVariable(){
   this.datos4_2.datos.mecanismoCont=new mecanismoCont()
   this.datos4_2.datos.sitioCont=new sitioCont()
 
-  this.datos4_3.padrenombre='Comercial Corona Colombia';
+  this.datos4_3.padrenombre='Comercial prueba Colombia';
   this.datos4_3.datos= new datos
   this.datos4_3.datos.tipoAccidenteCont=new tipoAccidenteCont()
   this.datos4_3.datos.tipo_lesionCont=new tipo_lesionCont()
@@ -1801,7 +1801,7 @@ ContDatosGraf5(element:any){
   let peligro=JSON.parse(element.peligro);
   if(peligro)peligro=peligro.nombre
   switch (element.padrenombre) {
-    case 'Almacenes Corona':
+    case 'Almacenes prueba':
       if(this.mapGraf5_1.has(peligro)){
         this.mapGraf5_1.set(peligro,this.mapGraf5_1.get(peligro)+1)
       }else{
@@ -1815,7 +1815,7 @@ ContDatosGraf5(element:any){
         this.mapGraf5_2.set(peligro,1)
       }
       break;
-    case 'Comercial Corona Colombia':
+    case 'Comercial prueba Colombia':
       if(this.mapGraf5_3.has(peligro)){
         this.mapGraf5_3.set(peligro,this.mapGraf5_3.get(peligro)+1)
       }else{
@@ -2036,7 +2036,7 @@ DatosGrafica6(){
     let descripcionpeligro=JSON.parse(element.descripcionpeligro)
     if(descripcionpeligro)descripcionpeligro=descripcionpeligro.nombre
     switch (element.padrenombre) {
-      case 'Almacenes Corona':
+      case 'Almacenes prueba':
         this.graf6_1.map((resp:any)=>{
           if(resp.name==descripcionpeligro){
             resp.value=resp.value+1
@@ -2050,7 +2050,7 @@ DatosGrafica6(){
           }
         })
         break;
-      case 'Comercial Corona Colombia':
+      case 'Comercial prueba Colombia':
         this.graf6_3.map((resp:any)=>{
           if(resp.name==descripcionpeligro){
             resp.value=resp.value+1
@@ -2093,9 +2093,9 @@ DatosGrafica6(){
   }
   sextaGrafica(){
     this.datosGrafica6=[]
-    this.datosGrafica6.push({name:'Almacenes Corona',series:this.order(this.graf6_1)})
+    this.datosGrafica6.push({name:'Almacenes prueba',series:this.order(this.graf6_1)})
     this.datosGrafica6.push({name:'Bathrooms and Kitchen',series:this.order(this.graf6_2)})
-    this.datosGrafica6.push({name:'Comercial Corona Colombia',series:this.order(this.graf6_3)})
+    this.datosGrafica6.push({name:'Comercial prueba Colombia',series:this.order(this.graf6_3)})
     this.datosGrafica6.push({name:'Funciones Transversales',series:this.order(this.graf6_4)})
     this.datosGrafica6.push({name:'Insumos Industriales y Energias',series:this.order(this.graf6_5)})
     this.datosGrafica6.push({name:'Mesa Servida',series:this.order(this.graf6_6)})
@@ -2224,7 +2224,7 @@ DatosGrafica6(){
       datosGrafica_total.push({name:resp,value:total.get(resp)})
     })
     
-    datos.push({name:'Corona total',series:datosGrafica_total})
+    datos.push({name:'prueba total',series:datosGrafica_total})
   
     return datos
   }

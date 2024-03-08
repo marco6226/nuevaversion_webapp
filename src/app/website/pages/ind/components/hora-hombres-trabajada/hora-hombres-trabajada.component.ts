@@ -281,32 +281,32 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
 
   async loadDataOnForm(){
     this.meses.forEach((mes, index) => {
-      // let hht = this.listaHHT.find(hht => hht.mes === mes.value);
-      // let data = <DataHht>JSON.parse(hht?.valor!).Data;
-      // this.metaAnualILI = JSON.parse(hht?.valor!).ILI_Anual;
-      // this.metaMensualILI = JSON.parse(hht!.valor!).ILI_Mensual;
+      let hht = this.listaHHT.find(hht => hht.mes === mes.value);
+      let data = <DataHht>JSON.parse(hht?.valor!).Data;
+      this.metaAnualILI = JSON.parse(hht?.valor!).ILI_Anual;
+      this.metaMensualILI = JSON.parse(hht!.valor!).ILI_Mensual;
       
-      // this.dataHHT[index].id = data.id;
-      // this.dataHHT[index].HhtMes = data.HhtMes;
-      // this.dataHHT[index].NumPersonasMes = data.NumPersonasMes;
-      // this.dataHHT[index].Areas!.forEach((area:any) => {
-      //   let dataArea = data.Areas!.find(ar => ar.id === area.id);
-      //   area.NumPersonasArea = dataArea?.NumPersonasArea;
-      //   area.ILIArea = dataArea?.ILIArea ? dataArea.ILIArea : 0;
-      //   area.HhtArea = dataArea?.HhtArea ? dataArea.HhtArea : 0;
-      //   area.Plantas.forEach((pl:any) => {
-      //     let dataPlanta = dataArea?.Plantas!.find(pl2 => pl2.id === pl.id);
-      //     pl.HhtPlanta = dataPlanta ? dataPlanta.HhtPlanta : 0;
-      //     pl.NumPersonasPlanta = dataPlanta ? dataPlanta.NumPersonasPlanta : 0;
-      //   });
-      // });
+      this.dataHHT[index].id = data.id;
+      this.dataHHT[index].HhtMes = data.HhtMes;
+      this.dataHHT[index].NumPersonasMes = data.NumPersonasMes;
+      this.dataHHT[index].Areas!.forEach((area:any) => {
+        let dataArea = data.Areas!.find(ar => ar.id === area.id);
+        area.NumPersonasArea = dataArea?.NumPersonasArea;
+        area.ILIArea = dataArea?.ILIArea ? dataArea.ILIArea : 0;
+        area.HhtArea = dataArea?.HhtArea ? dataArea.HhtArea : 0;
+        area.Plantas.forEach((pl:any) => {
+          let dataPlanta = dataArea?.Plantas!.find(pl2 => pl2.id === pl.id);
+          pl.HhtPlanta = dataPlanta ? dataPlanta.HhtPlanta : 0;
+          pl.NumPersonasPlanta = dataPlanta ? dataPlanta.NumPersonasPlanta : 0;
+        });
+      });
       
-      // data.Areas!.forEach((area, indexAr) => {
-      //   if(area.Plantas!.length > 0){
-      //     this.calcularTotalesPorArea(index, indexAr);
-      //   }
-      // });
-      // this.calcularTotalesMes(index);
+      data.Areas!.forEach((area, indexAr) => {
+        if(area.Plantas!.length > 0){
+          this.calcularTotalesPorArea(index, indexAr);
+        }
+      });
+      this.calcularTotalesMes(index);
       Promise.all(
         this.dataHHT.flatMap((hht => {
           hht.Areas?.forEach((area, indexAr) => {

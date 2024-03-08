@@ -1,6 +1,6 @@
 //local
 let protocol = "http";
-let host = "localhost";
+let host = "192.168.0.25";
 let port = "8080";
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 

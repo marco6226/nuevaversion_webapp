@@ -31,7 +31,7 @@ export class IndCasosMedicosComponent implements OnInit {
   datosNumeroCasos?:any[];
   nameX?:string;
   divisiones?:any;
-  divisionesCorona=['Almacenes Corona', 'Bathrooms and Kitchen', 'Comercial Corona Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
+  divisionesCorona=['Almacenes prueba', 'Bathrooms and Kitchen', 'Comercial prueba Colombia', 'Funciones Transversales', 'Insumos Industriales y Energias', 'Mesa Servida', 'Superficies, materiales y pinturas'];
   // divisionesTelefonica=['BOGOTÁ','CARIBE','NOROCCIDENTE','NORORIENTE','SUROCCIDENTE','SURORIENTE']
   divisionesTelefonica=['CARIBE','CENTRO','NOROCCIDENTE','ORIENTE','SUR']
   nombreEmpresa?:string;
@@ -232,7 +232,7 @@ export class IndCasosMedicosComponent implements OnInit {
         break;
       case 22:
         this.divisiones=Array.from(this.divisionesCorona)
-        this.nombreEmpresa='Corona total'
+        this.nombreEmpresa='prueba total'
         this.nameX='Divisiones'
         break;
       default:
