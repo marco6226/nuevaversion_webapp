@@ -153,7 +153,7 @@ export class ScmComponent implements OnInit {
             this.totalRecords = res.count;
 
         } catch (error) {
-            console.error(error)
+            
         }
     }
 
@@ -162,13 +162,11 @@ export class ScmComponent implements OnInit {
         debugger
         await this.datosExcel()
         this.excel.forEach((el:any) => delete el.empresaId)
-        console.log(this.excel);
         
         let excel= this.empresaIdLoggin == 22? 
                     this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<=new Date(this.rangeDatesInforme[1])}) : 
                     this.excel.filter((resp:any)=>{ return new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1])})
-        console.log(excel);
-        
+                
         excel.map((resp:any)=>{
             if(resp.estadoCaso==1){resp.estadoCaso='Abierto'}
             if(resp.estadoCaso==0){resp.estadoCaso='Cerrado'}
@@ -228,7 +226,6 @@ export class ScmComponent implements OnInit {
         
             this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
         } else {
-            console.log(this.casosList);
             
             this.casosList.forEach((element: any) => {
                 dataExcel.push({ 
@@ -245,8 +242,6 @@ export class ScmComponent implements OnInit {
             });
             this.excel=[...dataExcel]
             this.excel.map((resp1:any)=>{return resp1.Fecha_apertura=new Date(resp1.Fecha_apertura)})
-
-            console.log(this.excel);
             
         }
        
