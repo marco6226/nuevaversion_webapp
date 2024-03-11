@@ -1597,9 +1597,13 @@ export class MatrizPeligrosComponent implements OnInit  {
         this.controlFlag=true
         break;
       case 'DELETE':
+        let nameCont=''
+        if(tipo=='ing')nameCont='control de ingeniería'
+        if(tipo=='adm')nameCont='control de administración'
+        if(tipo=='equ')nameCont='equipos y elementos de protección personal'
         this.confirmationService.confirm({
           header: 'Eliminar control existente',
-          message: '¿Está seguro de eliminar el control de ingenieria existente?',
+          message: '¿Está seguro de eliminar el '+nameCont+ ' existente?',
           key: 'matrizp',
           accept: async () => {
             if(this.tipoControl=='ing'){
