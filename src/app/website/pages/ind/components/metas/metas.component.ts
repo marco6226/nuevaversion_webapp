@@ -86,11 +86,16 @@ export class MetasComponent implements OnInit {
     if(this.modulo && this.anio && this.paisSelected){
       this.cargando = true;
       Promise.all([this.getAreas().then(), this.getPlantas().then()]).then(() => {
-        this.generarFormulario().finally(() => {
+        this.generarFormulario().finally(async () => {
           this.esNuevo = true;
-          this.cargarDatos();
+          await this.cargarDatos();
         });
-      }).finally(() => this.cargando = false);
+      }).finally(() => {
+        this.cargando = false
+        setTimeout(() => {
+          this.ordermeta()
+        }, 1000);
+      });
     }
   }
 
@@ -164,9 +169,10 @@ export class MetasComponent implements OnInit {
     filterQuery.sortField = 'id';
     filterQuery.sortOrder = SortOrder.ASC;
 
-    this.metaService.findByFilter(filterQuery).then((res:any) => {
+    await this.metaService.findByFilter(filterQuery).then((res:any) => {
       if(res['data'].length > 0) {
         this.metasData = <Meta[]>res['data'];
+
         this.esNuevo = false;
       }
     })
@@ -261,8 +267,38 @@ export class MetasComponent implements OnInit {
   }
 
   updateMetaValue(id:any,referencia:any,valueMetaLoc:number){
-    const indice=this.metasData.findIndex(el => el.id == id )
+    const indice=this.metasData.findIndex(el => el.referencia == id )
     const indice2=this.metasData[indice].valorMeta!.findIndex(el => el.referencia == referencia )
     this.metasData[indice].valorMeta[indice2].value=valueMetaLoc
+  }
+
+  ordermeta(){
+    let order=Modulos[this.modulo!]
+    let valorMeta:any=[]
+    let valorMetaSon:any=[]
+
+    if(this.metasData.length>0)
+    for(const [i, meta] of this.metasData.entries()){
+      valorMeta=[]
+      let metaCopy=meta.valorMeta
+      if(metaCopy.length>0)
+      for(const ref of order){
+        let a:any = metaCopy.find((resp:any)=>resp.referencia==ref)
+        valorMeta.push(a)
+      }
+      this.metasData[i].valorMeta=valorMeta
+
+      if(meta.metas.length>0)
+      for(const [j, meta2] of meta.metas.entries()){
+        valorMetaSon=[]
+        let metaCopySon=meta2.valorMeta
+        if(metaCopySon.length>0)
+        for(const ref of order){
+          let b:any = metaCopySon.find((resp:any)=>resp.referencia==ref)
+          valorMetaSon.push(b)
+        }
+        this.metasData[i].metas[j].valorMeta=valorMetaSon
+      }
+    }
   }
 }

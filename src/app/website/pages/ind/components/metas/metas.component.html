@@ -46,7 +46,7 @@
                       <input pInputText type="number" [(ngModel)]="meta.value">
                     </ng-container>
                     <ng-template #el>
-                      <input pInputText type="number" [(ngModel)]="meta.value" (ngModelChange)="updateMetaValue(metaArea.id,meta.referencia,meta.value)">
+                      <input pInputText type="number" [(ngModel)]="meta.value" (ngModelChange)="updateMetaValue(metaArea.referencia,meta.referencia,meta.value)">
                     </ng-template>
                   </div>
                 </div>
