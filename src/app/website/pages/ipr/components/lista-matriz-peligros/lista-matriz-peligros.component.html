@@ -87,10 +87,11 @@
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <!-- <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dt.filter($event, 'fechaCreacion','contains');test()"
-                                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar> -->
-                                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
-                                    </s-rangoFechaSelector>                      
+                                    <!--  -->
+                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dt.filter($event, 'fechaCreacion','contains');test($event)"
+                                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar>
+                                    <!-- <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
+                                    </s-rangoFechaSelector>                       -->
             
                                 </div>
                             </td>
@@ -337,7 +338,10 @@
                                 <div class="ui-inputgroup">
                                                         
                                     <!-- <s-rangoFechaSelector (onSelect)="dt1.filter($event, 'fechaEdicion', 'bt')">
-                                    </s-rangoFechaSelector>                       -->
+                                    </s-rangoFechaSelector>    
+                                                   -->
+                                    <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dt.filter($event, 'fechaEdicion','contains')"
+                                        placeholder="Buscar..."  [showIcon]="true"></p-calendar>
             
                                 </div>
                             </td>
@@ -382,7 +386,7 @@
             
                         <tr [pSelectableRow]="matriz" class="table-row table-row-selectable">
                             <td class="p-text-center">{{matriz?.idriesgo}}</td>
-                            <td class="p-text-center">{{matriz?.fechaEdicion | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td class="p-text-center">{{matriz?.fechaEdicion | date:'dd/MM/yyyy'}}</td>
                             <td class="p-text-center">{{matriz?.area?.nombre}}</td>
                             <td class="p-text-center">{{matriz?.proceso?.nombre}}</td>
                             <td class="p-text-center">{{matriz?.subProceso?.nombre}}</td>
