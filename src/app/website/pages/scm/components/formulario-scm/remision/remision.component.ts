@@ -373,7 +373,10 @@ async imprimirAnexo5() {
         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
         WinPrint?.document.write(template?.innerHTML!);
         // WinPrint?.document.write('<footer>Usuario que imprime</footer>');        
-        
+        const links = template?.querySelectorAll('a');
+        links?.forEach(link => {
+          link.setAttribute('rel', 'noopener noreferrer');
+        });
         WinPrint?.document.close();
         WinPrint?.focus();
         WinPrint?.print();

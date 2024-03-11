@@ -28,42 +28,6 @@
             </div>
         </form>
 
-        <!-- <br>
-        <ng-container *ngIf="flagPlantaSelect">
-            <div class="grid">
-                <div class="col-3">
-                    <button pButton style="width: 100%;" type="button" (click)="exportexcelConsolidado()" title="Generar consolidado" icon="pi pi-file-excel" class="p-button-primary" label="Generar consolidado" [disabled]="flagGConsolidado"></button>
-                </div>
-                <div class="col-3" *ngIf="flagGConsolidado">
-                    <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
-                    <span>&nbsp;Creando consolidado...</span>
-                </div>
-                <div class="col-3" *ngIf="flagDConsolidado">
-                    <button pButton style="width: 100%;" type="button" (click)="descargarexcelConsolidado()" title="Descargar Consolidado" icon="pi pi-download" class="p-button-success" label="Descargar consolidado"></button>
-                </div>
-                <div class="col-3" *ngIf="flagDConsolidado">
-                    Generado el: {{fechaConsolidado | date:'dd/MM/yyyy HH:mm:ss'}}
-                </div>
-            </div>
-
-            <div class="grid">
-                <div class="col-3">
-                    <button pButton style="width: 100%;" type="button" (click)="exportexcelHistorico()" title="Generar historico" icon="pi pi-file-excel" class="p-button-primary" label="Generar historico" [disabled]="flagGHistorico"></button>
-                </div>
-                <div class="col-3" *ngIf="flagGHistorico">
-                    <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
-                    <span>&nbsp;Creando historico...</span>
-                </div>
-                <div class="col-3" *ngIf="flagDHistorico">
-                    <button pButton style="width: 100%;"type="button" (click)="descargarexcelHistorico()" title="Descargar historico" icon="pi pi-download" class="p-button-success" label="Descargar historico"></button>
-                </div>
-                <div class="col-3" *ngIf="flagDHistorico">
-                    Generado el: {{fechaHistorico | date:'dd/MM/yyyy HH:mm:ss'}}
-                </div>
-            </div>
-
-        </ng-container>
-        <br/> -->
         <br/>
         <p-tabView *ngIf="formCreacionMatriz.valid || flagPlantaSelect" [(activeIndex)]="activeTab">
             <p-tabPanel header="Consolidado" *ngIf="formCreacionMatriz.valid">
@@ -79,7 +43,7 @@
                 <div *ngIf="!flagICR">
                     <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
                 </div>
-                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid" >
+                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="formCreacionMatriz.valid">
                     <!-- dataKey="id" sortField="id" sortOrder="-1" -->
                     <ng-template pTemplate="header" let-columns>
                         <tr>
@@ -118,12 +82,13 @@
                         <tr class="filters">
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'contains')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'id', 'equals')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                                            
+                                    <!-- <p-calendar style="width: 100%;" appendTo="body" dateFormat="dd/mm/yy" (onSelect)="dt.filter($event, 'fechaCreacion','contains');test()"
+                                                     placeholder="Buscar..."  [showIcon]="true"></p-calendar> -->
                                     <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')">
                                     </s-rangoFechaSelector>                      
             
@@ -146,7 +111,7 @@
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
@@ -156,22 +121,22 @@
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estadoPlanAccion')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estadoPlanAccion', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estado')">
+                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'estado', 'contains')">
                                 </div>
                             </td>
                         </tr>
@@ -275,11 +240,11 @@
                             
                             <ng-container *ngFor="let col of cols; let i = index">
 
-                                <td *ngIf="col.field!='NRCualitativo' && col.field!='fechaCreacion'">
+                                <td *ngIf="col.field!='NRCualitativo' && col.field!='fechaCreacion' && col.field!='NRCualitativoR'">
                                     <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
                                     {{ rowData[col.field] }}
                                 </td>
-                                <td *ngIf="col.field=='NRCualitativo'"
+                                <td *ngIf="col.field=='NRCualitativo' || col.field=='NRCualitativoR'"
                                 [class]="rowData[col.field]=='Muy Alto'?'muyalto':(rowData[col.field]=='Alto'?'alto':(rowData[col.field]=='Medio'?'medio':(rowData[col.field]=='Bajo'?'bajo':'blanco')))"
                                 >
                                     <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
@@ -324,13 +289,13 @@
                     </ng-template>
                 </p-treeTable>
             </p-tabPanel>
-            <p-tabPanel header="Historial Actualizaciones" *ngIf="formCreacionMatriz.valid">
+            <p-tabPanel header="Historial Actualizaciones" *ngIf="formCreacionMatriz.valid && flagHistoric">
                 <br>
                 <!-- <button pButton type="button" (click)="visibleDlgExcelHistorico=true" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
                 <!-- <button pButton type="button" (click)="exportexcelHistoricoPrueba()" title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button> -->
 
                 <br>
-                <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizPList3Select" [value]="this.historicoList" [paginator]="true" [rows]="10" >
+                <p-table #dt1 styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizPList3Select" [value]="this.historicoList" [paginator]="true" [rows]="10" >
                     <!-- dataKey="id" sortField="id" sortOrder="-1" -->
                     <ng-template pTemplate="header" let-columns>
                         <tr>
@@ -365,50 +330,50 @@
                         <tr class="filters">
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="number" (input)="dt.filter($event.target.value, 'id', 'equals')">
+                                    <input pInputText type="number" (input)="dt1.filter($event.target.value, 'idriesgo', 'equals')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                                            
-                                    <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaEdicion', 'bt')">
-                                    </s-rangoFechaSelector>                      
+                                                        
+                                    <!-- <s-rangoFechaSelector (onSelect)="dt1.filter($event, 'fechaEdicion', 'bt')">
+                                    </s-rangoFechaSelector>                       -->
             
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'area.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'area.nombre','contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'proceso.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'proceso.nombre','contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'subProceso.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'subProceso.nombre','contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value, 'peligro.Peligro.nombre', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'peligro.DescripcionPeligro.nombre')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'peligro.DescripcionPeligro.nombre', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'valoracionRiesgoInicial.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                             <td class="text-center bg-light">
                                 <div class="ui-inputgroup">    
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo')">
+                                    <input pInputText type="text" (input)="dt1.filter($event.target.value,'valoracionRiesgoResidual.NRCualitativo', 'contains')">
                                 </div>
                             </td>
                         </tr>

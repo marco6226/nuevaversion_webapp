@@ -54,7 +54,8 @@ export class MetasComponent implements OnInit {
     {label: 'Guatemala', value: 'Guatemala'},
     {label: 'Honduras', value: 'Honduras'},
     {label: 'Mexico', value: 'Mexico'},
-    {label: 'Nicaragua', value: 'Nicaragua'}
+    {label: 'Nicaragua', value: 'Nicaragua'},
+    {label: 'Corona Total', value: 'Corona Total'}
   ];
   localidadesList: {label: string, value: {id: number, division: string}}[] | undefined;
   cargando: boolean = false;
@@ -259,8 +260,9 @@ export class MetasComponent implements OnInit {
     return this.localidadesList?.filter(localidad => localidad.value.id == id)[0].label!;
   }
 
-  test(){
-    console.info(this.metasData);
+  updateMetaValue(id:any,referencia:any,valueMetaLoc:number){
+    const indice=this.metasData.findIndex(el => el.id == id )
+    const indice2=this.metasData[indice].valorMeta!.findIndex(el => el.referencia == referencia )
+    this.metasData[indice].valorMeta[indice2].value=valueMetaLoc
   }
-
 }

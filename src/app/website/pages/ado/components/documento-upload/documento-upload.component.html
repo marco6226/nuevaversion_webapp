@@ -34,7 +34,7 @@
         </div>
     </div>
     <br>
-    <div class="row bm-3 g-2" [formGroup]="myGroup" *ngIf="!temporalesFlag && privadoCheck && !scmDoc">
+    <div class="row bm-3 g-2" [formGroup]="myGroup" *ngIf="!temporalesFlag && privadoCheck && !scmDoc && flagPrivado">
         <div class="col-12">
             <p-checkbox #nivelAccesoH name="cbxAccessLevelH" id="nivelAccesoH" class="form-check-input" (click)="this.setNivelAcceso(true)" binary="true" label="Privado"></p-checkbox>
         </div>
@@ -42,7 +42,7 @@
 
     <div *ngIf="scmDoc">
         <p-checkbox #scmnivelAccesoH name="scmcbxAccessLevelH" id="scmnivelAccesoH" class="form-check-input" (click)="this.setNivelAccesoScm(true)" binary="true" label="Privado"></p-checkbox>
-        <ng-container *ngIf="flagSCMPPrivado">
+        <ng-container *ngIf="flagSCMPPrivado && flagPrivado">
             <br><br>
             <label class="s-float-label">Perfiles</label><br>
             <p-multiSelect appendTo="body" [options]="perfilList" [(ngModel)]="perfiles" [ngModelOptions]="{standalone: true}" defaultLabel="--Perfiles--"></p-multiSelect>

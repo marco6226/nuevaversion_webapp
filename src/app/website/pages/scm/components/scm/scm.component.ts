@@ -76,6 +76,7 @@ export class ScmComponent implements OnInit {
     rangeDatesInforme: any;
     visibleDlgInforme:boolean=false
     flagInforme:boolean=true
+    empresaIdLoggin: any = this.sesionService.getEmpresa()?.id;
 
     constructor(
         private scmService: CasosMedicosService,
@@ -152,15 +153,20 @@ export class ScmComponent implements OnInit {
             this.totalRecords = res.count;
 
         } catch (error) {
-            console.error(error)
+            
         }
     }
 
     async exportexcel(): Promise<void> 
     {
+        debugger
         await this.datosExcel()
         this.excel.forEach((el:any) => delete el.empresaId)
-        let excel=this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<=new Date(this.rangeDatesInforme[1])})
+        
+        let excel= this.empresaIdLoggin == 22? 
+                    this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<=new Date(this.rangeDatesInforme[1])}) : 
+                    this.excel.filter((resp:any)=>{ return new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1])})
+                
         excel.map((resp:any)=>{
             if(resp.estadoCaso==1){resp.estadoCaso='Abierto'}
             if(resp.estadoCaso==0){resp.estadoCaso='Cerrado'}
@@ -184,7 +190,7 @@ export class ScmComponent implements OnInit {
 
 
     async datosExcel(): Promise<void>{
-        let dataExcel:any
+        let dataExcel:any[] = []
 
         // let filterQuery = new FilterQuery();
         // filterQuery.sortField = this.filtrosExcel.sortField;
@@ -211,17 +217,39 @@ export class ScmComponent implements OnInit {
         // console.log(this.casosListFilter)
         // this.casosListFilter
         // this.excel=[]
-        console.log(dataExcel)
-        await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
-            dataExcel = resp;
-        })
+        // console.log(dataExcel)
+        if (this.empresaIdLoggin == 22) {
+            await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
+                dataExcel = resp;
+            })
+            this.excel=[...dataExcel]
+        
+            this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
+        } else {
+            
+            this.casosList.forEach((element: any) => {
+                dataExcel.push({ 
+                    CASO: element.id,
+                    Fecha_apertura: element.fechaCreacion,
+                    Apellido: element.pkUser?.primerApellido,
+                    Nombre: element.pkUser?.primerNombre,
+                    Documento: element.documento,
+                    Estado_caso: element.statusCaso == 1 ? 'Abierto' : 'Cerrado',
+                    Proximo_seguimiento: element.proximoseguimiento,
+                    Prioridad: element.prioridadCaso,
+                    Tipo_caso: element.tipoCaso,
+                })
+            });
+            this.excel=[...dataExcel]
+            this.excel.map((resp1:any)=>{return resp1.Fecha_apertura=new Date(resp1.Fecha_apertura)})
+            
+        }
+       
         // await this.viewscmInformeService.getscminformeFilter(filterQuery).then((resp:any)=>{
         //     console.log(resp)
         // })
         
-        this.excel=[...dataExcel]
         
-        this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
         // })
     }
     cerrarDialogo(){

@@ -10,11 +10,11 @@ import { SubprocesoMatriz } from "./Subproceso-matriz.ts";
 export class MatrizPeligros {
   id?: Number | any;
   generalInf?: string;
-  peligro?: string;
+  peligro?: string | any;
   controlesexistentes?:string;
-  valoracionRiesgoInicial?:string;
-  valoracionRiesgoResidual?:string;
-  planAccion?:string;
+  valoracionRiesgoInicial?:string | any;
+  valoracionRiesgoResidual?:string | any;
+  planAccion?:string | any;
   area?:AreaMatriz;
   proceso?:ProcesoMatriz;
   subProceso?:SubprocesoMatriz;

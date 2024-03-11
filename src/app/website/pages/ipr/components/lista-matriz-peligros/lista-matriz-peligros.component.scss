@@ -27,3 +27,24 @@
     .p-toast{
         margin-top: 50px;
     }
+
+:host ::ng-deep 
+    .p-calendar{
+        .p-button{
+            background: white;
+            color: gray;
+            pointer-events: none;
+        }
+        
+        .p-inputtext {
+            background: white;
+        }
+        
+    }
+
+    .readonly-calendar {
+        pointer-events: none !important;
+      }
+    .notreadonly-calendar{
+        pointer-events:all !important;
+    }

@@ -28,6 +28,8 @@ export class DocumentoUploadComponent implements OnInit {
     @Output('onUpload') onUpload = new EventEmitter();
     @Input() scmDoc: boolean = false;
     @Input('privadoCheck') privadoCheck: boolean = true;
+    @Input() flagPrivado: boolean = true;
+
     esPrivado: boolean=false;
     myGroup: any;
     form: any;

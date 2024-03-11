@@ -572,10 +572,13 @@ export class MatrizPeligrosComponent implements OnInit  {
     this.flagControlAdm=(this.controlAdmList.length>0)?true:false
     this.flagEquiposEle=(this.controlEquList.length>0)?true:false
 
-    let riesgos:any=['flagControlIng','flagControlAdm','flagEquiposEle']
-    for(const ele of riesgos){
-      this.visualEvaluacionRiesgo(ele)
-    }
+    setTimeout(() => {
+      let riesgos:any=['flagControlIng','flagControlAdm','flagEquiposEle']
+      for(const ele of riesgos){
+        this.visualEvaluacionRiesgo(ele)
+      }
+    }, 3000);
+    
 
     //IV-Valoración del riesgo inicial
     this.formMatrizRiesgosI?.patchValue({
@@ -2258,4 +2261,5 @@ export class MatrizPeligrosComponent implements OnInit  {
       ATasociados:this.ATTable.length
     })
   }
+
 }
