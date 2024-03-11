@@ -56,9 +56,15 @@ export class ListaInspeccionService extends CRUDService<ListaInspeccion>{
       );
     })
   }
+
   getFilterListInspeccion(filterQuery?: FilterQuery){
     return new Promise((resolve, reject) => {
-      this.httpInt.get(this.end_point + 'filterListInspeccion/?' + this.buildUrlParams(filterQuery!))
+      // this.httpInt.get(this.end_point + 'filterListInspeccion/?' + this.buildUrlParams(filterQuery!))
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+      
+      this.httpInt.post(this.end_point + 'filterListInspeccion', filterQuery, { headers })
       .subscribe(
         (res:any) => {
           resolve(res);
