@@ -398,7 +398,7 @@
     <p-accordionTab header="VII. SELECCIÓN GESTOR CORONA">
       <s-empleadoBasicSelector [disabled]="esConsulta"
       [(ngModel)]="gestorData.gestor" [empresaEmpleadora]="idEmpresa" (onSelect)="onGestorSelected()"
-      required autofocus></s-empleadoBasicSelector>
+      required autofocus appendTo="body"></s-empleadoBasicSelector>
       <small class="p-invalid" *ngIf="!gestorData.gestor">Obligatorio</small>
     </p-accordionTab>
     <p-accordionTab header="VIII. INVESTIGACIÓN" [disabled]="esNuevo">

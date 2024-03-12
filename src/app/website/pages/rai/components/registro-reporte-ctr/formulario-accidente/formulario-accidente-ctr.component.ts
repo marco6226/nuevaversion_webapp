@@ -879,6 +879,8 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     this.analisisDesviacion.plan_accion = JSON.stringify(this.formPlanAccion.value);
     this.analisisDesviacion.documentosList = documentos;
     this.analisisDesviacion.idCausasSelect = stringify(this.idCausasSelect);
+    this.analisisDesviacion.gestor = JSON.stringify(this.gestorData.gestor);
+
 
     this.reporteService.update(this.reporte).then(res => {
       this.analisisDeviacionService.update(this.analisisDesviacion).then(res => {
