@@ -147,15 +147,16 @@
             <div class="col-md-6 col-sm-12">
               <div class="input-field">
                 <label>Ubicación</label>
-                <area-selector *ngIf="!infPersonaAccidentada.get('ubicacion')?.value;else editarUbicacion"
-                formControlName="ubicacion" required 
-                [name]="this.infPersonaAccidentada.get('ubicacion').value" (onDivision)="listadoLocalidades($event)">
+                <!-- <ng-container *ngIf="!infPersonaAccidentada.get('ubicacion')?.value;else editarUbicacion"> -->
+                <area-selector formControlName="ubicacion" required 
+                [name]="(infPersonaAccidentada.get('ubicacion')!.value)? this.infPersonaAccidentada.get('ubicacion')!.value.nombre:''" (onDivision)="listadoLocalidades($event)">
                 </area-selector>
+              <!-- </ng-container>
                 <ng-template #editarUbicacion>
                   <area-selector formControlName="ubicacion" required 
                   [name]="this.infPersonaAccidentada.get('ubicacion').value.nombre" (onDivision)="listadoLocalidades($event)">
                   </area-selector>
-                </ng-template>
+                </ng-template> -->
               </div>
             </div>
           </div>

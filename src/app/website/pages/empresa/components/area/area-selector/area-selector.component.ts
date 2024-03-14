@@ -44,7 +44,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
   sugerenciasList!: TreeNode[];
   loading: boolean = false;
   division?: string | null =null;
-  empresaId = this.sesionService.getEmpresa()!.id;
+  empresaId = this.sesionService.getEmpresa()?.idEmpresaAliada ? this.sesionService.getEmpresa()?.idEmpresaAliada : this.sesionService.getEmpresa()?.id;
   visibleFilterArea: boolean = false;
 
   constructor(
@@ -302,6 +302,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
 
     if(this.empresaId=='22'){
     await this.padreArea(area.id)
+    console.log(this.division)
     this.onDivision.emit(this.division)
     }}
 }
