@@ -33,7 +33,7 @@
           <div class="grid">
             <div class="col-2" *ngFor="let meta of metaArea.valorMeta">
               <label>Meta {{meta.referencia}}</label><br>
-              <input pInputText type="number" [(ngModel)]="meta.value" [readOnly]="(metaArea.metas.length>1)?false:true">
+              <input pInputText type="number" [(ngModel)]="meta.value" [readOnly]="(metaArea.metas.length!=1)?false:true">
             </div>
           </div>
           <p-accordion>

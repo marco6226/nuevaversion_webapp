@@ -525,16 +525,22 @@ export class MatrizPeligrosComponent implements OnInit  {
     //I-Información general
     this.formMatrizGeneral?.patchValue({
       Area: area, //Clasificación
-      Proceso: proceso, //Descripción del peligro
-      Subproceso: subproceso,
       Actividades: matrizPeligro?.generalInf?.Actividades,
       Rutinaria: matrizPeligro?.generalInf?.Rutinaria,
       Propios: matrizPeligro?.generalInf?.Propios,
       Temporales: matrizPeligro?.generalInf?.Temporales,
       Contratistas: matrizPeligro?.generalInf?.Contratistas,
     });
-    this.cargarProceso(this.formMatrizGeneral?.value.Area)
-    this.cargarSubproceso(this.formMatrizGeneral?.value.Proceso)
+    await this.cargarProceso(this.formMatrizGeneral?.value.Area)
+    this.formMatrizGeneral?.patchValue({
+      Proceso: proceso, //Descripción del peligro
+    });
+    await this.cargarSubproceso(this.formMatrizGeneral?.value.Proceso)
+    this.formMatrizGeneral?.patchValue({
+      Subproceso: subproceso,
+    });
+
+
     setTimeout(() => {
       this.flagProcesoSubP=false
       setTimeout(() => {
@@ -894,12 +900,13 @@ export class MatrizPeligrosComponent implements OnInit  {
     })
   }
 
-  cargarProceso(idp:any) {
+  async cargarProceso(idp:any) {
     this.subprocesoMatrizItemList=[]
     if(idp != null ){
       if(idp !=0){
         this.procesoMatrizItemList = [];
-        idp.forEach(async (ele:any) => {
+        for(let ele of idp){
+        // idp.forEach(async (ele:any) => {
           let filter = new FilterQuery();
           filter.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: ele.id },
           { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
@@ -913,7 +920,8 @@ export class MatrizPeligrosComponent implements OnInit  {
               )
             }
           );
-        });
+        }
+        // );
         
         this.putProceso=false
       }else{
@@ -958,16 +966,17 @@ export class MatrizPeligrosComponent implements OnInit  {
     if(eve.value==0)this.putSubproceso=true
     else this.putSubproceso=false
   }
-  cargarSubproceso(idsp:any) {
+  async cargarSubproceso(idsp:any) {
     if(idsp != null ){
       if(idsp !=0){
         this.subprocesoMatrizItemList = [];
         // this.subprocesoMatrizItemList = [{ label: '--Seleccione--', value: [null, null]}];
-        idsp.forEach(async (ele:any) => {
+        for(let ele of idsp){
+        // idsp.forEach(async (ele:any) => {
           let filter = new FilterQuery();
           filter.filterList = [{ field: 'procesoMatriz.id', criteria: Criteria.EQUALS, value1: ele.id },
           { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
-          this.subprocesoMatrizService.getsubproWithFilter(filter).then(
+          await this.subprocesoMatrizService.getsubproWithFilter(filter).then(
             (resp:any) => {
               (<SubprocesoMatriz[]>resp.data).forEach(
                 data => 
@@ -977,7 +986,8 @@ export class MatrizPeligrosComponent implements OnInit  {
               )
             }
           );
-        });
+        }
+        // );
         this.putProceso=false
       }else{
         this.putProceso=true

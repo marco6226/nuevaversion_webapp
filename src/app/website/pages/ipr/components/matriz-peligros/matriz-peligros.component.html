@@ -189,7 +189,7 @@
                     <form [formGroup]="formMatrizGeneral">
                         <div class="accordionTab">
                             <div [class]="(CRUDMatriz!='PUT' || flagEliminadoSustituido)?'overlay-content grid':'overlay grid'">
-                                <div class="col-md-6 col-sm-12 gridcol">
+                                <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
                                     <label for="">Área</label><br>
                                     <!-- <p-dropdown appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event)" >
                                     </p-dropdown> -->
@@ -1130,7 +1130,7 @@
             </p-accordionTab>
             <p-accordionTab header="VIII. INDICADOR ICR">
                 <label>ICR: </label> &nbsp;
-                <span>{{(valoracionRI1[0].NR>0 && valoracionRI1Residual[0].NR !=null && valoracionRI1Residual[0].NE !=null && valoracionRI1Residual[0].NC !=null)?(((valoracionRI1[0].NR-valoracionRI1Residual[0].NR)/valoracionRI1[0].NR)*100).toFixed(2):0}}%</span>
+                <span>{{(!flagSustitucion && flagEliminadoSustituido)?(100):(valoracionRI1[0].NR>0 && valoracionRI1Residual[0].NR !=null && valoracionRI1Residual[0].NE !=null && valoracionRI1Residual[0].NC !=null)?(((valoracionRI1[0].NR-valoracionRI1Residual[0].NR)/valoracionRI1[0].NR)*100).toFixed(2):0}}%</span>
             </p-accordionTab>
             
             

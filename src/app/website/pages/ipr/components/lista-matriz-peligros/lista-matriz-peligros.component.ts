@@ -405,8 +405,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         }
       }
       cont ++;
+      let eliminado:any = ele.planAccion.find((ele2:any)=>ele2.estado=='Ejecutado' && ele2.jerarquia=='Eliminación')
       this.GPI+=ele.valoracionRiesgoInicial.NR
-      this.GPF+=(ele.valoracionRiesgoResidual.NR)?ele.valoracionRiesgoResidual.NR:ele.valoracionRiesgoInicial.NR
+      this.GPF+=(eliminado)?0:(ele.valoracionRiesgoResidual.NR)?ele.valoracionRiesgoResidual.NR:ele.valoracionRiesgoInicial.NR
     });
 
     this.ICR=((this. GPI-this.GPF)/this.GPI)*100
@@ -675,6 +676,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         this.docIdConsolidado=resp.data2.id
         this.fechaConsolidado=new Date()
         this.flagDConsolidado=true
+        this.usuarioConsolidado=JSON.parse(localStorage.getItem('session')!).usuario.email
         this.estadoConsolidado='Documento listo'
       })
       .finally(()=>{
@@ -758,6 +760,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
           this.docIdHistorico=resp.data2.id
           this.fechaHistorico=new Date()
           this.flagDHistorico=true
+          this.usuarioHistorico=JSON.parse(localStorage.getItem('session')!).usuario.email
           this.estadoHistorico='Documento listo'
         }).finally(()=>{
           this.flagGHistorico=false

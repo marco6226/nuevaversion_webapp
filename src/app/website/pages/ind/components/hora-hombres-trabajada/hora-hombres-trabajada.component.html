@@ -38,12 +38,12 @@
                         <input pInputText [(ngModel)]="metaMensualILI" placeholder="0" type="number"/>
                     </div> -->
                 </div>
-                <div class="grid" style="margin-top: 20px;">
+                <!-- <div class="grid" style="margin-top: 20px;">
                     <div class="col-12 md:col-3 lg:col-3" *ngIf="anioSelected && empresaSelected && empresaSelected=='22' && paisSelect!=='Total'">
                         <label for="" style="margin-right: 10px;">Meta total para {{findEmpresaById(empresaSelected)}}:</label>
                         <input pInputText [(ngModel)]="metaAnualILI" placeholder="0" type="number"/>
                     </div>
-                </div>
+                </div> -->
                 <p-accordionTab *ngIf="paisSelect==='Total' && !selectedMes" [header]="'Año ' + anioSelected?.value" [selected]="true" [disabled]="true">
                     <div class="grid">
                         <div class="col-6 md:col-2 lg:col-2">
@@ -114,7 +114,7 @@
                                             [(ngModel)]="dataHHT[i].Areas[j].HhtArea" 
                                             type="number"/>
                                         </div>
-                                        <ng-container *ngIf="empresaSelected==22 && paisSelect!=='Total'">
+                                        <!-- <ng-container *ngIf="empresaSelected==22 && paisSelect!=='Total'">
                                             <div class="col-12 md:col-2 lg:col-2" >
                                                 Meta {{area.nombre}}:
                                             </div>
@@ -125,7 +125,7 @@
                                                 [(ngModel)]="dataHHT[i].Areas[j].ILIArea" 
                                                 type="number"/>
                                             </div>
-                                        </ng-container>
+                                        </ng-container> -->
                                     </div>
 
                                     <div *ngIf="plantasList && paisSelect!=='Total'">
