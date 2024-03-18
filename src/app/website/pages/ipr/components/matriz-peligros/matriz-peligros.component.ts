@@ -2238,6 +2238,7 @@ export class MatrizPeligrosComponent implements OnInit  {
         this.valoracionRI1Residual = [{ND:null,NE:null,NP:0,I:'',NC:null,NR:0,CN:'',CL:''}];
         this.valoracionRI2 = [{CN:'',CL:'',accion:'',color:''}];
         this.valoracionRI2Residual = [{CN:'',CL:'',accion:'',color:''}];
+        this.documentosList=null
       }
     });
   }

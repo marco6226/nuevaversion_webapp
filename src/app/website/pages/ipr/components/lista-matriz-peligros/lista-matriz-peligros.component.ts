@@ -409,15 +409,6 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
         }else if(this.lastFecha < this.lastFecha2){
           this.lastFecha= new Date(this.lastFecha2);
         }
-      // if(cont==0){
-      //   if(ele.fechaEdicion)this.lastFecha=new Date(ele.fechaEdicion)
-      // }else{
-      //   if(ele.fechaEdicion){
-      //     if(!this.lastFecha && ele.fechaEdicion)this.lastFecha=new Date(ele.fechaEdicion)
-      //     if(ele.fechaEdicion>this.lastFecha)this.lastFecha=new Date(ele.fechaEdicion)
-      //   }
-      // }
-      // cont ++;
       let eliminado:any = ele.planAccion.find((ele2:any)=>ele2.estado=='Ejecutado' && ele2.jerarquia=='Eliminación')
       this.GPI+=ele.valoracionRiesgoInicial.NR
       this.GPF+=(eliminado)?0:(ele.valoracionRiesgoResidual.NR)?ele.valoracionRiesgoResidual.NR:ele.valoracionRiesgoInicial.NR
