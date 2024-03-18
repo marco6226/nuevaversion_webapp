@@ -376,7 +376,6 @@ export class MatrizPeligrosComponent implements OnInit  {
   flagEliminadoSustituido:boolean=false
   flagConsulta:boolean=false
   async getParams(){
-    
     // switch (this.paramNav.getAccion<string>()){
     switch (localStorage.getItem('Accion1')){
       case 'PUT':
@@ -406,7 +405,7 @@ export class MatrizPeligrosComponent implements OnInit  {
       case 'GET':
         this.postGet()
         this.flagConsulta=true
-        this.flagEliminadoSustituido=true
+        // this.flagEliminadoSustituido=true
         break;    
       default:
         break;
@@ -1289,9 +1288,15 @@ export class MatrizPeligrosComponent implements OnInit  {
       case 'POST':
         area.estado='No evaluada';
         area.eliminado=false
-        await this.areaMatrizService.create(area).then((resp:any)=>{
+        
+        await this.areaMatrizService.create(area).then(async (resp:any)=>{
           this.flagRegistroMatrizTree=false
-          this.matrizdescripcion.push({children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado},parent:null})
+          if(resp){
+            this.matrizdescripcion.push({children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado},parent:null})
+          }else{
+            this.messageService.add({key: 'mpeligros', severity: 'info', detail: 'Área existente', summary: 'Advertencia', life: 6000});
+            await this.cargarArea(this.idPlanta)
+          }
         }).then(() => {
           setTimeout(() => {
             this.flagRegistroMatrizTree=true
@@ -1361,11 +1366,17 @@ export class MatrizPeligrosComponent implements OnInit  {
       case 'POST':
         proceso.estado='No evaluada';
         proceso.eliminado=false
-        this.procesoMatrizService.create(proceso).then((resp:any)=>{
+        this.procesoMatrizService.create(proceso).then(async (resp:any)=>{
           this.flagRegistroMatrizTree=false
-          let proceso:any={children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
-          const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea );
-          this.matrizdescripcion[indexArea].children.push(proceso);
+          if(resp){
+            let proceso:any={children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
+            const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea );
+            this.matrizdescripcion[indexArea].children.push(proceso);
+          }else{
+            this.messageService.add({key: 'mpeligros', severity: 'info', detail: 'Proceso existente', summary: 'Advertencia', life: 6000});
+            await this.cargarArea(this.idPlanta)
+          }
+
         }).then(() => {
           setTimeout(() => {
             this.flagRegistroMatrizTree=true;
@@ -1439,12 +1450,17 @@ export class MatrizPeligrosComponent implements OnInit  {
       case 'POST':
         subproceso.estado='No evaluada';
         subproceso.eliminado=false
-        this.subprocesoMatrizService.create(subproceso).then((resp:any)=>{
+        this.subprocesoMatrizService.create(subproceso).then(async (resp:any)=>{
           this.flagRegistroMatrizTree=false
+          if(resp){
           let subproceso:any={children:[],data:{id:resp.id,nombre:resp.nombre,estado:resp.estado}}
           const indexArea = this.matrizdescripcion.findIndex((el:any) => el.data.id == this.idArea )
           const indexProceso = this.matrizdescripcion[indexArea].children.findIndex((el:any) => el.data.id == this.idProceso )
           this.matrizdescripcion[indexArea].children[indexProceso].children.push(subproceso)
+          }else{
+            this.messageService.add({key: 'mpeligros', severity: 'info', detail: 'Subproceso (Cargo/Oficio) existente', summary: 'Advertencia', life: 6000});
+            await this.cargarArea(this.idPlanta)
+          }
         }).then(() => {
           setTimeout(() => {
             this.flagRegistroMatrizTree=true

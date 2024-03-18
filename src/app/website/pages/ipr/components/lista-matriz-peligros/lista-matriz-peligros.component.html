@@ -262,24 +262,24 @@
 
                         <div class="d-flex justify-content-center">
                             <div class="btn-group" role="group">                
-                            <button 
-                                *sTienePermiso="'IPECR_PUT_MATRIZPELIGROS'"
-                                class="p-button-raised p-button-success margin-right margin-left" 
-                                pButton type="button" 
-                                icon="bi bi-pencil" 
-                                label="Modificar"
-                                (click)="CRUDMatriz('POST','GROUP')"
-                                [disabled]="peligroSelect.length==0"
-                                ></button>
-                            <button 
-                                pButton type="button" 
-                                icon="bi bi-search" 
-                                label="Consultar" 
-                                style="color: var(--white)"
-                                class="p-button-raised p-button-warning margin-right margin-left"
-                                (click)="CRUDMatriz('GET','GROUP')"
-                                [disabled]="peligroSelect.length==0"
-                                ></button>
+                                <button 
+                                    *sTienePermiso="'IPECR_PUT_MATRIZPELIGROS'"
+                                    class="p-button-raised p-button-success margin-right margin-left" 
+                                    pButton type="button" 
+                                    icon="bi bi-pencil" 
+                                    label="Modificar"
+                                    (click)="CRUDMatriz('POST','GROUP')"
+                                    [disabled]="peligroSelect.length==0"
+                                    ></button>
+                                <button 
+                                    pButton type="button" 
+                                    icon="bi bi-search" 
+                                    label="Consultar" 
+                                    style="color: var(--white)"
+                                    class="p-button-raised p-button-warning margin-right margin-left"
+                                    (click)="CRUDMatriz('GET','GROUP')"
+                                    [disabled]="peligroSelect.length==0"
+                                    ></button>
                             </div>
                         </div>           
                     </ng-template>

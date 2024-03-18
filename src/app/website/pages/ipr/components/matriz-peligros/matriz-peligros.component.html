@@ -42,7 +42,7 @@
                     class="p-button-primary left-button"
                     title="Editar" 
                     (click)="flagButtonMatrizAcording=true" 
-                    *ngIf="!flagButtonMatrizAcording && !flagEliminadoSustituido"></button>
+                    *ngIf="!flagButtonMatrizAcording && !flagEliminadoSustituido && !flagConsulta"></button>
              </p-header>
             <p-treeTable #tt [value]="matrizdescripcion" [columns]="cols" [filterMode]="filterMode"  [tableStyle]="{'min-width':'50rem'}">
                 <ng-template pTemplate="header" let-columns>
@@ -188,7 +188,7 @@
                 <div >
                     <form [formGroup]="formMatrizGeneral">
                         <div class="accordionTab">
-                            <div [class]="(CRUDMatriz!='PUT' || flagEliminadoSustituido)?'overlay-content grid':'overlay grid'">
+                            <div [class]="(CRUDMatriz!='PUT' || flagEliminadoSustituido || flagConsulta)?'overlay-content grid':'overlay grid'">
                                 <div class="col-md-6 col-sm-12 gridcol" *ngIf="flagProcesoSubP">
                                     <label for="">Área</label><br>
                                     <!-- <p-dropdown appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event)" >
@@ -255,7 +255,7 @@
                             </div> -->
                             <br>
                             <br>
-                            <div [class]="(flagEliminadoSustituido)?'overlay-content grid':'overlay grid'">
+                            <div [class]="(flagEliminadoSustituido || flagConsulta)?'overlay-content grid':'overlay grid'">
                                 <div class="col-md-12 col-sm-12 gridcol">
                                     <label for="">Actividades o tareas</label>
                                     <textarea required cols="10" rows="3" formControlName="Actividades"></textarea>
@@ -299,7 +299,7 @@
             </p-accordionTab>
 
             <p-accordionTab header="II. IDENTIFICACIÓN DEL PELIGRO" [disabled]="!formMatrizGeneral.valid" [active]="formMatrizGeneral.valid">
-                <div [class]="(!formMatrizGeneral.valid || flagEliminadoSustituido)?'overlay-content':'overlay'">
+                <div [class]="(!formMatrizGeneral.valid || flagEliminadoSustituido || flagConsulta)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizPeligros">
                         <div class="grid accordionTab">
                             <div class="col-md-6 col-sm-12 gridcol">
@@ -329,7 +329,7 @@
 
             <!-- <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" > -->
             <p-accordionTab header="III. EVALUACIÓN DEL RIESGO CONTROLES EXISTENTES" [disabled]="!formMatrizPeligros.valid">
-                <div [class]="(!formMatrizPeligros.valid || flagEliminadoSustituido)?'overlay-content':'overlay'">
+                <div [class]="(!formMatrizPeligros.valid || flagEliminadoSustituido || flagConsulta)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizRiesgosC">
                         <div class="grid accordionTab">
                             <div class="col-12 gridcol">
@@ -607,7 +607,7 @@
             </p-accordionTab>
 
             <p-accordionTab header="IV. VALORACIÓN DEL RIESGO INICIAL" [disabled]="!((!flagControlIng || (flagControlIng && controlIngList.length>0)) && (!flagControlAdm || (flagControlAdm && controlAdmList.length>0)) && (!flagEquiposEle || (flagEquiposEle && controlEquList.length>0))) || !formMatrizPeligros.valid">
-                <div [class]="(!formMatrizRiesgosC.valid  || flagEliminadoSustituido)?'overlay-content':'overlay'">
+                <div [class]="(!formMatrizRiesgosC.valid  || flagEliminadoSustituido || flagConsulta)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizRiesgosI">
                         <div class="grid accordionTab">
                             <div class="col-12">
@@ -873,7 +873,7 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="summary" let-rowData>
-                        <tr [class]="(!formMatrizRiesgosI.valid  || flagEliminadoSustituido)?'overlay-content':'overlay'">
+                        <tr [class]="(!formMatrizRiesgosI.valid  || flagEliminadoSustituido || flagConsulta)?'overlay-content':'overlay'">
                             <td colspan="4">
                                 <div class="flex justify-content-end flex-wrap">
                                     <button [disabled]="flagplanElimsust" pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="planAccion('POST')"></button>
@@ -894,7 +894,7 @@
             </p-accordionTab>
 
             <p-accordionTab header="VI. VALORACIÓN DEL RIESGO RESIDUAL" [disabled]="!(this.tareasList.length>0 && (this.tareasListPendiente.length==0) || flagResidual)">
-                <div [class]="!(this.tareasList.length>0 && (this.tareasListPendiente.length==0) || flagResidual)?'overlay-content':'overlay'">
+                <div [class]="(!(this.tareasList.length>0 && (this.tareasListPendiente.length==0) || flagResidual)|| flagEliminadoSustituido || flagConsulta)?'overlay-content':'overlay'">
                     <form [formGroup]="formMatrizRiesgosIResidual">
                         <div class="grid accordionTab">
                             <div class="col-12">
@@ -1076,7 +1076,7 @@
                                 <label for="">Cantidad de EL asociados: &nbsp;</label>
                                 <ng-template [sTienePermiso]="'IPECR_PUT_ELASOCIADOS'" (flagTienePermiso)="TienePermiso($event)">
                                 </ng-template>
-                                <input  type="number" formControlName="ELasociados" [readonly]="!this.permisoFlagELASOCIADOS || flagEliminadoSustituido">
+                                <input  type="number" formControlName="ELasociados" [readonly]="!this.permisoFlagELASOCIADOS || flagEliminadoSustituido || flagConsulta">
                             </div>
                             <div class="col-12 gridcol">
                                 <label for="">Cantidad de AT asociados: &nbsp;</label>
@@ -1085,7 +1085,7 @@
                                         pButton type="button"icon="pi pi-plus"
                                             class="p-button-primary"
                                             pTooltip="Agregar AT"
-                                            (click)="reporteATSum()" [disabled]="flagEliminadoSustituido"></button>
+                                            (click)="reporteATSum()" [disabled]="flagEliminadoSustituido || flagConsulta"></button>
                             </div>
                             <div class="col-12">
                                 <p-table #dtEf styleClass="material-table" autoLayout="true" selectionMode="single" [value]="ATTable" [paginator]="true" [rows]="10" >
@@ -1113,7 +1113,7 @@
                                             <td>{{at.numerofurat}}</td>
                                             <td>{{at.areaAccidente.nombre}}</td>
                                             <td>
-                                                <button  pButton class="flex m-2 p-button-danger p-button-sm" icon="pi pi-trash" (click)="eliminarATTabla(at.id)" [disabled]="flagEliminadoSustituido"></button>
+                                                <button  pButton class="flex m-2 p-button-danger p-button-sm" icon="pi pi-trash" (click)="eliminarATTabla(at.id)" [disabled]="flagEliminadoSustituido || flagConsulta"></button>
                                             </td>
                                         </tr>
                                     </ng-template>

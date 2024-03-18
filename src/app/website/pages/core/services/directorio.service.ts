@@ -5,6 +5,7 @@ import { Directorio } from 'src/app/website/pages/ado/entities/directorio';
 import { Documento } from 'src/app/website/pages/ado/entities/documento';
 import { HttpHeaders } from '@angular/common/http';
 import { FilterQuery } from '../../core/entities/filter-query';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
     providedIn: 'root'
@@ -344,6 +345,7 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     download(directorioId: string, modulo?: string) {
+        console.log(this.httpInt.getSesionService().getBearerAuthToken())
         let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
         
         let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(directorioId), CryptoJS.enc.Hex.parse(key), {
