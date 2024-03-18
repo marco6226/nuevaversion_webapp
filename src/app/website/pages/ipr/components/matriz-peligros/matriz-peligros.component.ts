@@ -2029,6 +2029,8 @@ export class MatrizPeligrosComponent implements OnInit  {
             matrizPeligros2.proceso=proceso
             matrizPeligros2.subProceso=subproceso
             matrizPeligros2.fechaCreacion=new Date();
+            matrizPeligros2.fechaEdicion=new Date();
+
             matrizPeligros2.idEdicion=this.idEdicion2
 
             matrizPeligros2.valoracionRiesgoInicial=JSON.stringify(this.formMatrizRiesgosI2?.value);
@@ -2291,5 +2293,4 @@ export class MatrizPeligrosComponent implements OnInit  {
       ATasociados:this.ATTable.length
     })
   }
-
 }

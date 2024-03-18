@@ -264,6 +264,8 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
   }
 
   lastFecha:Date | any;
+  lastFecha2:Date | any;
+
   estadoConsolidado:string='Sin estado'
   estadoHistorico:string='Sin estado'
   GPI:number=0;
@@ -396,21 +398,32 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     }
     let cont=0
     this.lastFecha=null
+    this.lastFecha2=null
+
     this.matrizPList.forEach((ele:any) => {
-      if(cont==0){
-        if(ele.fechaEdicion)this.lastFecha=new Date(ele.fechaEdicion)
-      }else{
-        if(ele.fechaEdicion){
-          if(ele.fechaEdicion>this.matrizPList[cont-1])this.lastFecha=new Date(ele.fechaEdicion)
+      if(ele.fechaEdicion)this.lastFecha2=new Date(ele.fechaEdicion)
+      
+      if(this.lastFecha2)
+        if(this.lastFecha == null){
+          this.lastFecha= new Date(this.lastFecha2);
+        }else if(this.lastFecha < this.lastFecha2){
+          this.lastFecha= new Date(this.lastFecha2);
         }
-      }
-      cont ++;
+      // if(cont==0){
+      //   if(ele.fechaEdicion)this.lastFecha=new Date(ele.fechaEdicion)
+      // }else{
+      //   if(ele.fechaEdicion){
+      //     if(!this.lastFecha && ele.fechaEdicion)this.lastFecha=new Date(ele.fechaEdicion)
+      //     if(ele.fechaEdicion>this.lastFecha)this.lastFecha=new Date(ele.fechaEdicion)
+      //   }
+      // }
+      // cont ++;
       let eliminado:any = ele.planAccion.find((ele2:any)=>ele2.estado=='Ejecutado' && ele2.jerarquia=='Eliminación')
       this.GPI+=ele.valoracionRiesgoInicial.NR
       this.GPF+=(eliminado)?0:(ele.valoracionRiesgoResidual.NR)?ele.valoracionRiesgoResidual.NR:ele.valoracionRiesgoInicial.NR
     });
 
-    this.ICR=((this. GPI-this.GPF)/this.GPI)*100
+    this.ICR=((this.GPI-this.GPF)/this.GPI)*100
     this.flagICR=true
 
   }

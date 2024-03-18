@@ -738,22 +738,22 @@
                         <s-documentoUpload tipoEvidencia="matrizRExistente" [(visible)]="visibleDlgFoto1" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)" [flagPrivado]="false"></s-documentoUpload>
                         <div *ngFor="let doc of documentosList">
                             <table class="dwrapper" *ngIf="doc.proceso=='matrizRExistente'">
-                            <tr>
-                                <td>
-                                <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
-                                <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
-                                </td>
-                                <td style="text-align: right;">
-                                <a class="bi bi-pencil-square" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!readOnly"></a>
-                                <a>&nbsp;</a>
-                                <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!readOnly" style="color: red;"></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253"></textarea>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <span [class]="doc.extension?.icono" [style.color]="doc.extension?.color"></span>
+                                        <a style="margin-left: 10px;" (click)="descargarDocumento(doc)">{{doc.nombre}}</a>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a class="bi bi-pencil-square" title="Actualizar Descripción" (click)="actualizarDesc(doc)" *ngIf="!readOnly"></a>
+                                        <a>&nbsp;</a>
+                                        <a class="pi pi-trash" title="Eliminar documento" (click)="eliminarDocument(doc)" *ngIf="!readOnly" style="color: red;"></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <textarea pInputTextarea id="descripcion" [(ngModel)]="doc.descripcion" maxlength="253" [ngModelOptions]="{standalone: true}"></textarea>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <hr>
@@ -797,7 +797,7 @@
                                         </tr>
                                         <tr>
                                         <td colspan="2">
-                                            <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253"></textarea>
+                                            <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253" [ngModelOptions]="{standalone: true}"></textarea>
                                         </td>
                                         </tr>
                                     </table>
@@ -1037,7 +1037,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253"></textarea>
+                                <textarea pInputTextarea [(ngModel)]="doc.descripcion" maxlength="253" [ngModelOptions]="{standalone: true}"></textarea>
                                 </td>
                             </tr>
                             </table>
