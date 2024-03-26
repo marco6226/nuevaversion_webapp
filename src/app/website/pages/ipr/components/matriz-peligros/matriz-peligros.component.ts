@@ -2185,7 +2185,6 @@ export class MatrizPeligrosComponent implements OnInit  {
           accTab.selected = index == 0 ? true : false;
           return accTab;
         })
-        console.log(this.acordionMatriz);
         this.CRUDMatriz = 'PUT';
         this.CRUDarea = 'POST';
         this.CRUDproceso = 'POST';

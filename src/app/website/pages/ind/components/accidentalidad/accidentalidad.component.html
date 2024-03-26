@@ -36,18 +36,48 @@
                       <div class="col-12 md:col-6 lg:col-3">
                           <div class="card l-bg-blue3-dark">
                               <div style="text-align:left;">
-                                  <h3>Meta</h3>
+                                  <ng-container *ngIf="!this.selectPais1"><h3>Meta ILI</h3></ng-container>
+                                  <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI pais</h3></ng-container>
+                                  <ng-container *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"><h3>Meta ILI división</h3></ng-container>
+                                  <ng-container *ngIf="this.PlantaSelect1"><h3>Meta ILI planta</h3></ng-container>
                               </div>
                               <div style="text-align:right;">
                                   <span class="tamañotexto">{{metaIli || 0}}</span>
+                                  <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">Pais: {{metaPais || 0}}</span></ng-container>
+                                  <ng-container *ngIf="this.PlantaSelect1"><br><span class="tamañotexto2">División: {{metaDivision || 0}}</span></ng-container>
                               </div>                                     
                           </div>
                       </div>
                   </div>
               </div>
-              <div class="col-12 grid mid-border">
-                <div class="col-12 md:col-6 lg:col-3"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" [(ngModel)]="selectedDivisionResumen" placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen()"></p-dropdown></div>
-                <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
+              <!-- <div  class="col-1">&nbsp;</div> -->
+              <div class="col-10 grid mid-border p-justify-center" style="margin: auto;">
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais1" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'resumen');loadResumen()">
+                  </p-dropdown>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> 
+                  <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList1" [(ngModel)]="selectedDivisionResumen" placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen();funcSelectDivision($event,'resumen')">
+                  </p-dropdown> -->
+                  <!-- <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccione division" [options]="divisionList1"
+                  [(ngModel)]="selectedDivisionResumen1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="funcSelectDivision($event,'resumen');loadResumen()"></p-multiSelect> -->
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione division" [options]="divisionList1"
+                  [(ngModel)]="selectedDivisionResumen1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="funcSelectDivision($event,'resumen');loadResumen()"></p-dropdown>
+
+                  <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList1" [(ngModel)]="selectedDivisionResumen1" placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen();funcSelectDivision($event,'resumen')">
+                  </p-dropdown> -->
+                </div>
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Planta:</p> 
+                  <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList1" [(ngModel)]="PlantaSelect1" placeholder="Seleccionar planta" [showClear]="true">
+                  </p-dropdown> -->
+                  <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList1" [(ngModel)]="PlantaSelect1" placeholder="Seleccionar planta" [showClear]="true">
+                  </p-dropdown> -->
+                  <!-- <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccione" [options]="plantasList1"
+                  [(ngModel)]="PlantaSelect1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="loadResumen()"></p-multiSelect> -->
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione la planta" [options]="plantasList1"
+                  [(ngModel)]="PlantaSelect1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="loadResumen()"></p-dropdown>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
                   <p style="margin: 10px!important;">Año:</p>
                   <p-dropdown [style]="{'width':'100%'}" [options]="yearRange"
                   placeholder="Seleccione un año"
@@ -55,20 +85,20 @@
                   (onChange)="loadResumen()">
                   </p-dropdown>
                 </div>
-                <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
                   <p style="margin-right: 10px!important;">Desde:</p>
-                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
-                  <p-calendar appendTo="body"  view="month"
+                    <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
+                  <p-calendar [showIcon]="true" appendTo="body"  view="month"
                   dateFormat="MM" placeholder="Seleccione"  
                   [(ngModel)]="fechaInicioResumen" showButtonBar="true" 
                   (onSelect)="loadResumen()" (onClearClick)="loadResumen()"
-                  (onTodayClick)="loadResumen()">
+                  (onTodayClick)="loadResumen()" >
                   </p-calendar>
                 </div>
-                <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
+                <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
                   <p style="margin-right: 10px!important;">Hasta:</p>
-                    <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
-                    <p-calendar appendTo="body"  view="month" dateFormat="MM" 
+                    <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
+                    <p-calendar [showIcon]="true" appendTo="body"  view="month" dateFormat="MM" 
                     placeholder="Seleccione"  showButtonBar="true" 
                     [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
                     (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()">
@@ -93,25 +123,54 @@
               <p-radioButton name="group10"  [value]="2" [(ngModel)]="radioGra0" (onClick)="reiniciarVariableFechaEventosAt('dir')"   [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Directos</label>
             </div>
-            <ngx-charts-advanced-pie-chart
-            class="align-items-center mat-typography"
-            [scheme]="colorScheme"
-            [results]="randomEv1Dona"
-            [gradient]="gradient">
-            </ngx-charts-advanced-pie-chart>
+            <ng-container *ngIf="flagTortaTotalEve">
+              <ngx-charts-advanced-pie-chart
+              class="align-items-center mat-typography"
+              [scheme]="colorScheme"
+              [results]="randomEv1Dona"
+              [gradient]="gradient">
+              </ngx-charts-advanced-pie-chart>
+            </ng-container>
+            <ng-container *ngIf="!flagTortaTotalEve">
+              <s-dataNotFound [message]="'Seleccione un pais'"></s-dataNotFound>
+            </ng-container>
           </div>
           <div class="col-3">&nbsp;</div>
-          <div class="col-6 grid">
-            <div class="col-6">  
-              <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
-              <p-calendar appendTo="body"  view="month" dateFormat="mm/yy" placeholder="Desde" 
+          <!-- <div class="col-6 grid"> -->
+          <div class="col-9 grid">
+
+            <div class="col-3">  
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" dateFormat="mm/yy" placeholder="Desde" 
                (onSelect)="selectRangoEventosAt($event, 'desde')" [(ngModel)]="filtroFechaAt![0]"> </p-calendar> 
             </div>
-            <div class="col-6"> 
-              <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
-              <p-calendar appendTo="body"  view="month" dateFormat="mm/yy" placeholder="Hasta" 
+            <div class="col-3"> 
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" dateFormat="mm/yy" placeholder="Hasta" 
                (onSelect)="selectRangoEventosAt($event, 'hasta')" [(ngModel)]="filtroFechaAt![1]"> </p-calendar>
             </div>
+            <div class="col-3"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais2" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'totalEventos')">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-10 grid mid-border p-justify-center" style="margin: auto;">
+            <!-- <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais2" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'totalEventos');selectRangoEventosAt(null, 'otro')">
+              </p-dropdown>
+            </div> -->
+            <ng-container *ngIf="false">
+              <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> 
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList2" [(ngModel)]="selectedDivisionResumen2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'totalEventos');selectRangoEventosAt(null, 'otro')">
+                </p-dropdown>
+              </div>
+              <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Planta:</p> 
+                <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList2" [(ngModel)]="PlantaSelect2" placeholder="Seleccionar planta" [showClear]="true">
+                </p-dropdown> -->
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList2"
+                    [(ngModel)]="PlantaSelect2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="selectRangoEventosAt(null, 'otro')"></p-multiSelect>
+              </div>
+            </ng-container>
           </div>
         </div>
         <hr/>
@@ -127,25 +186,54 @@
               <p-radioButton name="group11"  [value]="2" [(ngModel)]="radioGra1" (onClick)="reiniciarVariableFechaDiasPerdidos('dir')" [style]="{'margin-left': '15px'}"></p-radioButton>
               <label for="">Directos</label>
             </div>
-            <ngx-charts-advanced-pie-chart
-            class="align-items-center mat-typography"
-            [scheme]="colorScheme"
-            [results]="randomEv1Donadb"
-            [gradient]="gradient">
-            </ngx-charts-advanced-pie-chart>
+            <ng-container *ngIf="flagTortaTotalDias">
+              <ngx-charts-advanced-pie-chart
+              class="align-items-center mat-typography"
+              [scheme]="colorScheme"
+              [results]="randomEv1Donadb"
+              [gradient]="gradient">
+              </ngx-charts-advanced-pie-chart>
+            </ng-container>
+            <ng-container *ngIf="!flagTortaTotalDias">
+              <s-dataNotFound [message]="'Seleccione un pais'"></s-dataNotFound>
+            </ng-container>
           </div>
           <div class="col-3">&nbsp;</div>
-          <div class="col-6 grid">
-            <div class="col-6">  
-              <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
-              <p-calendar appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" [(ngModel)]="filtroFechaDiasPerdidos[0]" 
+          <!-- <div class="col-6 grid"> -->
+
+          <div class="col-9 grid">
+            <div class="col-3">  
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" [(ngModel)]="filtroFechaDiasPerdidos[0]" 
               (onSelect)="selectRangoDiasPerdidosAt($event, 'desde')" placeholder="Desde" > </p-calendar> 
             </div>
-            <div class="col-6"> 
-              <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
-              <p-calendar appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" [(ngModel)]="filtroFechaDiasPerdidos[1]" 
+            <div class="col-3"> 
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" [(ngModel)]="filtroFechaDiasPerdidos[1]" 
               (onSelect)="selectRangoDiasPerdidosAt($event, 'hasta')" placeholder="Hasta" > </p-calendar>
             </div>
+            <div class="col-3"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais3" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'totalDias');selectRangoDiasPerdidosAt(null, 'otro')">
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-10 grid mid-border p-justify-center" style="margin: auto;">
+            <!-- <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais3" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'totalDias');selectRangoDiasPerdidosAt(null, 'otro')">
+              </p-dropdown>
+            </div> -->
+            <ng-container *ngIf="false">
+              <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> 
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList3" [(ngModel)]="selectedDivisionResumen3" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'totalDias');selectRangoDiasPerdidosAt(null, 'otro')">
+                </p-dropdown>
+              </div>
+              <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Planta:</p> 
+                <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList3" [(ngModel)]="PlantaSelect3" placeholder="Seleccionar planta" [showClear]="true">
+                </p-dropdown> -->
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList3"
+                    [(ngModel)]="PlantaSelect3" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="selectRangoDiasPerdidosAt(null, 'otro')"></p-multiSelect>
+              </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -154,9 +242,9 @@
 
   <p-panel header="TASAS">
     <div class="colorfondo">
-      <div class="grid">
+      <div class="grid" *ngIf="!flagComparativoEve1;else comparativoGraf1">
       <!-- Primera grafica -->
-        <div class="col-12">
+        <div class="col-11">
           <p><b>
             <ng-container *ngIf="selectIndicarores1.length>0">
                 <ng-container *ngFor="let ret of selectIndicarores1;first as f;last as l">
@@ -180,6 +268,14 @@
             </ng-container>
           </b></p>
         </div>
+        <div class="col-1">
+          <button pButton type="button" 
+          icon="bi bi-back" 
+          title="Graficos comparativos"
+          class="p-button-primary"
+          (click)="toggleComparativo('graf1')" 
+          style="right:0;"></button>
+        </div>
 
         <div class="col-12 align-items-center">
           <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="0"   (onClick)="getTasas_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
@@ -191,10 +287,13 @@
         </div>
 
         <div  class="col-8 grid">
-          <div class="col-11" *ngIf="tasasNotFound">
+          <div class="col-11" *ngIf="tasasNotFound && plantasList4.length>0">
             <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
           </div>
-          <div class="col-11 grafic" *ngIf="!tasasNotFound">
+          <div class="col-11" *ngIf="plantasList4.length==0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" *ngIf="!tasasNotFound && plantasList4.length>0">
               <ngx-charts-bar-vertical-2d 
               [scheme]="colorScheme2"
               [animations]="false"
@@ -225,101 +324,142 @@
           <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
           [(ngModel)]="selectedMesesTasa1" (onChange)="getTasas_1('filtro')"
           [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais4" 
+            placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa1')">
+            </p-dropdown>
           <h3>Division</h3>
-          <p-multiSelect [style]="{'width':'100%'}" [options]="divisiones2" defaultLabel="Seleccione"
+          
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList4" [(ngModel)]="selectedDivisionResumen4" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'tasa1')">
+          </p-dropdown>
+          <!-- <p-multiSelect [style]="{'width':'100%'}" [options]="this.divisionList4" defaultLabel="Seleccione"
+          [(ngModel)]="selectedDivisionResumen4" (onChange)="funcSelectDivision($event,'tasa1')"
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> -->
+
+          <!-- <p-multiSelect [style]="{'width':'100%'}" [options]="divisiones2" defaultLabel="Seleccione"
           [(ngModel)]="selectDivisiones1" (onChange)="filtroTasas1_1()"
-          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
-          <h3>Filtro indicadores</h3>
-          <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
-            <p-checkbox name="group2" value="Indicador" [value]="Indicador"
-            [(ngModel)]="selectIndicarores1" [inputId]="Indicador.value"
-            (click)="filtroTasas1_1()"></p-checkbox>
-            <label>{{Indicador.label}}</label>
-          </div>
+          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> -->
+          <h3>Planta</h3>
+          <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList4" [(ngModel)]="PlantaSelect4" 
+          placeholder="Seleccionar planta" [showClear]="true">
+          </p-dropdown> -->
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList4"
+                  [(ngModel)]="PlantaSelect4" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroTasas1_1()"></p-multiSelect>
+          <ng-container *ngIf="plantasList4.length>0">
+            <h3>Filtro indicadores</h3>
+            <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+              <p-checkbox name="group2" value="Indicador" [value]="Indicador"
+              [(ngModel)]="selectIndicarores1" [inputId]="Indicador.value"
+              (click)="filtroTasas1_1()"></p-checkbox>
+              <label>{{Indicador.label}}</label>
+            </div>
+          </ng-container>
         </div>
       </div>
       <hr/>
       <!-- Segunda grafica -->
-      <div class="grid">
-        <div class="col-12">
-        <p><b>
-          <ng-container *ngIf="selectIndicarores2.length>0">
-              <ng-container *ngFor="let ret of selectIndicarores2;first as f;last as l">
-              <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
-              </ng-container>
-              <ng-template #otro1>
-                  /{{ret.label}}
-              </ng-template>
-              </ng-container>
-          </ng-container>
-          <ng-container *ngIf="selectIndicarores2.length==0">
-              <ng-container *ngFor="let ret of Indicadores;first as f;last as l">
-              <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
-              </ng-container>
-              <ng-template #otro1>
-                  /{{ret.label}}
-              </ng-template>
-              </ng-container>
-          </ng-container>
-        </b></p>
-      </div>
-        <div class="col-12  align-items-center">
-          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="0" (onClick)="getTasas_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
-          <label for="">Total</label>
-          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="1" (onClick)="getTasas_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
-          <label for="">Temporales</label>
-          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="2" (onClick)="getTasas_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
-          <label for="">Directos</label>
+      <div *ngIf="!flagComparativoEve2;else comparativoGraf2">
+        <div class="grid">
+          <div class="col-11">
+          <p><b>
+            <ng-container *ngIf="selectIndicarores2.length>0">
+                <ng-container *ngFor="let ret of selectIndicarores2;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectIndicarores2.length==0">
+                <ng-container *ngFor="let ret of Indicadores;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+          </b></p>
         </div>
+        <div class="col-1">
+          <button pButton type="button" 
+          icon="bi bi-back" 
+          title="Graficos comparativos"
+          class="p-button-primary"
+          (click)="toggleComparativo('graf2')" 
+          style="right:0;"></button>
+        </div>
+          <div class="col-12  align-items-center">
+            <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="0" (onClick)="getTasas_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="1" (onClick)="getTasas_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="2" (onClick)="getTasas_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Directos</label>
+          </div>
 
-        <div  class="col-8 grid">
-          <div class="col-11" *ngIf="tasasNotFound2">
-            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+          <div  class="col-8 grid">
+            <div class="col-11" *ngIf="tasasNotFound2">
+              <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" *ngIf="!tasasNotFound2">
+              <ngx-charts-bar-vertical-2d
+              class="align-items-center"
+              [scheme]="colorScheme2"
+              [animations]="false"
+              [results]="tasaFrecuencia2"
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="false"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Meses'"
+              [yAxisLabel]="'Indicadores'"
+              [showDataLabel]="flagtasa2"
+              [barPadding]=0
+              [groupPadding]=4
+              [tooltipDisabled]="flagtasa2">
+              </ngx-charts-bar-vertical-2d>
+            </div>
+            <div class="col-1">&nbsp;</div>
           </div>
-          <div class="col-11 grafic" *ngIf="!tasasNotFound2">
-            <ngx-charts-bar-vertical-2d
-            class="align-items-center"
-            [scheme]="colorScheme2"
-            [animations]="false"
-            [results]="tasaFrecuencia2"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="false"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="true"
-            [xAxisLabel]="'Meses'"
-            [yAxisLabel]="'Indicadores'"
-            [showDataLabel]="flagtasa2"
-            [barPadding]=0
-            [groupPadding]=4
-            [tooltipDisabled]="flagtasa2">
-            </ngx-charts-bar-vertical-2d>
-          </div>
-          <div class="col-1">&nbsp;</div>
-        </div>
-        <div class="col-12 md:col-4 lg:col-4 filter">
-          <h3>Año</h3>
-          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
-          [(ngModel)]="filtroAnioTasa_2" (onChange)="getTasas_2('filtro')"
-          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
-          <h3>Meses</h3>
-          <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
-          (onChange)="filtroTasas_2()"
-          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
-          <!-- divisiones -->
-          <h3>Division</h3>
-          <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" [showClear]="true"
-          [(ngModel)]="filtroDivisionesTasa_2" (onChange)="getTasas_2('filtro')"
-          [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
-          <h3>Filtro indicadores</h3>
-          <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
-              <p-checkbox name="group4" value="Indicador" [value]="Indicador" 
-              [(ngModel)]="selectIndicarores2" [inputId]="Indicador.value" 
-              (onChange)="filtroTasas_2()"></p-checkbox>
-              <label>{{Indicador.label}}</label>
+          <div class="col-12 md:col-4 lg:col-4 filter">
+            <h3>Año</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
+            [(ngModel)]="filtroAnioTasa_2" (onChange)="getTasas_2('filtro')"
+            [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+            <h3>Meses</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
+            (onChange)="filtroTasas_2()"
+            [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+            <!-- divisiones -->
+            <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais5" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa2')">
+              </p-dropdown>
+            <h3>Division</h3>
+            <!-- <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" [showClear]="true"
+            [(ngModel)]="filtroDivisionesTasa_2" (onChange)="getTasas_2('filtro');funcSelectDivision($event,'tasa2')"
+            [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown> -->
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList5" [(ngModel)]="selectedDivisionResumen5" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'tasa2')">
+            </p-dropdown>
+            <h3>Planta</h3>
+              <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList5" [(ngModel)]="PlantaSelect5" 
+              placeholder="Seleccionar planta" [showClear]="true">
+              </p-dropdown> -->
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList5"
+                    [(ngModel)]="PlantaSelect5" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getTasas_2('filtro')"></p-multiSelect>
+            <h3>Filtro indicadores</h3>
+            <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+                <p-checkbox name="group4" value="Indicador" [value]="Indicador" 
+                [(ngModel)]="selectIndicarores2" [inputId]="Indicador.value" 
+                (onChange)="filtroTasas_2()"></p-checkbox>
+                <label>{{Indicador.label}}</label>
+            </div>
           </div>
         </div>
       </div>
@@ -329,33 +469,41 @@
 
 
   <p-panel header="EVENTOS">
-    <div class="colorfondo">
       <!-- Tercera grafica -->
-      <div class="grid">
-        <div class="col-12">
-        <p><b>
-          <ng-container *ngIf="selectEventos1.length>0">
-              <ng-container *ngFor="let ret of selectEventos1;first as f;last as l">
-              <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
-              </ng-container>
-              <ng-template #otro1>
-                  /{{ret.label}}
-              </ng-template>
-              </ng-container>
-          </ng-container>
-          <ng-container *ngIf="selectEventos1.length==0">
-              <ng-container *ngFor="let ret of Eventos;first as f;last as l">
-              <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
-              </ng-container>
-              <ng-template #otro1>
-                  /{{ret.label}}
-              </ng-template>
-              </ng-container>
-          </ng-container>
-        </b></p>
-      </div>
+ 
+      <div class="grid" *ngIf="!flagComparativoEve3;else comparativoGraf3">
+        <div class="col-11">
+          <p><b>
+            <ng-container *ngIf="selectEventos1.length>0">
+                <ng-container *ngFor="let ret of selectEventos1;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectEventos1.length==0">
+                <ng-container *ngFor="let ret of Eventos;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+          </b></p>
+        </div>
+        <div class="col-1">
+          <button pButton type="button" 
+          icon="bi bi-back" 
+          title="Graficos comparativos"
+          class="p-button-primary"
+          (click)="toggleComparativo('graf3')" 
+          style="right:0;"></button>
+        </div>
         <div class="col-12  align-items-center">
           <!-- <p>Eventos</p> -->
           <p-radioButton name="group14" [(ngModel)]="filtroEventos1"  [value]="'total'" (onClick)="getEventos_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
@@ -366,7 +514,10 @@
           <label for="">Directos</label>
         </div>
         <div  class="col-8 grid">
-          <div class="col-11 grafic" style="height: 500px;">
+          <div class="col-11" *ngIf="plantasList6.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 500px;" *ngIf="plantasList6.length>0">
             <ngx-charts-bar-vertical-2d
             class="align-items-center"
             [scheme]="colorScheme2"
@@ -389,58 +540,83 @@
           <div class="col-2">&nbsp;</div>
           <div class="col-8 grid">
               <div class="col-6">  
-                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>   
-                <p-calendar appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde"  [(ngModel)]="evento1Desde" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar> 
+                <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
+                <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde"  [(ngModel)]="evento1Desde" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar> 
               </div>
-              <div class="col-6"> 
-                <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon> 
-                <p-calendar appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta"  [(ngModel)]="evento1Hasta" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar>
+              <div class="col-6">
+                <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
+                <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta"  [(ngModel)]="evento1Hasta" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar>
               </div>
           </div>
         </div>
 
         <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais6" 
+            placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event1')">
+            </p-dropdown>
+          
           <h3>Division</h3>
-          <div *ngFor="let category of divisiones2" class="p-field-checkbox">
+          <!-- <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione división" [options]="divisiones2" [(ngModel)]="selectDivisiones2" (onChange)="filtroEventos_1();funcSelectDivision($event,'event1')"></p-multiSelect> -->
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList6" [(ngModel)]="selectedDivisionResumen6" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event1')">
+          </p-dropdown>
+          <!-- revisar -->
+          <!-- <div *ngFor="let category of divisiones2" class="p-field-checkbox">
               <p-checkbox name="group3" value="category" [value]="category"  [(ngModel)]="selectDivisiones2" [inputId]="category.value" (click)="filtroEventos_1()"></p-checkbox>
               <label>{{category.label}}</label>
-          </div>
-
-          <h3>Filtro eventos</h3>
-          <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
-              <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos1" [inputId]="Indicador.value" (click)="filtroEventos_1()"></p-checkbox>
-              <label>{{Indicador.label}}</label>
-          </div>
+          </div> -->
+          <h3>Planta</h3>
+          <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList6" [(ngModel)]="PlantaSelect6" 
+          placeholder="Seleccionar planta" [showClear]="true">
+          </p-dropdown> -->
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList6"
+                  [(ngModel)]="PlantaSelect6" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroEventos_1()"></p-multiSelect>
+          <ng-container *ngIf="plantasList6.length>0">
+            <h3>Filtro eventos</h3>
+            <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
+                <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos1" [inputId]="Indicador.value" (click)="filtroEventos_1()"></p-checkbox>
+                <label>{{Indicador.label}}</label>
+            </div>
+          </ng-container>
         </div>
       </div>
 
-        <hr/>
+      <hr/>
       <!-- Cuarta grafica -->
-      <div class="grid">
-        <div class="col-12">
-        <p><b>
-          <ng-container *ngIf="selectEventos2.length>0">
-              <ng-container *ngFor="let ret of selectEventos2;first as f;last as l">
-              <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
-              </ng-container>
-              <ng-template #otro1>
-                  /{{ret.label}}
-              </ng-template>
-              </ng-container>
-          </ng-container>
-          <ng-container *ngIf="selectEventos2.length==0">
-              <ng-container *ngFor="let ret of Eventos;first as f;last as l">
-              <ng-container *ngIf="f ;else otro1">
-                  {{ret.label}}
-              </ng-container>
-              <ng-template #otro1>
-                  /{{ret.label}}
-              </ng-template>
-              </ng-container>
-          </ng-container>
-        </b></p>
-      </div>
+      
+      <div class="grid" *ngIf="!flagComparativoEve4;else comparativoGraf4">
+        <div class="col-11">
+          <p><b>
+            <ng-container *ngIf="selectEventos2.length>0">
+                <ng-container *ngFor="let ret of selectEventos2;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectEventos2.length==0">
+                <ng-container *ngFor="let ret of Eventos;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+          </b></p>
+        </div>
+        <div class="col-1">
+          <button pButton type="button" 
+          icon="bi bi-back" 
+          title="Graficos comparativos"
+          class="p-button-primary"
+          (click)="toggleComparativo('graf4')" 
+          style="right:0;"></button>
+        </div>
           <!-- <p>Eventos</p> -->
         <div class="col-12  align-items-center">
           <p-radioButton name="group15" [(ngModel)]="filtroEventos2"  [value]="'total'" (onClick)="getEventos_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
@@ -481,8 +657,20 @@
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" [(ngModel)]="filtroAnioEventos2" placeholder="Seleccionar año" (onChange)="getEventos_2()"></p-dropdown>
           <h3>Meses</h3>
           <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2" (onChange)="filtroEventos_2()"></p-multiSelect>
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais7" 
+            placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event2');getEventos_2()">
+            </p-dropdown>
           <h3>Division</h3>
-            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2()"></p-multiSelect>
+            <!-- <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2();funcSelectDivision($event,'event2')"></p-multiSelect> -->
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList7" [(ngModel)]="selectedDivisionResumen7" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event2');getEventos_2()">
+            </p-dropdown>
+            <h3>Planta</h3>
+            <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList7" [(ngModel)]="PlantaSelect7" 
+            placeholder="Seleccionar planta" [showClear]="true" (onChange)="loadResumen()">
+            </p-dropdown> -->
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList7"
+                  [(ngModel)]="PlantaSelect7" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getEventos_2()"></p-multiSelect>
           <h3>Filtro indicadores</h3>
           <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
               <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos2" [inputId]="Indicador.value" (click)="filtroEventos_2()"></p-checkbox>
@@ -490,7 +678,7 @@
           </div>
         </div>
       </div>
-    </div>
+    
   </p-panel>
   <br/>
 
@@ -499,8 +687,16 @@
     <br>
     <div class="colorfondo">
   <!-- Quinta grafica -->
-  <div class="grid">
-
+  <div class="grid" *ngIf="!flagComparativoEve5;else comparativoGraf5">
+    <div class="col-11">&nbsp;</div>
+    <div class="col-1">
+      <button pButton type="button" 
+      icon="bi bi-back" 
+      title="Graficos comparativos"
+      class="p-button-primary"
+      (click)="toggleComparativo('graf5')" 
+      style="right:0;"></button>
+    </div>
     <div class="col-8 grid">
       <div class="col-11 grafic" style="height: 650px; padding-left: 5%;">
         <p-chart type="bar" [data]="dataIli_1" [options]="optionsIli_1" width="90%" height="100%"></p-chart>
@@ -512,16 +708,37 @@
         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioIli_1" (onChange)="getIli_1()"></p-dropdown>
       <h3>Meses</h3>
         <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1" (onChange)="getIli_1()"></p-multiSelect> 
-      <h3>Division</h3>
+      <!-- <h3>Division</h3>
       <div *ngFor="let category of divisiones2" class="p-field-checkbox">
           <p-checkbox name="group6" value="label" [value]="category" [(ngModel)]="selectDivisionesILI1" (onChange)="filtroIli_1()"></p-checkbox>
           <label>{{category.label}}</label>
-      </div>
+      </div> -->
+
+      <h3>País</h3>
+      <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais8" 
+      placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili1')">
+      </p-dropdown>
+      <h3>Division</h3>
+      <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList8" [(ngModel)]="selectedDivisionResumen8" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili1')">
+      </p-dropdown>
+      <h3>Planta</h3>
+      <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList8"
+      [(ngModel)]="PlantaSelect8" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroIli_1()"></p-multiSelect>
     </div>
   </div>
   <hr/>
+
    <!-- Quinta grafica.2 -->
-   <div class="grid">
+   <div class="grid" *ngIf="!flagComparativoEve6;else comparativoGraf6">
+    <div class="col-11">&nbsp;</div>
+    <div class="col-1">
+      <button pButton type="button" 
+      icon="bi bi-back" 
+      title="Graficos comparativos"
+      class="p-button-primary"
+      (click)="toggleComparativo('graf6')" 
+      style="right:0;"></button>
+    </div>
     <div class="col-8 grid">
       <div class="col-11 grafic" style="height: 550px; padding-left: 5%;">
         <p-chart type="bar" [options]="optionsIli_2" [data]="dataIli_2" width="90%" height="100%"></p-chart>
@@ -535,12 +752,1102 @@
       <h3>Meses</h3>
       <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2" 
       (onChange)="filtroIli_2()" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> 
-      <h3>Division</h3>
+      <!-- <h3>Division</h3>
       <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" 
       [showClear]="true" [(ngModel)]="selectDivisionesILI2"
-      (onChange)="getIli_2($event.value)" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+      (onChange)="getIli_2($event.value)" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown> -->
+
+      <h3>País</h3>
+      <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais9" 
+      placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili2')">
+      </p-dropdown>
+      <h3>Division</h3>
+      <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList9" [(ngModel)]="selectedDivisionResumen9" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili2')">
+      </p-dropdown>
+      <h3>Planta</h3>
+      <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccionar planta" [options]="plantasList9"
+      [(ngModel)]="PlantaSelect9" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2($event)"></p-dropdown>
     </div>
   </div>
     </div>
   </p-panel>
 </div>
+
+<!-- Comparativo evento graf1 -->
+
+<ng-template #comparativoGraf1>
+  <div class="grid">
+    <div class="grid col-6">
+      <!-- Primera grafica -->
+        <div class="col-12">
+          <p><b>
+            <ng-container *ngIf="selectIndicarores1.length>0">
+                <ng-container *ngFor="let ret of selectIndicarores1;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectIndicarores1.length==0">
+                <ng-container *ngFor="let ret of Indicadores;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+          </b></p>
+        </div>
+
+        <div class="col-12 align-items-center">
+          <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="0"   (onClick)="getTasas_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Total</label>
+          <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="1"  (onClick)="getTasas_1('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Temporales</label>
+          <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="2"  (onClick)="getTasas_1('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Directos</label>
+        </div>
+
+        <div  class="col-12 grid" style="height: 16cm;">
+          <div class="col-11" *ngIf="tasasNotFound && plantasList4.length>0">
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+          </div>
+          <div class="col-11" *ngIf="plantasList4.length==0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" *ngIf="!tasasNotFound && plantasList4.length>0">
+              <ngx-charts-bar-vertical-2d 
+              [scheme]="colorScheme2"
+              [animations]="false"
+              [results]="tasaFrecuencia1"
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="false"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Divisiones'"
+              [yAxisLabel]="'Indicadores'"
+              [barPadding]=0
+              [groupPadding]=4
+              [showDataLabel]="true"
+              [tooltipDisabled]="false">
+              </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf1')" ></button>
+            </div>
+        
+
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf1, 'cerrado': !estaAbiertoGraf1}">
+              <h3>Año</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+              [(ngModel)]="filtroAnioTasa_1" (onChange)="getTasas_1('filtro')"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+              <h3>Meses</h3>
+              <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
+              [(ngModel)]="selectedMesesTasa1" (onChange)="getTasas_1('filtro')"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+              <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais4" 
+                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa1')">
+                </p-dropdown>
+              <h3>Division</h3>
+              
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList4" [(ngModel)]="selectedDivisionResumen4" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'tasa1')">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList4"
+                      [(ngModel)]="PlantaSelect4" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroTasas1_1()"></p-multiSelect>
+              <ng-container *ngIf="plantasList4.length>0">
+                <h3>Filtro indicadores</h3>
+                <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+                  <p-checkbox name="group2" value="Indicador" [value]="Indicador"
+                  [(ngModel)]="selectIndicarores1" [inputId]="Indicador.value"
+                  (click)="filtroTasas1_1()"></p-checkbox>
+                  <label>{{Indicador.label}}</label>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid col-6">
+        <!-- Primera grafica -->
+          <div class="col-11">
+            <p><b>
+              <ng-container *ngIf="selectIndicarores1_2.length>0">
+                  <ng-container *ngFor="let ret of selectIndicarores1_2;first as f;last as l">
+                  <ng-container *ngIf="f ;else otro1">
+                      {{ret.label}}
+                  </ng-container>
+                  <ng-template #otro1>
+                      /{{ret.label}}
+                  </ng-template>
+                  </ng-container>
+              </ng-container>
+              <ng-container *ngIf="selectIndicarores1_2.length==0">
+                  <ng-container *ngFor="let ret of Indicadores;first as f;last as l">
+                  <ng-container *ngIf="f ;else otro1">
+                      {{ret.label}}
+                  </ng-container>
+                  <ng-template #otro1>
+                      /{{ret.label}}
+                  </ng-template>
+                  </ng-container>
+              </ng-container>
+            </b></p>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf1')" 
+            style="right:0;"></button>
+            </div>
+  
+          <div class="col-12 align-items-center">
+            <p-radioButton name="group12_2" [(ngModel)]="radioGra2_2" [value]="0"   (onClick)="getTasas_1_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group12_2" [(ngModel)]="radioGra2_2" [value]="1"  (onClick)="getTasas_1_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group12_2" [(ngModel)]="radioGra2_2" [value]="2"  (onClick)="getTasas_1_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Directos</label>
+          </div>
+  
+          <div  class="col-12 grid" style="height: 16cm;">
+            <div class="col-11" *ngIf="tasasNotFound_2 && plantasList4_2.length>0">
+              <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+            </div>
+            <div class="col-11" *ngIf="plantasList4_2.length==0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" *ngIf="!tasasNotFound_2 && plantasList4_2.length>0">
+                <ngx-charts-bar-vertical-2d 
+                [scheme]="colorScheme2"
+                [animations]="false"
+                [results]="tasaFrecuencia1_2"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="false"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Divisiones'"
+                [yAxisLabel]="'Indicadores'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="true"
+                [tooltipDisabled]="false">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-filter" 
+              class="p-button-primary buttonFilter"
+              title="Filtro"
+              (click)="togglePanel2('graf1')" ></button>
+              </div>
+          
+  
+            <div class="contenedor2">
+              <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf1_2, 'cerrado': !estaAbiertoGraf1_2}">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+                [(ngModel)]="filtroAnioTasa_1_2" (onChange)="getTasas_1_2('filtro')"
+                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
+                [(ngModel)]="selectedMesesTasa1_2" (onChange)="getTasas_1_2('filtro')"
+                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+                <h3>País</h3>
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais4_2" 
+                  placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa1_2')">
+                  </p-dropdown>
+                <h3>Division</h3>
+                
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList4_2" [(ngModel)]="selectedDivisionResumen4_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'tasa1_2')">
+                </p-dropdown>
+                <h3>Planta</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList4_2"
+                        [(ngModel)]="PlantaSelect4_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroTasas1_1_2()"></p-multiSelect>
+                <ng-container *ngIf="plantasList4_2.length>0">
+                  <h3>Filtro indicadores</h3>
+                  <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+                    <p-checkbox name="group2" value="Indicador" [value]="Indicador"
+                    [(ngModel)]="selectIndicarores1_2" [inputId]="Indicador.value"
+                    (click)="filtroTasas1_1_2()"></p-checkbox>
+                    <label>{{Indicador.label}}</label>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</ng-template>
+
+<ng-template #comparativoGraf2>
+  <div class="grid">
+    <div class="grid col-6">
+      <!-- Primera grafica -->
+        <div class="col-12">
+          <p><b>
+            <ng-container *ngIf="selectIndicarores2.length>0">
+                <ng-container *ngFor="let ret of selectIndicarores2;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectIndicarores2.length==0">
+                <ng-container *ngFor="let ret of Indicadores;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+          </b></p>
+        </div>
+
+        <div class="col-12  align-items-center">
+          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="0" (onClick)="getTasas_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Total</label>
+          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="1" (onClick)="getTasas_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Temporales</label>
+          <p-radioButton name="group13" [(ngModel)]="radioGra3" [value]="2" (onClick)="getTasas_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Directos</label>
+        </div>
+
+        <div  class="col-12 grid" style="height: 16cm;">
+          <div class="col-11" *ngIf="tasasNotFound2">
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" *ngIf="!tasasNotFound2">
+            <ngx-charts-bar-vertical-2d
+            class="align-items-center"
+            [scheme]="colorScheme2"
+            [animations]="false"
+            [results]="tasaFrecuencia2"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="false"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Meses'"
+            [yAxisLabel]="'Indicadores'"
+            [showDataLabel]="flagtasa2"
+            [barPadding]=0
+            [groupPadding]=4
+            [tooltipDisabled]="flagtasa2">
+            </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf2')" ></button>
+          </div>
+        
+
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf2, 'cerrado': !estaAbiertoGraf2}">
+              <h3>Año</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
+            [(ngModel)]="filtroAnioTasa_2" (onChange)="getTasas_2('filtro')"
+            [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+            <h3>Meses</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
+            (onChange)="filtroTasas_2()"
+            [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+            <!-- divisiones -->
+            <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais5" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa2')">
+              </p-dropdown>
+            <h3>Division</h3>
+            <!-- <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" [showClear]="true"
+            [(ngModel)]="filtroDivisionesTasa_2" (onChange)="getTasas_2('filtro');funcSelectDivision($event,'tasa2')"
+            [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown> -->
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList5" [(ngModel)]="selectedDivisionResumen5" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'tasa2')">
+            </p-dropdown>
+            <h3>Planta</h3>
+              <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList5" [(ngModel)]="PlantaSelect5" 
+              placeholder="Seleccionar planta" [showClear]="true">
+              </p-dropdown> -->
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList5"
+                    [(ngModel)]="PlantaSelect5" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getTasas_2('filtro')"></p-multiSelect>
+            <h3>Filtro indicadores</h3>
+            <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+                <p-checkbox name="group4" value="Indicador" [value]="Indicador" 
+                [(ngModel)]="selectIndicarores2" [inputId]="Indicador.value" 
+                (onChange)="filtroTasas_2()"></p-checkbox>
+                <label>{{Indicador.label}}</label>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid col-6">
+        <!-- Primera grafica -->
+          <div class="col-11">
+            <p><b>
+              <ng-container *ngIf="selectIndicarores2_2.length>0">
+                  <ng-container *ngFor="let ret of selectIndicarores2_2;first as f;last as l">
+                  <ng-container *ngIf="f ;else otro1">
+                      {{ret.label}}
+                  </ng-container>
+                  <ng-template #otro1>
+                      /{{ret.label}}
+                  </ng-template>
+                  </ng-container>
+              </ng-container>
+              <ng-container *ngIf="selectIndicarores2_2.length==0">
+                  <ng-container *ngFor="let ret of Indicadores;first as f;last as l">
+                  <ng-container *ngIf="f ;else otro1">
+                      {{ret.label}}
+                  </ng-container>
+                  <ng-template #otro1>
+                      /{{ret.label}}
+                  </ng-template>
+                  </ng-container>
+              </ng-container>
+            </b></p>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf2')" 
+            style="right:0;"></button>
+            </div>
+  
+            <div class="col-12  align-items-center">
+              <p-radioButton name="group13_2" [(ngModel)]="radioGra3_2" [value]="0" (onClick)="getTasas_2_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Total</label>
+              <p-radioButton name="group13_2" [(ngModel)]="radioGra3_2" [value]="1" (onClick)="getTasas_2_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Temporales</label>
+              <p-radioButton name="group13_2" [(ngModel)]="radioGra3_2" [value]="2" (onClick)="getTasas_2_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Directos</label>
+            </div>
+  
+          <div  class="col-12 grid" style="height: 16cm;">
+            <div class="col-11" *ngIf="tasasNotFound2_2">
+              <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" *ngIf="!tasasNotFound2_2">
+              <ngx-charts-bar-vertical-2d
+              class="align-items-center"
+              [scheme]="colorScheme2"
+              [animations]="false"
+              [results]="tasaFrecuencia2_2"
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="false"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Meses'"
+              [yAxisLabel]="'Indicadores'"
+              [showDataLabel]="flagtasa2"
+              [barPadding]=0
+              [groupPadding]=4
+              [tooltipDisabled]="flagtasa2">
+              </ngx-charts-bar-vertical-2d>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-filter" 
+              class="p-button-primary buttonFilter"
+              title="Filtro"
+              (click)="togglePanel2('graf2')" ></button>
+              </div>
+          
+  
+            <div class="contenedor2">
+              <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf2_2, 'cerrado': !estaAbiertoGraf2_2}">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
+                [(ngModel)]="filtroAnioTasa_2_2" (onChange)="getTasas_2_2('filtro')"
+                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1_2" 
+                (onChange)="filtroTasas_2_2()"
+                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+                <!-- divisiones -->
+                <h3>País</h3>
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais5_2" 
+                  placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa2_2')">
+                  </p-dropdown>
+                <h3>Division</h3>
+                <!-- <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" [showClear]="true"
+                [(ngModel)]="filtroDivisionesTasa_2" (onChange)="getTasas_2('filtro');funcSelectDivision($event,'tasa2')"
+                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown> -->
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList5_2" [(ngModel)]="selectedDivisionResumen5_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'tasa2_2')">
+                </p-dropdown>
+                <h3>Planta</h3>
+                  <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList5" [(ngModel)]="PlantaSelect5" 
+                  placeholder="Seleccionar planta" [showClear]="true">
+                  </p-dropdown> -->
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList5_2"
+                        [(ngModel)]="PlantaSelect5_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getTasas_2_2('filtro')"></p-multiSelect>
+                <h3>Filtro indicadores</h3>
+                <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
+                    <p-checkbox name="group4_2" value="Indicador" [value]="Indicador" 
+                    [(ngModel)]="selectIndicarores2_2" [inputId]="Indicador.value" 
+                    (onChange)="filtroTasas_2_2()"></p-checkbox>
+                    <label>{{Indicador.label}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</ng-template>
+
+<ng-template #comparativoGraf3>
+  <div class="grid">
+    <div class="grid col-6">
+      <div class="col-12">
+      <p><b>
+        <ng-container *ngIf="selectEventos1.length>0">
+            <ng-container *ngFor="let ret of selectEventos1;first as f;last as l">
+            <ng-container *ngIf="f ;else otro1">
+                {{ret.label}}
+            </ng-container>
+            <ng-template #otro1>
+                /{{ret.label}}
+            </ng-template>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="selectEventos1.length==0">
+            <ng-container *ngFor="let ret of Eventos;first as f;last as l">
+            <ng-container *ngIf="f ;else otro1">
+                {{ret.label}}
+            </ng-container>
+            <ng-template #otro1>
+                /{{ret.label}}
+            </ng-template>
+            </ng-container>
+        </ng-container>
+      </b></p>
+      </div>
+      <div class="col-12  align-items-center">
+        <!-- <p>Eventos</p> -->
+        <p-radioButton name="group18" [(ngModel)]="filtroEventos1"  [value]="'total'" (onClick)="getEventos_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Total</label>
+        <p-radioButton name="group18" [(ngModel)]="filtroEventos1"  [value]="'temp'" (onClick)="getEventos_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Temporales</label>
+        <p-radioButton name="group18" [(ngModel)]="filtroEventos1"  [value]="'dir'" (onClick)="getEventos_1()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Directos</label>
+      </div>
+      <div  class="col-12 grid" style="height: 16cm;">
+        <div class="col-12 grid">
+          <div class="col-11" *ngIf="plantasList6.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 500px;" *ngIf="plantasList6.length>0">
+            <ngx-charts-bar-vertical-2d
+            class="align-items-center"
+            [scheme]="colorScheme2"
+            [results]="dataEventos1"
+            [animations]="false"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="false"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Divisiones'"
+            [yAxisLabel]="'eventos'"
+            [showDataLabel]="true"
+            [barPadding]=0
+            [groupPadding]=4>
+            </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf3')" ></button>
+          </div>
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf3, 'cerrado': !estaAbiertoGraf3}">
+              <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais6" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event1')">
+              </p-dropdown>
+              <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList6" [(ngModel)]="selectedDivisionResumen6" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event1')">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList6"
+                      [(ngModel)]="PlantaSelect6" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroEventos_1()"></p-multiSelect>
+              <ng-container *ngIf="plantasList6.length>0">
+                <h3>Filtro eventos</h3>
+                <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
+                    <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos1" [inputId]="Indicador.value" (click)="filtroEventos_1()"></p-checkbox>
+                    <label>{{Indicador.label}}</label>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="col-2">&nbsp;</div>
+        <div class="col-8 grid">
+            <div class="col-6">  
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde"  [(ngModel)]="evento1Desde" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar> 
+            </div>
+            <div class="col-6">
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta"  [(ngModel)]="evento1Hasta" (onClearClick)="getEventos_1()" (onSelect)="getEventos_1()"> </p-calendar>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid col-6">
+      <div class="col-11">
+        <p><b>
+          <ng-container *ngIf="selectEventos1_2.length>0">
+              <ng-container *ngFor="let ret of selectEventos1_2;first as f;last as l">
+              <ng-container *ngIf="f ;else otro1">
+                  {{ret.label}}
+              </ng-container>
+              <ng-template #otro1>
+                  /{{ret.label}}
+              </ng-template>
+              </ng-container>
+          </ng-container>
+          <ng-container *ngIf="selectEventos1_2.length==0">
+              <ng-container *ngFor="let ret of Eventos;first as f;last as l">
+              <ng-container *ngIf="f ;else otro1">
+                  {{ret.label}}
+              </ng-container>
+              <ng-template #otro1>
+                  /{{ret.label}}
+              </ng-template>
+              </ng-container>
+          </ng-container>
+        </b></p>
+      </div>
+      <div class="col-1">
+        <button pButton type="button" 
+        icon="bi bi-back" 
+        title="Graficos comparativos"
+        class="p-button-primary"
+        (click)="toggleComparativo('graf3')" 
+        style="right:0;"></button>
+      </div>
+      <div class="col-12  align-items-center">
+        <!-- <p>Eventos</p> -->
+        <p-radioButton name="group18" [(ngModel)]="filtroEventos1_2"  [value]="'total'" (onClick)="getEventos_1_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Total</label>
+        <p-radioButton name="group18" [(ngModel)]="filtroEventos1_2"  [value]="'temp'" (onClick)="getEventos_1_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Temporales</label>
+        <p-radioButton name="group18" [(ngModel)]="filtroEventos1_2"  [value]="'dir'" (onClick)="getEventos_1_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Directos</label>
+      </div>
+      <div  class="col-12 grid" style="height: 16cm;">
+        <div class="col-12 grid">
+          <div class="col-11" *ngIf="plantasList6_2.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 500px;" *ngIf="plantasList6_2.length>0">
+            <ngx-charts-bar-vertical-2d
+            class="align-items-center"
+            [scheme]="colorScheme2"
+            [results]="dataEventos1_2"
+            [animations]="false"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="false"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Divisiones'"
+            [yAxisLabel]="'eventos'"
+            [showDataLabel]="true"
+            [barPadding]=0
+            [groupPadding]=4>
+            </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel2('graf3')" ></button>
+          </div>
+          <div class="contenedor2">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf3_2, 'cerrado': !estaAbiertoGraf3_2}">
+              <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais6_2" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event1_2')">
+              </p-dropdown>
+              <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList6_2" [(ngModel)]="selectedDivisionResumen6_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event1_2')">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList6_2"
+                      [(ngModel)]="PlantaSelect6_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroEventos_1_2()"></p-multiSelect>
+              <ng-container *ngIf="plantasList6_2.length>0">
+                <h3>Filtro eventos</h3>
+                <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
+                    <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos1_2" [inputId]="Indicador.value" (click)="filtroEventos_1_2()"></p-checkbox>
+                    <label>{{Indicador.label}}</label>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="col-2">&nbsp;</div>
+        <div class="col-8 grid">
+            <div class="col-6">  
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde"  [(ngModel)]="evento1Desde_2" (onClearClick)="getEventos_1_2()" (onSelect)="getEventos_1_2()"> </p-calendar> 
+            </div>
+            <div class="col-6">
+              <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
+              <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta"  [(ngModel)]="evento1Hasta_2" (onClearClick)="getEventos_1_2()" (onSelect)="getEventos_1_2()"> </p-calendar>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #comparativoGraf4>
+  <div class="grid">
+    <div class="grid col-6">
+      <!-- Primera grafica -->
+        <div class="col-12">
+          <p><b>
+            <ng-container *ngIf="selectEventos2.length>0">
+                <ng-container *ngFor="let ret of selectEventos2;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="selectEventos2.length==0">
+                <ng-container *ngFor="let ret of Eventos;first as f;last as l">
+                <ng-container *ngIf="f ;else otro1">
+                    {{ret.label}}
+                </ng-container>
+                <ng-template #otro1>
+                    /{{ret.label}}
+                </ng-template>
+                </ng-container>
+            </ng-container>
+          </b></p>
+        </div>
+
+        <div class="col-12 align-items-center">
+          <p-radioButton name="group15" [(ngModel)]="filtroEventos2"  [value]="'total'" (onClick)="getEventos_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Total</label>
+          <p-radioButton name="group15" [(ngModel)]="filtroEventos2"  [value]="'temp'" (onClick)="getEventos_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Temporales</label>
+          <p-radioButton name="group15" [(ngModel)]="filtroEventos2"  [value]="'dir'" (onClick)="getEventos_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Directos</label>
+        </div>
+
+        <div  class="col-12 grid" style="height: 16cm;">
+          <div class="col-11 grafic">
+              <ngx-charts-bar-vertical-2d
+              class="align-items-center"
+              [scheme]="colorScheme2"
+              [results]="dataEventos2"
+              [gradient]="gradient"
+              [animations]="false"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="false"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Meses'"
+              [yAxisLabel]="'Eventos'"
+              [showDataLabel]="true"
+              [barPadding]=0
+              [groupPadding]=4>
+              </ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf4')" ></button>
+            </div>
+        
+
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf4, 'cerrado': !estaAbiertoGraf4}">
+              <h3>Año</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" [(ngModel)]="filtroAnioEventos2" placeholder="Seleccionar año" (onChange)="getEventos_2()"></p-dropdown>
+            <h3>Meses</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2" (onChange)="filtroEventos_2()"></p-multiSelect>
+            <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais7" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event2');getEventos_2()">
+              </p-dropdown>
+            <h3>Division</h3>
+              <!-- <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2();funcSelectDivision($event,'event2')"></p-multiSelect> -->
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList7" [(ngModel)]="selectedDivisionResumen7" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event2');getEventos_2()">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList7" [(ngModel)]="PlantaSelect7" 
+              placeholder="Seleccionar planta" [showClear]="true" (onChange)="loadResumen()">
+              </p-dropdown> -->
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList7"
+                    [(ngModel)]="PlantaSelect7" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getEventos_2()"></p-multiSelect>
+            <h3>Filtro indicadores</h3>
+            <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
+                <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos2" [inputId]="Indicador.value" (click)="filtroEventos_2()"></p-checkbox>
+                <label>{{Indicador.label}}</label>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid col-6">
+        <!-- Primera grafica -->
+          <div class="col-11">
+            <p><b>
+              <ng-container *ngIf="selectEventos2_2.length>0">
+                  <ng-container *ngFor="let ret of selectEventos2_2;first as f;last as l">
+                  <ng-container *ngIf="f ;else otro1">
+                      {{ret.label}}
+                  </ng-container>
+                  <ng-template #otro1>
+                      /{{ret.label}}
+                  </ng-template>
+                  </ng-container>
+              </ng-container>
+              <ng-container *ngIf="selectEventos2_2.length==0">
+                  <ng-container *ngFor="let ret of Eventos;first as f;last as l">
+                  <ng-container *ngIf="f ;else otro1">
+                      {{ret.label}}
+                  </ng-container>
+                  <ng-template #otro1>
+                      /{{ret.label}}
+                  </ng-template>
+                  </ng-container>
+              </ng-container>
+            </b></p>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf4')" 
+            style="right:0;"></button>
+            </div>
+  
+          <div class="col-12 align-items-center">
+            <p-radioButton name="group15" [(ngModel)]="filtroEventos2_2"  [value]="'total'" (onClick)="getEventos_2_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group15" [(ngModel)]="filtroEventos2_2"  [value]="'temp'" (onClick)="getEventos_2_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group15" [(ngModel)]="filtroEventos2_2"  [value]="'dir'" (onClick)="getEventos_2_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Directos</label>
+          </div>
+  
+          <div  class="col-12 grid" style="height: 16cm;">
+            <div class="col-11 grafic">
+              <ngx-charts-bar-vertical-2d
+              class="align-items-center"
+              [scheme]="colorScheme2"
+              [results]="dataEventos2_2"
+              [gradient]="gradient"
+              [animations]="false"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="false"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Meses'"
+              [yAxisLabel]="'Eventos'"
+              [showDataLabel]="true"
+              [barPadding]=0
+              [groupPadding]=4>
+              </ngx-charts-bar-vertical-2d>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-filter" 
+              class="p-button-primary buttonFilter"
+              title="Filtro"
+              (click)="togglePanel2('graf4')" ></button>
+              </div>
+          
+  
+            <div class="contenedor2">
+              <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf4_2, 'cerrado': !estaAbiertoGraf4_2}">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" [(ngModel)]="filtroAnioEventos2_2" placeholder="Seleccionar año" (onChange)="getEventos_2_2()"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2_2" (onChange)="filtroEventos_2_2()"></p-multiSelect>
+                <h3>País</h3>
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais7_2" 
+                  placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event2_2');getEventos_2_2()">
+                  </p-dropdown>
+                <h3>Division</h3>
+                  <!-- <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2();funcSelectDivision($event,'event2')"></p-multiSelect> -->
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList7_2" [(ngModel)]="selectedDivisionResumen7_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event2_2');getEventos_2_2()">
+                  </p-dropdown>
+                  <h3>Planta</h3>
+                  <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList7" [(ngModel)]="PlantaSelect7" 
+                  placeholder="Seleccionar planta" [showClear]="true" (onChange)="loadResumen()">
+                  </p-dropdown> -->
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList7_2"
+                        [(ngModel)]="PlantaSelect7_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getEventos_2_2()"></p-multiSelect>
+                <h3>Filtro indicadores</h3>
+                <div *ngFor="let Indicador of Eventos" class="p-field-checkbox">
+                    <p-checkbox name="group4" value="Indicador" [value]="Indicador"  [(ngModel)]="selectEventos2_2" [inputId]="Indicador.value" (click)="filtroEventos_2_2()"></p-checkbox>
+                    <label>{{Indicador.label}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</ng-template>
+
+<ng-template #comparativoGraf5>
+  <div class="grid">
+    <div class="grid col-6">
+      <!-- Primera grafica -->
+      <div class="col-12">&nbsp;</div>
+
+
+        <div  class="col-12 grid" style="height: 16cm;">
+          <div class="col-11 grafic" style="height: 650px; padding-left: 5%;">
+            <p-chart type="bar" [data]="dataIli_1" [options]="optionsIli_1" width="90%" height="100%"></p-chart>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf5')" ></button>
+            </div>
+        
+
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf5, 'cerrado': !estaAbiertoGraf5}">
+              <h3>Año</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioIli_1" (onChange)="getIli_1()"></p-dropdown>
+              <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1" (onChange)="getIli_1()"></p-multiSelect> 
+              <!-- <h3>Division</h3>
+              <div *ngFor="let category of divisiones2" class="p-field-checkbox">
+                  <p-checkbox name="group6" value="label" [value]="category" [(ngModel)]="selectDivisionesILI1" (onChange)="filtroIli_1()"></p-checkbox>
+                  <label>{{category.label}}</label>
+              </div> -->
+
+              <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais8" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili1')">
+              </p-dropdown>
+              <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList8" [(ngModel)]="selectedDivisionResumen8" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili1')">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList8"
+              [(ngModel)]="PlantaSelect8" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroIli_1()"></p-multiSelect>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid col-6">
+        <!-- Primera grafica -->
+          <div class="col-11">&nbsp;</div>
+
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf5')" 
+            style="right:0;"></button>
+            </div>
+  
+          <div  class="col-12 grid" style="height: 16cm;">
+            <div class="col-11 grafic" style="height: 650px; padding-left: 5%;">
+              <p-chart type="bar" [data]="dataIli_1_2" [options]="optionsIli_1" width="90%" height="100%"></p-chart>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-filter" 
+              class="p-button-primary buttonFilter"
+              title="Filtro"
+              (click)="togglePanel2('graf5')" ></button>
+              </div>
+          
+  
+            <div class="contenedor2">
+              <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf5_2, 'cerrado': !estaAbiertoGraf5_2}">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioIli_1_2" (onChange)="getIli_1_2()"></p-dropdown>
+                <h3>Meses</h3>
+                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1_2" (onChange)="getIli_1_2()"></p-multiSelect> 
+                <!-- <h3>Division</h3>
+                <div *ngFor="let category of divisiones2" class="p-field-checkbox">
+                    <p-checkbox name="group6" value="label" [value]="category" [(ngModel)]="selectDivisionesILI1" (onChange)="filtroIli_1()"></p-checkbox>
+                    <label>{{category.label}}</label>
+                </div> -->
+  
+                <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais8_2" 
+                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili1_2')">
+                </p-dropdown>
+                <h3>Division</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList8_2" [(ngModel)]="selectedDivisionResumen8_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili1_2')">
+                </p-dropdown>
+                <h3>Planta</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList8_2"
+                [(ngModel)]="PlantaSelect8_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroIli_1_2()"></p-multiSelect>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</ng-template>
+
+<ng-template #comparativoGraf6>
+  <div class="grid">
+    <div class="grid col-6">
+      <!-- Primera grafica -->
+      <div class="col-12">&nbsp;</div>
+
+
+        <div  class="col-12 grid" style="height: 16cm;">
+          <div class="col-11 grafic" style="height: 550px; padding-left: 5%;">
+            <p-chart type="bar" [options]="optionsIli_2" [data]="dataIli_2" width="90%" height="100%"></p-chart>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf6')" ></button>
+            </div>
+        
+
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf6, 'cerrado': !estaAbiertoGraf6}">
+              <h3>Año</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
+              [(ngModel)]="selectedAnioIli_2" (onChange)="getIli_2()"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+              <h3>Meses</h3>
+              <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2" 
+              (onChange)="filtroIli_2()" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> 
+              <!-- <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" 
+              [showClear]="true" [(ngModel)]="selectDivisionesILI2"
+              (onChange)="getIli_2($event.value)" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown> -->
+        
+              <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais9" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili2')">
+              </p-dropdown>
+              <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList9" [(ngModel)]="selectedDivisionResumen9" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili2')">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccionar planta" [options]="plantasList9"
+              [(ngModel)]="PlantaSelect9" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2($event)"></p-dropdown>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid col-6">
+        <!-- Primera grafica -->
+          <div class="col-11">&nbsp;</div>
+
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf6')" 
+            style="right:0;"></button>
+            </div>
+  
+          <div  class="col-12 grid" style="height: 16cm;">
+            <div class="col-11 grafic" style="height: 550px; padding-left: 5%;">
+              <p-chart type="bar" [options]="optionsIli_2_2" [data]="dataIli_2_2" width="90%" height="100%"></p-chart>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-filter" 
+              class="p-button-primary buttonFilter"
+              title="Filtro"
+              (click)="togglePanel2('graf6')" ></button>
+              </div>
+          
+  
+            <div class="contenedor2">
+              <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf6_2, 'cerrado': !estaAbiertoGraf6_2}">
+                <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" 
+                [(ngModel)]="selectedAnioIli_2_2" (onChange)="getIli_2_2()"
+                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+                <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2_2" 
+                (onChange)="filtroIli_2_2()" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> 
+                <!-- <h3>Division</h3>
+                <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" 
+                [showClear]="true" [(ngModel)]="selectDivisionesILI2"
+                (onChange)="getIli_2($event.value)" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown> -->
+          
+                <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais9_2" 
+                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili2_2')">
+                </p-dropdown>
+                <h3>Division</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList9_2" [(ngModel)]="selectedDivisionResumen9_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili2_2')">
+                </p-dropdown>
+                <h3>Planta</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccionar planta" [options]="plantasList9_2"
+                [(ngModel)]="PlantaSelect9_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2_2($event)"></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</ng-template>
+

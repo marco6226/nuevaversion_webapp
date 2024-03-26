@@ -96,7 +96,6 @@ export class AliadosListComponent implements OnInit {
           });
         }
     );
-    
   }
 
   onEdit(event: any){

@@ -280,6 +280,9 @@
 .tamañotexto {
   font-size: 40px;
 }
+.tamañotexto2 {
+  font-size: 20px;
+}
 
 ::ng-deep .col-4 {
   width: 100%!important;
@@ -356,3 +359,85 @@ div{
 label{
   font-size: large;
 }
+
+:host ::ng-deep 
+    .p-calendar{
+        .p-button{
+            background: white;
+            color: gray;
+            pointer-events: none;
+        }
+        
+        .p-inputtext {
+            background: white;
+        }
+        
+    }
+
+    
+    // .panel-lateral {
+    //   background-color: lightgrey;
+    //   border-radius: 20px;
+    //   // border: 10px solid #f2f3f9;
+    //   right: 0;
+    //   position: relative;
+    //   margin-bottom: 30px;
+    //   height: 16cm;
+    //   transition: width 0.2s ease-in-out; /* Transición suave del ancho */
+    //   overflow: hidden; /* Esconde el contenido que exceda el tamaño del panel */
+    //   padding: auto;
+    // }
+    
+    // .abierto {
+    //   width: 100%; /* O el ancho deseado cuando está abierto */
+    //   padding: 20px
+    // }
+    
+    // .cerrado {
+    //   width: 0; /* O el mínimo ancho para "ocultarlo" */
+    //   padding: 0px
+    // }
+
+    .contenedor {
+      position: absolute; /* Asegura que el panel se posicione en relación a este contenedor */
+      /* Asegúrate de definir el ancho y altura según necesites */
+      width: 25%;
+      z-index: 1000;
+      right: 51%;
+    }
+
+    .contenedor2 {
+      position: absolute; /* Asegura que el panel se posicione en relación a este contenedor */
+      /* Asegúrate de definir el ancho y altura según necesites */
+      width: 25%;
+      z-index: 1000;
+      right: 6%;
+    }
+    
+    .panel-lateral {
+      background-color: lightgrey;
+      border-radius: 20px;
+      right: 0;
+      position: absolute; /* Cambiado de 'relative' a 'absolute' */
+      top: 0; /* Asegura que el panel inicie en la parte superior del contenedor */
+      margin-bottom: 30px;
+      height: 16cm;
+      transition: width 0.2s ease-in-out; /* Transición suave del ancho */
+      overflow: hidden; /* Esconde el contenido que exceda el tamaño del panel */
+      width: 0; /* Inicia con el panel cerrado */
+      padding: 0; /* Inicia sin padding */
+    }
+    
+    .abierto {
+      width: 100%; /* O el ancho deseado cuando está abierto */
+      padding: 20px; /* Restablece el padding cuando está abierto */
+    }
+    
+    .cerrado {
+      width: 0; /* O el mínimo ancho para "ocultarlo" */
+      padding: 0px; /* Elimina el padding cuando está cerrado */
+    }
+    .buttonFilter{
+      z-index: 1001;
+    }
+    

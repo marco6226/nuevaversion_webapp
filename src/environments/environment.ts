@@ -4,7 +4,7 @@ let host = "localhost";
 let port = "8080";
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
-// //Demo
+//Demo
 // let protocol = 'https';
 // let host = 'demo.sigess.app'
 // let port = '5858';
@@ -131,6 +131,7 @@ export const endPoints: string | any = {
   Plantas: path + "plantas/",
   ViewscmcoService: path + "indscmco/",
   ViewscmgeService: path + "indscmge/",
+  ViewHHtMetasService: path + "viewhhtmeta/",
 
   metaService: path + "meta/",
 
