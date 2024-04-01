@@ -16,6 +16,7 @@ import { PlantasService } from "../../../core/services/Plantas.service";
 import { Plantas } from "../../../comun/entities/Plantas";
 import { ViewHHtMetasService } from "../../../core/services/viewhhtmetas.service";
 import { viewHHtMetas } from "../../../comun/entities/ViewHHtMetas";
+import { ComunEntity } from '../../../comun/entities/comun-entity';
 
 class division {
   name!: string;
@@ -61,14 +62,14 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   optionsIli_1: any = {
     title: {
       display: true,
-      text: 'ILI por División'
+      text: 'ILI por planta'
     }
   }
 
   optionsIli_1_2: any = {
     title: {
       display: true,
-      text: 'ILI por División'
+      text: 'ILI por planta'
     }
   }
 
@@ -226,6 +227,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectPais7:any
   selectPais8:any
   selectPais9:any
+  selectPais10:any
+  selectPais11:any
+
 
   selectPais4_2:any
   selectPais5_2:any
@@ -233,6 +237,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectPais7_2:any
   selectPais8_2:any
   selectPais9_2:any
+  selectPais10_2:any
+  selectPais11_2:any
 
 
   plantasList:any=[]
@@ -245,13 +251,19 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   plantasList7:any=[]
   plantasList8:any=[]
   plantasList9:any=[]
+  plantasList10:any=[]
+  plantasList11:any=[]
+
 
   plantasList4_2:any=[]
   plantasList5_2:any=[]
   plantasList6_2:any=[]
   plantasList7_2:any=[]
   plantasList8_2:any=[]
-  plantasList9_2:any=[]
+  plantasList9_2:any=[]  
+  plantasList10_2:any=[]
+  plantasList11_2:any=[]
+
 
 
   PlantaSelect1:any=null
@@ -263,6 +275,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   PlantaSelect7:any=null
   PlantaSelect8:any=null
   PlantaSelect9:any=null
+  PlantaSelect10:any=null
+  PlantaSelect11:any=null
 
   PlantaSelect4_2:any=null
   PlantaSelect5_2:any=null
@@ -270,6 +284,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   PlantaSelect7_2:any=null
   PlantaSelect8_2:any=null
   PlantaSelect9_2:any=null
+  PlantaSelect10_2:any=null
+  PlantaSelect11_2:any=null
 
 
   divisionList:any=[]
@@ -282,6 +298,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   divisionList7:any=[]
   divisionList8:any=[]
   divisionList9:any=[]
+  divisionList10:any=[]
+  divisionList11:any=[]
 
   divisionList4_2:any=[]
   divisionList5_2:any=[]
@@ -289,6 +307,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   divisionList7_2:any=[]
   divisionList8_2:any=[]
   divisionList9_2:any=[]
+  divisionList10_2:any=[]
+  divisionList11_2:any=[]
 
 
 
@@ -302,6 +322,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectedDivisionResumen7?: any | null = null;
   selectedDivisionResumen8?: any | null = null;
   selectedDivisionResumen9?: any | null = null;
+  selectedDivisionResumen10?: any | null = null;
+  selectedDivisionResumen11?: any | null = null;
 
   selectedDivisionResumen4_2?: any | null = null;
   selectedDivisionResumen5_2?: any | null = null;
@@ -309,6 +331,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectedDivisionResumen7_2?: any | null = null;
   selectedDivisionResumen8_2?: any | null = null;
   selectedDivisionResumen9_2?: any | null = null;
+  selectedDivisionResumen10_2?: any | null = null;
+  selectedDivisionResumen11_2?: any | null = null;
 
 
   selectDivisiones1: any[] = [];
@@ -337,6 +361,11 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   selectEventos1: any[] = [];
   selectEventos2: any[] = [];
+  selectEventos10: any[] = [];
+  selectEventos11: any[] = [];
+  selectEventos10_2: any[] = [];
+  selectEventos11_2: any[] = [];
+
 
   selectEventos1_2: any[] = [];
   selectEventos2_2: any[] = [];
@@ -344,6 +373,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   mesesILI2: string[] = [];
   Indicadores: any[] = [{label: 'Tasa de Frecuencia', value: 0}, {label: 'Tasa de Severidad', value: 1}, {label: 'Proporción AT mortal', value: 2}];
   Eventos: any[] = [{label: 'Número total de AT', value: 0}, {label: 'Número de AT con días perdidos', value: 4}, {label: 'Numero de días perdidos', value: 1}, {label: 'Numero de AT mortales', value: 2}, {label: 'Numero de AT con cero días', value: 3}];
+  grafMetas: any[] = [{label: 'Número de AT con días perdidos', value: 0}, {label: 'Meta de AT', value: 1}, {label: 'Número de días perdidos', value: 2}, {label: 'Meta de días perdidos', value: 2}];
+  grafMetas2: any[] = [{label: 'Tasa de Frecuencia', value: 0}, {label: 'Meta de TF', value: 1}, {label: 'Tasa de Severidad', value: 2}, {label: 'Meta de TS', value: 2}];
+
   dataEventos1?: any[];
   evento1Desde: Date | null = null;
   evento1Hasta: Date | null = null;
@@ -364,6 +396,10 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   tasasNotFound2: boolean = false;
   tasasNotFound_2: boolean = false;
   tasasNotFound_2_2: boolean = false;
+
+  tasasNotFoundMeta: boolean = false;
+  tasasNotFoundMeta_2: boolean = false;
+
 
   tasasNotFound2_2: boolean = false;
   filtroAnioTasa_1: number = new Date().getFullYear();
@@ -524,9 +560,15 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     localStorage.removeItem('dataEventos2_2');
     localStorage.removeItem('dataIli_1_2');
     localStorage.removeItem('dataIli_2_2');
+    localStorage.removeItem('dataMeta1');
+    localStorage.removeItem('dataMeta_2');
+
+
+
   }
 
   async ngOnInit() {
+
     this.config.setTranslation(this.localeES);
     localStorage.removeItem('reporteAtList');
     localStorage.removeItem('diasPerdidosAtList');
@@ -543,6 +585,10 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     localStorage.removeItem('dataEventos2_2');
     localStorage.removeItem('dataIli_1_2');
     localStorage.removeItem('dataIli_2_2');
+    localStorage.removeItem('dataMeta1');
+    localStorage.removeItem('dataMeta_2');
+
+
 
     if(this.ili<=this.metaIli){
     this.colorIli="card l-bg-green-dark"}
@@ -1229,7 +1275,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             this.plantasList4.forEach((plantas:any) => {
             // this.divisionesCoronaConId.forEach(division => {
               let plantaL=plantas.value
-              // console.log(plantaL)
               let trabajadoresTotales = 0;
               let mesesFiltrados = 0;
               let data:any = {
@@ -1747,7 +1792,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     Object.assign(this, {tasaFrecuencia1_2});
   }
 // Grafica tasa2
-test(){console.log(this.PlantaSelect5)}
   getTasas_2(filter?: string){
     let tasaFrecuencia2: any[] = [];
     let filterQuery = new FilterQuery();
@@ -2330,7 +2374,6 @@ filtroTasas_2_2(){
   }
 
   filtroEventos_1(){
-    console.log(this.selectEventos1)
 
     let dataEventos1: any[] = JSON.parse(localStorage.getItem('dataEventos1')!);
     // if(this.selectDivisiones2.length > 0){
@@ -2940,7 +2983,6 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
 
   filtroIli_1(){
     let dataIli_1: any = JSON.parse(localStorage.getItem('dataIli_1')!);
-    console.log(dataIli_1)
     // let divisionesCoronaIli1 = this.divisionesCorona.map(div => div);
     // if(this.selectDivisionesILI1.length > 0){
     //   let selectedDivisiones = this.selectDivisionesILI1.map(div => div.label);
@@ -3533,6 +3575,1186 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
     Object.assign(this, {dataIli_2_2});
   }
 
+  // Septimo grafico
+
+  filtroMeta1?:string;
+  tipoFiltroMeta1:number=0
+
+  selectedAnioMeta_1: number = new Date().getFullYear();
+  filtroMesesMeta_1: any[] = []; 
+
+  selectedAnioMeta_2: number = new Date().getFullYear();
+  filtroMesesMeta_2: any[] = []; 
+
+  dataMeta_1?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  optionsMeta_1: any = {
+    title: {
+      display: true,
+      text: 'Meta por planta'
+    }
+  }
+
+  dataMeta_2?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  optionsMeta_2: any = {
+    title: {
+      display: true,
+      text: 'Meta por planta'
+    }
+  }
+
+  async getMeta_1Eve(){
+    // let grafMetas = this.grafMetas.map((div:any) => {
+    //   return  div.label;
+    // });
+
+    if(this.plantasList10.length>0){
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_1);
+
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais10)if(this.selectPais10!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais10);
+      if(this.selectedDivisionResumen10)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen10);
+      // if(this.PlantaSelect10)reportesAt=reportesAt.filter(at => at.nombrePlanta == this.PlantaSelect10);
+      if(this.PlantaSelect10)if(this.PlantaSelect10.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect10.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+      //fin nuevo
+
+      
+
+
+      // let listaDivisiones = reportesAt.map(at => at.padreNombre);
+      // let listaDivisiones = reportesAt.map(at => at.nombrePlanta);
+      let listaPlantas = reportesAt.map(at => at.nombrePlanta).filter(at => at != null);
+      
+  
+      // let listaPlantas = reportesAt.map(at => at.nombrePlanta);
+  
+  
+      let plantas = listaPlantas.filter((div, index) => {
+        return listaPlantas.indexOf(div) === index;
+      }).sort();
+
+      let dataMeta_1: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: plantas,
+        datasets: [
+          {
+            label: 'Número de AT con días perdidos',
+            backgroundColor: 'rgba(0, 176, 240, 0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de AT',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          },
+          {
+            label: 'Número de días perdidos',
+            backgroundColor: 'rgba(259, 69, 18, 0.5)',
+            borderColor: 'rgb(259, 69, 18)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de días perdidos',
+            backgroundColor: 'rgb(67, 67, 72)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(67, 67, 72)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+
+      let filterQuery = new FilterQuery();
+      filterQuery.sortOrder = SortOrder.ASC;
+      filterQuery.sortField = "id";
+      filterQuery.filterList = [
+        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1.toString()},
+        {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+      ];
+
+      if(this.selectPais10)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10.toString()})
+      if(this.selectedDivisionResumen10)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10})
+      
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+        meta=metas.data
+      })
+
+      try{
+        switch (this.filtroMeta1) {
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal !== null);
+            throw 'temp';
+          default:
+            throw 'err';
+        }
+      }catch(err){
+
+          if(this.filtroMesesMeta_1.length > 0) reportesAt = reportesAt.filter(at => this.filtroMesesMeta_1.includes(this.meses[new Date(at.fechaReporte).getMonth()]));
+          // let dateFinal: Date = new Date(new Date(this.evento1Hasta).setMonth(new Date(this.evento1Hasta).getMonth()+1));
+          // reportesAt = reportesAt.filter(at => at.fechaReporte >= this.evento1Desde! && at.fechaReporte < dateFinal);
+
+        
+        // let numAtTotal = 0;
+        let numATConDiasPerdidosTotal = 0;
+        let diasPerdidosTotal = 0;
+        // let atMortalesTotales = 0;
+        // let atCeroDiasTotales = 0;
+        let dataNumATConDiasPerdidosTotal:any=[]
+        let dataDiasPerdidosTotal:any=[]
+        let dataMetaNumATConDiasPerdidosTotal:any=[]
+        let dataMetaDiasPerdidosTotal:any=[]
+
+        plantas.forEach((division: any) => {
+          let meta1:any=meta.find((met:any)=> met.nombrePlanta==division)
+
+          // let data:any = {
+          //   name: division,
+          //   series: []
+          // }
+          // let data:any=[]
+  
+          let numeroAt: number = reportesAt.filter(at => at.nombrePlanta === division).length;
+          let diasPerdidos: number = reportesAt.filter(at => at.nombrePlanta===division && at.incapacidades!==null && at.incapacidades!=='null')
+                                        .reduce((count, incapacidades) => {
+                                          return count + JSON.parse(incapacidades.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                            return count2 + incapacidad.diasAusencia;
+                                          }, 0);
+                                        }, 0);
+          // let atMortales: number = reportesAt.filter(at => at.nombrePlanta === division && at.causoMuerte == true).length;
+          let atCeroDias: number = reportesAt.filter(at => {
+            if(at.nombrePlanta === division && (at.incapacidades === null || at.incapacidades === 'null')){
+              return true;
+            }else if(at.nombrePlanta === division){
+              let contDiasPerdidos = (<Array<any>>JSON.parse(at.incapacidades))
+              .reduce((count, incapacidad) => {
+                return count + incapacidad.diasAusencia;
+              }, 0);
+              return contDiasPerdidos > 0 ? false : true;
+            }
+            return false;
+          }).length;
+          let numATConDiasPerdidos = numeroAt - atCeroDias;
+  
+          // numAtTotal += numeroAt;
+          diasPerdidosTotal += diasPerdidos;
+          // atMortalesTotales += atMortales;
+          // atCeroDiasTotales += atCeroDias;
+          numATConDiasPerdidosTotal += numATConDiasPerdidos;
+  
+          // data.series.push({
+          //   name: this.grafMetas[1].label,
+          //   value: numATConDiasPerdidos
+          // })
+          // data.series.push({
+          //   name: this.grafMetas[2].label,
+          //   value: diasPerdidos
+          // });
+
+  
+          // dataEventos1.push(data);
+          dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidos)
+          dataDiasPerdidosTotal.push(diasPerdidos)
+          dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.evePlanta)?meta1.evePlanta:0):0)
+          dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosPlanta)?meta1.diasPerdidosPlanta:0):0)
+
+        });
+        dataMeta_1.datasets[0].data=dataNumATConDiasPerdidosTotal
+        dataMeta_1.datasets[1].data=dataMetaNumATConDiasPerdidosTotal
+        dataMeta_1.datasets[2].data=dataDiasPerdidosTotal
+        dataMeta_1.datasets[3].data=dataMetaDiasPerdidosTotal
+
+        // let dataTotal:any = {
+        //   name: 'Corona total',
+        //   series: []
+        // }
+
+        // dataTotal.series.push({
+        //   name: this.Eventos[1].label,
+        //   value: numATConDiasPerdidosTotal
+        // });
+        // dataTotal.series.push({
+        //   name: this.Eventos[2].label,
+        //   value: diasPerdidosTotal
+        // });
+
+        // dataEventos1.push(dataTotal);
+        Object.assign(this, {dataMeta_1});
+        localStorage.setItem('dataMeta1', JSON.stringify(dataMeta_1));
+        this.filtroMeta_1();
+      }}
+
+  }
+
+  filtroMeta_1(){
+    let dataMeta_1: any = JSON.parse(localStorage.getItem('dataMeta1')!);
+
+    let plantasCoronaMeta10 = this.plantasList10.map((div:any) => div.label);
+    if(this.PlantaSelect10)
+    if(this.PlantaSelect10.length > 0){
+      let PlantaSelect = this.PlantaSelect10.map((div:any) => div).sort();
+
+      dataMeta_1.labels = PlantaSelect;
+      dataMeta_1.datasets[3].data = dataMeta_1.datasets[3].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+      dataMeta_1.datasets[2].data = dataMeta_1.datasets[2].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+      dataMeta_1.datasets[1].data = dataMeta_1.datasets[1].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+      dataMeta_1.datasets[0].data = dataMeta_1.datasets[0].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+    }
+
+    let filtrosListCoronaMeta10 = this.grafMetas.map((div:any) => div.label);
+    if(this.selectEventos10)
+    if(this.selectEventos10.length > 0){
+      let selectEventos10:any=this.order(this.selectEventos10)
+      let filtroCoronaMeta10 = selectEventos10.map((div:any) => div.label);
+
+      dataMeta_1.datasets = dataMeta_1.datasets.filter((data:any, index:any) => filtroCoronaMeta10.includes(filtrosListCoronaMeta10[index]));
+    }
+
+    Object.assign(this, {dataMeta_1});
+  }
+
+  // Septimo grafico comparativo
+
+  filtroMeta1_2?:string;
+  tipoFiltroMeta1_2:number=0
+
+  selectedAnioMeta_1_2: number = new Date().getFullYear();
+  filtroMesesMeta_1_2: any[] = []; 
+
+  selectedAnioMeta_2_2: number = new Date().getFullYear();
+  filtroMesesMeta_2_2: any[] = []; 
+
+  dataMeta_1_2?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  optionsMeta_1_2: any = {
+    title: {
+      display: true,
+      text: 'Meta por planta'
+    }
+  }
+
+  dataMeta_2_2?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  optionsMeta_2_2: any = {
+    title: {
+      display: true,
+      text: 'Meta por planta'
+    }
+  }
+
+  async getMeta_1Eve_2(){
+
+    if(this.plantasList10_2.length>0){
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_1_2);
+
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais10_2)if(this.selectPais10_2!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais10_2);
+      if(this.selectedDivisionResumen10_2)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen10_2);
+      // if(this.PlantaSelect10)reportesAt=reportesAt.filter(at => at.nombrePlanta == this.PlantaSelect10);
+      if(this.PlantaSelect10_2)if(this.PlantaSelect10_2.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect10_2.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+      //fin nuevo
+
+      
+
+
+      // let listaDivisiones = reportesAt.map(at => at.padreNombre);
+      // let listaDivisiones = reportesAt.map(at => at.nombrePlanta);
+      let listaPlantas = reportesAt.map(at => at.nombrePlanta).filter(at => at != null);
+      
+  
+      // let listaPlantas = reportesAt.map(at => at.nombrePlanta);
+  
+  
+      let plantas = listaPlantas.filter((div, index) => {
+        return listaPlantas.indexOf(div) === index;
+      }).sort();
+
+      let dataMeta_1_2: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: plantas,
+        datasets: [
+          {
+            label: 'Número de AT con días perdidos',
+            backgroundColor: 'rgba(0, 176, 240, 0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de AT',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          },
+          {
+            label: 'Número de días perdidos',
+            backgroundColor: 'rgba(259, 69, 18, 0.5)',
+            borderColor: 'rgb(259, 69, 18)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de días perdidos',
+            backgroundColor: 'rgb(67, 67, 72)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(67, 67, 72)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+
+      let filterQuery = new FilterQuery();
+      filterQuery.sortOrder = SortOrder.ASC;
+      filterQuery.sortField = "id";
+      filterQuery.filterList = [
+        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1_2.toString()},
+        {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+      ];
+
+      if(this.selectPais10_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10_2.toString()})
+      if(this.selectedDivisionResumen10_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10_2})
+      
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+        meta=metas.data
+      })
+
+      try{
+        switch (this.filtroMeta1_2) {
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal !== null);
+            throw 'temp';
+          default:
+            throw 'err';
+        }
+      }catch(err){
+
+          if(this.filtroMesesMeta_1_2.length > 0) reportesAt = reportesAt.filter(at => this.filtroMesesMeta_1_2.includes(this.meses[new Date(at.fechaReporte).getMonth()]));
+          // let dateFinal: Date = new Date(new Date(this.evento1Hasta).setMonth(new Date(this.evento1Hasta).getMonth()+1));
+          // reportesAt = reportesAt.filter(at => at.fechaReporte >= this.evento1Desde! && at.fechaReporte < dateFinal);
+
+        
+        // let numAtTotal = 0;
+        let numATConDiasPerdidosTotal = 0;
+        let diasPerdidosTotal = 0;
+        // let atMortalesTotales = 0;
+        // let atCeroDiasTotales = 0;
+        let dataNumATConDiasPerdidosTotal:any=[]
+        let dataDiasPerdidosTotal:any=[]
+        let dataMetaNumATConDiasPerdidosTotal:any=[]
+        let dataMetaDiasPerdidosTotal:any=[]
+
+        plantas.forEach((division: any) => {
+          let meta1:any=meta.find((met:any)=> met.nombrePlanta==division)
+
+          // let data:any = {
+          //   name: division,
+          //   series: []
+          // }
+          // let data:any=[]
+  
+          let numeroAt: number = reportesAt.filter(at => at.nombrePlanta === division).length;
+          let diasPerdidos: number = reportesAt.filter(at => at.nombrePlanta===division && at.incapacidades!==null && at.incapacidades!=='null')
+                                        .reduce((count, incapacidades) => {
+                                          return count + JSON.parse(incapacidades.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                            return count2 + incapacidad.diasAusencia;
+                                          }, 0);
+                                        }, 0);
+          // let atMortales: number = reportesAt.filter(at => at.nombrePlanta === division && at.causoMuerte == true).length;
+          let atCeroDias: number = reportesAt.filter(at => {
+            if(at.nombrePlanta === division && (at.incapacidades === null || at.incapacidades === 'null')){
+              return true;
+            }else if(at.nombrePlanta === division){
+              let contDiasPerdidos = (<Array<any>>JSON.parse(at.incapacidades))
+              .reduce((count, incapacidad) => {
+                return count + incapacidad.diasAusencia;
+              }, 0);
+              return contDiasPerdidos > 0 ? false : true;
+            }
+            return false;
+          }).length;
+          let numATConDiasPerdidos = numeroAt - atCeroDias;
+  
+          // numAtTotal += numeroAt;
+          diasPerdidosTotal += diasPerdidos;
+          // atMortalesTotales += atMortales;
+          // atCeroDiasTotales += atCeroDias;
+          numATConDiasPerdidosTotal += numATConDiasPerdidos;
+  
+          // data.series.push({
+          //   name: this.grafMetas[1].label,
+          //   value: numATConDiasPerdidos
+          // })
+          // data.series.push({
+          //   name: this.grafMetas[2].label,
+          //   value: diasPerdidos
+          // });
+
+  
+          // dataEventos1.push(data);
+          dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidos)
+          dataDiasPerdidosTotal.push(diasPerdidos)
+          dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.evePlanta)?meta1.evePlanta:0):0)
+          dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosPlanta)?meta1.diasPerdidosPlanta:0):0)
+
+        });
+        dataMeta_1_2.datasets[0].data=dataNumATConDiasPerdidosTotal
+        dataMeta_1_2.datasets[1].data=dataMetaNumATConDiasPerdidosTotal
+        dataMeta_1_2.datasets[2].data=dataDiasPerdidosTotal
+        dataMeta_1_2.datasets[3].data=dataMetaDiasPerdidosTotal
+
+
+        Object.assign(this, {dataMeta_1_2});
+        localStorage.setItem('dataMeta1_2', JSON.stringify(dataMeta_1_2));
+        this.filtroMeta_1();
+      }}
+
+  }
+
+  filtroMeta_1_2(){
+    let dataMeta_1_2: any = JSON.parse(localStorage.getItem('dataMeta1_2')!);
+
+    let plantasCoronaMeta10 = this.plantasList10_2.map((div:any) => div.label);
+    if(this.PlantaSelect10_2)
+    if(this.PlantaSelect10_2.length > 0){
+
+      let PlantaSelect = this.PlantaSelect10_2.map((div:any) => div).sort();
+
+      dataMeta_1_2.labels = PlantaSelect;
+      dataMeta_1_2.datasets[3].data = dataMeta_1_2.datasets[3].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+      dataMeta_1_2.datasets[2].data = dataMeta_1_2.datasets[2].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+      dataMeta_1_2.datasets[1].data = dataMeta_1_2.datasets[1].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+      dataMeta_1_2.datasets[0].data = dataMeta_1_2.datasets[0].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta10[index]));
+    }
+
+    let filtrosListCoronaMeta10 = this.grafMetas.map((div:any) => div.label);
+    if(this.selectEventos10_2)
+    if(this.selectEventos10_2.length > 0){
+      let selectEventos10:any=this.order(this.selectEventos10_2)
+      let filtroCoronaMeta10 = selectEventos10.map((div:any) => div.label);
+
+      dataMeta_1_2.datasets = dataMeta_1_2.datasets.filter((data:any, index:any) => filtroCoronaMeta10.includes(filtrosListCoronaMeta10[index]));
+    }
+
+    Object.assign(this, {dataMeta_1_2});
+  }
+
+  //Octava grafica
+  async getMeta_1Tasas(filter?: string){
+    if(this.plantasList11)
+    if(this.plantasList11.length>0){
+      let filterQuery = new FilterQuery();
+
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_2);
+
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais11)if(this.selectPais11!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais11);
+      if(this.selectedDivisionResumen11)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen11);
+      // if(this.PlantaSelect11)reportesAt=reportesAt.filter(at => at.nombrePlanta == this.PlantaSelect11);
+      if(this.PlantaSelect11)if(this.PlantaSelect11.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect11.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+      //fin nuevo
+
+      let listaPlantas = reportesAt.map(at => at.nombrePlanta).filter(at => at != null);  
+      let plantas = listaPlantas.filter((div, index) => {
+        return listaPlantas.indexOf(div) === index;
+      }).sort();
+
+      let dataMeta_2: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: plantas,
+        datasets: [
+          {
+            label: 'Tasa de Frecuencia',
+            backgroundColor: 'rgb(0, 176, 240,0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de TF',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          },
+          {
+            label: 'Tasa de Severidad',
+            backgroundColor: 'rgb(259, 69, 18,0.5)',
+            borderColor: 'rgb(259, 69, 18)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de TS',
+            backgroundColor: 'rgb(67, 67, 72)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(67, 67, 72)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+        meta=metas.data
+      })
+      try{
+        switch (filter) {
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal);
+            throw 'temp';
+          default:
+            throw 'err';
+        }
+      }catch (e){
+
+        filterQuery.sortOrder = SortOrder.ASC;
+        filterQuery.sortField = "id";
+        filterQuery.filterList = [
+          {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_2.toString()},
+          {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+        ];
+        if(this.selectPais11)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais11.toString()})
+        if(this.selectedDivisionResumen11)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.id_division", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen11).id.toString()})
+        // if(this.PlantaSelect4)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect4.toString()})
+        
+        await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
+          let hhtTemp: Array<Hht>;
+          let filterQuery2 = new FilterQuery();
+          filterQuery2.sortField = "id";
+          filterQuery2.filterList = [
+            {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2.toString()},
+            {criteria: Criteria.EQUALS, field: "empresa.id", value1: this.sessionService.getParamEmp()},
+            {criteria: Criteria.NOT_EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+          ];
+          if(this.selectPais11)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais11.toString()})
+          if(this.selectedDivisionResumen11)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.id_division", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen11).id.toString()})
+
+          await this.hhtService.findByFilter(filterQuery2)
+          .then((res2: any) => {
+            hhtTemp = Array.from(res2.data);
+
+          }).catch((err: any) => {
+            console.error('Error al leer hht de temporales', err);
+          });
+
+          if(res.data.length > 0 || hhtTemp!) {
+            let trabajadoresTotalesMes=0
+            let totalTrabajadoresTempMes=0
+            let totalDiasPerdidos=0
+            let AtMortalesTotal=0
+            let plantasList11: any = this.plantasList11.filter((item:any) => plantas.includes(item.label));
+
+            // let plantasList11:any= this.order(this.plantasList11)
+
+            let dataTS:any=[]
+            let dataTF:any=[]
+            let dataMetaTS:any=[]
+            let dataMetaTF:any=[]
+            plantasList11.forEach((plantas:any) => {
+
+              let plantaL=plantas.value
+              let meta1:any=meta.find((met:any)=> met.nombrePlanta==plantaL.nombre)
+
+
+              let trabajadoresTotales = 0;
+              let mesesFiltrados = 0;
+              let data:any = {
+                name: plantaL.nombre,
+                series: []
+              };
+              res.data.forEach((eleHHt:Hht) => {
+                let trabajadoresPorPlanta = 0;
+                if(this.filtroMesesMeta_2.length > 0){  
+                  if(this.filtroMesesMeta_2.includes(eleHHt.mes)){
+                      if (plantaL.id === eleHHt.planta?.id) {
+                        trabajadoresPorPlanta += eleHHt.numeroPersonas? eleHHt.numeroPersonas : 0;
+
+                      }
+                    trabajadoresTotales += trabajadoresPorPlanta;
+                    mesesFiltrados++;
+                  }
+                }else{
+                    if (plantaL.id === eleHHt.planta?.id) {
+                      trabajadoresPorPlanta += eleHHt.numeroPersonas? eleHHt.numeroPersonas : 0;
+                    }
+                  trabajadoresTotales += trabajadoresPorPlanta;
+                }
+              });          
+              trabajadoresTotalesMes += trabajadoresTotales
+
+              if(mesesFiltrados > 0) trabajadoresTotales = trabajadoresTotales / mesesFiltrados;
+
+              let totalTrabajadoresTemp = 0;
+              let trabajadoresPorMes:any = [];
+              this.meses.forEach((mes, index) => {
+                let totalTrabajadoresMes = 0;
+                if(this.filtroMesesMeta_2.length > 0){
+                  if(this.filtroMesesMeta_2.includes(mes)){
+                    hhtTemp.forEach((hht:Hht, indexHHT) => {
+                      if(mes === hht.mes){
+                        if (plantaL.id === hht.planta?.id) {
+                          let totalTrabajadores = hht.numeroPersonas? hht.numeroPersonas! : 0;
+                          totalTrabajadoresMes += totalTrabajadores;
+
+                        }
+                      }
+                    });
+                  }
+                }else{
+                  hhtTemp.forEach((hht, indexHHT) => {
+
+                      if (plantaL.id === hht.planta?.id) {
+                        let totalTrabajadores = hht.numeroPersonas? hht.numeroPersonas! : 0;
+                        totalTrabajadoresMes += totalTrabajadores!;
+                      }
+                    // }
+                  });
+                }
+                trabajadoresPorMes.push(totalTrabajadoresMes);
+              });
+              if(this.filtroMesesMeta_2.length > 0){
+                let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count:any, trabajadores:any) => {
+                  return count + trabajadores;
+                }, 0);
+                totalTrabajadoresTempMes+=totalTrabajadoresTemp;
+                totalTrabajadoresTemp=totalTrabajadoresTemp / this.filtroMesesMeta_2.length
+              }else{
+                let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count:any, trabajadores:any) => {
+                  return count + trabajadores;
+                }, 0);
+                totalTrabajadoresTempMes+=totalTrabajadoresTemp;
+                totalTrabajadoresTemp=totalTrabajadoresTemp /((this.filtroAnioTasa_1==new Date().getFullYear())?new Date().getMonth()+1:12)
+              }          
+
+              let totalAt = reportesAt.filter(at => at.nombrePlanta === plantaL.nombre).length;
+
+              let diasPerdidos = reportesAt.filter(at => at.nombrePlanta === plantaL.nombre && at.incapacidades !== null 
+                                                          && at.incapacidades !== 'null')
+                                            .reduce((count, item) => {
+                                              return count + JSON.parse(item.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                                return count2 + incapacidad.diasAusencia;
+                                              }, 0);
+                                            }, 0);
+              totalDiasPerdidos +=diasPerdidos;
+              let AtMortales = reportesAt.filter(at => at.nombrePlanta === plantaL.nombre && at.causoMuerte === true).length;
+              AtMortalesTotal+=AtMortales
+
+
+              let TF = isNaN(Number((totalAt * 100)/((trabajadoresTotales+totalTrabajadoresTemp)))) ? 0.0 : Number(Number((totalAt * 100)/(trabajadoresTotales+totalTrabajadoresTemp)).toFixed(6));
+              let TS = isNaN(Number((diasPerdidos * 100)/(trabajadoresTotales+totalTrabajadoresTemp))) ? 0.0 : Number(Number((diasPerdidos * 100)/(trabajadoresTotales+totalTrabajadoresTemp)).toFixed(6));
+              // let PAT = isNaN(Number((AtMortales * 100)/totalAt)) ? 0.0 : Number(Number((AtMortales * 100)/totalAt).toFixed(6));
+              // data.series.push({
+              //   name: 'Tasa de Frecuencia',
+              //   value: TF === Infinity ? 0 : TF
+              // });
+              // data.series.push({
+              //   name: 'Tasa de Severidad',
+              //   value: TS === Infinity ? 0 : TS
+              // });
+              
+              dataTF.push(TF === Infinity ? 0 : TF)
+              dataTS.push(TS === Infinity ? 0 : TS)
+              dataMetaTF.push((meta1)?((meta1.tfPlanta)?meta1.tfPlanta:0):0)
+              dataMetaTS.push((meta1)?((meta1.tsPlanta)?meta1.tsPlanta:0):0)
+
+              // tasaFrecuencia1.push(data);
+
+            });
+            dataMeta_2.datasets[1].data=dataMetaTF
+            dataMeta_2.datasets[3].data=dataMetaTS
+            dataMeta_2.datasets[0].data=dataTF
+            dataMeta_2.datasets[2].data=dataTS
+
+            // // Corona total
+            // let mesesYear=(this.filtroAnioTasa_1==new Date().getFullYear())?new Date().getMonth()+1:12;
+            // let numMesesSelect=(this.selectedMesesTasa1.length>0?this.selectedMesesTasa1.length:mesesYear)
+            // let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
+
+            // switch (e) {
+            //   case 'dir':
+            //     totalesTrabajadores=trabajadoresTotalesMes
+            //     break;
+            //   case 'temp':
+            //     totalesTrabajadores=totalTrabajadoresTempMes
+            //     break;
+            //   default:
+            //     break;
+            // }
+
+            // let dataTotal:any = {
+            //   name: 'Corona total',
+            //   series: []
+            // };
+            
+            // dataTotal.series.push({
+            //   name: 'Tasa de Frecuencia',
+            //   value: totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0
+            // });
+            // dataTotal.series.push({
+            //   name: 'Tasa de Severidad',
+            //   value: totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0
+            // });
+
+            
+            // tasaFrecuencia1.push(dataTotal);
+
+            // Fin Corona total
+            Object.assign(this, {dataMeta_2});
+            localStorage.setItem('dataMeta_2', JSON.stringify(dataMeta_2));
+            // this.filtroTasas1_1();
+            this.tasasNotFoundMeta = false;
+          }else{
+            this.tasasNotFoundMeta = true;
+
+          };
+        });
+      }
+    }
+
+  }
+  filtroMeta_2(){
+    let dataMeta_2: any = JSON.parse(localStorage.getItem('dataMeta_2')!);
+
+    let plantasCoronaMeta11 = this.plantasList11.map((div:any) => div.label);
+    if(this.PlantaSelect11)
+    if(this.PlantaSelect11.length > 0){
+      let PlantaSelect = this.PlantaSelect11.map((div:any) => div.nombre).sort();
+
+      dataMeta_2.labels = PlantaSelect;
+      dataMeta_2.datasets[3].data = dataMeta_2.datasets[3].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+      dataMeta_2.datasets[2].data = dataMeta_2.datasets[2].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+      dataMeta_2.datasets[1].data = dataMeta_2.datasets[1].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+      dataMeta_2.datasets[0].data = dataMeta_2.datasets[0].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+    }
+
+    let filtrosListCoronaMeta11 = this.grafMetas2.map((div:any) => div.label);
+    if(this.selectEventos11)
+    if(this.selectEventos11.length > 0){
+      let selectEventos11:any=this.order(this.selectEventos11)
+      let filtroCoronaMeta11 = selectEventos11.map((div:any) => div.label);
+
+      dataMeta_2.datasets = dataMeta_2.datasets.filter((data:any, index:any) => filtroCoronaMeta11.includes(filtrosListCoronaMeta11[index]));
+    }
+    // Object.assign(this, {divisionesCoronaIli1});
+    Object.assign(this, {dataMeta_2});
+  }
+  //Octava grafica comprativo
+  async getMeta_1Tasas_2(filter?: string){
+    if(this.plantasList11_2)
+    if(this.plantasList11_2.length>0){
+      let filterQuery = new FilterQuery();
+
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_2_2);
+
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais11_2)if(this.selectPais11_2!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais11_2);
+      if(this.selectedDivisionResumen11_2)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen11_2);
+      // if(this.PlantaSelect11)reportesAt=reportesAt.filter(at => at.nombrePlanta == this.PlantaSelect11);
+      if(this.PlantaSelect11_2)if(this.PlantaSelect11_2.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect11_2.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+      //fin nuevo
+
+      let listaPlantas = reportesAt.map(at => at.nombrePlanta).filter(at => at != null);  
+      let plantas = listaPlantas.filter((div, index) => {
+        return listaPlantas.indexOf(div) === index;
+      }).sort();
+
+      let dataMeta_2_2: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: plantas,
+        datasets: [
+          {
+            label: 'Tasa de Frecuencia',
+            backgroundColor: 'rgb(0, 176, 240,0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de TF',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          },
+          {
+            label: 'Tasa de Severidad',
+            backgroundColor: 'rgb(259, 69, 18,0.5)',
+            borderColor: 'rgb(259, 69, 18)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de TS',
+            backgroundColor: 'rgb(67, 67, 72)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(67, 67, 72)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+        meta=metas.data
+      })
+      try{
+        switch (filter) {
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal);
+            throw 'temp';
+          default:
+            throw 'err';
+        }
+      }catch (e){
+
+        filterQuery.sortOrder = SortOrder.ASC;
+        filterQuery.sortField = "id";
+        filterQuery.filterList = [
+          {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_2_2.toString()},
+          {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+        ];
+        if(this.selectPais11_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais11_2.toString()})
+        if(this.selectedDivisionResumen11_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.id_division", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen11_2).id.toString()})
+        // if(this.PlantaSelect4)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect4.toString()})
+        
+        await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
+          let hhtTemp: Array<Hht>;
+          let filterQuery2 = new FilterQuery();
+          filterQuery2.sortField = "id";
+          filterQuery2.filterList = [
+            {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2_2.toString()},
+            {criteria: Criteria.EQUALS, field: "empresa.id", value1: this.sessionService.getParamEmp()},
+            {criteria: Criteria.NOT_EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+          ];
+          if(this.selectPais11_2)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais11_2.toString()})
+          if(this.selectedDivisionResumen11_2)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.id_division", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen11_2).id.toString()})
+
+          await this.hhtService.findByFilter(filterQuery2)
+          .then((res2: any) => {
+            hhtTemp = Array.from(res2.data);
+
+          }).catch((err: any) => {
+            console.error('Error al leer hht de temporales', err);
+          });
+
+          if(res.data.length > 0 || hhtTemp!) {
+            let trabajadoresTotalesMes=0
+            let totalTrabajadoresTempMes=0
+            let totalDiasPerdidos=0
+            let AtMortalesTotal=0
+            let plantasList11: any = this.plantasList11_2.filter((item:any) => plantas.includes(item.label));
+
+            // let plantasList11:any= this.order(this.plantasList11)
+
+            let dataTS:any=[]
+            let dataTF:any=[]
+            let dataMetaTS:any=[]
+            let dataMetaTF:any=[]
+            plantasList11.forEach((plantas:any) => {
+
+              let plantaL=plantas.value
+              let meta1:any=meta.find((met:any)=> met.nombrePlanta==plantaL.nombre)
+
+
+              let trabajadoresTotales = 0;
+              let mesesFiltrados = 0;
+              let data:any = {
+                name: plantaL.nombre,
+                series: []
+              };
+              res.data.forEach((eleHHt:Hht) => {
+                let trabajadoresPorPlanta = 0;
+                if(this.filtroMesesMeta_2_2.length > 0){  
+                  if(this.filtroMesesMeta_2_2.includes(eleHHt.mes)){
+                      if (plantaL.id === eleHHt.planta?.id) {
+                        trabajadoresPorPlanta += eleHHt.numeroPersonas? eleHHt.numeroPersonas : 0;
+
+                      }
+                    trabajadoresTotales += trabajadoresPorPlanta;
+                    mesesFiltrados++;
+                  }
+                }else{
+                    if (plantaL.id === eleHHt.planta?.id) {
+                      trabajadoresPorPlanta += eleHHt.numeroPersonas? eleHHt.numeroPersonas : 0;
+                    }
+                  trabajadoresTotales += trabajadoresPorPlanta;
+                }
+              });          
+              trabajadoresTotalesMes += trabajadoresTotales
+
+              if(mesesFiltrados > 0) trabajadoresTotales = trabajadoresTotales / mesesFiltrados;
+
+              let totalTrabajadoresTemp = 0;
+              let trabajadoresPorMes:any = [];
+              this.meses.forEach((mes, index) => {
+                let totalTrabajadoresMes = 0;
+                if(this.filtroMesesMeta_2_2.length > 0){
+                  if(this.filtroMesesMeta_2_2.includes(mes)){
+                    hhtTemp.forEach((hht:Hht, indexHHT) => {
+                      if(mes === hht.mes){
+                        if (plantaL.id === hht.planta?.id) {
+                          let totalTrabajadores = hht.numeroPersonas? hht.numeroPersonas! : 0;
+                          totalTrabajadoresMes += totalTrabajadores;
+
+                        }
+                      }
+                    });
+                  }
+                }else{
+                  hhtTemp.forEach((hht, indexHHT) => {
+
+                      if (plantaL.id === hht.planta?.id) {
+                        let totalTrabajadores = hht.numeroPersonas? hht.numeroPersonas! : 0;
+                        totalTrabajadoresMes += totalTrabajadores!;
+                      }
+                    // }
+                  });
+                }
+                trabajadoresPorMes.push(totalTrabajadoresMes);
+              });
+              if(this.filtroMesesMeta_2_2.length > 0){
+                let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count:any, trabajadores:any) => {
+                  return count + trabajadores;
+                }, 0);
+                totalTrabajadoresTempMes+=totalTrabajadoresTemp;
+                totalTrabajadoresTemp=totalTrabajadoresTemp / this.filtroMesesMeta_2_2.length
+              }else{
+                let totalTrabajadoresTemp = trabajadoresPorMes.reduce((count:any, trabajadores:any) => {
+                  return count + trabajadores;
+                }, 0);
+                totalTrabajadoresTempMes+=totalTrabajadoresTemp;
+                totalTrabajadoresTemp=totalTrabajadoresTemp /((this.filtroAnioTasa_1_2==new Date().getFullYear())?new Date().getMonth()+1:12)
+              }          
+
+              let totalAt = reportesAt.filter(at => at.nombrePlanta === plantaL.nombre).length;
+
+              let diasPerdidos = reportesAt.filter(at => at.nombrePlanta === plantaL.nombre && at.incapacidades !== null 
+                                                          && at.incapacidades !== 'null')
+                                            .reduce((count, item) => {
+                                              return count + JSON.parse(item.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                                return count2 + incapacidad.diasAusencia;
+                                              }, 0);
+                                            }, 0);
+              totalDiasPerdidos +=diasPerdidos;
+              let AtMortales = reportesAt.filter(at => at.nombrePlanta === plantaL.nombre && at.causoMuerte === true).length;
+              AtMortalesTotal+=AtMortales
+
+
+              let TF = isNaN(Number((totalAt * 100)/((trabajadoresTotales+totalTrabajadoresTemp)))) ? 0.0 : Number(Number((totalAt * 100)/(trabajadoresTotales+totalTrabajadoresTemp)).toFixed(6));
+              let TS = isNaN(Number((diasPerdidos * 100)/(trabajadoresTotales+totalTrabajadoresTemp))) ? 0.0 : Number(Number((diasPerdidos * 100)/(trabajadoresTotales+totalTrabajadoresTemp)).toFixed(6));
+              // let PAT = isNaN(Number((AtMortales * 100)/totalAt)) ? 0.0 : Number(Number((AtMortales * 100)/totalAt).toFixed(6));
+              // data.series.push({
+              //   name: 'Tasa de Frecuencia',
+              //   value: TF === Infinity ? 0 : TF
+              // });
+              // data.series.push({
+              //   name: 'Tasa de Severidad',
+              //   value: TS === Infinity ? 0 : TS
+              // });
+              
+              dataTF.push(TF === Infinity ? 0 : TF)
+              dataTS.push(TS === Infinity ? 0 : TS)
+              dataMetaTF.push((meta1)?((meta1.tfPlanta)?meta1.tfPlanta:0):0)
+              dataMetaTS.push((meta1)?((meta1.tsPlanta)?meta1.tsPlanta:0):0)
+
+              // tasaFrecuencia1.push(data);
+
+            });
+            dataMeta_2_2.datasets[1].data=dataMetaTF
+            dataMeta_2_2.datasets[3].data=dataMetaTS
+            dataMeta_2_2.datasets[0].data=dataTF
+            dataMeta_2_2.datasets[2].data=dataTS
+
+            // // Corona total
+            // let mesesYear=(this.filtroAnioTasa_1==new Date().getFullYear())?new Date().getMonth()+1:12;
+            // let numMesesSelect=(this.selectedMesesTasa1.length>0?this.selectedMesesTasa1.length:mesesYear)
+            // let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
+
+            // switch (e) {
+            //   case 'dir':
+            //     totalesTrabajadores=trabajadoresTotalesMes
+            //     break;
+            //   case 'temp':
+            //     totalesTrabajadores=totalTrabajadoresTempMes
+            //     break;
+            //   default:
+            //     break;
+            // }
+
+            // let dataTotal:any = {
+            //   name: 'Corona total',
+            //   series: []
+            // };
+            
+            // dataTotal.series.push({
+            //   name: 'Tasa de Frecuencia',
+            //   value: totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0
+            // });
+            // dataTotal.series.push({
+            //   name: 'Tasa de Severidad',
+            //   value: totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0
+            // });
+
+            
+            // tasaFrecuencia1.push(dataTotal);
+
+            // Fin Corona total
+            Object.assign(this, {dataMeta_2_2});
+            localStorage.setItem('dataMeta_2_2', JSON.stringify(dataMeta_2_2));
+            // this.filtroTasas1_1();
+            this.tasasNotFoundMeta_2 = false;
+          }else{
+            this.tasasNotFoundMeta_2 = true;
+
+          };
+        });
+      }
+    }
+
+  }
+  filtroMeta_2_2(){
+    let dataMeta_2_2: any = JSON.parse(localStorage.getItem('dataMeta_2_2')!);
+
+    let plantasCoronaMeta11 = this.plantasList11_2.map((div:any) => div.label);
+    if(this.PlantaSelect11_2)
+    if(this.PlantaSelect11_2.length > 0){
+      let PlantaSelect = this.PlantaSelect11_2.map((div:any) => div.nombre).sort();
+
+      dataMeta_2_2.labels = PlantaSelect;
+      dataMeta_2_2.datasets[3].data = dataMeta_2_2.datasets[3].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+      dataMeta_2_2.datasets[2].data = dataMeta_2_2.datasets[2].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+      dataMeta_2_2.datasets[1].data = dataMeta_2_2.datasets[1].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+      dataMeta_2_2.datasets[0].data = dataMeta_2_2.datasets[0].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaMeta11[index]));
+    }
+
+    let filtrosListCoronaMeta11 = this.grafMetas2.map((div:any) => div.label);
+    if(this.selectEventos11_2)
+    if(this.selectEventos11_2.length > 0){
+      let selectEventos11:any=this.order(this.selectEventos11_2)
+      let filtroCoronaMeta11 = selectEventos11.map((div:any) => div.label);
+
+      dataMeta_2_2.datasets = dataMeta_2_2.datasets.filter((data:any, index:any) => filtroCoronaMeta11.includes(filtrosListCoronaMeta11[index]));
+    }
+    // Object.assign(this, {divisionesCoronaIli1});
+    Object.assign(this, {dataMeta_2_2});
+  }
+
+  // Comun
+
+  order(ele:any){
+    ele.sort(function (a:any, b:any) {
+      if (a.value > b.value) {
+        return 1;
+      }
+      if (a.value < b.value) {
+        return -1;
+      }
+      return 0;
+    });
+    return ele
+  }
+
   contTotal(datos:any){
     let name:any=[]
     let datosGrafica_total:any=[]
@@ -3660,6 +4882,30 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
         this.PlantaSelect9_2=null
         this.plantasList9_2=[]
         this.divisionList9_2=await this.getPlantas(pais.value)
+        break;
+      case 'meta1':
+        this.selectedDivisionResumen10=null
+        this.PlantaSelect10=null
+        this.plantasList10=[]
+        this.divisionList10=await this.getPlantas(pais.value)
+        break;
+      case 'meta1_2':
+        this.selectedDivisionResumen10_2=null
+        this.PlantaSelect10_2=null
+        this.plantasList10_2=[]
+        this.divisionList10_2=await this.getPlantas(pais.value)
+        break;
+      case 'meta2':
+        this.selectedDivisionResumen11=null
+        this.PlantaSelect11=null
+        this.plantasList11=[]
+        this.divisionList11=await this.getPlantas(pais.value)
+        break;
+      case 'meta2_2':
+        this.selectedDivisionResumen11_2=null
+        this.PlantaSelect11_2=null
+        this.plantasList11_2=[]
+        this.divisionList11_2=await this.getPlantas(pais.value)
         break;
       default:
         break;
@@ -3855,10 +5101,43 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
         }
         this.getIli_2_2()
         break;
+      case 'meta1':
+        this.PlantaSelect10=null
+        this.plantasList10=[]
+        for(const pl of plantasList){
+          this.plantasList10.push({label:pl.nombre,value:pl.nombre})
+        }
+        this.getMeta_1Eve()
+        break;
+      case 'meta1_2':
+        this.PlantaSelect10_2=null
+        this.plantasList10_2=[]
+        for(const pl of plantasList){
+          this.plantasList10_2.push({label:pl.nombre,value:pl.nombre})
+        }
+        this.getMeta_1Eve_2()
+        break;
+      case 'meta2':
+        this.PlantaSelect11=null
+        this.plantasList11=[]
+        for(const pl of plantasList){
+          this.plantasList11.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+        }
+        this.getMeta_1Tasas('filtro')
+        break;
+      case 'meta2_2':
+        this.PlantaSelect11_2=null
+        this.plantasList11_2=[]
+        for(const pl of plantasList){
+          this.plantasList11_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+        }
+        this.getMeta_1Tasas_2('filtro')
+        break;
       default:
         break;
     }
   }
+  
   estaAbiertoGraf1:boolean = false;
   estaAbiertoGraf1_2:boolean = false;
   estaAbiertoGraf2:boolean = false;
@@ -3871,6 +5150,10 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
   estaAbiertoGraf5_2:boolean = false;
   estaAbiertoGraf6:boolean = false;
   estaAbiertoGraf6_2:boolean = false;
+  estaAbiertoGraf7:boolean = false;
+  estaAbiertoGraf7_2:boolean = false;
+  estaAbiertoGraf8:boolean = false;
+  estaAbiertoGraf8_2:boolean = false;
 
   // togglePanel() {
   //   this.estaAbierto = !this.estaAbierto;
@@ -3894,6 +5177,12 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
         break;
       case 'graf6':
         this.estaAbiertoGraf6 = !this.estaAbiertoGraf6;
+        break;
+      case 'graf7':
+        this.estaAbiertoGraf7 = !this.estaAbiertoGraf7;
+        break;
+      case 'graf8':
+        this.estaAbiertoGraf8 = !this.estaAbiertoGraf8;
         break;
     
       default:
@@ -3923,6 +5212,12 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
       case 'graf6':
         this.estaAbiertoGraf6_2 = !this.estaAbiertoGraf6_2;
         break;
+      case 'graf7':
+        this.estaAbiertoGraf7_2 = !this.estaAbiertoGraf7_2;
+        break;
+      case 'graf8':
+        this.estaAbiertoGraf8_2 = !this.estaAbiertoGraf8_2;
+        break;
     
       default:
         break;
@@ -3949,6 +5244,12 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
       case 'graf6':
         this.flagComparativoEve6 = !this.flagComparativoEve6
         break;
+      case 'graf7':
+        this.flagComparativoEve7 = !this.flagComparativoEve7
+        break;
+      case 'graf8':
+        this.flagComparativoEve8 = !this.flagComparativoEve8
+        break;
     
       default:
         break;
@@ -3961,5 +5262,7 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
   flagComparativoEve4:boolean=false
   flagComparativoEve5:boolean=false
   flagComparativoEve6:boolean=false
+  flagComparativoEve7:boolean=false
+  flagComparativoEve8:boolean=false
 
 }

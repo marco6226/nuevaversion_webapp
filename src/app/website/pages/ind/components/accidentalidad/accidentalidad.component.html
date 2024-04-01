@@ -771,6 +771,117 @@
   </div>
     </div>
   </p-panel>
+
+  <p-panel header="METAS">
+    <br>
+    <div class="colorfondo">
+    <!-- Septima grafica -->
+      <p><b>Meta Eventos</b></p>
+      <div class="grid" *ngIf="!flagComparativoEve7;else comparativoGraf7">
+          <div class="col-11  align-items-center">
+            <p-radioButton name="group15" [(ngModel)]="filtroMeta1"  [value]="'total'" (onClick)="getMeta_1Eve()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group15" [(ngModel)]="filtroMeta1"  [value]="'temp'" (onClick)="getMeta_1Eve()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group15" [(ngModel)]="filtroMeta1"  [value]="'dir'" (onClick)="getMeta_1Eve()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Directos</label>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf7')" 
+            style="right:0;"></button>
+          </div>
+        <div class="col-8 grid">
+        <div class="col-11" *ngIf="plantasList10.length == 0">
+          <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+        </div>
+        <div class="col-11 grafic" style="height: 650px; padding-left: 5%;" *ngIf="plantasList10.length > 0">
+          <p-chart type="bar" [data]="dataMeta_1" [options]="optionsMeta_1" width="90%" height="100%"></p-chart>
+        </div>
+      </div>
+
+      
+
+      <div class="col-12 md:col-4 lg:col-4 filter">   
+        <h3>Año</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1" (onChange)="getMeta_1Eve()"></p-dropdown>
+        <h3>Meses</h3>
+          <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1" (onChange)="getMeta_1Eve()"></p-multiSelect> 
+        <h3>País</h3>
+        <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais10" 
+        placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1')">
+        </p-dropdown>
+        <h3>Division</h3>
+        <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10" [(ngModel)]="selectedDivisionResumen10" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1')">
+        </p-dropdown>
+        <h3>Planta</h3>
+        <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList10"
+        [(ngModel)]="PlantaSelect10" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroMeta_1()"></p-multiSelect>
+        <h3>Tipo filtro</h3>
+        <div *ngFor="let meta of grafMetas" class="p-field-checkbox">
+            <p-checkbox name="group4" value="Indicador" [value]="meta"  [(ngModel)]="selectEventos10" [inputId]="meta.value" (click)="filtroMeta_1()"></p-checkbox>
+            <label>{{meta.label}}</label>
+        </div>
+      </div>
+    </div>
+<hr>
+      <p><b>Meta Tasas</b></p>
+        <div class="grid" *ngIf="!flagComparativoEve8;else comparativoGraf8">
+            <div class="col-11  align-items-center">
+              <p-radioButton name="group15" [(ngModel)]="filtroMeta2"  [value]="'total'" (onClick)="getMeta_1Tasas()" [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Total</label>
+              <p-radioButton name="group15" [(ngModel)]="filtroMeta2"  [value]="'temp'" (onClick)="getMeta_1Tasas('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Temporales</label>
+              <p-radioButton name="group15" [(ngModel)]="filtroMeta2"  [value]="'dir'" (onClick)="getMeta_1Tasas('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Directos</label>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-back" 
+              title="Graficos comparativos"
+              class="p-button-primary"
+              (click)="toggleComparativo('graf8')" 
+              style="right:0;"></button>
+            </div>
+          <div class="col-8 grid">
+          <div class="col-11" *ngIf="tasasNotFoundMeta && plantasList11.length>0">
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+          </div>
+          <div class="col-11" *ngIf="plantasList11.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 650px; padding-left: 5%;" *ngIf="!tasasNotFoundMeta && plantasList11.length > 0">
+            <p-chart type="bar" [data]="dataMeta_2" [options]="optionsMeta_2" width="90%" height="100%"></p-chart>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-4 filter">   
+          <h3>Año</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-dropdown>
+          <h3>Meses</h3>
+            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-multiSelect> 
+          <h3>País</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais11" 
+          placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2')">
+          </p-dropdown>
+          <h3>Division</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList11" [(ngModel)]="selectedDivisionResumen11" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2')">
+          </p-dropdown>
+          <h3>Planta</h3>
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList11"
+          [(ngModel)]="PlantaSelect11" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroMeta_2()"></p-multiSelect>
+          <h3>Tipo filtro</h3>
+          <div *ngFor="let meta of grafMetas2" class="p-field-checkbox">
+              <p-checkbox name="group2MEta" value="Indicador" [value]="meta"  [(ngModel)]="selectEventos11" [inputId]="meta.value" (click)="filtroMeta_2()"></p-checkbox>
+              <label>{{meta.label}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
 </div>
 
 <!-- Comparativo evento graf1 -->
@@ -1850,4 +1961,251 @@
         </div>
   </div>
 </ng-template>
+
+<ng-template #comparativoGraf7>
+  <div class="grid">
+    <div class="grid col-6">
+      <!-- Primera grafica -->
+      <div class="col-12  align-items-center">
+        <p-radioButton name="group15" [(ngModel)]="filtroMeta1"  [value]="'total'" (onClick)="getMeta_1Eve()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Total</label>
+        <p-radioButton name="group15" [(ngModel)]="filtroMeta1"  [value]="'temp'" (onClick)="getMeta_1Eve()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Temporales</label>
+        <p-radioButton name="group15" [(ngModel)]="filtroMeta1"  [value]="'dir'" (onClick)="getMeta_1Eve()" [style]="{'margin-left':'15px'}"></p-radioButton>
+        <label for="">Directos</label>
+      </div>
+
+
+        <div  class="col-12 grid" style="height: 16cm;">
+          <div class="col-11" *ngIf="plantasList10.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 550px; padding-left: 5%;" *ngIf="plantasList10.length > 0">
+            <p-chart type="bar" [data]="dataMeta_1" [options]="optionsMeta_1" width="90%" height="100%"></p-chart>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf7')" ></button>
+            </div>
+        
+
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf7, 'cerrado': !estaAbiertoGraf7}">
+              <h3>Año</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1" (onChange)="getMeta_1Eve()"></p-dropdown>
+              <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1" (onChange)="getMeta_1Eve()"></p-multiSelect> 
+              <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais10" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1')">
+              </p-dropdown>
+              <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10" [(ngModel)]="selectedDivisionResumen10" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1')">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList10"
+              [(ngModel)]="PlantaSelect10" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroMeta_1()"></p-multiSelect>
+              <h3>Tipo filtro</h3>
+              <div *ngFor="let meta of grafMetas" class="p-field-checkbox">
+                  <p-checkbox name="group4" value="Indicador" [value]="meta"  [(ngModel)]="selectEventos10" [inputId]="meta.value" (click)="filtroMeta_1()"></p-checkbox>
+                  <label>{{meta.label}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid col-6">
+        <!-- Primera grafica -->
+
+          <div class="col-11  align-items-center">
+            <p-radioButton name="group15_2" [(ngModel)]="filtroMeta1_2"  [value]="'total'" (onClick)="getMeta_1Eve_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group15_2" [(ngModel)]="filtroMeta1_2"  [value]="'temp'" (onClick)="getMeta_1Eve_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group15_2" [(ngModel)]="filtroMeta1_2"  [value]="'dir'" (onClick)="getMeta_1Eve_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Directos</label>
+          </div>
+
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf7')" 
+            style="right:0;"></button>
+            </div>
+  
+          <div  class="col-12 grid" style="height: 16cm;">
+            <div class="col-11" *ngIf="plantasList10_2.length == 0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" style="height: 550px; padding-left: 5%;" *ngIf="plantasList10_2.length > 0">
+              <p-chart type="bar" [data]="dataMeta_1_2" [options]="optionsMeta_1_2" width="90%" height="100%"></p-chart>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-filter" 
+              class="p-button-primary buttonFilter"
+              title="Filtro"
+              (click)="togglePanel2('graf7')" ></button>
+              </div>
+          
+  
+            <div class="contenedor2">
+              <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf7_2, 'cerrado': !estaAbiertoGraf7_2}">
+                <h3>Año</h3>
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1_2" (onChange)="getMeta_1Eve_2()"></p-dropdown>
+                <h3>Meses</h3>
+                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1_2" (onChange)="getMeta_1Eve_2()"></p-multiSelect> 
+                <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais10_2" 
+                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1_2')">
+                </p-dropdown>
+                <h3>Division</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10_2" [(ngModel)]="selectedDivisionResumen10_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1_2')">
+                </p-dropdown>
+                <h3>Planta</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList10_2"
+                [(ngModel)]="PlantaSelect10_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroMeta_1_2()"></p-multiSelect>
+                <h3>Tipo filtro</h3>
+                <div *ngFor="let meta of grafMetas" class="p-field-checkbox">
+                    <p-checkbox name="group4_2_2" value="Indicador" [value]="meta"  [(ngModel)]="selectEventos10_2" [inputId]="meta.value" (click)="filtroMeta_1_2()"></p-checkbox>
+                    <label>{{meta.label}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</ng-template>
+
+<ng-template #comparativoGraf8>
+  <div class="grid">
+    <div class="grid col-6">
+      <!-- Primera grafica -->
+        <div class="col-11  align-items-center">
+          <p-radioButton name="group15tasa" [(ngModel)]="filtroMeta2"  [value]="'total'" (onClick)="getMeta_1Tasas()" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Total</label>
+          <p-radioButton name="group15tasa" [(ngModel)]="filtroMeta2"  [value]="'temp'" (onClick)="getMeta_1Tasas('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Temporales</label>
+          <p-radioButton name="group15tasa" [(ngModel)]="filtroMeta2"  [value]="'dir'" (onClick)="getMeta_1Tasas('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+          <label for="">Directos</label>
+        </div>
+
+        <div  class="col-12 grid" style="height: 16cm;">
+          <div class="col-11" *ngIf="tasasNotFoundMeta && plantasList11.length>0">
+            <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+          </div>
+          <div class="col-11" *ngIf="plantasList11.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 650px; padding-left: 5%;" *ngIf="!tasasNotFoundMeta && plantasList11.length > 0">
+            <p-chart type="bar" [data]="dataMeta_2" [options]="optionsMeta_2" width="90%" height="100%"></p-chart>
+          </div>
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-filter" 
+            class="p-button-primary buttonFilter"
+            title="Filtro"
+            (click)="togglePanel('graf8')" ></button>
+            </div>
+        
+
+          <div class="contenedor">
+            <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf8, 'cerrado': !estaAbiertoGraf8}">
+              <h3>Año</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-dropdown>
+              <h3>Meses</h3>
+                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-multiSelect> 
+              <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais11" 
+              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2')">
+              </p-dropdown>
+              <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList11" [(ngModel)]="selectedDivisionResumen11" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2')">
+              </p-dropdown>
+              <h3>Planta</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList11"
+              [(ngModel)]="PlantaSelect11" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroMeta_2()"></p-multiSelect>
+              <h3>Tipo filtro</h3>
+              <div *ngFor="let meta of grafMetas2" class="p-field-checkbox">
+                  <p-checkbox name="group2MEta" value="Indicador" [value]="meta"  [(ngModel)]="selectEventos11" [inputId]="meta.value" (click)="filtroMeta_2()"></p-checkbox>
+                  <label>{{meta.label}}</label>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid col-6">
+        <!-- Primera grafica -->
+          <div class="col-11  align-items-center">
+            <p-radioButton name="group15tasa_2" [(ngModel)]="filtroMeta2_2"  [value]="'total'" (onClick)="getMeta_1Tasas_2()" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group15tasa_2" [(ngModel)]="filtroMeta2_2"  [value]="'temp'" (onClick)="getMeta_1Tasas_2('temp')" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group15tasa_2" [(ngModel)]="filtroMeta2_2"  [value]="'dir'" (onClick)="getMeta_1Tasas_2('dir')" [style]="{'margin-left':'15px'}"></p-radioButton>
+            <label for="">Directos</label>
+          </div>
+
+          <div class="col-1">
+            <button pButton type="button" 
+            icon="bi bi-back" 
+            title="Graficos comparativos"
+            class="p-button-primary"
+            (click)="toggleComparativo('graf8')" 
+            style="right:0;"></button>
+            </div>
+  
+          <div  class="col-12 grid" style="height: 16cm;">
+            <div class="col-11" *ngIf="tasasNotFoundMeta_2 && plantasList11_2.length>0">
+              <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+            </div>
+            <div class="col-11" *ngIf="plantasList11_2.length == 0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" style="height: 650px; padding-left: 5%;" *ngIf="!tasasNotFoundMeta_2 && plantasList11_2.length > 0">
+              <p-chart type="bar" [data]="dataMeta_2_2" [options]="optionsMeta_2_2" width="90%" height="100%"></p-chart>
+            </div>
+            <div class="col-1">
+              <button pButton type="button" 
+              icon="bi bi-filter" 
+              class="p-button-primary buttonFilter"
+              title="Filtro"
+              (click)="togglePanel2('graf8')" ></button>
+              </div>
+          
+  
+            <div class="contenedor2">
+              <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf8_2, 'cerrado': !estaAbiertoGraf8_2}">
+                <h3>Año</h3>
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_2_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-dropdown>
+                <h3>Meses</h3>
+                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-multiSelect> 
+                <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais11_2" 
+                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2_2')">
+                </p-dropdown>
+                <h3>Division</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList11_2" [(ngModel)]="selectedDivisionResumen11_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2_2')">
+                </p-dropdown>
+                <h3>Planta</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList11_2"
+                [(ngModel)]="PlantaSelect11_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroMeta_2_2()"></p-multiSelect>
+                <h3>Tipo filtro</h3>
+                <div *ngFor="let meta of grafMetas2" class="p-field-checkbox">
+                    <p-checkbox name="group2MEta" value="Indicador" [value]="meta"  [(ngModel)]="selectEventos11_2" [inputId]="meta.value" (click)="filtroMeta_2_2()"></p-checkbox>
+                    <label>{{meta.label}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</ng-template>
+
 
