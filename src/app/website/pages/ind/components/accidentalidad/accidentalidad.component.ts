@@ -3646,6 +3646,8 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
+      plantas.push('Corona total')
+
 
       let dataMeta_1: {
         labels: any;
@@ -3693,12 +3695,13 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
         ]
       };
 
+
       let filterQuery = new FilterQuery();
       filterQuery.sortOrder = SortOrder.ASC;
       filterQuery.sortField = "id";
       filterQuery.filterList = [
         {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1.toString()},
-        {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
       ];
 
       if(this.selectPais10)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10.toString()})
@@ -3737,7 +3740,9 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
         let dataMetaNumATConDiasPerdidosTotal:any=[]
         let dataMetaDiasPerdidosTotal:any=[]
 
-        plantas.forEach((division: any) => {
+        let plantas2=plantas.map(ele=>ele);
+        plantas2.pop()
+        plantas2.forEach((division: any) => {
           let meta1:any=meta.find((met:any)=> met.nombrePlanta==division)
 
           // let data:any = {
@@ -3791,6 +3796,15 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
           dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosPlanta)?meta1.diasPerdidosPlanta:0):0)
 
         });
+
+        let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen10)
+
+        dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidosTotal)
+        dataDiasPerdidosTotal.push(diasPerdidosTotal)
+        dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.eveDivision)?meta1.eveDivision:0):0)
+        dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosDivision)?meta1.diasPerdidosDivision:0):0)
+
+
         dataMeta_1.datasets[0].data=dataNumATConDiasPerdidosTotal
         dataMeta_1.datasets[1].data=dataMetaNumATConDiasPerdidosTotal
         dataMeta_1.datasets[2].data=dataDiasPerdidosTotal
@@ -3811,6 +3825,7 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
         // });
 
         // dataEventos1.push(dataTotal);
+        console.log(dataMeta_1)
         Object.assign(this, {dataMeta_1});
         localStorage.setItem('dataMeta1', JSON.stringify(dataMeta_1));
         this.filtroMeta_1();
@@ -3913,6 +3928,8 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
+      plantas.push('Corona total')
+
 
       let dataMeta_1_2: {
         labels: any;
@@ -3965,7 +3982,7 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
       filterQuery.sortField = "id";
       filterQuery.filterList = [
         {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1_2.toString()},
-        {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
       ];
 
       if(this.selectPais10_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10_2.toString()})
@@ -4004,7 +4021,10 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
         let dataMetaNumATConDiasPerdidosTotal:any=[]
         let dataMetaDiasPerdidosTotal:any=[]
 
-        plantas.forEach((division: any) => {
+        let plantas2=plantas.map(ele=>ele);
+        plantas2.pop()
+
+        plantas2.forEach((division: any) => {
           let meta1:any=meta.find((met:any)=> met.nombrePlanta==division)
 
           // let data:any = {
@@ -4058,6 +4078,14 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
           dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosPlanta)?meta1.diasPerdidosPlanta:0):0)
 
         });
+
+        let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen10)
+
+        dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidosTotal)
+        dataDiasPerdidosTotal.push(diasPerdidosTotal)
+        dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.eveDivision)?meta1.eveDivision:0):0)
+        dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosDivision)?meta1.diasPerdidosDivision:0):0)
+
         dataMeta_1_2.datasets[0].data=dataNumATConDiasPerdidosTotal
         dataMeta_1_2.datasets[1].data=dataMetaNumATConDiasPerdidosTotal
         dataMeta_1_2.datasets[2].data=dataDiasPerdidosTotal
@@ -4125,6 +4153,7 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
+      plantas.push('Corona total')
 
       let dataMeta_2: {
         labels: any;
@@ -4171,8 +4200,14 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
           }
         ]
       };
+      let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.filterList = [
+        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_2.toString()},
+        {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+      ];
+      if(this.selectPais11)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais11.toString()})
       let meta:any
-      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
       try{
@@ -4341,27 +4376,37 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
               // tasaFrecuencia1.push(data);
 
             });
+            
+
+            // Corona total
+            let mesesYear=(this.filtroAnioTasa_2==new Date().getFullYear())?new Date().getMonth()+1:12;
+            let numMesesSelect=(this.filtroMesesMeta_2.length>0?this.filtroMesesMeta_2.length:mesesYear)
+            let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
+
+            switch (e) {
+              case 'dir':
+                totalesTrabajadores=trabajadoresTotalesMes
+                break;
+              case 'temp':
+                totalesTrabajadores=totalTrabajadoresTempMes
+                break;
+              default:
+                break;
+            }
+
+            let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen11)
+
+            dataTF.push(totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0)
+            dataTS.push(totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0)
+            dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
+            dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
+            // dataMetaTF.push(0)
+            // dataMetaTS.push(0)
+
             dataMeta_2.datasets[1].data=dataMetaTF
             dataMeta_2.datasets[3].data=dataMetaTS
             dataMeta_2.datasets[0].data=dataTF
             dataMeta_2.datasets[2].data=dataTS
-
-            // // Corona total
-            // let mesesYear=(this.filtroAnioTasa_1==new Date().getFullYear())?new Date().getMonth()+1:12;
-            // let numMesesSelect=(this.selectedMesesTasa1.length>0?this.selectedMesesTasa1.length:mesesYear)
-            // let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
-
-            // switch (e) {
-            //   case 'dir':
-            //     totalesTrabajadores=trabajadoresTotalesMes
-            //     break;
-            //   case 'temp':
-            //     totalesTrabajadores=totalTrabajadoresTempMes
-            //     break;
-            //   default:
-            //     break;
-            // }
-
             // let dataTotal:any = {
             //   name: 'Corona total',
             //   series: []
@@ -4445,6 +4490,7 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
+      plantas.push('Corona total')
 
       let dataMeta_2_2: {
         labels: any;
@@ -4491,8 +4537,14 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
           }
         ]
       };
+      let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.filterList = [
+        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_2_2.toString()},
+        {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+      ];
+      if(this.selectPais11_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais11_2.toString()})
       let meta:any
-      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
       try{
@@ -4661,6 +4713,32 @@ this.viewHHtMetasService.getWithFilter(filterQuery).then(async (res: any) => {
               // tasaFrecuencia1.push(data);
 
             });
+
+            // Corona total
+            let mesesYear=(this.filtroAnioTasa_2_2==new Date().getFullYear())?new Date().getMonth()+1:12;
+            let numMesesSelect=(this.filtroMesesMeta_2_2.length>0?this.filtroMesesMeta_2_2.length:mesesYear)
+            let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
+
+            switch (e) {
+              case 'dir':
+                totalesTrabajadores=trabajadoresTotalesMes
+                break;
+              case 'temp':
+                totalesTrabajadores=totalTrabajadoresTempMes
+                break;
+              default:
+                break;
+            }
+
+            let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen11_2)
+
+            dataTF.push(totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0)
+            dataTS.push(totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0)
+            dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
+            dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
+            // dataMetaTF.push(0)
+            // dataMetaTS.push(0)
+
             dataMeta_2_2.datasets[1].data=dataMetaTF
             dataMeta_2_2.datasets[3].data=dataMetaTS
             dataMeta_2_2.datasets[0].data=dataTF

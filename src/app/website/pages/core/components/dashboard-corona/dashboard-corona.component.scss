@@ -342,3 +342,17 @@ label{
 :host ::ng-deep .p-calendar {
   width: none !important;
 }
+
+:host ::ng-deep 
+    .p-calendar{
+        .p-button{
+            background: white;
+            color: gray;
+            pointer-events: none;
+        }
+        
+        .p-inputtext {
+            background: white;
+        }
+        
+    }

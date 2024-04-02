@@ -680,8 +680,8 @@
       </div>
     
   </p-panel>
-  <br/>
 
+  <br/>
 
   <p-panel header="ILI">
     <br>
@@ -771,6 +771,8 @@
   </div>
     </div>
   </p-panel>
+  
+  <br/>
 
   <p-panel header="METAS">
     <br>
@@ -2185,7 +2187,7 @@
                 <h3>Año</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_2_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-dropdown>
                 <h3>Meses</h3>
-                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-multiSelect> 
+                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-multiSelect> 
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais11_2" 
                 placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2_2')">
