@@ -718,7 +718,7 @@ export class MatrizPeligrosComponent implements OnInit  {
     filterPlantaQuery.sortOrder = -1;
     filterPlantaQuery.fieldList = ["id","localidad"];
     filterPlantaQuery.filterList = [
-      { field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: eve.toString() },
+      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
     ];
     await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp:any)=>{
       this.planta=[]

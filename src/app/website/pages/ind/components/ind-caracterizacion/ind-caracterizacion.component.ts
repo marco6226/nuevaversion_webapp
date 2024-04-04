@@ -5035,7 +5035,7 @@ contGrafPeligros_2:any[]=[]
     if(!localidadesList){
       return null;
     }
-    let localidades = localidadesList.filter((loc:any) => loc.plantas.id_division == id);
+    let localidades = localidadesList.filter((loc:any) => loc.plantas.area.id == id);
     return localidades.length > 0 ? localidades: null;
   }
 
@@ -5062,14 +5062,14 @@ contGrafPeligros_2:any[]=[]
     let localidadesList:any
     if(filter!='graf1'){
       dv = this.divisionList.filter((dv1:any) => dv1.nombre == div.value);
-      localidadesList=this.localidadesList.filter((loc:any) => loc.plantas.id_division == dv[0].id);
+      localidadesList=this.localidadesList.filter((loc:any) => loc.plantas.area.id == dv[0].id);
     }
     else{
       if(div.value.length>0){
         localidadesList=[]
         div.value.forEach((element:any) => {
           dv=(this.divisionList.filter((dv1:any) => dv1.nombre == element));
-          localidadesList=localidadesList.concat(this.localidadesList.filter((loc:any) => loc.plantas.id_division == dv[0].id));
+          localidadesList=localidadesList.concat(this.localidadesList.filter((loc:any) => loc.plantas.area.id == dv[0].id));
         });
       }else{
         dv=null

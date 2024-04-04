@@ -221,7 +221,7 @@ export class MetasComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.plantasService.getPlantaWithFilter(filterQuery).then((res: any) => {
         this.localidadesList = (<any[]>res['data']).map(localidad => {
-          return {label: localidad.nombre, value: {id: localidad.id, division: localidad.id_division}};
+          return {label: localidad.nombre, value: {id: localidad.id, division: localidad.area.id}};
         });
         resolve(1);
       }).catch(() => {

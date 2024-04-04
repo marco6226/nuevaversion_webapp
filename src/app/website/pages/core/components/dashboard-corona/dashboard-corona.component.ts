@@ -322,7 +322,7 @@ export class DashboardCoronaComponent implements OnInit {
     if(!plantasList){
       return null;
     }
-    let plantas = plantasList.filter((pl:any) => pl.id_division == id);
+    let plantas = plantasList.filter((pl:any) => pl.area.id == id);
     return plantas.length > 0 ? plantas: null;
   }
 
@@ -332,7 +332,7 @@ export class DashboardCoronaComponent implements OnInit {
     let plantasList:any
     // if(filter!='resumen'){
       dv = this.divisionList.filter((dv1:any) => dv1.nombre == div.value);
-      plantasList=this.plantasList.filter((pl1:any) => pl1.id_division == dv[0].id);
+      plantasList=this.plantasList.filter((pl1:any) => pl1.area.id == dv[0].id);
 
 
     switch (filter) {
@@ -362,7 +362,7 @@ export class DashboardCoronaComponent implements OnInit {
     filterQueryCoronameta.sortField = "id";
     filterQueryCoronameta.filterList = [
       {criteria: Criteria.EQUALS, field: "anio", value1: this.anioActualResumen.toString()},
-      {criteria: Criteria.EQUALS, field: "empresaSelect", value1: empresaId}
+      {criteria: Criteria.EQUALS, field: "empresaId", value1: empresaId}
     ];
     if(this.selectPais1)filterQueryCoronameta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais1.toString()})
     if(this.selectedDivisionResumen1)filterQueryCoronameta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen1.toString()})
@@ -376,7 +376,7 @@ export class DashboardCoronaComponent implements OnInit {
       {criteria: Criteria.EQUALS, field: "empresaSelect", value1: empresaId}
     ];
     if(this.selectPais1)filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais1.toString()})
-    if(this.selectedDivisionResumen1)filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.id_division", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen1).id.toString()})
+    if(this.selectedDivisionResumen1)filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.id", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen1).id.toString()})
     if(this.PlantaSelect1)filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect1.toString()})
 
     filterQueryTemp.sortOrder = SortOrder.ASC;
@@ -387,7 +387,7 @@ export class DashboardCoronaComponent implements OnInit {
       {criteria: Criteria.NOT_EQUALS, field: "empresaSelect", value1: empresaId}
     ];
     if(this.selectPais1)filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais1.toString()})
-    if(this.selectedDivisionResumen1)filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.id_division", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen1).id.toString()})
+    if(this.selectedDivisionResumen1)filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.id", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen1).id.toString()})
     if(this.PlantaSelect1)filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect1.toString()})
     
     if(this.fechaInicioResumen){
@@ -453,6 +453,7 @@ export class DashboardCoronaComponent implements OnInit {
     });
 
     await this.hhtService.findByFilter(filterQueryCorona).then(async (res: any) => {
+      console.log(res)
       if(res.data.length > 0){
         hhtEmpresa = Array.from(res.data);
       }else{
@@ -519,7 +520,7 @@ export class DashboardCoronaComponent implements OnInit {
   calcularTotalHht(hht: Hht[], mesInicio: number, mesFinal: number, selectPais:string, selectedDivisionResumen:string, PlantaSelect:string ): number{
 
     if(selectPais)hht=hht.filter((eve:Hht)=>eve.planta?.pais==selectPais)
-    if(selectedDivisionResumen)hht=hht.filter((eve:Hht)=>eve.planta?.id_division==this.divisionesCoronaConId.find((div:any) => div.nombre === selectedDivisionResumen).id)
+    if(selectedDivisionResumen)hht=hht.filter((eve:Hht)=>eve.planta?.area?.id==this.divisionesCoronaConId.find((div:any) => div.nombre === selectedDivisionResumen).id)
     if(PlantaSelect)hht=hht.filter((eve:Hht)=>eve.planta?.nombre==PlantaSelect)
 
 
@@ -604,7 +605,7 @@ export class DashboardCoronaComponent implements OnInit {
     if(!localidadesList){
       return null;
     }
-    let localidades = localidadesList.filter((loc:any) => loc.plantas.id_division == id);
+    let localidades = localidadesList.filter((loc:any) => loc.plantas.area.id == id);
     return localidades.length > 0 ? localidades: null;
   }
 
@@ -695,14 +696,14 @@ export class DashboardCoronaComponent implements OnInit {
     let localidadesList:any
     if(filter!='resumen2'){
       dv = this.divisionList.filter((dv1:any) => dv1.nombre == div.value);
-      localidadesList=this.localidadesList.filter((loc:any) => loc.plantas.id_division == dv[0].id);
+      localidadesList=this.localidadesList.filter((loc:any) => loc.plantas.area.id == dv[0].id);
     }
     else{
       if(div.value.length>0){
         localidadesList=[]
         div.value.forEach((element:any) => {
           dv=(this.divisionList.filter((dv1:any) => dv1.nombre == element));
-          localidadesList=localidadesList.concat(this.localidadesList.filter((loc:any) => loc.plantas.id_division == dv[0].id));
+          localidadesList=localidadesList.concat(this.localidadesList.filter((loc:any) => loc.plantas.area.id == dv[0].id));
         });
       }else{
         dv=null

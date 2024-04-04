@@ -698,7 +698,10 @@
       style="right:0;"></button>
     </div>
     <div class="col-8 grid">
-      <div class="col-11 grafic" style="height: 650px; padding-left: 5%;">
+      <div class="col-11" *ngIf="plantasList8.length == 0">
+        <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+      </div>
+      <div class="col-11 grafic" style="height: 650px; padding-left: 5%;" *ngIf="plantasList8.length > 0">
         <p-chart type="bar" [data]="dataIli_1" [options]="optionsIli_1" width="90%" height="100%"></p-chart>
       </div>
     </div>
@@ -740,7 +743,10 @@
       style="right:0;"></button>
     </div>
     <div class="col-8 grid">
-      <div class="col-11 grafic" style="height: 550px; padding-left: 5%;">
+      <div class="col-11" *ngIf="plantasList9.length == 0">
+        <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+      </div>
+      <div class="col-11 grafic" style="height: 550px; padding-left: 5%;" *ngIf="plantasList9.length > 0">
         <p-chart type="bar" [options]="optionsIli_2" [data]="dataIli_2" width="90%" height="100%"></p-chart>
       </div>
     </div>
@@ -1764,7 +1770,10 @@
 
 
         <div  class="col-12 grid" style="height: 16cm;">
-          <div class="col-11 grafic" style="height: 650px; padding-left: 5%;">
+          <div class="col-11" *ngIf="plantasList8.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 650px; padding-left: 5%;" *ngIf="plantasList8.length > 0">
             <p-chart type="bar" [data]="dataIli_1" [options]="optionsIli_1" width="90%" height="100%"></p-chart>
           </div>
           <div class="col-1">
@@ -1817,7 +1826,10 @@
             </div>
   
           <div  class="col-12 grid" style="height: 16cm;">
-            <div class="col-11 grafic" style="height: 650px; padding-left: 5%;">
+            <div class="col-11" *ngIf="plantasList8_2.length == 0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" style="height: 650px; padding-left: 5%;" *ngIf="plantasList8_2.length > 0">
               <p-chart type="bar" [data]="dataIli_1_2" [options]="optionsIli_1" width="90%" height="100%"></p-chart>
             </div>
             <div class="col-1">
@@ -1866,7 +1878,10 @@
 
 
         <div  class="col-12 grid" style="height: 16cm;">
-          <div class="col-11 grafic" style="height: 550px; padding-left: 5%;">
+          <div class="col-11" *ngIf="plantasList9.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 550px; padding-left: 5%;" *ngIf="plantasList9.length > 0">
             <p-chart type="bar" [options]="optionsIli_2" [data]="dataIli_2" width="90%" height="100%"></p-chart>
           </div>
           <div class="col-1">
@@ -1921,7 +1936,10 @@
             </div>
   
           <div  class="col-12 grid" style="height: 16cm;">
-            <div class="col-11 grafic" style="height: 550px; padding-left: 5%;">
+            <div class="col-11" *ngIf="plantasList9_2.length == 0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" style="height: 550px; padding-left: 5%;" *ngIf="plantasList9_2.length > 0">
               <p-chart type="bar" [options]="optionsIli_2_2" [data]="dataIli_2_2" width="90%" height="100%"></p-chart>
             </div>
             <div class="col-1">

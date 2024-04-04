@@ -1,9 +1,16 @@
+import { Plantas } from "../../comun/entities/Plantas";
+import { Empresa } from "./empresa";
+
 export class Hht {
     id?: string | null;
     anio?: number | null | undefined;
     mes?: string;
     valor?: string;
     empresaSelect?:string;
+    planta?: Plantas;
+    numeroPersonas?: number;
+    hht?: number;
+    empresa?:Empresa;
   
     // nombreMes?:string;
   }
