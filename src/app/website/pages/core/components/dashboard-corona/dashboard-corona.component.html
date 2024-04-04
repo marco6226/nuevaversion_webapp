@@ -37,18 +37,36 @@
                         <div class="col-12 md:col-6 lg:col-3">
                             <div class="card l-bg-blue3-dark">
                                 <div style="text-align:left;">
-                                    <h3>Meta</h3>
+                                    <ng-container *ngIf="!this.selectPais1"><h3>Meta ILI</h3></ng-container>
+                                    <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI pais</h3></ng-container>
+                                    <ng-container *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"><h3>Meta ILI división</h3></ng-container>
+                                    <ng-container *ngIf="this.PlantaSelect1"><h3>Meta ILI planta</h3></ng-container>
                                 </div>
                                 <div style="text-align:right;">
                                     <span class="tamañotexto">{{metaIli || 0}}</span>
+                                    <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">Pais: {{metaPais || 0}}</span></ng-container>
+                                    <ng-container *ngIf="this.PlantaSelect1"><br><span class="tamañotexto2">División: {{metaDivision || 0}}</span></ng-container>
                                 </div>                                     
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 grid mid-border">
-                  <div class="sm:col-12 md:col-6 lg:col-3"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" [(ngModel)]="selectedDivisionResumen" placeholder="Seleccionar división" [showClear]="true" (onChange)="loadResumen()"></p-dropdown></div>
-                  <div class="sm:col-12 md:col-6 lg:col-2"  style="display: flex;">
+                <div class="col-10 grid mid-border p-justify-center" style="margin: auto;">
+                  <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
+                    <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais1" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'resumen');loadResumen()">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> 
+                  
+                    <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione division" [options]="divisionList1"
+                    [(ngModel)]="selectedDivisionResumen1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="funcSelectDivision($event,'resumen');loadResumen()"></p-dropdown>
+
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Planta:</p> 
+                    <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione la planta" [options]="plantasList1"
+                    [(ngModel)]="PlantaSelect1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="loadResumen()"></p-dropdown>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
                     <p style="margin: 10px!important;">Año:</p>
                     <p-dropdown [style]="{'width':'100%'}" [options]="yearRange"
                     placeholder="Seleccione un año"
@@ -56,27 +74,25 @@
                     (onChange)="loadResumen()">
                     </p-dropdown>
                   </div>
-                  <div class="sm:col-12 md:col-5 lg:col-2"  style="display: flex;">
+                  <div class="col-12 md:col-5 lg:col-4"  style="display: flex;">
                     <p style="margin-right: 10px!important;">Desde:</p>
-                      <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>  
-                    <p-calendar  view="month"
-                    dateFormat="MM" placeholder="Seleccione"
+                    <p-calendar [showIcon]="true" appendTo="body"  view="month"
+                    dateFormat="MM" placeholder="Seleccione"  
                     [(ngModel)]="fechaInicioResumen" showButtonBar="true" 
                     (onSelect)="loadResumen()" (onClearClick)="loadResumen()"
-                    (onTodayClick)="loadResumen()">
+                    (onTodayClick)="loadResumen()" >
                     </p-calendar>
                   </div>
-                  <div class="sm:col-12 md:col-5 lg:col-2" style="display: flex;">
+                  <div class="col-12 md:col-5 lg:col-4" style="display: flex;">
                     <p style="margin-right: 10px!important;">Hasta:</p>
-                    <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div> 
-                      <p-calendar view="month" dateFormat="MM" 
-                      placeholder="Seleccione" showButtonBar="true" 
+                      <p-calendar [showIcon]="true" appendTo="body"  view="month" dateFormat="MM" 
+                      placeholder="Seleccione"  showButtonBar="true" 
                       [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
                       (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()">
                       </p-calendar>
                   </div>
-                  <div class="sm:col-12 md:col-2 lg:col-2">
-                    <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
+                  <div class="col-12 md:col-2 lg:col-1" style="display: flex;">
+                    <button pButton type="button" icon="pi pi-external-link" title="Indicadores Accidentalidad"
                     (click)="IndicadoresAccidentalidad()"></button>
                   </div>
                 </div>
@@ -137,24 +153,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 grid">
-                <div class="col-12 md:col-12 lg:col-2">&nbsp;</div>
-                <div style="display: flex;" class="col-12 md:col-6 lg:col-3"><p>Area: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="CardsClasificacion()" [(ngModel)]="selectArea"></p-dropdown></div>
-                &nbsp;
-                <div style="display: flex;" class="col-12 md:col-6 lg:col-3">  
-                    <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>  
-                    <p-calendar   view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+    
+            <div class="col-10 grid mid-border p-justify-center" style="margin: auto; display: flex; justify-content: space-evenly;">
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">
+                    <p>Pais: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" placeholder="Seleccionar pais" (onChange)="funcSelectPais($event,'resumen2');" [(ngModel)]="selectPais2"></p-dropdown>
                 </div>
-                &nbsp;
-                <div style="display: flex;" class="col-12 md:col-6 lg:col-3"> 
-                    <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>
-                    <p-calendar  view="month" dateFormat="mm/yy" placeholder="Hasta" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
-                    <div style="padding-left: 10px;">
-                        <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
-                        (click)="IndicadoresCaracterizacion()"></button>
-                    </div>
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">
+                    <p>División: </p>&nbsp;<p-multiSelect appendTo="body" [options]="divisionList2" placeholder="Seleccionar división" (onChange)="funcSelectDivision2($event,'resumen2')" [(ngModel)]="selectedDivisionResumen2"></p-multiSelect>
                 </div>
-
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
+                    <p>Localidad: </p>&nbsp;<p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList1" placeholder="Seleccionar localidad" [(ngModel)]="LocalidadSelect1" defaultLabel="Seleccione localidad" (ngModelChange)="CardsClasificacion()"></p-multiSelect>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
+                    <p style="margin-right: 10px!important;">Desde:</p>
+                    <p-calendar  [showIcon]="true" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+                </div>
+                <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
+                    <p style="margin-right: 10px!important;">Hasta:</p>
+                    <p-calendar  [showIcon]="true" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
+                    <button pButton type="button" icon="pi pi-external-link" title="Indicadores Caracterización"
+                    (click)="IndicadoresCaracterizacion()"></button>
+                </div>
             </div>
         </div>
         </p-panel>

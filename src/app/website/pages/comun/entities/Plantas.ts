@@ -1,9 +1,13 @@
 import { Usuario } from "../../empresa/entities/usuario";
+// import { Area } from "../../empresa/entities/area";
+
 
 export class Plantas {
     id?: number;
     nombre?: string;
-    id_division?: string;
+    // id_division?: string;
+    area?: Area;
+
     pais?: string
     id_empresa?: number;
     tipo?:string;
@@ -20,3 +24,8 @@ export class Plantas {
     descargaConsolidado?:boolean;
     descargaHistorico?:boolean
 }
+
+class Area{
+    id?: string;
+    nombre!: string;
+  }

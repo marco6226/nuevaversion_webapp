@@ -372,7 +372,7 @@ export class FormularioAccidenteComponent implements OnInit {
             'id',
             'localidad'
         ];
-        filterLocalidad.filterList = [{ field: 'plantas.id_division', criteria: Criteria.EQUALS, value1: idDivision}];
+        filterLocalidad.filterList = [{ field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: idDivision}];
         this.localidadesList=[]
         await this.empresaService.getLocalidadesRWithFilter(filterLocalidad).then((ele:any)=>{
             for(let loc of ele.data){

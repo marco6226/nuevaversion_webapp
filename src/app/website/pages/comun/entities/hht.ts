@@ -1,4 +1,7 @@
+import { Empresa } from "../../empresa/entities/empresa";
 import { Plantas } from "./Plantas";
+// import { Area } from "../../empresa/entities/area";
+
 
 export class Hht {
   id?: string | null;
@@ -9,8 +12,10 @@ export class Hht {
   planta?: Plantas;
   numeroPersonas?: number;
   hht?: number;
+  empresa?:Empresa;
   // nombreMes?:string;
 }
+
 
 export class AreaHht {
   area?: string;

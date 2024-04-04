@@ -335,7 +335,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
             NumPersonasArea: null,
             HhtArea: null,
             ILIArea: null,
-            Plantas: this.plantasList.filter(pl => pl.id_division == area.id).map((planta):DataPlanta => {
+            Plantas: this.plantasList.filter(pl => pl.area?.id == area.id).map((planta):DataPlanta => {
               return {
                 id: planta.id,
                 NumPersonasPlanta: null,
@@ -355,12 +355,12 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
     if(!this.plantasList){
       return null;
     }
-    let plantas = this.plantasList.filter(pl => pl.id_division == id);
+    let plantas = this.plantasList.filter(pl => pl.area?.id == id);
     return plantas.length > 0 ? plantas: null;
   }
 
   tienePlantas(areaId: any){
-    return this.plantasList.find(planta => planta.id_division == areaId) == undefined ? false : true;
+    return this.plantasList.find(planta => planta.area?.id == areaId) == undefined ? false : true;
   }
 
   async guardarHht(){
@@ -406,7 +406,7 @@ export class HoraHombresTrabajadaComponent implements OnInit, AfterViewInit {
       })
     );
     
-    this.hhtService.createHht(this.listaHHT).then((res: any) => {
+    await this.hhtService.createHht(this.listaHHT).then((res: any) => {
       // console.info('HHT creado para el mes de: ', `${mes.value} de ${this.anioSelected.value}`);
       this.listaHHT = res;
       if(!this.sessionService.getEmpresa()?.idEmpresaAliada && this.sessionService.getParamEmp() == this.empresaSelected?.toString()){

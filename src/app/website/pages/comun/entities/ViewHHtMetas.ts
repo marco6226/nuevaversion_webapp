@@ -3,12 +3,8 @@ export class viewHHtMetas {
   pais?: string;
   anio?: Number;
   empresaId?: Number;
-  mes?: string;
-  empresaSelect?: string;
   plantaId?: Number;
   nombrePlanta?: string;
-  hht?: Number;
-  numeroPersonas?: Number;
   idDivision?: string;
   nombreDivision?: string;
   iliPlanta?: Number;
