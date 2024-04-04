@@ -159,7 +159,7 @@ export class ScmComponent implements OnInit {
 
     async exportexcel(): Promise<void> 
     {
-        debugger
+        //debugger
         await this.datosExcel()
         this.excel.forEach((el:any) => delete el.empresaId)
         
