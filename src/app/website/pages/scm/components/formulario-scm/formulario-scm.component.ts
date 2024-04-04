@@ -724,6 +724,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.actualizar = true;
             this.adicionar = false;
 
+            this.idCase = status
             this.caseSelect = await this.scmService.getCase(status);
             this.caseSelect.id = status;
             this.casocreado = true;
