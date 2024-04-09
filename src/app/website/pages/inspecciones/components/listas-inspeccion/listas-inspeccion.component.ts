@@ -176,7 +176,7 @@ export class ListasInspeccionComponent implements OnInit {
           var reader = new FileReader();
           reader.onload = () => {
             var csvString = reader.result as string;
-            console.log("aqui goku",csvString);
+            
             
             var xlsxBlob = this.convertCsvToXlsx(csvString);
             var url = URL.createObjectURL(xlsxBlob);
