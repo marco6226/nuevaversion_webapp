@@ -208,6 +208,22 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     {label:'Noviembre',value:'Noviembre'},
     {label:'Diciembre',value:'Diciembre'}
   ];
+
+  MesesValue= [
+    {label:'Enero',value:0},
+    {label:'Febrero',value:1},
+    {label:'Marzo',value:2},
+    {label:'Abril',value:3},
+    {label:'Mayo',value:4},
+    {label:'Junio',value:5},
+    {label:'Julio',value:6},
+    {label:'Agosto',value:7},
+    {label:'Septiembre',value:8},
+    {label:'Octubre',value:9},
+    {label:'Noviembre',value:10},
+    {label:'Diciembre',value:11}
+  ];
+
   paisesList: Array<any> = [
     {label: 'Colombia', value: 'Colombia'},
     {label: 'Costa Rica', value: 'Costa Rica'},
@@ -230,6 +246,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectPais10:any
   selectPais11:any
 
+  selectPais12:any
+  selectPais13:any
+
 
   selectPais4_2:any
   selectPais5_2:any
@@ -239,6 +258,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectPais9_2:any
   selectPais10_2:any
   selectPais11_2:any
+
+  selectPais12_2:any
+  selectPais13_2:any
 
 
   plantasList:any=[]
@@ -254,6 +276,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   plantasList10:any=[]
   plantasList11:any=[]
 
+  plantasList12:any=[]
+  plantasList13:any=[]
+
 
   plantasList4_2:any=[]
   plantasList5_2:any=[]
@@ -263,6 +288,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   plantasList9_2:any=[]  
   plantasList10_2:any=[]
   plantasList11_2:any=[]
+
+  plantasList12_2:any=[]
+  plantasList13_2:any=[]
 
 
 
@@ -278,6 +306,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   PlantaSelect10:any=null
   PlantaSelect11:any=null
 
+  PlantaSelect12:any=null
+  PlantaSelect13:any=null
+
   PlantaSelect4_2:any=null
   PlantaSelect5_2:any=null
   PlantaSelect6_2:any=null
@@ -286,6 +317,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   PlantaSelect9_2:any=null
   PlantaSelect10_2:any=null
   PlantaSelect11_2:any=null
+
+  PlantaSelect12_2:any=null
+  PlantaSelect13_2:any=null
 
 
   divisionList:any=[]
@@ -301,6 +335,10 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   divisionList10:any=[]
   divisionList11:any=[]
 
+  divisionList12:any=[]
+  divisionList13:any=[]
+
+
   divisionList4_2:any=[]
   divisionList5_2:any=[]
   divisionList6_2:any=[]
@@ -309,6 +347,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   divisionList9_2:any=[]
   divisionList10_2:any=[]
   divisionList11_2:any=[]
+
+  divisionList12_2:any=[]
+  divisionList13_2:any=[]
 
 
 
@@ -325,6 +366,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectedDivisionResumen10?: any | null = null;
   selectedDivisionResumen11?: any | null = null;
 
+  selectedDivisionResumen12?: any | null = null;
+  selectedDivisionResumen13?: any | null = null;
+
   selectedDivisionResumen4_2?: any | null = null;
   selectedDivisionResumen5_2?: any | null = null;
   selectedDivisionResumen6_2?: any | null = null;
@@ -333,7 +377,9 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectedDivisionResumen9_2?: any | null = null;
   selectedDivisionResumen10_2?: any | null = null;
   selectedDivisionResumen11_2?: any | null = null;
-
+  
+  selectedDivisionResumen12_2?: any | null = null;
+  selectedDivisionResumen13_2?: any | null = null;
 
   selectDivisiones1: any[] = [];
   selectIndicarores1: any[] = [];
@@ -365,6 +411,11 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
   selectEventos11: any[] = [];
   selectEventos10_2: any[] = [];
   selectEventos11_2: any[] = [];
+
+  selectEventos12: any[] = [];
+  selectEventos13: any[] = [];
+  selectEventos12_2: any[] = [];
+  selectEventos13_2: any[] = [];
 
 
   selectEventos1_2: any[] = [];
@@ -427,8 +478,11 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   filtroEventos1?: string;
   filtroEventos2?: string;
+  filtroEventos2meses?: string;
   filtroEventos1_2?: string;
   filtroEventos2_2?: string;
+  filtroEventos2_2meses?: string;
+  
 
   randomILI?: any[];
   randomILI2?: any[];
@@ -564,9 +618,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     localStorage.removeItem('dataMeta_2');
     localStorage.removeItem('dataMeta1_2');
     localStorage.removeItem('dataMeta_2_2');
-
-
-
+    localStorage.removeItem('dataMeta_1meses');
+    localStorage.removeItem('dataMeta_1meses_2');
   }
 
   async ngOnInit() {
@@ -591,6 +644,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     localStorage.removeItem('dataMeta_2');
     localStorage.removeItem('dataMeta1_2');
     localStorage.removeItem('dataMeta_2_2');
+    localStorage.removeItem('dataMeta_1meses');
+    localStorage.removeItem('dataMeta_1meses_2');
 
 
 
@@ -1503,7 +1558,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     Object.assign(this, {tasaFrecuencia1});
   }
 
-  // Copia primera grafica tasas
+  // Comparativo primera grafica tasas
 
   async getTasas_1_2(filter?: string){
     if(this.plantasList4_2)
@@ -1884,37 +1939,40 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
             let totalTrabajadoresTemp = 0;
             hhtTemp.forEach((hht, index) => {
               // let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
+              // console.log('DataHht:')
+              // console.log(data)
               let trabajadoresTemPorArea = 0;
 
               // if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
               if(this.PlantaSelect5){
                 if(this.PlantaSelect5.length>0){
-                this.PlantaSelect5.forEach((pl:any) => {
-                  if(hht.mes === mes.label){
-                    if(pl==hht.planta?.nombre)totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas:0
+                  this.PlantaSelect5.forEach((pl:any) => {
+                    if(hht.mes === mes.label){
+                      if(pl==hht.planta?.nombre)trabajadoresTemPorArea += hht.numeroPersonas ? hht.numeroPersonas:0
 
-                    // data.Areas!.forEach((dataArea, indexArea) => {
-                    //   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
-                    //   if (div.nombre === this.filtroDivisionesTasa_2) {
-                    //     trabajadoresPorArea += dataArea.NumPersonasArea!;
-                    //   }
-                    // });
-                  }
-                });
-                // data.Areas!.forEach((dataArea, index) => {
-                //   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
-                //   if(div.nombre === this.filtroDivisionesTasa_2){
-                //     trabajadoresTemPorArea += dataArea.NumPersonasArea!;
-                //   }
-                // });
-                totalTrabajadoresTemp += trabajadoresTemPorArea;}else {
+                      // data.Areas!.forEach((dataArea, indexArea) => {
+                      //   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
+                      //   if (div.nombre === this.filtroDivisionesTasa_2) {
+                      //     trabajadoresPorArea += dataArea.NumPersonasArea!;
+                      //   }
+                      // });
+                    }
+                  });
+                  // data.Areas!.forEach((dataArea, index) => {
+                  //   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
+                  //   if(div.nombre === this.filtroDivisionesTasa_2){
+                  //     trabajadoresTemPorArea += dataArea.NumPersonasArea!;
+                  //   }
+                  // });
+                  totalTrabajadoresTemp += trabajadoresTemPorArea;
+                }else {
                   if(hht.mes == mes.label){
-                    totalTrabajadoresTemp += data.NumPersonasMes ? data.NumPersonasMes : 0;
+                    totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
                   }
                 }
               } else {
                 if(hht.mes == mes.label){
-                  totalTrabajadoresTemp += data.NumPersonasMes ? data.NumPersonasMes : 0;
+                  totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
                 }
               }
             });
@@ -1979,7 +2037,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
     Object.assign(this, {tasaFrecuencia2});
   }
-// Grafica tasa2 copia
+// Grafica tasa2 Comparativo
   async getTasas_2_2(filter?: string){
   let tasaFrecuencia2_2: any[] = [];
   let filterQuery = new FilterQuery();
@@ -2100,7 +2158,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           });
           let totalTrabajadoresTemp = 0;
           hhtTemp.forEach((hht, index) => {
-            // let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
+            let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;//revisar
             let trabajadoresTemPorArea = 0;
 
             // if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
@@ -3679,8 +3737,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
-      plantas.push('Corona total')
-
 
       let dataMeta_1: {
         labels: any;
@@ -3729,36 +3785,20 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       };
 
 
-      let filterQuery = new FilterQuery();
-      filterQuery.sortOrder = SortOrder.ASC;
-      filterQuery.sortField = "id";
-      filterQuery.filterList = [
+      let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.sortOrder = SortOrder.ASC;
+      filterQueryMeta.sortField = "id";
+      filterQueryMeta.filterList = [
         {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1.toString()},
         {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
       ];
 
-      if(this.selectPais10)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10.toString()})
-      if(this.selectedDivisionResumen10)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10})
+      if(this.selectPais10)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10.toString()})
+      if(this.selectedDivisionResumen10)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10})
       
       let meta:any
-      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
-      })
-
-      let filterQueryTotal = new FilterQuery();
-      filterQueryTotal.sortOrder = SortOrder.ASC;
-      filterQueryTotal.sortField = "id";
-      filterQueryTotal.filterList = [
-        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1.toString()},
-        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
-        {criteria: Criteria.EQUALS, field: "pais", value1: 'Corona Total'}
-      ];
-
-      if(this.selectedDivisionResumen10)filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10})
-
-      let metaTotal:any
-      await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
-        metaTotal=metas.data
       })
 
       try{
@@ -3789,9 +3829,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         let dataMetaNumATConDiasPerdidosTotal:any=[]
         let dataMetaDiasPerdidosTotal:any=[]
 
-        let plantas2=plantas.map(ele=>ele);
-        plantas2.pop()
-        plantas2.forEach((division: any) => {
+        plantas.forEach((division: any) => {
           let meta1:any=meta.find((met:any)=> met.nombrePlanta==division)
 
           // let data:any = {
@@ -3846,12 +3884,12 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
 
         });
 
-        let meta1:any=metaTotal.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen10)
+        // let meta1:any=metaTotal.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen10)
 
-        dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidosTotal)
-        dataDiasPerdidosTotal.push(diasPerdidosTotal)
-        dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.eveDivision)?meta1.eveDivision:0):0)
-        dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosDivision)?meta1.diasPerdidosDivision:0):0)
+        // dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidosTotal)
+        // dataDiasPerdidosTotal.push(diasPerdidosTotal)
+        // dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.eveDivision)?meta1.eveDivision:0):0)
+        // dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosDivision)?meta1.diasPerdidosDivision:0):0)
 
 
         dataMeta_1.datasets[0].data=dataNumATConDiasPerdidosTotal
@@ -3976,7 +4014,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
-      plantas.push('Corona total')
+      // plantas.push('Corona total')
 
 
       let dataMeta_1_2: {
@@ -4025,38 +4063,22 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         ]
       };
 
-      let filterQuery = new FilterQuery();
-      filterQuery.sortOrder = SortOrder.ASC;
-      filterQuery.sortField = "id";
-      filterQuery.filterList = [
+      let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.sortOrder = SortOrder.ASC;
+      filterQueryMeta.sortField = "id";
+      filterQueryMeta.filterList = [
         {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1_2.toString()},
         {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
       ];
 
-      if(this.selectPais10_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10_2.toString()})
-      if(this.selectedDivisionResumen10_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10_2})
+      if(this.selectPais10_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais10_2.toString()})
+      if(this.selectedDivisionResumen10_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10_2})
       
       let meta:any
-      await this.viewHHtMetasService.getWithFilter(filterQuery).then((metas:any)=>{
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         // await this.viewHHtMetasService.findByFilter(filterQuery).then((metas:any)=>{
 
         meta=metas.data
-      })
-
-      let filterQueryTotal = new FilterQuery();
-      filterQueryTotal.sortOrder = SortOrder.ASC;
-      filterQueryTotal.sortField = "id";
-      filterQueryTotal.filterList = [
-        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1_2.toString()},
-        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
-        {criteria: Criteria.EQUALS, field: "pais", value1: 'Corona Total'}
-      ];
-
-      if(this.selectedDivisionResumen10)filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10_2})
-
-      let metaTotal:any
-      await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
-        metaTotal=metas.data
       })
 
       try{
@@ -4087,10 +4109,10 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         let dataMetaNumATConDiasPerdidosTotal:any=[]
         let dataMetaDiasPerdidosTotal:any=[]
 
-        let plantas2=plantas.map(ele=>ele);
-        plantas2.pop()
+        // let plantas2=plantas.map(ele=>ele);
+        // plantas2.pop()
 
-        plantas2.forEach((division: any) => {
+        plantas.forEach((division: any) => {
           let meta1:any=meta.find((met:any)=> met.nombrePlanta==division)
 
           // let data:any = {
@@ -4145,13 +4167,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
 
         });
 
-        let meta1:any=metaTotal.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen10_2)
-
-        dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidosTotal)
-        dataDiasPerdidosTotal.push(diasPerdidosTotal)
-        dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.eveDivision)?meta1.eveDivision:0):0)
-        dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosDivision)?meta1.diasPerdidosDivision:0):0)
-
         dataMeta_1_2.datasets[0].data=dataNumATConDiasPerdidosTotal
         dataMeta_1_2.datasets[1].data=dataMetaNumATConDiasPerdidosTotal
         dataMeta_1_2.datasets[2].data=dataDiasPerdidosTotal
@@ -4193,6 +4208,413 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
     Object.assign(this, {dataMeta_1_2});
   }
 
+
+filtroMeta1meses?:string;
+tipoFiltroMeta1meses:number=0
+
+selectedAnioMeta_1meses: number = new Date().getFullYear();
+filtroMesesMeta_1meses: any[] = []; 
+filtroDivisionEventos2meses: any[] = [];
+
+
+selectedAnioMeta_2meses: number = new Date().getFullYear();
+filtroMesesMeta_2meses: any[] = []; 
+
+
+dataMeta_1meses?: {
+  labels: any;
+  datasets: any[];
+  options: any;
+}
+optionsMeta_1meses: any = {
+  title: {
+    display: true,
+    text: 'Meta por planta'
+  }
+}
+
+dataMeta_2meses?: {
+  labels: any;
+  datasets: any[];
+  options: any;
+}
+optionsMeta_2meses: any = {
+  title: {
+    display: true,
+    text: 'Meta por planta'
+  }
+}
+// meta
+  // Septimo.5 grafco eventos meses
+  async getEventosMeta_2(){
+    if(this.selectedDivisionResumen12){
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_1meses);
+      // let dataEventos2: any[] = [];
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais12)if(this.selectPais12!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais12);
+      if(this.selectedDivisionResumen12)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen12);
+      if(this.PlantaSelect12)if(this.PlantaSelect12.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect12.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+      //fin nuevo
+
+      // let meses=this.Meses
+      let meses:any[]=[]
+      if(this.filtroMesesMeta_1meses.length>0) meses = this.MesesValue.filter(data => this.filtroMesesMeta_1meses.includes(data.label));
+      else meses=this.MesesValue.map(ele=>ele)
+
+      let dataMeta_1meses: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: meses.map(mes=>mes.label),
+        datasets: [
+          {
+            label: 'Número de AT con días perdidos',
+            backgroundColor: 'rgba(0, 176, 240, 0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de AT',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          },
+          {
+            label: 'Número de días perdidos',
+            backgroundColor: 'rgba(259, 69, 18, 0.5)',
+            borderColor: 'rgb(259, 69, 18)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de días perdidos',
+            backgroundColor: 'rgb(67, 67, 72)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(67, 67, 72)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+
+      try{
+        switch(this.filtroMeta1meses){
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal !== null);
+            throw 'temp';
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          default: 
+            throw 'err';
+        }
+      }catch(e){
+        let dataNumATConDiasPerdidosTotal:any=[]
+        let dataDiasPerdidosTotal:any=[]
+        let dataMetaNumATConDiasPerdidosTotal:any=[]
+        let dataMetaDiasPerdidosTotal:any=[]
+
+        let filterQueryMeta = new FilterQuery();
+        filterQueryMeta.sortOrder = SortOrder.ASC;
+        filterQueryMeta.sortField = "id";
+        filterQueryMeta.filterList = [
+          {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1meses.toString()},
+          {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
+        ];
+
+        if(this.selectPais12)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais12.toString()})
+        if(this.selectedDivisionResumen12)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen12})
+        
+        let meta:any
+        await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+          meta=metas.data
+        })
+        let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen12)
+
+        
+        meses.forEach((mes, index) => {
+          // if(this.Meses.length === index + 1) return;
+          // let data:any = {
+          //   name: mes.label,
+          //   series: []
+          // };
+
+          let numeroAt = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === mes.value).length;
+          let diasPerdidos = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === mes.value
+                                                  &&  at.incapacidades !== null && at.incapacidades !== 'null')
+                                        .reduce((count, at) => {
+                                          return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                            return count2 + incapacidad.diasAusencia;
+                                          }, 0);
+                                        }, 0);
+          let atMortales = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === mes.value && at.causoMuerte).length;
+          let atCeroDias = reportesAt.filter(at => {
+            if(new Date(at.fechaReporte).getMonth() === mes.value && (at.incapacidades === null || at.incapacidades === 'null')){
+              return true;
+            }else if(new Date(at.fechaReporte).getMonth() === mes.value){
+              let contDiasPerdidos = (<Array<any>>JSON.parse(at.incapacidades))
+              .reduce((count, incapacidad) => {
+                return count + incapacidad.diasAusencia;
+              }, 0);
+              return contDiasPerdidos > 0 ? false : true;
+            }
+            return false;
+          }).length;
+          let numATConDiasPerdidos = numeroAt - atCeroDias;
+
+          dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidos)
+          dataDiasPerdidosTotal.push(diasPerdidos)
+          dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.eveDivision)?meta1.eveDivision:0):0)
+          dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosDivision)?meta1.diasPerdidosDivision:0):0)
+        });
+
+        dataMeta_1meses.datasets[0].data=dataNumATConDiasPerdidosTotal
+        dataMeta_1meses.datasets[1].data=dataMetaNumATConDiasPerdidosTotal
+        dataMeta_1meses.datasets[2].data=dataDiasPerdidosTotal
+        dataMeta_1meses.datasets[3].data=dataMetaDiasPerdidosTotal
+
+        Object.assign(this, {dataMeta_1meses});
+        localStorage.setItem('dataMeta_1meses', JSON.stringify(dataMeta_1meses));
+        this.filtroEventosMeta_2();
+      }
+    }
+  }
+
+  filtroEventosMeta_2(){
+    let dataMeta_1meses: any = JSON.parse(localStorage.getItem('dataMeta_1meses')!);
+
+    let filtrosListCoronaMeta12 = this.grafMetas.map((div:any) => div.label);
+    if(this.selectEventos12)
+    if(this.selectEventos12.length > 0){
+      let selectEventos12:any=this.order(this.selectEventos12)
+      let filtroCoronaMeta12 = selectEventos12.map((div:any) => div.label);
+
+      dataMeta_1meses.datasets = dataMeta_1meses.datasets.filter((data:any, index:any) => filtroCoronaMeta12.includes(filtrosListCoronaMeta12[index]));
+    }
+
+    Object.assign(this, {dataMeta_1meses});
+  }
+
+  
+  filtroMeta1meses_2?:string;
+  tipoFiltroMeta1meses_2:number=0
+
+  selectedAnioMeta_1meses_2: number = new Date().getFullYear();
+  filtroMesesMeta_1meses_2: any[] = []; 
+  filtroDivisionEventos2meses_2: any[] = [];
+
+
+  selectedAnioMeta_2meses_2: number = new Date().getFullYear();
+  filtroMesesMeta_2meses_2: any[] = []; 
+
+
+  dataMeta_1meses_2?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  optionsMeta_1meses_2: any = {
+    title: {
+      display: true,
+      text: 'Meta por planta'
+    }
+  }
+
+  dataMeta_2meses_2?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  optionsMeta_2meses_2: any = {
+    title: {
+      display: true,
+      text: 'Meta por planta'
+    }
+  }
+  // meta
+  // Comparativo Septimo.5 grafco eventos meses
+  async getEventosMeta_2_2(){
+    if(this.selectedDivisionResumen12_2){
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_1meses_2);
+      // let dataEventos2: any[] = [];
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais12_2)if(this.selectPais12_2!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais12_2);
+      if(this.selectedDivisionResumen12_2)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen12_2);
+      if(this.PlantaSelect12_2)if(this.PlantaSelect12_2.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect12_2.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+      //fin nuevo
+
+      // let meses=this.Meses
+      let meses:any[]=[]
+      if(this.filtroMesesMeta_1meses_2.length>0) meses = this.MesesValue.filter(data => this.filtroMesesMeta_1meses_2.includes(data.label));
+      else meses=this.MesesValue.map(ele=>ele)
+
+      let dataMeta_1meses_2: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: meses.map(mes=>mes.label),
+        datasets: [
+          {
+            label: 'Número de AT con días perdidos',
+            backgroundColor: 'rgba(0, 176, 240, 0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de AT',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          },
+          {
+            label: 'Número de días perdidos',
+            backgroundColor: 'rgba(259, 69, 18, 0.5)',
+            borderColor: 'rgb(259, 69, 18)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta de días perdidos',
+            backgroundColor: 'rgb(67, 67, 72)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(67, 67, 72)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+
+      try{
+        switch(this.filtroMeta1meses_2){
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal !== null);
+            throw 'temp';
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          default: 
+            throw 'err';
+        }
+      }catch(e){
+        let dataNumATConDiasPerdidosTotal:any=[]
+        let dataDiasPerdidosTotal:any=[]
+        let dataMetaNumATConDiasPerdidosTotal:any=[]
+        let dataMetaDiasPerdidosTotal:any=[]
+
+        let filterQueryMeta = new FilterQuery();
+        filterQueryMeta.sortOrder = SortOrder.ASC;
+        filterQueryMeta.sortField = "id";
+        filterQueryMeta.filterList = [
+          {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_1meses_2.toString()},
+          {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
+        ];
+
+        if(this.selectPais12_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais12_2.toString()})
+        if(this.selectedDivisionResumen12_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen12_2})
+        
+        let meta:any
+        await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+          meta=metas.data
+        })
+        let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen12_2)
+
+        meses.forEach((mes, index) => {
+          // if(this.Meses.length === index + 1) return;
+          // let data:any = {
+          //   name: mes.label,
+          //   series: []
+          // };
+
+          let numeroAt = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === mes.value).length;
+          let diasPerdidos = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === mes.value
+                                                  &&  at.incapacidades !== null && at.incapacidades !== 'null')
+                                        .reduce((count, at) => {
+                                          return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                            return count2 + incapacidad.diasAusencia;
+                                          }, 0);
+                                        }, 0);
+          let atMortales = reportesAt.filter(at => new Date(at.fechaReporte).getMonth() === mes.value && at.causoMuerte).length;
+          let atCeroDias = reportesAt.filter(at => {
+            if(new Date(at.fechaReporte).getMonth() === mes.value && (at.incapacidades === null || at.incapacidades === 'null')){
+              return true;
+            }else if(new Date(at.fechaReporte).getMonth() === mes.value){
+              let contDiasPerdidos = (<Array<any>>JSON.parse(at.incapacidades))
+              .reduce((count, incapacidad) => {
+                return count + incapacidad.diasAusencia;
+              }, 0);
+              return contDiasPerdidos > 0 ? false : true;
+            }
+            return false;
+          }).length;
+          let numATConDiasPerdidos = numeroAt - atCeroDias;
+
+          dataNumATConDiasPerdidosTotal.push(numATConDiasPerdidos)
+          dataDiasPerdidosTotal.push(diasPerdidos)
+          dataMetaNumATConDiasPerdidosTotal.push((meta1)?((meta1.eveDivision)?meta1.eveDivision:0):0)
+          dataMetaDiasPerdidosTotal.push((meta1)?((meta1.diasPerdidosDivision)?meta1.diasPerdidosDivision:0):0)
+        });
+
+        dataMeta_1meses_2.datasets[0].data=dataNumATConDiasPerdidosTotal
+        dataMeta_1meses_2.datasets[1].data=dataMetaNumATConDiasPerdidosTotal
+        dataMeta_1meses_2.datasets[2].data=dataDiasPerdidosTotal
+        dataMeta_1meses_2.datasets[3].data=dataMetaDiasPerdidosTotal
+
+        Object.assign(this, {dataMeta_1meses_2});
+        localStorage.setItem('dataMeta_1meses_2', JSON.stringify(dataMeta_1meses_2));
+        this.filtroEventosMeta_2();
+      }
+    }
+  }
+
+  filtroEventosMeta_2_2(){
+    let dataMeta_1meses_2: any = JSON.parse(localStorage.getItem('dataMeta_1meses_2')!);
+
+    let filtrosListCoronaMeta12_2 = this.grafMetas.map((div:any) => div.label);
+    if(this.selectEventos12_2)
+    if(this.selectEventos12_2.length > 0){
+      let selectEventos12_2:any=this.order(this.selectEventos12_2)
+      let filtroCoronaMeta12_2 = selectEventos12_2.map((div:any) => div.label);
+
+      dataMeta_1meses_2.datasets = dataMeta_1meses_2.datasets.filter((data:any, index:any) => filtroCoronaMeta12_2.includes(filtrosListCoronaMeta12_2[index]));
+    }
+
+    Object.assign(this, {dataMeta_1meses_2});
+  }
+
   //Octava grafica
   async getMeta_1Tasas(filter?: string){
     if(this.plantasList11)
@@ -4219,7 +4641,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
-      plantas.push('Corona total')
 
       let dataMeta_2: {
         labels: any;
@@ -4277,18 +4698,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         meta=metas.data
       })
 
-      let filterQueryTotal = new FilterQuery();
-      filterQueryTotal.sortOrder = SortOrder.ASC;
-      filterQueryTotal.sortField = "id";
-      filterQueryTotal.filterList = [
-        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_2.toString()},
-        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
-        {criteria: Criteria.EQUALS, field: "pais", value1: 'Corona Total'}
-      ];
-      let metaTotal:any
-      await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
-        metaTotal=metas.data
-      })
       try{
         switch (filter) {
           case 'dir':
@@ -4353,10 +4762,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
 
               let trabajadoresTotales = 0;
               let mesesFiltrados = 0;
-              let data:any = {
-                name: plantaL.nombre,
-                series: []
-              };
+
               res.data.forEach((eleHHt:Hht) => {
                 let trabajadoresPorPlanta = 0;
                 if(this.filtroMesesMeta_2.length > 0){  
@@ -4457,28 +4863,28 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
             });
             
 
-            // Corona total
-            let mesesYear=(this.filtroAnioTasa_2==new Date().getFullYear())?new Date().getMonth()+1:12;
-            let numMesesSelect=(this.filtroMesesMeta_2.length>0?this.filtroMesesMeta_2.length:mesesYear)
-            let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
+            // // Corona total
+            // let mesesYear=(this.filtroAnioTasa_2==new Date().getFullYear())?new Date().getMonth()+1:12;
+            // let numMesesSelect=(this.filtroMesesMeta_2.length>0?this.filtroMesesMeta_2.length:mesesYear)
+            // let totalesTrabajadores=trabajadoresTotalesMes+totalTrabajadoresTempMes
 
-            switch (e) {
-              case 'dir':
-                totalesTrabajadores=trabajadoresTotalesMes
-                break;
-              case 'temp':
-                totalesTrabajadores=totalTrabajadoresTempMes
-                break;
-              default:
-                break;
-            }
+            // switch (e) {
+            //   case 'dir':
+            //     totalesTrabajadores=trabajadoresTotalesMes
+            //     break;
+            //   case 'temp':
+            //     totalesTrabajadores=totalTrabajadoresTempMes
+            //     break;
+            //   default:
+            //     break;
+            // }
 
-            let meta1:any=metaTotal.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen11)
+            // let meta1:any=metaTotal.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen11)
 
-            dataTF.push(totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0)
-            dataTS.push(totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0)
-            dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
-            dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
+            // dataTF.push(totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0)
+            // dataTS.push(totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0)
+            // dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
+            // dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
             // dataMetaTF.push(0)
             // dataMetaTS.push(0)
 
@@ -4569,7 +4975,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       let plantas = listaPlantas.filter((div, index) => {
         return listaPlantas.indexOf(div) === index;
       }).sort();
-      plantas.push('Corona total')
+
 
       let dataMeta_2_2: {
         labels: any;
@@ -4625,19 +5031,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       let meta:any
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
-      })
-
-      let filterQueryTotal = new FilterQuery();
-      filterQueryTotal.sortOrder = SortOrder.ASC;
-      filterQueryTotal.sortField = "id";
-      filterQueryTotal.filterList = [
-        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_2_2.toString()},
-        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
-        {criteria: Criteria.EQUALS, field: "pais", value1: 'Corona Total'}
-      ];
-      let metaTotal:any
-      await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
-        metaTotal=metas.data
       })
 
       try{
@@ -4823,14 +5216,13 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
                 break;
             }
 
-            let meta1:any=metaTotal.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen11_2)
+            // let meta1:any=metaTotal.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen11_2)
 
-            dataTF.push(totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0)
-            dataTS.push(totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0)
-            dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
-            dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
-            // dataMetaTF.push(0)
-            // dataMetaTS.push(0)
+            // dataTF.push(totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0)
+            // dataTS.push(totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0)
+            // dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
+            // dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
+   
 
             dataMeta_2_2.datasets[1].data=dataMetaTF
             dataMeta_2_2.datasets[3].data=dataMetaTS
@@ -4909,6 +5301,533 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
     }
     // Object.assign(this, {divisionesCoronaIli1});
     Object.assign(this, {dataMeta_2_2});
+  }
+
+
+
+  // octava.5 grafica
+  filtroMeta2meses?:string;
+  tipoFiltroMeta2meses:number=0
+  filtroAnioTasa_2meses: number = new Date().getFullYear();
+  filterMemoryTasas_2meses?:String;
+
+
+
+  async getTasas_2Meses(filter?: string){
+    if(this.selectedDivisionResumen13){
+
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_2meses);
+
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais13)if(this.selectPais13!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais13);
+      if(this.selectedDivisionResumen13)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen13);
+      if(this.PlantaSelect13)if(this.PlantaSelect13.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect13.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element.nombre));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+    //fin nuevo
+
+      if(filter!='filtro')this.filterMemoryTasas_2meses=filter
+
+      try {
+        switch (this.filterMemoryTasas_2meses) {
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal);
+            throw 'temp';
+          default:
+            throw 'err';
+        }
+      } catch (error) {
+        
+        // if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total') reportesAt = reportesAt
+        // .filter(at => this.filtroDivisionesTasa_2 === at.padreNombre);
+
+        let filterQuery = new FilterQuery();
+
+        filterQuery.sortOrder = SortOrder.ASC;
+        filterQuery.sortField = "id";
+        filterQuery.filterList = [
+          {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2meses.toString()},
+          {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+        ];
+        if(this.selectPais13)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais13.toString()})
+        if(this.selectedDivisionResumen13)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.nombre", value1: this.selectedDivisionResumen13})
+        // if(this.PlantaSelect5)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect5.toString()})
+        await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
+
+          let hhtTemp: Array<Hht>;
+          let filterQuery2 = new FilterQuery();
+          filterQuery2.sortField = "id";
+          filterQuery2.filterList = [
+            {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2meses.toString()},
+            {criteria: Criteria.EQUALS, field: "empresa.id", value1: this.sessionService.getParamEmp()},
+            {criteria: Criteria.NOT_EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+          ];
+          if(this.selectPais13)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais13.toString()})
+          if(this.selectedDivisionResumen13)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.nombre", value1: this.selectedDivisionResumen13})
+          // if(this.PlantaSelect5)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect5.toString()})
+          await this.hhtService.findByFilter(filterQuery2)
+          .then((res2: any) => {
+            hhtTemp = Array.from(res2.data);
+          }).catch((err: any) => {
+            console.error('Error al leer hht de temporales', err);
+          });
+
+          let meses:any[]=[]
+          if(this.filtroMesesMeta_2meses.length>0) meses = this.MesesValue.filter(data => this.filtroMesesMeta_2meses.includes(data.label));
+          else meses=this.MesesValue.map(ele=>ele)
+
+          let dataMeta_2meses: {
+            labels: any;
+            datasets: any[];
+            options?: any;
+          } = {
+            labels: meses.map(mes=>mes.label),
+            datasets: [
+              {
+                label: 'Tasa de Frecuencia',
+                backgroundColor: 'rgb(0, 176, 240,0.5)',
+                borderColor: 'rgb(0, 176, 240)',
+                borderWidth: 1,
+                data: [],
+                type: 'bar'
+              },
+              {
+                label: 'Meta de TF',
+                backgroundColor: 'rgb(10, 53, 255)',
+                fill: false,
+                tension: 0.4,
+                borderWidth: 2,
+                borderColor: 'rgb(10, 53, 255)',
+                data: [],
+                type: 'line'
+              },
+              {
+                label: 'Tasa de Severidad',
+                backgroundColor: 'rgb(259, 69, 18,0.5)',
+                borderColor: 'rgb(259, 69, 18)',
+                borderWidth: 1,
+                data: [],
+                type: 'bar'
+              },
+              {
+                label: 'Meta de TS',
+                backgroundColor: 'rgb(67, 67, 72)',
+                fill: false,
+                tension: 0.4,
+                borderWidth: 2,
+                borderColor: 'rgb(67, 67, 72)',
+                data: [],
+                type: 'line'
+              }
+            ]
+          };
+
+          let dataTS:any=[]
+          let dataTF:any=[]
+          let dataMetaTS:any=[]
+          let dataMetaTF:any=[]
+
+          if(res.data.length > 0 || hhtTemp!){
+            let filterQueryMeta = new FilterQuery();
+            filterQueryMeta.sortOrder = SortOrder.ASC;
+            filterQueryMeta.sortField = "id";
+            filterQueryMeta.filterList = [
+              {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2meses.toString()},
+              {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
+            ];
+            if(this.selectPais13)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais13})
+            if(this.selectedDivisionResumen13)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen13})
+
+            let meta:any
+            await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+              meta=metas.data
+            })
+            console.log(meta)
+            console.log(this.selectedDivisionResumen13)
+            let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen13)
+            meses.forEach((mes, index) => {
+
+              let trabajadoresTotales2 = 0;
+              let totalAt = 0;
+              let diasPerdidos = 0;
+              let atMortales = 0;
+              // let data:any = {
+              //   name: mes.label,
+              //   series: []
+              // };
+
+              res.data.forEach((elem:Hht) => {
+                // let data: DataHht = <DataHht>JSON.parse(elem.valor!).Data;
+                let trabajadoresPorArea = 0;
+                
+                if(this.PlantaSelect13){
+                  if(this.PlantaSelect13.length>0){
+                    this.PlantaSelect13.forEach((pl:any) => {
+                      if(elem.mes === mes.label){
+                        if(pl.nombre==elem.planta?.nombre)trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
+
+    
+                      }
+                  });
+                  trabajadoresTotales2 += trabajadoresPorArea;}
+                  else {
+                    if(elem.mes === mes.label){
+                      trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
+    
+                    }
+                    trabajadoresTotales2 += trabajadoresPorArea;
+                  }
+                } else {
+                  if(elem.mes === mes.label){
+                    trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
+
+                  }
+                  trabajadoresTotales2 += trabajadoresPorArea;
+                }
+              });
+              let totalTrabajadoresTemp = 0;
+              hhtTemp.forEach((hht, index) => {
+                let trabajadoresTemPorArea = 0;
+
+                if(this.PlantaSelect13){
+                  if(this.PlantaSelect13.length>0){
+                  this.PlantaSelect13.forEach((pl:any) => {
+                    if(hht.mes === mes.label){
+                      if(pl.nombre==hht.planta?.nombre)trabajadoresTemPorArea += hht.numeroPersonas ? hht.numeroPersonas:0
+                    }
+                  });
+  
+                  totalTrabajadoresTemp += trabajadoresTemPorArea;}else {
+                    if(hht.mes == mes.label){
+                      totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
+                    }
+                  }
+                } else {
+                  if(hht.mes == mes.label){
+                    totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
+                  }
+                }
+              });
+
+              totalAt = reportesAt.filter(at => mes.value === new Date(at.fechaReporte).getMonth()).length;
+              
+              diasPerdidos = reportesAt.filter(at => mes.value === new Date(at.fechaReporte).getMonth() && at.incapacidades !== null && at.incapacidades !== 'null')
+                                                    .reduce((count, item) => {
+                                                      return count + JSON.parse(item.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                                        return count2 + incapacidad.diasAusencia;
+                                                      }, 0);
+                                                    }, 0);
+              
+                                                    atMortales = reportesAt.filter(at => mes.value === new Date(at.fechaReporte).getMonth() && at.causoMuerte === true).length;
+
+              let tasaFrecuencia = Number(Number((totalAt * 100)/(trabajadoresTotales2+totalTrabajadoresTemp)).toFixed(6));
+              let tasaSeveridad = Number(Number((diasPerdidos * 100)/(trabajadoresTotales2+totalTrabajadoresTemp)).toFixed(6));
+
+              dataTF.push(tasaFrecuencia === Infinity ? 0 : tasaFrecuencia)
+              dataTS.push(tasaFrecuencia === Infinity ? 0 : tasaSeveridad)
+              dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
+              dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
+            });
+
+            dataMeta_2meses.datasets[1].data=dataMetaTF
+            dataMeta_2meses.datasets[3].data=dataMetaTS
+            dataMeta_2meses.datasets[0].data=dataTF
+            dataMeta_2meses.datasets[2].data=dataTS
+            
+            localStorage.setItem('dataMeta_2meses', JSON.stringify(dataMeta_2meses));
+            Object.assign(this, {dataMeta_2meses});
+            // this.filtroTasas_2meses();
+            this.tasasNotFound2 = false;
+          }else{
+            this.tasasNotFound2 = true;
+          }
+        });
+      }
+    }
+  }
+
+  filtroTasas_2meses(){
+    let dataMeta_2meses: any = JSON.parse(localStorage.getItem('dataMeta_2meses')!);
+    let filtrosListCoronaMeta13 = this.grafMetas2.map((div:any) => div.label);
+    if(this.selectEventos13)
+    if(this.selectEventos13.length > 0){
+      let selectEventos13:any=this.order(this.selectEventos13)
+      let filtroCoronaMeta13 = selectEventos13.map((div:any) => div.label);
+
+      dataMeta_2meses.datasets = dataMeta_2meses.datasets.filter((data:any, index:any) => filtroCoronaMeta13.includes(filtrosListCoronaMeta13[index]));
+    }
+    Object.assign(this, {dataMeta_2meses});
+  }
+
+  
+  // Comparativo octava.5 grafica
+  filtroMeta2meses_2?:string;
+  tipoFiltroMeta2meses_2:number=0
+  filtroAnioTasa_2meses_2: number = new Date().getFullYear();
+  filterMemoryTasas_2meses_2?:String;
+
+
+
+  async getTasas_2Meses_2(filter?: string){
+    if(this.selectedDivisionResumen13_2){
+
+      let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_2meses_2);
+
+      //nuevo
+      let reportesAtCopyDiv: any[]=[]
+      if(this.selectPais13_2)if(this.selectPais13_2!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais13_2);
+      if(this.selectedDivisionResumen13_2)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen13_2);
+      if(this.PlantaSelect13_2)if(this.PlantaSelect13_2.length>0){
+        reportesAtCopyDiv=[]
+        this.PlantaSelect13_2.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element.nombre));
+        });
+        reportesAt=[...reportesAtCopyDiv]
+      }
+    //fin nuevo
+
+      if(filter!='filtro')this.filterMemoryTasas_2meses_2=filter
+
+      try {
+        switch (this.filterMemoryTasas_2meses_2) {
+          case 'dir':
+            reportesAt = reportesAt.filter(at => at.temporal === null);
+            throw 'dir';
+          case 'temp':
+            reportesAt = reportesAt.filter(at => at.temporal);
+            throw 'temp';
+          default:
+            throw 'err';
+        }
+      } catch (error) {
+        
+        // if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total') reportesAt = reportesAt
+        // .filter(at => this.filtroDivisionesTasa_2 === at.padreNombre);
+
+        let filterQuery = new FilterQuery();
+
+        filterQuery.sortOrder = SortOrder.ASC;
+        filterQuery.sortField = "id";
+        filterQuery.filterList = [
+          {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2meses_2.toString()},
+          {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+        ];
+        if(this.selectPais13_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais13_2.toString()})
+        if(this.selectedDivisionResumen13_2)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.nombre", value1: this.selectedDivisionResumen13_2})
+        // if(this.PlantaSelect5)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect5.toString()})
+        await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
+
+          let hhtTemp: Array<Hht>;
+          let filterQuery2 = new FilterQuery();
+          filterQuery2.sortField = "id";
+          filterQuery2.filterList = [
+            {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2meses_2.toString()},
+            {criteria: Criteria.EQUALS, field: "empresa.id", value1: this.sessionService.getParamEmp()},
+            {criteria: Criteria.NOT_EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+          ];
+          if(this.selectPais13_2)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais13_2.toString()})
+          if(this.selectedDivisionResumen13_2)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.nombre", value1: this.selectedDivisionResumen13_2})
+          // if(this.PlantaSelect5)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect5.toString()})
+          await this.hhtService.findByFilter(filterQuery2)
+          .then((res2: any) => {
+            hhtTemp = Array.from(res2.data);
+          }).catch((err: any) => {
+            console.error('Error al leer hht de temporales', err);
+          });
+
+          let meses:any[]=[]
+          if(this.filtroMesesMeta_2meses_2.length>0) meses = this.MesesValue.filter(data => this.filtroMesesMeta_2meses_2.includes(data.label));
+          else meses=this.MesesValue.map(ele=>ele)
+
+          let dataMeta_2meses_2: {
+            labels: any;
+            datasets: any[];
+            options?: any;
+          } = {
+            labels: meses.map(mes=>mes.label),
+            datasets: [
+              {
+                label: 'Tasa de Frecuencia',
+                backgroundColor: 'rgb(0, 176, 240,0.5)',
+                borderColor: 'rgb(0, 176, 240)',
+                borderWidth: 1,
+                data: [],
+                type: 'bar'
+              },
+              {
+                label: 'Meta de TF',
+                backgroundColor: 'rgb(10, 53, 255)',
+                fill: false,
+                tension: 0.4,
+                borderWidth: 2,
+                borderColor: 'rgb(10, 53, 255)',
+                data: [],
+                type: 'line'
+              },
+              {
+                label: 'Tasa de Severidad',
+                backgroundColor: 'rgb(259, 69, 18,0.5)',
+                borderColor: 'rgb(259, 69, 18)',
+                borderWidth: 1,
+                data: [],
+                type: 'bar'
+              },
+              {
+                label: 'Meta de TS',
+                backgroundColor: 'rgb(67, 67, 72)',
+                fill: false,
+                tension: 0.4,
+                borderWidth: 2,
+                borderColor: 'rgb(67, 67, 72)',
+                data: [],
+                type: 'line'
+              }
+            ]
+          };
+
+          let dataTS:any=[]
+          let dataTF:any=[]
+          let dataMetaTS:any=[]
+          let dataMetaTF:any=[]
+
+          if(res.data.length > 0 || hhtTemp!){
+            let filterQueryMeta = new FilterQuery();
+            filterQueryMeta.sortOrder = SortOrder.ASC;
+            filterQueryMeta.sortField = "id";
+            filterQueryMeta.filterList = [
+              {criteria: Criteria.EQUALS, field: "anio", value1: this.filtroAnioTasa_2meses_2.toString()},
+              {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
+            ];
+            if(this.selectPais13_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais13_2})
+            if(this.selectedDivisionResumen13_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen13_2})
+
+            let meta:any
+            await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+              meta=metas.data
+            })
+
+            let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen13_2)
+            meses.forEach((mes, index) => {
+
+              let trabajadoresTotales2 = 0;
+              let totalAt = 0;
+              let diasPerdidos = 0;
+              let atMortales = 0;
+              // let data:any = {
+              //   name: mes.label,
+              //   series: []
+              // };
+
+              res.data.forEach((elem:Hht) => {
+                // let data: DataHht = <DataHht>JSON.parse(elem.valor!).Data;
+                let trabajadoresPorArea = 0;
+                
+                if(this.PlantaSelect13_2){
+                  if(this.PlantaSelect13_2.length>0){
+                    this.PlantaSelect13_2.forEach((pl:any) => {
+                      if(elem.mes === mes.label){
+                        if(pl.nombre==elem.planta?.nombre)trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
+
+    
+                      }
+                  });
+                  trabajadoresTotales2 += trabajadoresPorArea;}
+                  else {
+                    if(elem.mes === mes.label){
+                      trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
+    
+                    }
+                    trabajadoresTotales2 += trabajadoresPorArea;
+                  }
+                } else {
+                  if(elem.mes === mes.label){
+                    trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
+
+                  }
+                  trabajadoresTotales2 += trabajadoresPorArea;
+                }
+              });
+              let totalTrabajadoresTemp = 0;
+              hhtTemp.forEach((hht, index) => {
+                let trabajadoresTemPorArea = 0;
+
+                if(this.PlantaSelect13_2){
+                  if(this.PlantaSelect13_2.length>0){
+                  this.PlantaSelect13_2.forEach((pl:any) => {
+                    if(hht.mes === mes.label){
+                      if(pl.nombre==hht.planta?.nombre)trabajadoresTemPorArea += hht.numeroPersonas ? hht.numeroPersonas:0
+                    }
+                  });
+  
+                  totalTrabajadoresTemp += trabajadoresTemPorArea;}else {
+                    if(hht.mes == mes.label){
+                      totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
+                    }
+                  }
+                } else {
+                  if(hht.mes == mes.label){
+                    totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
+                  }
+                }
+              });
+
+              totalAt = reportesAt.filter(at => mes.value === new Date(at.fechaReporte).getMonth()).length;
+              
+              diasPerdidos = reportesAt.filter(at => mes.value === new Date(at.fechaReporte).getMonth() && at.incapacidades !== null && at.incapacidades !== 'null')
+                                                    .reduce((count, item) => {
+                                                      return count + JSON.parse(item.incapacidades).reduce((count2:any, incapacidad:any) => {
+                                                        return count2 + incapacidad.diasAusencia;
+                                                      }, 0);
+                                                    }, 0);
+              
+                                                    atMortales = reportesAt.filter(at => mes.value === new Date(at.fechaReporte).getMonth() && at.causoMuerte === true).length;
+
+              let tasaFrecuencia = Number(Number((totalAt * 100)/(trabajadoresTotales2+totalTrabajadoresTemp)).toFixed(6));
+              let tasaSeveridad = Number(Number((diasPerdidos * 100)/(trabajadoresTotales2+totalTrabajadoresTemp)).toFixed(6));
+
+              dataTF.push(tasaFrecuencia === Infinity ? 0 : tasaFrecuencia)
+              dataTS.push(tasaFrecuencia === Infinity ? 0 : tasaSeveridad)
+              dataMetaTF.push((meta1)?((meta1.tfDivision)?meta1.tfDivision:0):0)
+              dataMetaTS.push((meta1)?((meta1.tsDivision)?meta1.tsDivision:0):0)
+            });
+
+            dataMeta_2meses_2.datasets[1].data=dataMetaTF
+            dataMeta_2meses_2.datasets[3].data=dataMetaTS
+            dataMeta_2meses_2.datasets[0].data=dataTF
+            dataMeta_2meses_2.datasets[2].data=dataTS
+            console.log(dataMeta_2meses_2)
+            
+            localStorage.setItem('dataMeta_2meses_2', JSON.stringify(dataMeta_2meses_2));
+            Object.assign(this, {dataMeta_2meses_2});
+            // this.filtroTasas_2meses();
+            this.tasasNotFound2 = false;
+          }else{
+            this.tasasNotFound2 = true;
+          }
+        });
+      }
+    }
+  }
+
+  filtroTasas_2meses_2(){
+    let dataMeta_2meses_2: any = JSON.parse(localStorage.getItem('dataMeta_2meses_2')!);
+    let filtrosListCoronaMeta13_2 = this.grafMetas2.map((div:any) => div.label);
+    if(this.selectEventos13_2)
+    if(this.selectEventos13_2.length > 0){
+      let selectEventos13_2:any=this.order(this.selectEventos13_2)
+      let filtroCoronaMeta13_2 = selectEventos13_2.map((div:any) => div.label);
+
+      dataMeta_2meses_2.datasets = dataMeta_2meses_2.datasets.filter((data:any, index:any) => filtroCoronaMeta13_2.includes(filtrosListCoronaMeta13_2[index]));
+    }
+    Object.assign(this, {dataMeta_2meses_2});
   }
 
   // Comun
@@ -5066,6 +5985,19 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         this.plantasList10_2=[]
         this.divisionList10_2=await this.getPlantas(pais.value)
         break;
+
+      case 'meta1meses':
+        this.selectedDivisionResumen12=null
+        this.PlantaSelect12=null
+        this.plantasList12=[]
+        this.divisionList12=await this.getPlantas(pais.value)
+        break;
+      case 'meta1_2meses':
+        this.selectedDivisionResumen12_2=null
+        this.PlantaSelect12_2=null
+        this.plantasList12_2=[]
+        this.divisionList12_2=await this.getPlantas(pais.value)
+        break;
       case 'meta2':
         this.selectedDivisionResumen11=null
         this.PlantaSelect11=null
@@ -5077,6 +6009,18 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         this.PlantaSelect11_2=null
         this.plantasList11_2=[]
         this.divisionList11_2=await this.getPlantas(pais.value)
+        break;
+      case 'meta2meses':
+        this.selectedDivisionResumen13=null
+        this.PlantaSelect13=null
+        this.plantasList13=[]
+        this.divisionList13=await this.getPlantas(pais.value)
+        break;
+      case 'meta2_2meses':
+        this.selectedDivisionResumen13_2=null
+        this.PlantaSelect13_2=null
+        this.plantasList13_2=[]
+        this.divisionList13_2=await this.getPlantas(pais.value)
         break;
       default:
         break;
@@ -5288,6 +6232,23 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         }
         this.getMeta_1Eve_2()
         break;
+
+      case 'meta1meses':
+        this.PlantaSelect12=null
+        this.plantasList12=[]
+        for(const pl of plantasList){
+          this.plantasList12.push({label:pl.nombre,value:pl.nombre})
+        }
+        this.getEventosMeta_2()
+        break;
+      case 'meta1_2meses':
+        this.PlantaSelect12_2=null
+        this.plantasList12_2=[]
+        for(const pl of plantasList){
+          this.plantasList12_2.push({label:pl.nombre,value:pl.nombre})
+        }
+        this.getEventosMeta_2_2()
+        break;
       case 'meta2':
         this.PlantaSelect11=null
         this.plantasList11=[]
@@ -5303,6 +6264,22 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
           this.plantasList11_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
         }
         this.getMeta_1Tasas_2('filtro')
+        break;
+      case 'meta2meses':
+        this.PlantaSelect13=null
+        this.plantasList13=[]
+        for(const pl of plantasList){
+          this.plantasList13.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+        }
+        this.getTasas_2Meses('filtro')
+        break;
+      case 'meta2_2meses':
+        this.PlantaSelect13_2=null
+        this.plantasList13_2=[]
+        for(const pl of plantasList){
+          this.plantasList13_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+        }
+        this.getTasas_2Meses_2('filtro')
         break;
       default:
         break;
@@ -5325,6 +6302,10 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
   estaAbiertoGraf7_2:boolean = false;
   estaAbiertoGraf8:boolean = false;
   estaAbiertoGraf8_2:boolean = false;
+  estaAbiertoGraf9:boolean = false;
+  estaAbiertoGraf9_2:boolean = false;
+  estaAbiertoGraf10:boolean = false;
+  estaAbiertoGraf10_2:boolean = false;
 
   // togglePanel() {
   //   this.estaAbierto = !this.estaAbierto;
@@ -5354,6 +6335,12 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         break;
       case 'graf8':
         this.estaAbiertoGraf8 = !this.estaAbiertoGraf8;
+        break;
+      case 'graf9':
+        this.estaAbiertoGraf9 = !this.estaAbiertoGraf9;
+        break;
+      case 'graf10':
+        this.estaAbiertoGraf10 = !this.estaAbiertoGraf10;
         break;
     
       default:
@@ -5389,6 +6376,12 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       case 'graf8':
         this.estaAbiertoGraf8_2 = !this.estaAbiertoGraf8_2;
         break;
+      case 'graf9':
+        this.estaAbiertoGraf9_2 = !this.estaAbiertoGraf9_2;
+        break;
+      case 'graf10':
+        this.estaAbiertoGraf10_2 = !this.estaAbiertoGraf10_2;
+        break;
     
       default:
         break;
@@ -5421,6 +6414,12 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       case 'graf8':
         this.flagComparativoEve8 = !this.flagComparativoEve8
         break;
+      case 'graf9':
+        this.flagComparativoEve9 = !this.flagComparativoEve9
+        break;
+      case 'graf10':
+        this.flagComparativoEve10 = !this.flagComparativoEve10
+        break;
     
       default:
         break;
@@ -5435,5 +6434,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
   flagComparativoEve6:boolean=false
   flagComparativoEve7:boolean=false
   flagComparativoEve8:boolean=false
+  flagComparativoEve9:boolean=false
+  flagComparativoEve10:boolean=false
 
 }
