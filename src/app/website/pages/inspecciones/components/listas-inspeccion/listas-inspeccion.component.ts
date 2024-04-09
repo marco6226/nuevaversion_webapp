@@ -12,7 +12,7 @@ import { ListaInspeccionService } from '../../services/lista-inspeccion.service'
 import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/website/pages/rai/entities/reporte-enumeraciones';
 import { PrimeNGConfig } from 'primeng/api';
 import { ViewListaInspeccionService } from '../../services/viewlista-inspeccion.service';
-
+import * as xlsx from 'xlsx';
 @Component({
   selector: 'app-listas-inspeccion',
   templateUrl: './listas-inspeccion.component.html',
@@ -168,23 +168,51 @@ export class ListasInspeccionComponent implements OnInit {
   abrirDlg() {
     this.visibleDlg = true;
   }
-
   descargarInspecciones() {
     this.downloading = true;
     this.inspeccionService.consultarConsolidado(this.desde, this.hasta, this.listaInpSelect.listaInspeccionPK.id, this.listaInpSelect.listaInspeccionPK.version)
       .then(resp => {
-        if (resp != null) {
-          var blob = new Blob([<any>resp], { type: 'text/csv;charset=utf-8;' });
-          let url = URL.createObjectURL(blob);
-          let dwldLink = document.getElementById("dwldLink");
-          dwldLink!.setAttribute("href", url);
-          dwldLink!.setAttribute("download", "Consolidado inspecciones_" + new Date().getTime() + ".csv");
-          dwldLink!.click();
+        if (resp instanceof Blob) {
+          var reader = new FileReader();
+          reader.onload = () => {
+            var csvString = reader.result as string;
+            console.log("aqui goku",csvString);
+            
+            var xlsxBlob = this.convertCsvToXlsx(csvString);
+            var url = URL.createObjectURL(xlsxBlob);
+            var dwldLink = document.createElement("a");
+            dwldLink.setAttribute("href", url);
+            dwldLink.setAttribute("download", "Consolidado inspecciones_" + new Date().getTime() + ".xlsx");
+            dwldLink.click();
+            URL.revokeObjectURL(url);
+            this.downloading = false;
+          };
+          reader.readAsText(resp);
+        } else {
+          console.error("La respuesta no es un Blob");
           this.downloading = false;
         }
       })
       .catch(err => {
+        console.error(err);
         this.downloading = false;
       });
   }
+
+
+  convertCsvToXlsx(csvString: string): Blob {
+    // Parse CSV string to workbook
+    var workbook = xlsx.read(csvString, { type: 'string' });
+  
+    // Write workbook to XLSX buffer
+    var xlsxBuffer = xlsx.write(workbook, { type: 'array', bookType: 'xlsx' });
+  
+    // Crear Blob a partir del buffer XLSX
+    var blob = new Blob([new Uint8Array(xlsxBuffer)], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8' });
+  
+    return blob;
+  }
+  
+  
+  
 }
