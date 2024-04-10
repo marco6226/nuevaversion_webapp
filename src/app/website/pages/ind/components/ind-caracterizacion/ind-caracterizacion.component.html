@@ -138,7 +138,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Division'"
+                    [xAxisLabel]="'Planta'"
                     [yAxisLabel]="'No. eventos'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -229,7 +229,7 @@
                         [legend]="false"
                         [showXAxisLabel]="true"
                         [showYAxisLabel]="true"
-                        [xAxisLabel]="'Divisiones'"
+                        [xAxisLabel]="'Plantas'"
                         [yAxisLabel]="'No. personas'"
                         [barPadding]=0
                         [groupPadding]=4
@@ -248,7 +248,7 @@
                     <h3>Año</h3>
                     <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear2" (onChange)="DatosGrafica2()"></p-dropdown>
                     <h3>Meses</h3>
-                    <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2" (onChange)="DatosGrafica2()"></p-multiSelect>
+                    <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2" (onChange)="DatosGrafica2()"></p-multiSelect>
                     <!-- <h3>Division</h3>
                     <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones2" optionLabel="label" [(ngModel)]="selectDiv2" (onChange)="filtroGraEve2()"></p-multiSelect> -->
                     
@@ -311,7 +311,7 @@
                 [legend]="false"
                 [showXAxisLabel]="true"
                 [showYAxisLabel]="true"
-                [xAxisLabel]="'Divisiones'"
+                [xAxisLabel]="'Plantas'"
                 [yAxisLabel]="'No. accidentes'"
                 [barPadding]=0
                 [groupPadding]=4
@@ -339,7 +339,7 @@
                 <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear3" (onChange)="DatosGrafica3()"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3" (onChange)="DatosGrafica3()"></p-multiSelect>
+                <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3" (onChange)="DatosGrafica3()"></p-multiSelect>
                 <!-- <h3>Division</h3>
                 <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv3" (onChange)="filtroGraEve3()"></p-multiSelect> -->
                 <h3>Pais: </h3>
@@ -349,7 +349,7 @@
                 <h3>Localidad: </h3>
                 <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList4" placeholder="Seleccionar localidad" [(ngModel)]="LocalidadSelect4" (ngModelChange)="DatosGrafica3()"></p-multiSelect>
                 <h3>Filtro cargos</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="cargoList" optionLabel="label" [(ngModel)]="selectEv3" (onChange)="filtroGraEve3()"></p-multiSelect>
+                <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="cargoList" optionLabel="label" [(ngModel)]="selectEv3" (onChange)="filtroGraEve3()"></p-multiSelect>
                 <br>
             </div>
         </div>
@@ -393,7 +393,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. personas'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -410,7 +410,7 @@
                 <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear4"  (onChange)="DatosGrafica4()"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4"  (onChange)="DatosGrafica4()"></p-multiSelect>
+                <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4"  (onChange)="DatosGrafica4()"></p-multiSelect>
                 <!-- <h3>Division</h3>
                 <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv4" (onChange)="filtroGraEve4()" ></p-multiSelect> -->
                 <h3>Pais: </h3>
@@ -477,7 +477,7 @@
                 [legend]="false"
                 [showXAxisLabel]="true"
                 [showYAxisLabel]="true"
-                [xAxisLabel]="'Divisiones'"
+                [xAxisLabel]="'Plantas'"
                 [yAxisLabel]="'No. peligros'"
                 [barPadding]=0
                 [groupPadding]=4
@@ -586,7 +586,7 @@
                 <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" [filter]="true" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear6" (onChange)="filtroGraEve6()"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6" (onChange)="filtroGraEve6()"></p-multiSelect>
+                <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6" (onChange)="filtroGraEve6()"></p-multiSelect>
                 <!-- <h3>Division</h3>
                 <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv6" (onChange)="filtroGraEve6()"></p-multiSelect> -->
                 <h3>Pais: </h3>
@@ -656,7 +656,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Division'"
+                    [xAxisLabel]="'Planta'"
                     [yAxisLabel]="'No. eventos'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -770,7 +770,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Division'"
+                    [xAxisLabel]="'Planta'"
                     [yAxisLabel]="'No. eventos'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -855,7 +855,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. personas'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -876,7 +876,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear2" (onChange)="DatosGrafica2()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2" (onChange)="DatosGrafica2()"></p-multiSelect>
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2" (onChange)="DatosGrafica2()"></p-multiSelect>
                         <!-- <h3>Division</h3>
                         <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones2" optionLabel="label" [(ngModel)]="selectDiv2" (onChange)="filtroGraEve2()"></p-multiSelect> -->
                         
@@ -936,7 +936,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. personas'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -957,7 +957,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear2_2" (onChange)="DatosGrafica2_2()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2_2" (onChange)="DatosGrafica2_2()"></p-multiSelect>                        
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth2_2" (onChange)="DatosGrafica2_2()"></p-multiSelect>                        
                         <h3>Pais: </h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" placeholder="Seleccionar pais" (onChange)="funcSelectPais($event,'graf3_2')" [(ngModel)]="selectPais3_2"></p-dropdown>
                         <h3>División: </h3>
@@ -1009,7 +1009,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. accidentes'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -1030,7 +1030,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear3" (onChange)="DatosGrafica3()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3" (onChange)="DatosGrafica3()"></p-multiSelect>
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3" (onChange)="DatosGrafica3()"></p-multiSelect>
                         <!-- <h3>Division</h3>
                         <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv3" (onChange)="filtroGraEve3()"></p-multiSelect> -->
                         <h3>Pais: </h3>
@@ -1081,7 +1081,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. accidentes'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -1102,7 +1102,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear3_2" (onChange)="DatosGrafica3_2()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3_2" (onChange)="DatosGrafica3_2()"></p-multiSelect>
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth3_2" (onChange)="DatosGrafica3_2()"></p-multiSelect>
                         <h3>Pais: </h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" placeholder="Seleccionar pais" (onChange)="funcSelectPais($event,'graf4_2')" [(ngModel)]="selectPais4_2"></p-dropdown>
                         <h3>División: </h3>
@@ -1145,7 +1145,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. personas'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -1165,7 +1165,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear4"  (onChange)="DatosGrafica4()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4"  (onChange)="DatosGrafica4()"></p-multiSelect>
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4"  (onChange)="DatosGrafica4()"></p-multiSelect>
                         <!-- <h3>Division</h3>
                         <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv4" (onChange)="filtroGraEve4()" ></p-multiSelect> -->
                         <h3>Pais: </h3>
@@ -1230,7 +1230,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. personas'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -1250,7 +1250,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [filter]="true" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear4_2"  (onChange)="DatosGrafica4_2()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4_2"  (onChange)="DatosGrafica4_2()"></p-multiSelect>
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth4_2"  (onChange)="DatosGrafica4_2()"></p-multiSelect>
                         <h3>Pais: </h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" placeholder="Seleccionar pais" (onChange)="funcSelectPais($event,'graf5_2')" [(ngModel)]="selectPais5_2"></p-dropdown>
                         <h3>División: </h3>
@@ -1294,7 +1294,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. peligros'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -1369,7 +1369,7 @@
                     [legend]="false"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="'Divisiones'"
+                    [xAxisLabel]="'Plantas'"
                     [yAxisLabel]="'No. peligros'"
                     [barPadding]=0
                     [groupPadding]=4
@@ -1465,7 +1465,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" [filter]="true" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear6" (onChange)="filtroGraEve6()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6" (onChange)="filtroGraEve6()"></p-multiSelect>
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6" (onChange)="filtroGraEve6()"></p-multiSelect>
                         <!-- <h3>Division</h3>
                         <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones3" optionLabel="name" [(ngModel)]="selectDiv6" (onChange)="filtroGraEve6()"></p-multiSelect> -->
                         <h3>Pais: </h3>
@@ -1543,7 +1543,7 @@
                         <h3>Año</h3>
                         <p-dropdown [style]="{'width':'100%'}" [filter]="true" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectYear6_2" (onChange)="filtroGraEve6_2()"></p-dropdown>
                         <h3>Meses</h3>
-                        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6_2" (onChange)="filtroGraEve6_2()"></p-multiSelect>
+                        <p-multiSelect appendTo='body' [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" optionLabel="name" [(ngModel)]="selectMonth6_2" (onChange)="filtroGraEve6_2()"></p-multiSelect>
                         <h3>Pais: </h3>
                         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" placeholder="Seleccionar pais" (onChange)="funcSelectPais($event,'graf7_2')" [(ngModel)]="selectPais7_2"></p-dropdown>
                         <h3>División: </h3>

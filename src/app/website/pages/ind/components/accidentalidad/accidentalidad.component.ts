@@ -224,7 +224,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     {label:'Diciembre',value:11}
   ];
 
-  paisesList: Array<any> = [
+  paisesListtotal: Array<any> = [
     {label: 'Colombia', value: 'Colombia'},
     {label: 'Costa Rica', value: 'Costa Rica'},
     {label: 'EEUU', value: 'EEUU'},
@@ -233,6 +233,15 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     {label: 'Mexico', value: 'Mexico'},
     {label: 'Nicaragua', value: 'Nicaragua'},
     {label: 'Corona Total', value: 'Corona Total'}
+  ];
+  paisesList: Array<any> = [
+    {label: 'Colombia', value: 'Colombia'},
+    {label: 'Costa Rica', value: 'Costa Rica'},
+    {label: 'EEUU', value: 'EEUU'},
+    {label: 'Guatemala', value: 'Guatemala'},
+    {label: 'Honduras', value: 'Honduras'},
+    {label: 'Mexico', value: 'Mexico'},
+    {label: 'Nicaragua', value: 'Nicaragua'}
   ];
   selectPais1:any
   selectPais2:any
@@ -1503,8 +1512,13 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
                 break;
             }
 
+            // let dataTotal:any = {
+            //   name: 'Corona total',
+            //   series: []
+            // };
+
             let dataTotal:any = {
-              name: 'Corona total',
+              name: this.selectedDivisionResumen4,
               series: []
             };
             
@@ -1809,7 +1823,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       let plantas = this.PlantaSelect4_2.map((div:any) => div.nombre)
       tasaFrecuencia1_2 = tasaFrecuencia1_2.filter(data => plantas.includes(data.name));
     }
-    if(this.selectIndicarores1)
+    if(this.selectIndicarores1_2)
     if(this.selectIndicarores1_2.length > 0){
       let indicadores = this.selectIndicarores1_2.map(indicador => indicador.label);
       tasaFrecuencia1_2.forEach(tf1 => {
@@ -2158,7 +2172,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           });
           let totalTrabajadoresTemp = 0;
           hhtTemp.forEach((hht, index) => {
-            let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;//revisar
+            // let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;//revisar
+
             let trabajadoresTemPorArea = 0;
 
             // if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
@@ -2185,12 +2200,12 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               totalTrabajadoresTemp += trabajadoresTemPorArea;}
               else {
                 if(hht.mes == mes.label){
-                  totalTrabajadoresTemp += data.NumPersonasMes ? data.NumPersonasMes : 0;
+                  totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
                 }
               }
             } else {
               if(hht.mes == mes.label){
-                totalTrabajadoresTemp += data.NumPersonasMes ? data.NumPersonasMes : 0;
+                totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas : 0;
               }
             }
           });
@@ -2370,7 +2385,7 @@ filtroTasas_2_2(){
       });
       
       let dataTotal:any = {
-        name: 'Corona total',
+        name: this.selectedDivisionResumen6,
         series: []
       }
 
@@ -2410,10 +2425,12 @@ filtroTasas_2_2(){
     //   let divisiones = this.selectDivisiones2.map(div => div.label)
     //   dataEventos1 = dataEventos1.filter(data => divisiones.includes(data.name));
     // }
+    if(this.PlantaSelect6)
     if(this.PlantaSelect6.length > 0){
       let plantas = this.PlantaSelect6.map((div:any) => div)
       dataEventos1 = dataEventos1.filter(data => plantas.includes(data.name));
     }
+    if(this.selectEventos1)
     if(this.selectEventos1.length > 0){
       let eventos = this.selectEventos1.map(ev => ev.label);
       dataEventos1 = dataEventos1.map(data => {
@@ -2540,7 +2557,7 @@ filtroTasas_2_2(){
       });
       
       let dataTotal:any = {
-        name: 'Corona total',
+        name: this.selectedDivisionResumen6_2,
         series: []
       }
 
@@ -2579,11 +2596,12 @@ filtroTasas_2_2(){
     //   let divisiones = this.selectDivisiones2.map(div => div.label)
     //   dataEventos1 = dataEventos1.filter(data => divisiones.includes(data.name));
     // }
+    if(this.PlantaSelect6_2)
     if(this.PlantaSelect6_2.length > 0){
       let plantas = this.PlantaSelect6_2.map((div:any) => div)
       dataEventos1_2 = dataEventos1_2.filter(data => plantas.includes(data.name));
     }
-
+    if(this.selectEventos1_2)
     if(this.selectEventos1_2.length > 0){
       let eventos = this.selectEventos1_2.map(ev => ev.label);
       dataEventos1_2 = dataEventos1_2.map(data => {
@@ -2689,10 +2707,12 @@ filtroTasas_2_2(){
   filtroEventos_2(){
     let dataEventos2: any[] = JSON.parse(localStorage.getItem('dataEventos2')!);
     
+    if(this.selectMeses2)
     if(this.selectMeses2.length > 0){
       dataEventos2 = dataEventos2.filter(data => this.selectMeses2.includes(data.name));
     }
 
+    if(this.selectEventos2)
     if(this.selectEventos2.length > 0){
       let eventos = this.selectEventos2.map(ev => ev.label);
       dataEventos2 = dataEventos2.map(data => {
@@ -2792,19 +2812,21 @@ filtroTasas_2_2(){
         });
         Object.assign(this, {dataEventos2_2});
         localStorage.setItem('dataEventos2_2', JSON.stringify(dataEventos2_2.map(data => data)));
-        this.filtroEventos_2();
+        this.filtroEventos_2_2();
       }
     }
   
     filtroEventos_2_2(){
       let dataEventos2_2: any[] = JSON.parse(localStorage.getItem('dataEventos2_2')!);
-      
-      if(this.selectMeses2.length > 0){
-        dataEventos2_2 = dataEventos2_2.filter(data => this.selectMeses2.includes(data.name));
+
+      if(this.selectMeses2_2)
+      if(this.selectMeses2_2.length > 0){
+        dataEventos2_2 = dataEventos2_2.filter(data => this.selectMeses2_2.includes(data.name));
       }
   
-      if(this.selectEventos2.length > 0){
-        let eventos = this.selectEventos2.map(ev => ev.label);
+      if(this.selectEventos2_2)
+      if(this.selectEventos2_2.length > 0){
+        let eventos = this.selectEventos2_2.map(ev => ev.label);
         dataEventos2_2 = dataEventos2_2.map(data => {
           return {
             name: data.name,
@@ -3063,7 +3085,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
     let reportesAtCopyDiv: any[]=[]
     if(this.selectPais8_2)if(this.selectPais8_2!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais8_2);
     if(this.selectedDivisionResumen8_2)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen8_2);
-    if(this.PlantaSelect8_2)if(this.PlantaSelect8.length>0){
+    if(this.PlantaSelect8_2)if(this.PlantaSelect8_2.length>0){
       reportesAtCopyDiv=[]
       this.PlantaSelect8_2.forEach((element:any) => {
         reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
@@ -3259,7 +3281,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
 
       localStorage.setItem('dataIli_1_2', JSON.stringify(dataIli_1_2));
       Object.assign(this, {dataIli_1_2});
-      this.filtroIli_1();
+      this.filtroIli_1_2();
     });
   }
 
@@ -3276,7 +3298,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
     let plantasCoronaIli1 = this.plantasList8_2.map((div:any) => div.label);
     if(this.PlantaSelect8_2)
     if(this.PlantaSelect8_2.length > 0){
-      let PlantaSelect = this.PlantaSelect8_2.map((div:any) => div.label);
+      let PlantaSelect = this.PlantaSelect8_2.map((div:any) => div);
       plantasCoronaIli1 = plantasCoronaIli1.filter((div:any) => PlantaSelect.includes(div));
       dataIli_1_2.labels = plantasCoronaIli1;
       dataIli_1_2.datasets[1].data = dataIli_1_2.datasets[1].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaIli1[index]));
@@ -3365,6 +3387,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
       ];
       if(this.selectPais9)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais9.toString()})
+      if(this.selectedDivisionResumen9)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen9.toString()})
       let meta:any
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
@@ -3548,7 +3571,18 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       }).catch(err => {
         console.error('Error al obtener hht temporales', err);
       });
+      let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.filterList = [
+        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioIli_2_2.toString()},
+        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
+      ];
+      if(this.selectPais9_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais9_2.toString()})
+      if(this.selectedDivisionResumen9_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen9_2.toString()})
 
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+        meta=metas.data
+      })
       this.meses.forEach(async (mes, index) => {
         let metaCorona = 0;
 
@@ -3564,16 +3598,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
         
         let hhtCorona = 0;
 
-        let filterQueryMeta = new FilterQuery();
-        filterQueryMeta.filterList = [
-          {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioMeta_2_2.toString()},
-          {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
-        ];
-        if(this.selectPais9_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais9_2.toString()})
-        let meta:any
-        await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
-          meta=metas.data
-        })
+        
         res.data.forEach((elem:Hht) => {
           // let dataHHT: DataHht = <DataHht>JSON.parse(elem.valor).Data;
           // if(this.selectDivisionesILI2 && this.selectDivisionesILI2 !== 'Corona total'){
@@ -5450,8 +5475,7 @@ optionsMeta_2meses: any = {
             await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
               meta=metas.data
             })
-            console.log(meta)
-            console.log(this.selectedDivisionResumen13)
+
             let meta1:any=meta.find((met:any)=> met.nombreDivision==this.selectedDivisionResumen13)
             meses.forEach((mes, index) => {
 
@@ -5734,9 +5758,8 @@ optionsMeta_2meses: any = {
                   if(this.PlantaSelect13_2.length>0){
                     this.PlantaSelect13_2.forEach((pl:any) => {
                       if(elem.mes === mes.label){
-                        if(pl.nombre==elem.planta?.nombre)trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
-
-    
+                        if(pl.nombre==elem.planta?.nombre)
+                        trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
                       }
                   });
                   trabajadoresTotales2 += trabajadoresPorArea;}
@@ -5803,7 +5826,6 @@ optionsMeta_2meses: any = {
             dataMeta_2meses_2.datasets[3].data=dataMetaTS
             dataMeta_2meses_2.datasets[0].data=dataTF
             dataMeta_2meses_2.datasets[2].data=dataTS
-            console.log(dataMeta_2meses_2)
             
             localStorage.setItem('dataMeta_2meses_2', JSON.stringify(dataMeta_2meses_2));
             Object.assign(this, {dataMeta_2meses_2});
@@ -5875,14 +5897,14 @@ optionsMeta_2meses: any = {
         this.selectedDivisionResumen1=null
         this.PlantaSelect1=null
         this.plantasList1=[]
-        this.divisionList1=await this.getPlantas(pais.value)
+        if(pais)this.divisionList1=await this.getPlantas(pais.value)
         break;
       case 'totalEventos':
         this.selectedDivisionResumen2=null
         this.PlantaSelect2=null
         this.plantasList2=[]
         this.flagTortaTotalEve=false
-        this.divisionList2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList2=await this.getPlantas(pais.value)
         this.getEventosAt();
         this.selectRangoEventosAt(this.filtroFechaAt![0],'desde' )
         this.flagTortaTotalEve=true
@@ -5892,7 +5914,7 @@ optionsMeta_2meses: any = {
         this.PlantaSelect3=null
         this.plantasList3=[]
         this.flagTortaTotalDias=false
-        this.divisionList3=await this.getPlantas(pais.value)
+        if(pais)this.divisionList3=await this.getPlantas(pais.value)
         this.getDiasPerdidosAt();
         this.selectRangoDiasPerdidosAt(this.filtroFechaDiasPerdidos[0],'desde' )
         this.flagTortaTotalDias=true
@@ -5901,126 +5923,126 @@ optionsMeta_2meses: any = {
         this.selectedDivisionResumen4=null
         this.PlantaSelect4=null
         this.plantasList4=[]
-        this.divisionList4=await this.getPlantas(pais.value)
+        if(pais)this.divisionList4=await this.getPlantas(pais.value)
         this.getTasas_1('filtro')
         break;
       case 'tasa1_2':
         this.selectedDivisionResumen4_2=null
         this.PlantaSelect4_2=null
         this.plantasList4_2=[]
-        this.divisionList4_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList4_2=await this.getPlantas(pais.value)
         this.getTasas_1_2('filtro')
         break;
       case 'tasa2':
         this.selectedDivisionResumen5=null
         this.PlantaSelect5=null
         this.plantasList5=[]
-        this.divisionList5=await this.getPlantas(pais.value)
+        if(pais)this.divisionList5=await this.getPlantas(pais.value)
         this.getTasas_2('filtro')
         break;
       case 'tasa2_2':
         this.selectedDivisionResumen5_2=null
         this.PlantaSelect5_2=null
         this.plantasList5_2=[]
-        this.divisionList5_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList5_2=await this.getPlantas(pais.value)
         this.getTasas_2_2('filtro')
         break;
       case 'event1':
         this.selectedDivisionResumen6=null
         this.PlantaSelect6=null
         this.plantasList6=[]
-        this.divisionList6=await this.getPlantas(pais.value)
+        if(pais)this.divisionList6=await this.getPlantas(pais.value)
         break;
       case 'event1_2':
         this.selectedDivisionResumen6_2=null
         this.PlantaSelect6_2=null
         this.plantasList6_2=[]
-        this.divisionList6_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList6_2=await this.getPlantas(pais.value)
         break;
       case 'event2':
         this.selectedDivisionResumen7=null
         this.PlantaSelect7=null
         this.plantasList7=[]
-        this.divisionList7=await this.getPlantas(pais.value)
+        if(pais)this.divisionList7=await this.getPlantas(pais.value)
         break;
       case 'event2_2':
         this.selectedDivisionResumen7_2=null
         this.PlantaSelect7_2=null
         this.plantasList7_2=[]
-        this.divisionList7_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList7_2=await this.getPlantas(pais.value)
         break;
       case 'ili1':
         this.selectedDivisionResumen8=null
         this.PlantaSelect8=null
         this.plantasList8=[]
-        this.divisionList8=await this.getPlantas(pais.value)
+        if(pais)this.divisionList8=await this.getPlantas(pais.value)
         break;
       case 'ili1_2':
         this.selectedDivisionResumen8_2=null
         this.PlantaSelect8_2=null
         this.plantasList8_2=[]
-        this.divisionList8_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList8_2=await this.getPlantas(pais.value)
         break;
       case 'ili2':
         this.selectedDivisionResumen9=null
         this.PlantaSelect9=null
         this.plantasList9=[]
-        this.divisionList9=await this.getPlantas(pais.value)
+        if(pais)this.divisionList9=await this.getPlantas(pais.value)
         break;
       case 'ili2_2':
         this.selectedDivisionResumen9_2=null
         this.PlantaSelect9_2=null
         this.plantasList9_2=[]
-        this.divisionList9_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList9_2=await this.getPlantas(pais.value)
         break;
       case 'meta1':
         this.selectedDivisionResumen10=null
         this.PlantaSelect10=null
         this.plantasList10=[]
-        this.divisionList10=await this.getPlantas(pais.value)
+        if(pais)this.divisionList10=await this.getPlantas(pais.value)
         break;
       case 'meta1_2':
         this.selectedDivisionResumen10_2=null
         this.PlantaSelect10_2=null
         this.plantasList10_2=[]
-        this.divisionList10_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList10_2=await this.getPlantas(pais.value)
         break;
 
       case 'meta1meses':
         this.selectedDivisionResumen12=null
         this.PlantaSelect12=null
         this.plantasList12=[]
-        this.divisionList12=await this.getPlantas(pais.value)
+        if(pais)this.divisionList12=await this.getPlantas(pais.value)
         break;
       case 'meta1_2meses':
         this.selectedDivisionResumen12_2=null
         this.PlantaSelect12_2=null
         this.plantasList12_2=[]
-        this.divisionList12_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList12_2=await this.getPlantas(pais.value)
         break;
       case 'meta2':
         this.selectedDivisionResumen11=null
         this.PlantaSelect11=null
         this.plantasList11=[]
-        this.divisionList11=await this.getPlantas(pais.value)
+        if(pais)this.divisionList11=await this.getPlantas(pais.value)
         break;
       case 'meta2_2':
         this.selectedDivisionResumen11_2=null
         this.PlantaSelect11_2=null
         this.plantasList11_2=[]
-        this.divisionList11_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList11_2=await this.getPlantas(pais.value)
         break;
       case 'meta2meses':
         this.selectedDivisionResumen13=null
         this.PlantaSelect13=null
         this.plantasList13=[]
-        this.divisionList13=await this.getPlantas(pais.value)
+        if(pais)this.divisionList13=await this.getPlantas(pais.value)
         break;
       case 'meta2_2meses':
         this.selectedDivisionResumen13_2=null
         this.PlantaSelect13_2=null
         this.plantasList13_2=[]
-        this.divisionList13_2=await this.getPlantas(pais.value)
+        if(pais)this.divisionList13_2=await this.getPlantas(pais.value)
         break;
       default:
         break;
@@ -6079,211 +6101,214 @@ optionsMeta_2meses: any = {
   }
 
   funcSelectDivision(div:any,filter:any){
-    this.PlantaSelect1=null
-    let dv:any
-    let plantasList:any
-    // if(filter!='resumen'){
-      dv = this.divisionList.filter((dv1:any) => dv1.nombre == div.value);
-      plantasList=this.plantasList.filter((pl1:any) => pl1.area.id == dv[0].id);
-    // }
-    // else{
-    //   if(div.value.length>0){
-    //     plantasList=[]
-    //     div.value.forEach((element:any) => {
-    //       dv=(this.divisionList.filter((dv1:any) => dv1.nombre == element));
-    //       plantasList=plantasList.concat(this.plantasList.filter((pl1:any) => pl1.id_division == dv[0].id));
-    //     });
-    //   }else{
-    //     dv=null
-    //     plantasList=null
-    //   }
-    // }
 
-    switch (filter) {
-      case 'resumen':
-        this.PlantaSelect1=null
-        this.plantasList1=[]
-        if(plantasList)
-        for(const pl of plantasList){
-          this.plantasList1.push({label:pl.nombre,value:pl.nombre})
-        }
-        break;
-      case 'totalEventos':
-        this.PlantaSelect2=null
-        this.plantasList2=[]
-        for(const pl of plantasList){
-          this.plantasList2.push({label:pl.nombre,value:pl.nombre})
-        }
-        break;
-      case 'totalDias':
-        this.PlantaSelect3=null
-          this.plantasList3=[]
+    if(div.value){
+      this.PlantaSelect1=null
+      let dv:any
+      let plantasList:any
+      // if(filter!='resumen'){
+        dv = this.divisionList.filter((dv1:any) => dv1.nombre == div.value);
+        plantasList=this.plantasList.filter((pl1:any) => pl1.area.id == dv[0].id);
+      // }
+      // else{
+      //   if(div.value.length>0){
+      //     plantasList=[]
+      //     div.value.forEach((element:any) => {
+      //       dv=(this.divisionList.filter((dv1:any) => dv1.nombre == element));
+      //       plantasList=plantasList.concat(this.plantasList.filter((pl1:any) => pl1.id_division == dv[0].id));
+      //     });
+      //   }else{
+      //     dv=null
+      //     plantasList=null
+      //   }
+      // }
+
+      switch (filter) {
+        case 'resumen':
+          this.PlantaSelect1=null
+          this.plantasList1=[]
+          if(plantasList)
           for(const pl of plantasList){
-            this.plantasList3.push({label:pl.nombre,value:pl.nombre})
+            this.plantasList1.push({label:pl.nombre,value:pl.nombre})
           }
           break;
-      case 'tasa1':
-        this.PlantaSelect4=null
-        this.plantasList4=[]
-        for(const pl of plantasList){
-          this.plantasList4.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
-        }
-        this.getTasas_1('filtro')
-        break;
-      case 'tasa1_2':
-        this.PlantaSelect4_2=null
-        this.plantasList4_2=[]
-        for(const pl of plantasList){
-          this.plantasList4_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
-        }
-        this.getTasas_1_2('filtro')
-        break;
-      case 'tasa2':
-        this.PlantaSelect5=null
-        this.plantasList5=[]
-        for(const pl of plantasList){
-          this.plantasList5.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getTasas_2('filtro')
-        break;
-      case 'tasa2_2':
-        this.PlantaSelect5_2=null
-        this.plantasList5_2=[]
-        for(const pl of plantasList){
-          this.plantasList5_2.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getTasas_2_2('filtro')
-        break;
-      case 'event1':
-        this.PlantaSelect6=null
-        this.plantasList6=[]
-        for(const pl of plantasList){
-          this.plantasList6.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getEventos_1()
-        break;
-      case 'event1_2':
-        this.PlantaSelect6_2=null
-        this.plantasList6_2=[]
-        for(const pl of plantasList){
-          this.plantasList6_2.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getEventos_1_2()
-        break;
-      case 'event2':
-        this.PlantaSelect7=null
-        this.plantasList7=[]
-        for(const pl of plantasList){
-          this.plantasList7.push({label:pl.nombre,value:pl.nombre})
-        }
-        break;
-      case 'event2_2':
-        this.PlantaSelect7_2=null
-        this.plantasList7_2=[]
-        for(const pl of plantasList){
-          this.plantasList7_2.push({label:pl.nombre,value:pl.nombre})
-        }
-        break;
-      case 'ili1':
-        this.PlantaSelect8=null
-        this.plantasList8=[]
-        for(const pl of plantasList){
-          this.plantasList8.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getIli_1()
-        break;
-      case 'ili1_2':
-        this.PlantaSelect8_2=null
-        this.plantasList8_2=[]
-        for(const pl of plantasList){
-          this.plantasList8_2.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getIli_1_2()
-        break;
-      case 'ili2':
-        this.PlantaSelect9=null
-        this.plantasList9=[]
-        for(const pl of plantasList){
-          this.plantasList9.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getIli_2()
-        break;
-      case 'ili2_2':
-        this.PlantaSelect9_2=null
-        this.plantasList9_2=[]
-        for(const pl of plantasList){
-          this.plantasList9_2.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getIli_2_2()
-        break;
-      case 'meta1':
-        this.PlantaSelect10=null
-        this.plantasList10=[]
-        for(const pl of plantasList){
-          this.plantasList10.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getMeta_1Eve()
-        break;
-      case 'meta1_2':
-        this.PlantaSelect10_2=null
-        this.plantasList10_2=[]
-        for(const pl of plantasList){
-          this.plantasList10_2.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getMeta_1Eve_2()
-        break;
+        case 'totalEventos':
+          this.PlantaSelect2=null
+          this.plantasList2=[]
+          for(const pl of plantasList){
+            this.plantasList2.push({label:pl.nombre,value:pl.nombre})
+          }
+          break;
+        case 'totalDias':
+          this.PlantaSelect3=null
+            this.plantasList3=[]
+            for(const pl of plantasList){
+              this.plantasList3.push({label:pl.nombre,value:pl.nombre})
+            }
+            break;
+        case 'tasa1':
+          this.PlantaSelect4=null
+          this.plantasList4=[]
+          for(const pl of plantasList){
+            this.plantasList4.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+          }
+          this.getTasas_1('filtro')
+          break;
+        case 'tasa1_2':
+          this.PlantaSelect4_2=null
+          this.plantasList4_2=[]
+          for(const pl of plantasList){
+            this.plantasList4_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+          }
+          this.getTasas_1_2('filtro')
+          break;
+        case 'tasa2':
+          this.PlantaSelect5=null
+          this.plantasList5=[]
+          for(const pl of plantasList){
+            this.plantasList5.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getTasas_2('filtro')
+          break;
+        case 'tasa2_2':
+          this.PlantaSelect5_2=null
+          this.plantasList5_2=[]
+          for(const pl of plantasList){
+            this.plantasList5_2.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getTasas_2_2('filtro')
+          break;
+        case 'event1':
+          this.PlantaSelect6=null
+          this.plantasList6=[]
+          for(const pl of plantasList){
+            this.plantasList6.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getEventos_1()
+          break;
+        case 'event1_2':
+          this.PlantaSelect6_2=null
+          this.plantasList6_2=[]
+          for(const pl of plantasList){
+            this.plantasList6_2.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getEventos_1_2()
+          break;
+        case 'event2':
+          this.PlantaSelect7=null
+          this.plantasList7=[]
+          for(const pl of plantasList){
+            this.plantasList7.push({label:pl.nombre,value:pl.nombre})
+          }
+          break;
+        case 'event2_2':
+          this.PlantaSelect7_2=null
+          this.plantasList7_2=[]
+          for(const pl of plantasList){
+            this.plantasList7_2.push({label:pl.nombre,value:pl.nombre})
+          }
+          break;
+        case 'ili1':
+          this.PlantaSelect8=null
+          this.plantasList8=[]
+          for(const pl of plantasList){
+            this.plantasList8.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getIli_1()
+          break;
+        case 'ili1_2':
+          this.PlantaSelect8_2=null
+          this.plantasList8_2=[]
+          for(const pl of plantasList){
+            this.plantasList8_2.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getIli_1_2()
+          break;
+        case 'ili2':
+          this.PlantaSelect9=null
+          this.plantasList9=[]
+          for(const pl of plantasList){
+            this.plantasList9.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getIli_2()
+          break;
+        case 'ili2_2':
+          this.PlantaSelect9_2=null
+          this.plantasList9_2=[]
+          for(const pl of plantasList){
+            this.plantasList9_2.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getIli_2_2()
+          break;
+        case 'meta1':
+          this.PlantaSelect10=null
+          this.plantasList10=[]
+          for(const pl of plantasList){
+            this.plantasList10.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getMeta_1Eve()
+          break;
+        case 'meta1_2':
+          this.PlantaSelect10_2=null
+          this.plantasList10_2=[]
+          for(const pl of plantasList){
+            this.plantasList10_2.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getMeta_1Eve_2()
+          break;
 
-      case 'meta1meses':
-        this.PlantaSelect12=null
-        this.plantasList12=[]
-        for(const pl of plantasList){
-          this.plantasList12.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getEventosMeta_2()
-        break;
-      case 'meta1_2meses':
-        this.PlantaSelect12_2=null
-        this.plantasList12_2=[]
-        for(const pl of plantasList){
-          this.plantasList12_2.push({label:pl.nombre,value:pl.nombre})
-        }
-        this.getEventosMeta_2_2()
-        break;
-      case 'meta2':
-        this.PlantaSelect11=null
-        this.plantasList11=[]
-        for(const pl of plantasList){
-          this.plantasList11.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
-        }
-        this.getMeta_1Tasas('filtro')
-        break;
-      case 'meta2_2':
-        this.PlantaSelect11_2=null
-        this.plantasList11_2=[]
-        for(const pl of plantasList){
-          this.plantasList11_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
-        }
-        this.getMeta_1Tasas_2('filtro')
-        break;
-      case 'meta2meses':
-        this.PlantaSelect13=null
-        this.plantasList13=[]
-        for(const pl of plantasList){
-          this.plantasList13.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
-        }
-        this.getTasas_2Meses('filtro')
-        break;
-      case 'meta2_2meses':
-        this.PlantaSelect13_2=null
-        this.plantasList13_2=[]
-        for(const pl of plantasList){
-          this.plantasList13_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
-        }
-        this.getTasas_2Meses_2('filtro')
-        break;
-      default:
-        break;
-    }
+        case 'meta1meses':
+          this.PlantaSelect12=null
+          this.plantasList12=[]
+          for(const pl of plantasList){
+            this.plantasList12.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getEventosMeta_2()
+          break;
+        case 'meta1_2meses':
+          this.PlantaSelect12_2=null
+          this.plantasList12_2=[]
+          for(const pl of plantasList){
+            this.plantasList12_2.push({label:pl.nombre,value:pl.nombre})
+          }
+          this.getEventosMeta_2_2()
+          break;
+        case 'meta2':
+          this.PlantaSelect11=null
+          this.plantasList11=[]
+          for(const pl of plantasList){
+            this.plantasList11.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+          }
+          this.getMeta_1Tasas('filtro')
+          break;
+        case 'meta2_2':
+          this.PlantaSelect11_2=null
+          this.plantasList11_2=[]
+          for(const pl of plantasList){
+            this.plantasList11_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+          }
+          this.getMeta_1Tasas_2('filtro')
+          break;
+        case 'meta2meses':
+          this.PlantaSelect13=null
+          this.plantasList13=[]
+          for(const pl of plantasList){
+            this.plantasList13.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+          }
+          this.getTasas_2Meses('filtro')
+          break;
+        case 'meta2_2meses':
+          this.PlantaSelect13_2=null
+          this.plantasList13_2=[]
+          for(const pl of plantasList){
+            this.plantasList13_2.push({label:pl.nombre,value:{nombre:pl.nombre,id:pl.id}})
+          }
+          this.getTasas_2Meses_2('filtro')
+          break;
+        default:
+          break;
+      }
+    }else this.funcSelectPais(null,filter)
   }
   
   estaAbiertoGraf1:boolean = false;

@@ -592,7 +592,7 @@ export class IndCaracterizacionComponent implements OnInit {
         if(this.radioGra1==2 && element.emptemporal==null)this.ContDatosGraf1(element)
       });
       this.primeraGrafica();
-      this.datosGrafica1=this.contTotal(this.datosGrafica1)
+      this.datosGrafica1=this.contTotal(this.datosGrafica1,this.selectedDivisionResumen2)
 
   }
 
@@ -848,7 +848,7 @@ export class IndCaracterizacionComponent implements OnInit {
     this.selectEv1=[]
     this.selectDiv1=[]
     this.primeraGrafica()
-    this.datosGrafica1=this.contTotal(this.datosGrafica1)
+    this.datosGrafica1=this.contTotal(this.datosGrafica1,this.selectedDivisionResumen2)
 
   }
     ////////////Primera grafica Comparativa//////////
@@ -904,7 +904,7 @@ export class IndCaracterizacionComponent implements OnInit {
       console.log(this.datosGrafica1_2)
 
       this.primeraGrafica_2();
-      this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2)
+      this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
 
   }
 
@@ -1080,7 +1080,7 @@ export class IndCaracterizacionComponent implements OnInit {
     this.selectEv1_2=[]
     this.selectDiv1_2=[]
     this.primeraGrafica_2()
-    this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2)
+    this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
 
   }
 
@@ -1089,7 +1089,7 @@ export class IndCaracterizacionComponent implements OnInit {
 
 filtroGraEve2(){
   this.segundaGrafica()
-  this.datosGrafica2=this.contTotal(this.datosGrafica2)
+  this.datosGrafica2=this.contTotal(this.datosGrafica2,this.selectedDivisionResumen3)
 
   this.flagevent2=false
   let datosGrafica1:any=[]
@@ -1131,51 +1131,6 @@ filtroGraEve2(){
 }
 
 resetVarGraf2(){
-  // this.ContFechaIngreso_1=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_1=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_1=[0,0,0,0,0,0,0]
-  // this.ContFechaIngreso_2=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_2=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_2=[0,0,0,0,0,0,0]
-  // this.ContFechaIngreso_3=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_3=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_3=[0,0,0,0,0,0,0]
-  // this.ContFechaIngreso_4=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_4=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_4=[0,0,0,0,0,0,0]
-  // this.ContFechaIngreso_5=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_5=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_5=[0,0,0,0,0,0,0]
-  // this.ContFechaIngreso_6=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_6=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_6=[0,0,0,0,0,0,0]
-  // this.ContFechaIngreso_7=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_7=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_7=[0,0,0,0,0,0,0]
-  // this.ContFechaIngreso_total=[0,0,0,0,0,0,0]
-  // this.ContFechaNacimiento_total=[0,0,0,0,0,0,0]
-  // this.ContHoraAccidente_total=[0,0,0,0,0,0,0]
-
-  // this.ContFechaNacimiento_18_25=[]
-  // this.ContFechaNacimiento_26_35=[]
-  // this.ContFechaNacimiento_36_45=[]
-  // this.ContFechaNacimiento_46_59=[]
-  // this.ContFechaNacimiento_60=[]
-
-  // this.ContFechaIngreso_0_1=[]
-  // this.ContFechaIngreso_2_5=[]
-  // this.ContFechaIngreso_6_10=[]
-  // this.ContFechaIngreso_11_20=[]
-  // this.ContFechaIngreso_21_30=[]
-  // this.ContFechaIngreso_30=[]
-
-  // this.ContHoraAccidente_0_4=[]
-  // this.ContHoraAccidente_4_8=[]
-  // this.ContHoraAccidente_8_12=[]
-  // this.ContHoraAccidente_12_16=[]
-  // this.ContHoraAccidente_16_20=[]
-  // this.ContHoraAccidente_20=[]
-
   this.ContFechaNacimiento=[]
   this.ContFechaIngreso=[]
   this.ContHoraAccidente=[]
@@ -1833,7 +1788,7 @@ resetVarGraf2(){
   ////////////////////Segunda Grafica comparativa//////////////////
 filtroGraEve2_2(){
   this.segundaGrafica_2()
-  this.datosGrafica2_2=this.contTotal(this.datosGrafica2_2)
+  this.datosGrafica2_2=this.contTotal(this.datosGrafica2_2,this.selectedDivisionResumen3_2)
 
   this.flagevent2_2=false
   let datosGrafica1:any=[]
@@ -2138,7 +2093,7 @@ filtroGraEve3(){
   let datosGrafica1:any=[]
 
   if(this.selectEv3.length==0 && this.selectDiv3.length>0){
-    this.datosGrafica3=this.contTotal(this.datosGrafica3)
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
     this.datosGrafica3Top=this.top(this.datosGrafica3,5)
 
@@ -2155,7 +2110,7 @@ filtroGraEve3(){
   }
 
   if(this.selectDiv3.length>0 && this.selectEv3.length>0){
-    this.datosGrafica3=this.contTotal(this.datosGrafica3)
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.selectDiv3.forEach(resp1=>{
       let x=this.datosGrafica3.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2189,7 +2144,7 @@ filtroGraEve3(){
 
   if(this.selectEv3.length>0 && this.selectDiv3.length==0){
     datosGrafica1=[]
-    this.datosGrafica3=this.contTotal(this.datosGrafica3)
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.datosGrafica3.forEach((element:any) => {
       let randomEv1CopySeries=[]
 
@@ -2210,7 +2165,7 @@ filtroGraEve3(){
   }
 
   if(this.selectEv3.length==0 && this.selectDiv3.length==0){
-    this.datosGrafica3=this.contTotal(this.datosGrafica3)
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
     this.datosGrafica3Top=this.top(this.datosGrafica3,5)
   }
@@ -2225,50 +2180,8 @@ resetVariables3_2(){
 }
 resetVariables(){
   this.cargosLocalidades=[]
-
-  // this.contTipoLesion=[]
-  // this.hashmap1 = new Map();
-  // this.hashmap2 = new Map();
-  // this.hashmap3 = new Map();
-  // this.hashmap4 = new Map();
-  // this.hashmap5 = new Map();
-  // this.hashmap6 = new Map();
-  // this.hashmap7 = new Map();
-  // this.orderMap1=[]
-  // this.orderMap2=[]
-  // this.orderMap3=[]
-  // this.orderMap4=[]
-  // this.orderMap5=[]
-  // this.orderMap6=[]
-  // this.orderMap7=[]
-  // this.orderMap=[]
-
-  // this.Map1=[]
-  // this.Map2=[]
-  // this.Map3=[]
-  // this.Map4=[]
-  // this.Map5=[]
-  // this.Map6=[]
-  // this.Map7=[]
 }
-// contTipoLesion:any[]=[]
-// hashmap1 = new Map();
-// hashmap2 = new Map();
-// hashmap3 = new Map();
-// hashmap4 = new Map();
-// hashmap5 = new Map();
-// hashmap6 = new Map();
-// hashmap7 = new Map();
 
-
-// orderMap1:any=[]
-// orderMap2:any=[]
-// orderMap3:any=[]
-// orderMap4:any=[]
-// orderMap5:any=[]
-// orderMap6:any=[]
-// orderMap7:any=[]
-// orderMap:any=[]
 DatosGrafica3(){
 
   this.CaracterizacionView4=this.CaracterizacionView.map((e:any)=>e)
@@ -2334,7 +2247,7 @@ DatosGrafica3(){
   });
   // this.orderMap=[this.ordenarMap(this.hashmap1,this.Map1),this.ordenarMap(this.hashmap2,this.Map2),this.ordenarMap(this.hashmap3,this.Map3),this.ordenarMap(this.hashmap4,this.Map4),this.ordenarMap(this.hashmap5,this.Map5),this.ordenarMap(this.hashmap6,this.Map6),this.ordenarMap(this.hashmap7,this.Map7)]
   this.terceraGrafica()
-  this.datosGrafica3=this.contTotal(this.datosGrafica3)
+  this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
   this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
   this.datosGrafica3Top=this.top(this.datosGrafica3,5)
 
@@ -2475,7 +2388,7 @@ filtroGraEve3_2(){
   let datosGrafica1:any=[]
 
   if(this.selectEv3_2.length==0 && this.selectDiv3_2.length>0){
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2)
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
     this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
 
@@ -2492,7 +2405,7 @@ filtroGraEve3_2(){
   }
 
   if(this.selectDiv3_2.length>0 && this.selectEv3_2.length>0){
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2)
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.selectDiv3_2.forEach(resp1=>{
       let x=this.datosGrafica3_2.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2526,7 +2439,7 @@ filtroGraEve3_2(){
 
   if(this.selectEv3_2.length>0 && this.selectDiv3_2.length==0){
     datosGrafica1=[]
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2)
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.datosGrafica3_2.forEach((element:any) => {
       let randomEv1CopySeries=[]
 
@@ -2547,7 +2460,7 @@ filtroGraEve3_2(){
   }
 
   if(this.selectEv3_2.length==0 && this.selectDiv3_2.length==0){
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2)
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
     this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
   }
@@ -2629,7 +2542,7 @@ DatosGrafica3_2(){
   });
   // this.orderMap=[this.ordenarMap(this.hashmap1,this.Map1),this.ordenarMap(this.hashmap2,this.Map2),this.ordenarMap(this.hashmap3,this.Map3),this.ordenarMap(this.hashmap4,this.Map4),this.ordenarMap(this.hashmap5,this.Map5),this.ordenarMap(this.hashmap6,this.Map6),this.ordenarMap(this.hashmap7,this.Map7)]
   this.terceraGrafica_2()
-  this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2)
+  this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
   this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
   this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
 
@@ -2691,7 +2604,7 @@ filtroGraEve4(){
 
   if(this.selectEv4.length==0 && this.selectDiv4.length>0){
     // this.datosGrafica4=this.contTotal(this.datosGrafica4)
-    this.datosGrafica4=this.contTotal(this.datosGrafica4)
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
     this.datosGrafica4Top=this.top(this.datosGrafica4,5)
 
@@ -2707,7 +2620,7 @@ filtroGraEve4(){
   }
 
   if(this.selectDiv4.length>0 && this.selectEv4.length>0){
-    this.datosGrafica4=this.contTotal(this.datosGrafica4)
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     this.selectDiv4.forEach(resp1=>{
       let x=this.datosGrafica4.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2739,7 +2652,7 @@ filtroGraEve4(){
   }
 
   if(this.selectEv4.length>0 && this.selectDiv4.length==0){
-    this.datosGrafica4=this.contTotal(this.datosGrafica4)
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     datosGrafica1=[]
     this.datosGrafica4.forEach((element:any) => {
       let randomEv1CopySeries=[]
@@ -2763,7 +2676,7 @@ filtroGraEve4(){
 
   if(this.selectEv4.length==0 && this.selectDiv4.length==0){
     // this.datosGrafica4=this.contTotal(this.datosGrafica4)
-    this.datosGrafica4=this.contTotal(this.datosGrafica4)
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
     this.datosGrafica4Top=this.top(this.datosGrafica4,5)
   }
@@ -2821,7 +2734,7 @@ DatosGrafica4(){
   // this.datos4push.push(this.datos4_6)
   // this.datos4push.push(this.datos4_7)
   this.graf4top5()
-  this.datosGrafica4=this.contTotal(this.datosGrafica4)
+  this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
   this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
 
   this.datosGrafica4Top=this.top(this.datosGrafica4,5)
@@ -3303,7 +3216,7 @@ filtroGraEve4_2(){
   let datosGrafica1:any=[]
 
   if(this.selectEv4_2.length==0 && this.selectDiv4_2.length>0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2)
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
     this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
 
@@ -3319,7 +3232,7 @@ filtroGraEve4_2(){
   }
 
   if(this.selectDiv4_2.length>0 && this.selectEv4_2.length>0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2)
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     this.selectDiv4_2.forEach(resp1=>{
       let x=this.datosGrafica4_2.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -3351,7 +3264,7 @@ filtroGraEve4_2(){
   }
 
   if(this.selectEv4_2.length>0 && this.selectDiv4_2.length==0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2)
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     datosGrafica1=[]
     this.datosGrafica4_2.forEach((element:any) => {
       let randomEv1CopySeries=[]
@@ -3374,7 +3287,7 @@ filtroGraEve4_2(){
   }
 
   if(this.selectEv4_2.length==0 && this.selectDiv4_2.length==0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2)
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
     this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
   }
@@ -3426,7 +3339,7 @@ DatosGrafica4_2(){
   });
 
   this.graf4top5_2()
-  this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2)
+  this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
   this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
 
   this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
@@ -3843,7 +3756,7 @@ if(this.date9 && this.date10){
   });
   this.quintaGrafica()
 
-  this.datosGrafica5=this.contTotal(this.datosGrafica5)
+  this.datosGrafica5=this.contTotal(this.datosGrafica5,this.selectedDivisionResumen6)
   this.datosGrafica5=this.organizarDatosMayorMenor(this.datosGrafica5)
   this.datosGrafica5Top=this.top(this.datosGrafica5,5)
 }
@@ -4099,7 +4012,7 @@ if(this.date9_2 && this.date10_2){
   });
   this.quintaGrafica_2()
 
-  this.datosGrafica5_2=this.contTotal(this.datosGrafica5_2)
+  this.datosGrafica5_2=this.contTotal(this.datosGrafica5_2,this.selectedDivisionResumen6_2)
   this.datosGrafica5_2=this.organizarDatosMayorMenor(this.datosGrafica5_2)
   this.datosGrafica5Top_2=this.top(this.datosGrafica5_2,5)
 }
@@ -4314,7 +4227,7 @@ DatosGrafica6(){
   });
 
   this.sextaGrafica()
-  this.datosGrafica6=this.contTotal(this.datosGrafica6)
+  this.datosGrafica6=this.contTotal(this.datosGrafica6,this.selectedDivisionResumen7)
   this.datosGrafica6=this.organizarDatosMayorMenor(this.datosGrafica6)
 
   this.datosGrafica6Top=this.top(this.datosGrafica6,5)
@@ -4591,7 +4504,7 @@ DatosGrafica6_2(){
   });
 
   this.sextaGrafica_2()
-  this.datosGrafica6_2=this.contTotal(this.datosGrafica6_2)
+  this.datosGrafica6_2=this.contTotal(this.datosGrafica6_2,this.selectedDivisionResumen7_2)
   this.datosGrafica6_2=this.organizarDatosMayorMenor(this.datosGrafica6_2)
 
   this.datosGrafica6Top_2=this.top(this.datosGrafica6_2,5)
@@ -4781,7 +4694,7 @@ contGrafPeligros_2:any[]=[]
     return dato2
   }
 
-  contTotal(datos:any){
+  contTotal(datos:any,div:string){
     let name:any=[]
     let datosGrafica_total:any=[]
     let total=new Map()
@@ -4796,7 +4709,7 @@ contGrafPeligros_2:any[]=[]
       datosGrafica_total.push({name:resp,value:total.get(resp)})
     })
     
-    datos.push({name:'Corona total',series:datosGrafica_total})
+    datos.push({name:div,series:datosGrafica_total})
   
     return datos
   }
@@ -4810,6 +4723,17 @@ contGrafPeligros_2:any[]=[]
     })
     return datosReturn
   }
+  // paisesList: Array<any> = [
+  //   {label: 'Colombia', value: 'Colombia'},
+  //   {label: 'Costa Rica', value: 'Costa Rica'},
+  //   {label: 'EEUU', value: 'EEUU'},
+  //   {label: 'Guatemala', value: 'Guatemala'},
+  //   {label: 'Honduras', value: 'Honduras'},
+  //   {label: 'Mexico', value: 'Mexico'},
+  //   {label: 'Nicaragua', value: 'Nicaragua'},
+  //   {label: 'Corona Total', value: 'Corona Total'}
+  // ];
+
   paisesList: Array<any> = [
     {label: 'Colombia', value: 'Colombia'},
     {label: 'Costa Rica', value: 'Costa Rica'},
@@ -4817,8 +4741,7 @@ contGrafPeligros_2:any[]=[]
     {label: 'Guatemala', value: 'Guatemala'},
     {label: 'Honduras', value: 'Honduras'},
     {label: 'Mexico', value: 'Mexico'},
-    {label: 'Nicaragua', value: 'Nicaragua'},
-    {label: 'Corona Total', value: 'Corona Total'}
+    {label: 'Nicaragua', value: 'Nicaragua'}
   ];
 
   selectPais1:any

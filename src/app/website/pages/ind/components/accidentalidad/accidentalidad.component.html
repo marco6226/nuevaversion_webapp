@@ -53,7 +53,7 @@
               <!-- <div  class="col-1">&nbsp;</div> -->
               <div class="col-10 grid mid-border p-justify-center" style="margin: auto;">
                 <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
-                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais1" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'resumen');loadResumen()">
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais1" placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'resumen');loadResumen()">
                   </p-dropdown>
                 </div>
                 <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> 
@@ -82,7 +82,8 @@
                   <p-dropdown [style]="{'width':'100%'}" [options]="yearRange"
                   placeholder="Seleccione un año"
                   [(ngModel)]="anioActualResumen"
-                  (onChange)="loadResumen()">
+                  (onChange)="loadResumen()"
+                  appendTo="body">
                   </p-dropdown>
                 </div>
                 <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
@@ -150,7 +151,7 @@
                (onSelect)="selectRangoEventosAt($event, 'hasta')" [(ngModel)]="filtroFechaAt![1]"> </p-calendar>
             </div>
             <div class="col-3"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais2" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'totalEventos')">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais2" placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'totalEventos')">
               </p-dropdown>
             </div>
           </div>
@@ -213,7 +214,7 @@
               (onSelect)="selectRangoDiasPerdidosAt($event, 'hasta')" placeholder="Hasta" > </p-calendar>
             </div>
             <div class="col-3"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais3" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'totalDias');selectRangoDiasPerdidosAt(null, 'otro')">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais3" placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'totalDias');selectRangoDiasPerdidosAt(null, 'otro')">
               </p-dropdown>
             </div>
           </div>
@@ -304,7 +305,7 @@
               [legend]="false"
               [showXAxisLabel]="showXAxisLabel"
               [showYAxisLabel]="true"
-              [xAxisLabel]="'Divisiones'"
+              [xAxisLabel]="'Plantas'"
               [yAxisLabel]="'Indicadores'"
               [barPadding]=0
               [groupPadding]=4
@@ -321,12 +322,12 @@
           [(ngModel)]="filtroAnioTasa_1" (onChange)="getTasas_1('filtro')"
           [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
           <h3>Meses</h3>
-          <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
           [(ngModel)]="selectedMesesTasa1" (onChange)="getTasas_1('filtro')"
           [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
           <h3>País</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais4" 
-            placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa1')">
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'tasa1')">
             </p-dropdown>
           <h3>Division</h3>
           
@@ -402,10 +403,13 @@
           </div>
 
           <div  class="col-8 grid">
-            <div class="col-11" *ngIf="tasasNotFound2">
+            <div class="col-11" *ngIf="plantasList5.length == 0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11" *ngIf="tasasNotFound2 && plantasList5.length > 0">
               <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
             </div>
-            <div class="col-11 grafic" *ngIf="!tasasNotFound2">
+            <div class="col-11 grafic" *ngIf="!tasasNotFound2 && plantasList5.length > 0">
               <ngx-charts-bar-vertical-2d
               class="align-items-center"
               [scheme]="colorScheme2"
@@ -433,13 +437,13 @@
             [(ngModel)]="filtroAnioTasa_2" (onChange)="getTasas_2('filtro')"
             [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
             <h3>Meses</h3>
-            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
+            <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
             (onChange)="filtroTasas_2()"
             [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
             <!-- divisiones -->
             <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais5" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa2')">
+              placeholder="Seleccionar país"(onChange)="funcSelectPais($event,'tasa2')">
               </p-dropdown>
             <h3>Division</h3>
             <!-- <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" [showClear]="true"
@@ -451,7 +455,7 @@
               <!-- <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="plantasList5" [(ngModel)]="PlantaSelect5" 
               placeholder="Seleccionar planta" [showClear]="true">
               </p-dropdown> -->
-              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList5"
+              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList5"
                     [(ngModel)]="PlantaSelect5" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getTasas_2('filtro')"></p-multiSelect>
             <h3>Filtro indicadores</h3>
             <div *ngFor="let Indicador of Indicadores" class="p-field-checkbox">
@@ -529,7 +533,7 @@
             [legend]="false"
             [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="true"
-            [xAxisLabel]="'Divisiones'"
+            [xAxisLabel]="'Plantas'"
             [yAxisLabel]="'eventos'"
             [showDataLabel]="true"
             [barPadding]=0
@@ -553,7 +557,7 @@
         <div class="col-12 md:col-4 lg:col-4 filter">
           <h3>País</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais6" 
-            placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event1')">
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'event1')">
             </p-dropdown>
           
           <h3>Division</h3>
@@ -628,7 +632,10 @@
         </div>
 
         <div class="col-8 grid">
-          <div class="col-11 grafic" style="height: 560px;">
+          <div class="col-11" *ngIf="plantasList7.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 560px;" *ngIf="plantasList7.length > 0">
             <ngx-charts-bar-vertical-2d
             class="align-items-center"
             [scheme]="colorScheme2"
@@ -656,10 +663,10 @@
           <h3>Año</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" [(ngModel)]="filtroAnioEventos2" placeholder="Seleccionar año" (onChange)="getEventos_2()"></p-dropdown>
           <h3>Meses</h3>
-          <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2" (onChange)="filtroEventos_2()"></p-multiSelect>
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2" (onChange)="filtroEventos_2()"></p-multiSelect>
           <h3>País</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais7" 
-            placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event2');getEventos_2()">
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'event2');getEventos_2()">
             </p-dropdown>
           <h3>Division</h3>
             <!-- <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2();funcSelectDivision($event,'event2')"></p-multiSelect> -->
@@ -710,7 +717,7 @@
       <h3>Año</h3>
         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioIli_1" (onChange)="getIli_1()"></p-dropdown>
       <h3>Meses</h3>
-        <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1" (onChange)="getIli_1()"></p-multiSelect> 
+        <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1" (onChange)="getIli_1()"></p-multiSelect> 
       <!-- <h3>Division</h3>
       <div *ngFor="let category of divisiones2" class="p-field-checkbox">
           <p-checkbox name="group6" value="label" [value]="category" [(ngModel)]="selectDivisionesILI1" (onChange)="filtroIli_1()"></p-checkbox>
@@ -719,7 +726,7 @@
 
       <h3>País</h3>
       <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais8" 
-      placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili1')">
+      placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'ili1')">
       </p-dropdown>
       <h3>Division</h3>
       <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList8" [(ngModel)]="selectedDivisionResumen8" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili1')">
@@ -756,7 +763,7 @@
       [(ngModel)]="selectedAnioIli_2" (onChange)="getIli_2()"
       [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
       <h3>Meses</h3>
-      <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2" 
+      <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2" 
       (onChange)="filtroIli_2()" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> 
       <!-- <h3>Division</h3>
       <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" 
@@ -765,14 +772,14 @@
 
       <h3>País</h3>
       <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais9" 
-      placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili2')">
+      placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'ili2')">
       </p-dropdown>
       <h3>Division</h3>
       <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList9" [(ngModel)]="selectedDivisionResumen9" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili2')">
       </p-dropdown>
       <h3>Planta</h3>
       <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccionar planta" [options]="plantasList9"
-      [(ngModel)]="PlantaSelect9" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2($event)"></p-dropdown>
+      [(ngModel)]="PlantaSelect9" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2($event)" [showClear]="true"></p-dropdown>
     </div>
   </div>
     </div>
@@ -816,10 +823,10 @@
         <h3>Año</h3>
           <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1" (onChange)="getMeta_1Eve()"></p-dropdown>
         <h3>Meses</h3>
-          <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1" (onChange)="getMeta_1Eve()"></p-multiSelect> 
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1" (onChange)="getMeta_1Eve()"></p-multiSelect> 
         <h3>País</h3>
         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais10" 
-        placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1')">
+        placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta1')">
         </p-dropdown>
         <h3>Division</h3>
         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10" [(ngModel)]="selectedDivisionResumen10" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1')">
@@ -868,10 +875,10 @@
         <h3>Año</h3>
           <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1meses" (onChange)="getEventosMeta_2()"></p-dropdown>
         <h3>Meses</h3>
-          <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1meses" (onChange)="getEventosMeta_2()"></p-multiSelect> 
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1meses" (onChange)="getEventosMeta_2()"></p-multiSelect> 
         <h3>País</h3>
         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais12" 
-        placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1meses')">
+        placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta1meses')">
         </p-dropdown>
         <h3>Division</h3>
         <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList12" [(ngModel)]="selectedDivisionResumen12" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1meses')">
@@ -928,10 +935,10 @@
           <h3>Año</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-dropdown>
           <h3>Meses</h3>
-            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-multiSelect> 
+            <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-multiSelect> 
           <h3>País</h3>
           <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais11" 
-          placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2')">
+          placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta2')">
           </p-dropdown>
           <h3>Division</h3>
           <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList11" [(ngModel)]="selectedDivisionResumen11" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2')">
@@ -982,10 +989,10 @@
           <h3>Año</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="filtroAnioTasa_2meses" (onChange)="getTasas_2Meses('filtro')"></p-dropdown>
           <h3>Meses</h3>
-            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2meses" (onChange)="getTasas_2Meses('filtro')"></p-multiSelect> 
+            <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2meses" (onChange)="getTasas_2Meses('filtro')"></p-multiSelect> 
           <h3>País</h3>
           <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais13" 
-          placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2meses')">
+          placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta2meses')">
           </p-dropdown>
           <h3>Division</h3>
           <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList13" [(ngModel)]="selectedDivisionResumen13" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2meses')">
@@ -1062,7 +1069,7 @@
               [legend]="false"
               [showXAxisLabel]="showXAxisLabel"
               [showYAxisLabel]="true"
-              [xAxisLabel]="'Divisiones'"
+              [xAxisLabel]="'Plantas'"
               [yAxisLabel]="'Indicadores'"
               [barPadding]=0
               [groupPadding]=4
@@ -1091,7 +1098,7 @@
               [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
               <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais4" 
-                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa1')">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'tasa1')">
                 </p-dropdown>
               <h3>Division</h3>
               
@@ -1176,7 +1183,7 @@
                 [legend]="false"
                 [showXAxisLabel]="showXAxisLabel"
                 [showYAxisLabel]="true"
-                [xAxisLabel]="'Divisiones'"
+                [xAxisLabel]="'Plantas'"
                 [yAxisLabel]="'Indicadores'"
                 [barPadding]=0
                 [groupPadding]=4
@@ -1200,12 +1207,12 @@
                 [(ngModel)]="filtroAnioTasa_1_2" (onChange)="getTasas_1_2('filtro')"
                 [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
                 [(ngModel)]="selectedMesesTasa1_2" (onChange)="getTasas_1_2('filtro')"
                 [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
                 <h3>País</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais4_2" 
-                  placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa1_2')">
+                  placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'tasa1_2')">
                   </p-dropdown>
                 <h3>Division</h3>
                 
@@ -1269,10 +1276,13 @@
         </div>
 
         <div  class="col-12 grid" style="height: 16cm;">
-          <div class="col-11" *ngIf="tasasNotFound2">
+          <div class="col-11" *ngIf="plantasList5.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11" *ngIf="tasasNotFound2 && plantasList5.length > 0">
             <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
           </div>
-          <div class="col-11 grafic" *ngIf="!tasasNotFound2">
+          <div class="col-11 grafic" *ngIf="!tasasNotFound2 && plantasList5.length > 0">
             <ngx-charts-bar-vertical-2d
             class="align-items-center"
             [scheme]="colorScheme2"
@@ -1308,13 +1318,13 @@
             [(ngModel)]="filtroAnioTasa_2" (onChange)="getTasas_2('filtro')"
             [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
             <h3>Meses</h3>
-            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
+            <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1" 
             (onChange)="filtroTasas_2()"
             [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
             <!-- divisiones -->
             <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais5" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa2')">
+              placeholder="Seleccionar país"(onChange)="funcSelectPais($event,'tasa2')">
               </p-dropdown>
             <h3>Division</h3>
             <!-- <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" [showClear]="true"
@@ -1385,10 +1395,17 @@
             </div>
   
           <div  class="col-12 grid" style="height: 16cm;">
-            <div class="col-11" *ngIf="tasasNotFound2_2">
+            <!-- <div class="col-11" *ngIf="tasasNotFound2_2">
               <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
             </div>
-            <div class="col-11 grafic" *ngIf="!tasasNotFound2_2">
+            <div class="col-11 grafic" *ngIf="!tasasNotFound2_2"> -->
+            <div class="col-11" *ngIf="plantasList5_2.length == 0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11" *ngIf="tasasNotFound2_2 && plantasList5_2.length > 0">
+              <s-dataNotFound [message]="'No se encontraron registros de Horas Hombre trabajadas'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" *ngIf="!tasasNotFound2_2 && plantasList5_2.length > 0">
               <ngx-charts-bar-vertical-2d
               class="align-items-center"
               [scheme]="colorScheme2"
@@ -1424,13 +1441,13 @@
                 [(ngModel)]="filtroAnioTasa_2_2" (onChange)="getTasas_2_2('filtro')"
                 [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1_2" 
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses1_2" 
                 (onChange)="filtroTasas_2_2()"
                 [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
                 <!-- divisiones -->
                 <h3>País</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais5_2" 
-                  placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'tasa2_2')">
+                  placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'tasa2_2')">
                   </p-dropdown>
                 <h3>Division</h3>
                 <!-- <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" [showClear]="true"
@@ -1511,7 +1528,7 @@
             [legend]="false"
             [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="true"
-            [xAxisLabel]="'Divisiones'"
+            [xAxisLabel]="'Plantas'"
             [yAxisLabel]="'eventos'"
             [showDataLabel]="true"
             [barPadding]=0
@@ -1529,7 +1546,7 @@
             <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf3, 'cerrado': !estaAbiertoGraf3}">
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais6" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event1')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'event1')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList6" [(ngModel)]="selectedDivisionResumen6" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event1')">
@@ -1620,7 +1637,7 @@
             [legend]="false"
             [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="true"
-            [xAxisLabel]="'Divisiones'"
+            [xAxisLabel]="'Plantas'"
             [yAxisLabel]="'eventos'"
             [showDataLabel]="true"
             [barPadding]=0
@@ -1638,7 +1655,7 @@
             <div class="panel-lateral" [ngClass]="{'abierto': estaAbiertoGraf3_2, 'cerrado': !estaAbiertoGraf3_2}">
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais6_2" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event1_2')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'event1_2')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList6_2" [(ngModel)]="selectedDivisionResumen6_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'event1_2')">
@@ -1711,7 +1728,10 @@
         </div>
 
         <div  class="col-12 grid" style="height: 16cm;">
-          <div class="col-11 grafic">
+          <div class="col-11" *ngIf="plantasList7.length == 0">
+            <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+          </div>
+          <div class="col-11 grafic" style="height: 560px;" *ngIf="plantasList7.length > 0">
               <ngx-charts-bar-vertical-2d
               class="align-items-center"
               [scheme]="colorScheme2"
@@ -1744,10 +1764,10 @@
               <h3>Año</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" [(ngModel)]="filtroAnioEventos2" placeholder="Seleccionar año" (onChange)="getEventos_2()"></p-dropdown>
             <h3>Meses</h3>
-            <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2" (onChange)="filtroEventos_2()"></p-multiSelect>
+            <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2" (onChange)="filtroEventos_2()"></p-multiSelect>
             <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais7" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event2');getEventos_2()">
+              placeholder="Seleccionar país"  (onChange)="funcSelectPais($event,'event2');getEventos_2()">
               </p-dropdown>
             <h3>Division</h3>
               <!-- <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2();funcSelectDivision($event,'event2')"></p-multiSelect> -->
@@ -1814,7 +1834,10 @@
           </div>
   
           <div  class="col-12 grid" style="height: 16cm;">
-            <div class="col-11 grafic">
+            <div class="col-11" *ngIf="plantasList7_2.length == 0">
+              <s-dataNotFound [message]="'Seleccione pais y división para visualizar el indicador'"></s-dataNotFound>
+            </div>
+            <div class="col-11 grafic" style="height: 560px;" *ngIf="plantasList7_2.length > 0">
               <ngx-charts-bar-vertical-2d
               class="align-items-center"
               [scheme]="colorScheme2"
@@ -1847,10 +1870,10 @@
                 <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" [(ngModel)]="filtroAnioEventos2_2" placeholder="Seleccionar año" (onChange)="getEventos_2_2()"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2_2" (onChange)="filtroEventos_2_2()"></p-multiSelect>
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMeses2_2" (onChange)="filtroEventos_2_2()"></p-multiSelect>
                 <h3>País</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais7_2" 
-                  placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'event2_2');getEventos_2_2()">
+                  placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'event2_2');getEventos_2_2()">
                   </p-dropdown>
                 <h3>Division</h3>
                   <!-- <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="divisiones" [(ngModel)]="filtroDivisionEventos2" (onChange)="getEventos_2();funcSelectDivision($event,'event2')"></p-multiSelect> -->
@@ -1902,7 +1925,7 @@
               <h3>Año</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioIli_1" (onChange)="getIli_1()"></p-dropdown>
               <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1" (onChange)="getIli_1()"></p-multiSelect> 
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1" (onChange)="getIli_1()"></p-multiSelect> 
               <!-- <h3>Division</h3>
               <div *ngFor="let category of divisiones2" class="p-field-checkbox">
                   <p-checkbox name="group6" value="label" [value]="category" [(ngModel)]="selectDivisionesILI1" (onChange)="filtroIli_1()"></p-checkbox>
@@ -1911,7 +1934,7 @@
 
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais8" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili1')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'ili1')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList8" [(ngModel)]="selectedDivisionResumen8" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili1')">
@@ -1958,7 +1981,7 @@
                 <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioIli_1_2" (onChange)="getIli_1_2()"></p-dropdown>
                 <h3>Meses</h3>
-                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1_2" (onChange)="getIli_1_2()"></p-multiSelect> 
+                  <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesIli_1_2" (onChange)="getIli_1_2()"></p-multiSelect> 
                 <!-- <h3>Division</h3>
                 <div *ngFor="let category of divisiones2" class="p-field-checkbox">
                     <p-checkbox name="group6" value="label" [value]="category" [(ngModel)]="selectDivisionesILI1" (onChange)="filtroIli_1()"></p-checkbox>
@@ -1967,7 +1990,7 @@
   
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais8_2" 
-                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili1_2')">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'ili1_2')">
                 </p-dropdown>
                 <h3>Division</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList8_2" [(ngModel)]="selectedDivisionResumen8_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili1_2')">
@@ -2012,7 +2035,7 @@
               [(ngModel)]="selectedAnioIli_2" (onChange)="getIli_2()"
               [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
               <h3>Meses</h3>
-              <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2" 
+              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2" 
               (onChange)="filtroIli_2()" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> 
               <!-- <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" 
@@ -2021,14 +2044,14 @@
         
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais9" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili2')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'ili2')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList9" [(ngModel)]="selectedDivisionResumen9" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili2')">
               </p-dropdown>
               <h3>Planta</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccionar planta" [options]="plantasList9"
-              [(ngModel)]="PlantaSelect9" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2($event)"></p-dropdown>
+              [(ngModel)]="PlantaSelect9" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2($event)" [showClear]="true"></p-dropdown>
             </div>
           </div>
         </div>
@@ -2070,7 +2093,7 @@
                 [(ngModel)]="selectedAnioIli_2_2" (onChange)="getIli_2_2()"
                 [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2_2" 
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMesesILI2_2" 
                 (onChange)="filtroIli_2_2()" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> 
                 <!-- <h3>Division</h3>
                 <p-dropdown [style]="{'width':'100%'}" placeholder="Seleccione" [options]="divisiones" 
@@ -2079,14 +2102,14 @@
           
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais9_2" 
-                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'ili2_2')">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'ili2_2')">
                 </p-dropdown>
                 <h3>Division</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList9_2" [(ngModel)]="selectedDivisionResumen9_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'ili2_2')">
                 </p-dropdown>
                 <h3>Planta</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccionar planta" [options]="plantasList9_2"
-                [(ngModel)]="PlantaSelect9_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2_2($event)"></p-dropdown>
+                [(ngModel)]="PlantaSelect9_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="getIli_2_2($event)" [showClear]="true"></p-dropdown>
               </div>
             </div>
           </div>
@@ -2129,10 +2152,10 @@
               <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1" (onChange)="getMeta_1Eve()"></p-dropdown>
               <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1" (onChange)="getMeta_1Eve()"></p-multiSelect> 
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1" (onChange)="getMeta_1Eve()"></p-multiSelect> 
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais10" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta1')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10" [(ngModel)]="selectedDivisionResumen10" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1')">
@@ -2192,16 +2215,16 @@
                 <h3>Año</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1_2" (onChange)="getMeta_1Eve_2()"></p-dropdown>
                 <h3>Meses</h3>
-                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1_2" (onChange)="getMeta_1Eve_2()"></p-multiSelect> 
+                  <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1_2" (onChange)="getMeta_1Eve_2()"></p-multiSelect> 
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais10_2" 
-                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1_2')">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta1_2')">
                 </p-dropdown>
                 <h3>Division</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10_2" [(ngModel)]="selectedDivisionResumen10_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1_2')">
                 </p-dropdown>
                 <h3>Planta</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList10_2"
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" appendTo="body" defaultLabel="Seleccionar planta" [options]="plantasList10_2"
                 [(ngModel)]="PlantaSelect10_2" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="filtroMeta_1_2()"></p-multiSelect>
                 <h3>Tipo filtro</h3>
                 <div *ngFor="let meta of grafMetas" class="p-field-checkbox">
@@ -2252,10 +2275,10 @@
               <h3>Año</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-dropdown>
               <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-multiSelect> 
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2" (onChange)="getMeta_1Tasas('filtro')"></p-multiSelect> 
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais11" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta2')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList11" [(ngModel)]="selectedDivisionResumen11" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2')">
@@ -2317,10 +2340,10 @@
                 <h3>Año</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_2_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-dropdown>
                 <h3>Meses</h3>
-                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-multiSelect> 
+                  <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2_2" (onChange)="getMeta_1Tasas_2('filtro')"></p-multiSelect> 
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais11_2" 
-                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2_2')">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta2_2')">
                 </p-dropdown>
                 <h3>Division</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList11_2" [(ngModel)]="selectedDivisionResumen11_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2_2')">
@@ -2374,10 +2397,10 @@
               <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1meses" (onChange)="getEventosMeta_2()"></p-dropdown>
               <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1meses" (onChange)="getEventosMeta_2()"></p-multiSelect> 
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1meses" (onChange)="getEventosMeta_2()"></p-multiSelect> 
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais12" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1meses')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta1meses')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList12" [(ngModel)]="selectedDivisionResumen12" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1meses')">
@@ -2436,10 +2459,10 @@
                 <h3>Año</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="selectedAnioMeta_1meses_2" (onChange)="getEventosMeta_2_2()"></p-dropdown>
                 <h3>Meses</h3>
-                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1meses_2" (onChange)="getEventosMeta_2_2()"></p-multiSelect> 
+                  <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_1meses_2" (onChange)="getEventosMeta_2_2()"></p-multiSelect> 
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais12_2" 
-                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta1_2meses')">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta1_2meses')">
                 </p-dropdown>
                 <h3>Division</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList12_2" [(ngModel)]="selectedDivisionResumen12_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta1_2meses')">
@@ -2496,10 +2519,10 @@
               <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="filtroAnioTasa_2meses" (onChange)="getTasas_2Meses('filtro')"></p-dropdown>
               <h3>Meses</h3>
-                <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2meses" (onChange)="getTasas_2Meses('filtro')"></p-multiSelect> 
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2meses" (onChange)="getTasas_2Meses('filtro')"></p-multiSelect> 
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais13" 
-              placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2meses')">
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta2meses')">
               </p-dropdown>
               <h3>Division</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList13" [(ngModel)]="selectedDivisionResumen13" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2meses')">
@@ -2559,10 +2582,10 @@
                 <h3>Año</h3>
                   <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año" [(ngModel)]="filtroAnioTasa_2meses_2" (onChange)="getTasas_2Meses_2('filtro')"></p-dropdown>
                 <h3>Meses</h3>
-                  <p-multiSelect [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2meses_2" (onChange)="getTasas_2Meses_2('filtro')"></p-multiSelect> 
+                  <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="filtroMesesMeta_2meses_2" (onChange)="getTasas_2Meses_2('filtro')"></p-multiSelect> 
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais13_2" 
-                placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'meta2_2meses')">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'meta2_2meses')">
                 </p-dropdown>
                 <h3>Division</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList13_2" [(ngModel)]="selectedDivisionResumen13_2" placeholder="Seleccionar división" [showClear]="true" (onChange)="funcSelectDivision($event,'meta2_2meses')">

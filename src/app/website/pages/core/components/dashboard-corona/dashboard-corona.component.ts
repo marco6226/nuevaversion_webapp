@@ -104,6 +104,15 @@ export class DashboardCoronaComponent implements OnInit {
 
   selectArea: any[] = [];
 
+  fields=[
+    'id',
+    'nombre',
+    'area_id',
+    'area_nombre',
+    'pais',
+    'tipo',
+  ]
+
   ngAfterViewInit(){
     this.cargarEventosAt().then(() => {
       this.loadResumen();
@@ -279,8 +288,10 @@ export class DashboardCoronaComponent implements OnInit {
         this.selectedDivisionResumen1=null
         this.PlantaSelect1=null
         this.plantasList1=[]
+        console.log(1)
         this.divisionList1=await this.getPlantas(pais.value)
         console.log(this.divisionList1)
+        this.loadResumen()
         break;
       case 'resumen2':
         this.localidadesList1=[]
@@ -293,11 +304,13 @@ export class DashboardCoronaComponent implements OnInit {
         break;
       }
   }
+
   async getPlantas(pais:string | null) {
     if(pais){
       let filterPlantaQuery = new FilterQuery();
       filterPlantaQuery.sortField = "id";
       filterPlantaQuery.sortOrder = -1;
+      // filterPlantaQuery.fieldList = this.fields;
       filterPlantaQuery.filterList = [
         { field: 'id_empresa', criteria: Criteria.EQUALS, value1: this.empresaId.toString() }]
       if(pais !='Corona Total')filterPlantaQuery.filterList.push({ field: 'pais', criteria: Criteria.EQUALS, value1: pais })
@@ -343,6 +356,7 @@ export class DashboardCoronaComponent implements OnInit {
         for(const pl of plantasList){
           this.plantasList1.push({label:pl.nombre,value:pl.nombre})
         }
+        this.loadResumen()
         break;
       default:
         break;
