@@ -289,6 +289,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     this.matrizPListT=[]
     for (const ele of this.formCreacionMatriz.value.area) {
       filterMatriz.filterList = [{ field: 'area.id', criteria: Criteria.EQUALS, value1: ele.id}];
+      filterMatriz.filterList.push({ field: 'eliminado', criteria: Criteria.EQUALS, value1: 'false'});
+      filterMatriz.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: '22'});
+
       let matrizPList:MatrizPeligros[]=[];
       let matrizPList2:any[]=[];
       await this.matrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
@@ -338,6 +341,8 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
       if(!findEdicion){
         idEdicion.push(ele.idEdicion)
         filterMatriz2.filterList = [{ field: 'idEdicion', criteria: Criteria.EQUALS, value1: ele.idEdicion?.toString()}];
+        filterMatriz2.filterList.push({ field: 'eliminado', criteria: Criteria.EQUALS, value1: 'false'});
+        filterMatriz2.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: '22'});
         let matrizPList:MatrizPeligros[]=[];
         let matrizPList2:any[]=[]
         let matrizPList_:any[]=[];
@@ -399,7 +404,9 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     let cont=0
     this.lastFecha=null
     this.lastFecha2=null
+    const uniqueArray = Array.from(new Set(this.matrizPList));
 
+    this.matrizPList=[...uniqueArray]
     this.matrizPList.forEach((ele:any) => {
       if(ele.fechaEdicion)this.lastFecha2=new Date(ele.fechaEdicion)
       
@@ -498,6 +505,7 @@ export class ListaMatrizPeligrosComponent  implements OnInit {
     filterHistorico.sortField = "id";
     filterHistorico.sortOrder = -1;
     filterHistorico.filterList = [{ field: 'idriesgo', criteria: Criteria.EQUALS, value1: idpadre}];
+    
     let matrizPList:any[]=[];
     await this.matrizPeligrosLogService.getmpRWithFilter(filterHistorico).then((resp:any)=>{
       // this.matrizPList3 = (<MatrizPeligrosLog[]>resp.data).map(matriz => matriz);

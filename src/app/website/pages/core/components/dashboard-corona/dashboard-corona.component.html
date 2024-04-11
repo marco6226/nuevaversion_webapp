@@ -53,13 +53,13 @@
                 </div>
                 <div class="col-10 grid mid-border p-justify-center" style="margin: auto;">
                   <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
-                    <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais1" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'resumen');loadResumen()">
+                    <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais1" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'resumen')">
                     </p-dropdown>
                   </div>
                   <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> 
                   
                     <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione division" [options]="divisionList1"
-                    [(ngModel)]="selectedDivisionResumen1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="funcSelectDivision($event,'resumen');loadResumen()"></p-dropdown>
+                    [(ngModel)]="selectedDivisionResumen1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="funcSelectDivision($event,'resumen')"></p-dropdown>
 
                   </div>
                   <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Planta:</p> 
