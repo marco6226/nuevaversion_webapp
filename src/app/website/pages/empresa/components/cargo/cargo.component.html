@@ -2,7 +2,7 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 
-<s-dataNotFound *ngIf="!cargosList || cargosList.length <= 0" icon="bi-briefcase" message="Aún no se han registrado cargos">
+<s-dataNotFound *ngIf="!cargosList || !flagTabla " icon="bi-briefcase" message="Aún no se han registrado cargos">
   <div *sTienePermiso="'EMP_POST_CARGO'">
     Inicia agregandolos haciendo click
     <a (click)="showAddForm()">aqui</a>
@@ -10,7 +10,7 @@
 </s-dataNotFound>
 
 <div class="shadow">
-  <p-panel header="Administración de cargos" [style.display]="cargosList && cargosList.length > 0 ? 'block':'none'" icon="bi-briefcase">
+  <p-panel header="Administración de cargos" [style.display]="cargosList && flagTabla  ? 'block':'none'" icon="bi-briefcase">
 
     <p-table #dt [value]="cargosList" autoLayout="true" selectionMode="single" [(selection)]="cargoSelect" [rows]="10" [paginator]="true"
       dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">

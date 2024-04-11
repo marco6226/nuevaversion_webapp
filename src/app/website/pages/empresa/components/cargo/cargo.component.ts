@@ -61,7 +61,7 @@ export class CargoComponent implements OnInit {
       unidadDeseable: [null, /*Validators.required*/],
   });
   }
-
+  flagTabla:boolean=false
   ngOnInit(): void {
     let fq = new FilterQuery();
     fq.filterList = [{ field: 'competencia', criteria: Criteria.IS_NULL }];
@@ -102,6 +102,7 @@ export class CargoComponent implements OnInit {
         this.loading = false;
         this.cargosList = [];
         (<any[]>resp['data']).forEach(dto => this.cargosList?.push(FilterQuery.dtoToObject(dto)));
+        if(this.cargosList.length>0)this.flagTabla=true
       }
     );
   }
