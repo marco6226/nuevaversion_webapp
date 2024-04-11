@@ -885,7 +885,6 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         hhtEmpresa = Array.from(res.data);
       }else{
         console.error('No se obtuvieron registros hht de la empresa.');
-        this.metaIli=0
       }
     }).catch(err => {
       console.error('Error al obtener hht de la empresa');

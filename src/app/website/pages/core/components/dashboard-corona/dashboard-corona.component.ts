@@ -272,7 +272,7 @@ export class DashboardCoronaComponent implements OnInit {
     {label: 'Nicaragua', value: 'Nicaragua'},
     {label: 'Corona Total', value: 'Corona Total'}
   ];
-  selectPais1:any
+  selectPais1:any=null
   selectedDivisionResumen1?: any | null = null;
   PlantaSelect1:any=null
   plantasList:any=[]
@@ -465,17 +465,21 @@ export class DashboardCoronaComponent implements OnInit {
     });
 
     await this.viewHHtMetasService.getWithFilter(filterQueryCoronameta).then(async (res: any) => {
+      console.log(res.data)
       if(res.data.length > 0){
         let hhtmeta = Array.from(res.data);
         if(this.selectPais1 && !this.selectedDivisionResumen1){
           let hhtEmpresaFind:any= hhtmeta.find((ele:any)=>ele.pais==this.selectPais1)
+
           this.metaIli = hhtEmpresaFind.iliAnual;
         }else if(this.selectedDivisionResumen1 && !this.PlantaSelect1){
           let hhtEmpresaFind:any= hhtmeta.find((ele:any)=>ele.nombreDivision==this.selectedDivisionResumen1)
+
           this.metaIli = hhtEmpresaFind.iliDivision;
           this.metaPais=hhtEmpresaFind.iliAnual
         }else if(this.PlantaSelect1){
           let hhtEmpresaFind:any= hhtmeta.find((ele:any)=>ele.nombrePlanta==this.PlantaSelect1)
+
           this.metaIli = hhtEmpresaFind.iliPlanta;
           this.metaDivision=hhtEmpresaFind.iliDivision
           this.metaPais=hhtEmpresaFind.iliAnual
@@ -484,11 +488,11 @@ export class DashboardCoronaComponent implements OnInit {
         }
 
       }else{
-        console.error('No se obtuvieron registros hht de la empresa.');
+        console.error('No se obtuvieron registros meta de la empresa.');
         this.metaIli=0
       }
     }).catch(err => {
-      console.error('Error al obtener hht de la empresa');
+      console.error('Error al obtener metas de la empresa');
     });
 
     await this.hhtService.findByFilter(filterQueryCorona).then(async (res: any) => {
@@ -496,7 +500,6 @@ export class DashboardCoronaComponent implements OnInit {
         hhtEmpresa = Array.from(res.data);
       }else{
         console.error('No se obtuvieron registros hht de la empresa.');
-        this.metaIli=0
       }
     }).catch(err => {
       console.error('Error al obtener hht de la empresa');
