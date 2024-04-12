@@ -4743,17 +4743,6 @@ contGrafPeligros_2:any[]=[]
     })
     return datosReturn
   }
-  // paisesList: Array<any> = [
-  //   {label: 'Colombia', value: 'Colombia'},
-  //   {label: 'Costa Rica', value: 'Costa Rica'},
-  //   {label: 'EEUU', value: 'EEUU'},
-  //   {label: 'Guatemala', value: 'Guatemala'},
-  //   {label: 'Honduras', value: 'Honduras'},
-  //   {label: 'Mexico', value: 'Mexico'},
-  //   {label: 'Nicaragua', value: 'Nicaragua'},
-  //   {label: 'Corona Total', value: 'Corona Total'}
-  // ];
-
   paisesList: Array<any> = [
     {label: 'Colombia', value: 'Colombia'},
     {label: 'Costa Rica', value: 'Costa Rica'},
@@ -4761,8 +4750,19 @@ contGrafPeligros_2:any[]=[]
     {label: 'Guatemala', value: 'Guatemala'},
     {label: 'Honduras', value: 'Honduras'},
     {label: 'Mexico', value: 'Mexico'},
-    {label: 'Nicaragua', value: 'Nicaragua'}
+    {label: 'Nicaragua', value: 'Nicaragua'},
+    {label: 'Corona Total', value: 'Corona Total'}
   ];
+
+  // paisesList: Array<any> = [
+  //   {label: 'Colombia', value: 'Colombia'},
+  //   {label: 'Costa Rica', value: 'Costa Rica'},
+  //   {label: 'EEUU', value: 'EEUU'},
+  //   {label: 'Guatemala', value: 'Guatemala'},
+  //   {label: 'Honduras', value: 'Honduras'},
+  //   {label: 'Mexico', value: 'Mexico'},
+  //   {label: 'Nicaragua', value: 'Nicaragua'}
+  // ];
 
   selectPais1:any
   selectPais2:any

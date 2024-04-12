@@ -2881,9 +2881,16 @@ filtroTasas_2_2(){
   
       Object.assign(this, {dataEventos2_2});
     }
-
-// GRAFICA ILI 1
-
+  
+  // GRAFICA ILI 1
+  selectGetIli1(){
+    if(this.flagIli1DivPla)this.getIli_1Total()
+    else this.getIli_1()
+  }
+  selectFilterIli1(){
+    if(this.flagIli1DivPla) this.filtroIli_1Total()
+    else this.filtroIli_1()
+  }
   async getIli_1(){
     this.divisionesCoronaIli1 = this.plantasList8.map((div:any) => {
       return  div.label;
@@ -2993,17 +3000,11 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
             return diasTotales > 0 ? true : false;
           }).length;
         let hhtCorona = 0;
-        // let mesesFiltrados: number = 0;
         res.data.forEach((elem:any) => {
           // let dataHHT: DataHht = <DataHht>JSON.parse(elem.valor).Data;
           if(this.filtroMesesIli_1.length > 0){
             if(this.filtroMesesIli_1.includes(elem.mes)){
-              // dataHHT.Areas!.forEach((area) => {
-              //   if(area.id == planta.id){
-              //     metaCorona = Number(area.ILIArea ? area.ILIArea : 0);
-              //     hhtCorona += area.HhtArea != null ? area.HhtArea : 0;
-              //   }
-              // });
+
               if(elem.planta_nombre == planta){
                 let meta1:viewHHtMetas=meta.find((met:any)=> met.nombrePlanta==planta)
                 metaCorona = Number(meta1.iliPlanta ? meta1.iliPlanta : 0);
@@ -3016,12 +3017,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
               metaCorona = Number(meta1.iliPlanta ? meta1.iliPlanta : 0);
               hhtCorona += Number(elem.hht? elem.hht : 0);
             }
-            // dataHHT.Areas!.forEach(area => {
-            //   if(planta.id == area.id){
-            //     metaCorona = Number(area.ILIArea ? area.ILIArea : 0);
-            //     hhtCorona += area.HhtArea! !== null ? area.HhtArea! : 0;
-            //   }
-            // });
           }
         });
 
@@ -3030,11 +3025,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
           // let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
           if(this.filtroMesesIli_1.length > 0){
             if(this.filtroMesesIli_1.includes(hht.mes)){
-              // data.Areas!.forEach((area, index) => {
-              //   if(area.id == planta.id){
-              //     hhtTemp += area.HhtArea ? area.HhtArea : 0;
-              //   }
-              // });
               if(hht.planta_nombre == planta){
                 let meta1:viewHHtMetas=meta.find((met:any)=> met.nombrePlanta==planta)
                 metaCorona = Number(meta1.iliPlanta ? meta1.iliPlanta : 0);
@@ -3042,12 +3032,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
               }
             }
           }else{
-            // let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;
-            // data.Areas!.forEach((area, index) => {
-            //   if(planta.id == area.id){
-            //     hhtTemp += area.HhtArea ? area.HhtArea : 0;
-            //   }
-            // })
             if(hht.planta_nombre == planta){
               // hht.iliAnual
               let meta1:viewHHtMetas=meta.find((met:any)=> met.nombrePlanta==planta)
@@ -3097,14 +3081,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
 
   filtroIli_1(){
     let dataIli_1: any = JSON.parse(localStorage.getItem('dataIli_1')!);
-    // let divisionesCoronaIli1 = this.divisionesCorona.map(div => div);
-    // if(this.selectDivisionesILI1.length > 0){
-    //   let selectedDivisiones = this.selectDivisionesILI1.map(div => div.label);
-    //   divisionesCoronaIli1 = divisionesCoronaIli1.filter(div => selectedDivisiones.includes(div));
-    //   dataIli_1.labels = divisionesCoronaIli1;
-    //   dataIli_1.datasets[1].data = dataIli_1.datasets[1].data.filter((data:any, index:any) => selectedDivisiones.includes(this.divisionesCorona[index]));
-    //   dataIli_1.datasets[0].data = dataIli_1.datasets[0].data.filter((data:any, index:any) => selectedDivisiones.includes(this.divisionesCorona[index]));
-    // }
+
     let plantasCoronaIli1 = this.plantasList8.map((div:any) => {return div.label});
 
     if(this.PlantaSelect8)
@@ -3116,6 +3093,207 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       dataIli_1.datasets[0].data = dataIli_1.datasets[0].data.filter((data:any, index:any) => PlantaSelect.includes(plantasCoronaIli1[index]));
     }
 
+    Object.assign(this, {dataIli_1});
+  }
+
+  async getIli_1Total(){
+    this.divisionesCoronaIli1 = this.divisionesCorona.map(div => {
+      return  div;
+    });
+    let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioIli_1);
+    
+    //nuevo
+    let reportesAtCopyDiv: any[]=[]
+    if(this.selectPais8)if(this.selectPais8!='Corona Total')reportesAt = reportesAt.filter(at => at.pais == this.selectPais8);
+    if(this.selectedDivisionResumen8)reportesAt=reportesAt.filter(at => at.padreNombre == this.selectedDivisionResumen8);
+    if(this.PlantaSelect8)if(this.PlantaSelect8.length>0){
+      reportesAtCopyDiv=[]
+      this.PlantaSelect8.forEach((element:any) => {
+        reportesAtCopyDiv=reportesAtCopyDiv.concat(reportesAt.filter(at => at.nombrePlanta == element));
+      });
+      reportesAt=[...reportesAtCopyDiv]
+    }
+    //fin nuevo
+    
+    let dataIli_1: {
+      labels: any;
+      datasets: any[];
+      options?: any;
+    } = {
+      labels: this.divisionesCoronaIli1,
+      datasets: [
+        {
+          label: 'Meta',
+          backgroundColor: 'rgb(67, 67, 72)',
+          fill: false,
+          borderColor: 'rgb(67, 67, 72)',
+          data: [],
+          type: 'line'
+        },
+        {
+          label: 'ILI',
+          backgroundColor: 'rgb(124, 181, 255)',
+          borderColor: 'rgb(124, 181, 255)',
+          data: [],
+        }
+      ]
+    };
+
+    let filterQuery = new FilterQuery();
+    filterQuery.sortOrder = SortOrder.ASC;
+    filterQuery.sortField = "id";
+    filterQuery.fieldList=this.fieldHht;
+    filterQuery.filterList = [
+      {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioIli_1.toString()},
+      {criteria: Criteria.EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+    ];
+
+    if(this.selectPais8)if(this.selectPais8 != 'Corona Total')filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais8.toString()})
+    if(this.selectedDivisionResumen8)filterQuery.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.nombre", value1: this.selectedDivisionResumen8})
+
+    await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
+      if(this.filtroMesesIli_1.length > 0) reportesAt = reportesAt.filter(at => this.filtroMesesIli_1.includes(this.meses[new Date(at.fechaReporte).getMonth()]));
+
+      let accidentesConDiasPerdidosTotal = 0;
+      let hhtTotalEmpresa = 0;
+      let hhtTotalTemp = 0;
+      let diasSeveridadTotalEmp = 0;
+
+      let listaHhtTemp: any[];
+      let filterQuery2 = new FilterQuery();
+      filterQuery2.sortOrder = SortOrder.ASC;
+      filterQuery2.sortField = "id";
+      filterQuery2.fieldList=this.fieldHht;
+      filterQuery2.filterList = [
+        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioIli_1.toString()},
+        {criteria: Criteria.EQUALS, field: "empresa.id", value1: this.sessionService.getParamEmp()},
+        {criteria: Criteria.NOT_EQUALS, field: "empresaSelect", value1: this.sessionService.getParamEmp()}
+      ];
+      if(this.selectPais8)if(this.selectPais8 != 'Corona Total')filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais8.toString()})
+      if(this.selectedDivisionResumen8)filterQuery2.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.nombre", value1: this.selectedDivisionResumen8})
+
+          
+      await this.hhtService.findByFilter(filterQuery2)
+      .then((resTemp: any) => {
+        listaHhtTemp = Array.from(resTemp.data);
+      }).catch(err => {
+        console.error('Error al obtener hht temporales', err);
+      });
+
+      let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.filterList = [
+        {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioIli_1.toString()},
+        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
+      ];
+      if(this.selectPais8)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais8.toString()})
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+        meta=metas.data
+      })
+
+      this.divisionesCoronaConId.forEach((division, index) => {
+        if(division.nombre=='TEST')return
+
+        let metaCorona = 0;
+        
+        let accidentesConDiasPerdidos = reportesAt
+        .filter(at => at.padreNombre === division.nombre && at.incapacidades !== null 
+          && at.incapacidades !== 'null').filter(at => {
+            let diasTotales = (<Array<any>>JSON.parse(at.incapacidades))
+            .reduce((count, incapacidad) => {
+              return count + incapacidad.diasAusencia;
+            }, 0);
+            return diasTotales > 0 ? true : false;
+          }).length;
+        let hhtCorona = 0;
+
+        res.data.forEach((elem:any) => {
+          if(this.filtroMesesIli_1.length > 0){
+            if(this.filtroMesesIli_1.includes(elem.mes)){
+
+              if(elem.planta_area_nombre == division.nombre){
+                let meta1:viewHHtMetas=meta.find((met:any)=> met.nombreDivision==division.nombre)
+                metaCorona = Number(meta1.iliDivision ? meta1.iliDivision : 0);
+                hhtCorona += Number(elem.hht? elem.hht : 0);
+              }
+            }
+          }else {
+            if(elem.planta_area_nombre == division.nombre){
+              let meta1:viewHHtMetas=meta.find((met:any)=> met.nombreDivision==division.nombre)
+              metaCorona = Number(meta1.iliDivision ? meta1.iliDivision : 0);
+              hhtCorona += Number(elem.hht? elem.hht : 0);
+            }
+          }
+        });
+        let hhtTemp = 0;
+        listaHhtTemp.forEach((hht, index) => {
+          if(this.filtroMesesIli_1.length > 0){
+            if(this.filtroMesesIli_1.includes(hht.mes)){
+              if(hht.planta_area_nombre == division.nombre){
+                let meta1:viewHHtMetas=meta.find((met:any)=> met.nombreDivision==division.nombre)
+                metaCorona = Number(meta1.iliDivision ? meta1.iliDivision : 0);
+                hhtCorona += Number(hht.hht? hht.hht : 0);
+              }
+            }
+          }else{
+            if(hht.planta_area_nombre == division.nombre){
+              let meta1:viewHHtMetas=meta.find((met:any)=> met.nombreDivision==division.nombre)
+              metaCorona = Number(meta1.iliDivision ? meta1.iliDivision : 0);
+              hhtCorona += Number(hht.hht? hht.hht : 0);
+            }
+          }
+        });
+
+        let totalDiasSeveridad = reportesAt.filter(at => at.padreNombre === division.nombre && at.incapacidades !== 'null' && at.incapacidades !== null)
+                                          .reduce((count, at) => {
+                                            return count + JSON.parse(at.incapacidades).reduce((count2:any, incapacidades:any) => {
+                                              return count2 + incapacidades.diasAusencia;
+                                            }, 0);
+                                          }, 0);
+
+        let IF = (accidentesConDiasPerdidos/(hhtCorona + hhtTemp)) * 240000;
+        let IS = (totalDiasSeveridad/(hhtCorona + hhtTemp)) * 240000;
+        let ILI = (IF*IS)/1000;
+        
+        accidentesConDiasPerdidosTotal += accidentesConDiasPerdidos;
+        hhtTotalEmpresa += hhtCorona;
+        hhtTotalTemp += hhtTemp;
+        diasSeveridadTotalEmp += totalDiasSeveridad;
+        
+        dataIli_1.datasets[1].data.push(isNaN(ILI) ? 0.00 : ILI === Infinity ? 0.00 : Number(ILI.toFixed(6)));
+        dataIli_1.datasets[0].data.push(metaCorona);
+      });
+
+      let IF = (accidentesConDiasPerdidosTotal / (hhtTotalEmpresa + hhtTotalTemp)) * 240000;
+      let IS = (diasSeveridadTotalEmp / (hhtTotalEmpresa + hhtTotalTemp)) * 240000;
+      let ILI = (IF * IS)/1000;
+
+      dataIli_1.datasets[1].data.push(isNaN(ILI) ? 0.00 : ILI === Infinity ? 0.00 : Number(ILI.toFixed(6)));
+      
+      let metaTotal:Number = 0;
+      if(meta){
+        if(meta.length>0)metaTotal = meta[0].iliAnual ? meta[0].iliAnual : 0;
+      }
+
+      dataIli_1.datasets[0].data.push(metaTotal);
+
+      localStorage.setItem('dataIli_1', JSON.stringify(dataIli_1));
+      Object.assign(this, {dataIli_1});
+      this.filtroIli_1Total();
+    });
+  }
+
+  filtroIli_1Total(){
+    let dataIli_1: any = JSON.parse(localStorage.getItem('dataIli_1')!);
+    let divisionesCoronaIli1 = this.divisionesCorona.map(div => div);
+
+    if(this.selectedDivisionResumen8){
+      // let selectedDivisiones = this.selectedDivisionResumen8
+      divisionesCoronaIli1 = divisionesCoronaIli1.filter(div => this.selectedDivisionResumen8.includes(div));
+      dataIli_1.labels = divisionesCoronaIli1;
+      dataIli_1.datasets[1].data = dataIli_1.datasets[1].data.filter((data:any, index:any) => this.selectedDivisionResumen8.includes(this.divisionesCorona[index]));
+      dataIli_1.datasets[0].data = dataIli_1.datasets[0].data.filter((data:any, index:any) => this.selectedDivisionResumen8.includes(this.divisionesCorona[index]));
+    }
     // Object.assign(this, {divisionesCoronaIli1});
     Object.assign(this, {dataIli_1});
   }
@@ -5950,6 +6128,7 @@ optionsMeta_2meses: any = {
   flagTortaTotalEve:boolean=false
   flagTortaTotalDias:boolean=false
 
+  flagIli1DivPla:boolean=false
   async funcSelectPais(pais:any,filter:any){ 
 
     switch (filter) {
@@ -6036,6 +6215,16 @@ optionsMeta_2meses: any = {
         this.PlantaSelect8=null
         this.plantasList8=[]
         if(pais)this.divisionList8=await this.getPlantas(pais.value)
+        else{
+          this.flagIli1DivPla=true
+          this.getIli_1Total()
+        }
+
+        if(pais)
+        if(pais.value =='Corona Total'){
+          this.flagIli1DivPla=true
+          this.getIli_1Total()
+        }else this.flagIli1DivPla=false
         break;
       case 'ili1_2':
         this.selectedDivisionResumen8_2=null
@@ -6275,7 +6464,7 @@ optionsMeta_2meses: any = {
           for(const pl of plantasList){
             this.plantasList8.push({label:pl.nombre,value:pl.nombre})
           }
-          this.getIli_1()
+          this.selectGetIli1()
           break;
         case 'ili1_2':
           this.PlantaSelect8_2=null
