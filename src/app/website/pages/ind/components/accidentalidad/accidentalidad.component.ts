@@ -790,6 +790,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       {criteria: Criteria.EQUALS, field: "anio", value1: this.anioActualResumen.toString()},
       {criteria: Criteria.EQUALS, field: "empresaId", value1: empresaId}
     ];
+
     if(this.selectPais1)filterQueryCoronameta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais1.toString()})
     if(this.selectedDivisionResumen1)filterQueryCoronameta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen1.toString()})
     if(this.PlantaSelect1)filterQueryCoronameta.filterList.push({criteria: Criteria.EQUALS, field: "nombrePlanta", value1: this.PlantaSelect1.toString()})
@@ -802,7 +803,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       {criteria: Criteria.EQUALS, field: "empresa.id", value1: empresaId},
       {criteria: Criteria.EQUALS, field: "empresaSelect", value1: empresaId}
     ];
-    if(this.selectPais1)filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais1.toString()})
+    if(this.selectPais1)if(this.selectPais1 != 'Corona Total')filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais1.toString()})
     if(this.selectedDivisionResumen1)filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.id", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen1).id.toString()})
     if(this.PlantaSelect1)filterQueryCorona.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect1.toString()})
 
@@ -814,7 +815,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
       {criteria: Criteria.EQUALS, field: "empresa.id", value1: empresaId},
       {criteria: Criteria.NOT_EQUALS, field: "empresaSelect", value1: empresaId}
     ];
-    if(this.selectPais1)filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais1.toString()})
+    if(this.selectPais1)if(this.selectPais1 != 'Corona Total')filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.pais", value1: this.selectPais1.toString()})
     if(this.selectedDivisionResumen1)filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.area.id", value1: this.divisionesCoronaConId.find((div:any) => div.nombre === this.selectedDivisionResumen1).id.toString()})
     if(this.PlantaSelect1)filterQueryTemp.filterList.push({criteria: Criteria.EQUALS, field: "planta.nombre", value1: this.PlantaSelect1.toString()})
     
@@ -881,6 +882,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     });
 
     await this.hhtService.findByFilter(filterQueryCorona).then(async (res: any) => {
+      console.log(res.data)
       if(res.data.length > 0){
         hhtEmpresa = Array.from(res.data);
       }else{
@@ -968,7 +970,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   calcularTotalHht(hht: Hht[], mesInicio: number, mesFinal: number, selectPais:string, selectedDivisionResumen:string, PlantaSelect:string ): number{
 
-    if(selectPais)hht=hht.filter((eve:any)=>eve.planta_pais==selectPais)
+    if(selectPais)if(selectPais != 'Corona Total')hht=hht.filter((eve:any)=>eve.planta_pais==selectPais)
     if(selectedDivisionResumen)hht=hht.filter((eve:any)=>eve.planta_area_id==this.divisionesCoronaConId.find((div:any) => div.nombre === selectedDivisionResumen).id)
     if(PlantaSelect)hht=hht.filter((eve:any)=>eve.planta_nombre==PlantaSelect)
 
