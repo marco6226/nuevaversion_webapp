@@ -40,7 +40,7 @@
                                     <ng-container *ngIf="!this.selectPais1"><h3>Meta ILI</h3></ng-container>
                                     <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI pais</h3></ng-container>
                                     <ng-container *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"><h3>Meta ILI división</h3></ng-container>
-                                    <ng-container *ngIf="this.PlantaSelect1"><h3>Meta ILI planta</h3></ng-container>
+                                    <ng-container *ngIf="this.PlantaSelect1"><h3>Meta ILI localidad</h3></ng-container>
                                 </div>
                                 <div style="text-align:right;">
                                     <span class="tamañotexto">{{metaIli || 0}}</span>
@@ -62,7 +62,7 @@
                     [(ngModel)]="selectedDivisionResumen1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="funcSelectDivision($event,'resumen')"></p-dropdown>
 
                   </div>
-                  <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Planta:</p> 
+                  <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Localidad:</p> 
                     <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione la planta" [options]="plantasList1"
                     [(ngModel)]="PlantaSelect1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="loadResumen()"></p-dropdown>
                   </div>
