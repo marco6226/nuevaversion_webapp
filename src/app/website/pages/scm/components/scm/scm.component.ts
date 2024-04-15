@@ -228,20 +228,23 @@ export class ScmComponent implements OnInit {
         } else {
             
             this.casosList.forEach((element: any) => {
-                dataExcel.push({ 
+                const item = { 
                     CASO: element.id,
                     Fecha_apertura: element.fechaCreacion,
                     Apellido: element.pkUser?.primerApellido,
                     Nombre: element.pkUser?.primerNombre,
                     Documento: element.documento,
                     Estado_caso: element.statusCaso == 1 ? 'Abierto' : 'Cerrado',
-                    Proximo_seguimiento: element.proximoseguimiento,
+                    Proximo_seguimiento: element.proximoseguimiento ? new Date(element.proximoseguimiento).toLocaleDateString() : '',
                     Prioridad: element.prioridadCaso,
                     Tipo_caso: element.tipoCaso,
-                })
+                };
+                dataExcel.push(item);
             });
+    
             this.excel=[...dataExcel]
             this.excel.map((resp1:any)=>{return resp1.Fecha_apertura=new Date(resp1.Fecha_apertura)})
+            //console.log(dataExcel)
             
         }
        
