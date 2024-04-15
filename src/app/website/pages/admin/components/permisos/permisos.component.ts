@@ -38,8 +38,8 @@ export class PermisosComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        
-       
+
+
         this.selectArea_areaPadre();
 
         this.perfilesList.push({ label: '--Seleccione--', value: null });
@@ -91,11 +91,13 @@ export class PermisosComponent implements OnInit {
         if (perfil == null) {
             this.permisosList = [];
             return;
-        }else{
+        } else {
             this.permisoService.findAllByPerfil(perfil.id || '').then(
                 data => {
                     this.permisosList = <Permiso[]>data;
+                    console.log(this.permisosList)
                     this.cruzarDatos();
+
                 }
             );
         }
@@ -103,25 +105,39 @@ export class PermisosComponent implements OnInit {
 
     cruzarDatos() {
         this.recursosList.forEach((recurso: any) => {
+            //console.log(`Procesando recurso: ${recurso.nombre} - ${recurso.modulo}`);
             recurso.selected = false;
             recurso['areas'] = null;
-            this.permisosList.forEach((permiso:any) => {
+            this.permisosList.forEach((permiso: any) => {
                 if (permiso.recurso.id == recurso.id) {
                     recurso.selected = permiso.valido;
                     if (recurso['validacionArea']) {
                         recurso['areas'] = permiso.areas == null ? null : permiso.areas.replace('{', '').replace('}', '').replace(' ', '').split(',');
                         if (recurso['areas']) {
-                            recurso['areas'].forEach((value:any, index:any) => {
+                            recurso['areas'].forEach((value: any, index: any) => {
 
                                 recurso["areas"][index] = parseInt(value);
+                                
                             });;
                         }
 
                     }
                 }
             });
-
+            
         });
+        // Ordenar recursosList por el campo "nombre"
+        this.recursosList.sort((a: any, b: any) => {
+            if (a.modulo !== b.modulo) {
+                return a.modulo.localeCompare(b.modulo)+1;
+            }
+          
+            return a.nombre.localeCompare(b.nombre);
+        });
+        
+        
+        //console.log(this.recursosList)
+
 
     }
 
@@ -131,7 +147,7 @@ export class PermisosComponent implements OnInit {
     }
 
     actualizarPermiso(recurso: Recurso) {
-        this.isOnEdit=true;
+        this.isOnEdit = true;
         let permiso = new Permiso();
         permiso.valido = recurso.selected ? false : true;
         recurso.selected = recurso.selected ? false : true;
@@ -145,50 +161,50 @@ export class PermisosComponent implements OnInit {
         this.permisoService.update(permiso).then(
             resp => {
                 this.messageService.add({ summary: 'PERMISO ACTUALIZADO', detail: 'El permiso se ha actualizado correctamente', severity: 'success' });
-                if(resp){
-                    this.isOnEdit=false;
+                if (resp) {
+                    this.isOnEdit = false;
                 }
             }
         ).catch(
             err => {
-                this.messageService.add({ summary: 'ERROR', detail: 'No se pudo actualizar el permiso.', severity: 'error'});
+                this.messageService.add({ summary: 'ERROR', detail: 'No se pudo actualizar el permiso.', severity: 'error' });
             }
         );
     }
 
-    selectArea_areaPadre(){
+    selectArea_areaPadre() {
         let filterAreaQuery = new FilterQuery();
-    filterAreaQuery.filterList = [
-      { field: 'areaPadre', criteria: Criteria.IS_NULL, value1: null, value2: null },
-      { field: 'estructura', criteria: Criteria.EQUALS, value1: Estructura.ORGANIZACIONAL.toString(), value2: null }
-    ];
-    this.areaService.findByFilter(filterAreaQuery)
-      .then(element => {
-        this.createArbol(element);
-      })
+        filterAreaQuery.filterList = [
+            { field: 'areaPadre', criteria: Criteria.IS_NULL, value1: null, value2: null },
+            { field: 'estructura', criteria: Criteria.EQUALS, value1: Estructura.ORGANIZACIONAL.toString(), value2: null }
+        ];
+        this.areaService.findByFilter(filterAreaQuery)
+            .then(element => {
+                this.createArbol(element);
+            })
     }
 
-    createArbol(data: any){  
+    createArbol(data: any) {
         data.data.forEach((element: any) => {
-            this.areaList.push({label: element.nombre, value : element.id})
-            if(element.areaList.length > 0){
-                this.createArbolHijo(element.nombre,element.areaList)
+            this.areaList.push({ label: element.nombre, value: element.id })
+            if (element.areaList.length > 0) {
+                this.createArbolHijo(element.nombre, element.areaList)
             }
         });
     }
 
-    createArbolHijo(nombrePadre:any, dataHijo:any){
-        dataHijo.forEach((element:any) => {
-            this.areaList.push({label: element.nombre + " - " +  nombrePadre, value : element.id})
-            if(element.areaList.length > 0){
-                this.createArbolHijo(element.nombre,element.areaList)
+    createArbolHijo(nombrePadre: any, dataHijo: any) {
+        dataHijo.forEach((element: any) => {
+            this.areaList.push({ label: element.nombre + " - " + nombrePadre, value: element.id })
+            if (element.areaList.length > 0) {
+                this.createArbolHijo(element.nombre, element.areaList)
             }
         });
     }
 
-    actualizarPermisosLocales(event: any){
+    actualizarPermisosLocales(event: any) {
         // console.info(event);
-        if(event.isTrusted){
+        if (event.isTrusted) {
             // console.info('Actualizar permisos presionado: ' + event.isTrusted);
             // this.isTrustedActualizarPermisos = event.isTrusted;
             this.helperService.changeMessage('actualizarPermisos');
@@ -197,7 +213,7 @@ export class PermisosComponent implements OnInit {
 
     onItemChange(event: any, recurso: Recurso) {
 
-        this.isOnEdit=true;
+        this.isOnEdit = true;
         let permiso = new Permiso();
         permiso.valido = recurso.selected;
         recurso.selected = recurso.selected;
@@ -209,6 +225,6 @@ export class PermisosComponent implements OnInit {
             permiso.areas = '{' + recurso.areas.toString() + '}';
         }
         this.permisoService.update(permiso);
-        
-      }
+
+    }
 }
