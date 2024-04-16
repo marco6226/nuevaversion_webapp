@@ -16,6 +16,7 @@
                         <th scope="col" pSortableColumn="fecha">Entidad que emite la calificación origen</th>
                         <th scope="col" pSortableColumn="fecha">Estado de calificación origen</th>
                         <th scope="col" pSortableColumn="fecha">Fecha de calificación origen</th>
+                        <th scope="col" pSelectableRow="tipo">Porcentaje PCL</th>
                     </tr>
                 </ng-template>
 
@@ -31,6 +32,8 @@
                         <td class="p-text-center">{{ pcl.entidadEmiteCalificacion }}</td>
                         <td class="p-text-center">{{ pcl.statusDeCalificacion_o?.label }}</td>
                         <td class="p-text-center">{{ pcl.fechaCalificacion | date: 'dd/MM/yyyy' }}</td>
+                        <td class="p-text-center">{{pcl.porcentajePcl}}%</td>
+                    
 
                     </tr>
 
