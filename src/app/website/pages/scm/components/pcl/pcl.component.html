@@ -72,7 +72,7 @@
                             <em class="pi pi-spin pi-spinner" style="font-size: 2rem"></em>
                         </td>
                         <td colspan="8" class="p-text-center" *ngIf="!loading && pclList.length === 0">
-                            No hay PCL registradas en este caso médico
+                            No hay Calificaciones registradas en este caso médico
                         </td>
                     </tr>
                 </ng-template>
@@ -86,9 +86,7 @@
         <form [formGroup]="pclForm">
             <div class="">
                 <div class="row" *ngIf="estado=='crear' || estado=='edit'">
-                    <div class="col-12">
-                        <h5 class="title-header p-mb-2">PCL</h5>
-                    </div>
+                    
                     <div class="row">
                         <ng-container *ngIf="estado=='crear'">
                             <!-- <div class="col" *sTienePermiso="'SCM_POST_DIAGPCL'"> -->
@@ -110,6 +108,9 @@
                                 </div>
                             </div>
                         </ng-container>
+                        <div class="col-12">
+                            <h5 class="title-header p-mb-2">PCL</h5>
+                        </div>
 
                         <div class="col">
                             <div class="input-field">
