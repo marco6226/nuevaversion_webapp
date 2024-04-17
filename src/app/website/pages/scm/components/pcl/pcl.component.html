@@ -10,13 +10,14 @@
                     <tr>
                         <th scope="col" pSortableColumn="tipo">Diagnóstico</th>
                         <th scope="col" pSortableColumn="tipoIntervencion">Pcl</th>
+                        <th scope="col" pSelectableRow="tipo">Porcentaje PCL</th>
                         <th scope="col" pSortableColumn="fecha">Entidad que emite la PCL</th>
                         <th scope="col" pSortableColumn="fecha">Fecha de emisión de la PCL</th>
                         <th scope="col" pSortableColumn="fecha">Origen</th>
                         <th scope="col" pSortableColumn="fecha">Entidad que emite la calificación origen</th>
                         <th scope="col" pSortableColumn="fecha">Estado de calificación origen</th>
                         <th scope="col" pSortableColumn="fecha">Fecha de calificación origen</th>
-                        <th scope="col" pSelectableRow="tipo">Porcentaje PCL</th>
+                        
                     </tr>
                 </ng-template>
 
@@ -26,13 +27,14 @@
 
                         <td class="p-text-center">{{ pcl.diagnostic?.label }}</td>
                         <td class="p-text-center">{{ pcl.pcl_o?.label }}</td>
+                        <td class="p-text-center">{{pcl.porcentajePcl}}%</td>
                         <td class="p-text-center">{{ pcl.entidadEmitePcl_o?.label }}</td>
                         <td class="p-text-center">{{ pcl.emisionPclFecha | date: 'dd/MM/yyyy' }}</td>
                         <td class="p-text-center">{{ pcl.origen_o?.label }}</td>
                         <td class="p-text-center">{{ pcl.entidadEmiteCalificacion }}</td>
                         <td class="p-text-center">{{ pcl.statusDeCalificacion_o?.label }}</td>
                         <td class="p-text-center">{{ pcl.fechaCalificacion | date: 'dd/MM/yyyy' }}</td>
-                        <td class="p-text-center">{{pcl.porcentajePcl}}%</td>
+                        
                     
 
                     </tr>
@@ -206,7 +208,7 @@
                             </div>
                         </div>
 
-                        Token de sesión expirado
+                        
                         <div class="row">
                             <div class="col">
                                 <div class="input-field">
