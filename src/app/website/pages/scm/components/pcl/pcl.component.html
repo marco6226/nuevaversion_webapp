@@ -10,12 +10,14 @@
                     <tr>
                         <th scope="col" pSortableColumn="tipo">Diagnóstico</th>
                         <th scope="col" pSortableColumn="tipoIntervencion">Pcl</th>
+                        <th scope="col" pSelectableRow="tipo">Porcentaje PCL</th>
                         <th scope="col" pSortableColumn="fecha">Entidad que emite la PCL</th>
                         <th scope="col" pSortableColumn="fecha">Fecha de emisión de la PCL</th>
                         <th scope="col" pSortableColumn="fecha">Origen</th>
                         <th scope="col" pSortableColumn="fecha">Entidad que emite la calificación origen</th>
                         <th scope="col" pSortableColumn="fecha">Estado de calificación origen</th>
                         <th scope="col" pSortableColumn="fecha">Fecha de calificación origen</th>
+                        
                     </tr>
                 </ng-template>
 
@@ -25,12 +27,15 @@
 
                         <td class="p-text-center">{{ pcl.diagnostic?.label }}</td>
                         <td class="p-text-center">{{ pcl.pcl_o?.label }}</td>
+                        <td class="p-text-center">{{pcl.porcentajePcl}}%</td>
                         <td class="p-text-center">{{ pcl.entidadEmitePcl_o?.label }}</td>
                         <td class="p-text-center">{{ pcl.emisionPclFecha | date: 'dd/MM/yyyy' }}</td>
                         <td class="p-text-center">{{ pcl.origen_o?.label }}</td>
                         <td class="p-text-center">{{ pcl.entidadEmiteCalificacion }}</td>
                         <td class="p-text-center">{{ pcl.statusDeCalificacion_o?.label }}</td>
                         <td class="p-text-center">{{ pcl.fechaCalificacion | date: 'dd/MM/yyyy' }}</td>
+                        
+                    
 
                     </tr>
 
@@ -72,7 +77,7 @@
                             <em class="pi pi-spin pi-spinner" style="font-size: 2rem"></em>
                         </td>
                         <td colspan="8" class="p-text-center" *ngIf="!loading && pclList.length === 0">
-                            No hay PCL registradas en este caso médico
+                            No hay Calificaciones registradas en este caso médico
                         </td>
                     </tr>
                 </ng-template>
@@ -86,9 +91,7 @@
         <form [formGroup]="pclForm">
             <div class="">
                 <div class="row" *ngIf="estado=='crear' || estado=='edit'">
-                    <div class="col-12">
-                        <h5 class="title-header p-mb-2">PCL</h5>
-                    </div>
+                    
                     <div class="row">
                         <ng-container *ngIf="estado=='crear'">
                             <!-- <div class="col" *sTienePermiso="'SCM_POST_DIAGPCL'"> -->
@@ -110,6 +113,9 @@
                                 </div>
                             </div>
                         </ng-container>
+                        <div class="col-12">
+                            <h5 class="title-header p-mb-2">PCL</h5>
+                        </div>
 
                         <div class="col">
                             <div class="input-field">
@@ -202,7 +208,7 @@
                             </div>
                         </div>
 
-                        Token de sesión expirado
+                        
                         <div class="row">
                             <div class="col">
                                 <div class="input-field">

@@ -1118,7 +1118,7 @@
 
         <!-- Inicio PCL -->
         <ng-container *sTienePermiso="'SCM_GET_CASEPCL'">
-            <p-tabPanel header="PCL" *ngIf="caseSelect && this.diagnosticoList.length > 0">
+            <p-tabPanel header="Calificación (origen -PCL)" *ngIf="caseSelect && this.diagnosticoList.length > 0">
                 <app-pcl [diagnosticos]="this.diagnosticoList" [entity]="entity" [emitPclentity]="emitPclentity"
                     [pkCase]="caseSelect.id" [pclOptionList]="pclOptionList" (eventClose)="onCloseModalDianostico()"
                     (dlistaPCL)="recibirPCL($event)">
