@@ -52,41 +52,6 @@ export class IndCaracterizacionComponent implements OnInit {
   ContGrave:number=0
   ContSevero:number=0;
   ContMortal:number=0;
-  // ContHombres:number[]=[0,0,0,0,0,0,0]
-  // ContMujeres:number[]=[0,0,0,0,0,0,0]
-  // ContLugarFuera:number[]=[0,0,0,0,0,0,0]
-  // ContLugarDentro:number[]=[0,0,0,0,0,0,0]
-  // ContJornadaNormal:number[]=[0,0,0,0,0,0,0]
-  // ContJornadaExtra:number[]=[0,0,0,0,0,0,0]
-  
-  // ContFechaAccidente:number[]=[0,0,0,0,0,0,0]
-
-  // ContFechaIngreso_1:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_1:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_1:number[]=[0,0,0,0,0,0,0]
-  // ContFechaIngreso_2:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_2:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_2:number[]=[0,0,0,0,0,0,0]
-  // ContFechaIngreso_3:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_3:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_3:number[]=[0,0,0,0,0,0,0]
-  // ContFechaIngreso_4:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_4:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_4:number[]=[0,0,0,0,0,0,0]
-  // ContFechaIngreso_5:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_5:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_5:number[]=[0,0,0,0,0,0,0]
-  // ContFechaIngreso_6:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_6:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_6:number[]=[0,0,0,0,0,0,0]
-  // ContFechaIngreso_7:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_7:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_7:number[]=[0,0,0,0,0,0,0]
-  // ContFechaIngreso_total:number[]=[0,0,0,0,0,0,0]
-  // ContFechaNacimiento_total:number[]=[0,0,0,0,0,0,0]
-  // ContHoraAccidente_total:number[]=[0,0,0,0,0,0,0]
-
-
 
   ContTipoATMes:number[]=[0,0,0,0,0,0,0,0,0,0,0,0]
   ContSitioATMes:number[]=[0,0,0,0,0,0,0,0,0,0,0,0]
@@ -177,11 +142,15 @@ export class IndCaracterizacionComponent implements OnInit {
   datosGrafica5_2:any=[];
   datosGrafica6_2:any=[];
 
+  datosGrafica1_total:any=[];
+  datosGrafica2_total:any=[];
   datosGrafica3_total:any=[];
   datosGrafica4_total:any=[];
   datosGrafica5_total:any=[];
   datosGrafica6_total:any=[];
 
+  datosGrafica1_total_2:any=[];
+  datosGrafica2_total_2:any=[];
   datosGrafica3_total_2:any=[];
   datosGrafica4_total_2:any=[];
   datosGrafica5_total_2:any=[];
@@ -559,6 +528,11 @@ export class IndCaracterizacionComponent implements OnInit {
 
   ////////////Primera grafica//////////
   DatosGrafica1(){
+      let flagCoronaTotal:boolean=false
+      if(this.selectPais2){
+        if(this.selectPais2=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
 
       this.flagevent1=false
 
@@ -571,7 +545,6 @@ export class IndCaracterizacionComponent implements OnInit {
   
       if(!this.date3 && this.date4){
         let date4:Date=new Date(new Date(this.date4).setMonth(new Date(this.date4).getMonth()+1))
-        // date4=new Date(new Date(date4).setDate(new Date(date4).getDate()-1))
         this.CaracterizacionView2=this.CaracterizacionView.filter((resp:any)=>{
           return resp.fechaaccidente< date4;
           })
@@ -586,7 +559,14 @@ export class IndCaracterizacionComponent implements OnInit {
       //nuevo
       let reportesAtCopyDiv: any[]=[]
       if(this.selectPais2)if(this.selectPais2!='Corona Total')this.CaracterizacionView2 = this.CaracterizacionView2.filter((at:any) => at.pais == this.selectPais2);
-      if(this.selectedDivisionResumen2)this.CaracterizacionView2= this.CaracterizacionView2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen2);
+      if(!flagCoronaTotal)if(this.selectedDivisionResumen2)this.CaracterizacionView2= this.CaracterizacionView2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen2);
+      if(flagCoronaTotal)if(this.selectedDivisionResumen2)if(this.selectedDivisionResumen2.length>0){
+        reportesAtCopyDiv=[]
+        this.selectedDivisionResumen2.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView2.filter((at:any) => at.padrenombre == element));
+        });
+        this.CaracterizacionView2=[...reportesAtCopyDiv]
+      }
       if(this.LocalidadSelect2)if(this.LocalidadSelect2.length>0){
         reportesAtCopyDiv=[]
         this.LocalidadSelect2.forEach((element:any) => {
@@ -596,12 +576,6 @@ export class IndCaracterizacionComponent implements OnInit {
       }
       //fin nuevo
 
-      // this.ContHombres=[0,0,0,0,0,0,0]
-      // this.ContMujeres=[0,0,0,0,0,0,0]
-      // this.ContLugarFuera=[0,0,0,0,0,0,0]
-      // this.ContLugarDentro=[0,0,0,0,0,0,0]
-      // this.ContJornadaNormal=[0,0,0,0,0,0,0]
-      // this.ContJornadaExtra=[0,0,0,0,0,0,0]
       this.contGenero=[]
       this.ContLugar=[]
       this.ContJornada=[]
@@ -611,8 +585,9 @@ export class IndCaracterizacionComponent implements OnInit {
         if(this.radioGra1==1 && element.emptemporal!=null)this.ContDatosGraf1(element)
         if(this.radioGra1==2 && element.emptemporal==null)this.ContDatosGraf1(element)
       });
+
       this.primeraGrafica();
-      this.datosGrafica1=this.contTotal(this.datosGrafica1,this.selectedDivisionResumen2)
+      if(this.selectPais2!='Corona Total')this.datosGrafica1=this.contTotal(this.datosGrafica1,(flagCoronaTotal)?'Corona Total':this.selectedDivisionResumen2)
 
   }
 
@@ -621,7 +596,7 @@ export class IndCaracterizacionComponent implements OnInit {
   ContJornada:any[]=[]
   ContDatosGraf1(element:any){
 
-    let nombreLocalidad = element.nombreLocalidad
+    let nombreLocalidad = (this.selectPais2=='Corona Total')?element.padrenombre:element.nombreLocalidad
 
     let generoempleado = element.generoempleado
     if(generoempleado)
@@ -638,105 +613,44 @@ export class IndCaracterizacionComponent implements OnInit {
     if(jornadaaccidente=='NORMAL')jornadaaccidente='Jornada normal'
     else if(jornadaaccidente=='EXTRA')jornadaaccidente='Jornada extra'
 
-  if(nombreLocalidad && generoempleado){
-    if (this.contGenero.hasOwnProperty(nombreLocalidad)) {
-      if (this.contGenero[nombreLocalidad].hasOwnProperty(generoempleado)) {
-        this.contGenero[nombreLocalidad][generoempleado] += 1;
+    if(nombreLocalidad && generoempleado){
+      if (this.contGenero.hasOwnProperty(nombreLocalidad)) {
+        if (this.contGenero[nombreLocalidad].hasOwnProperty(generoempleado)) {
+          this.contGenero[nombreLocalidad][generoempleado] += 1;
+        } else {
+          this.contGenero[nombreLocalidad][generoempleado] = 1;
+        }
       } else {
+        this.contGenero[nombreLocalidad] = {};
         this.contGenero[nombreLocalidad][generoempleado] = 1;
       }
-    } else {
-      this.contGenero[nombreLocalidad] = {};
-      this.contGenero[nombreLocalidad][generoempleado] = 1;
     }
-  }
 
-  if(nombreLocalidad && lugaraccidente){
-    if (this.ContLugar.hasOwnProperty(nombreLocalidad)) {
-      if (this.ContLugar[nombreLocalidad].hasOwnProperty(lugaraccidente)) {
-        this.ContLugar[nombreLocalidad][lugaraccidente] += 1;
+    if(nombreLocalidad && lugaraccidente){
+      if (this.ContLugar.hasOwnProperty(nombreLocalidad)) {
+        if (this.ContLugar[nombreLocalidad].hasOwnProperty(lugaraccidente)) {
+          this.ContLugar[nombreLocalidad][lugaraccidente] += 1;
+        } else {
+          this.ContLugar[nombreLocalidad][lugaraccidente] = 1;
+        }
       } else {
+        this.ContLugar[nombreLocalidad] = {};
         this.ContLugar[nombreLocalidad][lugaraccidente] = 1;
       }
-    } else {
-      this.ContLugar[nombreLocalidad] = {};
-      this.ContLugar[nombreLocalidad][lugaraccidente] = 1;
     }
-  }
 
-  if(nombreLocalidad && jornadaaccidente){
-    if (this.ContJornada.hasOwnProperty(nombreLocalidad)) {
-      if (this.ContJornada[nombreLocalidad].hasOwnProperty(jornadaaccidente)) {
-        this.ContJornada[nombreLocalidad][jornadaaccidente] += 1;
+    if(nombreLocalidad && jornadaaccidente){
+      if (this.ContJornada.hasOwnProperty(nombreLocalidad)) {
+        if (this.ContJornada[nombreLocalidad].hasOwnProperty(jornadaaccidente)) {
+          this.ContJornada[nombreLocalidad][jornadaaccidente] += 1;
+        } else {
+          this.ContJornada[nombreLocalidad][jornadaaccidente] = 1;
+        }
       } else {
+        this.ContJornada[nombreLocalidad] = {};
         this.ContJornada[nombreLocalidad][jornadaaccidente] = 1;
       }
-    } else {
-      this.ContJornada[nombreLocalidad] = {};
-      this.ContJornada[nombreLocalidad][jornadaaccidente] = 1;
     }
-  }
-
-    // switch (element.padrenombre) {
-    //   case 'Almacenes Corona':
-    //     if(element.generoempleado=='M'){this.ContHombres[0]=this.ContHombres[0]+1;}
-    //     if(element.generoempleado=='F'){this.ContMujeres[0]=this.ContMujeres[0]+1;}
-    //     if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[0]=this.ContLugarFuera[0]+1;}
-    //     if(element.lugaraccidente=='DENTRO_EMPRESA'){this.ContLugarDentro[0]=this.ContLugarDentro[0]+1;}
-    //     if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[0]=this.ContJornadaNormal[0]+1;}
-    //     if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[0]=this.ContJornadaExtra[0]+1;}
-    //     break;
-    //   case 'Bathrooms and Kitchen':
-    //     if(element.generoempleado=='M'){this.ContHombres[1]=this.ContHombres[1]+1;}
-    //     if(element.generoempleado=='F'){this.ContMujeres[1]=this.ContMujeres[1]+1;}
-    //     if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[1]=this.ContLugarFuera[1]+1;}
-    //     if(element.lugaraccidente=='DENTRO_EMPRESA'){this.ContLugarDentro[1]=this.ContLugarDentro[1]+1;}
-    //     if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[1]=this.ContJornadaNormal[1]+1;}
-    //     if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[1]=this.ContJornadaExtra[1]+1;}
-    //     break;
-    //   case 'Comercial Corona Colombia':
-    //     if(element.generoempleado=='M'){this.ContHombres[2]=this.ContHombres[2]+1;}
-    //     if(element.generoempleado=='F'){this.ContMujeres[2]=this.ContMujeres[2]+1;}
-    //     if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[2]=this.ContLugarFuera[2]+1;}
-    //     if(element.lugaraccidente=='DENTRO_EMPRESA'){this.ContLugarDentro[2]=this.ContLugarDentro[2]+1;}
-    //     if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[2]=this.ContJornadaNormal[2]+1;}
-    //     if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[2]=this.ContJornadaExtra[2]+1;}
-    //     break;
-    //   case 'Funciones Transversales':
-    //     if(element.generoempleado=='M'){this.ContHombres[3]=this.ContHombres[3]+1;}
-    //     if(element.generoempleado=='F'){this.ContMujeres[3]=this.ContMujeres[3]+1;}
-    //     if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[3]=this.ContLugarFuera[3]+1;}
-    //     if(element.lugaraccidente=='DENTRO_EMPRESA'){this.ContLugarDentro[3]=this.ContLugarDentro[3]+1;}
-    //     if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[3]=this.ContJornadaNormal[3]+1;}
-    //     if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[3]=this.ContJornadaExtra[3]+1;}
-    //     break;
-    //   case 'Insumos Industriales y Energias':
-    //     if(element.generoempleado=='M'){this.ContHombres[4]=this.ContHombres[4]+1;}
-    //     if(element.generoempleado=='F'){this.ContMujeres[4]=this.ContMujeres[4]+1;}
-    //     if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[4]=this.ContLugarFuera[4]+1;}
-    //     if(element.lugaraccidente=='DENTRO_EMPRESA'){this.ContLugarDentro[4]=this.ContLugarDentro[4]+1;}
-    //     if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[4]=this.ContJornadaNormal[4]+1;}
-    //     if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[4]=this.ContJornadaExtra[4]+1;}
-    //     break;
-    //   case 'Mesa Servida':
-    //     if(element.generoempleado=='M'){this.ContHombres[5]=this.ContHombres[5]+1;}
-    //     if(element.generoempleado=='F'){this.ContMujeres[5]=this.ContMujeres[5]+1;}
-    //     if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[5]=this.ContLugarFuera[5]+1;}
-    //     if(element.lugaraccidente=='DENTRO_EMPRESA'){this.ContLugarDentro[5]=this.ContLugarDentro[5]+1;}
-    //     if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[5]=this.ContJornadaNormal[5]+1;}
-    //     if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[5]=this.ContJornadaExtra[5]+1;}
-    //     break;
-    //   case 'Superficies, materiales y pinturas':
-    //     if(element.generoempleado=='M'){this.ContHombres[6]=this.ContHombres[6]+1;}
-    //     if(element.generoempleado=='F'){this.ContMujeres[6]=this.ContMujeres[6]+1;}
-    //     if(element.lugaraccidente=='FUERA_EMPRESA'){this.ContLugarFuera[6]=this.ContLugarFuera[6]+1;}
-    //     if(element.lugaraccidente=='DENTRO_EMPRESA'){this.ContLugarDentro[6]=this.ContLugarDentro[6]+1;}
-    //     if(element.jornadaaccidente=='NORMAL'){this.ContJornadaNormal[6]=this.ContJornadaNormal[6]+1;}
-    //     if(element.jornadaaccidente=='EXTRA'){this.ContJornadaExtra[6]=this.ContJornadaExtra[6]+1;}
-    //     break;
-    //   default:
-    //     break;
-    // }
   }
 
   primeraGrafica(){
@@ -744,10 +658,12 @@ export class IndCaracterizacionComponent implements OnInit {
     this.datosGrafica1=[]
 
     if(this.radioGra1_1==0){
+      let List:any=(this.selectPais2=='Corona Total')?this.divisionList2:this.localidadesList2
+
       this.datosGrafica1=[]
 
       let datoGrafica:any=[]
-      this.localidadesList2.forEach((element:any) => {
+      List.forEach((element:any) => {
         if(this.contGenero.hasOwnProperty(element.label)){
           if(Object.keys(this.contGenero[element.label]).length>0){
             let datoSeries:any=[]
@@ -760,20 +676,14 @@ export class IndCaracterizacionComponent implements OnInit {
         }
       });
       this.datosGrafica1=datoGrafica.map((e:any)=>e)
-      // this.divisiones1.forEach(div => {
-      //   sum1=sum1+this.ContHombres[cont1]
-      //   sum2=sum2+this.ContMujeres[cont1]
-      //   this.datosGrafica1.push({name:div,series:[{name:'Sexo masculino',value:this.ContHombres[cont1]},{name:'Sexo femenino',value:this.ContMujeres[cont1]}]})
-      //   cont1=cont1+1;
-      // });
-      // this.datosGrafica1.push({name:'Corona total',series:[{name:'Sexo masculino',value:sum1},{name:'Sexo femenino',value:sum2}]})
     }
 
     if(this.radioGra1_1==1){
+      let List:any=(this.selectPais2=='Corona Total')?this.divisionList2:this.localidadesList2
       this.datosGrafica1=[]
 
       let datoGrafica:any=[]
-      this.localidadesList2.forEach((element:any) => {
+      List.forEach((element:any) => {
         if(this.ContLugar.hasOwnProperty(element.label)){
           if(Object.keys(this.ContLugar[element.label]).length>0){
             let datoSeries:any=[]
@@ -786,20 +696,16 @@ export class IndCaracterizacionComponent implements OnInit {
         }
       });
       this.datosGrafica1=datoGrafica.map((e:any)=>e)
-      // this.divisiones1.forEach(div => {
-      //   sum1=sum1+this.ContLugarFuera[cont1]
-      //   sum2=sum2+this.ContLugarDentro[cont1]
-      //   this.datosGrafica1.push({name:div,series:[{name:'Lugar fuera',value:this.ContLugarFuera[cont1]},{name:'Lugar adentro',value:this.ContLugarDentro[cont1]}]})
-      //   cont1=cont1+1;
-      // });
-      // this.datosGrafica1.push({name:'Corona total',series:[{name:'Lugar fuera',value:sum1},{name:'Lugar adentro',value:sum2}]})
     }
 
     if(this.radioGra1_1==2){
+      let List:any=(this.selectPais2=='Corona Total')?this.divisionList2:this.localidadesList2
+
+
       this.datosGrafica1=[]
 
       let datoGrafica:any=[]
-      this.localidadesList2.forEach((element:any) => {
+      List.forEach((element:any) => {
         if(this.ContJornada.hasOwnProperty(element.label)){
           if(Object.keys(this.ContJornada[element.label]).length>0){
             let datoSeries:any=[]
@@ -812,13 +718,6 @@ export class IndCaracterizacionComponent implements OnInit {
         }
       });
       this.datosGrafica1=datoGrafica.map((e:any)=>e)
-      // this.divisiones1.forEach(div => {
-      //   sum1=sum1+this.ContJornadaNormal[cont1]
-      //   sum2=sum2+this.ContJornadaExtra[cont1]
-      //   this.datosGrafica1.push({name:div,series:[{name:'Jornada normal',value:this.ContJornadaNormal[cont1]},{name:'Jornada extra',value:this.ContJornadaExtra[cont1]}]})
-      //   cont1=cont1+1;
-      // });
-      // this.datosGrafica1.push({name:'Corona total',series:[{name:'Jornada normal',value:sum1},{name:'Jornada extra',value:sum2}]})
     }
 
     this.flagevent1=true
@@ -868,12 +767,17 @@ export class IndCaracterizacionComponent implements OnInit {
     this.selectEv1=[]
     this.selectDiv1=[]
     this.primeraGrafica()
-    this.datosGrafica1=this.contTotal(this.datosGrafica1,this.selectedDivisionResumen2)
+    if(this.selectPais2!='Corona Total')this.datosGrafica1=this.contTotal(this.datosGrafica1,this.selectedDivisionResumen2)
 
   }
     ////////////Primera grafica Comparativa//////////
 
     DatosGrafica1_2(){
+      let flagCoronaTotal:boolean=false
+      if(this.selectPais2_2){
+        if(this.selectPais2_2=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
 
       this.flagevent1_2=false
 
@@ -902,7 +806,14 @@ export class IndCaracterizacionComponent implements OnInit {
       let reportesAtCopyDiv: any[]=[]
       
       if(this.selectPais2_2)if(this.selectPais2_2!='Corona Total')this.CaracterizacionView2_2 = this.CaracterizacionView2_2.filter((at:any) => at.pais == this.selectPais2_2);
-      if(this.selectedDivisionResumen2_2)this.CaracterizacionView2_2= this.CaracterizacionView2_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen2_2);
+      if(!flagCoronaTotal)if(this.selectedDivisionResumen2_2)this.CaracterizacionView2_2= this.CaracterizacionView2_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen2_2);
+      if(flagCoronaTotal)if(this.selectedDivisionResumen2_2)if(this.selectedDivisionResumen2_2.length>0){
+        reportesAtCopyDiv=[]
+        this.selectedDivisionResumen2_2.forEach((element:any) => {
+          reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView2_2.filter((at:any) => at.padrenombre == element));
+        });
+        this.CaracterizacionView2_2=[...reportesAtCopyDiv]
+      }
       if(this.LocalidadSelect2_2)if(this.LocalidadSelect2_2.length>0){
         reportesAtCopyDiv=[]
         this.LocalidadSelect2_2.forEach((element:any) => {
@@ -921,10 +832,9 @@ export class IndCaracterizacionComponent implements OnInit {
         if(this.radioGra1_2==1 && element.emptemporal!=null)this.ContDatosGraf1_2(element)
         if(this.radioGra1_2==2 && element.emptemporal==null)this.ContDatosGraf1_2(element)
       });
-      console.log(this.datosGrafica1_2)
 
       this.primeraGrafica_2();
-      this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
+      if(this.selectPais2_2!='Corona Total')this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
 
   }
 
@@ -933,7 +843,9 @@ export class IndCaracterizacionComponent implements OnInit {
   ContJornada_2:any[]=[]
   ContDatosGraf1_2(element:any){
 
-    let nombreLocalidad = element.nombreLocalidad
+    let nombreLocalidad = (this.selectPais2_2=='Corona Total')?element.padrenombre:element.nombreLocalidad
+
+    // let nombreLocalidad = element.nombreLocalidad
 
     let generoempleado = element.generoempleado
     if(generoempleado)
@@ -996,10 +908,12 @@ export class IndCaracterizacionComponent implements OnInit {
     this.datosGrafica1_2=[]
 
     if(this.radioGra1_1_2==0){
+      let List:any=(this.selectPais2_2=='Corona Total')?this.divisionList2_2:this.localidadesList2_2
+
       this.datosGrafica1_2=[]
 
       let datoGrafica:any=[]
-      this.localidadesList2_2.forEach((element:any) => {
+      List.forEach((element:any) => {
         if(this.contGenero_2.hasOwnProperty(element.label)){
           if(Object.keys(this.contGenero_2[element.label]).length>0){
             let datoSeries:any=[]
@@ -1015,10 +929,12 @@ export class IndCaracterizacionComponent implements OnInit {
     }
 
     if(this.radioGra1_1_2==1){
+      let List:any=(this.selectPais2_2=='Corona Total')?this.divisionList2_2:this.localidadesList2_2
+
       this.datosGrafica1_2=[]
 
       let datoGrafica:any=[]
-      this.localidadesList2_2.forEach((element:any) => {
+      List.forEach((element:any) => {
         if(this.ContLugar_2.hasOwnProperty(element.label)){
           if(Object.keys(this.ContLugar_2[element.label]).length>0){
             let datoSeries:any=[]
@@ -1034,10 +950,12 @@ export class IndCaracterizacionComponent implements OnInit {
     }
 
     if(this.radioGra1_1_2==2){
+      let List:any=(this.selectPais2_2=='Corona Total')?this.divisionList2_2:this.localidadesList2_2
+
       this.datosGrafica1_2=[]
 
       let datoGrafica:any=[]
-      this.localidadesList2_2.forEach((element:any) => {
+      List.forEach((element:any) => {
         if(this.ContJornada_2.hasOwnProperty(element.label)){
           if(Object.keys(this.ContJornada_2[element.label]).length>0){
             let datoSeries:any=[]
@@ -1100,7 +1018,7 @@ export class IndCaracterizacionComponent implements OnInit {
     this.selectEv1_2=[]
     this.selectDiv1_2=[]
     this.primeraGrafica_2()
-    this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
+    if(this.selectPais2_2!='Corona Total')this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
 
   }
 
@@ -1109,7 +1027,7 @@ export class IndCaracterizacionComponent implements OnInit {
 
 filtroGraEve2(){
   this.segundaGrafica()
-  this.datosGrafica2=this.contTotal(this.datosGrafica2,this.selectedDivisionResumen3)
+  if(this.selectPais3!='Corona Total')this.datosGrafica2=this.contTotal(this.datosGrafica2,this.selectedDivisionResumen3)
 
   this.flagevent2=false
   let datosGrafica1:any=[]
@@ -1157,6 +1075,11 @@ resetVarGraf2(){
 
 }
   DatosGrafica2(){
+    let flagCoronaTotal:boolean=false
+      if(this.selectPais3){
+        if(this.selectPais3=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
 
     this.CaracterizacionView3=this.CaracterizacionView.map((e:any)=>e)
 
@@ -1201,7 +1124,14 @@ resetVarGraf2(){
     //nuevo
     let reportesAtCopyDiv: any[]=[]
     if(this.selectPais3)if(this.selectPais3!='Corona Total')this.CaracterizacionView3 = this.CaracterizacionView3.filter((at:any) => at.pais == this.selectPais3);
-    if(this.selectedDivisionResumen3)this.CaracterizacionView3= this.CaracterizacionView3.filter((at:any) => at.padrenombre == this.selectedDivisionResumen3);
+    if(!flagCoronaTotal)if(this.selectedDivisionResumen3)this.CaracterizacionView3= this.CaracterizacionView3.filter((at:any) => at.padrenombre == this.selectedDivisionResumen3);
+    if(flagCoronaTotal)if(this.selectedDivisionResumen3)if(this.selectedDivisionResumen3.length>0){
+      reportesAtCopyDiv=[]
+      this.selectedDivisionResumen3.forEach((element:any) => {
+        reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView3.filter((at:any) => at.padrenombre == element));
+      });
+      this.CaracterizacionView3=[...reportesAtCopyDiv]
+    }
     if(this.LocalidadSelect3)if(this.LocalidadSelect3.length>0){
       reportesAtCopyDiv=[]
       this.LocalidadSelect3.forEach((element:any) => {
@@ -1232,17 +1162,12 @@ resetVarGraf2(){
     this.horaAccidente(element.hora,element)
   }
 
-  // ContFechaNacimiento_18_25:any[]=[]
-  // ContFechaNacimiento_26_35:any[]=[]
-  // ContFechaNacimiento_36_45:any[]=[]
-  // ContFechaNacimiento_46_59:any[]=[]
-  // ContFechaNacimiento_60:any[]=[]
-  // ContFechaNacimiento_total2:any[]=[]
   ContFechaNacimiento:any[]=[]
 
   fechaNacimiento(element:any,element2:any){
 
-    let nombreLocalidad = element2.nombreLocalidad
+    let nombreLocalidad = (this.selectPais3=='Corona Total')?element2.padrenombre:element2.nombreLocalidad
+
     let rangoEdadNacimiento = ''
     if(nombreLocalidad && element){
       if(element>=18 && element<=25){
@@ -1268,220 +1193,15 @@ resetVarGraf2(){
       }
     }
 
-    // if(nombreLocalidad){
-    //   if(element>=18 && element<=25){
-    //     if (this.ContFechaNacimiento_18_25.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaNacimiento_18_25[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaNacimiento_18_25[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=26 && element<=35){
-    //     if (this.ContFechaNacimiento_26_35.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaNacimiento_26_35[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaNacimiento_26_35[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=36 && element<=45){
-    //     if (this.ContFechaNacimiento_36_45.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaNacimiento_36_45[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaNacimiento_36_45[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=46 && element<=59){
-    //     if (this.ContFechaNacimiento_46_59.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaNacimiento_46_59[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaNacimiento_46_59[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=60){
-    //     if (this.ContFechaNacimiento_60.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaNacimiento_60[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaNacimiento_60[nombreLocalidad] = 1;
-    //     }
-    //   }
-    // }
-    
-    // switch (element2.padrenombre) {
-    //   case 'Almacenes Corona':
-    //     if(element>=18 && element<=25){this.ContFechaNacimiento_1[0]=this.ContFechaNacimiento_1[0]+1;}
-    //     if( element>=26 && element<=35){this.ContFechaNacimiento_1[1]=this.ContFechaNacimiento_1[1]+1;}
-    //     if( element>=36 && element<=45)this.ContFechaNacimiento_1[2]=this.ContFechaNacimiento_1[2]+1;
-    //     if( element>=46 && element<=59)this.ContFechaNacimiento_1[3]=this.ContFechaNacimiento_1[3]+1;
-    //     if( element>=60)this.ContFechaNacimiento_1[4]=this.ContFechaNacimiento_1[4]+1;
-    //     break;
-    //   case 'Bathrooms and Kitchen':
-    //     if(element>=18 && element<=25)this.ContFechaNacimiento_2[0]=this.ContFechaNacimiento_2[0]+1;
-    //     if( element>=26 && element<=35)this.ContFechaNacimiento_2[1]=this.ContFechaNacimiento_2[1]+1;
-    //     if( element>=36 && element<=45)this.ContFechaNacimiento_2[2]=this.ContFechaNacimiento_2[2]+1;
-    //     if( element>=46 && element<=59)this.ContFechaNacimiento_2[3]=this.ContFechaNacimiento_2[3]+1;
-    //     if( element>=60)this.ContFechaNacimiento_2[4]=this.ContFechaNacimiento_2[4]+1;
-    //     break;
-    //   case 'Comercial Corona Colombia':
-    //     if(element>=18 && element<=25)this.ContFechaNacimiento_3[0]=this.ContFechaNacimiento_3[0]+1;
-    //     if( element>=26 && element<=35)this.ContFechaNacimiento_3[1]=this.ContFechaNacimiento_3[1]+1;
-    //     if( element>=36 && element<=45)this.ContFechaNacimiento_3[2]=this.ContFechaNacimiento_3[2]+1;
-    //     if( element>=46 && element<=59)this.ContFechaNacimiento_3[3]=this.ContFechaNacimiento_3[3]+1;
-    //     if( element>=60)this.ContFechaNacimiento_3[4]=this.ContFechaNacimiento_3[4]+1;
-    //     break;
-    //   case 'Funciones Transversales':
-    //     if(element>=18 && element<=25)this.ContFechaNacimiento_4[0]=this.ContFechaNacimiento_4[0]+1;
-    //     if( element>=26 && element<=35)this.ContFechaNacimiento_4[1]=this.ContFechaNacimiento_4[1]+1;
-    //     if( element>=36 && element<=45)this.ContFechaNacimiento_4[2]=this.ContFechaNacimiento_4[2]+1;
-    //     if( element>=46 && element<=59)this.ContFechaNacimiento_4[3]=this.ContFechaNacimiento_4[3]+1;
-    //     if( element>=60)this.ContFechaNacimiento_4[4]=this.ContFechaNacimiento_1[4]+1;
-    //     break;
-    //   case 'Insumos Industriales y Energias':
-    //     if(element>=18 && element<=25)this.ContFechaNacimiento_5[0]=this.ContFechaNacimiento_5[0]+1;
-    //     if( element>=26 && element<=35)this.ContFechaNacimiento_5[1]=this.ContFechaNacimiento_5[1]+1;
-    //     if( element>=36 && element<=45)this.ContFechaNacimiento_5[2]=this.ContFechaNacimiento_5[2]+1;
-    //     if( element>=46 && element<=59)this.ContFechaNacimiento_5[3]=this.ContFechaNacimiento_5[3]+1;
-    //     if( element>=60)this.ContFechaNacimiento_5[4]=this.ContFechaNacimiento_5[4]+1;
-    //     break;
-    //   case 'Mesa Servida':
-    //     if(element>=18 && element<=25)this.ContFechaNacimiento_6[0]=this.ContFechaNacimiento_6[0]+1;
-    //     if( element>=26 && element<=35)this.ContFechaNacimiento_6[1]=this.ContFechaNacimiento_6[1]+1;
-    //     if( element>=36 && element<=45)this.ContFechaNacimiento_6[2]=this.ContFechaNacimiento_6[2]+1;
-    //     if( element>=46 && element<=59)this.ContFechaNacimiento_6[3]=this.ContFechaNacimiento_6[3]+1;
-    //     if( element>=60)this.ContFechaNacimiento_6[4]=this.ContFechaNacimiento_6[4]+1;
-    //     break;
-    //   case 'Superficies, materiales y pinturas':
-    //     if(element>=18 && element<=25)this.ContFechaNacimiento_7[0]=this.ContFechaNacimiento_7[0]+1;
-    //     if( element>=26 && element<=35)this.ContFechaNacimiento_7[1]=this.ContFechaNacimiento_7[1]+1;
-    //     if( element>=36 && element<=45)this.ContFechaNacimiento_7[2]=this.ContFechaNacimiento_7[2]+1;
-    //     if( element>=46 && element<=59)this.ContFechaNacimiento_7[3]=this.ContFechaNacimiento_7[3]+1;
-    //     if( element>=60)this.ContFechaNacimiento_7[4]=this.ContFechaNacimiento_7[4]+1;
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // if(element>=18 && element<=25)this.ContFechaNacimiento_total[0]=this.ContFechaNacimiento_total[0]+1;
-    // if( element>=26 && element<=35)this.ContFechaNacimiento_total[1]=this.ContFechaNacimiento_total[1]+1;
-    // if( element>=36 && element<=45)this.ContFechaNacimiento_total[2]=this.ContFechaNacimiento_total[2]+1;
-    // if( element>=46 && element<=59)this.ContFechaNacimiento_total[3]=this.ContFechaNacimiento_total[3]+1;
-    // if( element>=60)this.ContFechaNacimiento_total[4]=this.ContFechaNacimiento_total[4]+1;
   }
 
-  // ContFechaIngreso_0_1:any[]=[]
-  // ContFechaIngreso_2_5:any[]=[]
-  // ContFechaIngreso_6_10:any[]=[]
-  // ContFechaIngreso_11_20:any[]=[]
-  // ContFechaIngreso_21_30:any[]=[]
-  // ContFechaIngreso_30:any[]=[]
-  // ContFechaIngreso_total2:any[]=[]
   ContFechaIngreso:any[]=[]
 
   fechaAntiguedad(element:any,element2:any){
-    // switch (element2.padrenombre) {
-    //   case 'Almacenes Corona':
-    //     if(element>=0 && element<=1)this.ContFechaIngreso_1[0]=this.ContFechaIngreso_1[0]+1;
-    //     if( element>=2 && element<=5)this.ContFechaIngreso_1[1]=this.ContFechaIngreso_1[1]+1;
-    //     if( element>=6 && element<=10)this.ContFechaIngreso_1[2]=this.ContFechaIngreso_1[2]+1;
-    //     if( element>=11 && element<=20)this.ContFechaIngreso_1[3]=this.ContFechaIngreso_1[3]+1;
-    //     if( element>=21 && element<=30)this.ContFechaIngreso_1[4]=this.ContFechaIngreso_1[4]+1;
-    //     if( element>=31)this.ContFechaIngreso_1[5]=this.ContFechaIngreso_1[5]+1;
-    //     break;
-    //   case 'Bathrooms and Kitchen':
-    //     if(element>=0 && element<=1)this.ContFechaIngreso_2[0]=this.ContFechaIngreso_2[0]+1;
-    //     if( element>=2 && element<=5)this.ContFechaIngreso_2[1]=this.ContFechaIngreso_2[1]+1;
-    //     if( element>=6 && element<=10)this.ContFechaIngreso_2[2]=this.ContFechaIngreso_2[2]+1;
-    //     if( element>=11 && element<=20)this.ContFechaIngreso_2[3]=this.ContFechaIngreso_2[3]+1;
-    //     if( element>=21 && element<=30)this.ContFechaIngreso_2[4]=this.ContFechaIngreso_2[4]+1;
-    //     if( element>=31)this.ContFechaIngreso_2[5]=this.ContFechaIngreso_2[5]+1;
-    //     break;
-    //   case 'Comercial Corona Colombia':
-    //     if(element>=0 && element<=1)this.ContFechaIngreso_3[0]=this.ContFechaIngreso_3[0]+1;
-    //     if( element>=2 && element<=5)this.ContFechaIngreso_3[1]=this.ContFechaIngreso_3[1]+1;
-    //     if( element>=6 && element<=10)this.ContFechaIngreso_3[2]=this.ContFechaIngreso_3[2]+1;
-    //     if( element>=11 && element<=20)this.ContFechaIngreso_3[3]=this.ContFechaIngreso_3[3]+1;
-    //     if( element>=21 && element<=30)this.ContFechaIngreso_3[4]=this.ContFechaIngreso_3[4]+1;
-    //     if( element>=31)this.ContFechaIngreso_3[5]=this.ContFechaIngreso_3[5]+1;
-    //     break;
-    //   case 'Funciones Transversales':
-    //     if(element>=0 && element<=1)this.ContFechaIngreso_4[0]=this.ContFechaIngreso_4[0]+1;
-    //     if( element>=2 && element<=5)this.ContFechaIngreso_4[1]=this.ContFechaIngreso_4[1]+1;
-    //     if( element>=6 && element<=10)this.ContFechaIngreso_4[2]=this.ContFechaIngreso_4[2]+1;
-    //     if( element>=11 && element<=20)this.ContFechaIngreso_4[3]=this.ContFechaIngreso_4[3]+1;
-    //     if( element>=21 && element<=30)this.ContFechaIngreso_4[4]=this.ContFechaIngreso_4[4]+1;
-    //     if( element>=31)this.ContFechaIngreso_4[5]=this.ContFechaIngreso_4[5]+1;
-    //     break;
-    //   case 'Insumos Industriales y Energias':
-    //     if(element>=0 && element<=1)this.ContFechaIngreso_5[0]=this.ContFechaIngreso_5[0]+1;
-    //     if( element>=2 && element<=5)this.ContFechaIngreso_5[1]=this.ContFechaIngreso_5[1]+1;
-    //     if( element>=6 && element<=10)this.ContFechaIngreso_5[2]=this.ContFechaIngreso_5[2]+1;
-    //     if( element>=11 && element<=20)this.ContFechaIngreso_5[3]=this.ContFechaIngreso_5[3]+1;
-    //     if( element>=21 && element<=30)this.ContFechaIngreso_5[4]=this.ContFechaIngreso_5[4]+1;
-    //     if( element>=31)this.ContFechaIngreso_5[5]=this.ContFechaIngreso_5[5]+1;
-    //     break;
-    //   case 'Mesa Servida':
-    //     if(element>=0 && element<=1)this.ContFechaIngreso_6[0]=this.ContFechaIngreso_6[0]+1;
-    //     if( element>=2 && element<=5)this.ContFechaIngreso_6[1]=this.ContFechaIngreso_6[1]+1;
-    //     if( element>=6 && element<=10)this.ContFechaIngreso_6[2]=this.ContFechaIngreso_6[2]+1;
-    //     if( element>=11 && element<=20)this.ContFechaIngreso_6[3]=this.ContFechaIngreso_6[3]+1;
-    //     if( element>=21 && element<=30)this.ContFechaIngreso_6[4]=this.ContFechaIngreso_6[4]+1;
-    //     if( element>=31)this.ContFechaIngreso_6[5]=this.ContFechaIngreso_6[5]+1;
-    //     break;
-    //   case 'Superficies, materiales y pinturas':
-    //     if(element>=0 && element<=1)this.ContFechaIngreso_7[0]=this.ContFechaIngreso_7[0]+1;
-    //     if( element>=2 && element<=5)this.ContFechaIngreso_7[1]=this.ContFechaIngreso_7[1]+1;
-    //     if( element>=6 && element<=10)this.ContFechaIngreso_7[2]=this.ContFechaIngreso_7[2]+1;
-    //     if( element>=11 && element<=20)this.ContFechaIngreso_7[3]=this.ContFechaIngreso_7[3]+1;
-    //     if( element>=21 && element<=30)this.ContFechaIngreso_7[4]=this.ContFechaIngreso_7[4]+1;
-    //     if( element>=31)this.ContFechaIngreso_7[5]=this.ContFechaIngreso_7[5]+1;
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // if( element>=0 && element<=1)this.ContFechaIngreso_total[0]=this.ContFechaIngreso_total[0]+1;
-    // if( element>=2 && element<=5)this.ContFechaIngreso_total[1]=this.ContFechaIngreso_total[1]+1;
-    // if( element>=6 && element<=10)this.ContFechaIngreso_total[2]=this.ContFechaIngreso_total[2]+1;
-    // if( element>=11 && element<=20)this.ContFechaIngreso_total[3]=this.ContFechaIngreso_total[3]+1;
-    // if( element>=21 && element<=30)this.ContFechaIngreso_total[4]=this.ContFechaIngreso_total[4]+1;
-    // if( element>=31)this.ContFechaIngreso_total[5]=this.ContFechaIngreso_total[5]+1;
 
     // let nombreLocalidad = element2.nombreLocalidad
+    let nombreLocalidad = (this.selectPais3=='Corona Total')?element2.padrenombre:element2.nombreLocalidad
 
-    // if(nombreLocalidad){
-    //   if(element>=0 && element<=1){
-    //     if (this.ContFechaIngreso_0_1.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaIngreso_0_1[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaIngreso_0_1[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=2 && element<=5){
-    //     if (this.ContFechaIngreso_2_5.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaIngreso_2_5[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaIngreso_2_5[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=6 && element<=10){
-    //     if (this.ContFechaIngreso_6_10.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaIngreso_6_10[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaIngreso_6_10[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=11 && element<=20){
-    //     if (this.ContFechaIngreso_11_20.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaIngreso_11_20[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaIngreso_11_20[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=21 && element<=30){
-    //     if (this.ContFechaIngreso_21_30.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaIngreso_21_30[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaIngreso_21_30[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=31){
-    //     if (this.ContFechaIngreso_30.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContFechaIngreso_30[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContFechaIngreso_30[nombreLocalidad] = 1;
-    //     }
-    //   }
-    // }
-
-    let nombreLocalidad = element2.nombreLocalidad
     let rangoAntiguedad = ''
 
     if(nombreLocalidad && element){
@@ -1511,17 +1231,12 @@ resetVarGraf2(){
     }
   }
 
-  // ContHoraAccidente_0_4:any[]=[]
-  // ContHoraAccidente_4_8:any[]=[]
-  // ContHoraAccidente_8_12:any[]=[]
-  // ContHoraAccidente_12_16:any[]=[]
-  // ContHoraAccidente_16_20:any[]=[]
-  // ContHoraAccidente_20:any[]=[]
-  // ContHoraAccidente_total2:any[]=[]
   ContHoraAccidente:any[]=[]
 
   horaAccidente(element:any,element2:any){
-    let nombreLocalidad = element2.nombreLocalidad
+    // let nombreLocalidad = element2.nombreLocalidad
+    let nombreLocalidad = (this.selectPais3=='Corona Total')?element2.padrenombre:element2.nombreLocalidad
+
     let rangoAccidente = ''
 
     if(nombreLocalidad && element){
@@ -1550,144 +1265,8 @@ resetVarGraf2(){
         this.ContHoraAccidente[nombreLocalidad][rangoAccidente] = 1;
       }
     }
-    // let nombreLocalidad = element2.nombreLocalidad
-
-    // if(nombreLocalidad){
-    //   if(element>=0 && element<4){
-    //     if (this.ContHoraAccidente_0_4.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContHoraAccidente_0_4[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContHoraAccidente_0_4[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=4 && element<8){
-    //     if (this.ContHoraAccidente_4_8.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContHoraAccidente_4_8[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContHoraAccidente_4_8[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=8 && element<12){
-    //     if (this.ContHoraAccidente_8_12.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContHoraAccidente_8_12[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContHoraAccidente_8_12[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=12 && element<16){
-    //     if (this.ContHoraAccidente_12_16.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContHoraAccidente_12_16[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContHoraAccidente_12_16[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=16 && element<20){
-    //     if (this.ContHoraAccidente_16_20.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContHoraAccidente_16_20[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContHoraAccidente_16_20[nombreLocalidad] = 1;
-    //     }
-    //   }else if(element>=20){
-    //     if (this.ContHoraAccidente_20.hasOwnProperty(nombreLocalidad)) {
-    //       this.ContHoraAccidente_20[nombreLocalidad] += 1;
-    //     } else {
-    //       this.ContHoraAccidente_20[nombreLocalidad] = 1;
-    //     }
-    //   }
-    // }
-
-    // switch (element2.padrenombre) {
-    //   case 'Almacenes Corona':
-    //     if(element>=0 && element<4){this.ContHoraAccidente_1[0]=this.ContHoraAccidente_1[0]+1;}
-    //     if( element>=4 && element<8){this.ContHoraAccidente_1[1]=this.ContHoraAccidente_1[1]+1;}
-    //     if( element>=8 && element<12){this.ContHoraAccidente_1[2]=this.ContHoraAccidente_1[2]+1;}
-    //     if( element>=12 && element<16){this.ContHoraAccidente_1[3]=this.ContHoraAccidente_1[3]+1;}
-    //     if( element>=16 && element<20){this.ContHoraAccidente_1[4]=this.ContHoraAccidente_1[4]+1;}
-    //     if( element>=20){this.ContHoraAccidente_1[5]=this.ContHoraAccidente_1[5]+1;}
-    //     break;
-    //   case 'Bathrooms and Kitchen':
-    //     if(element>=0 && element<4){this.ContHoraAccidente_2[0]=this.ContHoraAccidente_2[0]+1;}
-    //     if( element>=4 && element<8){this.ContHoraAccidente_2[1]=this.ContHoraAccidente_2[1]+1;}
-    //     if( element>=8 && element<12){this.ContHoraAccidente_2[2]=this.ContHoraAccidente_2[2]+1;}
-    //     if( element>=12 && element<16){this.ContHoraAccidente_2[3]=this.ContHoraAccidente_2[3]+1;}
-    //     if( element>=16 && element<20){this.ContHoraAccidente_2[4]=this.ContHoraAccidente_2[4]+1;}
-    //     if( element>=20){this.ContHoraAccidente_2[5]=this.ContHoraAccidente_2[5]+1;}
-    //     break;
-    //   case 'Comercial Corona Colombia':
-    //     if(element>=0 && element<4){this.ContHoraAccidente_3[0]=this.ContHoraAccidente_3[0]+1;}
-    //     if( element>=4 && element<8){this.ContHoraAccidente_3[1]=this.ContHoraAccidente_3[1]+1;}
-    //     if( element>=8 && element<12){this.ContHoraAccidente_3[2]=this.ContHoraAccidente_3[2]+1;}
-    //     if( element>=12 && element<16){this.ContHoraAccidente_3[3]=this.ContHoraAccidente_3[3]+1;}
-    //     if( element>=16 && element<20){this.ContHoraAccidente_3[4]=this.ContHoraAccidente_3[4]+1;}
-    //     if( element>=20){this.ContHoraAccidente_3[5]=this.ContHoraAccidente_3[5]+1;}
-    //     break;
-    //   case 'Funciones Transversales':
-    //     if(element>=0 && element<4){this.ContHoraAccidente_4[0]=this.ContHoraAccidente_4[0]+1;}
-    //     if( element>=4 && element<8){this.ContHoraAccidente_4[1]=this.ContHoraAccidente_4[1]+1;}
-    //     if( element>=8 && element<12){this.ContHoraAccidente_4[2]=this.ContHoraAccidente_4[2]+1;}
-    //     if( element>=12 && element<16){this.ContHoraAccidente_4[3]=this.ContHoraAccidente_4[3]+1;}
-    //     if( element>=16 && element<20){this.ContHoraAccidente_4[4]=this.ContHoraAccidente_4[4]+1;}
-    //     if( element>=20){this.ContHoraAccidente_4[5]=this.ContHoraAccidente_4[5]+1;}
-    //     break;
-    //   case 'Insumos Industriales y Energias':
-    //     if(element>=0 && element<4){this.ContHoraAccidente_5[0]=this.ContHoraAccidente_5[0]+1;}
-    //     if( element>=4 && element<8){this.ContHoraAccidente_5[1]=this.ContHoraAccidente_5[1]+1;}
-    //     if( element>=8 && element<12){this.ContHoraAccidente_5[2]=this.ContHoraAccidente_5[2]+1;}
-    //     if( element>=12 && element<16){this.ContHoraAccidente_5[3]=this.ContHoraAccidente_5[3]+1;}
-    //     if( element>=16 && element<20){this.ContHoraAccidente_5[4]=this.ContHoraAccidente_5[4]+1;}
-    //     if( element>=20){this.ContHoraAccidente_5[5]=this.ContHoraAccidente_5[5]+1;}
-    //     break;
-    //   case 'Mesa Servida':
-    //     if(element>=0 && element<4){this.ContHoraAccidente_6[0]=this.ContHoraAccidente_6[0]+1;}
-    //     if( element>=4 && element<8){this.ContHoraAccidente_6[1]=this.ContHoraAccidente_6[1]+1;}
-    //     if( element>=8 && element<12){this.ContHoraAccidente_6[2]=this.ContHoraAccidente_6[2]+1;}
-    //     if( element>=12 && element<16){this.ContHoraAccidente_6[3]=this.ContHoraAccidente_6[3]+1;}
-    //     if( element>=16 && element<20){this.ContHoraAccidente_6[4]=this.ContHoraAccidente_6[4]+1;}
-    //     if( element>=20){this.ContHoraAccidente_6[5]=this.ContHoraAccidente_6[5]+1;}
-    //     break;
-    //   case 'Superficies, materiales y pinturas':
-    //     if(element>=0 && element<4){this.ContHoraAccidente_7[0]=this.ContHoraAccidente_7[0]+1;}
-    //     if( element>=4 && element<8){this.ContHoraAccidente_7[1]=this.ContHoraAccidente_7[1]+1;}
-    //     if( element>=8 && element<12){this.ContHoraAccidente_7[2]=this.ContHoraAccidente_7[2]+1;}
-    //     if( element>=12 && element<16){this.ContHoraAccidente_7[3]=this.ContHoraAccidente_7[3]+1;}
-    //     if( element>=16 && element<20){this.ContHoraAccidente_7[4]=this.ContHoraAccidente_7[4]+1;}
-    //     if( element>=20){this.ContHoraAccidente_7[5]=this.ContHoraAccidente_7[5]+1;}
-    //     break;
-    //   default:
-    //     break;
-    // }
-
-    // if(element>=0 && element<4){this.ContHoraAccidente_total[0]=this.ContHoraAccidente_total[0]+1;}
-    // if( element>=4 && element<8){this.ContHoraAccidente_total[1]=this.ContHoraAccidente_total[1]+1;}
-    // if( element>=8 && element<12){this.ContHoraAccidente_total[2]=this.ContHoraAccidente_total[2]+1;}
-    // if( element>=12 && element<16){this.ContHoraAccidente_total[3]=this.ContHoraAccidente_total[3]+1;}
-    // if( element>=16 && element<20){this.ContHoraAccidente_total[4]=this.ContHoraAccidente_total[4]+1;}
-    // if( element>=20){this.ContHoraAccidente_total[5]=this.ContHoraAccidente_total[5]+1;}
   }
 
-  // funcRangoFechaEdad(ele:any){
-  //   let datos:any=[]
-  //   let cont1=0
-  //   this.rangoFechaEdad.forEach(div => {
-  //     datos.push({name:div,value:ele[cont1]})
-  //     cont1=cont1+1;
-  //   });
-  //   return datos
-  // }
-  // funcRangoFechaAntiguedad(ele:any){
-  //   let datos:any=[]
-  //   let cont1=0
-  //   this.rangoFechaAntiguedad.forEach(div => {
-  //     datos.push({name:div,value:ele[cont1]})
-  //     cont1=cont1+1;
-  //   });
-  //   return datos
-  // }
-  // funcRangoHoraAccidente(ele:any){
-  //   let datos:any=[]
-  //   let cont1=0
-  //   this.rangoHoraAccidente.forEach(div => {
-  //     datos.push({name:div,value:ele[cont1]})
-  //     cont1=cont1+1;
-  //   });
-  //   return datos
-  // }
   segundaGrafica(){
     this.flagevent2=false
     this.datosGrafica2=[]
@@ -1696,7 +1275,8 @@ resetVarGraf2(){
     if(this.radioGra2_1==0){
       
       let datoGrafica:any=[]
-      this.localidadesList3.forEach((element:any) => {
+      let list=(this.selectPais3=='Corona Total')?this.divisionList3:this.localidadesList3
+      list.forEach((element:any) => {
         if(this.ContFechaNacimiento.hasOwnProperty(element.label)){
           if(Object.keys(this.ContFechaNacimiento[element.label]).length>0){
             let datoSeries:any=[]
@@ -1709,26 +1289,12 @@ resetVarGraf2(){
         }
       });
       this.datosGrafica2=datoGrafica.map((e:any)=>e)
-      // this.localidadesList3.forEach((loc:any) => {
-      //   this.datosGrafica2.push({name:loc.label,series:[{name:'18 a 25 años',value:((this.ContFechaNacimiento_18_25.hasOwnProperty(loc.label))?this.ContFechaNacimiento_18_25[loc.label]:0)},
-      //                                                   {name:'26 a 35 años',value:((this.ContFechaNacimiento_26_35.hasOwnProperty(loc.label))?this.ContFechaNacimiento_26_35[loc.label]:0)},
-      //                                                   {name:'36 a 45 años',value:((this.ContFechaNacimiento_36_45.hasOwnProperty(loc.label))?this.ContFechaNacimiento_36_45[loc.label]:0)},
-      //                                                   {name:'46 a 59 años',value:((this.ContFechaNacimiento_46_59.hasOwnProperty(loc.label))?this.ContFechaNacimiento_46_59[loc.label]:0)},
-      //                                                   {name:'60 años en adelante',value:((this.ContFechaNacimiento_60.hasOwnProperty(loc.label))?this.ContFechaNacimiento_60[loc.label]:0)}]})
-      // });
-      // this.datosGrafica2.push({name:'Almacenes Corona',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_1)})
-      // this.datosGrafica2.push({name:'Bathrooms and Kitchen',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_2)})
-      // this.datosGrafica2.push({name:'Comercial Corona Colombia',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_3)})
-      // this.datosGrafica2.push({name:'Funciones Transversales',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_4)})
-      // this.datosGrafica2.push({name:'Insumos Industriales y Energias',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_5)})
-      // this.datosGrafica2.push({name:'Mesa Servida',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_6)})
-      // this.datosGrafica2.push({name:'Superficies, materiales y pinturas',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_7)})
-      // this.datosGrafica2.push({name:'Corona total',series:this.funcRangoFechaEdad(this.ContFechaNacimiento_total)})
     }
     
     if(this.radioGra2_1==1){
       let datoGrafica:any=[]
-      this.localidadesList3.forEach((element:any) => {
+      let list=(this.selectPais3=='Corona Total')?this.divisionList3:this.localidadesList3
+      list.forEach((element:any) => {
         if(this.ContFechaIngreso.hasOwnProperty(element.label)){
           if(Object.keys(this.ContFechaIngreso[element.label]).length>0){
             let datoSeries:any=[]
@@ -1741,27 +1307,13 @@ resetVarGraf2(){
         }
       });
       this.datosGrafica2=datoGrafica.map((e:any)=>e)
-      // this.localidadesList3.forEach((loc:any) => {
-      //   this.datosGrafica2.push({name:loc.label,series:[{name:'0 a 1 años',value:((this.ContFechaIngreso_0_1.hasOwnProperty(loc.label))?this.ContFechaIngreso_0_1[loc.label]:0)},
-      //                                                   {name:'2 a 5 años',value:((this.ContFechaIngreso_2_5.hasOwnProperty(loc.label))?this.ContFechaIngreso_2_5[loc.label]:0)},
-      //                                                   {name:'6 a 10 años',value:((this.ContFechaIngreso_6_10.hasOwnProperty(loc.label))?this.ContFechaIngreso_6_10[loc.label]:0)},
-      //                                                   {name:'21 a 30 años',value:((this.ContFechaIngreso_11_20.hasOwnProperty(loc.label))?this.ContFechaIngreso_11_20[loc.label]:0)},
-      //                                                   {name:'31 años en adelante',value:((this.ContFechaIngreso_21_30.hasOwnProperty(loc.label))?this.ContFechaIngreso_21_30[loc.label]:0)},
-      //                                                   {name:'21 a 30 años',value:((this.ContFechaIngreso_30.hasOwnProperty(loc.label))?this.ContFechaIngreso_30[loc.label]:0)}]})
-      // });
-      // this.datosGrafica2.push({name:'Almacenes Corona',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_1)})
-      // this.datosGrafica2.push({name:'Bathrooms and Kitchen',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_2)})
-      // this.datosGrafica2.push({name:'Comercial Corona Colombia',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_3)})
-      // this.datosGrafica2.push({name:'Funciones Transversales',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_4)})
-      // this.datosGrafica2.push({name:'Insumos Industriales y Energias',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_5)})
-      // this.datosGrafica2.push({name:'Mesa Servida',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_6)})
-      // this.datosGrafica2.push({name:'Superficies, materiales y pinturas',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_7)})
-      // this.datosGrafica2.push({name:'Corona total',series:this.funcRangoFechaAntiguedad(this.ContFechaIngreso_total)})
     }
 
     if(this.radioGra2_1==2){
       let datoGrafica:any=[]
-      this.localidadesList3.forEach((element:any) => {
+      let list=(this.selectPais3=='Corona Total')?this.divisionList3:this.localidadesList3
+
+      list.forEach((element:any) => {
         if(this.ContHoraAccidente.hasOwnProperty(element.label)){
           if(Object.keys(this.ContHoraAccidente[element.label]).length>0){
             let datoSeries:any=[]
@@ -1774,23 +1326,6 @@ resetVarGraf2(){
         }
       });
       this.datosGrafica2=datoGrafica.map((e:any)=>e)
-      // this.datosGrafica2.push({name:'Almacenes Corona',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_1)})
-      // this.datosGrafica2.push({name:'Bathrooms and Kitchen',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_2)})
-      // this.datosGrafica2.push({name:'Comercial Corona Colombia',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_3)})
-      // this.datosGrafica2.push({name:'Funciones Transversales',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_4)})
-      // this.datosGrafica2.push({name:'Insumos Industriales y Energias',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_5)})
-      // this.datosGrafica2.push({name:'Mesa Servida',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_6)})
-      // this.datosGrafica2.push({name:'Superficies, materiales y pinturas',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_7)})
-      // this.datosGrafica2.push({name:'Corona total',series:this.funcRangoHoraAccidente(this.ContHoraAccidente_total)})
-
-      // this.localidadesList3.forEach((loc:any) => {
-      //   this.datosGrafica2.push({name:loc.label,series:[{name:'00:00 a 03:59',value:((this.ContHoraAccidente_0_4.hasOwnProperty(loc.label))?this.ContHoraAccidente_0_4[loc.label]:0)},
-      //                                                   {name:'04:00 a 07:59',value:((this.ContHoraAccidente_4_8.hasOwnProperty(loc.label))?this.ContHoraAccidente_4_8[loc.label]:0)},
-      //                                                   {name:'08:00 a 11:59',value:((this.ContHoraAccidente_8_12.hasOwnProperty(loc.label))?this.ContHoraAccidente_8_12[loc.label]:0)},
-      //                                                   {name:'12:00 a 15:59',value:((this.ContHoraAccidente_12_16.hasOwnProperty(loc.label))?this.ContHoraAccidente_12_16[loc.label]:0)},
-      //                                                   {name:'16:00 a 19:59',value:((this.ContHoraAccidente_16_20.hasOwnProperty(loc.label))?this.ContHoraAccidente_16_20[loc.label]:0)},
-      //                                                   {name:'20:00 a 23:59',value:((this.ContHoraAccidente_20.hasOwnProperty(loc.label))?this.ContHoraAccidente_20[loc.label]:0)}]})
-      // });
     }
 
     this.flagevent2=true
@@ -1808,7 +1343,7 @@ resetVarGraf2(){
   ////////////////////Segunda Grafica comparativa//////////////////
 filtroGraEve2_2(){
   this.segundaGrafica_2()
-  this.datosGrafica2_2=this.contTotal(this.datosGrafica2_2,this.selectedDivisionResumen3_2)
+  if(this.selectPais3_2!='Corona Total')this.datosGrafica2_2=this.contTotal(this.datosGrafica2_2,this.selectedDivisionResumen3_2)
 
   this.flagevent2_2=false
   let datosGrafica1:any=[]
@@ -1857,6 +1392,11 @@ resetVarGraf2_2(){
 
 }
   DatosGrafica2_2(){
+    let flagCoronaTotal:boolean=false
+      if(this.selectPais3_2){
+        if(this.selectPais3_2=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
 
     this.CaracterizacionView3_2=this.CaracterizacionView.map((e:any)=>e)
 
@@ -1901,7 +1441,14 @@ resetVarGraf2_2(){
     //nuevo
     let reportesAtCopyDiv: any[]=[]
     if(this.selectPais3_2)if(this.selectPais3_2!='Corona Total')this.CaracterizacionView3_2 = this.CaracterizacionView3_2.filter((at:any) => at.pais == this.selectPais3_2);
-    if(this.selectedDivisionResumen3_2)this.CaracterizacionView3_2 = this.CaracterizacionView3_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen3_2);
+    if(!flagCoronaTotal)if(this.selectedDivisionResumen3_2)this.CaracterizacionView3_2 = this.CaracterizacionView3_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen3_2);
+    if(flagCoronaTotal)if(this.selectedDivisionResumen3_2)if(this.selectedDivisionResumen3_2.length>0){
+      reportesAtCopyDiv=[]
+      this.selectedDivisionResumen3_2.forEach((element:any) => {
+        reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView3_2.filter((at:any) => at.padrenombre == element));
+      });
+      this.CaracterizacionView3_2=[...reportesAtCopyDiv]
+    }
     if(this.LocalidadSelect3_2)if(this.LocalidadSelect3_2.length>0){
       reportesAtCopyDiv=[]
       this.LocalidadSelect3_2.forEach((element:any) => {
@@ -1932,17 +1479,11 @@ resetVarGraf2_2(){
     this.horaAccidente_2(element.hora,element)
   }
 
-  // ContFechaNacimiento_18_25:any[]=[]
-  // ContFechaNacimiento_26_35:any[]=[]
-  // ContFechaNacimiento_36_45:any[]=[]
-  // ContFechaNacimiento_46_59:any[]=[]
-  // ContFechaNacimiento_60:any[]=[]
-  // ContFechaNacimiento_total2:any[]=[]
   ContFechaNacimiento_2:any[]=[]
 
   fechaNacimiento_2(element:any,element2:any){
-
-    let nombreLocalidad = element2.nombreLocalidad
+    let nombreLocalidad = (this.selectPais3_2=='Corona Total')?element2.padrenombre:element2.nombreLocalidad
+    // let nombreLocalidad = element2.nombreLocalidad
     let rangoEdadNacimiento = ''
     if(nombreLocalidad && element){
       if(element>=18 && element<=25){
@@ -1972,7 +1513,8 @@ resetVarGraf2_2(){
   ContFechaIngreso_2:any[]=[]
 
   fechaAntiguedad_2(element:any,element2:any){
-    let nombreLocalidad = element2.nombreLocalidad
+    let nombreLocalidad = (this.selectPais3_2=='Corona Total')?element2.padrenombre:element2.nombreLocalidad
+    // let nombreLocalidad = element2.nombreLocalidad
     let rangoAntiguedad = ''
 
     if(nombreLocalidad && element){
@@ -2005,7 +1547,8 @@ resetVarGraf2_2(){
   ContHoraAccidente_2:any[]=[]
 
   horaAccidente_2(element:any,element2:any){
-    let nombreLocalidad = element2.nombreLocalidad
+    let nombreLocalidad = (this.selectPais3_2=='Corona Total')?element2.padrenombre:element2.nombreLocalidad
+    // let nombreLocalidad = element2.nombreLocalidad
     let rangoAccidente = ''
 
     if(nombreLocalidad && element){
@@ -2045,7 +1588,8 @@ resetVarGraf2_2(){
     if(this.radioGra2_1_2==0){
       
       let datoGrafica:any=[]
-      this.localidadesList3_2.forEach((element:any) => {
+      let list=(this.selectPais3_2=='Corona Total')?this.divisionList3_2:this.localidadesList3_2
+      list.forEach((element:any) => {
         if(this.ContFechaNacimiento_2.hasOwnProperty(element.label)){
           if(Object.keys(this.ContFechaNacimiento_2[element.label]).length>0){
             let datoSeries:any=[]
@@ -2062,7 +1606,8 @@ resetVarGraf2_2(){
     
     if(this.radioGra2_1_2==1){
       let datoGrafica:any=[]
-      this.localidadesList3_2.forEach((element:any) => {
+      let list=(this.selectPais3_2=='Corona Total')?this.divisionList3_2:this.localidadesList3_2
+      list.forEach((element:any) => {
         if(this.ContFechaIngreso_2.hasOwnProperty(element.label)){
           if(Object.keys(this.ContFechaIngreso_2[element.label]).length>0){
             let datoSeries:any=[]
@@ -2079,7 +1624,8 @@ resetVarGraf2_2(){
 
     if(this.radioGra2_1_2==2){
       let datoGrafica:any=[]
-      this.localidadesList3_2.forEach((element:any) => {
+      let list=(this.selectPais3_2=='Corona Total')?this.divisionList3_2:this.localidadesList3_2
+      list.forEach((element:any) => {
         if(this.ContHoraAccidente_2.hasOwnProperty(element.label)){
           if(Object.keys(this.ContHoraAccidente_2[element.label]).length>0){
             let datoSeries:any=[]
@@ -2113,7 +1659,7 @@ filtroGraEve3(){
   let datosGrafica1:any=[]
 
   if(this.selectEv3.length==0 && this.selectDiv3.length>0){
-    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
     this.datosGrafica3Top=this.top(this.datosGrafica3,5)
 
@@ -2130,7 +1676,7 @@ filtroGraEve3(){
   }
 
   if(this.selectDiv3.length>0 && this.selectEv3.length>0){
-    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.selectDiv3.forEach(resp1=>{
       let x=this.datosGrafica3.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2164,7 +1710,7 @@ filtroGraEve3(){
 
   if(this.selectEv3.length>0 && this.selectDiv3.length==0){
     datosGrafica1=[]
-    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.datosGrafica3.forEach((element:any) => {
       let randomEv1CopySeries=[]
 
@@ -2185,7 +1731,7 @@ filtroGraEve3(){
   }
 
   if(this.selectEv3.length==0 && this.selectDiv3.length==0){
-    this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
     this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
     this.datosGrafica3Top=this.top(this.datosGrafica3,5)
   }
@@ -2203,6 +1749,11 @@ resetVariables(){
 }
 
 DatosGrafica3(){
+  let flagCoronaTotal:boolean=false
+      if(this.selectPais4){
+        if(this.selectPais4=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
 
   this.CaracterizacionView4=this.CaracterizacionView.map((e:any)=>e)
 
@@ -2247,8 +1798,14 @@ DatosGrafica3(){
   //nuevo
   let reportesAtCopyDiv: any[]=[]
   if(this.selectPais4)if(this.selectPais4!='Corona Total')this.CaracterizacionView4 = this.CaracterizacionView4.filter((at:any) => at.pais == this.selectPais4);
-  if(this.selectedDivisionResumen4)this.CaracterizacionView4= this.CaracterizacionView4.filter((at:any) => at.padrenombre == this.selectedDivisionResumen4);
-
+  if(!flagCoronaTotal)if(this.selectedDivisionResumen4)this.CaracterizacionView4= this.CaracterizacionView4.filter((at:any) => at.padrenombre == this.selectedDivisionResumen4);
+  if(flagCoronaTotal)if(this.selectedDivisionResumen4)if(this.selectedDivisionResumen4.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen4.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView4.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView4=[...reportesAtCopyDiv]
+  }
   if(this.LocalidadSelect4)if(this.LocalidadSelect4.length>0){
     reportesAtCopyDiv=[]
     this.LocalidadSelect4.forEach((element:any) => {
@@ -2257,7 +1814,6 @@ DatosGrafica3(){
     this.CaracterizacionView4=[...reportesAtCopyDiv]
   }
   //fin nuevo
-
   this.resetVariables()
 
   this.CaracterizacionView4.forEach((element:any) => {
@@ -2265,87 +1821,18 @@ DatosGrafica3(){
     if(this.radioGra3==1 && element.emptemporal!=null)this.ContDatosGraf3(element)
     if(this.radioGra3==2 && element.emptemporal==null)this.ContDatosGraf3(element)
   });
-  // this.orderMap=[this.ordenarMap(this.hashmap1,this.Map1),this.ordenarMap(this.hashmap2,this.Map2),this.ordenarMap(this.hashmap3,this.Map3),this.ordenarMap(this.hashmap4,this.Map4),this.ordenarMap(this.hashmap5,this.Map5),this.ordenarMap(this.hashmap6,this.Map6),this.ordenarMap(this.hashmap7,this.Map7)]
   this.terceraGrafica()
-  this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+  if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
   this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
   this.datosGrafica3Top=this.top(this.datosGrafica3,5)
 
   this.filtroGraEve3()
 }
 
-// Map1:any[]=[]
-// Map2:any[]=[]
-// Map3:any[]=[]
-// Map4:any[]=[]
-// Map5:any[]=[]
-// Map6:any[]=[]
-// Map7:any[]=[]
-
   ContDatosGraf3(element:any){
-  // switch (element.padrenombre) {
-  //   case 'Almacenes Corona':
-  //     if(this.hashmap1.has(element.cargoempleado)){
-  //       this.hashmap1.set(element.cargoempleado,this.hashmap1.get(element.cargoempleado)+1)
-  //     }else{
-  //       this.hashmap1.set(element.cargoempleado, 1);
-  //       this.Map1.push(element.cargoempleado);
-  //     }
-  //     break;
-  //   case 'Bathrooms and Kitchen':
-  //     if(this.hashmap2.has(element.cargoempleado)){
-  //       this.hashmap2.set(element.cargoempleado,this.hashmap2.get(element.cargoempleado)+1)
-  //     }else{
-  //       this.hashmap2.set(element.cargoempleado, 1);
-  //       this.Map2.push(element.cargoempleado);
-  //     }
-  //     break;
-  //   case 'Comercial Corona Colombia':
-  //     if(this.hashmap3.has(element.cargoempleado)){
-  //       this.hashmap3.set(element.cargoempleado,this.hashmap3.get(element.cargoempleado)+1)
-  //     }else{
-  //       this.hashmap3.set(element.cargoempleado, 1);
-  //       this.Map3.push(element.cargoempleado);
-  //     }
-  //     break;
-  //   case 'Funciones Transversales':
-  //     if(this.hashmap4.has(element.cargoempleado)){
-  //       this.hashmap4.set(element.cargoempleado,this.hashmap4.get(element.cargoempleado)+1)
-  //     }else{
-  //       this.hashmap4.set(element.cargoempleado, 1);
-  //       this.Map4.push(element.cargoempleado);
-  //     }
-  //     break;
-  //   case 'Insumos Industriales y Energias':
-  //     if(this.hashmap5.has(element.cargoempleado)){
-  //       this.hashmap5.set(element.cargoempleado,this.hashmap5.get(element.cargoempleado)+1)
-  //     }else{
-  //       this.hashmap5.set(element.cargoempleado, 1);
-  //       this.Map5.push(element.cargoempleado);
-  //     }
-  //     break;
-  //   case 'Mesa Servida':
-  //     if(this.hashmap6.has(element.cargoempleado)){
-  //       this.hashmap6.set(element.cargoempleado,this.hashmap6.get(element.cargoempleado)+1)
-  //     }else{
-  //       this.hashmap6.set(element.cargoempleado, 1);
-  //       this.Map6.push(element.cargoempleado);
-  //     }
-  //     break;
-  //   case 'Superficies, materiales y pinturas':
-  //     if(this.hashmap7.has(element.cargoempleado)){
-  //       this.hashmap7.set(element.cargoempleado,this.hashmap7.get(element.cargoempleado)+1)
-  //     }else{
-  //       this.hashmap7.set(element.cargoempleado, 1);
-  //       this.Map7.push(element.cargoempleado);
-  //     }
-  //     break;
-  //   default:
-  //     break;
-  // }
+  let nombreLocalidad = (this.selectPais4=='Corona Total')?element.padrenombre:element.nombreLocalidad
 
-  
-  let nombreLocalidad = element.nombreLocalidad
+  // let nombreLocalidad = element.nombreLocalidad
   let cargoLocalidad = element.cargoempleado
 
   if(nombreLocalidad && cargoLocalidad){
@@ -2367,20 +1854,10 @@ terceraGrafica(){
   this.flagevent3=false
 
   this.datosGrafica3=[]
-  
-  // let cont=0
-  // this.divisiones1.forEach(element=>{
-  //   let datosGrafica3:any=[]
-  //   if(this.orderMap[cont]){
-  //   for (let index = 0; index < this.orderMap[cont].length; index++) {
-  //     datosGrafica3.push(this.orderMap[cont][index]);
-  //   }}
-  //   this.datosGrafica3.push({name:element,series:datosGrafica3})
-  //   cont++;
-  // })
 
   let datoGrafica:any=[]
-  this.localidadesList4.forEach((element:any) => {
+  let list = (this.selectPais4=='Corona Total')?this.divisionList4:this.localidadesList4
+  list.forEach((element:any) => {
     if(this.cargosLocalidades.hasOwnProperty(element.label)){
       if(Object.keys(this.cargosLocalidades[element.label]).length>0){
         let datoSeries:any=[]
@@ -2408,7 +1885,7 @@ filtroGraEve3_2(){
   let datosGrafica1:any=[]
 
   if(this.selectEv3_2.length==0 && this.selectDiv3_2.length>0){
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
     this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
 
@@ -2425,7 +1902,7 @@ filtroGraEve3_2(){
   }
 
   if(this.selectDiv3_2.length>0 && this.selectEv3_2.length>0){
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.selectDiv3_2.forEach(resp1=>{
       let x=this.datosGrafica3_2.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2459,7 +1936,7 @@ filtroGraEve3_2(){
 
   if(this.selectEv3_2.length>0 && this.selectDiv3_2.length==0){
     datosGrafica1=[]
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.datosGrafica3_2.forEach((element:any) => {
       let randomEv1CopySeries=[]
 
@@ -2480,7 +1957,7 @@ filtroGraEve3_2(){
   }
 
   if(this.selectEv3_2.length==0 && this.selectDiv3_2.length==0){
-    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
     this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
     this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
   }
@@ -2498,6 +1975,11 @@ resetVariables_2(){
 }
   
 DatosGrafica3_2(){
+  let flagCoronaTotal:boolean=false
+      if(this.selectPais4_2){
+        if(this.selectPais4_2=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
 
   this.CaracterizacionView4_2=this.CaracterizacionView.map((e:any)=>e)
 
@@ -2542,8 +2024,14 @@ DatosGrafica3_2(){
   //nuevo
   let reportesAtCopyDiv: any[]=[]
   if(this.selectPais4_2)if(this.selectPais4_2!='Corona Total')this.CaracterizacionView4_2 = this.CaracterizacionView4_2.filter((at:any) => at.pais == this.selectPais4_2);
-  if(this.selectedDivisionResumen4_2)this.CaracterizacionView4_2= this.CaracterizacionView4_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen4_2);
-
+  if(!flagCoronaTotal)if(this.selectedDivisionResumen4_2)this.CaracterizacionView4_2= this.CaracterizacionView4_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen4_2);
+  if(flagCoronaTotal)if(this.selectedDivisionResumen4_2)if(this.selectedDivisionResumen4_2.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen4_2.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView4_2.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView4_2=[...reportesAtCopyDiv]
+  }
   if(this.LocalidadSelect4_2)if(this.LocalidadSelect4_2.length>0){
     reportesAtCopyDiv=[]
     this.LocalidadSelect4_2.forEach((element:any) => {
@@ -2560,9 +2048,8 @@ DatosGrafica3_2(){
     if(this.radioGra3_2==1 && element.emptemporal!=null)this.ContDatosGraf3_2(element)
     if(this.radioGra3_2==2 && element.emptemporal==null)this.ContDatosGraf3_2(element)
   });
-  // this.orderMap=[this.ordenarMap(this.hashmap1,this.Map1),this.ordenarMap(this.hashmap2,this.Map2),this.ordenarMap(this.hashmap3,this.Map3),this.ordenarMap(this.hashmap4,this.Map4),this.ordenarMap(this.hashmap5,this.Map5),this.ordenarMap(this.hashmap6,this.Map6),this.ordenarMap(this.hashmap7,this.Map7)]
   this.terceraGrafica_2()
-  this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+  if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
   this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
   this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
 
@@ -2570,7 +2057,9 @@ DatosGrafica3_2(){
 }
 
   ContDatosGraf3_2(element:any){  
-  let nombreLocalidad = element.nombreLocalidad
+  let nombreLocalidad = (this.selectPais4_2=='Corona Total')?element.padrenombre:element.nombreLocalidad
+
+  // let nombreLocalidad = element.nombreLocalidad
   let cargoLocalidad = element.cargoempleado
 
   if(nombreLocalidad && cargoLocalidad){
@@ -2594,7 +2083,8 @@ terceraGrafica_2(){
   this.datosGrafica3_2=[]
 
   let datoGrafica:any=[]
-  this.localidadesList4_2.forEach((element:any) => {
+  let list = (this.selectPais4_2=='Corona Total')?this.divisionList4_2:this.localidadesList4_2
+  list.forEach((element:any) => {
     if(this.cargosLocalidades_2.hasOwnProperty(element.label)){
       if(Object.keys(this.cargosLocalidades_2[element.label]).length>0){
         let datoSeries:any=[]
@@ -2624,7 +2114,7 @@ filtroGraEve4(){
 
   if(this.selectEv4.length==0 && this.selectDiv4.length>0){
     // this.datosGrafica4=this.contTotal(this.datosGrafica4)
-    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
     this.datosGrafica4Top=this.top(this.datosGrafica4,5)
 
@@ -2640,7 +2130,7 @@ filtroGraEve4(){
   }
 
   if(this.selectDiv4.length>0 && this.selectEv4.length>0){
-    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     this.selectDiv4.forEach(resp1=>{
       let x=this.datosGrafica4.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2672,7 +2162,7 @@ filtroGraEve4(){
   }
 
   if(this.selectEv4.length>0 && this.selectDiv4.length==0){
-    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     datosGrafica1=[]
     this.datosGrafica4.forEach((element:any) => {
       let randomEv1CopySeries=[]
@@ -2695,8 +2185,7 @@ filtroGraEve4(){
   }
 
   if(this.selectEv4.length==0 && this.selectDiv4.length==0){
-    // this.datosGrafica4=this.contTotal(this.datosGrafica4)
-    this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
     this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
     this.datosGrafica4Top=this.top(this.datosGrafica4,5)
   }
@@ -2705,6 +2194,12 @@ filtroGraEve4(){
 }
 
 DatosGrafica4(){
+  let flagCoronaTotal:boolean=false
+      if(this.selectPais5){
+        if(this.selectPais5=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
+
   this.CaracterizacionView5=this.CaracterizacionView.map((e:any)=>e)
 
   this.reinciarVariable()
@@ -2731,7 +2226,14 @@ DatosGrafica4(){
   //nuevo
   let reportesAtCopyDiv: any[]=[]
   if(this.selectPais5)if(this.selectPais5!='Corona Total')this.CaracterizacionView5 = this.CaracterizacionView5.filter((at:any) => at.pais == this.selectPais5);
-  if(this.selectedDivisionResumen5)this.CaracterizacionView5= this.CaracterizacionView5.filter((at:any) => at.padrenombre == this.selectedDivisionResumen5);
+  if(!flagCoronaTotal)if(this.selectedDivisionResumen5)this.CaracterizacionView5= this.CaracterizacionView5.filter((at:any) => at.padrenombre == this.selectedDivisionResumen5);
+  if(flagCoronaTotal)if(this.selectedDivisionResumen5)if(this.selectedDivisionResumen5.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen5.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView5.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView5=[...reportesAtCopyDiv]
+  }
   if(this.LocalidadSelect5)if(this.LocalidadSelect5.length>0){
     reportesAtCopyDiv=[]
     this.LocalidadSelect5.forEach((element:any) => {
@@ -2746,19 +2248,12 @@ DatosGrafica4(){
     if(this.radioGra4==1 && element.emptemporal!=null)this.ContDatosGraf4(element)
     if(this.radioGra4==2 && element.emptemporal==null)this.ContDatosGraf4(element)
   });
-  // this.datos4push.push(this.datos4_1)
-  // this.datos4push.push(this.datos4_2)
-  // this.datos4push.push(this.datos4_3)
-  // this.datos4push.push(this.datos4_4)
-  // this.datos4push.push(this.datos4_5)
-  // this.datos4push.push(this.datos4_6)
-  // this.datos4push.push(this.datos4_7)
+
   this.graf4top5()
-  this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+  if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
   this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
 
   this.datosGrafica4Top=this.top(this.datosGrafica4,5)
-  // this.filtroGraEve4()
 }
 
 tipoAccidente=[]
@@ -2772,31 +2267,17 @@ labelGraf4:string="Tipo de accidente"
 graf4top5(){
 
   this.flagevent4=false
-  // let tipoAccidente=[]
-  // let lugarAccidente=[]
-  // let agente=[]
-  // let mecanismo=[]
-  // let parteCuerpo=[]
-  // let tipoLesion=[]
-  // let order:any=[]
   this.datosGrafica4=[]
 
   if(this.radioGra4_1==0){
     this.labelGraf4="Tipo de accidente"
     this.filtroEventos4=this.tipoaccidenteList
-    // this.datos4push.forEach((ele:any) => {
-    //   order=[]
-    //   this.tipoaccidenteList.forEach(ele2=>{
-    //     if(ele.datos.tipoAccidenteCont[ele2.value]){order.push({name:ele2.value,value:ele.datos.tipoAccidenteCont[ele2.value]})}
-    //     else {order.push({name:ele2.value,value:0})}
-    //   })
-    //     order=this.order(order)
-    //     this.datosGrafica4.push({name:ele.padrenombre,series:order})
-    //   });
     this.datosGrafica4=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5.forEach((element:any) => {
+    let list = (this.selectPais5=='Corona Total')?this.divisionList5:this.localidadesList5
+
+    list.forEach((element:any) => {
       if(this.grafTipoAccLocalidades.hasOwnProperty(element.label)){
         if(Object.keys(this.grafTipoAccLocalidades[element.label]).length>0){
           let datoSeries:any=[]
@@ -2814,20 +2295,12 @@ graf4top5(){
   if(this.radioGra4_1==1){
     this.labelGraf4="Lugar del accidente"
     this.filtroEventos4=this.sitioaccidenteList
-    // this.datos4push.forEach((ele:any) => {
-    //   order=[]
-    //   this.sitioaccidenteList.forEach(ele2=>{
-    //     if(ele.datos.sitioCont[ele2.value]){order.push({name:ele2.value,value:ele.datos.sitioCont[ele2.value]})}
-    //     else {order.push({name:ele2.value,value:0})}
-    //   })
-    //     order=this.order(order)
-    //     this.datosGrafica4.push({name:ele.padrenombre,series:order})
-    //   });
-
     this.datosGrafica4=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5.forEach((element:any) => {
+    let list = (this.selectPais5=='Corona Total')?this.divisionList5:this.localidadesList5
+
+    list.forEach((element:any) => {
       if(this.grafLugarAccLocalidades.hasOwnProperty(element.label)){
         if(Object.keys(this.grafLugarAccLocalidades[element.label]).length>0){
           let datoSeries:any=[]
@@ -2845,19 +2318,12 @@ graf4top5(){
   if(this.radioGra4_1==2){
     this.labelGraf4="Agente"
     this.filtroEventos4=this.agenteList
-    // this.datos4push.forEach((ele:any) => {
-    //   order=[]
-    //   this.agenteList.forEach(ele2=>{
-    //     if(ele.datos.agenteCont[ele2.value]){order.push({name:ele2.value,value:ele.datos.agenteCont[ele2.value]})}
-    //     else {order.push({name:ele2.value,value:0})}
-    //   })
-    //     order=this.order(order)
-    //     this.datosGrafica4.push({name:ele.padrenombre,series:order})
-    //   });
     this.datosGrafica4=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5.forEach((element:any) => {
+    let list = (this.selectPais5=='Corona Total')?this.divisionList5:this.localidadesList5
+
+    list.forEach((element:any) => {
       if(this.grafAgenteLocalidades.hasOwnProperty(element.label)){
         if(Object.keys(this.grafAgenteLocalidades[element.label]).length>0){
           let datoSeries:any=[]
@@ -2875,19 +2341,11 @@ graf4top5(){
   if(this.radioGra4_1==3){
     this.labelGraf4="Mecanismo"
     this.filtroEventos4=this.mecanismoList
-    // this.datos4push.forEach((ele:any) => {
-    //   order=[]
-    //   this.mecanismoList.forEach(ele2=>{
-    //     if(ele.datos.mecanismoCont[ele2.value]){order.push({name:ele2.value,value:ele.datos.mecanismoCont[ele2.value]})}
-    //     else {order.push({name:ele2.value,value:0})}
-    //   })
-    //     order=this.order(order)
-    //     this.datosGrafica4.push({name:ele.padrenombre,series:order})
-    //   });
     this.datosGrafica4=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5.forEach((element:any) => {
+    let list = (this.selectPais5=='Corona Total')?this.divisionList5:this.localidadesList5
+    list.forEach((element:any) => {
       if(this.grafMecanismoAccLocalidades.hasOwnProperty(element.label)){
         if(Object.keys(this.grafMecanismoAccLocalidades[element.label]).length>0){
           let datoSeries:any=[]
@@ -2905,19 +2363,12 @@ graf4top5(){
   if(this.radioGra4_1==4){
     this.labelGraf4="Parte del cuerpo"
     this.filtroEventos4=this.partecuerpoList
-    // this.datos4push.forEach((ele:any) => {
-    //   order=[]
-    //   this.partecuerpoList.forEach(ele2=>{
-    //     if(ele.datos.parte_cuerpoCont[ele2.value]){order.push({name:ele2.value,value:ele.datos.parte_cuerpoCont[ele2.value]})}
-    //     else {order.push({name:ele2.value,value:0})}
-    //   })
-    //     order=this.order(order)
-    //     this.datosGrafica4.push({name:ele.padrenombre,series:order})
-    //   });
     this.datosGrafica4=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5.forEach((element:any) => {
+
+    let list = (this.selectPais5=='Corona Total')?this.divisionList5:this.localidadesList5
+    list.forEach((element:any) => {
       if(this.grafParteCuerpLocalidades.hasOwnProperty(element.label)){
         if(Object.keys(this.grafParteCuerpLocalidades[element.label]).length>0){
           let datoSeries:any=[]
@@ -2935,19 +2386,12 @@ graf4top5(){
   if(this.radioGra4_1==5){
     this.labelGraf4="Tipo de lesión"
     this.filtroEventos4=this.tipolesionList
-    // this.datos4push.forEach((ele:any) => {
-    //   order=[]
-    //   this.tipolesionList.forEach(ele2=>{
-    //     if(ele.datos.tipo_lesionCont[ele2.value]){order.push({name:ele2.value,value:ele.datos.tipo_lesionCont[ele2.value]})}
-    //     else {order.push({name:ele2.value,value:0})}
-    //   })
-    //     order=this.order(order)
-    //     this.datosGrafica4.push({name:ele.padrenombre,series:order})
-    //   });
     this.datosGrafica4=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5.forEach((element:any) => {
+
+    let list = (this.selectPais5=='Corona Total')?this.divisionList5:this.localidadesList5
+    list.forEach((element:any) => {
       if(this.grafTipoLesLocalidades.hasOwnProperty(element.label)){
         if(Object.keys(this.grafTipoLesLocalidades[element.label]).length>0){
           let datoSeries:any=[]
@@ -2966,22 +2410,6 @@ graf4top5(){
   
 }
 
-conteo(element:any,element2:any,padrenombre:any){
-  if(element2.has(padrenombre+'/'+element.tipoaccidente)){
-    element2.set(element.tipoaccidente,element2.get(element.tipoaccidente)+1)
-  }else{
-    element2.set(element.tipoaccidente, 1);
-  }
-}
-
-// datos4push:any
-// datos4_1:division=new division();
-// datos4_2:division=new division();
-// datos4_3:division=new division();
-// datos4_4:division=new division();
-// datos4_5:division=new division();
-// datos4_6:division=new division();
-// datos4_7:division=new division();
 
 grafTipoAccLocalidades:any[]=[]
 grafLugarAccLocalidades:any[]=[]
@@ -2991,8 +2419,9 @@ grafParteCuerpLocalidades:any[]=[]
 grafTipoLesLocalidades:any[]=[]
 
 ContDatosGraf4(element:any){
+  let nombreLocalidad = (this.selectPais5=='Corona Total')?element.padrenombre:element.nombreLocalidad
 
-  let nombreLocalidad = element.nombreLocalidad
+  // let nombreLocalidad = element.nombreLocalidad
 
   let tipoAccLocalidad = element.tipoaccidente
   let lugarAccLocalidad = element.sitio
@@ -3078,67 +2507,6 @@ ContDatosGraf4(element:any){
       this.grafTipoLesLocalidades[nombreLocalidad][tipoLesLocalidad] = 1;
     }
   }
-
-  // switch (element.padrenombre) {
-  //   case 'Almacenes Corona':
-  //     this.datos4_1.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont] = this.datos4_1.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1;
-  //     this.datos4_1.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_1.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
-  //     this.datos4_1.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_1.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
-  //     this.datos4_1.datos!.agenteCont![element.agente as keyof agenteCont]=this.datos4_1.datos!.agenteCont![element.agente as keyof agenteCont]+1
-  //     this.datos4_1.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_1.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
-  //     this.datos4_1.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_1.datos!.sitioCont![element.sitio as keyof sitioCont]+1
-  //     break;
-  //   case 'Bathrooms and Kitchen':
-  //     this.datos4_2.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]=this.datos4_2.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1
-  //     this.datos4_2.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_2.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
-  //     this.datos4_2.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_2.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
-  //     this.datos4_2.datos!.agenteCont![element.agente as keyof agenteCont]=this.datos4_2.datos!.agenteCont![element.agente as keyof agenteCont]+1
-  //     this.datos4_2.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_2.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
-  //     this.datos4_2.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_2.datos!.sitioCont![element.sitio as keyof sitioCont]+1
-  //     break;
-  //   case 'Comercial Corona Colombia':
-  //     this.datos4_3.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]=this.datos4_3.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1
-  //     this.datos4_3.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_3.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
-  //     this.datos4_3.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_3.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
-  //     this.datos4_3.datos!.agenteCont![element.agente as keyof agenteCont]=this.datos4_3.datos!.agenteCont![element.agente as keyof agenteCont]+1
-  //     this.datos4_3.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_3.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
-  //     this.datos4_3.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_3.datos!.sitioCont![element.sitio as keyof sitioCont]+1
-  //     break;
-  //   case 'Funciones Transversales':
-  //     this.datos4_4.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]=this.datos4_4.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1
-  //     this.datos4_4.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_4.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
-  //     this.datos4_4.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_4.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
-  //     this.datos4_4.datos!.agenteCont![element.agente as keyof agenteCont]=this.datos4_4.datos!.agenteCont![element.agente as keyof agenteCont]+1
-  //     this.datos4_4.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_4.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
-  //     this.datos4_4.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_4.datos!.sitioCont![element.sitio as keyof sitioCont]+1
-  //     break;
-  //   case 'Insumos Industriales y Energias':
-  //     this.datos4_5.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]=this.datos4_5.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1
-  //     this.datos4_5.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_5.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
-  //     this.datos4_5.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_5.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
-  //     this.datos4_5.datos!.agenteCont![element.agente as keyof agenteCont]=this.datos4_5.datos!.agenteCont![element.agente as keyof agenteCont]+1
-  //     this.datos4_5.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_5.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
-  //     this.datos4_5.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_5.datos!.sitioCont![element.sitio as keyof sitioCont]+1
-  //     break;
-  //   case 'Mesa Servida':
-  //     this.datos4_6.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]=this.datos4_6.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1
-  //     this.datos4_6.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_6.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
-  //     this.datos4_6.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_6.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
-  //     this.datos4_6.datos!.agenteCont![element.agente as keyof agenteCont]=this.datos4_6.datos!.agenteCont![element.agente as keyof agenteCont]+1
-  //     this.datos4_6.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_6.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
-  //     this.datos4_6.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_6.datos!.sitioCont![element.sitio as keyof sitioCont]+1
-  //     break;
-  //   case 'Superficies, materiales y pinturas':
-  //     this.datos4_7.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]=this.datos4_7.datos!.tipoAccidenteCont![element.tipoaccidente as keyof tipoAccidenteCont]+1
-  //     this.datos4_7.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]=this.datos4_7.datos!.tipo_lesionCont![element.tipolesion as keyof tipo_lesionCont]+1
-  //     this.datos4_7.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]=this.datos4_7.datos!.parte_cuerpoCont![element.partecuerpo as keyof parte_cuerpoCont]+1
-  //     this.datos4_7.datos!.agenteCont![element.agente as keyof agenteCont]=this.datos4_7.datos!.agenteCont![element.agente as keyof agenteCont]+1
-  //     this.datos4_7.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]=this.datos4_7.datos!.mecanismoCont![element.mecanismo as keyof mecanismoCont]+1
-  //     this.datos4_7.datos!.sitioCont![element.sitio as keyof sitioCont]=this.datos4_7.datos!.sitioCont![element.sitio as keyof sitioCont]+1
-  //     break;
-  //   default:
-  //     break;
-  // }
 }
 reinciarVariable4_1(){
   this.selectEv4=[]
@@ -3153,78 +2521,6 @@ reinciarVariable(){
   this.grafMecanismoAccLocalidades=[]
   this.grafParteCuerpLocalidades=[]
   this.grafTipoLesLocalidades=[]
-
-  // this.datos4push=[];
-  // this.datos4_1=new division();
-  // this.datos4_2=new division();
-  // this.datos4_3=new division();
-  // this.datos4_4=new division();
-  // this.datos4_5=new division();
-  // this.datos4_6=new division();
-  // this.datos4_7=new division();
-
-  // this.datos4_1.padrenombre='Almacenes Corona';
-  // this.datos4_1.datos= new datos
-  // this.datos4_1.datos.tipoAccidenteCont=new tipoAccidenteCont()
-  // this.datos4_1.datos.tipo_lesionCont=new tipo_lesionCont()
-  // this.datos4_1.datos.parte_cuerpoCont=new parte_cuerpoCont()
-  // this.datos4_1.datos.agenteCont=new agenteCont()
-  // this.datos4_1.datos.mecanismoCont=new mecanismoCont()
-  // this.datos4_1.datos.sitioCont=new sitioCont()
-
-  // this.datos4_2.padrenombre='Bathrooms and Kitchen';
-  // this.datos4_2.datos= new datos
-  // this.datos4_2.datos.tipoAccidenteCont=new tipoAccidenteCont()
-  // this.datos4_2.datos.tipo_lesionCont=new tipo_lesionCont()
-  // this.datos4_2.datos.parte_cuerpoCont=new parte_cuerpoCont()
-  // this.datos4_2.datos.agenteCont=new agenteCont()
-  // this.datos4_2.datos.mecanismoCont=new mecanismoCont()
-  // this.datos4_2.datos.sitioCont=new sitioCont()
-
-  // this.datos4_3.padrenombre='Comercial Corona Colombia';
-  // this.datos4_3.datos= new datos
-  // this.datos4_3.datos.tipoAccidenteCont=new tipoAccidenteCont()
-  // this.datos4_3.datos.tipo_lesionCont=new tipo_lesionCont()
-  // this.datos4_3.datos.parte_cuerpoCont=new parte_cuerpoCont()
-  // this.datos4_3.datos.agenteCont=new agenteCont()
-  // this.datos4_3.datos.mecanismoCont=new mecanismoCont()
-  // this.datos4_3.datos.sitioCont=new sitioCont()
-
-  // this.datos4_4.padrenombre='Funciones Transversales';
-  // this.datos4_4.datos= new datos
-  // this.datos4_4.datos.tipoAccidenteCont=new tipoAccidenteCont()
-  // this.datos4_4.datos.tipo_lesionCont=new tipo_lesionCont()
-  // this.datos4_4.datos.parte_cuerpoCont=new parte_cuerpoCont()
-  // this.datos4_4.datos.agenteCont=new agenteCont()
-  // this.datos4_4.datos.mecanismoCont=new mecanismoCont()
-  // this.datos4_4.datos.sitioCont=new sitioCont()
-
-  // this.datos4_5.padrenombre='Insumos Industriales y Energias';
-  // this.datos4_5.datos= new datos
-  // this.datos4_5.datos.tipoAccidenteCont=new tipoAccidenteCont()
-  // this.datos4_5.datos.tipo_lesionCont=new tipo_lesionCont()
-  // this.datos4_5.datos.parte_cuerpoCont=new parte_cuerpoCont()
-  // this.datos4_5.datos.agenteCont=new agenteCont()
-  // this.datos4_5.datos.mecanismoCont=new mecanismoCont()
-  // this.datos4_5.datos.sitioCont=new sitioCont()
-
-  // this.datos4_6.padrenombre='Mesa Servida';
-  // this.datos4_6.datos= new datos
-  // this.datos4_6.datos.tipoAccidenteCont=new tipoAccidenteCont()
-  // this.datos4_6.datos.tipo_lesionCont=new tipo_lesionCont()
-  // this.datos4_6.datos.parte_cuerpoCont=new parte_cuerpoCont()
-  // this.datos4_6.datos.agenteCont=new agenteCont()
-  // this.datos4_6.datos.mecanismoCont=new mecanismoCont()
-  // this.datos4_6.datos.sitioCont=new sitioCont()
-
-  // this.datos4_7.padrenombre='Superficies, materiales y pinturas';
-  // this.datos4_7.datos= new datos
-  // this.datos4_7.datos.tipoAccidenteCont=new tipoAccidenteCont()
-  // this.datos4_7.datos.tipo_lesionCont=new tipo_lesionCont()
-  // this.datos4_7.datos.parte_cuerpoCont=new parte_cuerpoCont()
-  // this.datos4_7.datos.agenteCont=new agenteCont()
-  // this.datos4_7.datos.mecanismoCont=new mecanismoCont()
-  // this.datos4_7.datos.sitioCont=new sitioCont()
 }
 
 
@@ -3236,7 +2532,7 @@ filtroGraEve4_2(){
   let datosGrafica1:any=[]
 
   if(this.selectEv4_2.length==0 && this.selectDiv4_2.length>0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
     this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
 
@@ -3252,7 +2548,7 @@ filtroGraEve4_2(){
   }
 
   if(this.selectDiv4_2.length>0 && this.selectEv4_2.length>0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     this.selectDiv4_2.forEach(resp1=>{
       let x=this.datosGrafica4_2.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -3284,7 +2580,7 @@ filtroGraEve4_2(){
   }
 
   if(this.selectEv4_2.length>0 && this.selectDiv4_2.length==0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     datosGrafica1=[]
     this.datosGrafica4_2.forEach((element:any) => {
       let randomEv1CopySeries=[]
@@ -3307,7 +2603,7 @@ filtroGraEve4_2(){
   }
 
   if(this.selectEv4_2.length==0 && this.selectDiv4_2.length==0){
-    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
     this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
     this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
   }
@@ -3316,6 +2612,12 @@ filtroGraEve4_2(){
 }
 
 DatosGrafica4_2(){
+  let flagCoronaTotal:boolean=false
+      if(this.selectPais5_2){
+        if(this.selectPais5_2=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
+
   this.CaracterizacionView5_2=this.CaracterizacionView.map((e:any)=>e)
 
   this.reinciarVariable_2()
@@ -3342,7 +2644,14 @@ DatosGrafica4_2(){
   //nuevo
   let reportesAtCopyDiv: any[]=[]
   if(this.selectPais5_2)if(this.selectPais5_2!='Corona Total')this.CaracterizacionView5_2 = this.CaracterizacionView5_2.filter((at:any) => at.pais == this.selectPais5_2);
-  if(this.selectedDivisionResumen5_2)this.CaracterizacionView5_2= this.CaracterizacionView5_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen5_2);
+  if(!flagCoronaTotal)if(this.selectedDivisionResumen5_2)this.CaracterizacionView5_2= this.CaracterizacionView5_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen5_2);
+  if(flagCoronaTotal)if(this.selectedDivisionResumen5_2)if(this.selectedDivisionResumen5_2.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen5_2.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView5_2.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView5_2=[...reportesAtCopyDiv]
+  }
   if(this.LocalidadSelect5_2)if(this.LocalidadSelect5_2.length>0){
     reportesAtCopyDiv=[]
     this.LocalidadSelect5_2.forEach((element:any) => {
@@ -3359,7 +2668,7 @@ DatosGrafica4_2(){
   });
 
   this.graf4top5_2()
-  this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+  if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
   this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
 
   this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
@@ -3387,7 +2696,9 @@ graf4top5_2(){
     this.datosGrafica4_2=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5_2.forEach((element:any) => {
+    let list = (this.selectPais5_2=='Corona Total')?this.divisionList5_2:this.localidadesList5_2
+
+    list.forEach((element:any) => {
       if(this.grafTipoAccLocalidades_2.hasOwnProperty(element.label)){
         if(Object.keys(this.grafTipoAccLocalidades_2[element.label]).length>0){
           let datoSeries:any=[]
@@ -3405,20 +2716,14 @@ graf4top5_2(){
   if(this.radioGra4_1_2==1){
     this.labelGraf4_2="Lugar del accidente"
     this.filtroEventos4_2=this.sitioaccidenteList
-    // this.datos4push.forEach((ele:any) => {
-    //   order=[]
-    //   this.sitioaccidenteList.forEach(ele2=>{
-    //     if(ele.datos.sitioCont[ele2.value]){order.push({name:ele2.value,value:ele.datos.sitioCont[ele2.value]})}
-    //     else {order.push({name:ele2.value,value:0})}
-    //   })
-    //     order=this.order(order)
-    //     this.datosGrafica4.push({name:ele.padrenombre,series:order})
-    //   });
+
 
     this.datosGrafica4_2=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5_2.forEach((element:any) => {
+    let list = (this.selectPais5_2=='Corona Total')?this.divisionList5_2:this.localidadesList5_2
+
+    list.forEach((element:any) => {
       if(this.grafLugarAccLocalidades_2.hasOwnProperty(element.label)){
         if(Object.keys(this.grafLugarAccLocalidades_2[element.label]).length>0){
           let datoSeries:any=[]
@@ -3440,7 +2745,9 @@ graf4top5_2(){
     this.datosGrafica4_2=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5_2.forEach((element:any) => {
+    let list = (this.selectPais5_2=='Corona Total')?this.divisionList5_2:this.localidadesList5_2
+
+    list.forEach((element:any) => {
       if(this.grafAgenteLocalidades_2.hasOwnProperty(element.label)){
         if(Object.keys(this.grafAgenteLocalidades_2[element.label]).length>0){
           let datoSeries:any=[]
@@ -3462,7 +2769,9 @@ graf4top5_2(){
     this.datosGrafica4_2=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5_2.forEach((element:any) => {
+    let list = (this.selectPais5_2=='Corona Total')?this.divisionList5_2:this.localidadesList5_2
+
+    list.forEach((element:any) => {
       if(this.grafMecanismoAccLocalidades_2.hasOwnProperty(element.label)){
         if(Object.keys(this.grafMecanismoAccLocalidades_2[element.label]).length>0){
           let datoSeries:any=[]
@@ -3484,7 +2793,9 @@ graf4top5_2(){
     this.datosGrafica4_2=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5_2.forEach((element:any) => {
+    let list = (this.selectPais5_2=='Corona Total')?this.divisionList5_2:this.localidadesList5_2
+
+    list.forEach((element:any) => {
       if(this.grafParteCuerpLocalidades_2.hasOwnProperty(element.label)){
         if(Object.keys(this.grafParteCuerpLocalidades_2[element.label]).length>0){
           let datoSeries:any=[]
@@ -3506,7 +2817,9 @@ graf4top5_2(){
     this.datosGrafica4_2=[]
 
     let datoGrafica:any=[]
-    this.localidadesList5_2.forEach((element:any) => {
+    let list = (this.selectPais5_2=='Corona Total')?this.divisionList5_2:this.localidadesList5_2
+
+    list.forEach((element:any) => {
       if(this.grafTipoLesLocalidades_2.hasOwnProperty(element.label)){
         if(Object.keys(this.grafTipoLesLocalidades_2[element.label]).length>0){
           let datoSeries:any=[]
@@ -3525,13 +2838,6 @@ graf4top5_2(){
   
 }
 
-conteo_2(element:any,element2:any,padrenombre:any){
-  if(element2.has(padrenombre+'/'+element.tipoaccidente)){
-    element2.set(element.tipoaccidente,element2.get(element.tipoaccidente)+1)
-  }else{
-    element2.set(element.tipoaccidente, 1);
-  }
-}
 
 grafTipoAccLocalidades_2:any[]=[]
 grafLugarAccLocalidades_2:any[]=[]
@@ -3542,7 +2848,8 @@ grafTipoLesLocalidades_2:any[]=[]
 
 ContDatosGraf4_2(element:any){
 
-  let nombreLocalidad = element.nombreLocalidad
+  // let nombreLocalidad = element.nombreLocalidad
+  let nombreLocalidad = (this.selectPais5_2=='Corona Total')?element.padrenombre:element.nombreLocalidad
 
   let tipoAccLocalidad = element.tipoaccidente
   let lugarAccLocalidad = element.sitio
@@ -3728,15 +3035,15 @@ resetvariable5_1(){
 }
 resetvariables5(){
   this.contGrafTipoPeligros=[]
-  // this.mapGraf5_1=new Map()
-  // this.mapGraf5_2=new Map()
-  // this.mapGraf5_3=new Map()
-  // this.mapGraf5_4=new Map()
-  // this.mapGraf5_5=new Map()
-  // this.mapGraf5_6=new Map()
-  // this.mapGraf5_7=new Map()
+
 }
 DatosGrafica5(){
+  let flagCoronaTotal:boolean=false
+      if(this.selectPais6){
+        if(this.selectPais6=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
+
   this.resetvariables5()
   this.CaracterizacionView6=this.CaracterizacionView.map((e:any)=>e)
 
@@ -3757,10 +3064,18 @@ if(this.date9 && this.date10){
   this.CaracterizacionView6=this.CaracterizacionView.filter((resp:any)=>{
     return resp.fechaaccidente<date10 && resp.fechaaccidente>=new Date(this.date9!)
     })}
-  //nuevo
+
+    //nuevo
   let reportesAtCopyDiv: any[]=[]
   if(this.selectPais6)if(this.selectPais6!='Corona Total')this.CaracterizacionView6 = this.CaracterizacionView6.filter((at:any) => at.pais == this.selectPais6);
-  if(this.selectedDivisionResumen6)this.CaracterizacionView6= this.CaracterizacionView6.filter((at:any) => at.padrenombre == this.selectedDivisionResumen6);
+  if(!flagCoronaTotal)if(this.selectedDivisionResumen6)this.CaracterizacionView6= this.CaracterizacionView6.filter((at:any) => at.padrenombre == this.selectedDivisionResumen6);
+  if(flagCoronaTotal)if(this.selectedDivisionResumen6)if(this.selectedDivisionResumen6.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen6.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView6.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView6=[...reportesAtCopyDiv]
+  }
   if(this.LocalidadSelect6)if(this.LocalidadSelect6.length>0){
     reportesAtCopyDiv=[]
     this.LocalidadSelect6.forEach((element:any) => {
@@ -3769,6 +3084,7 @@ if(this.date9 && this.date10){
     this.CaracterizacionView6=[...reportesAtCopyDiv]
   }
   //fin nuevo
+
   this.CaracterizacionView6.forEach((element:any) => {
     if(this.radioGra5==0)this.ContDatosGraf5(element)
     if(this.radioGra5==1 && element.emptemporal!=null)this.ContDatosGraf5(element)
@@ -3776,25 +3092,18 @@ if(this.date9 && this.date10){
   });
   this.quintaGrafica()
 
-  this.datosGrafica5=this.contTotal(this.datosGrafica5,this.selectedDivisionResumen6)
+  if(this.selectPais6!='Corona Total')this.datosGrafica5=this.contTotal(this.datosGrafica5,this.selectedDivisionResumen6)
   this.datosGrafica5=this.organizarDatosMayorMenor(this.datosGrafica5)
   this.datosGrafica5Top=this.top(this.datosGrafica5,5)
 }
-// mapGraf5_1=new Map()
-// mapGraf5_2=new Map()
-// mapGraf5_3=new Map()
-// mapGraf5_4=new Map()
-// mapGraf5_5=new Map()
-// mapGraf5_6=new Map()
-// mapGraf5_7=new Map()
+
 contGrafTipoPeligros:any[]=[]
 ContDatosGraf5(element:any){
   
   let peligro=JSON.parse(element.peligro);
 
-  let nombreLocalidad = element.nombreLocalidad
-
-  // let tipoAccLocalidad = element.tipoaccidente
+  let nombreLocalidad = (this.selectPais6=='Corona Total')?element.padrenombre:element.nombreLocalidad
+  // let nombreLocalidad = element.nombreLocalidad
 
   if(nombreLocalidad && peligro){
     if (this.contGrafTipoPeligros.hasOwnProperty(nombreLocalidad)) {
@@ -3809,61 +3118,6 @@ ContDatosGraf5(element:any){
     }
   }
 
-  // if(peligro)peligro=peligro.nombre
-  // switch (element.padrenombre) {
-  //   case 'Almacenes Corona':
-  //     if(this.mapGraf5_1.has(peligro)){
-  //       this.mapGraf5_1.set(peligro,this.mapGraf5_1.get(peligro)+1)
-  //     }else{
-  //       this.mapGraf5_1.set(peligro,1)
-  //     }
-  //     break;
-  //   case 'Bathrooms and Kitchen':
-  //     if(this.mapGraf5_2.has(peligro)){
-  //       this.mapGraf5_2.set(peligro,this.mapGraf5_2.get(peligro)+1)
-  //     }else{
-  //       this.mapGraf5_2.set(peligro,1)
-  //     }
-  //     break;
-  //   case 'Comercial Corona Colombia':
-  //     if(this.mapGraf5_3.has(peligro)){
-  //       this.mapGraf5_3.set(peligro,this.mapGraf5_3.get(peligro)+1)
-  //     }else{
-  //       this.mapGraf5_3.set(peligro,1)
-  //     }
-  //     break;
-  //   case 'Funciones Transversales':
-  //     if(this.mapGraf5_4.has(peligro)){
-  //       this.mapGraf5_4.set(peligro,this.mapGraf5_4.get(peligro)+1)
-  //     }else{
-  //       this.mapGraf5_4.set(peligro,1)
-  //     }
-  //     break;
-  //   case 'Insumos Industriales y Energias':
-  //     if(this.mapGraf5_5.has(peligro)){
-  //       this.mapGraf5_5.set(peligro,this.mapGraf5_5.get(peligro)+1)
-  //     }else{
-  //       this.mapGraf5_5.set(peligro,1)
-  //     }
-  //     break;
-  //   case 'Mesa Servida':
-  //     if(this.mapGraf5_6.has(peligro)){
-  //       this.mapGraf5_6.set(peligro,this.mapGraf5_6.get(peligro)+1)
-  //     }else{
-  //       this.mapGraf5_6.set(peligro,1)
-  //     }
-  //     break;
-  //   case 'Superficies, materiales y pinturas':
-  //     if(this.mapGraf5_7.has(peligro)){
-  //       this.mapGraf5_7.set(peligro,this.mapGraf5_7.get(peligro)+1)
-  //     }else{
-  //       this.mapGraf5_7.set(peligro,1)
-  //     }
-  //     break;
-  //   default:
-  //     break;
-  // }
-
 }
 
 quintaGrafica(){
@@ -3872,7 +3126,9 @@ quintaGrafica(){
   this.datosGrafica5=[]
 
   let datoGrafica:any=[]
-  this.localidadesList6.forEach((element:any) => {
+
+  let list = (this.selectPais6=='Corona Total')?this.divisionList6:this.localidadesList6
+  list.forEach((element:any) => {
     if(this.contGrafTipoPeligros.hasOwnProperty(element.label)){
       if(Object.keys(this.contGrafTipoPeligros[element.label]).length>0){
         let datoSeries:any=[]
@@ -3886,26 +3142,6 @@ quintaGrafica(){
   });
   this.datosGrafica5=datoGrafica.map((e:any)=>e)
 
-  // let cont=0
-  // let map=new Map()
-  // this.divisiones1.forEach(resp=>{
-  //   let order:any=[]
-  //   if(cont==0)map=this.mapGraf5_1
-  //   if(cont==1)map=this.mapGraf5_2
-  //   if(cont==2)map=this.mapGraf5_3
-  //   if(cont==3)map=this.mapGraf5_4
-  //   if(cont==4)map=this.mapGraf5_5
-  //   if(cont==5)map=this.mapGraf5_6
-  //   if(cont==6)map=this.mapGraf5_7
-
-  //   this.peligro.forEach((element:any) => {
-  //     if(map.get(element))order.push({name:element,value:map.get(element)})
-  //     if(!map.get(element))order.push({name:element,value:0})
-  //   });
-  //   order=this.order(order)
-  //   this.datosGrafica5.push({name:resp,series:order})
-  //   cont++
-  // })
   this.flagevent5=true
 }
 
@@ -3993,6 +3229,12 @@ resetvariables5_2(){
   this.contGrafTipoPeligros_2=[]
 }
 DatosGrafica5_2(){
+  let flagCoronaTotal:boolean=false
+      if(this.selectPais6_2){
+        if(this.selectPais6_2=='Corona Total')flagCoronaTotal=true
+        else flagCoronaTotal=false
+      }else flagCoronaTotal=false
+
   this.resetvariables5_2()
   this.CaracterizacionView6_2=this.CaracterizacionView.map((e:any)=>e)
 
@@ -4016,7 +3258,14 @@ if(this.date9_2 && this.date10_2){
   //nuevo
   let reportesAtCopyDiv: any[]=[]
   if(this.selectPais6_2)if(this.selectPais6_2!='Corona Total')this.CaracterizacionView6_2 = this.CaracterizacionView6_2.filter((at:any) => at.pais == this.selectPais6_2);
-  if(this.selectedDivisionResumen6_2)this.CaracterizacionView6_2= this.CaracterizacionView6_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen6_2);
+  if(!flagCoronaTotal)if(this.selectedDivisionResumen6_2)this.CaracterizacionView6_2= this.CaracterizacionView6_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen6_2);
+  if(flagCoronaTotal)if(this.selectedDivisionResumen6_2)if(this.selectedDivisionResumen6_2.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen6_2.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView6_2.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView6_2=[...reportesAtCopyDiv]
+  }
   if(this.LocalidadSelect6_2)if(this.LocalidadSelect6_2.length>0){
     reportesAtCopyDiv=[]
     this.LocalidadSelect6_2.forEach((element:any) => {
@@ -4032,7 +3281,7 @@ if(this.date9_2 && this.date10_2){
   });
   this.quintaGrafica_2()
 
-  this.datosGrafica5_2=this.contTotal(this.datosGrafica5_2,this.selectedDivisionResumen6_2)
+  if(this.selectPais6_2!='Corona Total')this.datosGrafica5_2=this.contTotal(this.datosGrafica5_2,this.selectedDivisionResumen6_2)
   this.datosGrafica5_2=this.organizarDatosMayorMenor(this.datosGrafica5_2)
   this.datosGrafica5Top_2=this.top(this.datosGrafica5_2,5)
 }
@@ -4042,9 +3291,10 @@ ContDatosGraf5_2(element:any){
   
   let peligro=JSON.parse(element.peligro);
 
-  let nombreLocalidad = element.nombreLocalidad
+  // let nombreLocalidad = element.nombreLocalidad
 
-  // let tipoAccLocalidad = element.tipoaccidente
+  let nombreLocalidad = (this.selectPais6_2=='Corona Total')?element.padrenombre:element.nombreLocalidad
+
 
   if(nombreLocalidad && peligro){
     if (this.contGrafTipoPeligros_2.hasOwnProperty(nombreLocalidad)) {
@@ -4067,7 +3317,10 @@ quintaGrafica_2(){
   this.datosGrafica5_2=[]
 
   let datoGrafica:any=[]
-  this.localidadesList6_2.forEach((element:any) => {
+
+  let list = (this.selectPais6_2=='Corona Total')?this.divisionList6_2:this.localidadesList6_2
+
+  list.forEach((element:any) => {
     if(this.contGrafTipoPeligros_2.hasOwnProperty(element.label)){
       if(Object.keys(this.contGrafTipoPeligros_2[element.label]).length>0){
         let datoSeries:any=[]
@@ -4101,7 +3354,7 @@ filtroGraEve6(){
   let datosGrafica1:any=[]
 
   if(this.selectDiv6.length==0 && this.selectEv6.length==0){
-    // this.datosGrafica6=this.contTotal(this.datosGrafica6)
+    // if(this.selectPais7!='Corona Total')this.datosGrafica6=this.contTotal(this.datosGrafica6)
     this.datosGrafica6Top=this.top(this.datosGrafica6,5)
   }
 
@@ -4181,6 +3434,12 @@ resetVar6(){
   this.DatosGrafica6()
 }
 DatosGrafica6(){
+  let flagCoronaTotal:boolean=false
+  if(this.selectPais7){
+    if(this.selectPais7=='Corona Total')flagCoronaTotal=true
+    else flagCoronaTotal=false
+  }else flagCoronaTotal=false
+
   this.flagevent6=false
   this.graf6_1=[]
   this.graf6_2=[]
@@ -4215,7 +3474,14 @@ DatosGrafica6(){
    //nuevo
    let reportesAtCopyDiv: any[]=[]
    if(this.selectPais7)if(this.selectPais7!='Corona Total')this.CaracterizacionView7 = this.CaracterizacionView7.filter((at:any) => at.pais == this.selectPais7);
-   if(this.selectedDivisionResumen7)this.CaracterizacionView7= this.CaracterizacionView7.filter((at:any) => at.padrenombre == this.selectedDivisionResumen7);
+   if(!flagCoronaTotal)if(this.selectedDivisionResumen7)this.CaracterizacionView7= this.CaracterizacionView7.filter((at:any) => at.padrenombre == this.selectedDivisionResumen7);
+   if(flagCoronaTotal)if(this.selectedDivisionResumen7)if(this.selectedDivisionResumen7.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen7.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView7.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView7=[...reportesAtCopyDiv]
+  }
    if(this.LocalidadSelect7)if(this.LocalidadSelect7.length>0){
      reportesAtCopyDiv=[]
      this.LocalidadSelect7.forEach((element:any) => {
@@ -4247,7 +3513,7 @@ DatosGrafica6(){
   });
 
   this.sextaGrafica()
-  this.datosGrafica6=this.contTotal(this.datosGrafica6,this.selectedDivisionResumen7)
+  if(this.selectPais7!='Corona Total')this.datosGrafica6=this.contTotal(this.datosGrafica6,this.selectedDivisionResumen7)
   this.datosGrafica6=this.organizarDatosMayorMenor(this.datosGrafica6)
 
   this.datosGrafica6Top=this.top(this.datosGrafica6,5)
@@ -4258,9 +3524,9 @@ contGrafPeligros:any[]=[]
     let descripcionpeligro=JSON.parse(element.descripcionpeligro)
     if(descripcionpeligro)descripcionpeligro=descripcionpeligro.nombre
 
-    let nombreLocalidad = element.nombreLocalidad
+    let nombreLocalidad = (this.selectPais7=='Corona Total')?element.padrenombre:element.nombreLocalidad
 
-    // let tipoAccLocalidad = element.tipoaccidente
+    // let nombreLocalidad = element.nombreLocalidad
 
     if(nombreLocalidad && descripcionpeligro){
       if (this.contGrafPeligros.hasOwnProperty(nombreLocalidad)) {
@@ -4274,70 +3540,16 @@ contGrafPeligros:any[]=[]
         this.contGrafPeligros[nombreLocalidad][descripcionpeligro] = 1;
       }
     }
-    // switch (element.padrenombre) {
-    //   case 'Almacenes Corona':
-    //     this.graf6_1.map((resp:any)=>{
-    //       if(resp.name==descripcionpeligro){
-    //         resp.value=resp.value+1
-    //       }
-    //     })
-    //     break;
-    //   case 'Bathrooms and Kitchen':
-    //     this.graf6_2.map((resp:any)=>{
-    //       if(resp.name==descripcionpeligro){
-    //         resp.value=resp.value+1
-    //       }
-    //     })
-    //     break;
-    //   case 'Comercial Corona Colombia':
-    //     this.graf6_3.map((resp:any)=>{
-    //       if(resp.name==descripcionpeligro){
-    //         resp.value=resp.value+1
-    //       }
-    //     })
-    //     break;
-    //   case 'Funciones Transversales':
-    //     this.graf6_4.map((resp:any)=>{
-    //       if(resp.name==descripcionpeligro){
-    //         resp.value=resp.value+1
-    //       }
-    //     })
-    //     break;
-    //   case 'Insumos Industriales y Energias':
-    //     this.graf6_5.map((resp:any)=>{
-    //       if(resp.name==descripcionpeligro){
-    //         resp.value=resp.value+1
-    //       }
-    //     })
-    //     break;
-    //   case 'Mesa Servida':
-    //     this.graf6_6.map((resp:any)=>{
-    //       if(resp.name==descripcionpeligro){
-    //         resp.value=resp.value+1
-    //       }
-    //     })
-    //     break;
-    //   case 'Superficies, materiales y pinturas':
-    //     this.graf6_7.map((resp:any)=>{
-    //       if(resp.name==descripcionpeligro){
-    //         resp.value=resp.value+1
-    //       }
-    //     })
-    //     break;
-    //   default:
-    //     break;
-    // }
-    
-
   }
-  // as
-  sextaGrafica(){
-    // peligroItemList
 
+  sextaGrafica(){
     this.datosGrafica6=[]
 
     let datoGrafica:any=[]
-    this.localidadesList7.forEach((element:any) => {
+
+    let list = (this.selectPais7=='Corona Total')?this.divisionList7:this.localidadesList7
+
+    list.forEach((element:any) => {
       if(this.contGrafPeligros.hasOwnProperty(element.label)){
         if(Object.keys(this.contGrafPeligros[element.label]).length>0){
           let datoSeries:any=[]
@@ -4349,21 +3561,11 @@ contGrafPeligros:any[]=[]
         }
       }
     });
-    this.datosGrafica6=datoGrafica.map((e:any)=>e)
-
-
-    // this.datosGrafica6=[]
-    // this.datosGrafica6.push({name:'Almacenes Corona',series:this.order(this.graf6_1)})
-    // this.datosGrafica6.push({name:'Bathrooms and Kitchen',series:this.order(this.graf6_2)})
-    // this.datosGrafica6.push({name:'Comercial Corona Colombia',series:this.order(this.graf6_3)})
-    // this.datosGrafica6.push({name:'Funciones Transversales',series:this.order(this.graf6_4)})
-    // this.datosGrafica6.push({name:'Insumos Industriales y Energias',series:this.order(this.graf6_5)})
-    // this.datosGrafica6.push({name:'Mesa Servida',series:this.order(this.graf6_6)})
-    // this.datosGrafica6.push({name:'Superficies, materiales y pinturas',series:this.order(this.graf6_7)})    
+    this.datosGrafica6=datoGrafica.map((e:any)=>e)  
   }
  
 
- ///////////////sexta grafica/////////////
+ ///////////////sexta grafica comparativa/////////////
 graf6_1_2:any=[]
 graf6_2_2:any=[]
 graf6_3_2:any=[]
@@ -4457,6 +3659,12 @@ resetVar6_2(){
   this.DatosGrafica6_2()
 }
 DatosGrafica6_2(){
+  let flagCoronaTotal:boolean=false
+  if(this.selectPais7_2){
+    if(this.selectPais7_2=='Corona Total')flagCoronaTotal=true
+    else flagCoronaTotal=false
+  }else flagCoronaTotal=false
+
   this.flagevent6_2=false
   this.graf6_1_2=[]
   this.graf6_2_2=[]
@@ -4491,7 +3699,14 @@ DatosGrafica6_2(){
    //nuevo
    let reportesAtCopyDiv: any[]=[]
    if(this.selectPais7_2)if(this.selectPais7_2!='Corona Total')this.CaracterizacionView7_2 = this.CaracterizacionView7_2.filter((at:any) => at.pais == this.selectPais7_2);
-   if(this.selectedDivisionResumen7_2)this.CaracterizacionView7_2= this.CaracterizacionView7_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen7_2);
+   if(!flagCoronaTotal)if(this.selectedDivisionResumen7_2)this.CaracterizacionView7_2= this.CaracterizacionView7_2.filter((at:any) => at.padrenombre == this.selectedDivisionResumen7_2);
+   if(flagCoronaTotal)if(this.selectedDivisionResumen7_2)if(this.selectedDivisionResumen7_2.length>0){
+    reportesAtCopyDiv=[]
+    this.selectedDivisionResumen7_2.forEach((element:any) => {
+      reportesAtCopyDiv=reportesAtCopyDiv.concat(this.CaracterizacionView7_2.filter((at:any) => at.padrenombre == element));
+    });
+    this.CaracterizacionView7_2=[...reportesAtCopyDiv]
+  }
    if(this.LocalidadSelect7_2)if(this.LocalidadSelect7_2.length>0){
      reportesAtCopyDiv=[]
      this.LocalidadSelect7_2.forEach((element:any) => {
@@ -4524,7 +3739,7 @@ DatosGrafica6_2(){
   });
 
   this.sextaGrafica_2()
-  this.datosGrafica6_2=this.contTotal(this.datosGrafica6_2,this.selectedDivisionResumen7_2)
+  if(this.selectPais7_2!='Corona Total')this.datosGrafica6_2=this.contTotal(this.datosGrafica6_2,this.selectedDivisionResumen7_2)
   this.datosGrafica6_2=this.organizarDatosMayorMenor(this.datosGrafica6_2)
 
   this.datosGrafica6Top_2=this.top(this.datosGrafica6_2,5)
@@ -4535,7 +3750,8 @@ contGrafPeligros_2:any[]=[]
     let descripcionpeligro=JSON.parse(element.descripcionpeligro)
     if(descripcionpeligro)descripcionpeligro=descripcionpeligro.nombre
 
-    let nombreLocalidad = element.nombreLocalidad
+    // let nombreLocalidad = element.nombreLocalidad
+    let nombreLocalidad = (this.selectPais7_2=='Corona Total')?element.padrenombre:element.nombreLocalidad
 
 
     if(nombreLocalidad && descripcionpeligro){
@@ -4558,7 +3774,9 @@ contGrafPeligros_2:any[]=[]
     this.datosGrafica6_2=[]
 
     let datoGrafica:any=[]
-    this.localidadesList7_2.forEach((element:any) => {
+    let list = (this.selectPais7_2=='Corona Total')?this.divisionList7_2:this.localidadesList7_2
+
+    list.forEach((element:any) => {
       if(this.contGrafPeligros_2.hasOwnProperty(element.label)){
         if(Object.keys(this.contGrafPeligros_2[element.label]).length>0){
           let datoSeries:any=[]
@@ -4753,16 +3971,6 @@ contGrafPeligros_2:any[]=[]
     {label: 'Nicaragua', value: 'Nicaragua'},
     {label: 'Corona Total', value: 'Corona Total'}
   ];
-
-  // paisesList: Array<any> = [
-  //   {label: 'Colombia', value: 'Colombia'},
-  //   {label: 'Costa Rica', value: 'Costa Rica'},
-  //   {label: 'EEUU', value: 'EEUU'},
-  //   {label: 'Guatemala', value: 'Guatemala'},
-  //   {label: 'Honduras', value: 'Honduras'},
-  //   {label: 'Mexico', value: 'Mexico'},
-  //   {label: 'Nicaragua', value: 'Nicaragua'}
-  // ];
 
   selectPais1:any
   selectPais2:any
