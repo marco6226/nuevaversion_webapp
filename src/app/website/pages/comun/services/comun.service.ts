@@ -56,6 +56,20 @@ export class ComunService {
                 )
         });
     }
+    
+    findAllJuntas() {
+        return new Promise(resolve => {
+            this.httpInt.get(endPoints.com_eps)
+                .subscribe(
+                    (res: unknown) => {
+                        resolve(res);
+                    }
+                    ,
+                    err => this.manageError(err)
+                )
+                
+        });
+    }
 
     findAllPrepagadas() {
         return new Promise(resolve => {

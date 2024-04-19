@@ -154,7 +154,8 @@
                             </div>
                         </div>
     
-                        <div class="col" *ngIf="pclForm.get('entidadEmitePcl')?.value == 'EPS' || pclForm.get('entidadEmitePcl')?.value == 'ARL' || pclForm.get('entidadEmitePcl')?.value == 'AFP'">
+                        <div class="col" *ngIf="pclForm.get('entidadEmitePcl')?.value == 'EPS' || pclForm.get('entidadEmitePcl')?.value == 'ARL' || pclForm.get('entidadEmitePcl')?.value == 'AFP' || pclForm.get('entidadEmitePcl')?.value == 'Junta_Regional'">
+
                             <div class="input-field">
                                 <label for="" class="active">Entidad</label>
                                 <p-dropdown appendTo="body" [filter]="true" [options]="entity[pclForm.get('entidadEmitePcl').value]" formControlName="entidadEmitida" class="select-material" styleClass="select-material" [readonly]="action">
@@ -218,7 +219,9 @@
                                 </div>
                             </div>
         
-                            <div class="col" *ngIf="pclForm.get('entidadEmitePcl')?.value == 'EPS' || pclForm.get('entidadEmitePcl')?.value == 'ARL' || pclForm.get('entidadEmitePcl')?.value == 'AFP'">
+                           <div class="col" *ngIf="pclForm.get('entidadEmitePcl')?.value == 'EPS' || pclForm.get('entidadEmitePcl')?.value == 'ARL' || pclForm.get('entidadEmitePcl')?.value == 'AFP' || pclForm.get('entidadEmitePcl')?.value == 'Junta_Regional'">
+                           
+                            
                                 <div class="input-field">
                                     <label for="" class="active">Entidad</label>
                                     <p-dropdown appendTo="body" [filter]="true" [options]="entity[pclForm.get('entidadEmitePcl').value]" formControlName="entidadEmitida" class="select-material" styleClass="select-material" [readonly]="action">
@@ -271,7 +274,8 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col" *ngIf="pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' || pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' || pclForm.get('entidadEmiteCalificacion')?.value == 'AFP'">
+                            <div class="col" *ngIf="pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' || pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' || pclForm.get('entidadEmiteCalificacion')?.value == 'AFP' || pclForm.get('entidadEmitePcl')?.value == 'Junta_Regional'">
+
                                 <div class="input-field">
                                     <label for="" class="active">Entidad </label>
                                     <p-dropdown appendTo="body" [filter]="true" [options]="entity[pclForm.get('entidadEmiteCalificacion').value]" formControlName="entidadEmitidaCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
@@ -343,7 +347,8 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col" *ngIf="pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' || pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' || pclForm.get('entidadEmiteCalificacion')?.value == 'AFP'">
+                            <div class="col" *ngIf="pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' || pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' || pclForm.get('entidadEmiteCalificacion')?.value == 'AFP' || pclForm.get('entidadEmitePcl')?.value == 'Junta_Regional'">
+
                                 <div class="input-field">
                                     <label for="" class="active">Entidad </label>
                                     <p-dropdown appendTo="body" [filter]="true" [options]="entity[pclForm.get('entidadEmiteCalificacion').value]" formControlName="entidadEmitidaCalificacion" class="select-material" styleClass="select-material" [readonly]="action">
