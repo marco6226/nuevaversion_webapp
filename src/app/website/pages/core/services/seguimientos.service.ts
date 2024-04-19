@@ -16,7 +16,7 @@ export class SeguimientosService {
         public httpInt: HttpInt,
         public sesionService: SesionService,) { }
 
-    public getSegByTareaID(id:any) {
+    public async getSegByTareaID(id:any) {
 
         let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
         
@@ -26,7 +26,8 @@ export class SeguimientosService {
           }).toString();
         
         let endPoint = `${endPoints.tareaService}follow/`;
-        return new Promise(async (resolve) => {
+
+        const response = await new Promise(async (resolve) => {
             let options: any = {
                 responseType: 'blob',
                 headers: new HttpHeaders()
@@ -51,6 +52,12 @@ export class SeguimientosService {
                 );
         });
 
+        let decryptedResponse = CryptoJS.AES.decrypt(response as string, CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString(CryptoJS.enc.Utf8);
+
+        return decryptedResponse;
         // return this.http.get(`${endPoints.tareaService}follow/${id}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
@@ -62,7 +69,7 @@ export class SeguimientosService {
         return this.http.get(`${endPoints.tareaService}follow/download/${id}/${type}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
-    public closeTarea(tarea:any) {
+    public async closeTarea(tarea:any) {
 
         let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
         
@@ -73,7 +80,7 @@ export class SeguimientosService {
         
         let endPoint = `${endPoints.tareaService}tarea/close`;
         
-        return new Promise(async (resolve) => {
+        const response = await new Promise(async (resolve) => {
             let options: any = {
                 responseType: 'blob',
                 headers: new HttpHeaders()
@@ -97,6 +104,12 @@ export class SeguimientosService {
                 );
         });
 
+        let decryptedResponse = CryptoJS.AES.decrypt(response as string, CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }).toString(CryptoJS.enc.Utf8);
+
+        return decryptedResponse;
 
         // return this.http.put(`${endPoints.tareaService}tarea/close`, tarea, this.getRequestHeaders(this.headers)).toPromise();
     }
