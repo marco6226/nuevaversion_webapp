@@ -37,13 +37,13 @@
                           <div class="card l-bg-blue3-dark">
                               <div style="text-align:left;">
                                   <ng-container *ngIf="!this.selectPais1"><h3>Meta ILI</h3></ng-container>
-                                  <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI pais</h3></ng-container>
+                                  <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI {{(this.selectPais1=='Corona Total')?'':' pais'}}</h3></ng-container>
                                   <ng-container *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"><h3>Meta ILI división</h3></ng-container>
                                   <ng-container *ngIf="this.PlantaSelect1"><h3>Meta ILI localidad</h3></ng-container>
                               </div>
                               <div style="text-align:right;">
                                   <span class="tamañotexto">{{metaIli || 0}}</span>
-                                  <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">Pais: {{metaPais || 0}}</span></ng-container>
+                                  <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">{{(this.selectPais1=='Corona Total')?'Corona total':' pais'}}: {{metaPais || 0}}</span></ng-container>
                                   <ng-container *ngIf="this.PlantaSelect1"><br><span class="tamañotexto2">División: {{metaDivision || 0}}</span></ng-container>
                               </div>                                     
                           </div>

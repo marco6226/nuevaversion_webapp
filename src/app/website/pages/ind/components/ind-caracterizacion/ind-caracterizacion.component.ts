@@ -587,7 +587,9 @@ export class IndCaracterizacionComponent implements OnInit {
       });
 
       this.primeraGrafica();
-      if(this.selectPais2!='Corona Total')this.datosGrafica1=this.contTotal(this.datosGrafica1,(flagCoronaTotal)?'Corona Total':this.selectedDivisionResumen2)
+      let total:string=(flagCoronaTotal)?'Corona Total':this.selectedDivisionResumen2
+      if((this.selectPais2=='Corona Total' && (!this.selectedDivisionResumen2 || this.selectedDivisionResumen2.length==0))|| (this.selectPais2!='Corona Total' && (!this.LocalidadSelect2 || this.LocalidadSelect2.length==0)))
+        this.datosGrafica1=this.contTotal(this.datosGrafica1,total)
 
   }
 
@@ -767,7 +769,9 @@ export class IndCaracterizacionComponent implements OnInit {
     this.selectEv1=[]
     this.selectDiv1=[]
     this.primeraGrafica()
-    if(this.selectPais2!='Corona Total')this.datosGrafica1=this.contTotal(this.datosGrafica1,this.selectedDivisionResumen2)
+    let total:string=(this.selectPais2=='Corona Total')?'Corona Total':this.selectedDivisionResumen2
+    if((this.selectPais2=='Corona Total' && (!this.selectedDivisionResumen2 || this.selectedDivisionResumen2.length==0))|| (this.selectPais2!='Corona Total' && (!this.LocalidadSelect2 || this.LocalidadSelect2.length==0)))
+      this.datosGrafica1=this.contTotal(this.datosGrafica1,total)
 
   }
     ////////////Primera grafica Comparativa//////////
@@ -834,7 +838,9 @@ export class IndCaracterizacionComponent implements OnInit {
       });
 
       this.primeraGrafica_2();
-      if(this.selectPais2_2!='Corona Total')this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
+      let total:string=(this.selectPais2_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen2_2
+      if((this.selectPais2_2=='Corona Total' && (!this.selectedDivisionResumen2_2 || this.selectedDivisionResumen2_2.length==0))|| (this.selectPais2_2!='Corona Total' && (!this.LocalidadSelect2_2 || this.LocalidadSelect2_2.length==0)))
+      this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,total)
 
   }
 
@@ -1018,8 +1024,9 @@ export class IndCaracterizacionComponent implements OnInit {
     this.selectEv1_2=[]
     this.selectDiv1_2=[]
     this.primeraGrafica_2()
-    if(this.selectPais2_2!='Corona Total')this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,this.selectedDivisionResumen2_2)
-
+    let total:string=(this.selectPais2_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen2_2
+    if((this.selectPais2_2=='Corona Total' && (!this.selectedDivisionResumen2_2 || this.selectedDivisionResumen2_2.length==0))|| (this.selectPais2_2!='Corona Total' && (!this.LocalidadSelect2_2 || this.LocalidadSelect2_2.length==0)))
+    this.datosGrafica1_2=this.contTotal(this.datosGrafica1_2,total)
   }
 
   
@@ -1027,7 +1034,9 @@ export class IndCaracterizacionComponent implements OnInit {
 
 filtroGraEve2(){
   this.segundaGrafica()
-  if(this.selectPais3!='Corona Total')this.datosGrafica2=this.contTotal(this.datosGrafica2,this.selectedDivisionResumen3)
+  let total:string=(this.selectPais3=='Corona Total')?'Corona Total':this.selectedDivisionResumen3
+  if((this.selectPais3=='Corona Total' && (!this.selectedDivisionResumen3 || this.selectedDivisionResumen3.length==0))|| (this.selectPais3!='Corona Total' && (!this.LocalidadSelect3 || this.LocalidadSelect3.length==0)))
+  this.datosGrafica2=this.contTotal(this.datosGrafica2,total)
 
   this.flagevent2=false
   let datosGrafica1:any=[]
@@ -1343,7 +1352,9 @@ resetVarGraf2(){
   ////////////////////Segunda Grafica comparativa//////////////////
 filtroGraEve2_2(){
   this.segundaGrafica_2()
-  if(this.selectPais3_2!='Corona Total')this.datosGrafica2_2=this.contTotal(this.datosGrafica2_2,this.selectedDivisionResumen3_2)
+  let total:string=(this.selectPais3_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen3_2
+  if((this.selectPais3_2=='Corona Total' && (!this.selectedDivisionResumen3_2 || this.selectedDivisionResumen3_2.length==0))|| (this.selectPais3_2!='Corona Total' && (!this.LocalidadSelect3_2 || this.LocalidadSelect3_2.length==0)))
+  this.datosGrafica2_2=this.contTotal(this.datosGrafica2_2,total)
 
   this.flagevent2_2=false
   let datosGrafica1:any=[]
@@ -1659,7 +1670,9 @@ filtroGraEve3(){
   let datosGrafica1:any=[]
 
   if(this.selectEv3.length==0 && this.selectDiv3.length>0){
-    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    let total:string=(this.selectPais4=='Corona Total')?'Corona Total':this.selectedDivisionResumen4
+    if((this.selectPais4=='Corona Total' && (!this.selectedDivisionResumen4 || this.selectedDivisionResumen4.length==0))|| (this.selectPais4!='Corona Total' && (!this.LocalidadSelect4 || this.LocalidadSelect4.length==0)))
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,total)
     this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
     this.datosGrafica3Top=this.top(this.datosGrafica3,5)
 
@@ -1676,7 +1689,9 @@ filtroGraEve3(){
   }
 
   if(this.selectDiv3.length>0 && this.selectEv3.length>0){
-    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    let total:string=(this.selectPais4=='Corona Total')?'Corona Total':this.selectedDivisionResumen4
+    if((this.selectPais4=='Corona Total' && (!this.selectedDivisionResumen4 || this.selectedDivisionResumen4.length==0))|| (this.selectPais4!='Corona Total' && (!this.LocalidadSelect4 || this.LocalidadSelect4.length==0)))
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,total)
     this.selectDiv3.forEach(resp1=>{
       let x=this.datosGrafica3.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -1710,7 +1725,9 @@ filtroGraEve3(){
 
   if(this.selectEv3.length>0 && this.selectDiv3.length==0){
     datosGrafica1=[]
-    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    let total:string=(this.selectPais4=='Corona Total')?'Corona Total':this.selectedDivisionResumen4
+    if((this.selectPais4=='Corona Total' && (!this.selectedDivisionResumen4 || this.selectedDivisionResumen4.length==0))|| (this.selectPais4!='Corona Total' && (!this.LocalidadSelect4 || this.LocalidadSelect4.length==0)))
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,total)
     this.datosGrafica3.forEach((element:any) => {
       let randomEv1CopySeries=[]
 
@@ -1731,7 +1748,9 @@ filtroGraEve3(){
   }
 
   if(this.selectEv3.length==0 && this.selectDiv3.length==0){
-    if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+    let total:string=(this.selectPais4=='Corona Total')?'Corona Total':this.selectedDivisionResumen4
+    if((this.selectPais4=='Corona Total' && (!this.selectedDivisionResumen4 || this.selectedDivisionResumen4.length==0))|| (this.selectPais4!='Corona Total' && (!this.LocalidadSelect4 || this.LocalidadSelect4.length==0)))
+    this.datosGrafica3=this.contTotal(this.datosGrafica3,total)
     this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
     this.datosGrafica3Top=this.top(this.datosGrafica3,5)
   }
@@ -1822,7 +1841,9 @@ DatosGrafica3(){
     if(this.radioGra3==2 && element.emptemporal==null)this.ContDatosGraf3(element)
   });
   this.terceraGrafica()
-  if(this.selectPais4!='Corona Total')this.datosGrafica3=this.contTotal(this.datosGrafica3,this.selectedDivisionResumen4)
+  let total:string=(this.selectPais4=='Corona Total')?'Corona Total':this.selectedDivisionResumen4
+  if((this.selectPais4=='Corona Total' && (!this.selectedDivisionResumen4 || this.selectedDivisionResumen4.length==0))|| (this.selectPais4!='Corona Total' && (!this.LocalidadSelect4 || this.LocalidadSelect4.length==0)))
+  this.datosGrafica3=this.contTotal(this.datosGrafica3,total)
   this.datosGrafica3=this.organizarDatosMayorMenor(this.datosGrafica3)
   this.datosGrafica3Top=this.top(this.datosGrafica3,5)
 
@@ -1885,7 +1906,9 @@ filtroGraEve3_2(){
   let datosGrafica1:any=[]
 
   if(this.selectEv3_2.length==0 && this.selectDiv3_2.length>0){
-    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    let total:string=(this.selectPais4_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen4_2
+    if((this.selectPais4_2=='Corona Total' && (!this.selectedDivisionResumen4_2 || this.selectedDivisionResumen4_2.length==0))|| (this.selectPais4_2!='Corona Total' && (!this.LocalidadSelect4_2 || this.LocalidadSelect4_2.length==0)))
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,total)
     this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
     this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
 
@@ -1902,7 +1925,9 @@ filtroGraEve3_2(){
   }
 
   if(this.selectDiv3_2.length>0 && this.selectEv3_2.length>0){
-    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    let total:string=(this.selectPais4_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen4_2
+    if((this.selectPais4_2=='Corona Total' && (!this.selectedDivisionResumen4_2 || this.selectedDivisionResumen4_2.length==0))|| (this.selectPais4_2!='Corona Total' && (!this.LocalidadSelect4_2 || this.LocalidadSelect4_2.length==0)))
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,total)
     this.selectDiv3_2.forEach(resp1=>{
       let x=this.datosGrafica3_2.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -1936,7 +1961,9 @@ filtroGraEve3_2(){
 
   if(this.selectEv3_2.length>0 && this.selectDiv3_2.length==0){
     datosGrafica1=[]
-    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    let total:string=(this.selectPais4_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen4_2
+    if((this.selectPais4_2=='Corona Total' && (!this.selectedDivisionResumen4_2 || this.selectedDivisionResumen4_2.length==0))|| (this.selectPais4_2!='Corona Total' && (!this.LocalidadSelect4_2 || this.LocalidadSelect4_2.length==0)))
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,total)
     this.datosGrafica3_2.forEach((element:any) => {
       let randomEv1CopySeries=[]
 
@@ -1957,7 +1984,9 @@ filtroGraEve3_2(){
   }
 
   if(this.selectEv3_2.length==0 && this.selectDiv3_2.length==0){
-    if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+    let total:string=(this.selectPais4_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen4_2
+    if((this.selectPais4_2=='Corona Total' && (!this.selectedDivisionResumen4_2 || this.selectedDivisionResumen4_2.length==0))|| (this.selectPais4_2!='Corona Total' && (!this.LocalidadSelect4_2 || this.LocalidadSelect4_2.length==0)))
+    this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,total)
     this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
     this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
   }
@@ -2049,7 +2078,9 @@ DatosGrafica3_2(){
     if(this.radioGra3_2==2 && element.emptemporal==null)this.ContDatosGraf3_2(element)
   });
   this.terceraGrafica_2()
-  if(this.selectPais4_2!='Corona Total')this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,this.selectedDivisionResumen4_2)
+  let total:string=(this.selectPais4_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen4_2
+  if((this.selectPais4_2=='Corona Total' && (!this.selectedDivisionResumen4_2 || this.selectedDivisionResumen4_2.length==0))|| (this.selectPais4_2!='Corona Total' && (!this.LocalidadSelect4_2 || this.LocalidadSelect4_2.length==0)))
+  this.datosGrafica3_2=this.contTotal(this.datosGrafica3_2,total)
   this.datosGrafica3_2=this.organizarDatosMayorMenor(this.datosGrafica3_2)
   this.datosGrafica3Top_2=this.top(this.datosGrafica3_2,5)
 
@@ -2114,7 +2145,9 @@ filtroGraEve4(){
 
   if(this.selectEv4.length==0 && this.selectDiv4.length>0){
     // this.datosGrafica4=this.contTotal(this.datosGrafica4)
-    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    let total:string=(this.selectPais5=='Corona Total')?'Corona Total':this.selectedDivisionResumen5
+    if((this.selectPais5=='Corona Total' && (!this.selectedDivisionResumen5 || this.selectedDivisionResumen5.length==0))|| (this.selectPais5!='Corona Total' && (!this.LocalidadSelect5 || this.LocalidadSelect5.length==0)))
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,total)
     this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
     this.datosGrafica4Top=this.top(this.datosGrafica4,5)
 
@@ -2130,7 +2163,9 @@ filtroGraEve4(){
   }
 
   if(this.selectDiv4.length>0 && this.selectEv4.length>0){
-    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    let total:string=(this.selectPais5=='Corona Total')?'Corona Total':this.selectedDivisionResumen5
+    if((this.selectPais5=='Corona Total' && (!this.selectedDivisionResumen5 || this.selectedDivisionResumen5.length==0))|| (this.selectPais5!='Corona Total' && (!this.LocalidadSelect5 || this.LocalidadSelect5.length==0)))
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,total)
     this.selectDiv4.forEach(resp1=>{
       let x=this.datosGrafica4.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2162,7 +2197,9 @@ filtroGraEve4(){
   }
 
   if(this.selectEv4.length>0 && this.selectDiv4.length==0){
-    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    let total:string=(this.selectPais5=='Corona Total')?'Corona Total':this.selectedDivisionResumen5
+    if((this.selectPais5=='Corona Total' && (!this.selectedDivisionResumen5 || this.selectedDivisionResumen5.length==0))|| (this.selectPais5!='Corona Total' && (!this.LocalidadSelect5 || this.LocalidadSelect5.length==0)))
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,total)
     datosGrafica1=[]
     this.datosGrafica4.forEach((element:any) => {
       let randomEv1CopySeries=[]
@@ -2185,7 +2222,9 @@ filtroGraEve4(){
   }
 
   if(this.selectEv4.length==0 && this.selectDiv4.length==0){
-    if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+    let total:string=(this.selectPais5=='Corona Total')?'Corona Total':this.selectedDivisionResumen5
+    if((this.selectPais5=='Corona Total' && (!this.selectedDivisionResumen5 || this.selectedDivisionResumen5.length==0))|| (this.selectPais5!='Corona Total' && (!this.LocalidadSelect5 || this.LocalidadSelect5.length==0)))
+    this.datosGrafica4=this.contTotal(this.datosGrafica4,total)
     this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
     this.datosGrafica4Top=this.top(this.datosGrafica4,5)
   }
@@ -2250,7 +2289,9 @@ DatosGrafica4(){
   });
 
   this.graf4top5()
-  if(this.selectPais5!='Corona Total')this.datosGrafica4=this.contTotal(this.datosGrafica4,this.selectedDivisionResumen5)
+  let total:string=(this.selectPais5=='Corona Total')?'Corona Total':this.selectedDivisionResumen5
+  if((this.selectPais5=='Corona Total' && (!this.selectedDivisionResumen5 || this.selectedDivisionResumen5.length==0))|| (this.selectPais5!='Corona Total' && (!this.LocalidadSelect5 || this.LocalidadSelect5.length==0)))
+  this.datosGrafica4=this.contTotal(this.datosGrafica4,total)
   this.datosGrafica4=this.organizarDatosMayorMenor(this.datosGrafica4)
 
   this.datosGrafica4Top=this.top(this.datosGrafica4,5)
@@ -2532,7 +2573,9 @@ filtroGraEve4_2(){
   let datosGrafica1:any=[]
 
   if(this.selectEv4_2.length==0 && this.selectDiv4_2.length>0){
-    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    let total:string=(this.selectPais5_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen5_2
+    if((this.selectPais5_2=='Corona Total' && (!this.selectedDivisionResumen5_2 || this.selectedDivisionResumen5_2.length==0))|| (this.selectPais5_2!='Corona Total' && (!this.LocalidadSelect5_2 || this.LocalidadSelect5_2.length==0)))
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,total)
     this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
     this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
 
@@ -2548,7 +2591,9 @@ filtroGraEve4_2(){
   }
 
   if(this.selectDiv4_2.length>0 && this.selectEv4_2.length>0){
-    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    let total:string=(this.selectPais5_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen5_2
+    if((this.selectPais5_2=='Corona Total' && (!this.selectedDivisionResumen5_2 || this.selectedDivisionResumen5_2.length==0))|| (this.selectPais5_2!='Corona Total' && (!this.LocalidadSelect5_2 || this.LocalidadSelect5_2.length==0)))
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,total)
     this.selectDiv4_2.forEach(resp1=>{
       let x=this.datosGrafica4_2.filter((resp:any)=>{
         return resp.name ==resp1.name
@@ -2580,7 +2625,9 @@ filtroGraEve4_2(){
   }
 
   if(this.selectEv4_2.length>0 && this.selectDiv4_2.length==0){
-    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    let total:string=(this.selectPais5_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen5_2
+    if((this.selectPais5_2=='Corona Total' && (!this.selectedDivisionResumen5_2 || this.selectedDivisionResumen5_2.length==0))|| (this.selectPais5_2!='Corona Total' && (!this.LocalidadSelect5_2 || this.LocalidadSelect5_2.length==0)))
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,total)
     datosGrafica1=[]
     this.datosGrafica4_2.forEach((element:any) => {
       let randomEv1CopySeries=[]
@@ -2603,7 +2650,9 @@ filtroGraEve4_2(){
   }
 
   if(this.selectEv4_2.length==0 && this.selectDiv4_2.length==0){
-    if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+    let total:string=(this.selectPais5_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen5_2
+    if((this.selectPais5_2=='Corona Total' && (!this.selectedDivisionResumen5_2 || this.selectedDivisionResumen5_2.length==0))|| (this.selectPais5_2!='Corona Total' && (!this.LocalidadSelect5_2 || this.LocalidadSelect5_2.length==0)))
+    this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,total)
     this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
     this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
   }
@@ -2668,7 +2717,9 @@ DatosGrafica4_2(){
   });
 
   this.graf4top5_2()
-  if(this.selectPais5_2!='Corona Total')this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,this.selectedDivisionResumen5_2)
+  let total:string=(this.selectPais5_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen5_2
+  if((this.selectPais5_2=='Corona Total' && (!this.selectedDivisionResumen5_2 || this.selectedDivisionResumen5_2.length==0))|| (this.selectPais5_2!='Corona Total' && (!this.LocalidadSelect5_2 || this.LocalidadSelect5_2.length==0)))
+  this.datosGrafica4_2=this.contTotal(this.datosGrafica4_2,total)
   this.datosGrafica4_2=this.organizarDatosMayorMenor(this.datosGrafica4_2)
 
   this.datosGrafica4Top_2=this.top(this.datosGrafica4_2,5)
@@ -3091,8 +3142,9 @@ if(this.date9 && this.date10){
     if(this.radioGra5==2 && element.emptemporal==null)this.ContDatosGraf5(element)
   });
   this.quintaGrafica()
-
-  if(this.selectPais6!='Corona Total')this.datosGrafica5=this.contTotal(this.datosGrafica5,this.selectedDivisionResumen6)
+  let total:string=(this.selectPais6=='Corona Total')?'Corona Total':this.selectedDivisionResumen6
+  if((this.selectPais6=='Corona Total' && (!this.selectedDivisionResumen6 || this.selectedDivisionResumen6.length==0))|| (this.selectPais6!='Corona Total' && (!this.LocalidadSelect6 || this.LocalidadSelect6.length==0)))
+  this.datosGrafica5=this.contTotal(this.datosGrafica5,total)
   this.datosGrafica5=this.organizarDatosMayorMenor(this.datosGrafica5)
   this.datosGrafica5Top=this.top(this.datosGrafica5,5)
 }
@@ -3280,8 +3332,9 @@ if(this.date9_2 && this.date10_2){
     if(this.radioGra5_2==2 && element.emptemporal==null)this.ContDatosGraf5_2(element)
   });
   this.quintaGrafica_2()
-
-  if(this.selectPais6_2!='Corona Total')this.datosGrafica5_2=this.contTotal(this.datosGrafica5_2,this.selectedDivisionResumen6_2)
+  let total:string=(this.selectPais6_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen6_2
+  if((this.selectPais6_2=='Corona Total' && (!this.selectedDivisionResumen6_2 || this.selectedDivisionResumen6_2.length==0))|| (this.selectPais6_2!='Corona Total' && (!this.LocalidadSelect6_2 || this.LocalidadSelect6_2.length==0)))
+  this.datosGrafica5_2=this.contTotal(this.datosGrafica5_2,total)
   this.datosGrafica5_2=this.organizarDatosMayorMenor(this.datosGrafica5_2)
   this.datosGrafica5Top_2=this.top(this.datosGrafica5_2,5)
 }
@@ -3513,7 +3566,9 @@ DatosGrafica6(){
   });
 
   this.sextaGrafica()
-  if(this.selectPais7!='Corona Total')this.datosGrafica6=this.contTotal(this.datosGrafica6,this.selectedDivisionResumen7)
+  let total:string=(this.selectPais7=='Corona Total')?'Corona Total':this.selectedDivisionResumen7
+  if((this.selectPais7=='Corona Total' && (!this.selectedDivisionResumen7 || this.selectedDivisionResumen7.length==0))|| (this.selectPais7!='Corona Total' && (!this.LocalidadSelect7 || this.LocalidadSelect7.length==0)))
+  this.datosGrafica6=this.contTotal(this.datosGrafica6,total)
   this.datosGrafica6=this.organizarDatosMayorMenor(this.datosGrafica6)
 
   this.datosGrafica6Top=this.top(this.datosGrafica6,5)
@@ -3739,7 +3794,9 @@ DatosGrafica6_2(){
   });
 
   this.sextaGrafica_2()
-  if(this.selectPais7_2!='Corona Total')this.datosGrafica6_2=this.contTotal(this.datosGrafica6_2,this.selectedDivisionResumen7_2)
+  let total:string=(this.selectPais7_2=='Corona Total')?'Corona Total':this.selectedDivisionResumen7_2
+  if((this.selectPais7_2=='Corona Total' && (!this.selectedDivisionResumen7_2 || this.selectedDivisionResumen7_2.length==0))|| (this.selectPais7_2!='Corona Total' && (!this.LocalidadSelect7_2 || this.LocalidadSelect7_2.length==0)))
+  this.datosGrafica6_2=this.contTotal(this.datosGrafica6_2,total)
   this.datosGrafica6_2=this.organizarDatosMayorMenor(this.datosGrafica6_2)
 
   this.datosGrafica6Top_2=this.top(this.datosGrafica6_2,5)

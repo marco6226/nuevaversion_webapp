@@ -1007,8 +1007,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   //Eventos At
   reiniciarVariableFechaEventosAt(filter?: string){
-    this.filtroFechaAt![0]=new Date(new Date().getFullYear(), 0, 1)
-    this.filtroFechaAt![1]=new Date()
+    // this.filtroFechaAt![0]=new Date(new Date().getFullYear(), 0, 1)
+    // this.filtroFechaAt![1]=new Date()
     this.getEventosAt(filter)
     this.selectRangoEventosAt(this.filtroFechaAt![1], 'hasta')
   } 
@@ -1125,8 +1125,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   //Dias perdidos
   reiniciarVariableFechaDiasPerdidos(filter?: string){
-    this.filtroFechaDiasPerdidos[0]=new Date(new Date().getFullYear(), 0, 1)
-    this.filtroFechaDiasPerdidos[1]=new Date()
+    // this.filtroFechaDiasPerdidos[0]=new Date(new Date().getFullYear(), 0, 1)
+    // this.filtroFechaDiasPerdidos[1]=new Date()
     this.getDiasPerdidosAt(filter)
     this.selectRangoDiasPerdidosAt(this.filtroFechaDiasPerdidos[1], 'hasta')
   }
