@@ -712,10 +712,10 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
 
   async getData(){
     await this.getDivision()
-    this.filtroFechaAt![0]=this.fechaInicioResumen!
-    this.filtroFechaAt![1]=(this.fechaFinalResumen)!
-    this.filtroFechaDiasPerdidos[0]=this.fechaInicioResumen!
-    this.filtroFechaDiasPerdidos[1]=(this.fechaFinalResumen)!
+    this.filtroFechaAt![0]=new Date(new Date().getFullYear(), 0, 1)
+    this.filtroFechaAt![1]=new Date();
+    this.filtroFechaDiasPerdidos[0]=new Date(new Date().getFullYear(), 0, 1)
+    this.filtroFechaDiasPerdidos[1]=new Date();
     let areafiltQuery = new FilterQuery();
       areafiltQuery.sortOrder = SortOrder.ASC;
       areafiltQuery.sortField = "nombre";
@@ -2113,22 +2113,13 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
           };
 
           res.data.forEach((elem:any) => {
-            // let data: DataHht = <DataHht>JSON.parse(elem.valor).Data;
             let trabajadoresPorArea = 0;
-            
-            // if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
+
             if(this.PlantaSelect5_2){
               if(this.PlantaSelect5_2.length>0){
                 this.PlantaSelect5_2.forEach((pl:any) => {
                   if(elem.mes === mes.label){
                     if(pl==elem.planta_nombre)trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
-
-                    // data.Areas!.forEach((dataArea, indexArea) => {
-                    //   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
-                    //   if (div.nombre === this.filtroDivisionesTasa_2) {
-                    //     trabajadoresPorArea += dataArea.NumPersonasArea!;
-                    //   }
-                    // });
                   }
               });
               
@@ -2136,49 +2127,29 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               }else {
                 if(elem.mes === mes.label){
                   trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
-                  // data.Areas!.forEach(area => {
-                  //   trabajadoresPorArea += area.NumPersonasArea != null ? area.NumPersonasArea : 0;
-                  // });
                 }
                 trabajadoresTotales2 += trabajadoresPorArea;
               }
             } else {
               if(elem.mes === mes.label){
                 trabajadoresPorArea += elem.numeroPersonas ? elem.numeroPersonas:0
-                // data.Areas!.forEach(area => {
-                //   trabajadoresPorArea += area.NumPersonasArea != null ? area.NumPersonasArea : 0;
-                // });
               }
               trabajadoresTotales2 += trabajadoresPorArea;
             }
           });
           let totalTrabajadoresTemp = 0;
           hhtTemp.forEach((hht, index) => {
-            // let data: DataHht = <DataHht>JSON.parse(hht.valor!).Data;//revisar
 
             let trabajadoresTemPorArea = 0;
 
-            // if(this.filtroDivisionesTasa_2 && this.filtroDivisionesTasa_2 !== 'Corona total'){
             if(this.PlantaSelect5_2){
               if(this.PlantaSelect5_2.length>0){
               this.PlantaSelect5_2.forEach((pl:any) => {
                 if(hht.mes === mes.label){
                   if(pl==hht.planta_nombre)totalTrabajadoresTemp += hht.numeroPersonas ? hht.numeroPersonas:0
 
-                  // data.Areas!.forEach((dataArea, indexArea) => {
-                  //   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
-                  //   if (div.nombre === this.filtroDivisionesTasa_2) {
-                  //     trabajadoresPorArea += dataArea.NumPersonasArea!;
-                  //   }
-                  // });
                 }
               });
-              // data.Areas!.forEach((dataArea, index) => {
-              //   let div = this.divisionesCoronaConId.find(div => div.id == dataArea.id);
-              //   if(div.nombre === this.filtroDivisionesTasa_2){
-              //     trabajadoresTemPorArea += dataArea.NumPersonasArea!;
-              //   }
-              // });
               totalTrabajadoresTemp += trabajadoresTemPorArea;}
               else {
                 if(hht.mes == mes.label){
@@ -2224,7 +2195,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
         
         localStorage.setItem('tasaFrecuencia2_2', JSON.stringify(tasaFrecuencia2_2));
         Object.assign(this, {tasaFrecuencia2_2});
-        this.filtroTasas_2();
+        this.filtroTasas_2_2();
         this.tasasNotFound2_2 = false;
       }else{
         this.tasasNotFound2_2 = true;
@@ -4763,7 +4734,7 @@ optionsMeta_2meses: any = {
 // meta
   // Septimo.5 grafco eventos meses
   async getEventosMeta_2(){
-    if(this.selectedDivisionResumen12){
+    if(this.selectPais12){
       let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_1meses);
       // let dataEventos2: any[] = [];
       //nuevo
@@ -4961,7 +4932,7 @@ optionsMeta_2meses: any = {
   // meta
   // Comparativo Septimo.5 grafco eventos meses
   async getEventosMeta_2_2(){
-    if(this.selectedDivisionResumen12_2){
+    if(this.selectPais12_2){
       let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.selectedAnioMeta_1meses_2);
       // let dataEventos2: any[] = [];
       //nuevo
@@ -5917,7 +5888,7 @@ optionsMeta_2meses: any = {
 
 
   async getTasas_2Meses(filter?: string){
-    if(this.selectedDivisionResumen13){
+    if(this.selectPais13){
 
       let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_2meses);
 
@@ -6181,7 +6152,7 @@ optionsMeta_2meses: any = {
 
 
   async getTasas_2Meses_2(filter?: string){
-    if(this.selectedDivisionResumen13_2){
+    if(this.selectPais13_2){
 
       let reportesAt: any[] = JSON.parse(localStorage.getItem('reportesAt')!).filter((at:any) => new Date(at.fechaReporte).getFullYear() === this.filtroAnioTasa_2meses_2);
 
@@ -6621,12 +6592,14 @@ optionsMeta_2meses: any = {
         this.PlantaSelect12=null
         this.plantasList12=[]
         if(pais)this.divisionList12=await this.getPlantas(pais.value)
+        this.getEventosMeta_2()
         break;
       case 'meta1_2meses':
         this.selectedDivisionResumen12_2=null
         this.PlantaSelect12_2=null
         this.plantasList12_2=[]
         if(pais)this.divisionList12_2=await this.getPlantas(pais.value)
+        this.getEventosMeta_2_2()
         break;
       case 'meta2':
         this.selectedDivisionResumen11=null
@@ -6647,12 +6620,14 @@ optionsMeta_2meses: any = {
         this.PlantaSelect13=null
         this.plantasList13=[]
         if(pais)this.divisionList13=await this.getPlantas(pais.value)
+        this.getTasas_2Meses('filtro')
         break;
       case 'meta2_2meses':
         this.selectedDivisionResumen13_2=null
         this.PlantaSelect13_2=null
         this.plantasList13_2=[]
         if(pais)this.divisionList13_2=await this.getPlantas(pais.value)
+        this.getTasas_2Meses_2('filtro')
         break;
       default:
         break;
