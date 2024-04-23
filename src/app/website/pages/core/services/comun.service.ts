@@ -58,6 +58,22 @@ export class ComunService {
         });
     }
 
+    findAllJuntas() {
+        return new Promise(resolve => {
+            this.httpInt.get(endPoints.com_JuntaRegional)
+                .subscribe(
+                    (res: unknown) => {
+                        resolve(res);
+                    }
+                    ,
+                    err => this.manageError(err)
+                )
+                map(res => res)
+        });
+    }
+
+    
+
     findAllPrepagadas() {
         return new Promise(resolve => {
             this.httpInt.get(endPoints.com_prepagadas)
