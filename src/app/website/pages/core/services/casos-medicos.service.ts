@@ -143,14 +143,25 @@ export class CasosMedicosService {
         return this.http.get<any[]>(`${endPoints.scm}tratamiento/${documento}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
-    //pcl
-    createPcl(pcl: any): any {
-        return this.http.post<[]>(`${endPoints.scm}pcl/`, pcl, this.getRequestHeaders(this.headers)).toPromise();
+    //PCL
+
+    createPcl(pcl: any, diags:any[]): any {
+        return this.http.post<[]>(`${endPoints.scm}pcl/`, {pcl, diags}, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     getListPcl(pkcase: string | number): any {
         return this.http.get<[]>(`${endPoints.scm}pcl/${pkcase}`, this.getRequestHeaders(this.headers)).toPromise();
     }
+
+    // listPclAllDiags(pkcase: string | number): any {
+    //     return this.http.get<any[]>(`${endPoints.scm}pclAllDiags/${pkcase}`, this.getRequestHeaders(this.headers)).toPromise();
+    // }
+
+    listPclAllDiags(pkcase: string | number, pclid: string | number): any {
+         return this.http.get<any[]>(`${endPoints.scm}pclAllDiags/${pkcase}/${pclid}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+
+  
 
     updatePcl(Pcl: any) {
         return this.http.put(`${endPoints.scm}pcl/`, Pcl, this.getRequestHeaders(this.headers)).toPromise();

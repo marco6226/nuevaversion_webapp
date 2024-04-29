@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter,
-    Input, KeyValueDiffers, OnInit, Output } from '@angular/core';
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter,
+    Input, KeyValueDiffers, OnInit, Output
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { locale_es } from '../../../comun/entities/reporte-enumeraciones';
@@ -8,6 +10,7 @@ import { ConfirmService } from '../../../core/services/confirm.service';
 import { SesionService } from '../../../core/services/session.service';
 import { epsorarl } from '../../entities/eps-or-arl';
 import { PrimeNGConfig } from 'primeng/api';
+import { pclDiagnostico } from '../../../empresa/entities/pcl-diagnostico';
 
 @Component({
     selector: 'app-pcl',
@@ -27,8 +30,12 @@ export class PclComponent implements OnInit {
     @Output() dlistaPCL: EventEmitter<any> = new EventEmitter();
     action: boolean = false;
     loadingForm: boolean = false;
+    modalDialog: boolean = false;
     loading: boolean = false;
+    editing: boolean = false;
     pclSelect: any;
+    pclSelect2: any;
+
     esConsulta: boolean = false;
     pclCalificacionList: SelectItem[] = [
         { label: "--Seleccione--", value: null },
@@ -48,6 +55,13 @@ export class PclComponent implements OnInit {
     modalDianostico: boolean = false;
     pclForm: FormGroup;
     estado!: string;
+    respuestaDelServidor: any[] | undefined;
+    modalVisible: boolean = false;
+    pclSeleccionada: any;
+    pclListDiag: any[]=[];
+    listOneDiag:any[]=[];
+
+
 
     constructor(fb: FormBuilder,
         private scmService: CasosMedicosService,
@@ -56,13 +70,14 @@ export class PclComponent implements OnInit {
         private confirmService: ConfirmService,
         private sesionService: SesionService,
         private messageService: MessageService,
-        private config: PrimeNGConfig
+        private config: PrimeNGConfig,
+
     ) {
         this.differ = differs.find({}).create();
 
         this.pclForm = fb.group({
             id: '',
-            diag: [null, /*Validators.required*/],
+            diag: [[], /*Validators.required*/],
             porcentajePcl: [null, /*Validators.required*/],
             pcl: [null, /*Validators.required*/],
             emisionPclFecha: [null, /*Validators.required*/],
@@ -81,21 +96,40 @@ export class PclComponent implements OnInit {
 
     async ngOnInit() {
         this.config.setTranslation(this.localeES);
-        this.idEmpresa =this.sesionService.getEmpresa()?.id!;
+        this.idEmpresa = this.sesionService.getEmpresa()?.id!;
         this.createOrigenList()
         this.loadDiagnostics();
         await this.iniciarPcl();
         this.dlistaPCL.emit(this.pclList);
-        this.esConsulta = JSON.parse(localStorage.getItem('scmShowCase')!) == true ? true: false;
+        this.esConsulta = JSON.parse(localStorage.getItem('scmShowCase')!) == true ? true : false;
+      
+        
+        // Agrupar las PCL por id en un objeto auxiliar
+        let pclUniqueMap = new Map<string, any>();
+        this.pclList.forEach(pcl => {
+            if (!pclUniqueMap.has(pcl.id)) {
+                // Si es la primera vez que se encuentra este id, se agrega directamente
+                pclUniqueMap.set(pcl.id, { ...pcl, diag: new Set(pcl.diag) });
+            } else {
+                // Si ya existe el id, se agregan los nuevos diagnósticos al Set existente
+                const existingPcl = pclUniqueMap.get(pcl.id);
+                pcl.diag.forEach((d: any) => existingPcl.diag.add(d));
+            }
+        });
+        // Convertir el Set de diagnósticos de cada PCL en un array antes de guardar
+        this.pclList = Array.from(pclUniqueMap.values()).map(pcl => ({ ...pcl, diag: Array.from(pcl.diag) }));
+        await this.iniciarPcl();
+        
     }
-    createOrigenList(){
-        if(this.idEmpresa=='22'){
+
+    createOrigenList() {
+        if (this.idEmpresa == '22') {
             this.origenList = [
                 { label: 'Seleccione', value: null },
                 { label: 'Común', value: 'Común' },
                 { label: 'Enfermedad Laboral', value: 'Enfermedad Laboral' },
             ];
-        }else{
+        } else {
             this.origenList = [
                 { label: 'Seleccione', value: null },
                 { label: 'Común', value: 'Común' },
@@ -152,17 +186,24 @@ export class PclComponent implements OnInit {
         this.loading = true;
         try {
             this.pclList = await this.scmService.getListPcl(this.pkCase);
+            //console.log(this.pclList);
 
             if (this.pclList) {
-                this.pclList.map(pcl => {
-                    pcl.diagnostic = this.diagList.filter(diag => diag.value === pcl.diag.toString())[0];
-                    pcl.pcl_o = (pcl.pcl !== null) ? this.pclOptionList.filter(pclF => pclF.value === pcl.pcl.toString())[0] : null;
-                    pcl.entidadEmitePcl_o = (pcl.entidadEmitePcl !== null) ? this.emitPclentity.filter(ent => ent.value === pcl.entidadEmitePcl.toString())[0] : null;
-                    pcl.origen_o = (pcl.origen !== null) ? this.origenList.filter((org: any) => org.value === pcl.origen.toString())[0] : null;
-                    pcl.statusDeCalificacion_o = (pcl.statusDeCalificacion !== null) ? this.pclCalificacionList.filter(cal => cal.value === pcl.statusDeCalificacion.toString())[0] : null;
+                let uniqueIds = new Set();
+                this.pclList = this.pclList.filter(pcl => {
+                    if (uniqueIds.has(pcl.id)) {
+                        return false;
+                    }
+                    uniqueIds.add(pcl.id);
+                    pcl.diagnostic = this.diagList.find(diag => diag.value === pcl.diag.toString());
+                    pcl.pcl_o = (pcl.pcl !== null) ? this.pclOptionList.find(pclF => pclF.value === pcl.pcl.toString()) : null;
+                    pcl.entidadEmitePcl_o = (pcl.entidadEmitePcl !== null) ? this.emitPclentity.find(ent => ent.value === pcl.entidadEmitePcl.toString()) : null;
+                    pcl.origen_o = (pcl.origen !== null) ? this.origenList.find((org: any) => org.value === pcl.origen.toString()) : null;
+                    pcl.statusDeCalificacion_o = (pcl.statusDeCalificacion !== null) ? this.pclCalificacionList.find(cal => cal.value === pcl.statusDeCalificacion.toString()) : null;
                     pcl.emisionPclFecha = pcl.emisionPclFecha == null ? null : new Date(pcl.emisionPclFecha);
                     pcl.fechaCalificacion = pcl.fechaCalificacion == null ? null : new Date(pcl.fechaCalificacion);
                     pcl.entidadEmitida = parseInt(pcl.entidadEmitida);
+                    return true;
                 });
             }
             this.loading = false;
@@ -177,8 +218,70 @@ export class PclComponent implements OnInit {
             this.loading = false;
             this.cd.markForCheck();
         }
-
     }
+
+    async consultarPcl() {
+
+        this.loading = true;
+        try {
+            const response: pclDiagnostico[] = await this.scmService.listPclAllDiags(this.pkCase, this.pclSelect.id);
+            this.pclListDiag = response;
+            console.log(response)
+            
+            this.listOneDiag=[this.pclListDiag[0]]
+           
+            
+            this.modalVisible = true;
+            
+            this.loading = false;
+            this.cd.markForCheck();
+        } catch (error) {
+            console.log(error);
+            
+            this.messageService.add({
+                key: 'pcl',
+                severity: "error",
+                summary: "Mensaje del sistema",
+                detail: "Ocurrió un error al cargar el listado de PCL"
+            });
+            this.loading = false;
+            this.cd.markForCheck();
+        }
+    }
+
+
+
+    getStatusLabel(status: string): string {
+        switch (status) {
+            case "1":
+                return 'En proceso';
+            case "2":
+                return 'En firme';
+            case "3":
+                return 'En apelación';
+            default:
+                return 'Desconocido';
+        }
+    }
+
+    getStatusLabelPCL(status: string): string {
+        switch (status) {
+            case "1":
+                return 'En Calificación';
+            case "2":
+                return 'En firme';
+            case "3":
+                return 'En apelación';
+            default:
+                return 'Desconocido';
+        }
+    }
+    
+    
+
+
+
+
 
     async deletePcl() {
         this.action = true;
@@ -186,7 +289,7 @@ export class PclComponent implements OnInit {
         this.pclForm.patchValue(this.pclSelect);
         try {
 
-            if (await this.confirmService.confirmPCL()){
+            if (await this.confirmService.confirmPCL()) {
                 let res = await this.scmService.deletePcl(this.pclForm.value);
 
                 if (res) {
@@ -203,18 +306,18 @@ export class PclComponent implements OnInit {
                     await this.iniciarPcl();
                     this.dlistaPCL.emit(this.pclList);
                 }
-               
-            }
-        else {
-            this.messageService.add({
-                key: 'pcl',
-                severity: "info",
-                summary: "Cancelado",
-                detail: "usted cancelo la eliminación"
-            });
-        }
 
-            
+            }
+            else {
+                this.messageService.add({
+                    key: 'pcl',
+                    severity: "info",
+                    summary: "Cancelado",
+                    detail: "usted cancelo la eliminación"
+                });
+            }
+
+
         } catch (error) {
             this.messageService.add({
                 key: 'pcl',
@@ -228,24 +331,30 @@ export class PclComponent implements OnInit {
     }
 
     editPcl() {
-        this.estado='edit'
-        this.modalDianostico = true;
-        this.pclForm.patchValue(this.pclSelect);
+        this.estado = 'edit';
+        this.modalDianostico = !this.editing; // Solo abre el modal si no estás editando
+        if (!this.editing) {
+            this.pclForm.patchValue(this.pclSelect);
+        }
     }
 
     async nuevoTratamiento() {
-        this.estado='crear'
+        this.editing = false;
+        this.estado = 'crear';
         this.modalDianostico = true;
         await this.iniciarPcl();
         this.dlistaPCL.emit(this.pclList);
     }
 
+
     showPcl() {
-        this.estado='consulta'
+        this.estado = 'consulta'
         this.action = true;
         this.modalDianostico = true;
         this.pclForm.patchValue(this.pclSelect);
+        console.log(this.pclForm.patchValue(this.pclSelect))
     }
+
 
     async resetDiags() {
         setTimeout(() => {
@@ -256,7 +365,7 @@ export class PclComponent implements OnInit {
     }
 
     async onSubmit(upd?: any) {
-        console.log('aquí')
+
         this.loadingForm = true;
         if (!this.pclForm.valid && !upd) {
             return this.markFormGroupTouched(this.pclForm);
@@ -265,9 +374,16 @@ export class PclComponent implements OnInit {
             let res: any;
             if (upd) {
                 res = await this.scmService.updatePcl(this.pclForm.value);
+                console.log(upd)
+                console.log(res)
             } else {
-                res = await this.scmService.createPcl(this.pclForm.value);
+                let pcl = this.pclForm.value;
+                let diags: any[] = pcl.diag.slice(); // Haciendo una copia de pcl.diag
+                delete pcl.diag;
+                diags = diags.map<number>(element => Number.parseInt(element))
+                res = await this.scmService.createPcl(this.pclForm.value, diags);
             }
+            console.log('Respuesta del servidor:', res); // Agregar este console.log
             if (res) {
                 this.messageService.add({
                     key: 'pcl',
@@ -282,8 +398,10 @@ export class PclComponent implements OnInit {
                 this.eventClose.emit();
                 this.resetDiags();
                 this.cd.markForCheck();
+                console.log(res)
             }
         } catch (error) {
+            console.log(error)
             this.messageService.add({
                 key: 'pcl',
                 severity: "error",
@@ -294,6 +412,7 @@ export class PclComponent implements OnInit {
             this.cd.markForCheck();
         }
     }
+
 
     onCancel() {
         this.modalDianostico = false;
