@@ -35,6 +35,7 @@ import { UsuarioEmpresa } from "src/app/website/pages/empresa/entities/usuario-e
 import { ParametroNavegacionService } from "src/app/website/pages/core/services/parametro-navegacion.service";
 import { Table } from 'primeng/table';
 import * as moment from "moment";
+import { SesionService } from "../../../core/services/session.service";
 const EXCEL_TYPE =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
 const EXCEL_EXTENSION = ".xlsx";
@@ -49,6 +50,7 @@ export class CargueDatosComponent implements OnInit {
   @ViewChild('dt', { static: false }) table?: Table;
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
+  idEmpresa:any = this.sesionService.getEmpresa()!.id;
   initLoading = false;
   msgs?: Message[];
   msgsCarga: Message[] = [];
@@ -108,7 +110,6 @@ export class CargueDatosComponent implements OnInit {
           { label: "E-Mail", nombre: "usuario.email" },
           { label: "Email de emergencia", nombre: "emailEmergencyContact" },
           { label: "Contacto de emergencia ", nombre: "emergencyContact" },
-          { label: "empresa", nombre: "empresa" },
           { label: "EPS", nombre: "eps", data: "epsData" }, // 17
           { label: "Fecha ingreso", nombre: "fechaIngreso" },
           { label: "Fecha nacimiento", nombre: "fechaNacimiento" },
@@ -117,7 +118,6 @@ export class CargueDatosComponent implements OnInit {
               nombre: "genero",
               opciones: this.defaultItem.concat(genero),
           },
-          { label: "NIT", nombre: "nit" },
           { label: "Número identificación", nombre: "numeroIdentificacion" },
           {
               label: "Perfil",
@@ -170,6 +170,7 @@ export class CargueDatosComponent implements OnInit {
     private perfilService: PerfilService,
     private areaService: AreaService,
     private ciudadService: CiudadService,
+    private sesionService: SesionService,
   ) { 
     let areafiltQuery = new FilterQuery();
         areafiltQuery.sortOrder = SortOrder.ASC;
@@ -224,6 +225,77 @@ export class CargueDatosComponent implements OnInit {
 
         response = await this.perfilService.findAll();
         this.perfilData = response.data;
+        setTimeout(() => {
+            if(this.idEmpresa == '22')this.modelo = {
+                EMPLEADO: [
+                    { label: "AFP", nombre: "afp", data: "afpData" }, // 18
+                    { label: "Área", nombre: "area", data: "areaData" }, //15
+                    { label: "Cargo", nombre: "cargo", data: "cargoData" }, // 16
+                    { label: "CCF", nombre: "ccf", data: "ccfData" }, // 19
+                    { label: "Ciudad", nombre: "ciudad", data: "ciudadData" }, // 20
+                    { label: "Codigo", nombre: "codigo" },
+                    { label: "Corporativo Cel", nombre: "corporativePhone" }, // 20
+                    { label: "Dirección", nombre: "direccion" },
+                    { label: "Dirección Gerencia", nombre: "direccionGerencia" },
+                    { label: "E-Mail", nombre: "usuario.email" },
+                    { label: "Email de emergencia", nombre: "emailEmergencyContact" },
+                    { label: "Contacto de emergencia ", nombre: "emergencyContact" },
+                    { label: "empresa", nombre: "empresa" },
+                    { label: "EPS", nombre: "eps", data: "epsData" }, // 17
+                    { label: "Fecha ingreso", nombre: "fechaIngreso" },
+                    { label: "Fecha nacimiento", nombre: "fechaNacimiento" },
+                    {
+                        label: "Genero",
+                        nombre: "genero",
+                        opciones: this.defaultItem.concat(genero),
+                    },
+                    { label: "NIT", nombre: "nit" },
+                    { label: "Número identificación", nombre: "numeroIdentificacion" },
+                    {
+                        label: "Perfil",
+                        nombre: "usuario.usuarioEmpresaList",
+                        data: "perfilData",
+                    }, // 22
+                    {
+                        label: "Numero de contacto emergencia",
+                        nombre: "phoneEmergencyContact",
+                    },
+                    
+                    { label: "Primer apellido", nombre: "primerApellido" },
+                    { label: "Primer nombre", nombre: "primerNombre" },
+                    { label: "Regional", nombre: "regional" },
+                    { label: "Segundo apellido", nombre: "segundoApellido" },
+                    { label: "Segundo nombre", nombre: "segundoNombre" },
+                    { label: "Teléfono 1", nombre: "telefono1" },
+                    { label: "Teléfono 2", nombre: "telefono2" },
+                    {
+                        label: "Tipo identificación",
+                        nombre: "tipoIdentificacion",
+                        opciones: this.defaultItem.concat(tipo_identificacion),
+                    },
+                    {
+                        label: "Tipo vinculación",
+                        nombre: "tipoVinculacion",
+                        opciones: this.defaultItem.concat(tipo_vinculacion),
+                    },
+                    {
+                        label: "Zona residencia",
+                        nombre: "zonaResidencia",
+                        opciones: this.defaultItem.concat(zona),
+                    },
+                ],
+                CARGO: [
+                    { label: "Nombre", nombre: "nombre" },
+                    { label: "Descripción", nombre: "descripcion" },
+                ],
+                AREA: [
+                    { label: "Nombre", nombre: "nombre" },
+                    { label: "Descripción", nombre: "descripcion" },
+                    { label: "Tipo de área", nombre: "descripcion" },
+                    { label: "Área padre", nombre: "descripcion" },
+                ],
+            };
+        }, 2000);
   }
 
   limpiar(){
@@ -236,38 +308,40 @@ export class CargueDatosComponent implements OnInit {
   
   async onArchivoSelect(ev:any) {
     this.initLoading = true;
-    this.fallidosArray = [];
-    setTimeout(() => {
-      // var XLSX = require("xlsx");
-    let workBook: XLSX.WorkBook;
+        this.fallidosArray = [];
+        setTimeout(() => {
+        let workBook:any = null;
+        let jsonData:any = null;
+        const reader = new FileReader();
+        const file = ev.target.files[0];
+        reader.onload = (event) => {
+            const data = reader.result;
+            workBook = XLSX.read(data, { type: "binary" });
+            jsonData = workBook.SheetNames.reduce((initial:any, name:any) => {
+                const sheet = workBook.Sheets[name];
+                
+                initial = XLSX.utils.sheet_to_json(sheet);
+                return initial;
+            }, {});
+            for (let i = 0; i < jsonData.length; i++) {
+                
+                console.log(jsonData[i])
+                const fechaIngreso = this.validarFecha(jsonData[i].fechaIngreso);
+                console.log(fechaIngreso)
 
-    let jsonData :{[index: string]:any} = {};
-    const reader = new FileReader();
-    const file = ev.target.files[0];
-    reader.onload = (event) => {
-        const data = reader.result;
-        workBook = XLSX.read(data, { type: "binary" });
-        jsonData[0] = workBook.SheetNames.reduce((initial, name) => {
-            const sheet = workBook?.Sheets[name]!;
-            initial = XLSX.utils.sheet_to_json(sheet);
-            return initial;
-        }, {});
+                const fechaNacimiento = this.validarFecha(jsonData[i].fechaNacimiento);
+                console.log(fechaIngreso)
 
-        if(jsonData){
-          for (let i = 0; i < jsonData[0].length; i++) {
-              const fechaIngreso = this.validarFecha(jsonData[i].fechaIngreso);
-              const fechaNacimiento = this.validarFecha(jsonData[i].fechaNacimiento);
-              jsonData[i].fechaIngreso = fechaIngreso;
-              jsonData[i].fechaNacimiento = fechaNacimiento;
-          }
-        }
+                    jsonData[i].fechaIngreso = fechaIngreso;
+                    jsonData[i].fechaNacimiento = fechaNacimiento;
+            }
 
-        this.workbookExcel = jsonData[0];
-        this.createEmployeArray(jsonData);
-        this.initLoading = false;
-    };
-    this.isCargado=true;        
-    reader.readAsBinaryString(file);
+            this.workbookExcel = jsonData;
+            this.createEmployeArray(jsonData);
+            this.initLoading = false;
+        };
+        this.isCargado=true;        
+        reader.readAsBinaryString(file);
     
   }, 2000); 
 
@@ -310,6 +384,7 @@ export class CargueDatosComponent implements OnInit {
   }
 
   validarFecha(date: Date) : Date{
+    console.log(date)
     const fechaAux:any = date;
     const fechaMod:Date = new Date( (fechaAux - (25568)) * 86400 * 1000 ) ;
     let fecha:any;
@@ -331,7 +406,7 @@ export class CargueDatosComponent implements OnInit {
 }
 
   splitDate(date:any): [Date,boolean] {
-    let real = date.split("/");
+    let real:any = date.split("/");
 
     if(real.length != 3 || real[0]>31 || real[1]>12 || real[0] <1){
         return [new Date(), false]

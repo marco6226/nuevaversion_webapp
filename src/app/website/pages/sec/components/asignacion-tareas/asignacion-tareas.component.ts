@@ -92,7 +92,6 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     // }
 
     this.filterService.register('btDate', (value: any, filter: any) => {
-      // console.log(value, filter);
       if (filter === undefined || filter === null) {
         return true;
       }
@@ -152,13 +151,14 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     await this.tareaService.findByDetails(this.arrayIdsareas).then(
         async (resp: any) => { 
             this.tareasList = resp;
+
             if(this.esAliado){
               let nit_aliado = this.sesionService.getEmpresa()?.nit;
+
               this.tareasList = this.tareasList.filter((tarea: any) => tarea.module === 'Inspecciones CC')
               .filter(tar => {
                 let aliado: string = tar.aliado;
-                aliado = aliado.split('-')[1];
-                // console.log(nit_aliado, aliado);
+                aliado = aliado.split('-').slice(-1)[0];
                 return aliado.trim() == nit_aliado ? tar : false;
               });
             }
@@ -170,6 +170,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
                   }
                     return 0;
                   });
+
             this.tareasList = await Promise.all(this.tareasList.map(async (tarea:any) => {
                 let status = await this.verifyStatus(tarea);
                 tarea.estado = statuses[status];
@@ -177,7 +178,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
                 tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
                 return tarea;
             }));
-            this.loading = false;            
+            this.loading = false;       
         }
 
     );

@@ -22,6 +22,7 @@ import { ConfirmService } from "../../../core/services/confirm.service";
 import { Afp } from "../../../comun/entities/afp";
 import { Eps } from "../../../comun/entities/eps";
 import { Arl } from "../../../comun/entities/arl";
+import { JuntaRegional} from "../../../comun/entities/juntaregional";
 import { Prepagadas } from "../../../comun/entities/prepagadas";
 import { Proveedor } from "../../../comun/entities/proveedor";
 import { FilterQuery } from "../../../core/entities/filter-query";
@@ -223,6 +224,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     tipoIdentificacionList: SelectItem[];
     tipoVinculacionList: SelectItem[];
     epsList!: SelectItem[];
+    JuntaRegionalList!: SelectItem[];
     arlList!: SelectItem[];
     afpList!: SelectItem[];
     prepagadasList!: SelectItem[];
@@ -540,6 +542,15 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
             });
             this.entity.EPS = this.epsList;
+        });
+        await this.comunService.findAllJuntas().then((data) => {
+            this.JuntaRegionalList = [];
+            this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
+            (<JuntaRegional[]>data).forEach((JuntaRegional) => {
+                this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
+
+            });
+            this.entity.Junta_Regional = this.JuntaRegionalList;
         });
 
         await this.comunService.findAllArl().then((data) => {

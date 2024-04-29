@@ -38,13 +38,13 @@
                             <div class="card l-bg-blue3-dark">
                                 <div style="text-align:left;">
                                     <ng-container *ngIf="!this.selectPais1"><h3>Meta ILI</h3></ng-container>
-                                    <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI pais</h3></ng-container>
+                                    <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI {{(this.selectPais1=='Corona Total')?'':' pais'}}</h3></ng-container>
                                     <ng-container *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"><h3>Meta ILI división</h3></ng-container>
                                     <ng-container *ngIf="this.PlantaSelect1"><h3>Meta ILI localidad</h3></ng-container>
                                 </div>
                                 <div style="text-align:right;">
                                     <span class="tamañotexto">{{metaIli || 0}}</span>
-                                    <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">Pais: {{metaPais || 0}}</span></ng-container>
+                                    <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">{{(this.selectPais1=='Corona Total')?'Corona total':' pais'}}: {{metaPais || 0}}</span></ng-container>
                                     <ng-container *ngIf="this.PlantaSelect1"><br><span class="tamañotexto2">División: {{metaDivision || 0}}</span></ng-container>
                                 </div>                                     
                             </div>
@@ -63,7 +63,7 @@
 
                   </div>
                   <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Localidad:</p> 
-                    <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione la planta" [options]="plantasList1"
+                    <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione la localidad" [options]="plantasList1"
                     [(ngModel)]="PlantaSelect1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="loadResumen()"></p-dropdown>
                   </div>
                   <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">

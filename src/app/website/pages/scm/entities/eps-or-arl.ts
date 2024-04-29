@@ -6,4 +6,5 @@ export class epsorarl {
     AFP?: SelectItem[] | null;
     Medicina_Prepagada?: SelectItem[] | null;
     Proveedor_de_salud?: SelectItem[] | null;
+    Junta_Regional?: SelectItem[] | null; // Agregar Junta Regional
 }
