@@ -167,6 +167,8 @@ export class MenuComponent implements OnInit, AfterContentInit {
                 [
                     { label: 'Creacion de seguimiento caso', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/creacion'], icon: 'bi bi-bag-plus'},
                     { label: 'Listado de seguimientos', codigo: 'SCM_LIST_CASE', routerLink: ['/app/scm/list'], icon: 'bi bi-card-list'},
+                    // { label: 'Creación salud laboral', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/saludlaboral'], icon: 'bi bi-heart-pulse'},
+                    // { label: 'Listado salud laboral', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/saludlaboral'], icon: 'bi bi-postcard-heart'},
                     { label: 'Permisos', codigo: 'SCM_PERF_SCM', routerLink: ['/app/scm/permisos'], icon: 'bi bi-lock'},
   
                 ]
@@ -287,6 +289,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
                     { label: 'Ind. casos medicos corporativo', codigo: 'IND_GET_SCM', routerLink: ['/app/ind/indcasosmedicos'], icon: 'bi bi-building-check' },
                     { label: 'Ind. casos medicos gestión', codigo: 'IND_GET_SCMGESTION', routerLink: ['/app/ind/indcasosmedicosgestion'], icon: 'bi bi-bounding-box' },
                     { label: 'Ind. caracterización', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indcaracterizacion'], icon: 'pi pi-list' },
+                    // { label: 'Ind. matriz peligros', codigo: 'IND_GET_CAR', routerLink: ['/app/ind/indmatrizpeligros'], icon: 'pi pi-chart-bar' },
                     { label: 'Metas', codigo: 'IND_GET_METAS', routerLink: ['/app/ind/metas'], icon: 'pi pi-chart-line' },
                 ]
         },

@@ -23,6 +23,8 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     @Output() eventClose = new EventEmitter<any>()
     @Output() closeModal = new EventEmitter<any>()
     @Input() diagSelect: any;
+    @Input() saludLaboralFlag: boolean=false;
+
     origenList: any;
     idEmpresa!: string | null;
     esConsulta:boolean = false;
@@ -32,6 +34,18 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     yearRange: string = "1900:" + this.fechaActual.getFullYear();
     usuario: Usuario | null = new Usuario();
     cieTipo: String = "";
+
+    parteAfectadaList:any= [
+        { label: 'Cuello', value: 'Cuello' },
+        { label: 'Hombro', value: 'Hombro' },
+        { label: 'Codo', value: 'Codo' },
+        { label: 'Manos', value: 'Manos' },
+        { label: 'Columna', value: 'Columna' },
+        { label: 'Cadera', value: 'Cadera' },
+        { label: 'Rodilla', value: 'Rodilla' },
+        { label: 'Pies', value: 'Pies' },
+
+    ];
 
     createOrigenList(){
         if(this.idEmpresa=='22'){
@@ -65,6 +79,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         this.usuario = this.sesionService.getUsuario();
         this.diagnosticoForm = fb.group({
             codigoCie10: [null, Validators.required],
+            parteAfectada:[null],
             diagnostico: [null, Validators.required],
             fechaDiagnostico: [null, Validators.required],
             sistemaAfectado: [null],

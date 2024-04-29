@@ -1463,8 +1463,7 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
               name: (flagCoronaTotal)?'Corona Total':this.selectedDivisionResumen4,
               series: []
             };
-            console.log(numMesesSelect)
-            console.log(totalesTrabajadores)
+    
             dataTotal.series.push({
               name: 'Tasa de Frecuencia',
               value: totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0
@@ -2834,7 +2833,6 @@ filtroTasas_2_2(){
     else this.filtroIli_1()
   }
   async getIli_1(){
-    console.log('a')
     this.divisionesCoronaIli1 = this.plantasList8.map((div:any) => {
       return  div.label;
     });
@@ -3053,7 +3051,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
   }
 
   async getIli_1Total(){
-    console.log('b')
 
     this.divisionesCoronaIli1 = this.divisionesCorona.map(div => {
       return  div;
@@ -3274,7 +3271,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
     else this.filtroIli_1_2()
   }
   async getIli_1_2(){
-    console.log('c')
 
     this.divisionesCoronaIli1_2 = this.plantasList8_2.map((div:any) => {
       return  div.label;
@@ -3486,7 +3482,6 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
   }
 
   async getIli_1Total_2(){
-    console.log('d')
 
     this.divisionesCoronaIli1_2 = this.divisionesCorona.map(div => {
       return  div;
@@ -5375,8 +5370,7 @@ optionsMeta_2meses: any = {
               default:
                 break;
             }
-console.log(numMesesSelect)
-console.log(totalesTrabajadores)
+
             dataTF.push(totalesTrabajadores>0?Number((reportesAt.length*100*numMesesSelect)/totalesTrabajadores):0)
             dataTS.push(totalesTrabajadores>0?Number((totalDiasPerdidos*100*numMesesSelect)/totalesTrabajadores):0)
             dataMetaTF.push((meta1)?((meta1[(flagCoronaTotal)?'tfAnual':'tfDivision'])?meta1[(flagCoronaTotal)?'tfAnual':'tfDivision']:0):0)

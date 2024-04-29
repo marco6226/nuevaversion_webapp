@@ -46,7 +46,6 @@ export class EmpleadoService extends CRUDService<Empleado>{
     let body = JSON.stringify(list);
     return new Promise(resolve => {
       this.httpInt.put(this.end_point + "loadAll", body)
-        .map((res: any) => res)
         .subscribe(
           (res: unknown) => {
             resolve(res);

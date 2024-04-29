@@ -220,6 +220,8 @@ import { ProgramacionEventoComponent } from './pages/comun/components/programaci
 import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matriz-peligros/lista-matriz-peligros.component';
 import { GridModule, EditService } from '@syncfusion/ej2-angular-grids';
 import { MetasComponent } from './pages/ind/components/metas/metas.component';
+import { SaludLaboralComponent } from './pages/scm/components/salud-laboral/salud-laboral.component';
+import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-peligros/ind-matriz-peligros.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -338,6 +340,7 @@ import { MetasComponent } from './pages/ind/components/metas/metas.component';
     DiagnosticoFormComponent,
     CieSelectorComponent,
     FormularioScmComponent,
+    SaludLaboralComponent,
     ReintegroComponent,
     ReintegroListComponent,
     LogmodalComponent,
@@ -364,6 +367,7 @@ import { MetasComponent } from './pages/ind/components/metas/metas.component';
     FormularioConstructorComponent,
     IdleTimeoutComponent,
     IndCaracterizacionComponent,
+    IndMatrizPeligrosComponent,
     IndCasosMedicosComponent,
     IndCasosMedicosGestionComponent,
     SeguimientosTareasComponent,
