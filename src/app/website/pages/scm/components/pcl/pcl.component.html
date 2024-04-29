@@ -402,8 +402,26 @@
                     [readonly]="action"
                   >
                   </p-dropdown>
+                  
                 </div>
+                
               </div>
+              <ng-container *ngIf="estado == 'edit'">
+                <div class="col" *sTienePermiso="'SCM_PUT_OBSPCL'">
+                  <div class="input-field">
+                    <label for="" class="active"
+                      >Observaciones o diagnósticos calificados</label
+                    >
+                    <textarea
+                      class="textarea-material"
+                      rows="3"
+                      pInputTextarea
+                      formControlName="observaciones"
+                      [readonly]="action"
+                    ></textarea>
+                  </div>
+                </div>
+              </ng-container>
 
               <ng-container *ngIf="estado == 'crear'">
                 <div class="col" *sTienePermiso="'SCM_POST_OBSPCL'">
@@ -526,22 +544,7 @@
                 </div>
               </div>
 
-              <ng-container *ngIf="estado == 'edit'">
-                <div class="col" *sTienePermiso="'SCM_PUT_OBSPCL'">
-                  <div class="input-field">
-                    <label for="" class="active"
-                      >Observaciones o diagnósticos calificados</label
-                    >
-                    <textarea
-                      class="textarea-material"
-                      rows="3"
-                      pInputTextarea
-                      formControlName="observaciones"
-                      [readonly]="action"
-                    ></textarea>
-                  </div>
-                </div>
-              </ng-container>
+             
             </div>
           </div>
         </ng-container>
