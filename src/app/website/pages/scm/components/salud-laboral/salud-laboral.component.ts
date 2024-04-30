@@ -22,6 +22,11 @@ import { epsorarl } from '../../entities/eps-or-arl';
 import { Prepagadas } from '../../../comun/entities/prepagadas';
 import { ConfirmService } from '../../../core/services/confirm.service';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { AreaService } from '../../../empresa/services/area.service';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
+import { CargoActual } from '../../../empresa/entities/cargo-actual';
+import { CargoActualService } from '../../../empresa/services/cargoActual.service';
 
 
 
@@ -82,6 +87,7 @@ prepagadasList!: SelectItem[];
 provsaludList!: SelectItem[];
 sveOptionList: SelectItem[] = [];
 cargoList!: SelectItem[];
+cargoActualList!: SelectItem[];
 perfilList: SelectItem[] = [];
 
 empleado!: Empleado;
@@ -238,6 +244,11 @@ responsable16:string=''
 dialogRechazoFlag:boolean=false
 dialogTrazabilidadFlag:boolean=false
 flagDoc:boolean=false
+flagDialogCargoActual:boolean=false
+cargoActual:string=''
+
+
+
 
   async ngOnInit() {
     let primerNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerNombre?this.sesionService.getEmpleado()!.primerNombre:''):''
@@ -322,6 +333,8 @@ flagDoc:boolean=false
                     this.buildPerfilesIdList();
                 }, 500);
         });
+        this.getArea()
+        this.getCargoActual()
   }
   constructor(
     private empleadoService: EmpleadoService,
@@ -330,7 +343,11 @@ flagDoc:boolean=false
     private perfilService: PerfilService,
     private comunService: ComunService,
     private cargoService: CargoService,
+    private cargoActualService: CargoActualService,
     private config: PrimeNGConfig,
+    private areaService: AreaService,
+    private areaMatrizService: AreaMatrizService,
+    private procesoMatrizService: ProcesoMatrizService,
     private messageService: MessageService,
     private confirmService: ConfirmService,
 
@@ -407,6 +424,81 @@ flagDoc:boolean=false
       direccionGerencia: [{ value: "", disabled: true }]
 
     });
+  }
+  listDivision:any=[]
+  async getArea(){
+    let filterAreaQuery = new FilterQuery();
+    filterAreaQuery.sortField = "id";
+    filterAreaQuery.sortOrder = -1;
+    filterAreaQuery.fieldList = ["id","nombre"];
+    filterAreaQuery.filterList = [
+      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+    ];
+
+    await this.areaService.findByFilter(filterAreaQuery).then((resp:any)=>{
+      resp.data.forEach((resp2:any) => {
+        this.listDivision.push({label:resp2.nombre,value:resp2.id})
+      });
+    })
+  }
+
+  localidadesList:any=[]
+  localidadesListActual:any=[]
+  async cargarPlantaLocalidad(eve:any,tipo:string){
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id","localidad"];
+    filterPlantaQuery.filterList = [
+      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
+    ];
+    let localidadesList:any=[]
+    await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp:any)=>{
+      resp.data.forEach((element:any) => {
+        localidadesList.push({label:element.localidad,value:element.id})
+      });
+    })
+    if(tipo=='Origen')this.localidadesList=[...localidadesList]
+    else this.localidadesListActual=[...localidadesList]
+  }
+  areaList:any
+  areaListActual:any
+  async cargarArea(eve:any,tipo:string){
+    let filterArea = new FilterQuery();
+    filterArea.fieldList= [
+      'id',
+      'nombre'
+    ];
+    filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve},
+      { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
+    let areaList:any=[]
+    await this.areaMatrizService.findByFilter(filterArea).then(async (resp:any)=>{
+      resp.data.forEach((element:any) => {
+        areaList.push({label:element.nombre,id:element.ID})
+      });
+    })
+    if(tipo=='Origen')this.areaList=[...areaList]
+    else this.areaListActual=[...areaList]
+  }
+
+  procesoList:any
+  procesoListActual:any
+  async cargarProceso(eve:any,tipo:string){
+    let filterProceso = new FilterQuery();
+    filterProceso.fieldList= [
+        'id',
+        'nombre'
+      ];
+    filterProceso.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1:eve},
+    { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
+    let procesoList:any=[]
+    await this.procesoMatrizService.findByFilter().then(async (resp:any)=>{
+      resp.data.forEach((element:any) => {
+        procesoList.push({label:element.nombre,id:element.id})
+      });
+    })
+    if(tipo=='Origen')this.procesoList=[...procesoList]
+    else this.procesoListActual=[...procesoList]
   }
 
   buscarEmpleado(event: any) {
@@ -586,21 +678,20 @@ onSelectionJefeInmediato(event: any) {
     this.empleadoForm.patchValue({ division: this.division })
   }
 
-  localidadesList:any
-  async listadoLocalidades(event:any){
-    let filterLocalidad = new FilterQuery();
-    filterLocalidad.fieldList = [
-        'id',
-        'localidad'
-    ];
-    filterLocalidad.filterList = [{ field: 'plantas.area.padreNombre', criteria: Criteria.EQUALS, value1: event}];
-    this.localidadesList=[]
-    await this.empresaService.getLocalidadesRWithFilter(filterLocalidad).then((ele:any)=>{
-        for(let loc of ele.data){
-          this.localidadesList.push({label:loc.localidad,value:loc.id})
-      }
-    }).catch((er:any)=>console.error(er))
-  }
+  // async listadoLocalidades(event:any){
+  //   let filterLocalidad = new FilterQuery();
+  //   filterLocalidad.fieldList = [
+  //       'id',
+  //       'localidad'
+  //   ];
+  //   filterLocalidad.filterList = [{ field: 'plantas.area.padreNombre', criteria: Criteria.EQUALS, value1: event}];
+  //   this.localidadesList=[]
+  //   await this.empresaService.getLocalidadesRWithFilter(filterLocalidad).then((ele:any)=>{
+  //       for(let loc of ele.data){
+  //         this.localidadesList.push({label:loc.localidad,value:loc.id})
+  //     }
+  //   }).catch((er:any)=>console.error(er))
+  // }
 
   flagSaludLaboralRegistro:boolean=false
   modalDianostico = false;
@@ -708,7 +799,31 @@ flagUpload16:boolean=false
         break;
     }
   }
+  crearCargoActual(){
+    let cargo = new CargoActual()
+    cargo.nombre=this.cargoActual.toUpperCase();
+    this.cargoActualService.create(cargo).then((resp:any)=>{
+      console.log(resp)
+      this.cargoActualList.push({label:resp.nombre,value:resp.id})
+    }).catch(er=>console.log(er))
+    this.flagDialogCargoActual=false
+    this.cargoActual='' 
+  }
 
+  getCargoActual(){
+    let cargoActualfiltQuery = new FilterQuery();
+    cargoActualfiltQuery.sortOrder = SortOrder.ASC;
+    cargoActualfiltQuery.sortField = "nombre";
+    cargoActualfiltQuery.fieldList = ["id", "nombre"];
+    cargoActualfiltQuery.filterList=[]
+    cargoActualfiltQuery.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: this.empresa?.id?.toString()});
+    this.cargoActualService.getcargoRWithFilter(cargoActualfiltQuery).then((resp:any)=>{
+      this.cargoActualList=[]
+      resp.data.forEach((ele:any) => {
+        this.cargoActualList.push({label:ele.nombre,value:ele.id})
+      });
+    })
+  }
 }
 interface empresaNit{
   label: string;

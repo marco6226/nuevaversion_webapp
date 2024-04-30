@@ -98,14 +98,15 @@
                                     <div class="grid">
                                         <div class="col-8">
                                             <p-dropdown  [filter]="true"
-                                            [options]="cargoList"
+                                            [options]="cargoActualList"
+                                            placeholder="Seleccione cargo"
                                             class="select-material" styleClass="select-material">
                                         </p-dropdown> 
                                         </div>
                                         <div class="col-4">
                                             <button pButton type="button"
                                                 icon="bi bi-plus"
-                                                class="p-button-raised p-button-primary margin-right" title="Crear oficio actual"></button>
+                                                class="p-button-raised p-button-primary margin-right" title="Crear oficio actual" (click)="flagDialogCargoActual=true"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -118,18 +119,17 @@
                         <div class="col">
                             <div>
                                 <label for="" class="active">División origen</label>
-                                <area-selector (onDivision)="areaChange($event);listadoLocalidades($event)"
-                                    formControlName="area"
-                                    [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
-                                </area-selector>
+                                <p-dropdown  required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body"  (onChange)="cargarPlantaLocalidad($event.value,'Origen')"></p-dropdown>
                             </div>
                         </div>
                         <div class="col">
                             <div>
                                 <label for="" class="active">Localidad origen</label>
                                 <p-dropdown  [filter]="true" 
-                                            [options]="localidadesList" formControlName="localidad"
-                                            class="select-material" styleClass="select-material">
+                                            [options]="localidadesList" 
+                                            class="select-material" styleClass="select-material"
+                                            placeholder="Seleccione localidad"
+                                            (onChange)="cargarArea($event.value,'Origen')">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -138,10 +138,8 @@
                                 <label for="" class="active">Área origen</label>
                             </div>
                             <div>
-                                <p-dropdown  [filter]="true" 
-                                [options]="localidadesList" formControlName="localidad"
-                                class="select-material" styleClass="select-material">
-                                </p-dropdown>
+                                <p-dropdown  required [filter]="true" placeholder="Seleccione una área"[options]="areaList" appendTo="body" (onChange)="cargarProceso($event.value,'Origen')" ></p-dropdown>
+
                             </div>
                         </div>
                         <div class="col">
@@ -150,10 +148,8 @@
                                     <label for="" class="active">Proceso origen</label>
                                 </div>
                                 <div>
-                                    <p-dropdown  [filter]="true" 
-                                    [options]="localidadesList" formControlName="localidad"
-                                    class="select-material" styleClass="select-material">
-                                    </p-dropdown>
+                                    <p-dropdown  required [filter]="true" placeholder="Seleccione una proceso"[options]="procesoList" appendTo="body"  ></p-dropdown>
+
                                 </div>
                             </div>
                         </div>
@@ -162,18 +158,18 @@
                         <div class="col">
                             <div>
                                 <label for="" class="active">División actual</label>
-                                <area-selector (onDivision)="areaChange($event);listadoLocalidades($event)"
-                                    formControlName="area"
-                                    [name]="this.empleadoSelect ? this.empleadoSelect.area.nombre:''" required>
-                                </area-selector>
+                                <p-dropdown  required [filter]="true" placeholder="Seleccione una división"[options]="listDivision" appendTo="body"  (onChange)="cargarPlantaLocalidad($event.value,'Actual')"></p-dropdown>
+
                             </div>
                         </div>
                         <div class="col">
                             <div>
                                 <label for="" class="active">Localidad actual</label>
                                 <p-dropdown  [filter]="true" 
-                                            [options]="localidadesList" formControlName="localidad"
-                                            class="select-material" styleClass="select-material">
+                                            [options]="localidadesListActual" 
+                                            class="select-material" styleClass="select-material"
+                                            placeholder="Seleccione localidad"
+                                            (onChange)="cargarArea($event.value,'Actual')">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -182,10 +178,8 @@
                                 <label for="" class="active">Área actual</label>
                             </div>
                             <div>
-                                <p-dropdown  [filter]="true" 
-                                [options]="localidadesList" formControlName="localidad"
-                                class="select-material" styleClass="select-material">
-                                </p-dropdown>
+                                <p-dropdown  required [filter]="true" placeholder="Seleccione una área"[options]="areaListActual" appendTo="body" (onChange)="cargarProceso($event.value,'Actual')" ></p-dropdown>
+
                             </div>
                         </div>
                         <div class="col">
@@ -194,10 +188,8 @@
                                     <label for="" class="active">Proceso actual</label>
                                 </div>
                                 <div>
-                                    <p-dropdown  [filter]="true" 
-                                    [options]="localidadesList" formControlName="localidad"
-                                    class="select-material" styleClass="select-material">
-                                    </p-dropdown>
+                                    <p-dropdown  required [filter]="true" placeholder="Seleccione una proceso"[options]="procesoListActual" appendTo="body"  ></p-dropdown>
+
                                 </div>
                             </div>
                         </div>
@@ -2169,6 +2161,31 @@
             <button  pButton type="button"
                 icon="bi bi-x" label="Cerrar" class="p-button-danger margin-left margin-right"
                 (click)="dialogTrazabilidadFlag=false"
+                ></button>
+        </div>
+    </div>
+
+</p-dialog>
+
+<p-dialog [header]="'Crear cargo actual'" [(visible)]="flagDialogCargoActual"
+    [modal]="true" [closable]="true" [draggable]="false" [resizable]="false" [responsive]="true"
+    [style]="{width: '50vw'}">
+
+    <div class="grid">
+        <div class="col-12">
+            <h1>Nombre del cargo actual nuevo</h1>
+        </div>
+        <div class="col-12">
+            <input type="text" id="nomvbreCargo" class="form-control" pInputText [(ngModel)]="cargoActual">
+        </div>
+        <div class="col-12" style="display:flex">
+            <button  pButton type="button"
+                icon="bi bi-pencil" label="Crear" class="p-button-info margin-left margin-right"
+                (click)="crearCargoActual();"
+                ></button>
+            <button  pButton type="button"
+                icon="bi bi-x" label="Cerrar" class="p-button-danger margin-left margin-right"
+                (click)="flagDialogCargoActual=false;cargoActual=''"
                 ></button>
         </div>
     </div>
