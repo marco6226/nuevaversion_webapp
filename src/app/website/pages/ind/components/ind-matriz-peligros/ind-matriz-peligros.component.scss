@@ -218,7 +218,8 @@
     margin-bottom: 30px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
-    padding: 5% 3% 5% 3%;
+    padding: 5% 3% 2% 3%;
+    height: 4.2cm;
   }
   
   .card .card-block {
@@ -284,7 +285,10 @@ color: #fff;
   }
   
   .tamañotexto {
-  font-size: 40px;
+  font-size: 25px;
+  }
+  .tamañotexto2 {
+  font-size: 15px;
   }
   
   ::ng-deep .col-4 {

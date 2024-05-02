@@ -16,4 +16,5 @@ export interface viewscm{
     recomendaciones:number;
     planAccion:number;
     sve:string;
+    proximoSeguimiento: Date;
 }

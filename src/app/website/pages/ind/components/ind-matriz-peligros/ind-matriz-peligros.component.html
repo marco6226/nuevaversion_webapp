@@ -1,80 +1,374 @@
 <div style="margin-left: 3px;">
-    <p-panel header="Clasificación eventos">
+    <p-panel header="Resumen de riesgos por divisiones">
     <div class="grid colorsitos colorfondo">
         <div class="col-12 ">
             <div class="grid ">
                 <div class="col-12 md:col-6 lg:col-3">
                     <div class="card color1">
-                        <div  style="text-align:left;">
-                            <h3>Almacenes Corona</h3>
+                        <div  style="text-align:left;" class="tamañotexto">
+                            <span>Almacenes Corona</span>
                         </div>
-                        <!-- <div  style="text-align:right;">
-                            <span class="tamañotexto">{{this.ContLeve}}</span>
-                        </div> -->
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo:40%</span><br>
+                            <span>Medio: 20%</span><br>
+                            <span>Alto: 40%</span>
+                        </div>  
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-3">
                     <div class="card color2">
-                        <div  style="text-align:left;">
-                            <h3>Bathrooms and kitchen</h3>
+                        <div  style="text-align:left;" class="tamañotexto">
+                            <span>Bathrooms and kitchen</span>
                         </div>
-                        <!-- <div  style="text-align:right;">
-                            <span class="tamañotexto">{{this.ContGrave}}</span>
-                        </div> -->
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo:40%</span><br>
+                            <span>Medio: 20%</span><br>
+                            <span>Alto: 40%</span>
+                        </div>  
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-3">
                     <div class="card color3">
-                        <div  style="text-align:left;">
-                            <h3>Comercial Corona</h3>
+                        <div  style="text-align:left;" class="tamañotexto">
+                            <span>Comercial Corona</span>
                         </div>
-                        <!-- <div  style="text-align:right;">
-                            <span class="tamañotexto">{{this.ContSevero}}</span>
-                        </div>                                      -->
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo:40%</span><br>
+                            <span>Medio: 20%</span><br>
+                            <span>Alto: 40%</span>
+                        </div>                                      
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-3">
                     <div class="card color4">
-                        <div  style="text-align:left;">
-                            <h3>Funciones transversales</h3>
+                        <div  style="text-align:left;" class="tamañotexto">
+                            <span>Funciones transversales</span>
                         </div>
-                        <!-- <div  style="text-align:right;">
-                            <span class="tamañotexto">{{this.ContMortal}}</span>
-                        </div>                                      -->
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo:40%</span><br>
+                            <span>Medio: 20%</span><br>
+                            <span>Alto: 40%</span>
+                        </div>  
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-3">
                     <div class="card color5">
-                        <div  style="text-align:left;">
-                            <h3>Insumos industriales y energias</h3>
+                        <div  style="text-align:left;" class="tamañotexto">
+                            <span>Insumos industriales y energias</span>
                         </div>
-                        <!-- <div  style="text-align:right;">
-                            <span class="tamañotexto">{{this.ContMortal}}</span>
-                        </div>                                      -->
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo:40%</span><br>
+                            <span>Medio: 20%</span><br>
+                            <span>Alto: 40%</span>
+                        </div>                                      
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-3">
                     <div class="card color6">
-                        <div  style="text-align:left;">
-                            <h3>Mesa servida</h3>
+                        <div  style="text-align:left;" class="tamañotexto">
+                            <span>Mesa servida</span>
                         </div>
-                        <!-- <div  style="text-align:right;">
-                            <span class="tamañotexto">{{this.ContMortal}}</span>
-                        </div>                                      -->
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo:40%</span><br>
+                            <span>Medio: 20%</span><br>
+                            <span>Alto: 40%</span>
+                        </div>                                    
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-3">
                     <div class="card color7">
-                        <div  style="text-align:left;">
-                            <h3>Superficies, materiales y pinturas</h3>
+                        <div  style="text-align:left;" class="tamañotexto">
+                            <span>Superficies, materiales y pinturas</span>
                         </div>
-                        <!-- <div  style="text-align:right;">
-                            <span class="tamañotexto">{{this.ContMortal}}</span>
-                        </div>                                      -->
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo:40%</span><br>
+                            <span>Medio: 20%</span><br>
+                            <span>Alto: 40%</span>
+                        </div>                                      
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </p-panel>
+    <br>
+    <p-panel header="Analisis riesgo">
+        <div class="colorfondo">
+          <div class="grid">
+          <!-- Primera grafica -->
+            <div class="col-11">
+              <!-- <p><b>
+                <ng-container *ngIf="selectFiltro1.length>0">
+                    <ng-container *ngFor="let ret of selectFiltro1;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret.label}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="selectFiltro1.length==0">
+                    <ng-container *ngFor="let ret of filtro1;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret.label}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+              </b></p> -->
+              &nbsp;
+            </div>
+            <div class="col-1">
+              &nbsp;
+            </div>
+    
+            <div class="col-12 align-items-center">
+              <p-radioButton name="group12" [(ngModel)]="radioGra1" [value]="0"   [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Total</label>
+              <p-radioButton name="group12" [(ngModel)]="radioGra1" [value]="1"  [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Temporales</label>
+              <p-radioButton name="group12" [(ngModel)]="radioGra1" [value]="2"  [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+              <div class="col-11 grafic">
+                  <!-- <ngx-charts-bar-vertical-2d 
+                  [scheme]="colorScheme2"
+                  [animations]="false"
+                  [results]="tasaFrecuencia1"
+                  [gradient]="gradient"
+                  [xAxis]="showXAxis"
+                  [yAxis]="showYAxis"
+                  [legend]="false"
+                  [showXAxisLabel]="showXAxisLabel"
+                  [showYAxisLabel]="true"
+                  [xAxisLabel]="(selectPais4=='Corona Total')?'Divisiones':'Localidades'"
+                  [yAxisLabel]="'Indicadores'"
+                  [barPadding]=0
+                  [groupPadding]=4
+                  [showDataLabel]="true"
+                  [tooltipDisabled]="false">
+                  </ngx-charts-bar-vertical-2d> -->
+              </div>
+              <div class="col-1">&nbsp;</div>
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+              <h3>Año</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+              [(ngModel)]="selectAnio1"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+              <h3>Meses</h3>
+              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
+              
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+              <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais1" 
+                placeholder="Seleccionar país">
+                </p-dropdown>
+              <h3>Division</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList1" [(ngModel)]="selecteDivision1" defaultLabel="Seleccionar división">
+                </p-multiSelect>
+                <!-- <h3>Filtro indicadores</h3>
+                <div *ngFor="let filtro of filtro1" class="p-field-checkbox">
+                  <p-checkbox name="group2" value="Indicador" [value]="filtro"
+                  [(ngModel)]="selectFiltro1" [inputId]="filtro.value"
+                  ></p-checkbox>
+                  <label>{{filtro.label}}</label>
+                </div> -->
+            </div>
+          </div>
+        </div>
+        <hr/>
+    </p-panel>
+    <br>
+    <p-panel header="Riesgo">
+        <div class="colorfondo">
+          <div class="grid">
+          <!-- Primera grafica -->
+            <div class="col-11">
+              <p><b>
+                <ng-container *ngIf="selectFiltro2.length>0">
+                    <ng-container *ngFor="let ret of selectFiltro2;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret.label}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="selectFiltro2.length==0">
+                    <ng-container *ngFor="let ret of filtro2;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret.label}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+              </b></p>
+            </div>
+            <div class="col-1">
+              &nbsp;
+            </div>
+    
+            <div class="col-12 align-items-center">
+              <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="0"   [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Total</label>
+              <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="1"  [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Temporales</label>
+              <p-radioButton name="group12" [(ngModel)]="radioGra2" [value]="2"  [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+              <div class="col-11 grafic">
+                  <!-- <ngx-charts-bar-vertical-2d 
+                  [scheme]="colorScheme2"
+                  [animations]="false"
+                  [results]="tasaFrecuencia1"
+                  [gradient]="gradient"
+                  [xAxis]="showXAxis"
+                  [yAxis]="showYAxis"
+                  [legend]="false"
+                  [showXAxisLabel]="showXAxisLabel"
+                  [showYAxisLabel]="true"
+                  [xAxisLabel]="(selectPais4=='Corona Total')?'Divisiones':'Localidades'"
+                  [yAxisLabel]="'Indicadores'"
+                  [barPadding]=0
+                  [groupPadding]=4
+                  [showDataLabel]="true"
+                  [tooltipDisabled]="false">
+                  </ngx-charts-bar-vertical-2d> -->
+              </div>
+              <div class="col-1">&nbsp;</div>
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+              <h3>Año</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+              [(ngModel)]="selectAnio2"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+              <h3>Meses</h3>
+              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
+              
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+              <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais2" 
+                placeholder="Seleccionar país">
+                </p-dropdown>
+              <h3>Division</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList2" [(ngModel)]="selecteDivision2" defaultLabel="Seleccionar división">
+                </p-multiSelect>
+                <h3>Filtro indicadores</h3>
+                <div *ngFor="let filtro of filtro2" class="p-field-checkbox">
+                  <p-checkbox name="group2" value="Indicador" [value]="filtro"
+                  [(ngModel)]="selectFiltro2" [inputId]="filtro.value"
+                  ></p-checkbox>
+                  <label>{{filtro.label}}</label>
+                </div>
+            </div>
+          </div>
+        </div>
+        <hr/>
+    </p-panel>
+    <br>
+    <p-panel header="Plan de acción">
+        <div class="colorfondo">
+          <div class="grid">
+          <!-- Primera grafica -->
+            <div class="col-11">
+              <p><b>
+                <ng-container *ngIf="selectFiltro3.length>0">
+                    <ng-container *ngFor="let ret of selectFiltro3;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret.label}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="selectFiltro3.length==0">
+                    <ng-container *ngFor="let ret of filtro3;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret.label}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+              </b></p>
+            </div>
+            <div class="col-1">
+              &nbsp;
+            </div>
+    
+            <div class="col-12 align-items-center">
+              <p-radioButton name="group12" [(ngModel)]="radioGra3" [value]="0"   [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Total</label>
+              <p-radioButton name="group12" [(ngModel)]="radioGra3" [value]="1"  [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Temporales</label>
+              <p-radioButton name="group12" [(ngModel)]="radioGra3" [value]="2"  [style]="{'margin-left':'15px'}"></p-radioButton>
+              <label for="">Directos</label>
+            </div>
+    
+            <div  class="col-8 grid">
+              <div class="col-11 grafic">
+                  <!-- <ngx-charts-bar-vertical-2d 
+                  [scheme]="colorScheme2"
+                  [animations]="false"
+                  [results]="tasaFrecuencia1"
+                  [gradient]="gradient"
+                  [xAxis]="showXAxis"
+                  [yAxis]="showYAxis"
+                  [legend]="false"
+                  [showXAxisLabel]="showXAxisLabel"
+                  [showYAxisLabel]="true"
+                  [xAxisLabel]="(selectPais4=='Corona Total')?'Divisiones':'Localidades'"
+                  [yAxisLabel]="'Indicadores'"
+                  [barPadding]=0
+                  [groupPadding]=4
+                  [showDataLabel]="true"
+                  [tooltipDisabled]="false">
+                  </ngx-charts-bar-vertical-2d> -->
+              </div>
+              <div class="col-1">&nbsp;</div>
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+              <h3>Año</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+              [(ngModel)]="selectAnio3"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+              <h3>Meses</h3>
+              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
+              
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+              <h3>País</h3>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais3" 
+                placeholder="Seleccionar país">
+                </p-dropdown>
+              <h3>Division</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList3" [(ngModel)]="selecteDivision3" defaultLabel="Seleccionar división">
+                </p-multiSelect>
+                <h3>Filtro indicadores</h3>
+                <div *ngFor="let filtro of filtro3" class="p-field-checkbox">
+                  <p-checkbox name="group2" value="Indicador" [value]="filtro"
+                  [(ngModel)]="selectFiltro3" [inputId]="filtro.value"
+                  ></p-checkbox>
+                  <label>{{filtro.label}}</label>
+                </div>
+            </div>
+          </div>
+        </div>
+        <hr/>
     </p-panel>
 </div>
