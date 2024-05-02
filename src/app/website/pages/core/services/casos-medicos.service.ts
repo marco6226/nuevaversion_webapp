@@ -1,5 +1,5 @@
 import { Reintegro, ReintegroCreate } from '../../scm/entities/reintegro.interface';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { SesionService } from './session.service';
 import { endPoints } from 'src/environments/environment';
@@ -103,7 +103,7 @@ export class CasosMedicosService {
         return this.http.post(`${endPoints.scm}seguimiento/`, seg, this.getRequestHeaders(this.headers)).toPromise();
 
     }
-    
+
     createSeguimientogenerico(seg: any) {
         return this.http.post(`${endPoints.scm}seguimiento/`, seg, this.getRequestHeaders(this.headers)).toPromise();
     }
@@ -161,7 +161,23 @@ export class CasosMedicosService {
          return this.http.get<any[]>(`${endPoints.scm}pclAllDiags/${pkcase}/${pclid}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
-  
+     enviarCorreos(emails: string[]){
+         let body = JSON.stringify(emails);
+         return this.http.get<any[]>(`${endPoints.scm}sendmail/${emails}`, this.getRequestHeaders(this.headers)).toPromise();
+     }
+//     enviarCorreos(emails: string[]) {
+//     const params = new HttpParams().set('emails', emails.join(','));
+//     return this.http.get<any[]>(`${endPoints.scm}sendmail`, { params, headers: this.getRequestHeaders(this.headers) }).toPromise();
+// }
+
+
+    sendCorreos(emails: string[]) {
+        const params = new HttpParams().set('emails', emails.join(','));
+        return this.http.get<any[]>(`${endPoints.scm}sendmail`, { params, headers: this.getRequestHeaders(this.headers) }).toPromise();
+      }
+
+
+
 
     updatePcl(Pcl: any) {
         return this.http.put(`${endPoints.scm}pcl/`, Pcl, this.getRequestHeaders(this.headers)).toPromise();

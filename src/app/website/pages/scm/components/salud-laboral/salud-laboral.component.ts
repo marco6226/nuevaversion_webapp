@@ -27,6 +27,9 @@ import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 import { CargoActual } from '../../../empresa/entities/cargo-actual';
 import { CargoActualService } from '../../../empresa/services/cargoActual.service';
+import { Usuario } from '../../../empresa/entities/usuario';
+import { CasosMedicosService } from '../../../core/services/casos-medicos.service';
+import { MessageModule } from 'primeng/message';
 
 
 
@@ -91,6 +94,7 @@ cargoActualList!: SelectItem[];
 perfilList: SelectItem[] = [];
 
 empleado!: Empleado;
+correos: any[] = [];
 
 
 
@@ -350,12 +354,14 @@ cargoActual:string=''
     private procesoMatrizService: ProcesoMatrizService,
     private messageService: MessageService,
     private confirmService: ConfirmService,
+    private casoMedico: CasosMedicosService,
 
     fb: FormBuilder,
   ){
     this.empresa = this.sesionService.getEmpresa();
     let defaultItem = <SelectItem[]>[{ label: "--seleccione--", value: null }];
     this.tipoIdentificacionList = defaultItem.concat(<SelectItem[]>tipo_identificacion);
+    this.fechaActual.setFullYear(this.fechaActual.getFullYear() + 1);
 
     this.empleadoForm = fb.group({
       'id': [null],
@@ -745,60 +751,81 @@ flagUpload14:boolean=false
 flagUpload15:boolean=false
 flagUpload16:boolean=false
 
+
   selectResonsable(eve:any,key:string){
     switch (key) {
       case 'res1':
-        this.responsable1=eve.numeroIdentificacion
+        this.responsable1=eve.usuario.email
         break;
       case 'res2':
-        this.responsable2=eve.numeroIdentificacion
+        this.responsable2=eve.usuario.email
         break;
       case 'res3':
-        this.responsable3=eve.numeroIdentificacion
+        this.responsable3=eve.usuario.email
         break;
       case 'res4':
-        this.responsable4=eve.numeroIdentificacion
+        this.responsable4=eve.usuario.email
         break;
       case 'res5':
-        this.responsable5=eve.numeroIdentificacion
+        this.responsable5=eve.usuario.email
         break;
       case 'res6':
-        this.responsable6=eve.numeroIdentificacion
+        this.responsable6=eve.usuario.email
         break;
       case 'res7':
-        this.responsable7=eve.numeroIdentificacion
+        this.responsable7=eve.usuario.email
         break;
       case 'res8':
-        this.responsable8=eve.numeroIdentificacion
+        this.responsable8=eve.usuario.email
         break;
       case 'res9':
-        this.responsable9=eve.numeroIdentificacion
+        this.responsable9=eve.usuario.email
         break;
       case 'res10':
-        this.responsable10=eve.numeroIdentificacion
+        this.responsable10=eve.usuario.email
         break;
       case 'res11':
-        this.responsable11=eve.numeroIdentificacion
+        this.responsable11=eve.usuario.email
         break;
       case 'res12':
-        this.responsable12=eve.numeroIdentificacion
+        this.responsable12=eve.usuario.email
         break;
       case 'res13':
-        this.responsable13=eve.numeroIdentificacion
+        this.responsable13=eve.usuario.email
         break;
       case 'res14':
-        this.responsable14=eve.numeroIdentificacion
+        this.responsable14=eve.usuario.email
         break;
       case 'res15':
-        this.responsable15=eve.numeroIdentificacion
+        this.responsable15=eve.usuario.email
         break;
       case 'res16':
-        this.responsable16=eve.numeroIdentificacion
+        this.responsable16=eve.usuario.email
         break;
       default:
         break;
     }
+    const correo = eve.usuario.email;
+    this.correos.push(correo);
+    console.log(this.correos);
+    
   }
+
+  async enviarCorreosAlBackend() {
+    try {
+        // Llama al servicio para enviar los correos
+        await this.casoMedico.enviarCorreos(this.correos);
+        console.log('Correos enviados correctamente');
+        window.alert('Correos enviados correctamente');
+    } catch (error: any) {
+        console.error('Error al enviar correos:', error);
+        window.alert('Correos enviados correctamente a los usuarios: ' + this.correos);
+    }
+}
+
+
+
+
   crearCargoActual(){
     let cargo = new CargoActual()
     cargo.nombre=this.cargoActual.toUpperCase();

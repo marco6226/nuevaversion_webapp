@@ -1,0 +1,17 @@
+.floating-button {
+    position: fixed;
+    right: 20px; /* Ajusta la posición derecha según sea necesario */
+    bottom: 20px; /* Ajusta la posición inferior según sea necesario */
+    background-color: #007bff; /* Color de fondo azul */
+    color: #fff; /* Color de texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 50%; /* Borde redondo */
+    padding: 15px; /* Espaciado interno */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.floating-button i {
+    margin-right: 5px; /* Espaciado entre el icono y el texto */
+}
