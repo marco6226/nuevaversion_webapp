@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { listFactores, ValorCausas } from 'src/app/website/pages/comun/entities/factor-causal';
 import { locale_es } from 'src/app/website/pages/comun/entities/reporte-enumeraciones';
 import { PrimeNGConfig } from 'primeng/api';
+import { SesionService } from 'src/app/website/pages/core/services/session.service';
 
 @Component({
   selector: 'app-informe',
@@ -28,13 +29,15 @@ export class InformeComponent implements OnInit {
   localeES: any = locale_es;
 
   canvas = document.createElement('canvas');
-
+  tienePermisocamex: boolean = false;
   constructor(
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    private sesionService: SesionService,
   ) {
   }
 
   ngOnInit() {
+    this.tienePermisocamex = this.sesionService.getPermisosMap()['ADM_GET_CAMEX'];
     this.config.setTranslation(this.localeES);
     this.numerarCausal()
     this.evidencias()

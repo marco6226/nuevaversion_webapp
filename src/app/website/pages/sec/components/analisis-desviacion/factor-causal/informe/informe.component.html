@@ -54,7 +54,7 @@
     </tr>
     <tr>
         <th  style="border: 1px solid #c8c8c8; text-align: center">No </th>
-        <th  style="border: 1px solid #c8c8c8; text-align: center">C.C. </th>
+        <th  style="border: 1px solid #c8c8c8; text-align: center">Número de Identificación</th>
         <th  style="border: 1px solid #c8c8c8; text-align: center">Nombre </th>
         <th  style="border: 1px solid #c8c8c8; text-align: center">Cargo </th>
         <th  style="border: 1px solid #c8c8c8; text-align: center">División</th>
@@ -138,8 +138,8 @@
 <br/>
 <table width="85%" style=" margin: auto;">
     <tr>
-        <td style=" text-align: left">Anexo Furat No.</td> 
-        <td style=" text-align: left">{{desviacionesList[0].furat}}</td> 
+        <td style=" text-align: left" *ngIf="!tienePermisocamex">Anexo Furat No.</td> 
+        <td style=" text-align: left" *ngIf="!tienePermisocamex">{{desviacionesList[0].furat}}</td> 
         <td></td>
         <td style=" text-align: left">Anexos Otros:</td> 
         <td style=" text-align: left">{{this.infoIn.value['AnexoO']}}</td>
@@ -165,30 +165,30 @@
         <td style=" text-align: left">______________________________</td>
     </tr>
     <tr>
-        <td style=" text-align: left">CC.</td> 
+        <td style=" text-align: left">Número de Identificación.</td> 
         <td style=" text-align: left">{{this.infoIn.value['CcLegal']}}</td> 
         <td style=" text-align: left"></td> 
-        <td style=" text-align: left">CC.</td>
+        <td style=" text-align: left">Número de Identificación.</td>
         <td style=" text-align: left">{{this.infoIn.value['CcInvestigacion']}}</td>
     </tr>
     <tr>
         <td style=" text-align: left">Cargo:</td> 
         <td style=" text-align: left">{{this.infoIn.value['Cargo']}}</td> 
         <td style=" text-align: left"></td> 
-        <td style=" text-align: left">Licencia No.</td>
-        <td style=" text-align: left">{{this.infoIn.value['Licencia']}}</td>
+        <td style=" text-align: left" *ngIf="!tienePermisocamex">Licencia No.</td>
+        <td style=" text-align: left" *ngIf="!tienePermisocamex">{{this.infoIn.value['Licencia']}}</td>
     </tr>
     <tr>
         <td style=" text-align: left"></td> 
         <td style=" text-align: left"></td> 
         <td style=" text-align: left"></td> 
-        <td style=" text-align: left">Expedida:</td>
-        <td style=" text-align: left">{{this.infoIn.value['Expedida']  | date: 'dd/MM/yyyy'}}</td>
+        <td style=" text-align: left" *ngIf="!tienePermisocamex">Expedida:</td>
+        <td style=" text-align: left" *ngIf="!tienePermisocamex">{{this.infoIn.value['Expedida']  | date: 'dd/MM/yyyy'}}</td>
     </tr>
     <tr>        
         <td colspan="5" style=" text-align: left"></td> 
     </tr>
-    <tr>
+    <tr *ngIf="!tienePermisocamex">
         <td colspan="4" rowspan="3" style=" text-align: left">Fecha envío investigación y sus recomendaciones a la dirección territorial y oficinas especiales del Ministerio del Trabajo</td> 
         <td style=" text-align: left">{{this.infoIn.value['FechaEnvio']  | date: 'dd/MM/yyyy'}}</td>
         

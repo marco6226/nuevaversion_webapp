@@ -180,9 +180,9 @@
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <th style="border: 1px solid #c8c8c8;">Estado del evento ante ARL</th>
+                                                <th style="border: 1px solid #c8c8c8;" *ngIf="!tienePermisocamex">Estado del evento ante ARL c</th>
                                                 <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
-                                                <th style="border: 1px solid #c8c8c8;">
+                                                <th style="border: 1px solid #c8c8c8;" *ngIf="!tienePermisocamex">
                                                     <p-dropdown [options]="ARLfirme" formControlName="EnventoARL"
                                                         required appendTo="body"></p-dropdown>
                                             </tr>
@@ -221,20 +221,20 @@
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <th style="border: 1px solid #c8c8c8;">Entrega copia de FURAT al trabajador
+                                                <th style="border: 1px solid #c8c8c8;" *ngIf="!tienePermisocamex">Entrega copia de FURAT al trabajador
                                                 </th>
     
-                                                <td><p-radioButton name="CopiaTrabajador" label="Si  " [value]="true"
+                                                <td  *ngIf="!tienePermisocamex"><p-radioButton name="CopiaTrabajador" label="Si  " [value]="true"
                                                         formControlName="CopiaTrabajador" required></p-radioButton>
                                                     <p-radioButton name="CopiaTrabajador" label="No  " [value]="false"
                                                         formControlName="CopiaTrabajador"></p-radioButton>
                                                 </td>
                                             </tr>
                                             <tr *ngIf="analisisPeligros.get('CopiaTrabajador').value == true">
-                                                <th style="border: 1px solid #c8c8c8;width: 35%">Fecha entrega copia al
+                                                <th style="border: 1px solid #c8c8c8;width: 35%"  *ngIf="!tienePermisocamex">Fecha entrega copia al
                                                     trabajador</th>
                                                 <th style="border: 1px solid #c8c8c8;">
-                                                    <div class="field col-12 md:col-4">
+                                                    <div class="field col-12 md:col-4"   *ngIf="!tienePermisocamex">
                                                         <!-- <label for="touchui">Touch UI</label> -->
                                                         <!-- <p-calendar [(ngModel)]="date2" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaCopia"></p-calendar> -->
                                                         <p-calendar appendTo="body" [yearNavigator]="true"
@@ -458,8 +458,8 @@
                                         formControlName="FechaI"></p-calendar></td>
                             </tr>
                             <tr>
-                                <td style=" text-align: left">Anexo Furat No</td>
-                                <td style=" text-align: left">{{desviacionesList[0]?.furat}}</td>
+                                <td style=" text-align: left" *ngIf="!tienePermisocamex">Anexo Furat No</td>
+                                <td style=" text-align: left" *ngIf="!tienePermisocamex">{{desviacionesList[0]?.furat}}</td>
                                 <td style=" text-align: left">Anexos Otros</td>
                                 <td colspan="2" style=" text-align: left"><input type="text" pInputText
                                         formControlName="AnexoO"
@@ -484,11 +484,11 @@
                                         style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
                             </tr>
                             <tr>
-                                <td style=" text-align: left">CC</td>
+                                <td style=" text-align: left">Número de Identificación</td>
                                 <td style=" text-align: left"><input type="number" pInputText formControlName="CcLegal"
                                         style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
                                 <td style=" text-align: left"></td>
-                                <td style=" text-align: left">CC</td>
+                                <td style=" text-align: left">Número de Identificación</td>
                                 <td style=" text-align: left"><input type="number" pInputText
                                         formControlName="CcInvestigacion"
                                         style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
@@ -498,16 +498,16 @@
                                 <td style=" text-align: left"><input type="text" formControlName="Cargo"
                                         style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
                                 <td style=" text-align: left"></td>
-                                <td style=" text-align: left">Licencia No</td>
-                                <td style=" text-align: left"><input type="number" pInputText formControlName="Licencia"
+                                <td style=" text-align: left" *ngIf="!tienePermisocamex">Licencia No</td>
+                                <td style=" text-align: left" *ngIf="!tienePermisocamex"><input type="number" pInputText formControlName="Licencia"
                                         style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
                             </tr>
                             <tr>
                                 <td style=" text-align: left"></td>
                                 <td style=" text-align: left"></td>
                                 <td style=" text-align: left"></td>
-                                <td style=" text-align: left">Expedida</td>
-                                <td style=" text-align: left"><p-calendar appendTo="body" [yearNavigator]="true"
+                                <td style=" text-align: left" *ngIf="!tienePermisocamex">Expedida</td>
+                                <td style=" text-align: left" *ngIf="!tienePermisocamex"><p-calendar appendTo="body" [yearNavigator]="true"
                                         yearRange="1900:2030" [monthNavigator]="true" dateFormat="dd/mm/yy"
                                         [touchUI]="true" [readonlyInput]="true" inputId="touchui"
                                         formControlName="Expedida"></p-calendar></td>
@@ -515,7 +515,7 @@
                             <tr>
                                 <td colspan="5" style=" text-align: left"></td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="!tienePermisocamex">
                                 <td colspan="4" rowspan="3" style=" text-align: left">Fecha envío investigación y sus
                                     recomendaciones a la dirección territorial y oficinas especiales del Ministerio del
                                     Trabajo</td>
@@ -634,6 +634,8 @@
                                             <option value="Cédula de extranjería">Cédula de extranjería</option>
                                             <option value="Tarjeta de identidad">Tarjeta de identidad</option>
                                             <option value="Pasaporte">Pasaporte</option>
+                                            <option value="Documento de dentidad">Documento de dentidad</option>
+                                            
                                         </select>
                                     </td>
                                     <td>

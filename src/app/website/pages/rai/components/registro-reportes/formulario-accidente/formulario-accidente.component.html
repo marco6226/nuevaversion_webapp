@@ -1,8 +1,9 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <p-panel [header]="visibleCamposAccidente ? 'FORMULARIO DE ACCIDENTES (FURAT)':'FORMULARIO DE INCIDENTES'">
         <p-accordion [multiple]="true">
-            <p-accordionTab header="SEGURIDAD SOCIAL" *ngIf="visibleCamposAccidente">
-                <div class="grid">
+            
+            <p-accordionTab header="SEGURIDAD SOCIAL" *ngIf=" !tienePermisocamex && visibleCamposAccidente">
+                <div class="grid" >
                     <div class="col-12 md:col-2 lg:col-2">
                         EPS
                     </div>
@@ -148,7 +149,7 @@
                         </p-radioButton>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
-                        Ciudad
+                        Pais - Ciudad
                     </div>
                     <div class="col-12 md:col-4 lg:col-4">
                         <s-ciudadSelector formControlName="ciudadEmpresa"></s-ciudadSelector>
@@ -211,7 +212,7 @@
                         <input style="width: 100%;" pInputText formControlName="telefonoCentroTrabajo" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
-                        Ciudad
+                       Pais-ciudad
                     </div>
                     <div class="col-12 md:col-4 lg:col-4">
                         <s-ciudadSelector formControlName="ciudadCentroTrabajo"></s-ciudadSelector>
@@ -354,7 +355,7 @@
                         </p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
-                        Ciudad
+                        Pais - Ciudad
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
                         <s-ciudadSelector id="ciudadSelector" formControlName="ciudadEmpleado" required></s-ciudadSelector>
@@ -451,10 +452,10 @@
             <p-accordionTab
                 [header]="visibleCamposAccidente ? 'III. INFORMACIÓN SOBRE EL ACCIDENTE':'II. INFORMACIÓN SOBRE EL INCIDENTE'">
                 <div class="grid">
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa == '3' || idEmpresa == '22';else blanco2">
-                        Numero de FURAT
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa == '3' || idEmpresa == '22' && !tienePermisocamex ;else blanco2">
+                        Número de FURAT
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa == '3' || idEmpresa == '22';else blanco4" >
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa == '3' || idEmpresa == '22' && !tienePermisocamex;else blanco4" >
                         <input style="width: 100%;" pInputText formControlName="numerofurat" required />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
@@ -540,7 +541,7 @@
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoAccidenteList" formControlName="tipoAccidente"></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
-                        Ciudad
+                        Pais - Ciudad 
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
                         <s-ciudadSelector formControlName="ciudadAccidente" required></s-ciudadSelector>
