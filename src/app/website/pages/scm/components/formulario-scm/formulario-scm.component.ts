@@ -887,6 +887,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
 
         await this.usuarioPermisos()
+        console.log(this.empleadoSelect)
         this.empleadoForm.patchValue({
             'id': this.empleadoSelect.id,
             'primerNombre': this.empleadoSelect.primerNombre,
@@ -918,8 +919,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             regional: this.empleadoSelect.regional,
             correoPersonal: this.empleadoSelect.correoPersonal,
             ciudadGerencia: this.empleadoSelect.ciudadGerencia,
-            // division: this.empleadoSelect.area['padreNombre'],
-            division: this.empleadoSelect.area.areaPadre?.nombre,
+            division: this.empleadoSelect.area['padreNombre'],
+            // division: this.empleadoSelect.area.areaPadre?.nombre,
             'email': [this.empleadoSelect.usuario.email],
         });
         setTimeout(() => {

@@ -14,6 +14,7 @@ export const endPoints: string | any = {
     tipoArea: path + "tipoArea/",
     sede: path + "sede/",
     cargo: path + "cargo/",
+    CargoActualService:path + "cargoActual/",
     scm: path + "casomedico/",
     pcl: path + "pcl/",
     EmpresaService: path + "empresa/",

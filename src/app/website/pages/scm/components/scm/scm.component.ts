@@ -225,6 +225,8 @@ export class ScmComponent implements OnInit {
             this.excel=[...dataExcel]
         
             this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
+            this.excel.map((resp1:any)=>{return resp1.proximoSeguimiento=(resp1.proximoSeguimiento)?new Date(resp1.proximoSeguimiento):''})
+
         } else {
             
             this.casosList.forEach((element: any) => {

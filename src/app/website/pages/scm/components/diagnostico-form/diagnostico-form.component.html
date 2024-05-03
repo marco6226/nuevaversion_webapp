@@ -26,9 +26,19 @@
                 </div>
                 <small *ngIf="codigo?.errors?.required && codigo?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
             </div>
+            <div class="col" *ngIf="saludLaboralFlag">
+                <div class="input-field">
+                    <label class="active">Partes del cuerpo afectada</label><br>
+                    <p-multiSelect  [style]="{'width':'100%'}" [filter]="true"  defaultLabel="Seleccione"
+                                [options]="parteAfectadaList" formControlName="parteAfectada"
+                                class="select-material" styleClass="select-material">
+                    </p-multiSelect>
+                </div>
+                <small *ngIf="codigo?.errors?.required && codigo?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
+            </div>
             <br>
             
-            <div class="col">
+            <div class="col" *ngIf="!saludLaboralFlag">
                 <div class="input-field">
                     <div>
                         <label for="" class="active">Origen</label>

@@ -77,17 +77,19 @@ import { ConsultaInspeccionesCtrComponent } from './pages/ctr/components/inspecc
 import { MatrizPeligrosComponent } from './pages/ipr/components/matriz-peligros/matriz-peligros.component';
 import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matriz-peligros/lista-matriz-peligros.component';
 import { MetasComponent } from './pages/ind/components/metas/metas.component';
+import { SaludLaboralComponent } from './pages/scm/components/salud-laboral/salud-laboral.component';
+import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-peligros/ind-matriz-peligros.component';
 
 const routes: Routes = [
   {
-   path:'',
-   component: LayoutComponent,
-   children:[
-    { 
-      path: '', 
-      redirectTo: '/home', 
-      pathMatch: 'full'
-    },
+    path:'',
+    component: LayoutComponent,
+    children:[
+      { 
+        path: '', 
+        redirectTo: '/home', 
+        pathMatch: 'full'
+      },
       { 
         path: 'home', 
         component: DashboardComponent,
@@ -204,6 +206,7 @@ const routes: Routes = [
           { path: 'list', component: ScmComponent },
           { path: 'case/:id', component: FormularioScmComponent },
           { path: 'permisos', component: ScmpermisosComponent },
+          { path: 'saludlaboral', component: SaludLaboralComponent },
         ]
       },
       {
@@ -227,6 +230,7 @@ const routes: Routes = [
           { path: 'indcasosmedicos', component: IndCasosMedicosComponent },
           { path: 'indcasosmedicosgestion', component: IndCasosMedicosGestionComponent },
           { path: 'indcaracterizacion', component: IndCaracterizacionComponent },
+          { path: 'indmatrizpeligros', component: IndMatrizPeligrosComponent },
           { path: 'metas', component: MetasComponent }
         ]
       },
@@ -252,7 +256,7 @@ const routes: Routes = [
           { path: 'manuales', component: ManualesComponent },
         ]
       }
-   ]
+    ]
   }
 ];
 
