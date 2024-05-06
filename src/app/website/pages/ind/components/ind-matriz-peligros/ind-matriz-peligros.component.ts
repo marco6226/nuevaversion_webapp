@@ -8,21 +8,24 @@ import { Component, OnInit } from '@angular/core';
 export class IndMatrizPeligrosComponent implements OnInit{
   filtro1: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
   filtro2: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
-  filtro3: any[] = [{label: 'Pendiente', value: 0}, {label: 'Ejecutado', value: 1}];
-  filtro4: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
+  filtro3: any[] = [{label: 'Riesgo incial sin eliminados y sustituidos', value: 0}, {label: 'Riesgo final sin eliminados y sustituidos', value: 1},{label: 'Riesgo incial con eliminados y sustituidos', value: 2}, {label: 'Riesgo final con eliminados y sustituidos', value: 3}];
+  filtro4: any[] = [{label: 'Pendiente', value: 0}, {label: 'Ejecutado', value: 1}];
   filtro5: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
   filtro6: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
   filtro7: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
   filtro8: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
+  filtro9: any[] = [{label: 'Riesgo incial', value: 0}, {label: 'Riesgo final', value: 1}];
 
-  selectFiltro1: any=[]
-  selectFiltro2: any=[]
-  selectFiltro3: any=[]
-  selectFiltro4: any=[]
-  selectFiltro5: any=[]
-  selectFiltro6: any=[]
-  selectFiltro7: any=[]
-  selectFiltro8: any=[]
+  selectFiltro1: any=0
+  selectFiltro2: any=0
+  selectFiltro2Segundo: any=0
+  selectFiltro3: any=0
+  selectFiltro3Segundo: any=0
+  selectFiltro4: any=0
+  selectFiltro5: any=0
+  selectFiltro6: any=0
+  selectFiltro7: any=0
+  selectFiltro8: any=0
 
   selectAnio1: number = new Date().getFullYear();
   selectAnio2: number = new Date().getFullYear();
@@ -83,6 +86,13 @@ export class IndMatrizPeligrosComponent implements OnInit{
     {label:'Diciembre',value:'Diciembre'}
   ];
 
+  nivelRiesgo:any=[
+    {label:'Muy Alto',value:'Muy Alto'},
+    {label:'Alto',value:'Alto'},
+    {label:'Medio',value:'Medio'},
+    {label:'Bajo',value:'Bajo'}
+  ];
+
   selectPais1:any
   selectPais2:any
   selectPais3:any
@@ -92,14 +102,14 @@ export class IndMatrizPeligrosComponent implements OnInit{
   selectPais7:any
   selectPais8:any
 
-  divisionList1:any
-  divisionList2:any
-  divisionList3:any
-  divisionList4:any
-  divisionList5:any
-  divisionList6:any
-  divisionList7:any
-  divisionList8:any
+  divisionList1:any[]=[]
+  divisionList2:any[]=[]
+  divisionList3:any[]=[]
+  divisionList4:any[]=[]
+  divisionList5:any[]=[]
+  divisionList6:any[]=[]
+  divisionList7:any[]=[]
+  divisionList8:any[]=[]
 
   selecteDivision1:any
   selecteDivision2:any
@@ -109,6 +119,24 @@ export class IndMatrizPeligrosComponent implements OnInit{
   selecteDivision6:any
   selecteDivision7:any
   selecteDivision8:any
+
+  localidadesList1:any[]=[]
+  localidadesList2:any[]=[]
+  localidadesList3:any[]=[]
+  localidadesList4:any[]=[]
+  localidadesList5:any[]=[]
+  localidadesList6:any[]=[]
+  localidadesList7:any[]=[]
+  localidadesList8:any[]=[]
+
+  selecteLocalidad1:any
+  selecteLocalidad2:any
+  selecteLocalidad3:any
+  selecteLocalidad4:any
+  selecteLocalidad5:any
+  selecteLocalidad6:any
+  selecteLocalidad7:any
+  selecteLocalidad8:any
 
   constructor(
  

@@ -26,7 +26,7 @@ export const Modulos: any = {
         'Tasa de frecuencia',
         'Tasa de severidad',
     ],
-    // 'Matriz de Peligros': [
-    //     'ICR'
-    // ],
+    'Matriz de Peligros': [
+        'ICR'
+    ],
 }

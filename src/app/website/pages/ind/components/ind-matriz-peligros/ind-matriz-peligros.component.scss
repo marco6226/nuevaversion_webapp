@@ -423,9 +423,10 @@ color: #fff;
         color:white;
         background: linear-gradient(
             to left,
-            red 30%,
-            lime 20%,
-            green 50%,
+            red 0%,
+            orange 20%,
+            yellow 45%,
+            green 70%,
           );
 
     }
@@ -434,18 +435,20 @@ color: #fff;
         color:white;
         background: linear-gradient(
             to left,
-            red 10%,
-            lime 20%,
-            green 70%,
+            red 0%,
+            orange 0%,
+            yellow 20%,
+            green 60%,
           );
    
     }
     .color3{
         color:white;
         background: linear-gradient(
-            to left,
-            red 17%,
-            lime 33%,
+            to right,
+            red 0%,
+            orange 17%,
+            yellow  33%,
             green 50%,
           );
  
@@ -454,18 +457,20 @@ color: #fff;
         color:white;
         background: linear-gradient(
             to left,
-            red 10%,
-            lime 15%,
-            green 75%,
+            red 10%,            
+            orange 40%,
+            yellow 63%,
+            green 90%,
           );
    
     }
     .color5{
         color:white;
         background: linear-gradient(
-            red 10%,
-            lime 15%,
-            green 75%,
+            red 0%,
+            orange 20%,
+            yellow 50%,
+            green 60%,
           );
     }
     .color6{
@@ -473,15 +478,22 @@ color: #fff;
         background: radial-gradient(
             circle at 50%,
             red 5%,
-            lime 65%,
-            rgb(9, 186, 9) 30%,
+            orange 10%,
+            yellow 55%,
+            rgb(9, 186, 9) 70%,
           );
  
     }
     .color7{
         color:white;
 
-          background: conic-gradient(at 0% 30%, red 10%, yellow 30%, green 50%);
+          background: conic-gradient(
+            at 0% 50%,
+            red 0%,
+            orange 33%,
+            yellow 55%,
+            green 70%
+            );
 
     }
 
