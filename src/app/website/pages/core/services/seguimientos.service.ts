@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpInt } from 'src/app/httpInt';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 import { endPoints } from 'src/environments/environment'
 
@@ -13,45 +12,10 @@ export class SeguimientosService {
 
     constructor(
         private http: HttpClient,
-        public httpInt: HttpInt,
         public sesionService: SesionService,) { }
 
     public getSegByTareaID(id:any) {
-
-        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
-        
-        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(id), CryptoJS.enc.Hex.parse(key), {
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7
-          }).toString();
-        
-        let endPoint = `${endPoints.tareaService}follow/`;
-        return new Promise(async (resolve) => {
-            let options: any = {
-                responseType: 'blob',
-                headers: new HttpHeaders()
-                    .set('Param-Emp', this.httpInt.getSesionService().getParamEmp())
-                    .set('app-version', this.httpInt.getSesionService().getAppVersion())
-                    .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
-                withCredentials: true,
-                
-            };
-            
-
-            let formData: FormData = new FormData();
-            formData.append('data', encryptedId);
-            
-
-            await this.httpInt.http
-                .post(endPoint, formData, options)
-                .subscribe(
-                    (res) => {
-                        resolve(res);
-                    }
-                );
-        });
-
-        // return this.http.get(`${endPoints.tareaService}follow/${id}`, this.getRequestHeaders(this.headers)).toPromise();
+        return this.http.get(`${endPoints.tareaService}follow/${id}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     public createSeg(seg:any) {
@@ -63,42 +27,7 @@ export class SeguimientosService {
     }
 
     public closeTarea(tarea:any) {
-
-        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
-        
-        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(tarea), CryptoJS.enc.Hex.parse(key), {
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7
-          }).toString();
-        
-        let endPoint = `${endPoints.tareaService}tarea/close`;
-        
-        return new Promise(async (resolve) => {
-            let options: any = {
-                responseType: 'blob',
-                headers: new HttpHeaders()
-                    .set('Param-Emp', this.httpInt.getSesionService().getParamEmp())
-                    .set('app-version', this.httpInt.getSesionService().getAppVersion())
-                    .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
-                withCredentials: true,
-                
-            };
-            
-
-            let formData: FormData = new FormData();
-            formData.append('data', encryptedId);
-
-            return await this.httpInt.http
-                .put(endPoint, formData, options)
-                .subscribe(
-                    (res) => {
-                        resolve(res);
-                    }
-                );
-        });
-
-
-        // return this.http.put(`${endPoints.tareaService}tarea/close`, tarea, this.getRequestHeaders(this.headers)).toPromise();
+        return this.http.put(`${endPoints.tareaService}tarea/close`, tarea, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     getRequestHeaders(headers?: HttpHeaders): any {
