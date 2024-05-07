@@ -271,12 +271,12 @@
                                             id="regional" />
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-6">
                                     <div>
                                         <label for="" class="active">Ciudad de residencia</label>
                                         <s-ciudadSelector [disabled]="consultar2" formControlName="ciudad"
                                             [id]="departamento" class="select-material" styleClass="select-material"
-                                            required>
+                                            required [styleCol]="'col-4'">
                                         </s-ciudadSelector>
                                     </div>
                                 </div>
@@ -287,6 +287,10 @@
                                             formControlName="direccion" styleClass="form-control">
                                     </div>
                                 </div>
+                                
+                            </div>
+                            <!-- div -->
+                            <div class="row ">
                                 <div class="col">
                                     <div>
                                         <label for="" class="active">Zona de residencia</label>
@@ -301,9 +305,6 @@
                                         </p-radioButton>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- div -->
-                            <div class="row ">
                                 <div class="col">
                                     <div>
                                         <label for="" class="active">Teléfono personal</label>
@@ -326,6 +327,10 @@
                                             class="form-control" autocomplete="off"/>
                                     </div>
                                 </div>
+                                
+                            </div>
+                            <!-- div -->
+                            <div class="row ">
                                 <div class="col">
                                     <div>
                                         <div>
@@ -343,9 +348,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- div -->
-                            <div class="row ">
                                 <div class="col">
                                     <div>
                                         <div>
@@ -365,15 +367,19 @@
                                 </div>
                                 <div class="col">
                                     <div>
-                                        <label for="" class="active">ARL</label>
+                                        <div>
+                                            <label for="" class="active">ARL</label>
+                                        </div>
                                         <!-- <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
                                             class="form-control" id="arl" /> -->
-                                        <input *ngIf="empresaId==22" required [readonly]="consultar2"
-                                            [attr.disabled]="true" type="text" pInputText [value]="arl || ''"
-                                            placeholder="Arl" class="form-material" id="arl" />
-                                        <input *ngIf="empresaId!=22" [readonly]="consultar2" [attr.disabled]="true"
-                                            type="text" pInputText [value]="arl || ''" placeholder="Arl"
-                                            class="form-material" id="arl" />
+                                        <div>
+                                            <input *ngIf="empresaId==22" required [readonly]="consultar2"
+                                                [attr.disabled]="true" type="text" pInputText [value]="arl || ''"
+                                                placeholder="Arl" class="form-material" id="ARL" />
+                                            <input *ngIf="empresaId!=22" [readonly]="consultar2" [attr.disabled]="true"
+                                                type="text" pInputText [value]="arl || ''" placeholder="Arl"
+                                                class="form-material" id="ARL" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -384,6 +390,10 @@
                                             class="form-control" id="emergencyContact" />
                                     </div>
                                 </div>
+                                
+                            </div>
+                            <!-- div -->
+                            <div class="row ">
                                 <div class="col">
                                     <div>
                                         <label for="" class="active">Telefono de contacto de emergencia</label>
@@ -392,9 +402,6 @@
                                             styleClass="form-control">
                                     </div>
                                 </div>
-                            </div>
-                            <!-- div -->
-                            <div class="row ">
                                 <div class="col">
                                     <div>
                                         <label for="" class="active">Correo de contacto de emergencia</label>
@@ -403,7 +410,6 @@
                                             class="form-control" id="emailEmergencyContact" autocomplete="off"/>
                                     </div>
                                 </div>
-                                <div class="col"></div>
                                 <div class="col"></div>
                                 <div class="col"></div>
                             </div>
