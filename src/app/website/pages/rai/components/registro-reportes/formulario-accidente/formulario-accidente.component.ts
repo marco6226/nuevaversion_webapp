@@ -31,6 +31,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { Localidades } from 'src/app/website/pages/ctr/entities/aliados';
 import { RadioButtonClickEvent } from 'primeng/radiobutton';
 import { AreaService } from 'src/app/website/pages/empresa/services/area.service';
+import { Session } from '../../../../core/entities/session';
 
 @Component({
   selector: 's-form-accidente',
@@ -76,6 +77,7 @@ export class FormularioAccidenteComponent implements OnInit {
   localidadList?: any[];
   mostrarDialogLocalidades: boolean = false;
   filtroLocalidades: string|null = null;
+  tienePermisocamex: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -100,6 +102,9 @@ export class FormularioAccidenteComponent implements OnInit {
     this.mecanismoList = defaultItem.concat(<SelectItem[]>mecanismo);
     this.lugarList = defaultItem.concat(<SelectItem[]>lugar);
     this.tipoAccidenteList = defaultItem.concat(<SelectItem[]>tipoAccidente);
+
+    this.tienePermisocamex = this.sesionService.getPermisosMap()['ADM_GET_CAMEX'];
+      
   }
 
   ngOnInit(): void {
@@ -135,12 +140,12 @@ export class FormularioAccidenteComponent implements OnInit {
         this.form = this.fb.group({
             id: this.reporte?.id,
             tipo: this.reporte?.tipo,
-            nombreEps: this.reporte?.nombreEps,
+        /*    nombreEps: this.reporte?.nombreEps,
             codigoEps: this.reporte?.codigoEps,
             nombreAfp: this.reporte?.nombreAfp,
             codigoAfp: this.reporte?.codigoAfp,
             nombreArl: this.reporte?.nombreArl,
-            codigoArl: this.reporte?.codigoArl,
+            codigoArl: this.reporte?.codigoArl,*/
             tipoVinculador: this.reporte?.tipoVinculador,
             nombreCiiu: this.reporte?.nombreCiiu,
             codigoCiiu: this.reporte?.codigoCiiu,
@@ -230,11 +235,13 @@ export class FormularioAccidenteComponent implements OnInit {
 
 
         setTimeout(async () => {
-            if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
+            if (this.form && this.idEmpresa === '22') {
+                await this.listadoLocalidades(this.form.value.areaAccidente.padreNombre);
+            }
             this.form?.patchValue({
                 ciudadEmpleado: this.reporte?.ciudadEmpleado,
                 ciudadAccidente: this.reporte?.ciudadAccidente,
-            })
+            });
         }, 2000);
         
 

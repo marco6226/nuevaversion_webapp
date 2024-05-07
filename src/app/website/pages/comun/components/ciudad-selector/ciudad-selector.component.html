@@ -3,6 +3,15 @@
 </div> -->
 <div class="{{styleRow}}">
     <div class="{{styleCol}}">
+        <p-dropdown [options]="paisItems" 
+        [readonly]="disabled" 
+        [filter]="true" 
+ 
+        (onChange)="onPaisSelect($event)" 
+        [(ngModel)]="paisSelectId">
+        </p-dropdown>
+    </div>
+    <div class="{{styleCol}}">
         <p-dropdown [options]="departamentosItems" 
         [readonly]="disabled" 
         [filter]="true" 

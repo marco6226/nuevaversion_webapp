@@ -77,6 +77,7 @@ export const tipo_identificacion = [
     { value: 'CEDULA_EXTRANJERIA', label: 'Cédula de extranjería' },
     { value: 'TARJETA_IDENTIDAD', label: 'Tarjeta de identidad' },
     { value: 'PASAPORTE', label: 'Pasaporte' },
+    { value: 'DOCUMENTO_IDENTIDAD', label: 'Documento de identidad' },
 ];
 
 export const tipo_identificacion_empresa = [

@@ -20,7 +20,7 @@
 <div class="wrapper" [ngClass]="disabled == true ? 'disabled' : 'clickable'" style="padding-left: 20px;" *ngIf="_value?.id != null" (click)="resetEmpleado()">
   <div style="margin-left:20px">
     <h4 style="margin:0px">{{_value?.primerNombre}} {{_value?.primerApellido}}</h4>
-    <p>{{_value?.tipoIdentificacion?.nombre}}Numero de Identificación: {{_value?.numeroIdentificacion}}</p>
+    <p>{{_value?.tipoIdentificacion?.nombre}}Número de Identificación: {{_value?.numeroIdentificacion}}</p>
     <p>{{_value?.cargo?.nombre}}</p>
   </div>
 </div>

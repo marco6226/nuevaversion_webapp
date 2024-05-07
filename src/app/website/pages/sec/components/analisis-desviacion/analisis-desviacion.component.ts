@@ -202,7 +202,7 @@ export class AnalisisDesviacionComponent implements OnInit {
     validators: boolean = true;
 
     esAliado: boolean = false;
-
+    tienePermisocamex: boolean = false;
     constructor(
         private sistCausAdminService: SistemaCausaAdministrativaService,
         private analisisDesviacionService: AnalisisDesviacionService,
@@ -251,6 +251,7 @@ export class AnalisisDesviacionComponent implements OnInit {
             FechaI: [null, /*Validators.required*/],
             Diagrama: [null, /*Validators.required*/],
         });
+        this.tienePermisocamex = this.sesionService.getPermisosMap()['ADM_GET_CAMEX'];
         // this.formCreacionMatriz = fb.group({
         //     planta: [null],
         //     ubicacion: [null],

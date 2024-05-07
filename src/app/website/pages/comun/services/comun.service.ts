@@ -7,6 +7,9 @@ import { MensajeUsuario } from '../entities/mensaje-usuario';
 import { MensajeUsuarioService } from './mensaje-usuario.service';
 // import { MensajeUsuarioService } from 'app/modulos/comun/services/mensaje-usuario.service'
 // import { deprecate } from 'util';
+import { SelectItem } from 'primeng/api';
+import { Departamento } from '../entities/departamento';
+
 
 @Injectable({
     providedIn: 'root'
@@ -137,16 +140,16 @@ export class ComunService {
         });
     }
 
-    findDepartamentoByPais(paisId: string) {
-        return new Promise(resolve => {
+    findDepartamentoByPais(paisId: string): Promise<Departamento[]> {
+        return new Promise<Departamento[]>(resolve => {
             this.httpInt.get(endPoints.com_departamento + "pais/" + paisId)
                 .subscribe(
-                    res => {
+                    (res: any) => {
+                        // Suponiendo que res contiene datos de tipo Departamento[]
                         resolve(res);
-                    }
-                    ,
+                    },
                     err => this.manageError(err)
-                )
+                );
         });
     }
 
