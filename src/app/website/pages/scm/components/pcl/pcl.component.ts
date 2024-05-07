@@ -33,8 +33,8 @@ export class PclComponent implements OnInit {
     modalDialog: boolean = false;
     loading: boolean = false;
     editing: boolean = false;
-    pclSelect: any;
-    pclSelect2: any;
+    pclSelect: any={};
+    pclSelect2: any={};
 
     esConsulta: boolean = false;
     pclCalificacionList: SelectItem[] = [
@@ -57,7 +57,7 @@ export class PclComponent implements OnInit {
     estado!: string;
     respuestaDelServidor: any[] | undefined;
     modalVisible: boolean = false;
-    pclSeleccionada: any;
+    pclSeleccionada: any={};
     pclListDiag: any[]=[];
     listOneDiag:any[]=[];
 
@@ -236,7 +236,9 @@ export class PclComponent implements OnInit {
             console.log(response)
             
             this.listOneDiag=[this.pclListDiag[0]]
-           
+            this.pclSeleccionada=response[0]
+            console.log( this.pclSeleccionada);
+            
             
             this.modalVisible = true;
             

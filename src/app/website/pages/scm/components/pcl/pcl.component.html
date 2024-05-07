@@ -46,8 +46,10 @@
           <tr [pSelectableRow]="pcl" class="table-row table-row-selectable">
             <td class="p-text-center">
               {{ pcl.diagnostic?.label }}
-              <span *ngIf="pcl.totalDiag && pcl.totalDiag > 1"> +{{ pcl.totalDiag - 1 }}</span>
-            </td>                                  
+              <span *ngIf="pcl.totalDiag && pcl.totalDiag > 1">
+                +{{ pcl.totalDiag - 1 }}</span
+              >
+            </td>
             <td class="p-text-center">{{ pcl.pcl_o?.label }}</td>
             <td class="p-text-center">{{ pcl.porcentajePcl }}%</td>
             <td class="p-text-center">{{ pcl.entidadEmitePcl_o?.label }}</td>
@@ -742,104 +744,75 @@
           </tr>
 
           <!-- Agrega más filas según tus necesidades -->
-          
-          
         </ng-template>
-        
-        
       </p-table>
-      
     </ng-container>
   </div>
   <div class="col">
     <h5 class="title-header">Origen</h5>
   </div>
-  <div>
-    <ng-container>
-      <p-table
-        [value]="listOneDiag"
-        dataKey="id"
-        editMode="row"
-        styleClass="material-table"
-        selectionMode="single"
-        [(selection)]="pclSelect2"
-      >
-        <ng-template
-          pTemplate="body"
-          let-pclSeleccionada
-          let-editing="editing"
-          let-ri="rowIndex"
-        >
-        <div class="row" style="padding: 0.5%">
-          <div class="col">
-            <p>Origen</p>
-            <input
-              type="text"
-              [value]="pclSeleccionada.origen"
-              class="form-control"
-              disabled
-            />
-          </div>
-        
-          <div class="col">
-            <p>Estado calificación de origen</p>
-            <input
-              type="text"
-              [value]="getStatusLabel(pclSeleccionada.statusDeCalificacion)"
-              class="form-control"
-              disabled
-            />
-          </div>
-        
-          <div class="col">
-            <p>Entidad</p>
-            <input
-              type="text"
-              [value]="pclSeleccionada?.nombreEntidadCalificada"
-              class="form-control"
-              disabled
-            />
-          </div>
-        </div>
-        
-        <div class="row" style="padding: 0.5%">
-          <div class="col">
-            <p>Fecha de calificación del origen</p>
-            <input
-              type="text"
-              [value]="pclSeleccionada.fechaCalificacion"
-              class="form-control"
-              disabled
-            />
-          </div>
-        
-          <div class="col">
-            <p>Entidad emitente de calificación</p>
-            <input
-              type="text"
-              [value]="pclSeleccionada.entidadEmiteCalificacion"
-              class="form-control"
-              disabled
-            />
-          </div>
-        
-          <div class="col">
-            <p>Observaciones</p>
-            <textarea
-              class="form-control"
-              [value]="pclSeleccionada.observaciones"
-              disabled
-            ></textarea>
-          </div>
-        </div>        
-        
-          <!-- Agrega más filas según tus necesidades -->
-        </ng-template>
-      </p-table>
-    
-    </ng-container>
+  <div class="container">
+    <div class="row" style="padding: 0.5%">
+      <div class="col">
+        <p>Origen</p>
+        <input
+          type="text"
+          [value]="pclSeleccionada.origen"
+          class="form-control"
+          disabled
+        />
+      </div>
+      <div class="col">
+        <p>Estado calificación de origen</p>
+        <input
+          type="text"
+          [value]="getStatusLabel(pclSeleccionada.statusDeCalificacion)"
+          class="form-control"
+          disabled
+        />
+      </div>
+      <div class="col">
+        <p>Entidad</p>
+        <input
+          type="text"
+          [value]="pclSeleccionada?.nombreEntidadCalificada"
+          class="form-control"
+          disabled
+        />
+      </div>
+    </div>
+    <div class="row" style="padding: 0.5%">
+      <div class="col">
+        <p>Fecha de calificación del origen</p>
+        <input
+          type="text"
+          [value]="pclSeleccionada.fechaCalificacion"
+          class="form-control"
+          disabled
+        />
+      </div>
+      <div class="col">
+        <p>Entidad emitente de calificación</p>
+        <input
+          type="text"
+          [value]="pclSeleccionada.entidadEmiteCalificacion"
+          class="form-control"
+          disabled
+        />
+      </div>
+      
+    </div>
+    <div class="col">
+      <p>Observaciones</p>
+      <textarea
+        class="form-control"
+        [value]="pclSeleccionada.observaciones"
+        readonly
+      ></textarea>
+    </div>
+    <!-- Agrega más filas según tus necesidades -->
   </div>
-  
+  <br>
   <div class="row" style="padding: 0.5%">
     <div class="col">
       <h5 class="title-header">PCL</h5>
@@ -847,91 +820,71 @@
   </div>
   <div class="row" style="padding: 0.5%">
     <div class="col">
-      <ng-container>
-        <p-table
-          [value]="listOneDiag"
-          dataKey="id"
-          editMode="row"
-          styleClass="material-table"
-          selectionMode="single"
-          [(selection)]="pclSelect2"
-        >
-          <ng-template
-            pTemplate="body"
-            let-pclSeleccionada
-            let-editing="editing"
-            let-ri="rowIndex"
-          >
-            <div class="row" style="padding: 0.5%">
-              <div class="col-6"> <!-- Columna izquierda -->
-                <div class="row" style="padding: 0.5%">
-                  <div class="col">
-                    <p>PCL</p>
-                    <input
-                      type="text"
-                      [value]="getStatusLabelPCL(pclSeleccionada.pcl)"
-                      class="form-control"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="row" style="padding: 0.5%">
-                  <div class="col">
-                    <p>Porcentaje de la PCL</p>
-                    <input
-                      type="text"
-                      [value]="pclSeleccionada.porcentajePcl + '%'"
-                      class="form-control"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="row" style="padding: 0.5%">
-                  <div class="col">
-                    <p>Fecha de emisión de la PCL</p>
-                    <input
-                      type="text"
-                      [value]="pclSeleccionada?.emisionPclFecha"
-                      class="form-control"
-                      disabled
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-6"> <!-- Columna derecha -->
-                <div class="row" style="padding: 0.5%">
-                  <div class="col">
-                    <p>Entidad que emite la PCL</p>
-                    <input
-                      type="text"
-                      [value]="pclSeleccionada.entidadEmitePcl"
-                      class="form-control"
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div class="row" style="padding: 0.5%">
-                  <div class="col">
-                    <p>Entidad emitente de calificación</p>
-                    <input
-                      type="text"
-                      [value]="pclSeleccionada.nombreEntidad"
-                      class="form-control"
-                      disabled
-                    />
-                  </div>
-                </div>
-              </div>
+      <div class="row" style="padding: 0.5%">
+        <div class="col-6">
+          <!-- Columna izquierda -->
+          <div class="row" style="padding: 0.5%">
+            <div class="col">
+              <p>PCL</p>
+              <input
+                type="text"
+                [value]="getStatusLabelPCL(pclSeleccionada.pcl)"
+                class="form-control"
+                disabled
+              />
             </div>
-  
-            <!-- Agrega más filas según tus necesidades -->
-          </ng-template>
-        </p-table>
-      </ng-container>
+          </div>
+          <div class="row" style="padding: 0.5%">
+            <div class="col">
+              <p>Porcentaje de la PCL</p>
+              <input
+                type="text"
+                [value]="pclSeleccionada.porcentajePcl + '%'"
+                class="form-control"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="row" style="padding: 0.5%">
+            <div class="col">
+              <p>Fecha de emisión de la PCL</p>
+              <input
+                type="text"
+                [value]="pclSeleccionada?.emisionPclFecha"
+                class="form-control"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <!-- Columna derecha -->
+          <div class="row" style="padding: 0.5%">
+            <div class="col">
+              <p>Entidad que emite la PCL</p>
+              <input
+                type="text"
+                [value]="pclSeleccionada.entidadEmitePcl"
+                class="form-control"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="row" style="padding: 0.5%">
+            <div class="col">
+              <p>Entidad emitente de calificación</p>
+              <input
+                type="text"
+                [value]="pclSeleccionada.nombreEntidad"
+                class="form-control"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agrega más filas según tus necesidades -->
     </div>
   </div>
-  
-  
-      
-  
 </p-dialog>
