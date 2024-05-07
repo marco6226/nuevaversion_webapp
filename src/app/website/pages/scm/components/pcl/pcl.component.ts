@@ -97,30 +97,28 @@ export class PclComponent implements OnInit {
     async ngOnInit() {
         this.config.setTranslation(this.localeES);
         this.idEmpresa = this.sesionService.getEmpresa()?.id!;
-        this.createOrigenList()
+        this.createOrigenList();
         this.loadDiagnostics();
         await this.iniciarPcl();
         this.dlistaPCL.emit(this.pclList);
         this.esConsulta = JSON.parse(localStorage.getItem('scmShowCase')!) == true ? true : false;
-      
-        
+    
         // Agrupar las PCL por id en un objeto auxiliar
         let pclUniqueMap = new Map<string, any>();
         this.pclList.forEach(pcl => {
             if (!pclUniqueMap.has(pcl.id)) {
-                // Si es la primera vez que se encuentra este id, se agrega directamente
-                pclUniqueMap.set(pcl.id, { ...pcl, diag: new Set(pcl.diag) });
+                pclUniqueMap.set(pcl.id, { ...pcl, diag: new Set(pcl.diag), totalDiag: pcl.diag.length });
             } else {
-                // Si ya existe el id, se agregan los nuevos diagnósticos al Set existente
                 const existingPcl = pclUniqueMap.get(pcl.id);
                 pcl.diag.forEach((d: any) => existingPcl.diag.add(d));
+                existingPcl.totalDiag += pcl.diag.length;
             }
         });
-        // Convertir el Set de diagnósticos de cada PCL en un array antes de guardar
         this.pclList = Array.from(pclUniqueMap.values()).map(pcl => ({ ...pcl, diag: Array.from(pcl.diag) }));
-        await this.iniciarPcl();
         
+        await this.iniciarPcl();
     }
+    
 
     createOrigenList() {
         if (this.idEmpresa == '22') {
@@ -186,26 +184,33 @@ export class PclComponent implements OnInit {
         this.loading = true;
         try {
             this.pclList = await this.scmService.getListPcl(this.pkCase);
-            //console.log(this.pclList);
-
+    
             if (this.pclList) {
-                let uniqueIds = new Set();
-                this.pclList = this.pclList.filter(pcl => {
-                    if (uniqueIds.has(pcl.id)) {
-                        return false;
+                let pclMap = new Map<number, any>();
+                this.pclList.forEach(pcl => {
+                    if (!pclMap.has(pcl.id)) {
+                        pclMap.set(pcl.id, { ...pcl, totalDiag: 1 }); // Inicialmente, se cuenta el primer diagnóstico
+                    } else {
+                        const existingPcl = pclMap.get(pcl.id);
+                        existingPcl.totalDiag++; // Se incrementa el contador de diagnósticos
                     }
-                    uniqueIds.add(pcl.id);
-                    pcl.diagnostic = this.diagList.find(diag => diag.value === pcl.diag.toString());
-                    pcl.pcl_o = (pcl.pcl !== null) ? this.pclOptionList.find(pclF => pclF.value === pcl.pcl.toString()) : null;
-                    pcl.entidadEmitePcl_o = (pcl.entidadEmitePcl !== null) ? this.emitPclentity.find(ent => ent.value === pcl.entidadEmitePcl.toString()) : null;
-                    pcl.origen_o = (pcl.origen !== null) ? this.origenList.find((org: any) => org.value === pcl.origen.toString()) : null;
-                    pcl.statusDeCalificacion_o = (pcl.statusDeCalificacion !== null) ? this.pclCalificacionList.find(cal => cal.value === pcl.statusDeCalificacion.toString()) : null;
-                    pcl.emisionPclFecha = pcl.emisionPclFecha == null ? null : new Date(pcl.emisionPclFecha);
-                    pcl.fechaCalificacion = pcl.fechaCalificacion == null ? null : new Date(pcl.fechaCalificacion);
-                    pcl.entidadEmitida = parseInt(pcl.entidadEmitida);
-                    return true;
                 });
+                // Convertir el Map a un array de objetos
+                this.pclList = Array.from(pclMap.values());
             }
+    
+            // Configurar los demás campos necesarios
+            this.pclList.forEach(pcl => {
+                pcl.diagnostic = this.diagList.find(diag => diag.value === pcl.diag.toString());
+                pcl.pcl_o = (pcl.pcl !== null) ? this.pclOptionList.find(pclF => pclF.value === pcl.pcl.toString()) : null;
+                pcl.entidadEmitePcl_o = (pcl.entidadEmitePcl !== null) ? this.emitPclentity.find(ent => ent.value === pcl.entidadEmitePcl.toString()) : null;
+                pcl.origen_o = (pcl.origen !== null) ? this.origenList.find((org: any) => org.value === pcl.origen.toString()) : null;
+                pcl.statusDeCalificacion_o = (pcl.statusDeCalificacion !== null) ? this.pclCalificacionList.find(cal => cal.value === pcl.statusDeCalificacion.toString()) : null;
+                pcl.emisionPclFecha = pcl.emisionPclFecha == null ? null : new Date(pcl.emisionPclFecha);
+                pcl.fechaCalificacion = pcl.fechaCalificacion == null ? null : new Date(pcl.fechaCalificacion);
+                pcl.entidadEmitida = parseInt(pcl.entidadEmitida);
+            });
+    
             this.loading = false;
             this.cd.markForCheck();
         } catch (e) {
@@ -219,6 +224,8 @@ export class PclComponent implements OnInit {
             this.cd.markForCheck();
         }
     }
+    
+    
 
     async consultarPcl() {
 
