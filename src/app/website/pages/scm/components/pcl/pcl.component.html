@@ -752,12 +752,12 @@
     <h5 class="title-header">Origen</h5>
   </div>
   <div class="container">
-    <div class="row" style="padding: 0.5%">
+    <div class="row">
       <div class="col">
         <p>Origen</p>
         <input
           type="text"
-          [value]="pclSeleccionada.origen"
+          [value]="pclSeleccionada.origen ? pclSeleccionada.origen : 'Desconocido'"
           class="form-control"
           disabled
         />
@@ -766,7 +766,7 @@
         <p>Estado calificación de origen</p>
         <input
           type="text"
-          [value]="getStatusLabel(pclSeleccionada.statusDeCalificacion)"
+          [value]="getStatusLabel(pclSeleccionada.statusDeCalificacion) ? getStatusLabel(pclSeleccionada.statusDeCalificacion) : 'Desconocido'"
           class="form-control"
           disabled
         />
@@ -775,18 +775,18 @@
         <p>Entidad</p>
         <input
           type="text"
-          [value]="pclSeleccionada?.nombreEntidadCalificada"
+          [value]="pclSeleccionada?.nombreEntidadCalificada ? pclSeleccionada?.nombreEntidadCalificada : 'Desconocido'"
           class="form-control"
           disabled
         />
       </div>
     </div>
-    <div class="row" style="padding: 0.5%">
+    <div class="row">
       <div class="col">
         <p>Fecha de calificación del origen</p>
         <input
           type="text"
-          [value]="pclSeleccionada.fechaCalificacion"
+          [value]="pclSeleccionada.fechaCalificacion ? pclSeleccionada.fechaCalificacion : 'Desconocido'"
           class="form-control"
           disabled
         />
@@ -795,62 +795,61 @@
         <p>Entidad emitente de calificación</p>
         <input
           type="text"
-          [value]="pclSeleccionada.entidadEmiteCalificacion"
+          [value]="pclSeleccionada.entidadEmiteCalificacion ? pclSeleccionada.entidadEmiteCalificacion : 'Desconocido'"
           class="form-control"
           disabled
         />
       </div>
-      
     </div>
     <div class="col">
       <p>Observaciones</p>
       <textarea
         class="form-control"
-        [value]="pclSeleccionada.observaciones"
+        [value]="pclSeleccionada.observaciones ? pclSeleccionada.observaciones : 'Desconocido'"
         readonly
       ></textarea>
     </div>
     <!-- Agrega más filas según tus necesidades -->
   </div>
   <br>
-  <div class="row" style="padding: 0.5%">
+  <div class="row">
     <div class="col">
       <h5 class="title-header">PCL</h5>
     </div>
   </div>
-  <div class="row" style="padding: 0.5%">
+  <div class="row">
     <div class="col">
-      <div class="row" style="padding: 0.5%">
+      <div class="row">
         <div class="col-6">
           <!-- Columna izquierda -->
-          <div class="row" style="padding: 0.5%">
+          <div class="row">
             <div class="col">
               <p>PCL</p>
               <input
                 type="text"
-                [value]="getStatusLabelPCL(pclSeleccionada.pcl)"
+                [value]="getStatusLabelPCL(pclSeleccionada.pcl) ? getStatusLabelPCL(pclSeleccionada.pcl) : 'Desconocido'"
                 class="form-control"
                 disabled
               />
             </div>
           </div>
-          <div class="row" style="padding: 0.5%">
+          <div class="row">
             <div class="col">
               <p>Porcentaje de la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.porcentajePcl + '%'"
+                [value]="pclSeleccionada.porcentajePcl ? pclSeleccionada.porcentajePcl + '%' : 'Desconocido'"
                 class="form-control"
                 disabled
               />
             </div>
           </div>
-          <div class="row" style="padding: 0.5%">
+          <div class="row">
             <div class="col">
               <p>Fecha de emisión de la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada?.emisionPclFecha"
+                [value]="pclSeleccionada?.emisionPclFecha ? pclSeleccionada?.emisionPclFecha : 'Desconocido'"
                 class="form-control"
                 disabled
               />
@@ -859,23 +858,23 @@
         </div>
         <div class="col-6">
           <!-- Columna derecha -->
-          <div class="row" style="padding: 0.5%">
+          <div class="row">
             <div class="col">
               <p>Entidad que emite la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.entidadEmitePcl"
+                [value]="pclSeleccionada.entidadEmitePcl ? pclSeleccionada.entidadEmitePcl : 'Desconocido'"
                 class="form-control"
                 disabled
               />
             </div>
           </div>
-          <div class="row" style="padding: 0.5%">
+          <div class="row">
             <div class="col">
               <p>Entidad emitente de calificación</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.nombreEntidad"
+                [value]="pclSeleccionada.nombreEntidad ? pclSeleccionada.nombreEntidad : 'Desconocido'"
                 class="form-control"
                 disabled
               />
@@ -888,3 +887,4 @@
     </div>
   </div>
 </p-dialog>
+
