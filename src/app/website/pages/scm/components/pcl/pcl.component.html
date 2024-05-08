@@ -757,7 +757,7 @@
         <p>Origen</p>
         <input
           type="text"
-          [value]="pclSeleccionada.origen ? pclSeleccionada.origen : 'Desconocido'"
+          [value]="pclSeleccionada.origen ? pclSeleccionada.origen : ''"
           class="form-control"
           disabled
         />
@@ -766,7 +766,7 @@
         <p>Estado calificación de origen</p>
         <input
           type="text"
-          [value]="getStatusLabel(pclSeleccionada.statusDeCalificacion) ? getStatusLabel(pclSeleccionada.statusDeCalificacion) : 'Desconocido'"
+          [value]="getStatusLabel(pclSeleccionada.statusDeCalificacion) ? getStatusLabel(pclSeleccionada.statusDeCalificacion) : ''"
           class="form-control"
           disabled
         />
@@ -775,7 +775,7 @@
         <p>Entidad</p>
         <input
           type="text"
-          [value]="pclSeleccionada?.nombreEntidadCalificada ? pclSeleccionada?.nombreEntidadCalificada : 'Desconocido'"
+          [value]="pclSeleccionada?.nombreEntidadCalificada ? pclSeleccionada?.nombreEntidadCalificada : ''"
           class="form-control"
           disabled
         />
@@ -786,7 +786,7 @@
         <p>Fecha de calificación del origen</p>
         <input
           type="text"
-          [value]="pclSeleccionada.fechaCalificacion ? pclSeleccionada.fechaCalificacion : 'Desconocido'"
+          [value]="pclSeleccionada.fechaCalificacion ? pclSeleccionada.fechaCalificacion : ''"
           class="form-control"
           disabled
         />
@@ -795,7 +795,7 @@
         <p>Entidad emitente de calificación</p>
         <input
           type="text"
-          [value]="pclSeleccionada.entidadEmiteCalificacion ? pclSeleccionada.entidadEmiteCalificacion : 'Desconocido'"
+          [value]="pclSeleccionada.entidadEmiteCalificacion ? pclSeleccionada.entidadEmiteCalificacion : ''"
           class="form-control"
           disabled
         />
@@ -805,7 +805,7 @@
       <p>Observaciones</p>
       <textarea
         class="form-control"
-        [value]="pclSeleccionada.observaciones ? pclSeleccionada.observaciones : 'Desconocido'"
+        [value]="pclSeleccionada.observaciones ? pclSeleccionada.observaciones : ''"
         readonly
       ></textarea>
     </div>
@@ -827,7 +827,7 @@
               <p>PCL</p>
               <input
                 type="text"
-                [value]="getStatusLabelPCL(pclSeleccionada.pcl) ? getStatusLabelPCL(pclSeleccionada.pcl) : 'Desconocido'"
+                [value]="getStatusLabelPCL(pclSeleccionada.pcl) ? getStatusLabelPCL(pclSeleccionada.pcl) : ''"
                 class="form-control"
                 disabled
               />
@@ -838,7 +838,7 @@
               <p>Porcentaje de la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.porcentajePcl ? pclSeleccionada.porcentajePcl + '%' : 'Desconocido'"
+                [value]="pclSeleccionada.porcentajePcl ? pclSeleccionada.porcentajePcl + '%' : ''"
                 class="form-control"
                 disabled
               />
@@ -849,7 +849,7 @@
               <p>Fecha de emisión de la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada?.emisionPclFecha ? pclSeleccionada?.emisionPclFecha : 'Desconocido'"
+                [value]="pclSeleccionada?.emisionPclFecha ? pclSeleccionada?.emisionPclFecha : ''"
                 class="form-control"
                 disabled
               />
@@ -863,7 +863,7 @@
               <p>Entidad que emite la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.entidadEmitePcl ? pclSeleccionada.entidadEmitePcl : 'Desconocido'"
+                [value]="pclSeleccionada.entidadEmitePcl ? pclSeleccionada.entidadEmitePcl : ''"
                 class="form-control"
                 disabled
               />
@@ -874,7 +874,7 @@
               <p>Entidad emitente de calificación</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.nombreEntidad ? pclSeleccionada.nombreEntidad : 'Desconocido'"
+                [value]="pclSeleccionada.nombreEntidad ? pclSeleccionada.nombreEntidad : ''"
                 class="form-control"
                 disabled
               />

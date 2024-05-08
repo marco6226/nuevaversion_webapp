@@ -269,7 +269,7 @@ export class PclComponent implements OnInit {
             case "3":
                 return 'En apelación';
             default:
-                return 'Desconocido';
+                return '';
         }
     }
 
@@ -282,7 +282,7 @@ export class PclComponent implements OnInit {
             case "3":
                 return 'En apelación';
             default:
-                return 'Desconocido';
+                return '';
         }
     }
     
