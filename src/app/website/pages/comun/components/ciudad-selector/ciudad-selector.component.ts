@@ -146,6 +146,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     this.ciudadesItems = [];
     // Utiliza el ID seleccionado para cargar los departamentos correspondientes
     // Puedes llamar a tu servicio aquí para cargar los departamentos y asignarlos a 'departamentosItems'
+    if(selectedPaisId)
     this.comunService
       .findDepartamentoByPais(selectedPaisId)
       .then((data: Departamento[]) => {
