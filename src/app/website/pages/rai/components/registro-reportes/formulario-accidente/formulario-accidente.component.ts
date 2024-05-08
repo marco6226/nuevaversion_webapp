@@ -140,12 +140,12 @@ export class FormularioAccidenteComponent implements OnInit {
         this.form = this.fb.group({
             id: this.reporte?.id,
             tipo: this.reporte?.tipo,
-        /*    nombreEps: this.reporte?.nombreEps,
+            nombreEps: this.reporte?.nombreEps,
             codigoEps: this.reporte?.codigoEps,
             nombreAfp: this.reporte?.nombreAfp,
             codigoAfp: this.reporte?.codigoAfp,
             nombreArl: this.reporte?.nombreArl,
-            codigoArl: this.reporte?.codigoArl,*/
+            codigoArl: this.reporte?.codigoArl,
             tipoVinculador: this.reporte?.tipoVinculador,
             nombreCiiu: this.reporte?.nombreCiiu,
             codigoCiiu: this.reporte?.codigoCiiu,
@@ -235,13 +235,11 @@ export class FormularioAccidenteComponent implements OnInit {
 
 
         setTimeout(async () => {
-            if (this.form && this.idEmpresa === '22') {
-                await this.listadoLocalidades(this.form.value.areaAccidente.padreNombre);
-            }
+            if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
             this.form?.patchValue({
                 ciudadEmpleado: this.reporte?.ciudadEmpleado,
                 ciudadAccidente: this.reporte?.ciudadAccidente,
-            });
+            })
         }, 2000);
         
 
