@@ -60,25 +60,32 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   constructor(private comunService: ComunService) {}
 
   // Interface implements
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
+    // this.test()
     this.ciudadesItems.push({ label: '--Ciudad--', value: null });
     this.departamentosItems.push({ label: '--Departamento--', value: null });
     this.paisItems.push({ label: '--Pais--', value: null });
 
-    this.comunService.findAllPais().then((data) => {
-      this.loadPaisItems(<Pais[]>data);
-      // Ahora que hemos cargado los países, podemos llamar a findDepartamentoByPais
-      if (this.paisSelectId) {
-        this.comunService
-          .findDepartamentoByPais(this.paisSelectId)
-          .then((data) => {
-            this.loadDepartamentosItems(<Departamento[]>data);
-          });
-      }
-    });
+    setTimeout(async () => {
 
-    console.log(this.loadPaisItems);
+      await this.comunService.findAllPais().then(async (data) => {
+        this.loadPaisItems(<Pais[]>data);
+        this.paisSelectId= this.value?.departamento?.pais?.id;
+        // Ahora que hemos cargado los países, podemos llamar a findDepartamentoByPais
+        if (this.paisSelectId) {
+          await this.comunService
+            .findDepartamentoByPais(this.paisSelectId)
+            .then((data) => {
+              this.loadDepartamentosItems(<Departamento[]>data);
+              this.departamentoSelectId = this.value?.departamento?.id!;
+            });
+        }
+      });
+    }, 3000);
+
   }
+
+
   ngOnInit() {}
 
   writeValue(value: Ciudad) {
@@ -125,7 +132,6 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
         // Aquí se especifica que pais es del tipo Pais
         this.paisItems.push({ label: pais.nombre, value: pais.id });
       });
-      console.log(this.paisItems);
     } else {
       console.error(
         'La propiedad "data" no es un array en el objeto de países.'
@@ -201,6 +207,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     // setTimeout(() => {
     if (this.value != null) {
       this.departamentoSelectId = this.value?.departamento?.id!;
+      this.paisSelectId= this.value?.departamento?.pais?.id;
       this.loadCiudades(this.departamentoSelectId);
     } else {
     }
