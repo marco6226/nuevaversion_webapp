@@ -419,29 +419,64 @@ color: #fff;
       z-index: 1001;
     }
 
+    // .color1{
+    //     color:white;
+    //     background: linear-gradient(
+    //         to left,
+    //         red 0%,
+    //         orange 20%,
+    //         yellow 45%,
+    //         green 70%,
+    //       );
+    // }
+
     .color1{
         color:white;
         background: linear-gradient(
             to left,
             red 0%,
-            orange 20%,
-            yellow 45%,
-            green 70%,
+            red 18%,
+            orange 22%,
+            orange 43%,
+            yellow 47%,
+            yellow 68%,
+            green 72%,
           );
+    }
+    .color1{
+        color:white;
+        background: repeating-linear-gradient(
+            -135deg,
+            red 0%,
+            red 18%,
+            orange 22%,
+            orange 43%,
+            yellow 47%,
+            yellow 68%,
+            green 72%,
+          );
+          background-size: 20px 20px; /* Hace que el degradado se vea pixelado */
 
     }
 
+    // .color2{
+    //     color:white;
+    //     background: linear-gradient(
+    //         to left,
+    //         red 0%,
+    //         orange 0%,
+    //         yellow 20%,
+    //         green 60%,
+    //       );
+    // }
+    
     .color2{
-        color:white;
-        background: linear-gradient(
-            to left,
-            red 0%,
-            orange 0%,
-            yellow 20%,
-            green 60%,
-          );
+      color: white;
+      background-color: red; /* Primer color */
+      background-image: linear-gradient(to bottom, red 25%, orange 25%, orange 50%, yellow 50%, yellow 75%, green 75%);
    
     }
+
     .color3{
         color:white;
         background: linear-gradient(
