@@ -279,7 +279,7 @@ async imprimirAnexo5() {
         template!.querySelector('#P_solicitud')!.textContent = anexo5.solicitud
         template!.querySelector('#P_usuariosesion')!.textContent = this.nombreSesion
 
-        var WinPrint = window.open('', '_blank', 'noopener,noreferrer')
+        var WinPrint = window.open('', '_blank')
         WinPrint?.document.write('<style>@page{size:letter;margin: 10mm 0mm 10mm 0mm; padding:0mm;}</style>');
         WinPrint?.document.write(template?.innerHTML!);
         // WinPrint?.document.write('<footer>Usuario que imprime</footer>');
