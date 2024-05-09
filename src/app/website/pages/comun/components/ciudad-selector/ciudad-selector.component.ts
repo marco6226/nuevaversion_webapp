@@ -81,7 +81,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
             });
         }
       });
-    }, 3000);
+    }, 3500);
 
   }
 
