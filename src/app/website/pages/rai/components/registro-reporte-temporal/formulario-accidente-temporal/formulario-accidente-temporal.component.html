@@ -330,12 +330,12 @@
 </p-panel>
 <ng-container *ngIf="!consultar && adicionar">
     <button *sTienePermiso="'RAI_POST_REPT'" pButton  (click)="submit1()" icon="pi pi-save" title="Guardar reporte"
-        class="float-btn" [disabled]="!(form.valid && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
+        class="float-btn" [disabled]="!(form.valid && analisisPeligros.valid && flagIncapacidades && !flagGuardado)" style="z-index: 100;"></button>
 </ng-container>
 
 <ng-container *ngIf="!consultar && !adicionar">
     <button *sTienePermiso="'RAI_PUT_REPT'" pButton (click)="submit1()" icon="pi pi-pencil" title="Actualizar reporte"
-        class="float-btn p-button-success" [disabled]="!(form.valid  && analisisPeligros.valid && flagIncapacidades)" style="z-index: 100;"></button>
+        class="float-btn p-button-success" [disabled]="!(form.valid  && analisisPeligros.valid && flagIncapacidades && !flagGuardado)" style="z-index: 100;"></button>
 </ng-container>
 <!-- <button (click)="test()">test</button> -->
 <a style="visibility: hidden" id="dwldLink"></a>

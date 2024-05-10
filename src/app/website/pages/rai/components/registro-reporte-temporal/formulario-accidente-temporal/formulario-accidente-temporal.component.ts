@@ -534,7 +534,9 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
   }
   //botón guardar y modificar
   listPlanAccion: listPlanAccion[] =[]
+  flagGuardado:boolean=false
   async submit1() {
+    this.flagGuardado=true
     this.informacionComplementaria=this.analisisPeligros.value;
     let ad = new AnalisisDesviacion();
     ad.complementaria=JSON.stringify(this.informacionComplementaria);
@@ -585,9 +587,10 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
 
                 this.adicionar=false
                 this.modificar=true
+                this.flagGuardado=false
             }
 
-        );
+        ).catch(()=>this.flagGuardado=false);
         // this.reporte=reporte
     } else if (this.modificar) {
 
@@ -605,7 +608,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
         this.reporteService.update(reporte).then(
             data => this.onSave.emit(<Reporte>data)
         );
-      })
+      }).finally(()=>this.flagGuardado=false);
       // this.reporte=reporte
     }
     this.setListDataFactor()

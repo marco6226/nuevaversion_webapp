@@ -731,9 +731,9 @@ export class FormularioAccidenteCtrComponent implements OnInit {
   }
 
   onGestorSelected(){}
-
+  flagGuardado:boolean =false
   async submit(){
-
+    this.flagGuardado=true
     //Almacenar datos del trabajador
     this.reporte.identificacionEmpresa = this.nitEmpresa;
     this.reporte.razonSocial = this.nombreEmpresa;
@@ -817,6 +817,8 @@ export class FormularioAccidenteCtrComponent implements OnInit {
         this.reporteService.create(this.reporte)
         .then((res: any) => {
           this.esNuevo = false;
+          this.flagGuardado=false
+
           this.reporte.id = res;
 
           let filterQuery = new FilterQuery();
@@ -855,12 +857,15 @@ export class FormularioAccidenteCtrComponent implements OnInit {
         }).catch(err => {
           this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo guardar el reporte'});
           console.error('Error al guardar reporte', err);
+          this.flagGuardado=false
         });
       }
     }
   }
 
   updateReporteAT(notificarActualizacion?: boolean){
+    this.flagGuardado=true
+
     let documentos: Documento[] = this.documentosFurat
     .concat(this.documentosInvAt
       , this.documentosRepEps
@@ -898,11 +903,13 @@ export class FormularioAccidenteCtrComponent implements OnInit {
             console.error('Error al enviar email', err);
           });
         }
+        this.flagGuardado=false
       }).catch(err => {
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo guardar el reporte'});
       });
     }).catch(err => {
       this.messageService.add({severity: 'error', summary: 'Error', detail: 'No se pudo guardar el reporte'});
+      this.flagGuardado=false
     });
   }
 

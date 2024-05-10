@@ -629,12 +629,12 @@
 </p-panel>
 
 <button *ngIf="esNuevo" pButton icon="pi pi-save"
-[disabled]="!infoAccidenteIsValid()"
+[disabled]="!(infoAccidenteIsValid() && !flagGuardado)"
 title="Guardar reporte" class="float-btn" style="z-index: 100;"
 (click)="submit()"></button>
 
 <button *ngIf="!esNuevo && !esConsulta" pButton icon="pi pi-pencil"
-[disabled]="!infoAccidenteIsValid() || !infoInvestigacionIsValid()"
+[disabled]="!(infoAccidenteIsValid() && !flagGuardado) || !(infoInvestigacionIsValid() && !flagGuardado)"
 title="Actualizar reporte" class="float-btn p-button-success" style="z-index: 100;"
 (click)="submit()"></button>
 
