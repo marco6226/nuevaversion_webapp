@@ -46,7 +46,7 @@ export class PclComponent implements OnInit {
     origenList: any;
     idEmpresa!: string;
     differ: any;
-    diagList: SelectItem[] = [{ label: "--Seleccione--", value: null }];
+    diagList: SelectItem[] = [];
     localeES: any = locale_es;
     tipoTratamientos: SelectItem[] = [];
     pclList: any[] = [];
