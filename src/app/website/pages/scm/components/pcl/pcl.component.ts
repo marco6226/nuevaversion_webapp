@@ -39,7 +39,7 @@ export class PclComponent implements OnInit {
     esConsulta: boolean = false;
     pclCalificacionList: SelectItem[] = [
         { label: "--Seleccione--", value: null },
-        { label: "En proceso", value: "1" },
+        { label: "En estudio", value: "1" },
         { label: "En firme", value: "2" },
         { label: "En apelación", value: "0" }
     ]
@@ -93,6 +93,10 @@ export class PclComponent implements OnInit {
         });
 
     }
+    clearSelection() {
+        this.pclSelect = null;
+        this.pclSelect2 = null;
+    }
 
     async ngOnInit() {
         this.config.setTranslation(this.localeES);
@@ -102,6 +106,7 @@ export class PclComponent implements OnInit {
         await this.iniciarPcl();
         this.dlistaPCL.emit(this.pclList);
         this.esConsulta = JSON.parse(localStorage.getItem('scmShowCase')!) == true ? true : false;
+        this.clearSelection();
     
         // Agrupar las PCL por id en un objeto auxiliar
         let pclUniqueMap = new Map<string, any>();
@@ -263,7 +268,7 @@ export class PclComponent implements OnInit {
     getStatusLabel(status: string): string {
         switch (status) {
             case "1":
-                return 'En proceso';
+                return 'En estudio';
             case "2":
                 return 'En firme';
             case "3":
@@ -297,10 +302,10 @@ export class PclComponent implements OnInit {
         this.pclSelect.entidadEmitida = this.pclSelect.entidadEmitida.toString();
         this.pclForm.patchValue(this.pclSelect);
         try {
-
+    
             if (await this.confirmService.confirmPCL()) {
                 let res = await this.scmService.deletePcl(this.pclForm.value);
-
+    
                 if (res) {
                     this.messageService.add({
                         key: 'pcl',
@@ -311,11 +316,13 @@ export class PclComponent implements OnInit {
                     this.action = false;
                     this.eventClose.emit();
                     this.resetDiags();
+                    this.pclForm.reset(); // Restablecer el formulario después de eliminar
                     this.cd.markForCheck();
                     await this.iniciarPcl();
                     this.dlistaPCL.emit(this.pclList);
+                    this.clearSelection();
                 }
-
+    
             }
             else {
                 this.messageService.add({
@@ -325,8 +332,8 @@ export class PclComponent implements OnInit {
                     detail: "usted cancelo la eliminación"
                 });
             }
-
-
+    
+    
         } catch (error) {
             this.messageService.add({
                 key: 'pcl',
@@ -338,6 +345,7 @@ export class PclComponent implements OnInit {
             this.cd.markForCheck();
         }
     }
+    
 
     editPcl() {
         this.estado = 'edit';
