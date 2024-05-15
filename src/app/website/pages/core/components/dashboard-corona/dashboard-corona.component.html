@@ -159,10 +159,10 @@
                     <p>Pais: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" placeholder="Seleccionar pais" (onChange)="funcSelectPais($event,'resumen2');" [(ngModel)]="selectPais2"></p-dropdown>
                 </div>
                 <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">
-                    <p>División: </p>&nbsp;<p-multiSelect appendTo="body" [options]="divisionList2" placeholder="Seleccionar división" (onChange)="funcSelectDivision2($event,'resumen2')" [(ngModel)]="selectedDivisionResumen2"></p-multiSelect>
+                    <p>División: </p>&nbsp;<p-multiSelect [style]="{'width':'100%','max-width': '200px'}" appendTo="body" [options]="divisionList2" placeholder="Seleccionar división" (onChange)="funcSelectDivision2($event,'resumen2')" [(ngModel)]="selectedDivisionResumen2"></p-multiSelect>
                 </div>
                 <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
-                    <p>Localidad: </p>&nbsp;<p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList1" placeholder="Seleccionar localidad" [(ngModel)]="LocalidadSelect1" defaultLabel="Seleccione localidad" (ngModelChange)="CardsClasificacion()"></p-multiSelect>
+                    <p>Localidad: </p>&nbsp;<p-multiSelect [style]="{'width':'100%','max-width': '200px'}" appendTo="body" [options]="localidadesList1" placeholder="Seleccionar localidad" [(ngModel)]="LocalidadSelect1" defaultLabel="Seleccione localidad" (ngModelChange)="CardsClasificacion()"></p-multiSelect>
                 </div>
                 <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
                     <p style="margin-right: 10px!important;">Desde:</p>
