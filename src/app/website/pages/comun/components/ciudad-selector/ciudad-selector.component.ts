@@ -81,7 +81,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
             });
         }
       });
-    }, 3500);
+    }, 2500);
 
   }
 
@@ -120,6 +120,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     departamentos.forEach(depto => {
         this.departamentosItems.push({ label: depto.nombre, value: depto.id });
     });
+    
 }
 
 
@@ -152,6 +153,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
       .then((data: Departamento[]) => {
         this.loadDepartamentosItems(data);
       });
+      
   }
 
   onDepartamentoChange(event: any) {
@@ -162,14 +164,15 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     // Si se selecciona un departamento, cargar las ciudades correspondientes
     if (event.value) {
       this.loadCiudades(event.value);
+      
     }
   }
 
-  onDepartamentomexChange(event: any) {
-    this.value = null;
-    if (event.value) this.loadCiudadesmex(event.value);
-    else this.ciudadesItems = [];
-  }
+  // onDepartamentomexChange(event: any) {
+  //   this.value = null;
+  //   if (event.value) this.loadCiudadesmex(event.value);
+  //   else this.ciudadesItems = [];
+  // }
 
   async loadCiudades(departamentoId: string) {
     this.ciudadesItems.splice(2, this.ciudadesItems.length); // Limpiar la lista antes de agregar nuevas ciudades
@@ -177,11 +180,11 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
       .findCiudadByDepartamento(departamentoId)
       .then((data) => this.loadCiudadesItems(<Ciudad[]>data));
 }
-  async loadCiudadesmex(departamentoId: string) {
-    await this.comunService
-      .findCiudadByDepartamento(departamentoId)
-      .then((data) => this.loadCiudadesmexico(<Ciudad[]>data));
-  }
+  // async loadCiudadesmex(departamentoId: string) {
+  //   await this.comunService
+  //     .findCiudadByDepartamento(departamentoId)
+  //     .then((data) => this.loadCiudadesmexico(<Ciudad[]>data));
+  // }
 
   loadCiudadesItems(ciudades: Ciudad[]) {
     this.ciudadesItems.splice(2, this.ciudadesItems.length);
@@ -193,25 +196,30 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     });
   }
 
-  loadCiudadesmexico(ciudades: Ciudad[]) {
-    this.ciudadesItems.splice(2, this.ciudadesItems.length);
-    ciudades.forEach((ciudad) => {
-      if (this.value != null && ciudad.id == this.value.id) {
-        this._value = ciudad;
-      }
-      this.ciudadesItems.push({ label: ciudad.nombre, value: ciudad });
-    });
-  }
+  // loadCiudadesmexico(ciudades: Ciudad[]) {
+  //   this.ciudadesItems.splice(2, this.ciudadesItems.length);
+  //   ciudades.forEach((ciudad) => {
+  //     if (this.value != null && ciudad.id == this.value.id) {
+  //       this._value = ciudad;
+  //     }
+  //     this.ciudadesItems.push({ label: ciudad.nombre, value: ciudad });
+  //   });
+  // }
+
 
   updateUI() {
     // console.log(this.value)
     // setTimeout(() => {
     if (this.value != null) {
-      this.departamentoSelectId = this.value?.departamento?.id!;
       this.paisSelectId= this.value?.departamento?.pais?.id;
+      
+      this.departamentoSelectId = this.value?.departamento?.id!;
+        
       this.loadCiudades(this.departamentoSelectId);
+      
     } else {
+     
     }
-    // }, 3000);
+    // }, 2000);
   }
 }

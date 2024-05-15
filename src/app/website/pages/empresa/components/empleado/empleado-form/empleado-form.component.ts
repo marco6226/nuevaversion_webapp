@@ -251,8 +251,9 @@ export class EmpleadoFormComponent implements OnInit {
                 setTimeout(() => {
                     this.form.patchValue({
                         'ciudad': this.empleadoSelect!.ciudad,
+                        'departamento': this.empleadoSelect!.ciudad.departamento,
                     })
-                }, 2000);
+                }, 2100);
             });
         } 
         else {
@@ -297,6 +298,7 @@ export class EmpleadoFormComponent implements OnInit {
                     this.buildPerfilesIdList();
                 }, 3000);
         });
+        
         this.getTareaEvidences();
     }
 
