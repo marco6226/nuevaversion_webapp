@@ -159,8 +159,6 @@
       width: 290px;
       text-align: left;
       padding-left: 10px;
-      
-  
   }
   
   
@@ -169,10 +167,7 @@
     display: inline-flex;
     font-size: x-large;
     position: fixed;
-    color: rgba(0, 0, 0, 0); /*este es para el texto*/
-  
-     
-  
+    color: rgba(0, 0, 0, 0);
   }
   
   .ocultar:hover{
@@ -217,16 +212,9 @@
     border: none;
     margin-bottom: 30px;
     padding: 5% 3% 2% 3%;
-    height: 4.2cm;
+    height: 100%;
   }
-  // .card {
-  //   background-color: #fff;
-  //   border-radius: 10px;
-  //   border: none;
-  //   position: relative;
-  //   margin-bottom: 30px;
-  //   box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
-  // }
+
 
   .aspect-ratio-square {
     position: relative;
@@ -291,12 +279,18 @@ color: #fff;
   }
   
   .tamañotexto {
-    z-index: 10;
     font-size: 25px;
   }
   .tamañotexto2 {
-    z-index: 10;
     font-size: 15px;
+  }
+  .tamañotexto_2 {
+    font-size: 25px;
+    // line-height: 1;
+  }
+  .tamañotexto2_2 {
+    font-size: 15px;
+    // line-height: 1;
   }
   
   ::ng-deep .col-4 {
@@ -309,7 +303,6 @@ color: #fff;
   .grafic {
   background-color: #fff;
   border-radius: 20px;
-  // border-top: 10px solid #f2f3f9;
   position: relative;
   margin-bottom: 30px;
   height: 11.5cm;
@@ -318,7 +311,6 @@ color: #fff;
   .filter {
   background-color: lightgrey;
   border-radius: 20px;
-  // border: 10px solid #f2f3f9;
   position: relative;
   margin-bottom: 30px;
   height: 17cm;
@@ -343,31 +335,12 @@ color: #fff;
   .colorfondo{
   background: #ebe9e5;
   }
-  
-  // ::ng-deep .ngx-charts{
-  //   width: 10px;
-  // }
-  
-  // ::ng-deep .ngx-charts .bar {
-  //   stroke: red;
-  // }
+
   :host ::ng-deep .h4{
   font-size:small;
   }
   
-  // :host ::ng-deep .ngx-charts{
-  //   color: red;
-  // }
-  
-  // ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
-  //   .tooltip-caret.position-top {
-  //     border-top-color: rgb(241, 6, 6);
-  //     box-shadow: 0 6px 20px 0 rgba(81, 0, 255, 0.2);
-  //   }
-  
-  //   background-color: rgb(19, 215, 48);
-  //   box-shadow: 0 6px 20px 0 rgba(255, 4, 167, 0.2);
-  // }
+
   
   :host ::ng-deep 
     .p-calendar{
@@ -427,131 +400,248 @@ color: #fff;
       z-index: 1001;
     }
 
-    // .color1{
-    //     color:white;
-    //     background: linear-gradient(
-    //         to left,
-    //         red 0%,
-    //         orange 20%,
-    //         yellow 45%,
-    //         green 70%,
-    //       );
-    // }
-
-    // .color1{
-    //     color:white;
-    //     background: linear-gradient(
-    //         to left,
-    //         red 0%,
-    //         red 18%,
-    //         orange 22%,
-    //         orange 43%,
-    //         yellow 47%,
-    //         yellow 68%,
-    //         green 72%,
-    //       );
-    // }
-    .color1::after {
-      content: '';
-      position: absolute;
-      border-radius: 5px;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-          linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px),
-          linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px);
-      background-size: 10px 10px; /* Tamaño de cuadrícula */
-      
+  
+  .color1I{
+    color:black;
+    background: linear-gradient(
+        to left,
+        red 0%,
+        red 15%,
+        orange 19%,
+        orange 31%,
+        yellow  35%,
+        yellow  48%,
+        green 52%,
+      );
   }
-    .color1{
-        color:white;
-        background: linear-gradient(
-            -135deg,
-            red 0%,
-            red 18%,
-            orange 22%,
-            orange 43%,
-            yellow 47%,
-            yellow 68%,
-            green 72%,
+  
+  .color2I{
+    color:black;
+      background: linear-gradient(
+          to left,
+          red 0%,
+          red 38%,
+          orange 42%,
+          orange 78%,
+          yellow  82%,
+          yellow  100%,
+          green 100%,
+        );
+  }
+
+  .color3I{
+    color:black;
+    background: linear-gradient(
+        to left,
+        red 0%,
+        red 18%,
+        orange 20%,
+        orange 20%,
+        yellow 22%,
+        yellow 48%,
+        green 52%,
+      );
+  }
+  .color4I{
+      color:black;
+      background: linear-gradient(
+          to left,
+          red 0%,            
+          red 8%,            
+          orange 12%,
+          orange 35%,
+          yellow 39%,
+          yellow 88%,
+          green 92%,
           );
-    }
+  }
+  .color5I{
+    color:black;
+    background: linear-gradient(
+        -150deg,
+        red 0%,
+        red 15%,
+        orange 19%,
+        orange 31%,
+        yellow  35%,
+        yellow  48%,
+        green 52%,
+      );
+  }
+  
+  .color6I{
+    color:black;
+      background: linear-gradient(
+          -150deg,
+          red 0%,
+          red 38%,
+          orange 42%,
+          orange 78%,
+          yellow  82%,
+          yellow  100%,
+          green 100%,
+        );
+  }
 
-    // .color2{
-    //     color:white;
-    //     background: linear-gradient(
-    //         to left,
-    //         red 0%,
-    //         orange 0%,
-    //         yellow 20%,
-    //         green 60%,
-    //       );
-    // }
-    
-    .color2{
-      color: white;
-      background-color: red; /* Primer color */
-      background-image: linear-gradient(to bottom, red 25%, orange 25%, orange 50%, yellow 50%, yellow 75%, green 75%);
-   
-    }
-
-    .color3{
-        color:white;
-        background: linear-gradient(
-            to right,
-            red 0%,
-            orange 17%,
-            yellow  33%,
-            green 50%,
+  .color7I{
+    color:black;
+    background: linear-gradient(
+        -150deg,
+        red 0%,
+        red 18%,
+        orange 20%,
+        orange 20%,
+        yellow 22%,
+        yellow 48%,
+        green 52%,
+      );
+  }
+  .color8I{
+      color:black;
+      background: linear-gradient(
+          -150deg,
+          red 0%,            
+          red 8%,            
+          orange 12%,
+          orange 35%,
+          yellow 39%,
+          yellow 88%,
+          green 92%,
           );
- 
-    }
-    .color4{
-        color:white;
-        background: linear-gradient(
-            to left,
-            red 10%,            
-            orange 40%,
-            yellow 63%,
-            green 90%,
+  }
+  
+  .color1R{
+    color:black;
+
+    background: conic-gradient(
+      at 0% 50%,
+      red 0%,
+      red 7.5%,
+      orange 8.5%,
+      orange 15.5%,
+      yellow  17.5%,
+      yellow  24%,
+      green 26%,
+      );
+  }
+  
+  .color2R{
+    color:black;
+      background: conic-gradient(
+          at 0% 50%,
+          red 0%,
+          red 19%,
+          orange 21%,
+          orange 39%,
+          yellow  41%,
+          yellow  50%,
+          green 50%,
+        );
+  }
+
+  .color3R{
+    color:black;
+    background: conic-gradient(
+        at 0% 50%,
+        red 0%,
+        red 9%,
+        orange 10%,
+        orange 10%,
+        yellow 11%,
+        yellow 24%,
+        green 26%,
+      );
+  }
+  .color4R{
+      color:black;
+      background: conic-gradient(
+          at 0% 50%,
+          red 0%,            
+          red 4%,            
+          orange 6%,
+          orange 17.5%,
+          yellow 19.5%,
+          yellow 44%,
+          green 46%,
           );
-   
-    }
-    .color5{
-        color:white;
-        background: linear-gradient(
-            red 0%,
-            orange 20%,
-            yellow 50%,
-            green 60%,
+  }
+  .color5R{
+    color:black;
+    background: linear-gradient(
+        -150deg,
+        red 0%,
+        red 15%,
+        orange 19%,
+        orange 31%,
+        yellow  35%,
+        yellow  48%,
+        green 52%,
+      );
+  }
+  
+  .color6R{
+    color:black;
+      background: linear-gradient(
+          -150deg,
+          red 0%,
+          red 38%,
+          orange 42%,
+          orange 78%,
+          yellow  82%,
+          yellow  100%,
+          green 100%,
+        );
+  }
+
+  .color7R{
+    color:black;
+    background: linear-gradient(
+        -150deg,
+        red 0%,
+        red 18%,
+        orange 20%,
+        orange 20%,
+        yellow 22%,
+        yellow 48%,
+        green 52%,
+      );
+  }
+  .color8R{
+      color:black;
+      background: linear-gradient(
+          -150deg,
+          red 0%,            
+          red 8%,            
+          orange 12%,
+          orange 35%,
+          yellow 39%,
+          yellow 88%,
+          green 92%,
           );
-    }
-    .color6{
-        color:white;
-        background: radial-gradient(
-            circle at 50%,
-            red 5%,
-            orange 10%,
-            yellow 55%,
-            rgb(9, 186, 9) 70%,
-          );
- 
-    }
-    .color7{
-        color:white;
+  }
 
-          background: conic-gradient(
-            at 0% 50%,
-            red 0%,
-            orange 33%,
-            yellow 55%,
-            green 70%
-            );
+  .cardGrid1{
+    padding: 2px;
+    padding-bottom: 2px;
+    padding-inline: 20px;
+  }
+  .cardGrid2{
+    padding: 2px;
+    padding-bottom: 20px;
+    padding-inline: 15px;
+    height: 4.7cm;
+  }
+  .cardGrid3{
+    padding: 2px;
+    padding-bottom: 10px;
+    padding-inline: 10px;
+    // height: 4.7cm;
+  }
 
-    }
+  // .grid {
+  //   justify-content: space-around;
 
-
+  // }
+  
   
   
