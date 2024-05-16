@@ -19,6 +19,24 @@ import { ViewMatrizPeligrosService } from '../../../core/services/view-matriz-pe
   styleUrl: './ind-matriz-peligros.component.scss'
 })
 export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
+  colorScheme = {
+    domain: ['#00B0F0', '#FC4512', '#FFC000', '#002060','#FCB8FC', '#5B9BD5','#70AD47']
+  };
+  dataEventos1:any[]=[]
+  dataEventos2:any[]=[]
+  dataEventos3:any[]=[]
+  dataEventos4:any[]=[]
+  dataEventos5:any[]=[]
+  dataEventos6:any[]=[]
+  dataEventos7:any[]=[]
+  dataEventos8:any[]=[]
+  dataEventos9:any[]=[]
+  dataEventos10:any[]=[]
+  dataEventos11:any[]=[]
+  dataEventos12:any[]=[]
+  dataEventos13:any[]=[]
+  dataEventos14:any[]=[]
+
   filtro1: any[] = [{label: 'Numero AT', value: 'Numero AT'}, {label: 'Porcentaje AT', value: 'Porcentaje AT'},{label: 'Numero EL', value: 'Numero EL'},{label: 'Porcentaje EL', value: 'Porcentaje EL'}];
   filtro2: any[] = [{label: 'Numero AT', value: 'Numero AT'}, {label: 'Porcentaje AT', value: 'Porcentaje AT'},{label: 'Numero EL', value: 'Numero EL'},{label: 'Porcentaje EL', value: 'Porcentaje EL'}];
   filtro3: any[] = [{label: 'Riesgo incial sin eliminados y sustituidos', value: 'Riesgo incial sin eliminados y sustituidos'}, {label: 'Riesgo final sin eliminados y sustituidos', value: 'Riesgo final sin eliminados y sustituidos'},{label: 'Riesgo incial con eliminados y sustituidos', value: 'Riesgo incial con eliminados y sustituidos'}, {label: 'Riesgo final con eliminados y sustituidos', value: 'Riesgo final con eliminados y sustituidos'}];
@@ -281,7 +299,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     this.getData()
   }
   ngOnDestroy(): void {
-    localStorage.removeItem('dataMp');
+    // localStorage.removeItem('dataMp');
   }
 
   async getData(){
@@ -299,13 +317,14 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     filterMatriz.sortOrder = -1;
     await this.viewMatrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
       dataMP=resp.data
-      localStorage.setItem('dataMP', JSON.stringify(dataMP.map((mp:any) => mp)))
+      console.log(dataMP)
+      localStorage.setItem('dataMP', JSON.stringify(dataMP))
     })
 
   }
 
   peligro:any=[]
-  tipoPeligroItemList?: SelectItem[];
+  tipoPeligroItemList?: any[];
 
 
   async cargarTiposPeligro() {
@@ -354,6 +373,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.divisionList1=await this.getDivisiones(pais.value)
         this.grafData1()
         break;
+      case 'graf2':
+        this.localidadesList2=[]
+        this.selecteLocalidad2=[]
+        this.selecteDivision2=null
+        this.divisionList2=await this.getDivisiones(pais.value)
+        this.grafData2()
+        break;
       default:
         break;
     }
@@ -374,11 +400,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       return new Promise(async (resolve, reject) => {
         await this.empresaService.getLocalidadesRWithFilter(filterLocalidadQuery)
         .then((res:any) => {
-          console.log(res)
-
           this.localidadesList = (<Localidades[]>res.data).map(localidad => localidad);
-          console.log(this.localidadesList)
-
           for(const ele of this.divisionList){
             if(this.getLocalidadesByArea(ele.id,res.data))divisionListOut.push({label:ele['nombre'],value:ele['nombre']})
           };
@@ -455,25 +477,122 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   }
   
   tableroRiesgoIncial(){
-    let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMp')!);
+    let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
   }
   tableroRiesgofinal(){
-    let dataRiesgoFinal: any[] = JSON.parse(localStorage.getItem('dataMp')!);
+    let dataRiesgoFinal: any[] = JSON.parse(localStorage.getItem('dataMP')!);
   }
 
   // Grafica Analisis riesgo 1
   grafData1(){
-    let dataAnalisisRiesgo1: any[] = JSON.parse(localStorage.getItem('dataMp')!);
+      let dataAnalisisRiesgo1: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos1: any[] = [];
+
+
+      //nuevo
+      // let dataMPCopyDiv: any[]=[]
+      // if(this.selectPais1)if(this.selectPais1!='Corona Total')dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => at.pais == this.selectPais1);
+      // if(this.selecteDivision1)dataAnalisisRiesgo1= dataAnalisisRiesgo1.filter(at => at.padreNombre == this.selecteDivision1);
+      // if(this.selecteLocalidad1)if(this.selecteLocalidad1.length>0){
+      //   dataMPCopyDiv=[]
+      //   this.selecteLocalidad1.forEach((element:any) => {
+      //     dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo1.filter(at => at.nombrePlanta == element));
+      //   });
+      //   dataAnalisisRiesgo1=[...dataMPCopyDiv]
+      // }
+    //fin nuevo
+    console.log(dataAnalisisRiesgo1)
+    for(const division of this.divisionList1){
+      console.log(division)
+      let data:any = {
+        name: division.label,
+        series: []
+      }
+
+      let numeroAt: number = dataAnalisisRiesgo1.filter(mp => mp.division === division.label)
+                                    .reduce((count:number, at:any) => {
+                                      return count + ((at.atAsociados)?Number(at.atAsociados):0.0);
+                                  }, 0);
+      let numeroEl: number = dataAnalisisRiesgo1.filter(mp => mp.division===division.label)
+                                    .reduce((count, el) => {
+                                        return count + ((el.elAsociados)?Number(el.elAsociados):0);
+                                    }, 0);
+      
+
+      data.series.push({
+        name: this.filtro1[0].label,
+        value: numeroAt
+      });
+      data.series.push({
+        name: this.filtro1[2].label,
+        value: numeroEl
+      })
+      console.log(data)
+      dataEventos1.push(data);
+    }
+
+    console.log(dataEventos1)
+    Object.assign(this, {dataEventos1});
+    localStorage.setItem('dataEventos1', JSON.stringify(dataEventos1));
+    // console.log(dataAnalisisRiesgo1)
 
   }
   // Grafica Analisis riesgo 2
   grafData2(){
-    let dataAnalisisRiesgo3: any[] = JSON.parse(localStorage.getItem('dataMp')!);
+    let dataAnalisisRiesgo2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+    let dataEventos2: any[] = [];
+
+
+      //nuevo
+      // let dataMPCopyDiv: any[]=[]
+      // if(this.selectPais1)if(this.selectPais1!='Corona Total')dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => at.pais == this.selectPais1);
+      // if(this.selecteDivision1)dataAnalisisRiesgo1= dataAnalisisRiesgo1.filter(at => at.padreNombre == this.selecteDivision1);
+      // if(this.selecteLocalidad1)if(this.selecteLocalidad1.length>0){
+      //   dataMPCopyDiv=[]
+      //   this.selecteLocalidad1.forEach((element:any) => {
+      //     dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo1.filter(at => at.nombrePlanta == element));
+      //   });
+      //   dataAnalisisRiesgo1=[...dataMPCopyDiv]
+      // }
+    //fin nuevo
+    if(this.tipoPeligroItemList)
+    for(const tipoPeligro of this.tipoPeligroItemList){
+      let data:any = {
+        name: tipoPeligro.label,
+        series: []
+      }
+
+      let numeroAt: number = dataAnalisisRiesgo2.filter(mp => mp.peligro === tipoPeligro.label)
+                                    .reduce((count:number, at:any) => {
+                                      return count + ((at.atAsociados)?Number(at.atAsociados):0.0);
+                                  }, 0);
+      let numeroEl: number = dataAnalisisRiesgo2.filter(mp => mp.peligro===tipoPeligro.label)
+                                    .reduce((count, el) => {
+                                        return count + ((el.elAsociados)?Number(el.elAsociados):0);
+                                    }, 0);
+      
+
+      data.series.push({
+        name: this.filtro2[0].label,
+        value: numeroAt
+      });
+      data.series.push({
+        name: this.filtro2[2].label,
+        value: numeroEl
+      })
+      console.log(data)
+      dataEventos2.push(data);
+    }
+
+    console.log(dataEventos2)
+    Object.assign(this, {dataEventos2});
+    localStorage.setItem('dataEventos2', JSON.stringify(dataEventos2));
+    // console.log(dataAnalisisRiesgo1)
 
   }
   // Grafica Analisis riesgo 3
   grafData3(){
-    let dataAnalisisRiesgo3: any[] = JSON.parse(localStorage.getItem('dataMp')!);
+    let dataAnalisisRiesgo3: any[] = JSON.parse(localStorage.getItem('dataMP')!);
 
   }
 }

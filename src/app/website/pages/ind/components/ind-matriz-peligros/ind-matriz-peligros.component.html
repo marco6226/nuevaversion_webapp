@@ -734,23 +734,23 @@
     
             <div  class="col-8 grid">
               <div class="col-11 grafic">
-                  <!-- <ngx-charts-bar-vertical-2d 
-                  [scheme]="colorScheme2"
+                  <ngx-charts-bar-vertical-2d 
+                  [scheme]="colorScheme"
                   [animations]="false"
-                  [results]="tasaFrecuencia1"
-                  [gradient]="gradient"
-                  [xAxis]="showXAxis"
-                  [yAxis]="showYAxis"
+                  [results]="dataEventos1"
+                  [gradient]="true"
+                  [xAxis]="true"
+                  [yAxis]="true"
                   [legend]="false"
-                  [showXAxisLabel]="showXAxisLabel"
+                  [showXAxisLabel]="true"
                   [showYAxisLabel]="true"
-                  [xAxisLabel]="(selectPais4=='Corona Total')?'Divisiones':'Localidades'"
-                  [yAxisLabel]="'Indicadores'"
+                  [xAxisLabel]="'Divisiones'"
+                  [yAxisLabel]="'Riesgos'"
                   [barPadding]=0
                   [groupPadding]=4
                   [showDataLabel]="true"
                   [tooltipDisabled]="false">
-                  </ngx-charts-bar-vertical-2d> -->
+                  </ngx-charts-bar-vertical-2d>
               </div>
               <div class="col-1">&nbsp;</div>
             </div>
@@ -835,23 +835,23 @@
       
               <div  class="col-8 grid">
                 <div class="col-11 grafic">
-                    <!-- <ngx-charts-bar-vertical-2d 
-                    [scheme]="colorScheme2"
+                    <ngx-charts-bar-vertical-2d 
+                    [scheme]="colorScheme"
                     [animations]="false"
-                    [results]="tasaFrecuencia1"
-                    [gradient]="gradient"
-                    [xAxis]="showXAxis"
-                    [yAxis]="showYAxis"
+                    [results]="dataEventos2"
+                    [gradient]="true"
+                    [xAxis]="true"
+                    [yAxis]="true"
                     [legend]="false"
-                    [showXAxisLabel]="showXAxisLabel"
+                    [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
-                    [xAxisLabel]="(selectPais4=='Corona Total')?'Divisiones':'Localidades'"
-                    [yAxisLabel]="'Indicadores'"
+                    [xAxisLabel]="'Tipo peligros'"
+                    [yAxisLabel]="'Riesgos'"
                     [barPadding]=0
                     [groupPadding]=4
                     [showDataLabel]="true"
                     [tooltipDisabled]="false">
-                    </ngx-charts-bar-vertical-2d> -->
+                    </ngx-charts-bar-vertical-2d>
                 </div>
                 <div class="col-1">&nbsp;</div>
               </div>
@@ -865,7 +865,7 @@
                 <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"></p-multiSelect>
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais2" 
-                placeholder="Seleccionar país">
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf2');">
                 </p-dropdown>
                 <h3>Division</h3>
                 <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList2" [(ngModel)]="selecteDivision2" defaultLabel="Seleccionar división">
