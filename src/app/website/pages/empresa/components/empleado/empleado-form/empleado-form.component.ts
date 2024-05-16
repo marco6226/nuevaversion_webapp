@@ -210,6 +210,7 @@ export class EmpleadoFormComponent implements OnInit {
                     this.onSelectionJefeInmediato(this.empleadoSelect.jefeInmediato);
                 }
                 await this.usuarioPermisos()
+                
                 this.form.patchValue({
                     id: this.empleadoSelect.id,
                     primerNombre: this.empleadoSelect.primerNombre,

@@ -39,10 +39,16 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   _value!: Ciudad | null;
   @Input('_value')
   set value2(_value: Ciudad) {
+    
     console.log(_value);
-    this._value = _value;
-    this.updateUI();
+    if(this._value != null){
+      this.valueIn = _value;
+      this.updateUI();
+    }
   }
+
+  valueIn: Ciudad | null = null;
+
   @Input('disabled') disabled: boolean = false;
   @Input() styleRow: string = 'row g-2 mb-3';
   @Input() styleCol: string = 'col-6';
@@ -67,17 +73,28 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     this.paisItems.push({ label: '--Pais--', value: null });
 
     setTimeout(async () => {
-
+      
       await this.comunService.findAllPais().then(async (data) => {
-        this.loadPaisItems(<Pais[]>data);
-        this.paisSelectId= this.value?.departamento?.pais?.id;
+        await this.loadPaisItems(<Pais[]>data);
+        
+        this.paisSelectId= await this.valueIn!.departamento?.pais.id;
+        console.log(this.paisSelectId);
+        
         // Ahora que hemos cargado los países, podemos llamar a findDepartamentoByPais
         if (this.paisSelectId) {
           await this.comunService
             .findDepartamentoByPais(this.paisSelectId)
-            .then((data) => {
-              this.loadDepartamentosItems(<Departamento[]>data);
-              this.departamentoSelectId = this.value?.departamento?.id!;
+            .then(async (data) => {
+              await this.loadDepartamentosItems(<Departamento[]>data);
+              this.departamentoSelectId = await this.valueIn!.departamento!.id!;
+
+              await this.comunService
+                .findCiudadByDepartamento(this.departamentoSelectId)
+                .then((data) => {
+                  this.loadCiudadesItems(<Ciudad[]>data);
+                  this.value = this.valueIn;
+                });
+
             });
         }
       });
@@ -189,7 +206,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   loadCiudadesItems(ciudades: Ciudad[]) {
     this.ciudadesItems.splice(2, this.ciudadesItems.length);
     ciudades.forEach((ciudad) => {
-      if (this.value != null && ciudad.id == this.value.id) {
+      if (this.valueIn != null && ciudad.id == this.valueIn.id) {
         this._value = ciudad;
       }
       this.ciudadesItems.push({ label: ciudad.nombre, value: ciudad });
