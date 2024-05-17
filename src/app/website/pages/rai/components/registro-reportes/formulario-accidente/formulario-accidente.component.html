@@ -361,7 +361,7 @@
                         <s-ciudadSelector id="ciudadSelector" formControlName="ciudadEmpleado" required></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
-                        <s-ciudadSelector formControlName="ciudadEmpleado"></s-ciudadSelector>
+                        <s-ciudadSelector formControlName="ciudadEmpleado" [_value]="this.form.value!.ciudadEmpleado"></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Cargo
