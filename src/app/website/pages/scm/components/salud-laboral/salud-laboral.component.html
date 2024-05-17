@@ -314,7 +314,7 @@
                             <div>
                                 <label for="" class="active">Ciudad de residencia</label>
                                 <s-ciudadSelector formControlName="ciudad"
-                                    [id]="departamento" class="select-material" styleClass="select-material"
+                                    [id]="departamento" class="select-material" styleClass="select-material" [_value]="this.empleadoForm.value!.ciudad"
                                     required>
                                 </s-ciudadSelector>
                             </div>
