@@ -318,7 +318,7 @@ color: #fff;
 
   div{
     font-size: large;
-    padding-bottom: 20px;
+    padding-bottom: 5px;
   }
 
   label{
@@ -402,7 +402,8 @@ color: #fff;
 
   
   .color1I{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
     background: linear-gradient(
         to left,
         red 0%,
@@ -416,159 +417,170 @@ color: #fff;
   }
   
   .color2I{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
       background: linear-gradient(
           to left,
           red 0%,
-          red 38%,
-          orange 42%,
-          orange 78%,
-          yellow  82%,
+          red 40%,
+          orange 40%,
+          orange 80%,
+          yellow  80%,
           yellow  100%,
           green 100%,
         );
   }
 
   .color3I{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
     background: linear-gradient(
         to left,
         red 0%,
-        red 18%,
+        red 20%,
         orange 20%,
         orange 20%,
-        yellow 22%,
-        yellow 48%,
-        green 52%,
+        yellow 20%,
+        yellow 50%,
+        green 50%,
       );
   }
   .color4I{
-      color:black;
+      color:white;
+      text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
       background: linear-gradient(
           to left,
           red 0%,            
-          red 8%,            
-          orange 12%,
-          orange 35%,
-          yellow 39%,
-          yellow 88%,
-          green 92%,
+          red 10%,            
+          orange 10%,
+          orange 37%,
+          yellow 37%,
+          yellow 90%,
+          green 90%,
           );
   }
   .color5I{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
     background: linear-gradient(
-        -150deg,
+        to left,
         red 0%,
-        red 15%,
-        orange 19%,
-        orange 31%,
-        yellow  35%,
-        yellow  48%,
-        green 52%,
+        red 17%,
+        orange 17%,
+        orange 33%,
+        yellow  33%,
+        yellow  50%,
+        green 50%,
       );
   }
   
   .color6I{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
       background: linear-gradient(
-          -150deg,
+          to left,
           red 0%,
-          red 38%,
-          orange 42%,
-          orange 78%,
-          yellow  82%,
+          red 40%,
+          orange 40%,
+          orange 80%,
+          yellow  80%,
           yellow  100%,
           green 100%,
         );
   }
 
   .color7I{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
     background: linear-gradient(
-        -150deg,
+        to left,
         red 0%,
-        red 18%,
+        red 20%,
         orange 20%,
         orange 20%,
-        yellow 22%,
-        yellow 48%,
-        green 52%,
+        yellow 20%,
+        yellow 50%,
+        green 50%,
       );
   }
   .color8I{
-      color:black;
+      color:white;
+      text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
       background: linear-gradient(
-          -150deg,
+         to left,
           red 0%,            
-          red 8%,            
-          orange 12%,
-          orange 35%,
-          yellow 39%,
-          yellow 88%,
-          green 92%,
+          red 10%,            
+          orange 10%,
+          orange 37%,
+          yellow 37%,
+          yellow 90%,
+          green 90%,
           );
   }
   
   .color1R{
-    color:black;
-
-    background: conic-gradient(
-      at 0% 50%,
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
+    background: linear-gradient(
+        to left,
       red 0%,
-      red 7.5%,
-      orange 8.5%,
-      orange 15.5%,
-      yellow  17.5%,
-      yellow  24%,
-      green 26%,
+      red 15%,
+      orange 15%,
+      orange 33%,
+      yellow  33%,
+      yellow  50%,
+      green 50%,
       );
   }
   
   .color2R{
-    color:black;
-      background: conic-gradient(
-          at 0% 50%,
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
+      background: linear-gradient(
+          to left,
           red 0%,
-          red 19%,
-          orange 21%,
-          orange 39%,
-          yellow  41%,
-          yellow  50%,
-          green 50%,
+          red 40%,
+          orange 40%,
+          orange 80%,
+          yellow  80%,
+          yellow  100%,
+          green 100%,
         );
   }
 
   .color3R{
-    color:black;
-    background: conic-gradient(
-        at 0% 50%,
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
+    background: linear-gradient(
+        to left,
         red 0%,
-        red 9%,
-        orange 10%,
-        orange 10%,
-        yellow 11%,
-        yellow 24%,
-        green 26%,
+        red 20%,
+        orange 20%,
+        orange 20%,
+        yellow 20%,
+        yellow 50%,
+        green 50%,
       );
   }
   .color4R{
-      color:black;
-      background: conic-gradient(
-          at 0% 50%,
+      color:white;
+      text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
+      background: linear-gradient(
+          to left,
           red 0%,            
-          red 4%,            
-          orange 6%,
-          orange 17.5%,
-          yellow 19.5%,
-          yellow 44%,
-          green 46%,
+          red 10%,            
+          orange 10%,
+          orange 37%,
+          yellow 37%,
+          yellow 90%,
+          green 90%,
           );
   }
   .color5R{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
     background: linear-gradient(
-        -150deg,
+        to left,
         red 0%,
         red 15%,
         orange 19%,
@@ -580,9 +592,10 @@ color: #fff;
   }
   
   .color6R{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
       background: linear-gradient(
-          -150deg,
+          to left,
           red 0%,
           red 38%,
           orange 42%,
@@ -594,9 +607,10 @@ color: #fff;
   }
 
   .color7R{
-    color:black;
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
     background: linear-gradient(
-        -150deg,
+        to left,
         red 0%,
         red 18%,
         orange 20%,
@@ -607,9 +621,10 @@ color: #fff;
       );
   }
   .color8R{
-      color:black;
+      color:white;
+      text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
       background: linear-gradient(
-          -150deg,
+          to left,
           red 0%,            
           red 8%,            
           orange 12%,

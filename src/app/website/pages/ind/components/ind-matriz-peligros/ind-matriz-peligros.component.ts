@@ -12,6 +12,7 @@ import { TipoPeligro } from '../../../comun/entities/tipo-peligro';
 import { PrimeNGConfig, SelectItem } from 'primeng/api';
 import { locale_es } from '../../../comun/entities/reporte-enumeraciones';
 import { ViewMatrizPeligrosService } from '../../../core/services/view-matriz-peligros.service';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 
 @Component({
   selector: 'app-ind-matriz-peligros',
@@ -23,6 +24,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     domain: ['#00B0F0', '#FC4512', '#FFC000', '#002060','#FCB8FC', '#5B9BD5','#70AD47']
   };
   dataEventos1:any[]=[]
+  dataEventos1Porcentaje:any[]=[]
   dataEventos2:any[]=[]
   dataEventos3:any[]=[]
   dataEventos4:any[]=[]
@@ -37,7 +39,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   dataEventos13:any[]=[]
   dataEventos14:any[]=[]
 
-  filtro1: any[] = [{label: 'Numero AT', value: 'Numero AT'}, {label: 'Porcentaje AT', value: 'Porcentaje AT'},{label: 'Numero EL', value: 'Numero EL'},{label: 'Porcentaje EL', value: 'Porcentaje EL'}];
+  filtro1: any[] = [{label: 'Numero AT', value: 'Numero AT'},{label: 'Numero EL', value: 'Numero EL'}];
+  filtro1Porcentaje: any[] = [{label: 'Porcentaje AT', value: 'Porcentaje AT'},{label: 'Porcentaje EL', value: 'Porcentaje EL'}];
   filtro2: any[] = [{label: 'Numero AT', value: 'Numero AT'}, {label: 'Porcentaje AT', value: 'Porcentaje AT'},{label: 'Numero EL', value: 'Numero EL'},{label: 'Porcentaje EL', value: 'Porcentaje EL'}];
   filtro3: any[] = [{label: 'Riesgo incial sin eliminados y sustituidos', value: 'Riesgo incial sin eliminados y sustituidos'}, {label: 'Riesgo final sin eliminados y sustituidos', value: 'Riesgo final sin eliminados y sustituidos'},{label: 'Riesgo incial con eliminados y sustituidos', value: 'Riesgo incial con eliminados y sustituidos'}, {label: 'Riesgo final con eliminados y sustituidos', value: 'Riesgo final con eliminados y sustituidos'}];
   filtro4: any[] = [{label: 'Sustituidos', value: 'Sustituidos'}, {label: 'Eliminados', value: 'Eliminados'}];
@@ -70,6 +73,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectePeligro14:any
 
   selectFiltro1: any=[]
+  selectFiltro1p: any=[]
   selectFiltro2: any=[]
   selectFiltro2Segundo: any=[]
   selectFiltro3: any=[]
@@ -101,20 +105,20 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectAnio13: number = new Date().getFullYear();
   selectAnio14: number = new Date().getFullYear();
 
-  selectMes1: number = new Date().getFullYear();
-  selectMes2: number = new Date().getFullYear();
-  selectMes3: number = new Date().getFullYear();
-  selectMes4: number = new Date().getFullYear();
-  selectMes5: number = new Date().getFullYear();
-  selectMes6: number = new Date().getFullYear();
-  selectMes7: number = new Date().getFullYear();
-  selectMes8: number = new Date().getFullYear();
-  selectMes9: number = new Date().getFullYear();
-  selectMes10: number = new Date().getFullYear();
-  selectMes11: number = new Date().getFullYear();
-  selectMes12: number = new Date().getFullYear();
-  selectMes13: number = new Date().getFullYear();
-  selectMes14: number = new Date().getFullYear();
+  selectMes1: any[] = [];
+  selectMes2: any[] = [];
+  selectMes3: any[] = [];
+  selectMes4: any[] = [];
+  selectMes5: any[] = [];
+  selectMes6: any[] = [];
+  selectMes7: any[] = [];
+  selectMes8: any[] = [];
+  selectMes9: any[] = [];
+  selectMes10: any[] = [];
+  selectMes11: any[] = [];
+  selectMes12: any[] = [];
+  selectMes13: any[] = [];
+  selectMes14: any[] = [];
 
   radioGra1:number=0
   radioGra2:number=0
@@ -162,6 +166,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     {label:'Noviembre',value:'Noviembre'},
     {label:'Diciembre',value:'Diciembre'}
   ];
+  meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
 
   nivelRiesgo:any=[
     {label:'Muy Alto',value:'Muy Alto'},
@@ -285,6 +291,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     private areaService: AreaService,
     private tipoPeligroService: TipoPeligroService,
     private viewMatrizPeligrosService: ViewMatrizPeligrosService,
+    private areaMatrizService: AreaMatrizService,
+
     private config: PrimeNGConfig
   ) {
  
@@ -317,7 +325,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     filterMatriz.sortOrder = -1;
     await this.viewMatrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
       dataMP=resp.data
-      console.log(dataMP)
       localStorage.setItem('dataMP', JSON.stringify(dataMP))
     })
 
@@ -331,7 +338,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     this.peligro=[]
     await this.tipoPeligroService.findAll().then(
       (resp:any) => {
-        console.log(resp)
         this.tipoPeligroItemList = [];
         (<TipoPeligro[]>resp['data']).forEach(
           data =>{ 
@@ -368,7 +374,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     switch (filter) {
       case 'graf1':
         this.localidadesList1=[]
-        this.selecteLocalidad1=[]
+        this.selecteLocalidad1=null
         this.selecteDivision1=null
         this.divisionList1=await this.getDivisiones(pais.value)
         this.grafData1()
@@ -404,6 +410,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           for(const ele of this.divisionList){
             if(this.getLocalidadesByArea(ele.id,res.data))divisionListOut.push({label:ele['nombre'],value:ele['nombre']})
           };
+          divisionListOut.push({label:'Total',value:'Total'})
           resolve(divisionListOut);       
         }).catch(err => {
           resolve([]);
@@ -411,6 +418,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       })}
     else{return []}
   }
+
 
   getLocalidadesByArea(id: any,localidadesList:any): Plantas[] | null{
     if(!localidadesList){
@@ -441,101 +449,235 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   funcSelectDivision(div:any,filter:any){
     let dv:any
     let localidadesList:any
-    dv = this.divisionList.filter((dv1:any) => dv1.nombre == div.value);
-    localidadesList=this.localidadesList.filter((loc:any) => loc.plantas_area_id == dv[0].id);
+    if(div.value !='Total')dv = this.divisionList.filter((dv1:any) => dv1.nombre == div.value);
+
+    if(div.value !='Total')localidadesList=this.localidadesList.filter((loc:any) => loc.plantas_area_id == dv[0].id);
+    else localidadesList=[...this.localidadesList]
 
 
     switch (filter) {
       case 'graf1':
         this.localidadesList1=[]
-        this.selecteLocalidad1=[]
+        this.selecteLocalidad1=null
         if(localidadesList)
         for(const loc of localidadesList){
           this.localidadesList1.push({label:loc.localidad,value:loc.localidad})
         }
+
+        this.grafData1()
         break;
       default:
         break;
     }
   }
 
-  funcSelectLocalidad(loc:any,filter:any){
+  async funcSelectLocalidad(loc:any,filter:any){
 
     switch (filter) {
       case 'graf1':
-        console.log(loc)
-        // this.localidadesList1=[]
-        // this.selecteLocalidad1=[]
-        // if(localidadesList)
-        // for(const loc of localidadesList){
-        //   this.localidadesList1.push({label:loc.localidad,value:loc.localidad})
-        // }
+        this.areasList1=await this.getArea(loc.value)
+        this.grafData1()
         break;
       default:
         break;
     }
   }
-  
+  async getArea(eve:any){
+    let filterArea = new FilterQuery();
+    filterArea.sortField = "id";
+    filterArea.sortOrder = -1;
+    filterArea.fieldList= ['id','nombre']
+    filterArea.filterList = [{ field: 'localidad.localidad', criteria: Criteria.EQUALS, value1: eve},
+                            { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
+
+    let areaMatrizItemList:any=[]
+    return new Promise(async (resolve, reject) => {
+      await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
+        resp.data.forEach((element:any) => {
+          areaMatrizItemList.push({ label: element.nombre, value: element.nombre})
+        });
+        resolve(areaMatrizItemList)
+      }).catch(err => {
+        resolve([]);
+      });
+    })
+  }
+
   tableroRiesgoIncial(){
     let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
   }
+
   tableroRiesgofinal(){
     let dataRiesgoFinal: any[] = JSON.parse(localStorage.getItem('dataMP')!);
   }
 
   // Grafica Analisis riesgo 1
   grafData1(){
+
+    console.log(this.selectAnio1)
+    console.log(this.selectMes1)
+    let flagZero:boolean=false
+    if(this.selectPais1 == 'Corona Total' || this.selecteDivision1 == 'Total' || this.selecteLocalidad1){
       let dataAnalisisRiesgo1: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos1: any[] = [];
 
+      let ejeY:any
+      let variableText:any
+      if(this.selectPais1 == 'Corona Total'){
+        ejeY=[...this.divisionList1] 
+        variableText='division'
+      }
+      if(this.selecteDivision1 == 'Total'){
+        ejeY=[...this.localidadesList1]
+        variableText='planta'
+      }
+      if(this.selecteLocalidad1){
+        ejeY=[...this.areasList1]
+        variableText='area'
+      }
 
-      //nuevo
-      // let dataMPCopyDiv: any[]=[]
+      console.log(dataAnalisisRiesgo1)
+
+      new Date().getFullYear();
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => at.fechaEdicion != null);
+      dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio1);
+      if(this.selectMes1)if(this.selectMes1.length>0){
+        dataMPCopyDiv=[]
+        this.selectMes1.forEach((mes:any) => {
+          dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo1.filter(at => this.meses[new Date(at.fechaEdicion).getMonth()] == mes));
+        });
+        dataAnalisisRiesgo1=[...dataMPCopyDiv]
+      }
+      if(this.selectePeligro1)if(this.selectePeligro1.length>0){
+        dataMPCopyDiv=[]
+        this.selectePeligro1.forEach((element:any) => {
+          dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo1.filter(at => at.peligro == element.nombre));
+        });
+        dataAnalisisRiesgo1=[...dataMPCopyDiv]
+      }
+
+      console.log(dataAnalisisRiesgo1)
+
+      // nuevo
       // if(this.selectPais1)if(this.selectPais1!='Corona Total')dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => at.pais == this.selectPais1);
-      // if(this.selecteDivision1)dataAnalisisRiesgo1= dataAnalisisRiesgo1.filter(at => at.padreNombre == this.selecteDivision1);
-      // if(this.selecteLocalidad1)if(this.selecteLocalidad1.length>0){
+      // if(this.selecteDivision1)dataAnalisisRiesgo1= dataAnalisisRiesgo1.filter(at => at.division == this.selecteDivision1);
+      // if(this.selecteLocalidad1)dataAnalisisRiesgo1= dataAnalisisRiesgo1.filter(at => at.planta == this.selecteLocalidad1);
+      // if(this.selecteArea1)if(this.selecteArea1.length>0){
       //   dataMPCopyDiv=[]
-      //   this.selecteLocalidad1.forEach((element:any) => {
-      //     dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo1.filter(at => at.nombrePlanta == element));
+      //   this.selecteArea1.forEach((element:any) => {
+      //     dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo1.filter(at => at.area == element));
       //   });
       //   dataAnalisisRiesgo1=[...dataMPCopyDiv]
       // }
-    //fin nuevo
-    console.log(dataAnalisisRiesgo1)
-    for(const division of this.divisionList1){
-      console.log(division)
+    // fin nuevo
+
+      let numeroAtTotal:number=0
+      let numeroElTotal:number=0
+      for(const y of ejeY){
+        let data:any = {
+          name: y.label,
+          series: []
+        }
+        let numeroAt: number = dataAnalisisRiesgo1.filter(mp => mp[variableText] === y.label)
+                                      .reduce((count:number, at:any) => {
+                                        return count + ((at.atAsociados)?Number(at.atAsociados):0.0);
+                                    }, 0);
+        let numeroEl: number = dataAnalisisRiesgo1.filter(mp => mp[variableText]===y.label)
+                                      .reduce((count, el) => {
+                                          return count + ((el.elAsociados)?Number(el.elAsociados):0);
+                                      }, 0);
+
+        numeroAtTotal +=numeroAt
+        numeroElTotal +=numeroEl
+
+        if(numeroAt==0 && numeroEl==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro1[0].label,
+            value: numeroAt
+          });
+          data.series.push({
+            name: this.filtro1[1].label,
+            value: numeroEl
+          })
+          dataEventos1.push(data);
+        }
+      }
       let data:any = {
-        name: division.label,
+        name: 'Total',
         series: []
       }
 
-      let numeroAt: number = dataAnalisisRiesgo1.filter(mp => mp.division === division.label)
-                                    .reduce((count:number, at:any) => {
-                                      return count + ((at.atAsociados)?Number(at.atAsociados):0.0);
-                                  }, 0);
-      let numeroEl: number = dataAnalisisRiesgo1.filter(mp => mp.division===division.label)
-                                    .reduce((count, el) => {
-                                        return count + ((el.elAsociados)?Number(el.elAsociados):0);
-                                    }, 0);
-      
-
       data.series.push({
         name: this.filtro1[0].label,
-        value: numeroAt
+        value: numeroAtTotal
       });
       data.series.push({
-        name: this.filtro1[2].label,
-        value: numeroEl
+        name: this.filtro1[1].label,
+        value: numeroElTotal
       })
-      console.log(data)
+
       dataEventos1.push(data);
+  
+      this.porcentajeGraf1(dataEventos1,numeroAtTotal,numeroElTotal)
+      Object.assign(this, {dataEventos1});
+      localStorage.setItem('dataEventos1', JSON.stringify(dataEventos1));
+      this.filtroGraf1()
     }
+  }
+  porcentajeGraf1(dataGraf:any,numAtTotal:number,numElTotal:number){
+    console.log(dataGraf)
+    let dataEventos1Porcentaje: any[] = [];
 
-    console.log(dataEventos1)
+    for(const d of dataGraf){
+      let data:any = {
+        name: d.name,
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro1Porcentaje[0].label,
+        value: (d.series[0].value*100)/numAtTotal
+      });
+      data.series.push({
+        name: this.filtro1Porcentaje[1].label,
+        value: (d.series[1].value*100)/numElTotal
+      })
+
+      dataEventos1Porcentaje.push(data)
+    }
+    dataEventos1Porcentaje.pop()
+    Object.assign(this, {dataEventos1Porcentaje});
+    localStorage.setItem('dataEventos1Porcentaje', JSON.stringify(dataEventos1Porcentaje));
+  }
+  filtroGraf1(){
+
+    let dataEventos1: any[] = JSON.parse(localStorage.getItem('dataEventos1')!);
+
+    if(this.selectPais1 == 'Corona Total' && this.selecteDivision1 != 'Total'){
+      if(this.selecteDivision1 && this.selecteDivision1.length > 0){
+        dataEventos1 = dataEventos1.filter(data => this.selecteDivision1.includes(data.name));
+      }
+    }else if(this.selecteDivision1 == 'Total')
+      if(this.selecteLocalidad1 && this.selecteLocalidad1.length > 0){
+        dataEventos1 = dataEventos1.filter(data => this.selecteLocalidad1.includes(data.name));
+      }
+
+    if(this.selectPais1 != 'Corona Total' && this.selecteDivision1 != 'Total')
+      if(this.selecteArea1 && this.selecteArea1.length > 0){
+        dataEventos1 = dataEventos1.filter(data => this.selecteArea1.includes(data.name));
+      }
+
+    if(this.selectFiltro1 && this.selectFiltro1.length > 0){
+      dataEventos1.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro1.includes(dataSeries.name));
+      });
+    }
+    
     Object.assign(this, {dataEventos1});
-    localStorage.setItem('dataEventos1', JSON.stringify(dataEventos1));
-    // console.log(dataAnalisisRiesgo1)
-
   }
   // Grafica Analisis riesgo 2
   grafData2(){
@@ -580,11 +722,9 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         name: this.filtro2[2].label,
         value: numeroEl
       })
-      console.log(data)
       dataEventos2.push(data);
     }
 
-    console.log(dataEventos2)
     Object.assign(this, {dataEventos2});
     localStorage.setItem('dataEventos2', JSON.stringify(dataEventos2));
     // console.log(dataAnalisisRiesgo1)
