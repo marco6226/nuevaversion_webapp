@@ -1,465 +1,244 @@
 <div style="margin-left: 3px;">
   <!-- opcion 1 -->
-  <p-panel header="Resumen de peligros por divisiones (Opción 1)">
+  
+  <p-panel>
+    <ng-template pTemplate="header">
+      <div class="header-content" style="display:flex;align-items: center;">
+          <div class="h1Panel"><b>Resumen de peligros por divisiones</b></div>
+          <button 
+            pButton type="button"icon="bi bi-question-circle"
+            class="p-button-rounded p-button-text"
+            (mouseenter)="imgFlag=true"
+            (mouseleave)="imgFlag=false"
+             style="z-index:1000000"></button>   
+      </div>
+    </ng-template>
+
+    
     <h1 style="color:black !important">Riesgo inicial / Riesgo residual</h1>
 
-    <div class="grid colorfondo">
+    <div class="grid colorfondo" *ngIf="flagResumen">
         <div class="col-12 " style="padding-bottom: 0%;">
             <div class="grid " style="padding-bottom: 0%;">
                 <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                    <div class="card color1I">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Almacenes Corona'][0]+'%'),'--alto': (resumenInicial['Almacenes Corona'][1]+'%'),'--medio': (resumenInicial['Almacenes Corona'][2]+'%')}" class="card colorResiduo">
                         <div  style="text-align:left;" class="tamañotexto">
                             <span>Almacenes Corona</span>
                         </div>
                         <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 50%</span><br>
-                            <span>Medio: 17%</span><br>
-                            <span>Alto: 16%</span><br>
-                            <span>Muy alto: 17%</span>
+                            <span>Bajo: {{resumenInicialText['Almacenes Corona'][3]}}%</span><br>
+                            <span>Medio: {{resumenInicialText['Almacenes Corona'][2]}}%</span><br>
+                            <span>Alto: {{resumenInicialText['Almacenes Corona'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenInicialText['Almacenes Corona'][0]}}%</span>
                         </div>  
                     </div>
                 </div>
                 <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                    <div class="card color2I">
-                        <div  style="text-align:left;" class="tamañotexto">
-                            <span>Almacenes Corona</span>
-                        </div>
-                        <div style="text-align:right;" class="tamañotexto2">
-                          <span>Bajo: 0%</span><br>
-                          <span>Medio: 20%</span><br>
-                          <span>Alto: 40%</span><br>
-                          <span>Muy alto: 40%</span>
-                        </div>  
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                    <div class="card color3I">
-                        <div  style="text-align:left;" class="tamañotexto">
-                            <span>Bathrooms and kitchen</span>
-                        </div>
-                        <div style="text-align:right;" class="tamañotexto2">
-                          <span>Bajo: 50%</span><br>
-                          <span>Medio: 30%</span><br>
-                          <span>Alto: 0%</span><br>
-                          <span>Muy alto: 20%</span>
-                        </div>                                      
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                    <div class="card color4I">
-                        <div  style="text-align:left;" class="tamañotexto">
-                            <span>Bathrooms and kitchen</span>
-                        </div>
-                        <div style="text-align:right;" class="tamañotexto2">
-                          <span>Bajo: 10%</span><br>
-                          <span>Medio: 53%</span><br>
-                          <span>Alto: 27%</span><br>
-                          <span>Muy alto: 10%</span>
-                        </div>  
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                    <div class="card color5I">
-                        <div  style="text-align:left;" class="tamañotexto">
-                            <span>Comercial Corona</span>
-                        </div>
-                        <div style="text-align:right;" class="tamañotexto2">
-                          <span>Bajo: 50%</span><br>
-                          <span>Medio: 17%</span><br>
-                          <span>Alto: 16%</span><br>
-                          <span>Muy alto: 17%</span>
-                        </div>                                      
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                    <div class="card color6I">
-                        <div  style="text-align:left;" class="tamañotexto">
-                            <span>Comercial Corona</span>
-                        </div>
-                        <div style="text-align:right;" class="tamañotexto2">
-                          <span>Bajo: 0%</span><br>
-                          <span>Medio: 20%</span><br>
-                          <span>Alto: 40%</span><br>
-                          <span>Muy alto: 40%</span>
-                        </div>                                    
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                    <div class="card color7I">
-                        <div  style="text-align:left;" class="tamañotexto">
-                            <span>Funciones transversales</span>
-                        </div>
-                        <div style="text-align:right;" class="tamañotexto2">
-                          <span>Bajo: 50%</span><br>
-                          <span>Medio: 30%</span><br>
-                          <span>Alto: 0%</span><br>
-                          <span>Muy alto: 20%</span>
-                        </div>                                      
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color8I">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Funciones transversales</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 10%</span><br>
-                        <span>Medio: 53%</span><br>
-                        <span>Alto: 27%</span><br>
-                        <span>Muy alto: 10%</span>
-                      </div>                                      
-                  </div>
-              </div>
-
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color1R">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Insumos industriales y energias</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 50%</span><br>
-                        <span>Medio: 17%</span><br>
-                        <span>Alto: 16%</span><br>
-                        <span>Muy alto: 17%</span>
-                      </div>  
-                  </div>
-              </div>
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color2R">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Insumos industriales y energias</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 0%</span><br>
-                        <span>Medio: 20%</span><br>
-                        <span>Alto: 40%</span><br>
-                        <span>Muy alto: 40%</span>
-                      </div>  
-                  </div>
-              </div>
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color3R">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Mesa servida</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 50%</span><br>
-                        <span>Medio: 30%</span><br>
-                        <span>Alto: 0%</span><br>
-                        <span>Muy alto: 20%</span>
-                      </div>                                      
-                  </div>
-              </div>
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color4R">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Mesa servida</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 10%</span><br>
-                        <span>Medio: 53%</span><br>
-                        <span>Alto: 27%</span><br>
-                        <span>Muy alto: 10%</span>
-                      </div>  
-                  </div>
-              </div>
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color5I">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Superficies, materiales y pinturas</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 50%</span><br>
-                        <span>Medio: 17%</span><br>
-                        <span>Alto: 16%</span><br>
-                        <span>Muy alto: 17%</span>
-                      </div>                                      
-                  </div>
-              </div>
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color6I">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Superficies, materiales y pinturas</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 0%</span><br>
-                        <span>Medio: 20%</span><br>
-                        <span>Alto: 40%</span><br>
-                        <span>Muy alto: 40%</span>
-                      </div>                                    
-                  </div>
-              </div>
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                  <div class="card color7I">
-                      <div  style="text-align:left;" class="tamañotexto">
-                          <span>Corona total</span>
-                      </div>
-                      <div style="text-align:right;" class="tamañotexto2">
-                        <span>Bajo: 50%</span><br>
-                        <span>Medio: 30%</span><br>
-                        <span>Alto: 0%</span><br>
-                        <span>Muy alto: 20%</span>
-                      </div>                                      
-                  </div>
-              </div>
-              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
-                <div class="card color8I">
+                  <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Almacenes Corona'][0]+'%'),'--alto': (resumenResidual['Almacenes Corona'][1]+'%'),'--medio': (resumenResidual['Almacenes Corona'][2]+'%')}" class="card colorResiduo">
                     <div  style="text-align:left;" class="tamañotexto">
-                        <span>Corona total</span>
+                        <span>Almacenes Corona</span>
                     </div>
                     <div style="text-align:right;" class="tamañotexto2">
-                      <span>Bajo: 10%</span><br>
-                      <span>Medio: 53%</span><br>
-                      <span>Alto: 27%</span><br>
-                      <span>Muy alto: 10%</span>
-                    </div>                                      
+                        <span>Bajo: {{resumenResidualText['Almacenes Corona'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Almacenes Corona'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Almacenes Corona'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Almacenes Corona'][0]}}%</span>
+                    </div>  
+                  </div>
                 </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </p-panel>
-    <br>
-    <!-- opcion 3 -->
-    <p-panel header="Resumen de peligros por divisiones (Opción 2)">
-      <div class="grid">
-        <div class="col-6">
-          
-        <h1 style="color:black !important">Riesgo inicial</h1>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Bathrooms and Kitchen'][0]+'%'),'--alto': (resumenInicial['Bathrooms and Kitchen'][1]+'%'),'--medio': (resumenInicial['Bathrooms and Kitchen'][2]+'%')}" class="card colorResiduo">
+                    <div  style="text-align:left;" class="tamañotexto">
+                        <span>Bathrooms and Kitchen</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenInicialText['Bathrooms and Kitchen'][3]}}%</span><br>
+                        <span>Medio: {{resumenInicialText['Bathrooms and Kitchen'][2]}}%</span><br>
+                        <span>Alto: {{resumenInicialText['Bathrooms and Kitchen'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenInicialText['Bathrooms and Kitchen'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Bathrooms and Kitchen'][0]+'%'),'--alto': (resumenResidual['Bathrooms and Kitchen'][1]+'%'),'--medio': (resumenResidual['Bathrooms and Kitchen'][2]+'%')}" class="card colorResiduo">
+                    <div  style="text-align:left;" class="tamañotexto">
+                        <span>Bathrooms and Kitchen</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenResidualText['Bathrooms and Kitchen'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Bathrooms and Kitchen'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Bathrooms and Kitchen'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Bathrooms and Kitchen'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Comercial Corona Colombia'][0]+'%'),'--alto': (resumenInicial['Comercial Corona Colombia'][1]+'%'),'--medio': (resumenInicial['Comercial Corona Colombia'][2]+'%')}" class="card colorResiduo">
+                    <div  style="text-align:left;" class="tamañotexto">
+                        <span>Comercial Corona Colombia</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenInicialText['Comercial Corona Colombia'][3]}}%</span><br>
+                        <span>Medio: {{resumenInicialText['Comercial Corona Colombia'][2]}}%</span><br>
+                        <span>Alto: {{resumenInicialText['Comercial Corona Colombia'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenInicialText['Comercial Corona Colombia'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Comercial Corona Colombia'][0]+'%'),'--alto': (resumenResidual['Comercial Corona Colombia'][1]+'%'),'--medio': (resumenResidual['Comercial Corona Colombia'][2]+'%')}" class="card colorResiduo">
+                    <div  style="text-align:left;" class="tamañotexto">
+                        <span>Comercial Corona Colombia</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenResidualText['Comercial Corona Colombia'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Comercial Corona Colombia'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Comercial Corona Colombia'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Comercial Corona Colombia'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Funciones Transversales'][0]+'%'),'--alto': (resumenInicial['Funciones Transversales'][1]+'%'),'--medio': (resumenInicial['Funciones Transversales'][2]+'%')}" class="card colorResiduo">
+                    <div  style="text-align:left;" class="tamañotexto">
+                        <span>Funciones Transversales</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenInicialText['Funciones Transversales'][3]}}%</span><br>
+                        <span>Medio: {{resumenInicialText['Funciones Transversales'][2]}}%</span><br>
+                        <span>Alto: {{resumenInicialText['Funciones Transversales'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenInicialText['Funciones Transversales'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Funciones Transversales'][0]+'%'),'--alto': (resumenResidual['Funciones Transversales'][1]+'%'),'--medio': (resumenResidual['Funciones Transversales'][2]+'%')}" class="card colorResiduo">
+                    <div  style="text-align:left;" class="tamañotexto">
+                        <span>Funciones Transversales</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenResidualText['Funciones Transversales'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Funciones Transversales'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Funciones Transversales'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Funciones Transversales'][0]}}%</span>
+                    </div>  
+                  </div>
+              </div>
 
-        <div class="grid colorfondo">
-            <div class="col-12 " style="padding-bottom: 0%;">
-                <div class="grid " style="padding-bottom: 0%;">
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                        <div class="card color1I">
-                            <div  style="text-align:left;" class="tamañotexto">
-                                <span>Almacenes Corona</span>
-                            </div>
-                            <div style="text-align:right;" class="tamañotexto2">
-                                <span>Bajo: 50%</span><br>
-                                <span>Medio: 17%</span><br>
-                                <span>Alto: 16%</span><br>
-                                <span>Muy alto: 17%</span>
-                            </div>  
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                        <div class="card color2I">
-                            <div  style="text-align:left;" class="tamañotexto">
-                                <span>Bathrooms and kitchen</span>
-                            </div>
-                            <div style="text-align:right;" class="tamañotexto2">
-                              <span>Bajo: 0%</span><br>
-                              <span>Medio: 20%</span><br>
-                              <span>Alto: 40%</span><br>
-                              <span>Muy alto: 40%</span>
-                            </div>  
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                        <div class="card color3I">
-                            <div  style="text-align:left;" class="tamañotexto">
-                                <span>Comercial Corona</span>
-                            </div>
-                            <div style="text-align:right;" class="tamañotexto2">
-                              <span>Bajo: 50%</span><br>
-                              <span>Medio: 30%</span><br>
-                              <span>Alto: 0%</span><br>
-                              <span>Muy alto: 20%</span>
-                            </div>                                      
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                        <div class="card color4I">
-                            <div  style="text-align:left;" class="tamañotexto">
-                                <span>Funciones transversales</span>
-                            </div>
-                            <div style="text-align:right;" class="tamañotexto2">
-                              <span>Bajo: 10%</span><br>
-                              <span>Medio: 53%</span><br>
-                              <span>Alto: 27%</span><br>
-                              <span>Muy alto: 10%</span>
-                            </div>  
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                        <div class="card color5I">
-                            <div  style="text-align:left;" class="tamañotexto">
-                                <span>Insumos industriales y energias</span>
-                            </div>
-                            <div style="text-align:right;" class="tamañotexto2">
-                              <span>Bajo: 50%</span><br>
-                              <span>Medio: 17%</span><br>
-                              <span>Alto: 16%</span><br>
-                              <span>Muy alto: 17%</span>
-                            </div>                                      
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                        <div class="card color6I">
-                            <div  style="text-align:left;" class="tamañotexto">
-                                <span>Mesa servida</span>
-                            </div>
-                            <div style="text-align:right;" class="tamañotexto2">
-                              <span>Bajo: 0%</span><br>
-                              <span>Medio: 20%</span><br>
-                              <span>Alto: 40%</span><br>
-                              <span>Muy alto: 40%</span>
-                            </div>                                    
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                        <div class="card color7I">
-                            <div  style="text-align:left;" class="tamañotexto">
-                                <span>Superficies, materiales y pinturas</span>
-                            </div>
-                            <div style="text-align:right;" class="tamañotexto2">
-                              <span>Bajo: 50%</span><br>
-                              <span>Medio: 30%</span><br>
-                              <span>Alto: 0%</span><br>
-                              <span>Muy alto: 20%</span>
-                            </div>                                      
-                        </div>
-                    </div>
-                    <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color8I">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Corona total</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 10%</span><br>
-                            <span>Medio: 53%</span><br>
-                            <span>Alto: 27%</span><br>
-                            <span>Muy alto: 10%</span>
-                          </div>                                      
-                      </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Insumos Industriales y Energias'][0]+'%'),'--alto': (resumenInicial['Insumos Industriales y Energias'][1]+'%'),'--medio': (resumenInicial['Insumos Industriales y Energias'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Insumos Industriales y Energias</span>
                   </div>
-                </div>
-            </div>
-        </div>
-      </div>
-        <hr>
-      <div class="col-6">
-        <h1 style="color:black !important">Riesgo residual</h1>
-        <div class="grid colorfondo">
-          <div class="col-12 ">
-              <div class="grid ">
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color1R">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Almacenes Corona</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 50%</span><br>
-                            <span>Medio: 17%</span><br>
-                            <span>Alto: 16%</span><br>
-                            <span>Muy alto: 17%</span>
-                          </div>  
-                      </div>
-                  </div>
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color2R">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Bathrooms and kitchen</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 0%</span><br>
-                            <span>Medio: 20%</span><br>
-                            <span>Alto: 40%</span><br>
-                            <span>Muy alto: 40%</span>
-                          </div>  
-                      </div>
-                  </div>
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color3R">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Comercial Corona</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 50%</span><br>
-                            <span>Medio: 30%</span><br>
-                            <span>Alto: 0%</span><br>
-                            <span>Muy alto: 20%</span>
-                          </div>                                      
-                      </div>
-                  </div>
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color4R">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Funciones transversales</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 10%</span><br>
-                            <span>Medio: 53%</span><br>
-                            <span>Alto: 27%</span><br>
-                            <span>Muy alto: 10%</span>
-                          </div>  
-                      </div>
-                  </div>
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color5I">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Insumos industriales y energias</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 50%</span><br>
-                            <span>Medio: 17%</span><br>
-                            <span>Alto: 16%</span><br>
-                            <span>Muy alto: 17%</span>
-                          </div>                                      
-                      </div>
-                  </div>
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color6I">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Mesa servida</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 0%</span><br>
-                            <span>Medio: 20%</span><br>
-                            <span>Alto: 40%</span><br>
-                            <span>Muy alto: 40%</span>
-                          </div>                                    
-                      </div>
-                  </div>
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                      <div class="card color7I">
-                          <div  style="text-align:left;" class="tamañotexto">
-                              <span>Superficies, materiales y pinturas</span>
-                          </div>
-                          <div style="text-align:right;" class="tamañotexto2">
-                            <span>Bajo: 50%</span><br>
-                            <span>Medio: 30%</span><br>
-                            <span>Alto: 0%</span><br>
-                            <span>Muy alto: 20%</span>
-                          </div>                                      
-                      </div>
-                  </div>
-                  <div class="col-12 md:col-6 lg:col-6 cardGrid2">
-                    <div class="card color8I">
-                        <div  style="text-align:left;" class="tamañotexto">
-                            <span>Corona total</span>
-                        </div>
-                        <div style="text-align:right;" class="tamañotexto2">
-                          <span>Bajo: 10%</span><br>
-                          <span>Medio: 53%</span><br>
-                          <span>Alto: 27%</span><br>
-                          <span>Muy alto: 10%</span>
-                        </div>                                      
-                    </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Insumos Industriales y Energias'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Insumos Industriales y Energias'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Insumos Industriales y Energias'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Insumos Industriales y Energias'][0]}}%</span>
+                  </div>  
                 </div>
               </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Insumos Industriales y Energias'][0]+'%'),'--alto': (resumenResidual['Insumos Industriales y Energias'][1]+'%'),'--medio': (resumenResidual['Insumos Industriales y Energias'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Insumos Industriales y Energias</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Insumos Industriales y Energias'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Insumos Industriales y Energias'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Insumos Industriales y Energias'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Insumos Industriales y Energias'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Mesa Servida'][0]+'%'),'--alto': (resumenInicial['Mesa Servida'][1]+'%'),'--medio': (resumenInicial['Mesa Servida'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Mesa Servida</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Mesa Servida'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Mesa Servida'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Mesa Servida'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Mesa Servida'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Mesa Servida'][0]+'%'),'--alto': (resumenResidual['Mesa Servida'][1]+'%'),'--medio': (resumenResidual['Mesa Servida'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Mesa Servida</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Mesa Servida'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Mesa Servida'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Mesa Servida'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Mesa Servida'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Superficies, materiales y pinturas'][0]+'%'),'--alto': (resumenInicial['Superficies, materiales y pinturas'][1]+'%'),'--medio': (resumenInicial['Superficies, materiales y pinturas'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Superficies, materiales y pinturas</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Superficies, materiales y pinturas'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Superficies, materiales y pinturas'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Superficies, materiales y pinturas'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Superficies, materiales y pinturas'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Superficies, materiales y pinturas'][0]+'%'),'--alto': (resumenResidual['Superficies, materiales y pinturas'][1]+'%'),'--medio': (resumenResidual['Superficies, materiales y pinturas'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Superficies, materiales y pinturas</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Superficies, materiales y pinturas'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Superficies, materiales y pinturas'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Superficies, materiales y pinturas'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Superficies, materiales y pinturas'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Corona Total'][0]+'%'),'--alto': (resumenInicial['Corona Total'][1]+'%'),'--medio': (resumenInicial['Corona Total'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Corona Total</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Corona Total'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Corona Total'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Corona Total'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Corona Total'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Corona Total'][0]+'%'),'--alto': (resumenResidual['Corona Total'][1]+'%'),'--medio': (resumenResidual['Corona Total'][2]+'%')}" class="card colorResiduo">
+                  <div  style="text-align:left;" class="tamañotexto">
+                      <span>Corona Total</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Corona Total'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Corona Total'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Corona Total'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Corona Total'][0]}}%</span>
+                  </div>  
+                </div>
+            </div>
           </div>
-        </div>
       </div>
     </div>
-    </p-panel>
+  </p-panel>    
     <br>
     <p-panel header="Analisis de peligros y riesgos">
         <div class="colorfondo">
           <div class="grid">
           <!-- Primera grafica -->
-            <div class="col-11" *ngIf="radioGra1==0">
+            <!-- <div class="col-11" *ngIf="radio1Gra1==0">
               <p><b>
                 Filtros: &nbsp;
                 <ng-container *ngIf="selectFiltro1.length>0">
@@ -485,7 +264,7 @@
               </b></p>
               &nbsp;
             </div>
-            <div class="col-11" *ngIf="radioGra1==1">
+            <div class="col-11" *ngIf="radio1Gra1==1">
               <p><b>
                 Filtros: &nbsp;
                 <ng-container *ngIf="selectFiltro1p.length>0">
@@ -513,9 +292,14 @@
             </div>
             <div class="col-1">
               &nbsp;
+            </div> -->
+            <div class="col-12">
+              &nbsp;
             </div>
+            
             <div  class="col-8 grid">
-              <div class="col-11 grafic" *ngIf="radioGra1==0">
+              <ng-container *ngIf="selectPais1 == 'Corona Total' || selecteDivision1 == 'Total' || selecteLocalidad1; else filtroFaltante">
+                <div class="col-11 grafic" *ngIf="radio1Gra1==0" style="color: black; font-weight: bold;">
                   <ngx-charts-bar-vertical-2d 
                   [scheme]="colorScheme"
                   [animations]="false"
@@ -523,7 +307,9 @@
                   [gradient]="true"
                   [xAxis]="true"
                   [yAxis]="true"
-                  [legend]="false"
+                  [legend]="true"
+                  [legendPosition]="'below'"
+                  [legendTitle]="'Leyenda'"
                   [showXAxisLabel]="true"
                   [showYAxisLabel]="true"
                   [xAxisLabel]="'Divisiones'"
@@ -535,7 +321,7 @@
                   </ngx-charts-bar-vertical-2d>
                   <!-- [tooltipDisabled]="true"> -->
               </div>
-              <div class="col-11 grafic" *ngIf="radioGra1==1">
+              <div class="col-11 grafic" *ngIf="radio1Gra1==1" style="color: black; font-weight: bold;">
                 <ngx-charts-bar-vertical-2d 
                 [scheme]="colorScheme"
                 [animations]="false"
@@ -543,7 +329,9 @@
                 [gradient]="true"
                 [xAxis]="true"
                 [yAxis]="true"
-                [legend]="false"
+                [legend]="true"
+                [legendPosition]="'below'"
+                [legendTitle]="'Leyenda'"
                 [showXAxisLabel]="true"
                 [showYAxisLabel]="true"
                 [xAxisLabel]="'Divisiones'"
@@ -554,57 +342,74 @@
                 [tooltipDisabled]="false">
                 </ngx-charts-bar-vertical-2d>
                 <!-- [tooltipDisabled]="true"> -->
-            </div>
+              </div>
+            </ng-container>
+              
             <div class="col-1">&nbsp;</div>
             <div class="col-2">&nbsp;</div>
             <div class="col-8 grid">
                 <div class="col-6">  
                   <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
-                  <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" > </p-calendar> 
+                  <p-calendar [(ngModel)]="desde1Graf1" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData1()"> </p-calendar> 
                 </div>
                 <div class="col-6">
                   <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
-                  <p-calendar [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" > </p-calendar>
+                  <p-calendar [(ngModel)]="hasta1Graf1" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData1()"> </p-calendar>
                 </div>
             </div>
             </div>
     
             <div class="col-12 md:col-4 lg:col-4 filter">
-              <h3>Año</h3>
+              <!-- <h3>Año</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
               [(ngModel)]="selectAnio1" (onChange)="grafData1()"></p-dropdown>
               <h3>Meses</h3>
-              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes1" (onChange)="grafData1()"></p-multiSelect>
+              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes1" (onChange)="grafData1()"></p-multiSelect> -->
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais1" 
               placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf1');">
               </p-dropdown>
               <h3>Division</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList1" [(ngModel)]="selecteDivision1" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf1')">
-              </p-dropdown>
-              <h3>Localidades</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList1" [(ngModel)]="selecteLocalidad1" placeholder="Seleccionar localidad"  (onChange)="funcSelectLocalidad($event,'graf1')">
-              </p-dropdown>
-              <h3>Area</h3>
-              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList1" [(ngModel)]="selecteArea1" defaultLabel="Seleccionar area"  (onChange)="filtroGraf1()">
-              </p-multiSelect>
+              
+              <ng-container *ngIf="selectPais1 == 'Corona Total'">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList1" [(ngModel)]="selecteDivision1" defaultLabel="Seleccionar división" (onChange)="filtroGraf1()">
+                </p-multiSelect>
+              </ng-container>
+              <ng-container *ngIf="selectPais1 != 'Corona Total'">
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList1" [(ngModel)]="selecteDivision1" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf1')">
+                </p-dropdown>
+                <h3>Localidades</h3>
+                <ng-container *ngIf="selecteDivision1 != 'Total'">
+                  <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList1" [(ngModel)]="selecteLocalidad1" placeholder="Seleccionar localidad"  (onChange)="funcSelectLocalidad($event,'graf1')">
+                  </p-dropdown>
+                  <h3>Area</h3>
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList1" [(ngModel)]="selecteArea1" defaultLabel="Seleccionar area"  (onChange)="filtroGraf1()">
+                  </p-multiSelect>
+                </ng-container >
+                <ng-container *ngIf="selecteDivision1 == 'Total'">
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList1" [(ngModel)]="selecteLocalidad1" defaultLabel="Seleccionar localidad"  (onChange)="filtroGraf1()">
+                  </p-multiSelect>
+                </ng-container>
+              </ng-container>
+
+
               <h3>Filtro tipo peligros</h3>
               <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro1" defaultLabel="Seleccionar peligro" (onChange)="grafData1()">
               </p-multiSelect>
                 
               <h3>Filtro analisis riesgo y peligros</h3>
               <div style="padding-bottom: 10px;">
-                <p-radioButton name="group10"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1"></p-radioButton>
+                <p-radioButton name="group1"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radio1Gra1"></p-radioButton>
                 <label for="">Conteo</label>
-                <p-radioButton name="group10"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra1"></p-radioButton>
+                <p-radioButton name="group1"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radio1Gra1"></p-radioButton>
                 <label for="">Porcentaje</label>
               </div>
-              <ng-container *ngIf="radioGra1==0">
+              <ng-container *ngIf="radio1Gra1==0">
                 <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro1" [(ngModel)]="selectFiltro1" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf1()">
                 </p-multiSelect>
               </ng-container>
-              <ng-container *ngIf="radioGra1==1">
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro1Porcentaje" [(ngModel)]="selectFiltro1p" defaultLabel="Seleccionar filtro">
+              <ng-container *ngIf="radio1Gra1==1">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro1Porcentaje" [(ngModel)]="selectFiltro1p" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf1()">
                 </p-multiSelect>
               </ng-container>
               
@@ -615,7 +420,7 @@
         <div class="colorfondo">
             <div class="grid">
             <!-- Primera grafica -->
-              <div class="col-11">
+              <!-- <div class="col-11" *ngIf="radio2Gra1==0">
                 <p><b>
                   Filtros: &nbsp;
                   <ng-container *ngIf="selectFiltro2.length>0">
@@ -641,71 +446,150 @@
                 </b></p>
                 &nbsp;
               </div>
+              <div class="col-11" *ngIf="radio2Gra1==1">
+                <p><b>
+                  Filtros: &nbsp;
+                  <ng-container *ngIf="selectFiltro2p.length>0">
+                      <ng-container *ngFor="let ret of selectFiltro2p;first as f;last as l">
+                      <ng-container *ngIf="f ;else otro1">
+                          {{ret}}
+                      </ng-container>
+                      <ng-template #otro1>
+                          /{{ret}}
+                      </ng-template>
+                      </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="selectFiltro2p.length==0">
+                      <ng-container *ngFor="let ret of filtro2Porcentaje;first as f;last as l">
+                      <ng-container *ngIf="f ;else otro1">
+                          {{ret.label}}
+                      </ng-container>
+                      <ng-template #otro1>
+                          /{{ret.label}}
+                      </ng-template>
+                      </ng-container>
+                  </ng-container>
+                </b></p>
+                &nbsp;
+              </div>
               <div class="col-1">
+                &nbsp;
+              </div> -->
+              <div class="col-12">
                 &nbsp;
               </div>
       
               <div  class="col-8 grid">
-                <div class="col-11 grafic">
+                <ng-container *ngIf="selectPais2; else filtroFaltante">
+                  
+                  <div class="col-11 grafic" *ngIf="radio2Gra1==0" style="color: black; font-weight: bold;">
+                      <ngx-charts-bar-vertical-2d 
+                      [scheme]="colorScheme"
+                      [animations]="false"
+                      [results]="dataEventos2"
+                      [gradient]="true"
+                      [xAxis]="true"
+                      [yAxis]="true"
+                      [legend]="true"
+                      [legendPosition]="'below'"
+                      [legendTitle]="'Leyenda'"
+                      [showXAxisLabel]="true"
+                      [showYAxisLabel]="true"
+                      [xAxisLabel]="'Tipo peligros'"
+                      [yAxisLabel]="'Peligros'"
+                      [barPadding]=0
+                      [groupPadding]=4
+                      [showDataLabel]="true"
+                      [tooltipDisabled]="false">
+                      </ngx-charts-bar-vertical-2d>
+                  </div>
+                  <div class="col-11 grafic" *ngIf="radio2Gra1==1" style="color: black; font-weight: bold;">
                     <ngx-charts-bar-vertical-2d 
                     [scheme]="colorScheme"
                     [animations]="false"
-                    [results]="dataEventos2"
+                    [results]="dataEventos2Porcentaje"
                     [gradient]="true"
                     [xAxis]="true"
                     [yAxis]="true"
-                    [legend]="false"
+                    [legend]="true"
+                    [legendPosition]="'below'"
+                    [legendTitle]="'Leyenda'"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
                     [xAxisLabel]="'Tipo peligros'"
-                    [yAxisLabel]="'Peligros'"
+                    [yAxisLabel]="'Peligros(%)'"
                     [barPadding]=0
                     [groupPadding]=4
                     [showDataLabel]="true"
                     [tooltipDisabled]="false">
                     </ngx-charts-bar-vertical-2d>
                 </div>
+              </ng-container>
                 <div class="col-1">&nbsp;</div>
+                <div class="col-2">&nbsp;</div>
+                <div class="col-8 grid">
+                    <div class="col-6">  
+                      <p-calendar [(ngModel)]="desde2Graf1" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData2()"> </p-calendar> 
+                    </div>
+                    <div class="col-6">
+                      <p-calendar [(ngModel)]="hasta2Graf1" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData2()"> </p-calendar>
+                    </div>
+                </div>
               </div>
       
               <div class="col-12 md:col-4 lg:col-4 filter">
-                <h3>Año</h3>
+                <!-- <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
                 [(ngModel)]="selectAnio1"
                 [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"></p-multiSelect>
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"></p-multiSelect> -->
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais2" 
                 placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf2');">
                 </p-dropdown>
                 <h3>Division</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList2" [(ngModel)]="selecteDivision2" defaultLabel="Seleccionar división">
-                </p-multiSelect>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList2" [(ngModel)]="selecteDivision2" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf2')">
+                </p-dropdown>
                 <h3>Localidades</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList2" [(ngModel)]="selecteLocalidad2" defaultLabel="Seleccionar localidad">
-                </p-multiSelect>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList2" [(ngModel)]="selecteLocalidad2" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf2')">
+                </p-dropdown>
                 <h3>Area</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList2" [(ngModel)]="selecteArea2" defaultLabel="Seleccionar area"  (onChange)="funcSelectLocalidad($event,'graf2')">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList2" [(ngModel)]="selecteArea2" defaultLabel="Seleccionar area"  (onChange)="grafData2()">
                 </p-multiSelect>
                 <h3>Filtro tipo peligros</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro2" defaultLabel="Seleccionar peligro">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro2" defaultLabel="Seleccionar peligro" (onChange)="filtroGraf2()">
                 </p-multiSelect>
+                <h3>Filtro analisis riesgo y peligros</h3>
+                <div style="padding-bottom: 10px;">
+                  <p-radioButton name="group2"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radio2Gra1"></p-radioButton>
+                  <label for="">Conteo</label>
+                  <p-radioButton name="group2"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radio2Gra1"></p-radioButton>
+                  <label for="">Porcentaje</label>
+                </div>
                 <h3>Filtro analisis riesgo</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2" [(ngModel)]="selectFiltro2" defaultLabel="Seleccionar filtro">
-                </p-multiSelect>
+                <ng-container *ngIf="radio2Gra1==0">
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2" [(ngModel)]="selectFiltro2" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf2()">
+                  </p-multiSelect>
+                </ng-container>
+                <ng-container *ngIf="radio2Gra1==1">
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2Porcentaje" [(ngModel)]="selectFiltro2p" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf2()">
+                  </p-multiSelect>
+                </ng-container>
+                
               </div>
             </div>
           </div>
           <hr/>
+
         <div class="colorfondo">
             <div class="grid">
             <!-- Primera grafica -->
-              <div class="col-11">
+              <!-- <div class="col-11" *ngIf="radio3Gra1==0">
                 <p><b>
                   Filtros: &nbsp;
-                  <ng-container *ngIf="selectFiltro2.length>0">
-                      <ng-container *ngFor="let ret of selectFiltro2;first as f;last as l">
+                  <ng-container *ngIf="selectFiltro3.length>0">
+                      <ng-container *ngFor="let ret of selectFiltro3;first as f;last as l">
                       <ng-container *ngIf="f ;else otro1">
                           {{ret}}
                       </ng-container>
@@ -714,7 +598,7 @@
                       </ng-template>
                       </ng-container>
                   </ng-container>
-                  <ng-container *ngIf="selectFiltro2.length==0">
+                  <ng-container *ngIf="selectFiltro3.length==0">
                       <ng-container *ngFor="let ret of filtro2;first as f;last as l">
                       <ng-container *ngIf="f ;else otro1">
                           {{ret.label}}
@@ -727,69 +611,138 @@
                 </b></p>
                 &nbsp;
               </div>
-              <div class="col-1">
+              <div class="col-11" *ngIf="radio3Gra1==1">
+                <p><b>
+                  Filtros: &nbsp;
+                  <ng-container *ngIf="selectFiltro3p.length>0">
+                      <ng-container *ngFor="let ret of selectFiltro3p;first as f;last as l">
+                      <ng-container *ngIf="f ;else otro1">
+                          {{ret}}
+                      </ng-container>
+                      <ng-template #otro1>
+                          /{{ret}}
+                      </ng-template>
+                      </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="selectFiltro3p.length==0">
+                      <ng-container *ngFor="let ret of filtro2;first as f;last as l">
+                      <ng-container *ngIf="f ;else otro1">
+                          {{ret.label}}
+                      </ng-container>
+                      <ng-template #otro1>
+                          /{{ret.label}}
+                      </ng-template>
+                      </ng-container>
+                  </ng-container>
+                </b></p>
+                &nbsp;
+              </div> -->
+              <div class="col-12">
                 &nbsp;
               </div>
       
               <div  class="col-8 grid">
-                <div class="col-11 grafic">
+                <ng-container *ngIf="selectPais3; else filtroFaltante">
+
+                  <div class="col-11 grafic" *ngIf="radio3Gra1==0" style="color: black; font-weight: bold;">
                     <ngx-charts-bar-vertical-2d 
                     [scheme]="colorScheme"
                     [animations]="false"
-                    [results]="dataEventos2"
+                    [results]="dataEventos3"
                     [gradient]="true"
                     [xAxis]="true"
                     [yAxis]="true"
-                    [legend]="false"
+                    [legend]="true"
+                    [legendPosition]="'below'"
+                    [legendTitle]="'Leyenda'"
                     [showXAxisLabel]="true"
                     [showYAxisLabel]="true"
                     [xAxisLabel]="'Tipo peligros'"
-                    [yAxisLabel]="'Peligros'"
+                    [yAxisLabel]="'Meses'"
                     [barPadding]=0
                     [groupPadding]=4
                     [showDataLabel]="true"
                     [tooltipDisabled]="false">
                     </ngx-charts-bar-vertical-2d>
                 </div>
+                <div class="col-11 grafic" *ngIf="radio3Gra1==1" style="color: black; font-weight: bold;">
+                  <ngx-charts-bar-vertical-2d 
+                  [scheme]="colorScheme"
+                  [animations]="false"
+                  [results]="dataEventos3Porcentaje"
+                  [gradient]="true"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [legend]="true"
+                  [legendPosition]="'below'"
+                  [legendTitle]="'Leyenda'"
+                  [showXAxisLabel]="true"
+                  [showYAxisLabel]="true"
+                  [xAxisLabel]="'Tipo peligros'"
+                  [yAxisLabel]="'Meses(%)'"
+                  [barPadding]=0
+                  [groupPadding]=4
+                  [showDataLabel]="true"
+                  [tooltipDisabled]="false">
+                  </ngx-charts-bar-vertical-2d>
+              </div>
+              </ng-container>
                 <div class="col-1">&nbsp;</div>
               </div>
       
               <div class="col-12 md:col-4 lg:col-4 filter">
                 <h3>Año</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
-                [(ngModel)]="selectAnio1"
-                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+                [(ngModel)]="selectAnio3"
+                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="grafData3()"></p-dropdown>
                 <h3>Meses</h3>
-                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"></p-multiSelect>
+                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes3" (onChange)="filtroGraf3()"></p-multiSelect>
                 <h3>País</h3>
-                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais2" 
-                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf2');">
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais3" 
+                placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf3');">
                 </p-dropdown>
                 <h3>Division</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList2" [(ngModel)]="selecteDivision2" defaultLabel="Seleccionar división">
-                </p-multiSelect>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList3" [(ngModel)]="selecteDivision3" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf3')">
+                </p-dropdown>
                 <h3>Localidades</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList2" [(ngModel)]="selecteLocalidad2" defaultLabel="Seleccionar localidad">
-                </p-multiSelect>
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList3" [(ngModel)]="selecteLocalidad3" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf3')">
+                </p-dropdown>
                 <h3>Area</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList2" [(ngModel)]="selecteArea2" defaultLabel="Seleccionar area"  (onChange)="funcSelectLocalidad($event,'graf2')">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList3" [(ngModel)]="selecteArea3" defaultLabel="Seleccionar area"  (onChange)="grafData3()">
                 </p-multiSelect>
                 <h3>Filtro tipo peligros</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro2" defaultLabel="Seleccionar peligro">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro3" defaultLabel="Seleccionar peligro" (onChange)="grafData3()">
                 </p-multiSelect>
-                <h3>Filtro analisis riesgo</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2" [(ngModel)]="selectFiltro2" defaultLabel="Seleccionar filtro">
-                </p-multiSelect>
+                <h3>Filtro analisis riesgo y peligros</h3>
+                <div style="padding-bottom: 10px;">
+                  <p-radioButton name="group3"  [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radio3Gra1"></p-radioButton>
+                  <label for="">Conteo</label>
+                  <p-radioButton name="group3"  [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radio3Gra1"></p-radioButton>
+                  <label for="">Porcentaje</label>
+                </div>
+                <ng-container *ngIf="radio3Gra1==0">
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2" [(ngModel)]="selectFiltro3" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf3()">
+                  </p-multiSelect>
+                </ng-container>
+                <ng-container *ngIf="radio3Gra1==1">
+                  <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2Porcentaje" [(ngModel)]="selectFiltro3p" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf3()">
+                  </p-multiSelect>
+                </ng-container>
+                <!-- <h3>Filtro analisis riesgo</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2" [(ngModel)]="selectFiltro3" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf3()">
+                </p-multiSelect> -->
               </div>
             </div>
           </div>
     </p-panel>
+
     <br>
+
     <p-panel header="Riesgo">
         <div class="colorfondo">
           <div class="grid">
           <!-- Primera grafica -->
-            <div class="col-11">
+            <!-- <div class="col-11">
               <p><b>
                 Filtros: &nbsp;
                 <ng-container *ngIf="selectFiltro3Segundo.length>0">
@@ -813,83 +766,188 @@
                     </ng-container>
                 </ng-container>
               </b></p>
+            </div> -->
+            
+    
+            <div class="col-12 align-items-center">
+              <p-radioButton name="group4" [(ngModel)]="radioGra4" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData4()"></p-radioButton>
+              <label for="">Riesgo Inicial</label>
+              <p-radioButton name="group4" [(ngModel)]="radioGra4" [value]="1"  [style]="{'margin-left':'15px'}" (onClick)="grafData4()"></p-radioButton>
+              <label for="">Riesgo Residual</label>
             </div>
-            <div class="col-1">
+
+            <div class="col-12">
+              &nbsp;
+            </div>
+
+            <div  class="col-8 grid">
+              <ng-container *ngIf="selectPais4; else filtroFaltante">
+                <div class="col-11 grafic">
+                    <ngx-charts-bar-vertical-2d 
+                    [scheme]="colorScheme"
+                    [animations]="false"
+                    [results]="dataEventos4"
+                    [gradient]="true"
+                    [xAxis]="true"
+                    [yAxis]="true"
+                    [legend]="true"
+                    [legendPosition]="'below'"
+                    [legendTitle]="'Leyenda'"
+                    [showXAxisLabel]="true"
+                    [showYAxisLabel]="true"
+                    [xAxisLabel]="'Nivel de riesgo'"
+                    [yAxisLabel]="'Registrados'"
+                    [barPadding]=0
+                    [groupPadding]=4
+                    [showDataLabel]="true"
+                    [tooltipDisabled]="false">
+                    </ngx-charts-bar-vertical-2d>
+                </div>
+              </ng-container>
+              <div class="col-1">&nbsp;</div>
+              <div class="col-2">&nbsp;</div>
+                <div class="col-8 grid">
+                    <div class="col-6">  
+                      <p-calendar [(ngModel)]="desde1Graf2" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData4()"> </p-calendar> 
+                    </div>
+                    <div class="col-6">
+                      <p-calendar [(ngModel)]="hasta1Graf2" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData4()"> </p-calendar>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-12 md:col-4 lg:col-4 filter">
+              <h3>País</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais4" 
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf4');">
+              </p-dropdown>
+              <h3>Division</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList4" [(ngModel)]="selecteDivision4" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf4')">
+              </p-dropdown>
+              <h3>Localidades</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList4" [(ngModel)]="selecteLocalidad4" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf4')">
+              </p-dropdown>
+              <h3>Area</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList4" [(ngModel)]="selecteArea4" defaultLabel="Seleccionar area"  (onChange)="grafData4()">
+              </p-multiSelect>
+              <h3>Filtro tipo peligros</h3>
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro4" defaultLabel="Seleccionar peligro" (onChange)="filtroGraf4()">
+                </p-multiSelect>
+              <h3>Filtro grafico</h3>
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="filtro4" [(ngModel)]="selectFiltro4" defaultLabel="Seleccionar filtro" (onChange)="grafData4()">
+              </p-dropdown>
+              <h3>filtro nivel de riesgo</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="nivelRiesgo" [(ngModel)]="selectFiltro4Segundo" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf4()">
+              </p-multiSelect>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="colorfondo">
+          <div class="grid">
+          <!-- Primera grafica -->
+            <!-- <div class="col-11">
+              <p><b>
+                Filtros: &nbsp;
+                <ng-container *ngIf="selectFiltro3Segundo.length>0">
+                    <ng-container *ngFor="let ret of selectFiltro3Segundo;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="selectFiltro3Segundo.length==0">
+                    <ng-container *ngFor="let ret of nivelRiesgo;first as f;last as l">
+                    <ng-container *ngIf="f ;else otro1">
+                        {{ret.label}}
+                    </ng-container>
+                    <ng-template #otro1>
+                        /{{ret.label}}
+                    </ng-template>
+                    </ng-container>
+                </ng-container>
+              </b></p>
+            </div> -->
+            <div class="col-12">
               &nbsp;
             </div>
     
-            <!-- <div class="col-12 align-items-center">
-              <p-radioButton name="group12" [(ngModel)]="radioGra3" [value]="0"   [style]="{'margin-left':'15px'}"></p-radioButton>
+            <div class="col-12 align-items-center">
+              <p-radioButton name="group5" [(ngModel)]="radioGra5" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData5()"></p-radioButton>
               <label for="">Total</label>
-              <p-radioButton name="group12" [(ngModel)]="radioGra3" [value]="1"  [style]="{'margin-left':'15px'}"></p-radioButton>
+              <p-radioButton name="group5" [(ngModel)]="radioGra5" [value]="1"  [style]="{'margin-left':'15px'}" (onClick)="grafData5()"></p-radioButton>
               <label for="">Temporales</label>
-              <p-radioButton name="group12" [(ngModel)]="radioGra3" [value]="2"  [style]="{'margin-left':'15px'}"></p-radioButton>
-              <label for="">Directos</label>
-            </div> -->
+            </div>
     
             <div  class="col-8 grid">
-              <div class="col-11 grafic">
-                  <!-- <ngx-charts-bar-vertical-2d 
-                  [scheme]="colorScheme2"
-                  [animations]="false"
-                  [results]="tasaFrecuencia1"
-                  [gradient]="gradient"
-                  [xAxis]="showXAxis"
-                  [yAxis]="showYAxis"
-                  [legend]="false"
-                  [showXAxisLabel]="showXAxisLabel"
-                  [showYAxisLabel]="true"
-                  [xAxisLabel]="(selectPais4=='Corona Total')?'Divisiones':'Localidades'"
-                  [yAxisLabel]="'Indicadores'"
-                  [barPadding]=0
-                  [groupPadding]=4
-                  [showDataLabel]="true"
-                  [tooltipDisabled]="false">
-                  </ngx-charts-bar-vertical-2d> -->
-              </div>
+              <ng-container *ngIf="selectPais5; else filtroFaltante">
+                <div class="col-11 grafic">
+                    <ngx-charts-bar-vertical-2d 
+                    [scheme]="colorScheme"
+                    [animations]="false"
+                    [results]="dataEventos5"
+                    [gradient]="true"
+                    [xAxis]="true"
+                    [yAxis]="true"
+                    [legend]="true"
+                    [legendPosition]="'below'"
+                    [legendTitle]="'Leyenda'"
+                    [showXAxisLabel]="true"
+                    [showYAxisLabel]="true"
+                    [xAxisLabel]="'Nivel de riesgo'"
+                    [yAxisLabel]="'Registrados'"
+                    [barPadding]=0
+                    [groupPadding]=4
+                    [showDataLabel]="true"
+                    [tooltipDisabled]="false">
+                    </ngx-charts-bar-vertical-2d>
+                </div>
+              </ng-container>
               <div class="col-1">&nbsp;</div>
             </div>
     
             <div class="col-12 md:col-4 lg:col-4 filter">
               <h3>Año</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
-              [(ngModel)]="selectAnio2"
-              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
+              [(ngModel)]="selectAnio5"
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="grafData5()"></p-dropdown>
               <h3>Meses</h3>
-              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"></p-multiSelect>
+              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes5" (onChange)="filtroGraf5()"></p-multiSelect>
               <h3>País</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais3" 
-              placeholder="Seleccionar país">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais5" 
+              placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf5');">
               </p-dropdown>
               <h3>Division</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList3" [(ngModel)]="selecteDivision3" placeholder="Seleccionar división">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList5" [(ngModel)]="selecteDivision5" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf5')">
               </p-dropdown>
               <h3>Localidades</h3>
-              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList3" [(ngModel)]="selecteLocalidad3" defaultLabel="Seleccionar localidad">
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList5" [(ngModel)]="selecteLocalidad5" defaultLabel="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf5')">
               </p-multiSelect>
               <h3>Area</h3>
-              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList3" [(ngModel)]="selecteArea3" defaultLabel="Seleccionar area"  (onChange)="funcSelectLocalidad($event,'graf3')">
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList5" [(ngModel)]="selecteArea5" defaultLabel="Seleccionar area"  (onChange)="grafData5()">
               </p-multiSelect>
               <h3>Filtro tipo peligros</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro3" defaultLabel="Seleccionar peligro">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro5" defaultLabel="Seleccionar peligro">
                 </p-multiSelect>
               <h3>Filtro tipo de riesgo</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="filtro3" [(ngModel)]="selectFiltro3" defaultLabel="Seleccionar filtro">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="filtro5" [(ngModel)]="selectFiltro5" defaultLabel="Seleccionar filtro">
               </p-dropdown>
-              <h3>filtro nivel de riesgo</h3>
-              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="nivelRiesgo" [(ngModel)]="selectFiltro3Segundo" defaultLabel="Seleccionar filtro">
-              </p-multiSelect>
+              <!-- <h3>filtro nivel de riesgo</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="nivelRiesgo" [(ngModel)]="selectFiltro5Segundo" defaultLabel="Seleccionar filtro">
+              </p-multiSelect> -->
             </div>
           </div>
         </div>
-        <hr/>
     </p-panel>
     <br>
     <p-panel header="Nuevos peligros identificados">
         <div class="colorfondo">
           <div class="grid">
           <!-- Primera grafica -->
-            <div class="col-11">
+            <!-- <div class="col-11">
               <p><b>
                 Filtros: &nbsp;
                 <ng-container *ngIf="selectFiltro4.length>0">
@@ -913,8 +971,8 @@
                     </ng-container>
                 </ng-container>
               </b></p>
-            </div>
-            <div class="col-1">
+            </div> -->
+            <div class="col-12">
               &nbsp;
             </div>
     
@@ -948,36 +1006,47 @@
                   </ngx-charts-bar-vertical-2d> -->
               </div>
               <div class="col-1">&nbsp;</div>
+              <div class="col-2">&nbsp;</div>
+              <div class="col-8 grid">
+                  <div class="col-6">  
+                    <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
+                    <p-calendar [(ngModel)]="desde1Graf2" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData1()"> </p-calendar> 
+                  </div>
+                  <div class="col-6">
+                    <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
+                    <p-calendar [(ngModel)]="hasta1Graf2" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData1()"> </p-calendar>
+                  </div>
+              </div>
             </div>
     
             <div class="col-12 md:col-4 lg:col-4 filter">
-              <h3>Año</h3>
+              <!-- <h3>Año</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
               [(ngModel)]="selectAnio3"
               [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
               <h3>Meses</h3>
               <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
-              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect>
+              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> -->
               <h3>País</h3>
-                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais4" 
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais6" 
                 placeholder="Seleccionar país">
                 </p-dropdown>
               <h3>Division</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList4" [(ngModel)]="selecteDivision4" defaultLabel="Seleccionar división">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList6" [(ngModel)]="selecteDivision6" defaultLabel="Seleccionar división">
                 </p-multiSelect>
                 <h3>Localidades</h3>
-              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList4" [(ngModel)]="selecteLocalidad4" defaultLabel="Seleccionar localidad">
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList6" [(ngModel)]="selecteLocalidad6" defaultLabel="Seleccionar localidad">
               </p-multiSelect>
               <h3>Area</h3>
-              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList4" [(ngModel)]="selecteArea4" defaultLabel="Seleccionar area"  (onChange)="funcSelectLocalidad($event,'graf4')">
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList6" [(ngModel)]="selecteArea6" defaultLabel="Seleccionar area"  (onChange)="funcSelectLocalidad($event,'graf6')">
               </p-multiSelect>
               <h3>Filtro tipo peligros</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro4" defaultLabel="Seleccionar peligro">
+                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro6" defaultLabel="Seleccionar peligro">
                 </p-multiSelect>
                 <h3>Filtro indicadores</h3>
                 <div *ngFor="let filtro of filtro4" class="p-field-checkbox">
                   <p-checkbox name="group2" value="Indicador" [value]="filtro"
-                  [(ngModel)]="selectFiltro4" [inputId]="filtro.value"
+                  [(ngModel)]="selectFiltro6" [inputId]="filtro.value"
                   ></p-checkbox>
                   <label>{{filtro.label}}</label>
                 </div>
@@ -991,7 +1060,7 @@
         <div class="colorfondo">
           <div class="grid">
           <!-- Primera grafica -->
-            <div class="col-11">
+            <!-- <div class="col-11">
               <p><b>
                 Filtros: &nbsp;
                 <ng-container *ngIf="selectFiltro5.length>0">
@@ -1015,8 +1084,8 @@
                     </ng-container>
                 </ng-container>
               </b></p>
-            </div>
-            <div class="col-1">
+            </div> -->
+            <div class="col-12">
               &nbsp;
             </div>
     
@@ -1998,3 +2067,26 @@
         <hr/>
     </p-panel>
 </div>
+
+<p-dialog [(visible)]="imgFlag" modal="true" [contentStyle]="{'max-height':'70%'}" [style]="{width:'30%'}" [header]="'Nivel de riesgo'">
+  <div style="margin: auto;" class="grid">
+    <div class="col-7" style="font-size: 15px;"><b>Muy alto</b>
+    </div>
+    <div class="col-3" style="background-color: red; margin: 2px;"></div>
+    <div class="col-7" style="font-size: 15px;"><b>Alto</b>
+    </div>
+    <div class="col-3" style="background-color: orange; margin: 2px;"></div>
+    <div class="col-7" style="font-size: 15px;"><b>Medio</b>
+    </div>
+    <div class="col-3" style="background-color: yellow; margin: 2px;"></div>
+    <div class="col-7" style="font-size: 15px;"><b>Bajo</b>
+    </div>
+    <div class="col-3" style="background-color: green; margin: 2px;"></div>
+  </div>
+</p-dialog>
+
+<ng-template #filtroFaltante>
+  <div class="col-11">
+    <s-dataNotFound [message]="'Seleccione el pais, la división y localidad'"></s-dataNotFound>
+</div>
+</ng-template>

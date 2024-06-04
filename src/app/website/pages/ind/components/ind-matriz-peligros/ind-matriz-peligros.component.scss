@@ -9,6 +9,10 @@
   h1{
     color: #ffffff;
   }
+  .h1Panel{
+    color: #333333 !important;
+    font-size: 20px;
+  }
   h3{
     margin-bottom: 0.3em;
     text-align: left;
@@ -400,22 +404,37 @@ color: #fff;
       z-index: 1001;
     }
 
-  
-  .color1I{
+  .colorResiduo{
     color:white;
     text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
     background: linear-gradient(
         to left,
         red 0%,
-        red 17%,
-        orange 17%,
-        orange 33%,
-        yellow  33%,
-        yellow  50%,
-        green 50%,
+        red var(--muyAlto),
+        orange var(--muyAlto),
+        orange var(--alto),
+        yellow var(--alto),
+        yellow var(--medio),
+        green var(--medio),
+          
       );
   }
   
+  .color1I{
+    color:white;
+    text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
+      background: linear-gradient(
+          to left,
+          red 0%,
+          red 40%,
+          orange 40%,
+          orange 80%,
+          yellow  80%,
+          yellow  100%,
+          green 100%,
+        );
+  }
+
   .color2I{
     color:white;
     text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
@@ -518,6 +537,7 @@ color: #fff;
           );
   }
   
+
   .color1R{
     color:white;
     text-shadow: 1px 1px 2px black; /* Esto agrega un bordeado al texto */
@@ -657,6 +677,5 @@ color: #fff;
   //   justify-content: space-around;
 
   // }
-  
   
   
