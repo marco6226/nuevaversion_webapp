@@ -151,11 +151,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   desde2Graf1?:Date
 
   desde1Graf2?:Date
+  desde1Graf8?:Date
 
   hasta1Graf1?:Date
   hasta2Graf1?:Date
 
   hasta1Graf2?:Date
+  hasta1Graf8?:Date
   // desde:Date=null
   
   añoPrimero:number=2015;
@@ -430,6 +432,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.divisionList5=await this.getDivisiones(pais.value)
         this.grafData5()
         break;
+      case 'graf8':
+        this.localidadesList8=[]
+        this.selecteLocalidad8=null
+        this.selecteDivision8=null
+        this.divisionList8=await this.getDivisiones(pais.value)
+        this.grafData8()
+        break;
       default:
         break;
     }
@@ -545,6 +554,15 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         }
         this.grafData5()
         break;
+      case 'graf8':
+        this.localidadesList8=[]
+        this.selecteLocalidad8=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList8.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData8()
+        break;
       default:
         break;
     }
@@ -572,6 +590,10 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       case 'graf5':
         this.areasList5=await this.getArea(loc.value)
         this.grafData5()
+        break;
+      case 'graf8':
+        this.areasList8=await this.getArea(loc.value)
+        this.grafData8()
         break;
       default:
         break;
@@ -813,6 +835,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => at.fechaEdicion != null);
+      dataAnalisisRiesgo1= dataAnalisisRiesgo1.filter(at => at.estado != 'Riesgo eliminado' && at.estado != 'Riesgo sustituido')
       if(this.desde1Graf1)dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf1!));
       if(this.hasta1Graf1)dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf1!));
       if(this.selectPais1)if(this.selectPais1!='Corona Total')dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(at => at.pais == this.selectPais1);
@@ -954,6 +977,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo2 = dataAnalisisRiesgo2.filter(at => at.fechaEdicion != null);
+      dataAnalisisRiesgo2= dataAnalisisRiesgo2.filter(at => at.estado != 'Riesgo eliminado' && at.estado != 'Riesgo sustituido')
 
       if(this.desde2Graf1)dataAnalisisRiesgo2 = dataAnalisisRiesgo2.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde2Graf1!));
       if(this.hasta2Graf1)dataAnalisisRiesgo2 = dataAnalisisRiesgo2.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta2Graf1!));
@@ -1118,13 +1142,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       //   });
       //   dataAnalisisRiesgo3=[...dataMPCopyDiv]
       // }
-      if(this.selectePeligro3)if(this.selectePeligro3.length>0){
-        dataMPCopyDiv=[]
-        this.selectePeligro3.forEach((element:any) => {
-          dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo3.filter(at => at.peligro == element.nombre));
-        });
-        dataAnalisisRiesgo3=[...dataMPCopyDiv]
-      }
+      dataAnalisisRiesgo3= dataAnalisisRiesgo3.filter(at => at.estado != 'Riesgo eliminado' && at.estado != 'Riesgo sustituido')
       if(this.selectePeligro3)if(this.selectePeligro3.length>0){
         dataMPCopyDiv=[]
         this.selectePeligro3.forEach((element:any) => {
@@ -1413,9 +1431,17 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         dataAnalisisRiesgo5= dataAnalisisRiesgo5.filter(at => at.division != null);
         dataAnalisisRiesgo5= dataAnalisisRiesgo5.filter(at => at.planta != null);
         dataAnalisisRiesgo5= dataAnalisisRiesgo5.filter(at => at.area != null);
+        dataAnalisisRiesgo5 = dataAnalisisRiesgo5.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio5);
         if(this.selectPais5)if(this.selectPais5!='Corona Total')dataAnalisisRiesgo5 = dataAnalisisRiesgo5.filter(at => at.pais == this.selectPais5);
         if(this.selecteDivision5)dataAnalisisRiesgo5= dataAnalisisRiesgo5.filter(at => at.division == this.selecteDivision5);
         if(this.selecteLocalidad5)dataAnalisisRiesgo5= dataAnalisisRiesgo5.filter(at => at.planta == this.selecteLocalidad5);
+        if(this.selectePeligro5)if(this.selectePeligro5.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro5.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo5.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo5=[...dataMPCopyDiv]
+        }
         if(this.selecteArea5)if(this.selecteArea5.length>0){
           dataMPCopyDiv=[]
           this.selecteArea5.forEach((element:any) => {
@@ -1429,7 +1455,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       let medioTotal:number=0
       let bajoTotal:number=0
 
-      let riesgo:string=(this.radioGra4==0)?'cualitativoInicial':'cualitativoResidual'
+      let riesgo:string=(this.radioGra5==0)?'cualitativoInicial':'cualitativoResidual'
         
       if(this.radioGra5==0)dataAnalisisRiesgo5= dataAnalisisRiesgo5.filter(at => at.cualitativoInicial != null);
       if(this.radioGra5==1)dataAnalisisRiesgo5= dataAnalisisRiesgo5.filter(at => at.cualitativoResidual != null);
@@ -1481,8 +1507,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         }
       }
 
-      dataEventos5=this.order(dataEventos5)
-      dataEventos5=this.top(dataEventos5,10)
+      // dataEventos5=this.order(dataEventos5)
+      // dataEventos5=this.top(dataEventos5,10)
 
       let data:any = {
         name: 'Total',
@@ -1515,9 +1541,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   filtroGraf5(){
     let dataEventos5: any[] = JSON.parse(localStorage.getItem('dataEventos5')!)
 
-    if(this.selectePeligro5 && this.selectePeligro5.length > 0){
-      let selectePeligro5=this.selectePeligro5.map((ele:any)=>ele.nombre)
-      dataEventos5 = dataEventos5.filter(data => selectePeligro5.includes(data.name));
+    if(this.selectMes5 && this.selectMes5.length > 0){
+      dataEventos5 = dataEventos5.filter(data => this.selectMes5.includes(data.name));
     }
 
     if(this.selectFiltro5Segundo && this.selectFiltro5Segundo.length > 0){
@@ -1528,6 +1553,111 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
     Object.assign(this, {dataEventos5}); 
   }
+
+  grafData6(){
+
+  }
+  filtroGraf6(){}
+  grafData7(){
+
+  }
+  filtroGraf7(){}
+  grafData8(){
+    let flagZero:boolean=false
+
+    if(this.selectPais8){
+      let dataAnalisisRiesgo8: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos8: any[] = [];
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo8 = dataAnalisisRiesgo8.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf8)dataAnalisisRiesgo8 = dataAnalisisRiesgo8.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf8!));
+      if(this.hasta1Graf8)dataAnalisisRiesgo8 = dataAnalisisRiesgo8.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf8!));
+
+      //nuevo
+        dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.pais != null);
+        dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.division != null);
+        dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.planta != null);
+        dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.area != null);
+        if(this.selectPais8)if(this.selectPais8!='Corona Total')dataAnalisisRiesgo8 = dataAnalisisRiesgo8.filter(at => at.pais == this.selectPais8);
+        if(this.selecteDivision8)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.division == this.selecteDivision8);
+        if(this.selecteLocalidad8)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.planta == this.selecteLocalidad8);
+        if(this.selecteArea8)if(this.selecteArea8.length>0){
+          dataMPCopyDiv=[]
+          this.selecteArea8.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo8.filter(at => at.area == element));
+          });
+          dataAnalisisRiesgo8=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let pendienteTotal:number=0
+      let ejecutadoTotal:number=0
+
+//aquí quede
+      let riesgo:string=(this.radioGra8==0)?'cualitativoInicial':'cualitativoResidual'
+        
+      if(this.radioGra8==0)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.cualitativoInicial != null);
+      if(this.radioGra8==1)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.cualitativoResidual != null);
+
+
+      if(this.tipoPeligroItemList)
+      for(const tipoPeligro of this.tipoPeligroItemList){
+
+        let data:any = {
+          name: tipoPeligro.label,
+          series: []
+        }
+
+        let pendiente: number = dataAnalisisRiesgo8.filter(mp => mp.peligro === tipoPeligro.label && mp[riesgo]=='Muy Alto').length                        
+        let ejecutado: number = dataAnalisisRiesgo8.filter(mp => mp.peligro===tipoPeligro.label && mp[riesgo]=='Alto').length                      
+                                      
+        
+        pendienteTotal +=pendiente
+        ejecutadoTotal +=ejecutado
+
+        if(pendiente==0 && ejecutado==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.nivelRiesgo[0].label,
+            value: pendiente
+          });
+          data.series.push({
+            name: this.nivelRiesgo[1].label,
+            value: ejecutado
+          })
+          dataEventos8.push(data);
+        }
+      }
+
+      // dataEventos8=this.order(dataEventos8)
+      // dataEventos8=this.top(dataEventos8,10)
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.nivelRiesgo[0].label,
+        value: pendienteTotal
+      });
+      data.series.push({
+        name: this.nivelRiesgo[1].label,
+        value: ejecutadoTotal
+      })
+
+      dataEventos8.push(data);
+      Object.assign(this, {dataEventos8});
+      localStorage.setItem('dataEventos8', JSON.stringify(dataEventos8));
+      this.filtroGraf8()
+    }
+  }
+
+  filtroGraf8(){}
+
   imgFlag:boolean=false
 
 }
