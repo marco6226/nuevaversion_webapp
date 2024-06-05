@@ -87,9 +87,10 @@ export class EmpleadoFormComponent implements OnInit {
         { label: "Suministros de Colombia S.A.S", empresa: "Suministros de Colombia S.A.S",nit:"890900120-7" },
         { label: "Organización corona", empresa: "Organización corona",nit:"860002688-6" },
         { label: "Industria Ceramica Costarricense", empresa: "Industria Ceramica Costarricense",nit:"1-811-0957" },//honduras - costarica
-        { label: "Industria Centroamericana de Sanitarios", empresa: "Industria Centro Americana de Sanitarios",nit:"1078" },//honduras - costarica
+        { label: "Industria Centroamericana de Sanitarios", empresa: "Industria Centroamericana de Sanitarios",nit:"1078" },//honduras - costarica
         { label: "Sociedad Anonima", empresa: "Sociedad Anonima",nit:"7568991" },// Guatemala
-        { label: "Porcelana Corona de México, S.A. de C.V.", empresa: "Porcelana Corona de México, S.A. de C.V.",nit:"SLA630306CF7" } //Moterrey - Ramos Arispe
+        { label: "Porcelana Corona de México, S.A. de C.V.", empresa: "Porcelana Corona de México, S.A. de C.V.",nit:"SLA630306CF7" }, //Moterrey - Ramos Arispe
+        { label: "Industria Cerámica Centroamericana, S.A.", empresa: "Industria Cerámica Centroamericana, S.A.",nit:"J0310000003211" } //Nicaragua
 	]
     
     empresaSelect2!: empresaNit;
