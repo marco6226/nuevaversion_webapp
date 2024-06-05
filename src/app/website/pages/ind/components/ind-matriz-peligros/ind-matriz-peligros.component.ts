@@ -28,6 +28,47 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   colorScheme = {
     domain: ['#00B0F0', '#FC4512', '#FFC000', '#002060','#FCB8FC', '#5B9BD5','#70AD47']
   };
+  colorScheme2:any ={
+    domain: ['#ED1C24', '#FF7F27', '#FFF200', '#22B14C']
+  };
+  colorScheme3:any ={
+    domain: ['#ED1C24', '#FF7F27', '#FFF200', '#22B14C']
+  };
+ 
+  colorSchemeFunc (eve:any,graf:any){
+    let color:any=[
+      {name:'Muy Alto', value:'#ED1C24'},
+      {name:'Alto', value:'#FF7F27'},
+      {name:'Medio', value:'#FFF200'},
+      {name:'Bajo', value:'#22B14C'}
+    ];
+    let color2:any={}
+    let domain:any=[]
+    if(eve && eve.length>0){
+      for(const c of color){
+        if(eve.find((c1:any)=>c1==c.name))domain.push(c.value)
+      }
+      color2={
+        domain: domain
+      };
+    }
+    else {
+      color2={
+        domain: ['#ED1C24', '#FF7F27', '#FFF200', '#22B14C']
+      };
+    }
+    switch(graf){
+      case 'graf4':
+        this.colorScheme2={...color2}
+        break;
+      case 'graf5':
+        this.colorScheme3={...color2}
+        break;
+      default:
+        break;
+    }
+  }
+  
   dataEventos1:any[]=[]
   dataEventos1Porcentaje:any[]=[]
   dataEventos2:any[]=[]
@@ -52,6 +93,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   filtro4: any[] = [{label: 'Sin eliminados y sustituidos', value: 0}, {label: 'Eliminados y sustituidos', value: 1}];
   filtro5: any[] = [{label: 'Sustituidos', value: 'Sustituidos'}, {label: 'Eliminados', value: 'Eliminados'}];
   filtro6: any[] = [{label: 'Pendiente', value: 'Pendiente'}, {label: 'Ejecutado', value: 'Ejecutado'}];
+  filtro6Jerarquia: any[] = [{label: 'Sustitucion', value: 0}, {label: 'Eliminación', value: 1}];
   filtro7: any[] = [{label: 'Propios', value: 'Propios'}, {label: 'Temporales', value: 'Temporales'}, {label: 'Contratistas', value: 'Contratistas'}, {label: 'Total', value: 'Total'}];
   filtro8: any[] = [{label: 'Propios', value: 'Propios'}, {label: 'Temporales', value: 'Temporales'}, {label: 'Contratistas', value: 'Contratistas'}, {label: 'Total', value: 'Total'}];
   filtro9: any[] = [{label: 'ICR', value: 'ICR'}, {label: 'Meta ICR', value: 'Meta ICR'}];
@@ -93,6 +135,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectFiltro6: any=[]
   selectFiltro7: any=[]
   selectFiltro8: any=[]
+  selectFiltro8Segundo: any=0
   selectFiltro9: any=[]
   selectFiltro10: any=[]
   selectFiltro11: any=[]
@@ -432,6 +475,20 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.divisionList5=await this.getDivisiones(pais.value)
         this.grafData5()
         break;
+      case 'graf6':
+        this.localidadesList6=[]
+        this.selecteLocalidad6=null
+        this.selecteDivision6=null
+        this.divisionList6=await this.getDivisiones(pais.value)
+        this.grafData6()
+        break;
+      case 'graf7':
+        this.localidadesList7=[]
+        this.selecteLocalidad7=null
+        this.selecteDivision7=null
+        this.divisionList7=await this.getDivisiones(pais.value)
+        this.grafData7()
+        break;
       case 'graf8':
         this.localidadesList8=[]
         this.selecteLocalidad8=null
@@ -554,6 +611,24 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         }
         this.grafData5()
         break;
+      case 'graf6':
+        this.localidadesList6=[]
+        this.selecteLocalidad6=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList6.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData6()
+        break;
+      case 'graf7':
+        this.localidadesList7=[]
+        this.selecteLocalidad7=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList7.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData5()
+        break;
       case 'graf8':
         this.localidadesList8=[]
         this.selecteLocalidad8=null
@@ -590,6 +665,14 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       case 'graf5':
         this.areasList5=await this.getArea(loc.value)
         this.grafData5()
+        break;
+      case 'graf6':
+        this.areasList6=await this.getArea(loc.value)
+        this.grafData6()
+        break;
+      case 'graf7':
+        this.areasList7=await this.getArea(loc.value)
+        this.grafData7()
         break;
       case 'graf8':
         this.areasList8=await this.getArea(loc.value)
@@ -1412,7 +1495,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro4Segundo.includes(dataSeries.name));
       });
     }
-
+    this.colorSchemeFunc(this.selectFiltro4Segundo,'graf4')
     Object.assign(this, {dataEventos4}); 
   }
 
@@ -1550,6 +1633,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro5Segundo.includes(dataSeries.name));
       });
     }
+    this.colorSchemeFunc(this.selectFiltro5Segundo,'graf5')
 
     Object.assign(this, {dataEventos5}); 
   }
@@ -1562,6 +1646,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
   }
   filtroGraf7(){}
+
   grafData8(){
     let flagZero:boolean=false
 
@@ -1594,11 +1679,14 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       let pendienteTotal:number=0
       let ejecutadoTotal:number=0
 
-//aquí quede
-      let riesgo:string=(this.radioGra8==0)?'cualitativoInicial':'cualitativoResidual'
-        
-      if(this.radioGra8==0)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.cualitativoInicial != null);
-      if(this.radioGra8==1)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.cualitativoResidual != null);
+      let jerarquia=''
+      if(this.radioGra8==0)jerarquia='Eliminación'
+      if(this.radioGra8==1)jerarquia='Sustitución'
+      // console.log(this.selectFiltro8Segundo)
+      // if(this.selectFiltro8Segundo){
+      //   if(this.selectFiltro8Segundo==0)jerarquia='Sustitución'
+      //   if(this.selectFiltro8Segundo==1)jerarquia='Eliminación'
+      // }
 
 
       if(this.tipoPeligroItemList)
@@ -1608,9 +1696,25 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           name: tipoPeligro.label,
           series: []
         }
-
-        let pendiente: number = dataAnalisisRiesgo8.filter(mp => mp.peligro === tipoPeligro.label && mp[riesgo]=='Muy Alto').length                        
-        let ejecutado: number = dataAnalisisRiesgo8.filter(mp => mp.peligro===tipoPeligro.label && mp[riesgo]=='Alto').length                      
+        // Ejecutado
+        // Pendiente
+        let pendiente: number = 0
+        dataAnalisisRiesgo8.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          .reduce((count, planA) => {
+            return (count + ((planA.estado)?((planA.estado=='Pendiente' && planA.jerarquia==jerarquia)?1:0):0));
+          }, 0);
+          pendiente += planAccion
+        })                       
+        // let ejecutado: number = dataAnalisisRiesgo8.filter(mp => mp.peligro===tipoPeligro.label && mp[riesgo]=='Alto').length   
+        let ejecutado: number = 0
+        dataAnalisisRiesgo8.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          .reduce((count, planA) => {
+            return (count + ((planA.estado)?((planA.estado=='Ejecutado'  && planA.jerarquia==jerarquia)?1:0):0));
+          }, 0);
+          ejecutado += planAccion
+        })                   
                                       
         
         pendienteTotal +=pendiente
@@ -1621,11 +1725,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
         if(!flagZero){
           data.series.push({
-            name: this.nivelRiesgo[0].label,
+            name: 'Pendiente',
             value: pendiente
           });
           data.series.push({
-            name: this.nivelRiesgo[1].label,
+            name: 'Ejecutado',
             value: ejecutado
           })
           dataEventos8.push(data);
@@ -1641,11 +1745,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       }
 
       data.series.push({
-        name: this.nivelRiesgo[0].label,
+        name: 'Pendiente',
         value: pendienteTotal
       });
       data.series.push({
-        name: this.nivelRiesgo[1].label,
+        name: 'Ejecutado',
         value: ejecutadoTotal
       })
 
