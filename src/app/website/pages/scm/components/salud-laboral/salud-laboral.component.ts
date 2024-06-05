@@ -174,7 +174,11 @@ empresaList2: empresaNit[] = [
   { label: "Minerales Industriales S.A", empresa: "Minerales Industriales S.A",nit:"890917398-1" },
   { label: "Nexentia S.A.S", empresa: "Nexentia S.A.S",nit:"900596618-3" },
   { label: "Suministros de Colombia S.A.S", empresa: "Suministros de Colombia S.A.S",nit:"890900120-7" },
-  { label: "Organización corona", empresa: "Organización corona",nit:"860002688-6" }
+  { label: "Organización corona", empresa: "Organización corona",nit:"860002688-6" },
+  { label: "Industria Ceramica Costarricense", empresa: "Industria Ceramica Costarricense",nit:"1-811-0957" },//honduras - costarica
+  { label: "Industria Centroamericana de Sanitarios", empresa: "Industria Centro Americana de Sanitarios",nit:"1078" },//honduras - costarica
+  { label: "Sociedad Anonima", empresa: "Sociedad Anonima",nit:"7568991" },// Guatemala
+  { label: "Porcelana Corona de México, S.A. de C.V.", empresa: "Porcelana Corona de México, S.A. de C.V.",nit:"SLA630306CF7" } //Moterrey - Ramos Arispe
 ]
 
 diagnosticoList: any[] = [];
