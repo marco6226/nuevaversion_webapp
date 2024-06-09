@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { Reporte } from 'src/app/website/pages/comun/entities/reporte'
 import { ReporteService } from 'src/app/website/pages/core/services/reporte.service'
 import { TestigoReporte } from 'src/app/website/pages/comun/entities/testigo-reporte'
@@ -32,13 +32,14 @@ import { Localidades } from 'src/app/website/pages/ctr/entities/aliados';
 import { RadioButtonClickEvent } from 'primeng/radiobutton';
 import { AreaService } from 'src/app/website/pages/empresa/services/area.service';
 import { Session } from '../../../../core/entities/session';
+import { Ciudad } from 'src/app/website/pages/comun/entities/ciudad';
 
 @Component({
   selector: 's-form-accidente',
   templateUrl: './formulario-accidente.component.html',
   styleUrls: ['./formulario-accidente.component.scss']
 })
-export class FormularioAccidenteComponent implements OnInit {
+export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
     reporte?: Reporte;
   @Input('reporte') 
   set inreporte(reporte: Reporte){
@@ -106,6 +107,13 @@ export class FormularioAccidenteComponent implements OnInit {
     this.tienePermisocamex = this.sesionService.getPermisosMap()['ADM_GET_CAMEX'];
       
   }
+    ngAfterViewInit(): void {
+        this.idEmpresa = this.sesionService.getEmpresa()?.id;
+        this.form?.patchValue({
+            ciudadEmpleado: this.reporte?.ciudadEmpleado,
+            ciudadAccidente: this.reporte?.ciudadAccidente,
+        })
+    }
 
   ngOnInit(): void {
     this.config.setTranslation(this.localeES);
@@ -235,7 +243,7 @@ export class FormularioAccidenteComponent implements OnInit {
 
 
         setTimeout(async () => {
-            if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
+            // if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
             this.form?.patchValue({
                 ciudadEmpleado: this.reporte?.ciudadEmpleado,
                 ciudadAccidente: this.reporte?.ciudadAccidente,
@@ -308,38 +316,6 @@ export class FormularioAccidenteComponent implements OnInit {
         }
     }
 
-    // async cargarLocalidades(){
-    //     this.localidadList = [];
-    //     await this.empresaService.getLocalidades().then((elem: Localidades[]) => {
-    //         elem.forEach(item => {
-    //             this.localidadList?.push({label: item.localidad, value: item});
-    //         })
-    //     });
-
-    //     this.localidadList?.sort(function (a, b) {
-    //         if(a.label > b.label){
-    //             return 1
-    //         }else if(a.label < b.label){
-    //             return -1;
-    //         }
-    //             return 0;
-    //     });
-    //     // console.log(this.localidadList);
-    // }
-
-    // filtrarLocalidad(localidad: any){
-    //     if (this.filtroLocalidades === null || this.filtroLocalidades === '') {
-    //       return true;
-    //     } else {
-    //       return  localidad.label.toLowerCase().includes(this.filtroLocalidades.toLowerCase());
-    //     }
-    // }
-
-    // onSelectLocalidad(event: RadioButtonClickEvent){
-    //     // console.log(event);
-    //     this.form?.get('localidad')?.setValue(event.value);
-    // }
-
     adicionarTestigo() {
         if (this.testigoReporteList == null) {
             this.testigoReporteList = [];
@@ -361,6 +337,7 @@ export class FormularioAccidenteComponent implements OnInit {
             }
     }
     async listadoLocalidades(event:any){
+        debugger
         let filterArea = new FilterQuery();
         filterArea.fieldList = [
             'id',
@@ -386,6 +363,5 @@ export class FormularioAccidenteComponent implements OnInit {
         }).catch((er:any)=>console.log(er)).finally(()=>this.flagLocalidades=true)
     }
     localidadesList:any
-
-
+   
 }
