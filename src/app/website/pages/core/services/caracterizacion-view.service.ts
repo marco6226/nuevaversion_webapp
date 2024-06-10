@@ -6,20 +6,30 @@ import { endPoints } from 'src/environments/environment';
 @Injectable({
   providedIn: "root"
 })
-export class CaracterizacionViewService extends CRUDService<Carview>{
+export class CaracterizacionViewService extends CRUDService<Carview> {
 
-    findAllCAR(){
+  findAllCAR() {
     return new Promise((resolve, reject) => {
+      let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+
       this.httpInt.get(`${endPoints.CaracterizacionViewService}all`)
         .subscribe(
-        res => {
-          resolve(res);
-        }
-        ,
-        err => {
+          (res: any) => {
+            let decryptedBytes = CryptoJS.AES.decrypt(res, CryptoJS.enc.Hex.parse(key), {
+              mode: CryptoJS.mode.ECB,
+              padding: CryptoJS.pad.Pkcs7
+
+            });
+
+            let decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+            resolve(decryptedText);
+          }
+          ,
+          err => {
             this.manageError(err);
             reject(err);
-         }
+          }
         )
     });
   }
