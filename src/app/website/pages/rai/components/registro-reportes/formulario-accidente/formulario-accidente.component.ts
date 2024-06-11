@@ -243,7 +243,7 @@ export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
 
 
         setTimeout(async () => {
-            // if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
+            if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
             this.form?.patchValue({
                 ciudadEmpleado: this.reporte?.ciudadEmpleado,
                 ciudadAccidente: this.reporte?.ciudadAccidente,
@@ -337,7 +337,6 @@ export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
             }
     }
     async listadoLocalidades(event:any){
-        debugger
         let filterArea = new FilterQuery();
         filterArea.fieldList = [
             'id',
