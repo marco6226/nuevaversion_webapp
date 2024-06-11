@@ -78,7 +78,9 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   dataEventos6:any[]=[]
   dataEventos7:any[]=[]
   dataEventos8:any[]=[]
+  dataEventos8Porcentaje:any[]=[]
   dataEventos9:any[]=[]
+  dataEventos9Porcentaje:any[]=[]
   dataEventos10:any[]=[]
   dataEventos11:any[]=[]
   dataEventos12:any[]=[]
@@ -91,7 +93,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   filtro2: any[] = [{label: 'Numero AT', value: 'Numero AT'},{label: 'Numero EL', value: 'Numero EL'}];
   filtro2Porcentaje: any[] = [{label: 'Porcentaje AT', value: 'Porcentaje AT'},{label: 'Porcentaje EL', value: 'Porcentaje EL'}];
   filtro4: any[] = [{label: 'Sin eliminados y sustituidos', value: 0}, {label: 'Eliminados y sustituidos', value: 1}];
-  filtro5: any[] = [{label: 'Sustituidos', value: 'Sustituidos'}, {label: 'Eliminados', value: 'Eliminados'}];
+  filtro5: any[] = [{label: 'Nuevos peligros', value: 'Nuevos peligros'},{label: 'Sustituidos', value: 'Sustituidos'}, {label: 'Eliminados', value: 'Eliminados'}];
   filtro6: any[] = [{label: 'Pendiente', value: 'Pendiente'}, {label: 'Ejecutado', value: 'Ejecutado'}];
   filtro6Jerarquia: any[] = [{label: 'Sustitucion', value: 0}, {label: 'Eliminación', value: 1}];
   filtro7: any[] = [{label: 'Propios', value: 'Propios'}, {label: 'Temporales', value: 'Temporales'}, {label: 'Contratistas', value: 'Contratistas'}, {label: 'Total', value: 'Total'}];
@@ -130,13 +132,14 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectFiltro3p: any=[]
   selectFiltro4: any=0
   selectFiltro4Segundo: any=[]
-  selectFiltro5: any=[]
+  selectFiltro5: any=0
   selectFiltro5Segundo: any=[]
   selectFiltro6: any=[]
   selectFiltro7: any=[]
   selectFiltro8: any=[]
   selectFiltro8Segundo: any=0
   selectFiltro9: any=[]
+  selectFiltro9Segundo: any=0
   selectFiltro10: any=[]
   selectFiltro11: any=[]
   selectFiltro12: any=[]
@@ -194,12 +197,14 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   desde2Graf1?:Date
 
   desde1Graf2?:Date
+  desde1Graf6?:Date
   desde1Graf8?:Date
 
   hasta1Graf1?:Date
   hasta2Graf1?:Date
 
   hasta1Graf2?:Date
+  hasta1Graf6?:Date
   hasta1Graf8?:Date
   // desde:Date=null
   
@@ -496,6 +501,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.divisionList8=await this.getDivisiones(pais.value)
         this.grafData8()
         break;
+      case 'graf9':
+        this.localidadesList9=[]
+        this.selecteLocalidad9=null
+        this.selecteDivision9=null
+        this.divisionList9=await this.getDivisiones(pais.value)
+        this.grafData9()
+        break;
       default:
         break;
     }
@@ -627,7 +639,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         for(const loc of localidadesList){
           this.localidadesList7.push({label:loc.localidad,value:loc.localidad})
         }
-        this.grafData5()
+        this.grafData7()
         break;
       case 'graf8':
         this.localidadesList8=[]
@@ -637,6 +649,15 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           this.localidadesList8.push({label:loc.localidad,value:loc.localidad})
         }
         this.grafData8()
+        break;
+      case 'graf9':
+        this.localidadesList9=[]
+        this.selecteLocalidad9=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList9.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData9()
         break;
       default:
         break;
@@ -677,6 +698,10 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       case 'graf8':
         this.areasList8=await this.getArea(loc.value)
         this.grafData8()
+        break;
+      case 'graf9':
+        this.areasList9=await this.getArea(loc.value)
+        this.grafData9()
         break;
       default:
         break;
@@ -1000,11 +1025,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       data.series.push({
         name: this.filtro1Porcentaje[0].label,
-        value: ((d.series[0].value*100)/numAtTotal).toFixed(1)
+        value: ((d.series[0].value*100)/((numAtTotal)?numAtTotal:1)).toFixed(1)
       });
       data.series.push({
         name: this.filtro1Porcentaje[1].label,
-        value: ((d.series[1].value*100)/numElTotal).toFixed(1)
+        value: ((d.series[1].value*100)/((numElTotal)?numElTotal:1)).toFixed(1)
       })
 
       dataEventos1Porcentaje.push(data)
@@ -1160,11 +1185,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       data.series.push({
         name: this.filtro2Porcentaje[0].label,
-        value: ((d.series[0].value*100)/numAtTotal).toFixed(1)
+        value: ((d.series[0].value*100)/((numAtTotal)?numAtTotal:1)).toFixed(1)
       });
       data.series.push({
         name: this.filtro2Porcentaje[1].label,
-        value: ((d.series[1].value*100)/numElTotal).toFixed(1)
+        value: ((d.series[1].value*100)/((numElTotal)?numElTotal:1)).toFixed(1)
       })
 
       dataEventos2Porcentaje.push(data)
@@ -1206,25 +1231,15 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   // Grafica Analisis riesgo 3
   grafData3(){
     let flagZero:boolean=false
-    // if(this.selectPais2 == 'Corona Total' || this.selecteDivision2 == 'Total' || this.selecteLocalidad2){
     if(this.selectPais3){
       let dataAnalisisRiesgo3: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos3: any[] = [];
-      
-      let ejeY:any
-      let variableText:any
 
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo3 = dataAnalisisRiesgo3.filter(at => at.fechaEdicion != null);
 
       dataAnalisisRiesgo3 = dataAnalisisRiesgo3.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio3);
-      // if(this.selectMes3)if(this.selectMes3.length>0){
-      //   dataMPCopyDiv=[]
-      //   this.selectMes3.forEach((mes:any) => {
-      //     dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo3.filter(at => this.meses[new Date(at.fechaEdicion).getMonth()] == mes));
-      //   });
-      //   dataAnalisisRiesgo3=[...dataMPCopyDiv]
-      // }
+
       dataAnalisisRiesgo3= dataAnalisisRiesgo3.filter(at => at.estado != 'Riesgo eliminado' && at.estado != 'Riesgo sustituido')
       if(this.selectePeligro3)if(this.selectePeligro3.length>0){
         dataMPCopyDiv=[]
@@ -1234,7 +1249,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         dataAnalisisRiesgo3=[...dataMPCopyDiv]
       }
       //nuevo
-        // let dataMPCopyDiv: any[]=[]
         dataAnalisisRiesgo3= dataAnalisisRiesgo3.filter(at => at.pais != null);
         dataAnalisisRiesgo3= dataAnalisisRiesgo3.filter(at => at.division != null);
         dataAnalisisRiesgo3= dataAnalisisRiesgo3.filter(at => at.planta != null);
@@ -1320,11 +1334,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       data.series.push({
         name: this.filtro2Porcentaje[0].label,
-        value: ((d.series[0].value*100)/numAtTotal).toFixed(1)
+        value: ((d.series[0].value*100)/((numAtTotal)?numAtTotal:1)).toFixed(1)
       });
       data.series.push({
         name: this.filtro2Porcentaje[1].label,
-        value: ((d.series[1].value*100)/numElTotal).toFixed(1)
+        value: ((d.series[1].value*100)/((numElTotal)?numElTotal:1)).toFixed(1)
       })
 
       dataEventos3Porcentaje.push(data)
@@ -1639,13 +1653,242 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   }
 
   grafData6(){
+    let flagZero:boolean=false
 
+    if(this.selectPais6){
+      let dataAnalisisRiesgo6: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos6: any[] = [];
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo6 = dataAnalisisRiesgo6.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf6)dataAnalisisRiesgo6 = dataAnalisisRiesgo6.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf6!));
+      if(this.hasta1Graf6)dataAnalisisRiesgo6 = dataAnalisisRiesgo6.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf6!));
+
+      //nuevo
+        dataAnalisisRiesgo6= dataAnalisisRiesgo6.filter(at => at.pais != null);
+        dataAnalisisRiesgo6= dataAnalisisRiesgo6.filter(at => at.division != null);
+        dataAnalisisRiesgo6= dataAnalisisRiesgo6.filter(at => at.planta != null);
+        dataAnalisisRiesgo6= dataAnalisisRiesgo6.filter(at => at.area != null);
+        if(this.selectPais6)if(this.selectPais6!='Corona Total')dataAnalisisRiesgo6 = dataAnalisisRiesgo6.filter(at => at.pais == this.selectPais6);
+        if(this.selecteDivision6)dataAnalisisRiesgo6= dataAnalisisRiesgo6.filter(at => at.division == this.selecteDivision6);
+        if(this.selecteLocalidad6)dataAnalisisRiesgo6= dataAnalisisRiesgo6.filter(at => at.planta == this.selecteLocalidad6);
+        if(this.selecteArea6)if(this.selecteArea6.length>0){
+          dataMPCopyDiv=[]
+          this.selecteArea6.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo6.filter(at => at.area == element));
+          });
+          dataAnalisisRiesgo6=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let nuevosPeligrosTotal:number=0
+      let sustituidosTotal:number=0
+      let eliminadosTotal:number=0
+      
+
+      if(this.tipoPeligroItemList)
+      for(const tipoPeligro of this.tipoPeligroItemList){
+
+        let data:any = {
+          name: tipoPeligro.label,
+          series: []
+        }
+        // Ejecutado
+        // Pendiente
+        // let pendiente: number = 0
+        let nuevosPeligros: number = dataAnalisisRiesgo6.filter(mp => mp.peligro === tipoPeligro.label && mp.estado!='Riesgo sustituido' && mp.estado!='Riesgo eliminado').length   
+        let sustituidos: number = dataAnalisisRiesgo6.filter(mp => mp.peligro === tipoPeligro.label && mp.estado=='Riesgo sustituido').length   
+        let eliminados: number = dataAnalisisRiesgo6.filter(mp => mp.peligro === tipoPeligro.label && mp.estado=='Riesgo eliminado').length   
+                
+                                      
+        
+        nuevosPeligrosTotal +=nuevosPeligros
+        sustituidosTotal +=sustituidos
+        eliminadosTotal +=eliminados
+
+        if(nuevosPeligros==0 && sustituidos==0 && eliminados==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro5[0].value,
+            value: nuevosPeligros
+          });
+          data.series.push({
+            name: this.filtro5[1].value,
+            value: sustituidos
+          })
+          data.series.push({
+            name: this.filtro5[2].value,
+            value: eliminados
+          })
+          dataEventos6.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro5[0].value,
+        value: nuevosPeligrosTotal
+      });
+      data.series.push({
+        name: this.filtro5[1].value,
+        value: sustituidosTotal
+      })
+      data.series.push({
+        name: this.filtro5[2].value,
+        value: eliminadosTotal
+      })
+
+      dataEventos6.push(data);
+
+      Object.assign(this, {dataEventos6});
+      localStorage.setItem('dataEventos6', JSON.stringify(dataEventos6));
+      this.filtroGraf6()
+    }
   }
-  filtroGraf6(){}
+  filtroGraf6(){
+    let dataEventos6: any[] = JSON.parse(localStorage.getItem('dataEventos6')!)
+
+    if(this.selectePeligro6 && this.selectePeligro6.length > 0){
+      let selectePeligro6=this.selectePeligro6.map((ele:any)=>ele.nombre)
+      dataEventos6 = dataEventos6.filter(data => selectePeligro6.includes(data.name));
+    }
+
+    if(this.selectFiltro6 && this.selectFiltro6.length > 0){
+      dataEventos6.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro6.includes(dataSeries.name));
+      });
+    }
+    Object.assign(this, {dataEventos6}); 
+  }
   grafData7(){
+    let flagZero:boolean=false
 
+    if(this.selectPais7){
+      let dataAnalisisRiesgo7: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos7: any[] = [];
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo7 = dataAnalisisRiesgo7.filter(at => at.fechaEdicion != null);
+
+
+      //nuevo
+        dataAnalisisRiesgo7= dataAnalisisRiesgo7.filter(at => at.pais != null);
+        dataAnalisisRiesgo7= dataAnalisisRiesgo7.filter(at => at.division != null);
+        dataAnalisisRiesgo7= dataAnalisisRiesgo7.filter(at => at.planta != null);
+        dataAnalisisRiesgo7= dataAnalisisRiesgo7.filter(at => at.area != null);
+        dataAnalisisRiesgo7 = dataAnalisisRiesgo7.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio7);
+        if(this.selectPais7)if(this.selectPais6!='Corona Total')dataAnalisisRiesgo7 = dataAnalisisRiesgo7.filter(at => at.pais == this.selectPais7);
+        if(this.selecteDivision7)dataAnalisisRiesgo7= dataAnalisisRiesgo7.filter(at => at.division == this.selecteDivision7);
+        if(this.selecteLocalidad7)dataAnalisisRiesgo7= dataAnalisisRiesgo7.filter(at => at.planta == this.selecteLocalidad7);
+        if(this.selectePeligro7)if(this.selectePeligro7.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro7.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo7.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo7=[...dataMPCopyDiv]
+        }
+        if(this.selecteArea7)if(this.selecteArea7.length>0){
+          dataMPCopyDiv=[]
+          this.selecteArea7.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo7.filter(at => at.area == element));
+          });
+          dataAnalisisRiesgo7=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let nuevosPeligrosTotal:number=0
+      let sustituidosTotal:number=0
+      let eliminadosTotal:number=0
+      
+
+      if(this.tipoPeligroItemList)
+        for(const mes of this.meses){
+
+
+        let data:any = {
+          name: mes,
+          series: []
+        }
+        // Ejecutado
+        // Pendiente
+        // let pendiente: number = 0
+        let nuevosPeligros: number = dataAnalisisRiesgo7.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.estado!='Riesgo sustituido' && mp.estado!='Riesgo eliminado').length   
+        let sustituidos: number = dataAnalisisRiesgo7.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.estado=='Riesgo sustituido').length   
+        let eliminados: number = dataAnalisisRiesgo7.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.estado=='Riesgo eliminado').length   
+                
+                                      
+        
+        nuevosPeligrosTotal +=nuevosPeligros
+        sustituidosTotal +=sustituidos
+        eliminadosTotal +=eliminados
+
+        if(nuevosPeligros==0 && sustituidos==0 && eliminados==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro5[0].value,
+            value: nuevosPeligros
+          });
+          data.series.push({
+            name: this.filtro5[1].value,
+            value: sustituidos
+          })
+          data.series.push({
+            name: this.filtro5[2].value,
+            value: eliminados
+          })
+          dataEventos7.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro5[0].value,
+        value: nuevosPeligrosTotal
+      });
+      data.series.push({
+        name: this.filtro5[1].value,
+        value: sustituidosTotal
+      })
+      data.series.push({
+        name: this.filtro5[2].value,
+        value: eliminadosTotal
+      })
+
+      dataEventos7.push(data);
+
+      Object.assign(this, {dataEventos7});
+      localStorage.setItem('dataEventos7', JSON.stringify(dataEventos7));
+      this.filtroGraf7()
+    }
   }
-  filtroGraf7(){}
+  filtroGraf7(){
+    let dataEventos7: any[] = JSON.parse(localStorage.getItem('dataEventos7')!)
+
+    if(this.selectMes7 && this.selectMes7.length > 0){
+      dataEventos7 = dataEventos7.filter(data => this.selectMes7.includes(data.name));
+    }
+
+    if(this.selectFiltro7 && this.selectFiltro7.length > 0){
+      dataEventos7.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro7.includes(dataSeries.name));
+      });
+    }
+
+    Object.assign(this, {dataEventos7}); 
+  }
 
   grafData8(){
     let flagZero:boolean=false
@@ -1679,14 +1922,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       let pendienteTotal:number=0
       let ejecutadoTotal:number=0
 
-      let jerarquia=''
-      if(this.radioGra8==0)jerarquia='Eliminación'
-      if(this.radioGra8==1)jerarquia='Sustitución'
-      // console.log(this.selectFiltro8Segundo)
-      // if(this.selectFiltro8Segundo){
-      //   if(this.selectFiltro8Segundo==0)jerarquia='Sustitución'
-      //   if(this.selectFiltro8Segundo==1)jerarquia='Eliminación'
-      // }
+      // let jerarquia=''
+      // if(this.selectFiltro8Segundo==0)jerarquia='Sustitución'
+      // if(this.selectFiltro8Segundo==1)jerarquia='Eliminación'
+      if(this.selectFiltro8Segundo==0)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.estado != 'Riesgo eliminado' && at.estado != 'Riesgo sustituido');
+      if(this.selectFiltro8Segundo==1)dataAnalisisRiesgo8= dataAnalisisRiesgo8.filter(at => at.estado === 'Riesgo eliminado' || at.estado === 'Riesgo sustituido');
+      
+      
 
 
       if(this.tipoPeligroItemList)
@@ -1702,7 +1944,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         dataAnalisisRiesgo8.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
           let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
           .reduce((count, planA) => {
-            return (count + ((planA.estado)?((planA.estado=='Pendiente' && planA.jerarquia==jerarquia)?1:0):0));
+            return (count + ((planA.estado)?((planA.estado=='Pendiente')?1:0):0));
           }, 0);
           pendiente += planAccion
         })                       
@@ -1711,7 +1953,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         dataAnalisisRiesgo8.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
           let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
           .reduce((count, planA) => {
-            return (count + ((planA.estado)?((planA.estado=='Ejecutado'  && planA.jerarquia==jerarquia)?1:0):0));
+            return (count + ((planA.estado)?((planA.estado=='Ejecutado')?1:0):0));
           }, 0);
           ejecutado += planAccion
         })                   
@@ -1754,13 +1996,215 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       })
 
       dataEventos8.push(data);
+      this.porcentajeGraf8(dataEventos8,pendienteTotal,ejecutadoTotal)
+
       Object.assign(this, {dataEventos8});
       localStorage.setItem('dataEventos8', JSON.stringify(dataEventos8));
       this.filtroGraf8()
     }
   }
+  porcentajeGraf8(dataGraf:any,numAtTotal:number,numElTotal:number){
+    let dataEventos8Porcentaje: any[] = [];
 
-  filtroGraf8(){}
+    for(const d of dataGraf){
+      let data:any = {
+        name: d.name,
+        series: []
+      }
+
+      data.series.push({
+        name: 'Pendiente',
+        value: ((d.series[0].value*100)/((numAtTotal)?numAtTotal:1)).toFixed(1)
+      });
+      data.series.push({
+        name: 'Ejecutado',
+        value: ((d.series[1].value*100)/((numElTotal)?numElTotal:1)).toFixed(1)
+      })
+
+      dataEventos8Porcentaje.push(data)
+    }
+    dataEventos8Porcentaje.pop()
+    Object.assign(this, {dataEventos8Porcentaje});
+    localStorage.setItem('dataEventos8Porcentaje', JSON.stringify(dataEventos8Porcentaje));
+  }
+  filtroGraf8(){
+    let dataEventos8: any[] = (this.radioGra8==0)?JSON.parse(localStorage.getItem('dataEventos8')!):JSON.parse(localStorage.getItem('dataEventos8Porcentaje')!);
+    let dataEventos8Porcentaje: any[] =[]
+
+    if(this.selectePeligro8 && this.selectePeligro8.length > 0){
+      let selectePeligro8=this.selectePeligro8.map((ele:any)=>ele.nombre)
+      dataEventos8 = dataEventos8.filter(data => selectePeligro8.includes(data.name));
+    }
+
+    if(this.selectFiltro8 && this.selectFiltro8.length > 0){
+      dataEventos8.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro8.includes(dataSeries.name));
+      });
+    }
+
+    if(this.radioGra8==1)dataEventos8Porcentaje = dataEventos8.map(ele=>ele)
+
+    if(this.radioGra8==0)Object.assign(this, {dataEventos8}); 
+    if(this.radioGra8==1)Object.assign(this, {dataEventos8Porcentaje}); 
+  }
+  grafData9(){
+    let flagZero:boolean=false
+
+    if(this.selectPais9){
+      let dataAnalisisRiesgo9: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos9: any[] = [];
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo9 = dataAnalisisRiesgo9.filter(at => at.fechaEdicion != null);
+      dataAnalisisRiesgo9 = dataAnalisisRiesgo9.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio9);
+
+
+      //nuevo
+      dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.pais != null);
+      dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.division != null);
+      dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.planta != null);
+      dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.area != null);
+        if(this.selectPais9)if(this.selectPais9!='Corona Total')dataAnalisisRiesgo9 = dataAnalisisRiesgo9.filter(at => at.pais == this.selectPais9);
+        if(this.selecteDivision9)dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.division == this.selecteDivision9);
+        if(this.selecteLocalidad9)dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.planta == this.selecteLocalidad9);
+        if(this.selecteArea9)if(this.selecteArea9.length>0){
+          dataMPCopyDiv=[]
+          this.selecteArea9.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo9.filter(at => at.area == element));
+          });
+          dataAnalisisRiesgo9=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let pendienteTotal:number=0
+      let ejecutadoTotal:number=0
+
+      // let jerarquia=''
+      // if(this.selectFiltro9Segundo==0)jerarquia='Sustitución'
+      // if(this.selectFiltro9Segundo==1)jerarquia='Eliminación'
+      if(this.selectFiltro9Segundo==0)dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.estado != 'Riesgo eliminado' && at.estado != 'Riesgo sustituido');
+      if(this.selectFiltro9Segundo==1)dataAnalisisRiesgo9= dataAnalisisRiesgo9.filter(at => at.estado === 'Riesgo eliminado' || at.estado === 'Riesgo sustituido');
+
+      
+
+
+    if(this.tipoPeligroItemList)
+      for(const mes of this.meses){
+
+
+        let data:any = {
+          name: mes,
+          series: []
+        }
+        // Ejecutado
+        // Pendiente
+        let pendiente: number = 0
+        dataAnalisisRiesgo9.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          .reduce((count, planA) => {
+            return (count + ((planA.estado)?((planA.estado=='Pendiente')?1:0):0));
+          }, 0);
+          pendiente += planAccion
+        })                       
+        // let ejecutado: number = dataAnalisisRiesgo8.filter(mp => mp.peligro===tipoPeligro.label && mp[riesgo]=='Alto').length   
+        let ejecutado: number = 0
+        dataAnalisisRiesgo9.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          .reduce((count, planA) => {
+            return (count + ((planA.estado)?((planA.estado=='Ejecutado')?1:0):0));
+          }, 0);
+          ejecutado += planAccion
+        })                   
+                                      
+        
+        pendienteTotal +=pendiente
+        ejecutadoTotal +=ejecutado
+
+        if(pendiente==0 && ejecutado==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: 'Pendiente',
+            value: pendiente
+          });
+          data.series.push({
+            name: 'Ejecutado',
+            value: ejecutado
+          })
+          dataEventos9.push(data);
+        }
+      }
+
+      // dataEventos8=this.order(dataEventos8)
+      // dataEventos8=this.top(dataEventos8,10)
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: 'Pendiente',
+        value: pendienteTotal
+      });
+      data.series.push({
+        name: 'Ejecutado',
+        value: ejecutadoTotal
+      })
+
+      dataEventos9.push(data);
+      this.porcentajeGraf9(dataEventos9,pendienteTotal,ejecutadoTotal)
+      Object.assign(this, {dataEventos9});
+      localStorage.setItem('dataEventos9', JSON.stringify(dataEventos9));
+      this.filtroGraf9()
+    }
+  }
+  porcentajeGraf9(dataGraf:any,numAtTotal:number,numElTotal:number){
+    let dataEventos9Porcentaje: any[] = [];
+
+    for(const d of dataGraf){
+      let data:any = {
+        name: d.name,
+        series: []
+      }
+
+      data.series.push({
+        name: 'Pendiente',
+        value: ((d.series[0].value*100)/((numAtTotal)?numAtTotal:1)).toFixed(1)
+      });
+      data.series.push({
+        name: 'Ejecutado',
+        value: ((d.series[1].value*100)/((numElTotal)?numElTotal:1)).toFixed(1)
+      })
+
+      dataEventos9Porcentaje.push(data)
+    }
+    dataEventos9Porcentaje.pop()
+    Object.assign(this, {dataEventos9Porcentaje});
+    localStorage.setItem('dataEventos9Porcentaje', JSON.stringify(dataEventos9Porcentaje));
+  }
+  filtroGraf9(){
+    let dataEventos9: any[] = (this.radioGra9==0)?JSON.parse(localStorage.getItem('dataEventos9')!):JSON.parse(localStorage.getItem('dataEventos9Porcentaje')!);
+    let dataEventos9Porcentaje: any[] =[]
+
+
+    if(this.selectMes9 && this.selectMes9.length > 0){
+      dataEventos9 = dataEventos9.filter(data => this.selectMes9.includes(data.name));
+    }
+
+    if(this.selectFiltro9 && this.selectFiltro9.length > 0){
+      dataEventos9.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro9.includes(dataSeries.name));
+      });
+    }
+
+    if(this.radioGra9==1)dataEventos9Porcentaje = dataEventos9.map(ele=>ele)
+
+    if(this.radioGra9==0)Object.assign(this, {dataEventos9}); 
+    if(this.radioGra9==1)Object.assign(this, {dataEventos9Porcentaje}); 
+
+  }
+
 
   imgFlag:boolean=false
 
