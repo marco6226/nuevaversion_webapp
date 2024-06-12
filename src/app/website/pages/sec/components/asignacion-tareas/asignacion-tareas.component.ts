@@ -280,11 +280,11 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
         this.tareaListFilter.forEach((tarea:any)=>{excel.push({
             Módulo:tarea.module,
             Fecha_de_Reporte:formatDate(new Date(tarea.fecha_reporte), 'yyyy/MM/dd', 'en'),
-            División_Unidad:tarea.regional,
-            Ubicación:tarea.division,
-            Tipo_de_lista: tarea.tipo_lista,
-            Código:tarea.area,
-            Actividad:tarea.hash_id,
+            División_o_Regional:tarea.division,
+            Area:tarea.area,
+            Lista_de_inspeccion : tarea.lista_inspeccion,
+            Código:tarea.hash_id,
+            Actividad:tarea.nombre,
             Responsable:(tarea.empResponsable)? tarea.empResponsable.primer_nombre + ' ' + tarea.empResponsable.primer_apellido : 'No posee responsable',
             Fecha_proyectada_de_cierre:formatDate(new Date(tarea.fecha_proyectada), 'yyyy/MM/dd', 'en'),
             Estado:tarea.estado})})

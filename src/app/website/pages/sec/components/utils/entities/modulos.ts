@@ -70,9 +70,9 @@ export let columnasPorModulo: any = {
         'Inspecciones': [
             'module',
             'fecha_reporte',
-            'regional',
+            'division',
             'area',
-            'tipo_lista',
+            'lista_inspeccion',
             'hash_id',
             'nombre',
             'empResponsable',
