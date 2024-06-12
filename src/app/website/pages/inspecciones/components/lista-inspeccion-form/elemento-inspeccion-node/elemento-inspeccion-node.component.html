@@ -122,9 +122,9 @@
           <ng-template ngFor let-opc [ngForOf]="opciones">
             <td width="70px" align="center">
               <label *ngIf="!elem.calificable">{{opc.nombre}}</label>
-              <p-radioButton #radiobutton [id]="elem.id + '_' + opc.id" [name]="elem.codigo + elem.nombre"
-                [value]="opc.id" [label]="" [disabled]="disabled" [(ngModel)]="elem.calificacion?.opcionCalificacion.id"
-                pTooltip="{{opc.descripcion}}" tooltipPosition="left" *ngIf="elem.calificable"></p-radioButton>
+                <p-radioButton #radiobutton [id]="elem.id + '_' + opc.id" [name]="elem.codigo + elem.nombre"
+                  [value]="opc.id" [label]="" [disabled]="disabled" [(ngModel)]="elem.calificacion?.opcionCalificacion.id"
+                  pTooltip="{{opc.descripcion}}" tooltipPosition="left" *ngIf="elem.calificable"></p-radioButton>
             </td>
           </ng-template>
         </tr>
