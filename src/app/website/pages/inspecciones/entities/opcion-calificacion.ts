@@ -8,4 +8,5 @@ export interface OpcionCalificacion {
     numeral: number;
     requerirDesc: boolean;
     defecto: boolean;
+    
 }

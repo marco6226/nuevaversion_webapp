@@ -18,8 +18,26 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   files!: TreeNode[]; 
 
   @Output() onElementoClick = new EventEmitter<any>();
-  @Input("value") value!: ElementoInspeccion[];
-  @Input("opciones") opciones?: OpcionCalificacion[];
+  // @Input("value") value!: ElementoInspeccion[];
+  @Input("value") 
+  set funValue(value: ElementoInspeccion[]) {
+    this.value = value;
+  }
+  value!: ElementoInspeccion[]
+
+
+  // @Input("opciones") opciones?: OpcionCalificacion[];
+  @Input('opciones')
+  set funOpciones(opciones: OpcionCalificacion[]) {
+    this.opciones = opciones;
+    let def=opciones.find(ele=>ele.defecto==true)
+
+    if(def)this.default=def.id
+
+  }
+  opciones?: OpcionCalificacion[];
+  default?:any
+
   @Input() editable?: boolean;
   @Input("disabled") disabled?: boolean;
   @Input("nivelRiesgoList") nivelRiesgoList: any;
@@ -72,7 +90,8 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     elemList.forEach(element => {
       if (element.calificacion == null) {
         element.calificacion = {} as Calificacion;
-        element.calificacion.opcionCalificacion = {} as OpcionCalificacion;
+        element.calificacion.opcionCalificacion = (element.calificable)?{ id: this.default }:{} as any;
+        // element.calificacion.opcionCalificacion = (this.default)?this.default:{} as OpcionCalificacion;
         element.calificacion.tipoHallazgo = {} as TipoHallazgo;
         element.calificacion.nivelRiesgo = {} as NivelRiesgo;
       } else if (element.calificacion.nivelRiesgo == null) {
@@ -151,5 +170,4 @@ export class ElementoInspeccionNodeComponent implements OnInit {
           || typeof elem.calificacion.calcularCumplimiento === 'undefined'
           || elem.calificacion.calcularCumplimiento === true ? false : true;
   }
-
 }
