@@ -96,7 +96,7 @@
                                             <td style="text-align: center;">
                                                 <p-checkbox name="groupname" binary="true"
                                                     [(ngModel)]="rowData.defecto"
-                                                    [disabled]="consultar"></p-checkbox>
+                                                    [disabled]="consultar" (onChange)="validarDefault($event,rowData.id)"></p-checkbox>
                                             </td>
                                             <td style="width:3em;">
                                                 <button pButton type="button" icon="bi bi-x-lg" class="soft-icon"
