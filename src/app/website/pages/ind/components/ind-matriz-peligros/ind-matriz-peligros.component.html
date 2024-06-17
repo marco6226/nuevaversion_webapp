@@ -237,62 +237,6 @@
     <p-panel header="Analisis de peligros y riesgos">
         <div class="colorfondo">
           <div class="grid">
-          <!-- Primera grafica -->
-            <!-- <div class="col-11" *ngIf="radio1Gra1==0">
-              <p><b>
-                Filtros: &nbsp;
-                <ng-container *ngIf="selectFiltro1.length>0">
-                    <ng-container *ngFor="let ret of selectFiltro1;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="selectFiltro1.length==0">
-                    <ng-container *ngFor="let ret of filtro1;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret.label}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret.label}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-              </b></p>
-              &nbsp;
-            </div>
-            <div class="col-11" *ngIf="radio1Gra1==1">
-              <p><b>
-                Filtros: &nbsp;
-                <ng-container *ngIf="selectFiltro1p.length>0">
-                    <ng-container *ngFor="let ret of selectFiltro1p;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="selectFiltro1p.length==0">
-                    <ng-container *ngFor="let ret of filtro1Porcentaje;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret.label}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret.label}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-              </b></p>
-              &nbsp;
-            </div>
-            <div class="col-1">
-              &nbsp;
-            </div> -->
             <div class="col-12">
               &nbsp;
             </div>
@@ -319,7 +263,6 @@
                   [showDataLabel]="true"
                   [tooltipDisabled]="false">
                   </ngx-charts-bar-vertical-2d>
-                  <!-- [tooltipDisabled]="true"> -->
               </div>
               <div class="col-11 grafic" *ngIf="radio1Gra1==1" style="color: black; font-weight: bold;">
                 <ngx-charts-bar-vertical-2d 
@@ -341,7 +284,6 @@
                 [showDataLabel]="true"
                 [tooltipDisabled]="false">
                 </ngx-charts-bar-vertical-2d>
-                <!-- [tooltipDisabled]="true"> -->
               </div>
             </ng-container>
               
@@ -349,22 +291,15 @@
             <div class="col-2">&nbsp;</div>
             <div class="col-8 grid">
                 <div class="col-6">  
-                  <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
                   <p-calendar [(ngModel)]="desde1Graf1" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData1()"> </p-calendar> 
                 </div>
                 <div class="col-6">
-                  <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
                   <p-calendar [(ngModel)]="hasta1Graf1" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData1()"> </p-calendar>
                 </div>
             </div>
             </div>
     
             <div class="col-12 md:col-4 lg:col-4 filter">
-              <!-- <h3>Año</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
-              [(ngModel)]="selectAnio1" (onChange)="grafData1()"></p-dropdown>
-              <h3>Meses</h3>
-              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes1" (onChange)="grafData1()"></p-multiSelect> -->
               <h3>País</h3>
               <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais1" 
               placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf1');">
@@ -419,62 +354,6 @@
         <hr/>
         <div class="colorfondo">
             <div class="grid">
-            <!-- Primera grafica -->
-              <!-- <div class="col-11" *ngIf="radio2Gra1==0">
-                <p><b>
-                  Filtros: &nbsp;
-                  <ng-container *ngIf="selectFiltro2.length>0">
-                      <ng-container *ngFor="let ret of selectFiltro2;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="selectFiltro2.length==0">
-                      <ng-container *ngFor="let ret of filtro2;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret.label}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret.label}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                </b></p>
-                &nbsp;
-              </div>
-              <div class="col-11" *ngIf="radio2Gra1==1">
-                <p><b>
-                  Filtros: &nbsp;
-                  <ng-container *ngIf="selectFiltro2p.length>0">
-                      <ng-container *ngFor="let ret of selectFiltro2p;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="selectFiltro2p.length==0">
-                      <ng-container *ngFor="let ret of filtro2Porcentaje;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret.label}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret.label}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                </b></p>
-                &nbsp;
-              </div>
-              <div class="col-1">
-                &nbsp;
-              </div> -->
               <div class="col-12">
                 &nbsp;
               </div>
@@ -538,12 +417,6 @@
               </div>
       
               <div class="col-12 md:col-4 lg:col-4 filter">
-                <!-- <h3>Año</h3>
-                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
-                [(ngModel)]="selectAnio1"
-                [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
-                <h3>Meses</h3>
-                <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"></p-multiSelect> -->
                 <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais2" 
                 placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf2');">
@@ -584,59 +457,6 @@
 
         <div class="colorfondo">
             <div class="grid">
-            <!-- Primera grafica -->
-              <!-- <div class="col-11" *ngIf="radio3Gra1==0">
-                <p><b>
-                  Filtros: &nbsp;
-                  <ng-container *ngIf="selectFiltro3.length>0">
-                      <ng-container *ngFor="let ret of selectFiltro3;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="selectFiltro3.length==0">
-                      <ng-container *ngFor="let ret of filtro2;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret.label}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret.label}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                </b></p>
-                &nbsp;
-              </div>
-              <div class="col-11" *ngIf="radio3Gra1==1">
-                <p><b>
-                  Filtros: &nbsp;
-                  <ng-container *ngIf="selectFiltro3p.length>0">
-                      <ng-container *ngFor="let ret of selectFiltro3p;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="selectFiltro3p.length==0">
-                      <ng-container *ngFor="let ret of filtro2;first as f;last as l">
-                      <ng-container *ngIf="f ;else otro1">
-                          {{ret.label}}
-                      </ng-container>
-                      <ng-template #otro1>
-                          /{{ret.label}}
-                      </ng-template>
-                      </ng-container>
-                  </ng-container>
-                </b></p>
-                &nbsp;
-              </div> -->
               <div class="col-12">
                 &nbsp;
               </div>
@@ -728,9 +548,6 @@
                   <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2Porcentaje" [(ngModel)]="selectFiltro3p" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf3()">
                   </p-multiSelect>
                 </ng-container>
-                <!-- <h3>Filtro analisis riesgo</h3>
-                <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro2" [(ngModel)]="selectFiltro3" defaultLabel="Seleccionar filtro" (onChange)="filtroGraf3()">
-                </p-multiSelect> -->
               </div>
             </div>
           </div>
@@ -740,34 +557,7 @@
 
     <p-panel header="Riesgo">
         <div class="colorfondo">
-          <div class="grid">
-          <!-- Primera grafica -->
-            <!-- <div class="col-11">
-              <p><b>
-                Filtros: &nbsp;
-                <ng-container *ngIf="selectFiltro3Segundo.length>0">
-                    <ng-container *ngFor="let ret of selectFiltro3Segundo;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="selectFiltro3Segundo.length==0">
-                    <ng-container *ngFor="let ret of nivelRiesgo;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret.label}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret.label}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-              </b></p>
-            </div> -->
-            
+          <div class="grid">            
     
             <div class="col-12 align-items-center">
               <p-radioButton name="group4" [(ngModel)]="radioGra4" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData4()"></p-radioButton>
@@ -845,33 +635,6 @@
         <hr/>
         <div class="colorfondo">
           <div class="grid">
-          <!-- Primera grafica -->
-            <!-- <div class="col-11">
-              <p><b>
-                Filtros: &nbsp;
-                <ng-container *ngIf="selectFiltro3Segundo.length>0">
-                    <ng-container *ngFor="let ret of selectFiltro3Segundo;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="selectFiltro3Segundo.length==0">
-                    <ng-container *ngFor="let ret of nivelRiesgo;first as f;last as l">
-                    <ng-container *ngIf="f ;else otro1">
-                        {{ret.label}}
-                    </ng-container>
-                    <ng-template #otro1>
-                        /{{ret.label}}
-                    </ng-template>
-                    </ng-container>
-                </ng-container>
-              </b></p>
-            </div> -->
-
     
             <div class="col-12 align-items-center">
               <p-radioButton name="group5" [(ngModel)]="radioGra5" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData5()"></p-radioButton>
@@ -979,24 +742,15 @@
               <div class="col-2">&nbsp;</div>
               <div class="col-8 grid">
                   <div class="col-6">  
-                    <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>    -->
                     <p-calendar [(ngModel)]="desde1Graf6" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData6()"> </p-calendar> 
                   </div>
                   <div class="col-6">
-                    <!-- <mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon>  -->
                     <p-calendar [(ngModel)]="hasta1Graf6" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData6()"> </p-calendar>
                   </div>
               </div>
             </div>
     
             <div class="col-12 md:col-4 lg:col-4 filter">
-              <!-- <h3>Año</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
-              [(ngModel)]="selectAnio3"
-              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-dropdown>
-              <h3>Meses</h3>
-              <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses"
-              [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}"></p-multiSelect> -->
               <h3>País</h3>
                 <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais6" 
                 placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf6');">
@@ -1087,13 +841,6 @@
     <p-panel header="Plan de acción">
         <div class="colorfondo">
           <div class="grid">
-
-            <!-- <div class="col-12 align-items-center">
-              <p-radioButton name="group8" [(ngModel)]="radioGra8" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData8()"></p-radioButton>
-              <label for="">Eliminados</label>
-              <p-radioButton name="group8" [(ngModel)]="radioGra8" [value]="1"  [style]="{'margin-left':'15px'}" (onClick)="grafData8()"></p-radioButton>
-              <label for="">Sustituidos</label>
-            </div> -->
 
             <div class="col-12">
               &nbsp;
@@ -1287,6 +1034,14 @@
     <p-panel header="Expuestos (Peligro)">
       <div class="colorfondo">
         <div class="grid">
+          <div class="col-12 align-items-center">
+            <p-radioButton name="group8" [(ngModel)]="radioGra10" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData10()"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group8" [(ngModel)]="radioGra10" [value]="1"  [style]="{'margin-left':'15px'}" (onClick)="grafData10()"></p-radioButton>
+            <label for="">Rutinario sí</label>
+            <p-radioButton name="group8" [(ngModel)]="radioGra10" [value]="2"  [style]="{'margin-left':'15px'}" (onClick)="grafData10()"></p-radioButton>
+            <label for="">Rutinario no</label>
+          </div>
           <div class="col-12">
             &nbsp;
           </div>
@@ -1352,6 +1107,14 @@
       <hr/>
       <div class="colorfondo">
         <div class="grid">
+          <div class="col-12 align-items-center">
+            <p-radioButton name="group9" [(ngModel)]="radioGra11" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData11()"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group9" [(ngModel)]="radioGra11" [value]="1"  [style]="{'margin-left':'15px'}" (onClick)="grafData11()"></p-radioButton>
+            <label for="">Rutinario sí</label>
+            <p-radioButton name="group9" [(ngModel)]="radioGra11" [value]="2"  [style]="{'margin-left':'15px'}" (onClick)="grafData11()"></p-radioButton>
+            <label for="">Rutinario no</label>
+          </div>
           <div class="col-12">
             &nbsp;
           </div>
@@ -1417,6 +1180,14 @@
   <p-panel header="Expuestos (Tipo de peligro)">
     <div class="colorfondo">
       <div class="grid">
+        <div class="col-12 align-items-center">
+          <p-radioButton name="group10" [(ngModel)]="radioGra12" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData12()"></p-radioButton>
+          <label for="">Total</label>
+          <p-radioButton name="group10" [(ngModel)]="radioGra12" [value]="1"  [style]="{'margin-left':'15px'}" (onClick)="grafData12()"></p-radioButton>
+          <label for="">Rutinario sí</label>
+          <p-radioButton name="group10" [(ngModel)]="radioGra12" [value]="2"  [style]="{'margin-left':'15px'}" (onClick)="grafData12()"></p-radioButton>
+          <label for="">Rutinario no</label>
+        </div>
         <div class="col-12">
           &nbsp;
         </div>
@@ -1485,6 +1256,14 @@
     <hr/>
     <div class="colorfondo">
       <div class="grid">
+        <div class="col-12 align-items-center">
+          <p-radioButton name="group11" [(ngModel)]="radioGra13" [value]="0"   [style]="{'margin-left':'15px'}" (onClick)="grafData13()"></p-radioButton>
+          <label for="">Total</label>
+          <p-radioButton name="group11" [(ngModel)]="radioGra13" [value]="1"  [style]="{'margin-left':'15px'}" (onClick)="grafData13()"></p-radioButton>
+          <label for="">Rutinario sí</label>
+          <p-radioButton name="group11" [(ngModel)]="radioGra13" [value]="2"  [style]="{'margin-left':'15px'}" (onClick)="grafData13()"></p-radioButton>
+          <label for="">Rutinario no</label>
+        </div>
         <div class="col-12">
           &nbsp;
         </div>
@@ -1551,6 +1330,83 @@
   </p-panel>
   <br>
   <p-panel header="Jerarquia de control">
+    <div class="colorfondo">
+      <div class="grid">
+        <div class="col-12">
+          &nbsp;
+        </div>
+        <div  class="col-8 grid">
+          <ng-container *ngIf="selectPais14 == 'Corona Total' || selecteDivision14 == 'Total' || selecteLocalidad14; else filtroFaltante">
+            <div class="col-11 grafic" style="color: black; font-weight: bold;">
+                <ngx-charts-bar-vertical-2d 
+                [scheme]="colorScheme"
+                [animations]="false"
+                [results]="dataEventos14"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="true"
+                [legendPosition]="'below'"
+                [legendTitle]="'Leyenda'"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Divisiones'"
+                [yAxisLabel]="'Peligros registrados'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="false"
+                [tooltipDisabled]="false">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+          </ng-container>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-2">&nbsp;</div>
+          <div class="col-8 grid">
+              <div class="col-6">  
+                <p-calendar [(ngModel)]="desde1Graf14" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData14()"> </p-calendar> 
+              </div>
+              <div class="col-6">
+                <p-calendar [(ngModel)]="hasta1Graf14" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData14()"> </p-calendar>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais14" 
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf14');">
+            </p-dropdown>
+          <h3>Division</h3>
+          <ng-container *ngIf="selectPais14 == 'Corona Total'">
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList14" [(ngModel)]="selecteDivision14" defaultLabel="Seleccionar división" (onChange)="filtroGraf14()">
+            </p-multiSelect>
+          </ng-container>
+          <ng-container *ngIf="selectPais14 != 'Corona Total'">
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList14" [(ngModel)]="selecteDivision14" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf14')">
+            </p-dropdown>
+            <h3>Localidades</h3>
+            <ng-container *ngIf="selecteDivision14 == 'Total'">
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList14" [(ngModel)]="selecteLocalidad14" defaultLabel="Seleccionar localidad"  (onChange)="filtroGraf14()">
+              </p-multiSelect>
+            </ng-container>
+            <ng-container *ngIf="selecteDivision14 != 'Total'">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList14" [(ngModel)]="selecteLocalidad14" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf14')">
+              </p-dropdown>
+              <h3>Area</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList14" [(ngModel)]="selecteArea14" defaultLabel="Seleccionar area"  (onChange)="grafData14()">
+              </p-multiSelect>
+              <h3>Filtro tipo peligros</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro14" defaultLabel="Seleccionar peligro" (onChange)="grafData14()">
+              </p-multiSelect>
+              <h3>Filtro control</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro13" [(ngModel)]="selectFiltro14" defaultLabel="Seleccionar control" (onChange)="filtroGraf14()">
+              </p-multiSelect>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <hr/>
     <div class="colorfondo">
       <div class="grid">
         <div class="col-12">
@@ -1687,6 +1543,84 @@
           &nbsp;
         </div>
         <div  class="col-8 grid">
+          <ng-container *ngIf="selectPais17 == 'Corona Total' || selecteDivision17 == 'Total' || selecteLocalidad17; else filtroFaltante">
+            <div class="col-11 grafic" style="color: black; font-weight: bold;">
+                <ngx-charts-bar-vertical-2d 
+                [scheme]="colorScheme"
+                [animations]="false"
+                [results]="dataEventos17"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="true"
+                [legendPosition]="'below'"
+                [legendTitle]="'Leyenda'"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Divisiones'"
+                [yAxisLabel]="'Peligros registrados'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="false"
+                [tooltipDisabled]="false">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+          </ng-container>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-2">&nbsp;</div>
+          <div class="col-8 grid">
+              <div class="col-6">  
+                <p-calendar [(ngModel)]="desde1Graf17" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData17()"> </p-calendar> 
+              </div>
+              <div class="col-6">
+                <p-calendar [(ngModel)]="hasta1Graf17" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData17()"> </p-calendar>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais17" 
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf17');">
+            </p-dropdown>
+          <h3>Division</h3>
+          <ng-container *ngIf="selectPais17 == 'Corona Total'">
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList17" [(ngModel)]="selecteDivision17" defaultLabel="Seleccionar división" (onChange)="filtroGraf17()">
+            </p-multiSelect>
+          </ng-container>
+          <ng-container *ngIf="selectPais17 != 'Corona Total'">
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList17" [(ngModel)]="selecteDivision17" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf17')">
+            </p-dropdown>
+            <h3>Localidades</h3>
+            <ng-container *ngIf="selecteDivision17 == 'Total'">
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList17" [(ngModel)]="selecteLocalidad17" defaultLabel="Seleccionar localidad"  (onChange)="filtroGraf17()">
+              </p-multiSelect>
+            </ng-container>
+            <ng-container *ngIf="selecteDivision17 != 'Total'">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList17" [(ngModel)]="selecteLocalidad17" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf17')">
+              </p-dropdown>
+              <h3>Area</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList17" [(ngModel)]="selecteArea17" defaultLabel="Seleccionar area"  (onChange)="grafData17()">
+              </p-multiSelect>
+              <h3>Filtro tipo peligros</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro17" defaultLabel="Seleccionar peligro" (onChange)="grafData17()">
+              </p-multiSelect>
+              <h3>Filtro control</h3>
+              <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro15" [(ngModel)]="selectFiltro17" defaultLabel="Seleccionar control" (onChange)="filtroGraf17()">
+              </p-multiSelect>
+            </ng-container>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="colorfondo">
+      <div class="grid">
+        <div class="col-12">
+          &nbsp;
+        </div>
+        <div  class="col-8 grid">
           <ng-container *ngIf="selectPais18; else filtroFaltante">
             <div class="col-11 grafic" style="color: black; font-weight: bold;">
                 <ngx-charts-bar-vertical-2d 
@@ -1809,6 +1743,362 @@
       </div>
     </div>
 </p-panel>
+<br>
+<p-panel header="GPI - GPF">
+  <div class="colorfondo">
+    <div class="grid">
+      <div class="col-12">
+        &nbsp;
+      </div>
+      <div  class="col-8 grid">
+        <ng-container *ngIf="selectPais20 == 'Corona Total' || selecteDivision20 == 'Total' || selecteLocalidad20; else filtroFaltante">
+          <div class="col-11 grafic" style="color: black; font-weight: bold;">
+              <ngx-charts-bar-vertical-2d 
+              [scheme]="colorScheme"
+              [animations]="false"
+              [results]="dataEventos20"
+              [gradient]="true"
+              [xAxis]="true"
+              [yAxis]="true"
+              [legend]="true"
+              [legendPosition]="'below'"
+              [legendTitle]="'Leyenda'"
+              [showXAxisLabel]="true"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Divisiones'"
+              [yAxisLabel]="'Peligros registrados'"
+              [barPadding]=0
+              [groupPadding]=4
+              [showDataLabel]="false"
+              [tooltipDisabled]="false">
+              </ngx-charts-bar-vertical-2d>
+          </div>
+        </ng-container>
+        <div class="col-1">&nbsp;</div>
+        <div class="col-2">&nbsp;</div>
+        <div class="col-8 grid">
+          <div class="col-6">  
+            <p-calendar [(ngModel)]="desde1Graf20" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData20()"> </p-calendar> 
+          </div>
+          <div class="col-6">
+            <p-calendar [(ngModel)]="hasta1Graf20" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData20()"> </p-calendar>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-4 lg:col-4 filter">
+        <h3>País</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais20" 
+          placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf20');">
+          </p-dropdown>
+        <h3>Division</h3>
+        <ng-container *ngIf="selectPais20 == 'Corona Total'">
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList20" [(ngModel)]="selecteDivision20" defaultLabel="Seleccionar división" (onChange)="filtroGraf20()">
+          </p-multiSelect>
+        </ng-container>
+        <ng-container *ngIf="selectPais20 != 'Corona Total'">
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList20" [(ngModel)]="selecteDivision20" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf20')">
+          </p-dropdown>
+          <h3>Localidades</h3>
+          <ng-container *ngIf="selecteDivision20 == 'Total'">
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList20" [(ngModel)]="selecteLocalidad20" defaultLabel="Seleccionar localidad"  (onChange)="filtroGraf20()">
+            </p-multiSelect>
+          </ng-container>
+          <ng-container *ngIf="selecteDivision20 != 'Total'">
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList20" [(ngModel)]="selecteLocalidad20" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf20')">
+            </p-dropdown>
+            <h3>Area</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList20" [(ngModel)]="selecteArea20" defaultLabel="Seleccionar area"  (onChange)="grafData20()">
+            </p-multiSelect>
+            <h3>Filtro tipo peligros</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro20" defaultLabel="Seleccionar peligro" (onChange)="grafData20()">
+            </p-multiSelect>
+            <h3>Filtro control</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro16" [(ngModel)]="selectFiltro20" defaultLabel="Seleccionar control" (onChange)="filtroGraf20()">
+            </p-multiSelect>
+          </ng-container>
+        </ng-container>
+
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="colorfondo">
+      <div class="grid">
+        <div class="col-12">
+          &nbsp;
+        </div>
+        <div  class="col-8 grid">
+          <ng-container *ngIf="selectPais21; else filtroFaltante">
+            <div class="col-11 grafic" style="color: black; font-weight: bold;">
+                <ngx-charts-bar-vertical-2d 
+                [scheme]="colorScheme"
+                [animations]="false"
+                [results]="dataEventos21"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="true"
+                [legendPosition]="'below'"
+                [legendTitle]="'Leyenda'"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Peligros'"
+                [yAxisLabel]="'Peligros registrados'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="false"
+                [tooltipDisabled]="false">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+          </ng-container>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-2">&nbsp;</div>
+          <div class="col-8 grid">
+              <div class="col-6">  
+                <p-calendar [(ngModel)]="desde1Graf21" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData21()"> </p-calendar> 
+              </div>
+              <div class="col-6">
+                <p-calendar [(ngModel)]="hasta1Graf21" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData21()"> </p-calendar>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais21" 
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf21');">
+            </p-dropdown>
+          <h3>Division</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList21" [(ngModel)]="selecteDivision21" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf21')">
+            </p-dropdown>
+            <h3>Localidades</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList21" [(ngModel)]="selecteLocalidad21" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf21')">
+          </p-dropdown>
+          <h3>Area</h3>
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList21" [(ngModel)]="selecteArea21" defaultLabel="Seleccionar area"  (onChange)="grafData21()">
+          </p-multiSelect>
+          <h3>Filtro tipo peligros</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro21" defaultLabel="Seleccionar peligro" (onChange)="filtroGraf21()">
+            </p-multiSelect>
+          <h3>Filtro control</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro16" [(ngModel)]="selectFiltro21" defaultLabel="Seleccionar control" (onChange)="filtroGraf21()">
+            </p-multiSelect>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="colorfondo">
+      <div class="grid">
+        <div class="col-12">
+          &nbsp;
+        </div>
+        <div  class="col-8 grid">
+          <ng-container *ngIf="selectPais22; else filtroFaltante">
+            <div class="col-11 grafic" style="color: black; font-weight: bold;">
+                <ngx-charts-bar-vertical-2d 
+                [scheme]="colorScheme"
+                [animations]="false"
+                [results]="dataEventos22"
+                [gradient]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [legend]="true"
+                [legendPosition]="'below'"
+                [legendTitle]="'Leyenda'"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="'Mes'"
+                [yAxisLabel]="'Peligros registrados'"
+                [barPadding]=0
+                [groupPadding]=4
+                [showDataLabel]="false"
+                [tooltipDisabled]="false">
+                </ngx-charts-bar-vertical-2d>
+            </div>
+          </ng-container>
+          <div class="col-1">&nbsp;</div>
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>Año</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+          [(ngModel)]="selectAnio22" (onChange)="grafData22()"
+          ></p-dropdown>
+          <h3>Meses</h3>
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes22"
+           (onChange)="filtroGraf22()"></p-multiSelect>
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais22" 
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf22');">
+            </p-dropdown>
+          <h3>Division</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList22" [(ngModel)]="selecteDivision22" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf22')">
+            </p-dropdown>
+            <h3>Localidades</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList22" [(ngModel)]="selecteLocalidad22" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf22')">
+          </p-dropdown>
+          <h3>Area</h3>
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList22" [(ngModel)]="selecteArea22" defaultLabel="Seleccionar area"  (onChange)="grafData22()">
+          </p-multiSelect>
+          <h3>Filtro grafico</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro16" [(ngModel)]="selectFiltro22" defaultLabel="Seleccionar expuesto" (onChange)="filtroGraf22()">
+            </p-multiSelect>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+  <br>
+<p-panel header="ICR">
+  <div class="colorfondo">
+    <div class="grid">
+      <div class="col-12">
+        &nbsp;
+      </div>
+      <div  class="col-8 grid">
+        <ng-container *ngIf="selectPais23 == 'Corona Total' || selecteDivision23 == 'Total' || selecteLocalidad23; else filtroFaltante">
+          <div class="col-11 grafic" style="color: black; font-weight: bold;">
+            <p-chart type="bar" [data]="dataEventos23" [options]="dataOpciones23" width="90%" height="100%"></p-chart>
+          </div>
+        </ng-container>
+        <div class="col-1">&nbsp;</div>
+        <div class="col-2">&nbsp;</div>
+        <div class="col-8 grid">
+          <div class="col-6">  
+            <p-calendar [(ngModel)]="desde1Graf23" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData23()"> </p-calendar> 
+          </div>
+          <div class="col-6">
+            <p-calendar [(ngModel)]="hasta1Graf23" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData23()"> </p-calendar>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-4 lg:col-4 filter">
+        <h3>País</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais23" 
+          placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf23');">
+          </p-dropdown>
+        <h3>Division</h3>
+        <ng-container *ngIf="selectPais23 == 'Corona Total'">
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="divisionList23" [(ngModel)]="selecteDivision23" defaultLabel="Seleccionar división" (onChange)="filtroGraf23()">
+          </p-multiSelect>
+        </ng-container>
+        <ng-container *ngIf="selectPais23 != 'Corona Total'">
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList23" [(ngModel)]="selecteDivision23" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf23')">
+          </p-dropdown>
+          <h3>Localidades</h3>
+          <ng-container *ngIf="selecteDivision23 == 'Total'">
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList23" [(ngModel)]="selecteLocalidad23" defaultLabel="Seleccionar localidad"  (onChange)="filtroGraf23()">
+            </p-multiSelect>
+          </ng-container>
+          <ng-container *ngIf="selecteDivision23 != 'Total'">
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList23" [(ngModel)]="selecteLocalidad23" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf23')">
+            </p-dropdown>
+            <h3>Area</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList23" [(ngModel)]="selecteArea23" defaultLabel="Seleccionar area"  (onChange)="grafData23()">
+            </p-multiSelect>
+            <h3>Filtro tipo peligros</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro23" defaultLabel="Seleccionar peligro" (onChange)="grafData23()">
+            </p-multiSelect>
+            <h3>Filtro control</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro17" [(ngModel)]="selectFiltro23" defaultLabel="Seleccionar control" (onChange)="filtroGraf23()">
+            </p-multiSelect>
+          </ng-container>
+        </ng-container>
+
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="colorfondo">
+      <div class="grid">
+        <div class="col-12">
+          &nbsp;
+        </div>
+        <div  class="col-8 grid">
+          <ng-container *ngIf="selectPais24; else filtroFaltante">
+            <div class="col-11 grafic" style="color: black; font-weight: bold;">
+              <p-chart type="bar" [data]="dataEventos24" [options]="dataOpciones24" width="90%" height="100%"></p-chart>
+            </div>
+          </ng-container>
+          <div class="col-1">&nbsp;</div>
+          <div class="col-2">&nbsp;</div>
+          <div class="col-8 grid">
+              <div class="col-6">  
+                <p-calendar [(ngModel)]="desde1Graf24" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData24()"> </p-calendar> 
+              </div>
+              <div class="col-6">
+                <p-calendar [(ngModel)]="hasta1Graf24" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData24()"> </p-calendar>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais24" 
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf24');">
+            </p-dropdown>
+          <h3>Division</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList24" [(ngModel)]="selecteDivision24" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf24')">
+            </p-dropdown>
+            <h3>Localidades</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList24" [(ngModel)]="selecteLocalidad24" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf24')">
+          </p-dropdown>
+          <h3>Area</h3>
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList24" [(ngModel)]="selecteArea24" defaultLabel="Seleccionar area"  (onChange)="grafData24()">
+          </p-multiSelect>
+          <h3>Filtro tipo peligros</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro24" defaultLabel="Seleccionar peligro" (onChange)="filtroGraf24()">
+            </p-multiSelect>
+          <h3>Filtro control</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro17" [(ngModel)]="selectFiltro24" defaultLabel="Seleccionar control" (onChange)="filtroGraf24()">
+            </p-multiSelect>
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <div class="colorfondo">
+      <div class="grid">
+        <div class="col-12">
+          &nbsp;
+        </div>
+        <div  class="col-8 grid">
+          <ng-container *ngIf="selectPais25; else filtroFaltante">
+            <div class="col-11 grafic" style="color: black; font-weight: bold;">
+              <p-chart type="bar" [data]="dataEventos25" [options]="dataOpciones25" width="90%" height="100%"></p-chart>
+            </div>
+          </ng-container>
+          <div class="col-1">&nbsp;</div>
+        </div>
+
+        <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>Año</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+          [(ngModel)]="selectAnio25" (onChange)="grafData25()"
+          ></p-dropdown>
+          <h3>Meses</h3>
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes25"
+           (onChange)="filtroGraf25()"></p-multiSelect>
+          <h3>País</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais25" 
+            placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf25');">
+            </p-dropdown>
+          <h3>Division</h3>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList25" [(ngModel)]="selecteDivision25" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf25')">
+            </p-dropdown>
+            <h3>Localidades</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList25" [(ngModel)]="selecteLocalidad25" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf25')">
+          </p-dropdown>
+          <h3>Area</h3>
+          <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList25" [(ngModel)]="selecteArea25" defaultLabel="Seleccionar area"  (onChange)="grafData25()">
+          </p-multiSelect>
+          <h3>Filtro grafico</h3>
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="filtro17" [(ngModel)]="selectFiltro25" defaultLabel="Seleccionar expuesto" (onChange)="filtroGraf25()">
+            </p-multiSelect>
+        </div>
+      </div>
+    </div>
+  </p-panel>
 </div>
 
 <p-dialog [(visible)]="imgFlag" modal="true" [contentStyle]="{'max-height':'70%'}" [style]="{width:'30%'}" [header]="'Nivel de riesgo'">

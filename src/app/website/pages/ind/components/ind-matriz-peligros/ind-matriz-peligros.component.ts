@@ -88,6 +88,47 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   dataEventos12:any[]=[]
   dataEventos13:any[]=[]
   dataEventos14:any[]=[]
+  dataEventos15:any[]=[]
+  dataEventos16:any[]=[]
+  dataEventos17:any[]=[]
+  dataEventos18:any[]=[]
+  dataEventos19:any[]=[]
+  dataEventos20:any[]=[]
+  dataEventos21:any[]=[]
+  dataEventos22:any[]=[]
+  dataEventos23?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  dataOpciones23: any = {
+    title: {
+      display: true,
+      text: 'Meta'
+    }
+  }
+  dataEventos24?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  dataOpciones24: any = {
+    title: {
+      display: true,
+      text: 'Meta p'
+    }
+  }
+  dataEventos25?: {
+    labels: any;
+    datasets: any[];
+    options: any;
+  }
+  dataOpciones25: any = {
+    title: {
+      display: true,
+      text: 'Meta por planta'
+    }
+  }
 
   filtro1: any[] = [{label: 'Numero AT', value: 'Numero AT'},{label: 'Numero EL', value: 'Numero EL'}];
   filtro1Porcentaje: any[] = [{label: 'Porcentaje AT', value: 'Porcentaje AT'},{label: 'Porcentaje EL', value: 'Porcentaje EL'}];
@@ -98,11 +139,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   filtro6: any[] = [{label: 'Pendiente', value: 'Pendiente'}, {label: 'Ejecutado', value: 'Ejecutado'}];
   filtro6Jerarquia: any[] = [{label: 'Sustitucion', value: 0}, {label: 'Eliminación', value: 1}];
   filtro7: any[] = [{label: 'Propios', value: 'Propios'}, {label: 'Temporales', value: 'Temporales'}, {label: 'Contratistas', value: 'Contratistas'}, {label: 'Total', value: 'Total'}];
-  filtro9: any[] = [{label: 'ICR', value: 'ICR'}, {label: 'Meta ICR', value: 'Meta ICR'}];
-  filtro11: any[] = [{label: 'GPI', value: 'GPI'}, {label: 'GPF', value: 'GPF'}];
   filtro13: any[] = [{label: 'Control administrativo', value: 'Control administrativo'}, {label: 'Control Ingenieria', value: 'Control Ingenieria'}, {label: 'EPP', value: 'EPP'}];
   filtro15: any[] = [{label: 'Sí', value: 'Sí'}, {label: 'No', value: 'No'}];
-
+  filtro16: any[] = [{label: 'GPI', value: 'GPI'}, {label: 'GPF', value: 'GPF'}];
+  filtro17: any[] = [{label: 'ICR', value: 'ICR'}, {label: 'Meta ICR', value: 'Meta ICR'}];
+  
   peligroList:any=[]
   selectePeligro1:any
   selectePeligro2:any
@@ -126,6 +167,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectePeligro18:any
   selectePeligro19:any
   selectePeligro20:any
+  selectePeligro21:any
+  selectePeligro22:any
+  selectePeligro23:any
+  selectePeligro24:any
+  selectePeligro25:any
 
   selectFiltro1: any=[]
   selectFiltro1p: any=[]
@@ -155,6 +201,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectFiltro18: any=[]
   selectFiltro19: any=[]
   selectFiltro20: any=[]
+  selectFiltro21: any=[]
+  selectFiltro22: any=[]
+  selectFiltro23: any=[]
+  selectFiltro24: any=[]
+  selectFiltro25: any=[]
 
   selectAnio1: number = new Date().getFullYear();
   selectAnio2: number = new Date().getFullYear();
@@ -176,6 +227,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectAnio18: number = new Date().getFullYear();
   selectAnio19: number = new Date().getFullYear();
   selectAnio20: number = new Date().getFullYear();
+  selectAnio22: number = new Date().getFullYear();
+  selectAnio25: number = new Date().getFullYear();
 
   selectMes1: any[] = [];
   selectMes2: any[] = [];
@@ -197,6 +250,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectMes18: any[] = [];
   selectMes19: any[] = [];
   selectMes20: any[] = [];
+  selectMes22: any[] = [];
+  selectMes25: any[] = [];
 
   radio1Gra1:number=0
   radio2Gra1:number=0
@@ -227,7 +282,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   desde1Graf15?:Date
   desde1Graf17?:Date
   desde1Graf18?:Date
-
+  desde1Graf20?:Date
+  desde1Graf21?:Date
+  desde1Graf23?:Date
+  desde1Graf24?:Date
+  
   hasta1Graf1?:Date
   hasta2Graf1?:Date
 
@@ -240,6 +299,10 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   hasta1Graf15?:Date
   hasta1Graf17?:Date
   hasta1Graf18?:Date
+  hasta1Graf20?:Date
+  hasta1Graf21?:Date
+  hasta1Graf23?:Date
+  hasta1Graf24?:Date
   // desde:Date=null
   
   añoPrimero:number=2015;
@@ -303,6 +366,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectPais18:any
   selectPais19:any
   selectPais20:any
+  selectPais21:any
+  selectPais22:any
+  selectPais23:any
+  selectPais24:any
+  selectPais25:any
 
   divisionList:any=[]
   divisionList1:any=[]
@@ -325,6 +393,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   divisionList18:any=[]
   divisionList19:any=[]
   divisionList20:any=[]
+  divisionList21:any=[]
+  divisionList22:any=[]
+  divisionList23:any=[]
+  divisionList24:any=[]
+  divisionList25:any=[]
   
   selecteDivision1:any
   selecteDivision2:any
@@ -346,6 +419,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selecteDivision18:any
   selecteDivision19:any
   selecteDivision20:any
+  selecteDivision21:any
+  selecteDivision22:any
+  selecteDivision23:any
+  selecteDivision24:any
+  selecteDivision25:any
   
   localidadesList:any[]=[]
   localidadesList1:any[]=[]
@@ -368,6 +446,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   localidadesList18:any[]=[]
   localidadesList19:any[]=[]
   localidadesList20:any[]=[]
+  localidadesList21:any[]=[]
+  localidadesList22:any[]=[]
+  localidadesList23:any[]=[]
+  localidadesList24:any[]=[]
+  localidadesList25:any[]=[]
 
   selecteLocalidad1:any
   selecteLocalidad2:any
@@ -389,6 +472,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selecteLocalidad18:any
   selecteLocalidad19:any
   selecteLocalidad20:any
+  selecteLocalidad21:any
+  selecteLocalidad22:any
+  selecteLocalidad23:any
+  selecteLocalidad24:any
+  selecteLocalidad25:any
 
   areasList1:any
   areasList2:any
@@ -410,6 +498,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   areasList18:any
   areasList19:any
   areasList20:any
+  areasList21:any
+  areasList22:any
+  areasList23:any
+  areasList24:any
+  areasList25:any
 
   selecteArea1:any
   selecteArea2:any
@@ -431,6 +524,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selecteArea18:any
   selecteArea19:any
   selecteArea20:any
+  selecteArea21:any
+  selecteArea22:any
+  selecteArea23:any
+  selecteArea24:any
+  selecteArea25:any
 
   localeES = locale_es;
 
@@ -683,6 +781,49 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.divisionList19=await this.getDivisiones(pais.value)
         this.grafData19()
         break;
+
+      case 'graf20':
+        this.localidadesList20=[]
+        this.selecteLocalidad20=null
+        this.selecteDivision20=null
+        this.divisionList20=await this.getDivisiones(pais.value)
+        this.grafData20()
+        break;
+      case 'graf21':
+        this.localidadesList21=[]
+        this.selecteLocalidad21=null
+        this.selecteDivision21=null
+        this.divisionList21=await this.getDivisiones(pais.value)
+        this.grafData21()
+        break;
+      case 'graf22':
+        this.localidadesList22=[]
+        this.selecteLocalidad22=null
+        this.selecteDivision22=null
+        this.divisionList22=await this.getDivisiones(pais.value)
+        this.grafData22()
+        break;
+      case 'graf23':
+        this.localidadesList23=[]
+        this.selecteLocalidad23=null
+        this.selecteDivision23=null
+        this.divisionList23=await this.getDivisiones(pais.value)
+        this.grafData23()
+        break;
+      case 'graf24':
+        this.localidadesList24=[]
+        this.selecteLocalidad24=null
+        this.selecteDivision24=null
+        this.divisionList24=await this.getDivisiones(pais.value)
+        this.grafData24()
+        break;
+      case 'graf25':
+        this.localidadesList25=[]
+        this.selecteLocalidad25=null
+        this.selecteDivision25=null
+        this.divisionList25=await this.getDivisiones(pais.value)
+        this.grafData25()
+        break;
       default:
         break;
     }
@@ -924,6 +1065,60 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         }
         this.grafData19()
         break;
+      case 'graf20':
+        this.localidadesList20=[]
+        this.selecteLocalidad20=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList20.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData20()
+        break;
+      case 'graf21':
+        this.localidadesList21=[]
+        this.selecteLocalidad21=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList21.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData21()
+        break;
+      case 'graf22':
+        this.localidadesList22=[]
+        this.selecteLocalidad22=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList22.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData22()
+        break;
+      case 'graf23':
+        this.localidadesList23=[]
+        this.selecteLocalidad23=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList23.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData23()
+        break;
+      case 'graf24':
+        this.localidadesList24=[]
+        this.selecteLocalidad24=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList24.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData24()
+        break;
+      case 'graf25':
+        this.localidadesList25=[]
+        this.selecteLocalidad25=null
+        if(localidadesList)
+        for(const loc of localidadesList){
+          this.localidadesList25.push({label:loc.localidad,value:loc.localidad})
+        }
+        this.grafData25()
+        break;
       default:
         break;
     }
@@ -1007,6 +1202,30 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       case 'graf19':
         this.areasList19=await this.getArea(loc.value)
         this.grafData19()
+        break;
+      case 'graf20':
+        this.areasList20=await this.getArea(loc.value)
+        this.grafData20()
+        break;
+      case 'graf21':
+        this.areasList21=await this.getArea(loc.value)
+        this.grafData21()
+        break;
+      case 'graf22':
+        this.areasList22=await this.getArea(loc.value)
+        this.grafData22()
+        break;
+      case 'graf23':
+        this.areasList23=await this.getArea(loc.value)
+        this.grafData23()
+        break;
+      case 'graf24':
+        this.areasList24=await this.getArea(loc.value)
+        this.grafData24()
+        break;
+      case 'graf25':
+        this.areasList25=await this.getArea(loc.value)
+        this.grafData25()
         break;
       default:
         break;
@@ -2522,6 +2741,9 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       if(this.desde1Graf10)dataAnalisisRiesgo10 = dataAnalisisRiesgo10.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf10!));
       if(this.hasta1Graf10)dataAnalisisRiesgo10 = dataAnalisisRiesgo10.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf10!));
 
+      if(this.radioGra10==1)dataAnalisisRiesgo10= dataAnalisisRiesgo10.filter(at => at.rutinaria !=null && at.rutinaria == 'Sí');
+      if(this.radioGra10==2)dataAnalisisRiesgo10= dataAnalisisRiesgo10.filter(at => at.rutinaria !=null && at.rutinaria == 'No');
+
       //nuevo
         dataAnalisisRiesgo10= dataAnalisisRiesgo10.filter(at => at.pais != null);
         dataAnalisisRiesgo10= dataAnalisisRiesgo10.filter(at => at.division != null);
@@ -2656,6 +2878,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo11 = dataAnalisisRiesgo11.filter(at => at.fechaEdicion != null);
 
+      if(this.radioGra11==1)dataAnalisisRiesgo11= dataAnalisisRiesgo11.filter(at => at.rutinaria !=null && at.rutinaria == 'Sí');
+      if(this.radioGra11==2)dataAnalisisRiesgo11= dataAnalisisRiesgo11.filter(at => at.rutinaria !=null && at.rutinaria == 'No');
 
       //nuevo
         dataAnalisisRiesgo11= dataAnalisisRiesgo11.filter(at => at.pais != null);
@@ -2803,6 +3027,9 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       if(this.desde1Graf12)dataAnalisisRiesgo12 = dataAnalisisRiesgo12.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf12!));
       if(this.hasta1Graf12)dataAnalisisRiesgo12 = dataAnalisisRiesgo12.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf12!));
 
+      if(this.radioGra12==1)dataAnalisisRiesgo12= dataAnalisisRiesgo12.filter(at => at.rutinaria !=null && at.rutinaria == 'Sí');
+      if(this.radioGra12==2)dataAnalisisRiesgo12= dataAnalisisRiesgo12.filter(at => at.rutinaria !=null && at.rutinaria == 'No');
+
       //nuevo
         dataAnalisisRiesgo12= dataAnalisisRiesgo12.filter(at => at.pais != null);
         dataAnalisisRiesgo12= dataAnalisisRiesgo12.filter(at => at.division != null);
@@ -2935,6 +3162,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo13 = dataAnalisisRiesgo13.filter(at => at.fechaEdicion != null);
 
+      if(this.radioGra13==1)dataAnalisisRiesgo13= dataAnalisisRiesgo13.filter(at => at.rutinaria !=null && at.rutinaria == 'Sí');
+      if(this.radioGra13==2)dataAnalisisRiesgo13= dataAnalisisRiesgo13.filter(at => at.rutinaria !=null && at.rutinaria == 'No');
 
       //nuevo
         dataAnalisisRiesgo13= dataAnalisisRiesgo13.filter(at => at.pais != null);
@@ -3065,10 +3294,160 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     Object.assign(this, {dataEventos13}); 
   }
   grafData14(){
+    let flagZero:boolean=false
 
+    if(this.selectPais14 == 'Corona Total' || this.selecteDivision14 == 'Total' || this.selecteLocalidad14){
+      let dataAnalisisRiesgo14: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos14: any[] = [];
+
+      let ejeY:any
+      let variableText:any
+      if(this.selectPais14 == 'Corona Total'){
+        ejeY=[...this.divisionList14] 
+        variableText='division'
+      }
+      if(this.selecteDivision14 == 'Total'){
+        ejeY=[...this.localidadesList14]
+        variableText='planta'
+      }
+      if(this.selecteLocalidad14){
+        ejeY=[...this.areasList14]
+        variableText='area'
+      }
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo14 = dataAnalisisRiesgo14.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf14)dataAnalisisRiesgo14 = dataAnalisisRiesgo14.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf14!));
+      if(this.hasta1Graf14)dataAnalisisRiesgo14 = dataAnalisisRiesgo14.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf14!));
+
+      //nuevo
+        dataAnalisisRiesgo14= dataAnalisisRiesgo14.filter(at => at.pais != null);
+        dataAnalisisRiesgo14= dataAnalisisRiesgo14.filter(at => at.division != null);
+        dataAnalisisRiesgo14= dataAnalisisRiesgo14.filter(at => at.planta != null);
+        dataAnalisisRiesgo14= dataAnalisisRiesgo14.filter(at => at.area != null);
+        if(this.selectPais14)if(this.selectPais14!='Corona Total')dataAnalisisRiesgo14= dataAnalisisRiesgo14.filter(at => at.pais == this.selectPais14);
+        if(this.selectePeligro14)if(this.selectePeligro14.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro14.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo14.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo14=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let controlAdmTotal:number=0
+      let controlIngTotal:number=0
+      let controlEPPTotal:number=0      
+
+      for(const y of ejeY){
+
+        let data:any = {
+          name: y.label,
+          series: []
+        }
+
+        let controlAdm: number = dataAnalisisRiesgo14.filter(mp => mp[variableText] === y.label && mp.administrativos !=null).reduce((count, adm) => {
+          return (count + JSON.parse(adm.administrativos).length);
+        }, 0);
+
+        dataAnalisisRiesgo14.filter(mp => mp[variableText] === y.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlAdm+= planAccion.filter(p => (p.jerarquia === 'Controles administrativos' && p.estado=='Ejecutado')).length
+        }) 
+
+        let controlIng: number = dataAnalisisRiesgo14.filter(mp => mp[variableText] === y.label && mp.ingenieria !=null).reduce((count, adm) => {
+          return (count + JSON.parse(adm.ingenieria).length);
+        }, 0);
+
+        dataAnalisisRiesgo14.filter(mp => mp[variableText] === y.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlIng+= planAccion.filter(p => (p.jerarquia === 'Control de ingeniería' && p.estado=='Ejecutado')).length
+        }) 
+
+        let controlEPP: number = dataAnalisisRiesgo14.filter(mp => mp[variableText] === y.label && mp.elementospro !=null).reduce((count, adm) => {
+          return (count + JSON.parse(adm.elementospro).length);
+        }, 0);
+
+        dataAnalisisRiesgo14.filter(mp => mp[variableText] === y.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlEPP+= planAccion.filter(p => (p.jerarquia === 'Elementos de protección personal' && p.estado=='Ejecutado')).length
+        }) 
+
+        controlAdmTotal+=controlAdm
+        controlIngTotal+=controlIng
+        controlEPPTotal+=controlEPP
+        
+
+        if(controlAdm==0 && controlIng==0 && controlEPP==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro13[0].value,
+            value: controlAdm
+          });
+          data.series.push({
+            name: this.filtro13[1].value,
+            value: controlIng
+          })
+          data.series.push({
+            name: this.filtro13[2].value,
+            value: controlEPP
+          })
+          dataEventos14.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro13[0].value,
+        value: controlAdmTotal
+      });
+      data.series.push({
+        name: this.filtro13[1].value,
+        value: controlIngTotal
+      })
+      data.series.push({
+        name: this.filtro13[2].value,
+        value: controlEPPTotal
+      })
+
+      dataEventos14.push(data);
+
+      Object.assign(this, {dataEventos14});
+      localStorage.setItem('dataEventos14', JSON.stringify(dataEventos14));
+      this.filtroGraf14()
+    }
   }
   filtroGraf14(){
+    let dataEventos14: any[] = JSON.parse(localStorage.getItem('dataEventos14')!)
 
+    if(this.selectPais14 == 'Corona Total' && this.selecteDivision14 != 'Total'){
+      if(this.selecteDivision14 && this.selecteDivision14.length > 0){
+        dataEventos14 = dataEventos14.filter(data => this.selecteDivision14.includes(data.name));
+      }
+    }else if(this.selecteDivision14 == 'Total')
+      if(this.selecteLocalidad14 && this.selecteLocalidad14.length > 0){
+        dataEventos14 = dataEventos14.filter(data => this.selecteLocalidad14.includes(data.name));
+      }
+
+    if(this.selectPais14 != 'Corona Total' && this.selecteDivision14 != 'Total')
+      if(this.selecteArea14 && this.selecteArea14.length > 0){
+        dataEventos14 = dataEventos14.filter(data => this.selecteArea14.includes(data.name));
+      }
+
+      if(this.selectFiltro14 && this.selectFiltro14.length > 0){
+        dataEventos14.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro14.includes(dataSeries.name));
+        });
+      }
+
+   Object.assign(this, {dataEventos14}); 
   }
   grafData15(){
     let flagZero:boolean=false
@@ -3115,13 +3494,29 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           return (count + JSON.parse(adm.administrativos).length);
         }, 0);
 
+        dataAnalisisRiesgo15.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlAdm+= planAccion.filter(p => (p.jerarquia === 'Controles administrativos' && p.estado=='Ejecutado')).length
+        }) 
+
         let controlIng: number = dataAnalisisRiesgo15.filter(mp => mp.peligro === tipoPeligro.label && mp.ingenieria !=null).reduce((count, adm) => {
           return (count + JSON.parse(adm.ingenieria).length);
         }, 0);
 
+        dataAnalisisRiesgo15.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlIng+= planAccion.filter(p => (p.jerarquia === 'Control de ingeniería' && p.estado=='Ejecutado')).length
+        }) 
+
         let controlEPP: number = dataAnalisisRiesgo15.filter(mp => mp.peligro === tipoPeligro.label && mp.elementospro !=null).reduce((count, adm) => {
           return (count + JSON.parse(adm.elementospro).length);
         }, 0);
+
+        dataAnalisisRiesgo15.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlEPP+= planAccion.filter(p => (p.jerarquia === 'Elementos de protección personal' && p.estado=='Ejecutado')).length
+        }) 
+
         controlAdmTotal+=controlAdm
         controlIngTotal+=controlIng
         controlEPPTotal+=controlEPP
@@ -3237,13 +3632,29 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           return (count + JSON.parse(adm.administrativos).length);
         }, 0);
 
+        dataAnalisisRiesgo16.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlAdm+= planAccion.filter(p => (p.jerarquia === 'Controles administrativos' && p.estado=='Ejecutado')).length
+        }) 
+
         let controlIng: number = dataAnalisisRiesgo16.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.ingenieria !=null).reduce((count, adm) => {
           return (count + JSON.parse(adm.ingenieria).length);
         }, 0);
 
+        dataAnalisisRiesgo16.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlIng+= planAccion.filter(p => (p.jerarquia === 'Control de ingeniería' && p.estado=='Ejecutado')).length
+        }) 
+
         let controlEPP: number = dataAnalisisRiesgo16.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.elementospro !=null).reduce((count, adm) => {
           return (count + JSON.parse(adm.elementospro).length);
         }, 0);
+
+        dataAnalisisRiesgo16.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlEPP+= planAccion.filter(p => (p.jerarquia === 'Elementos de protección personal' && p.estado=='Ejecutado')).length
+        }) 
+
         controlAdmTotal+=controlAdm
         controlIngTotal+=controlIng
         controlEPPTotal+=controlEPP
@@ -3310,10 +3721,126 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     Object.assign(this, {dataEventos16}); 
   }
   grafData17(){
+    let flagZero:boolean=false
 
+    if(this.selectPais17 == 'Corona Total' || this.selecteDivision17 == 'Total' || this.selecteLocalidad17){
+      let dataAnalisisRiesgo17: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos17: any[] = [];
+
+      let ejeY:any
+      let variableText:any
+      if(this.selectPais17 == 'Corona Total'){
+        ejeY=[...this.divisionList17] 
+        variableText='division'
+      }
+      if(this.selecteDivision17 == 'Total'){
+        ejeY=[...this.localidadesList17]
+        variableText='planta'
+      }
+      if(this.selecteLocalidad17){
+        ejeY=[...this.areasList17]
+        variableText='area'
+      }
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo17 = dataAnalisisRiesgo17.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf17)dataAnalisisRiesgo17 = dataAnalisisRiesgo17.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf17!));
+      if(this.hasta1Graf17)dataAnalisisRiesgo17 = dataAnalisisRiesgo17.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf17!));
+
+      //nuevo
+        dataAnalisisRiesgo17= dataAnalisisRiesgo17.filter(at => at.pais != null);
+        dataAnalisisRiesgo17= dataAnalisisRiesgo17.filter(at => at.division != null);
+        dataAnalisisRiesgo17= dataAnalisisRiesgo17.filter(at => at.planta != null);
+        dataAnalisisRiesgo17= dataAnalisisRiesgo17.filter(at => at.area != null);
+        dataAnalisisRiesgo17= dataAnalisisRiesgo17.filter(at => at.accmayor != null);
+        if(this.selectPais17)if(this.selectPais17!='Corona Total')dataAnalisisRiesgo17 = dataAnalisisRiesgo17.filter(at => at.pais == this.selectPais17);
+        if(this.selectePeligro17)if(this.selectePeligro17.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro17.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo17.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo17=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let siTotal:number=0
+      let noTotal:number=0
+
+      for(const y of ejeY){
+
+        let data:any = {
+          name: y.label,
+          series: []
+        }
+
+        let si: number = dataAnalisisRiesgo17.filter(mp => mp[variableText] === y.label && mp.accmayor=='Sí').length
+        let no: number = dataAnalisisRiesgo17.filter(mp => mp[variableText] === y.label && mp.accmayor=='No').length
+                
+        siTotal +=si
+        noTotal +=no
+
+        if(si==0 && no==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro15[0].value,
+            value: si
+          });
+          data.series.push({
+            name: this.filtro15[1].value,
+            value: no
+          })
+          dataEventos17.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro15[0].value,
+        value: siTotal
+      });
+      data.series.push({
+        name: this.filtro15[1].value,
+        value: noTotal
+      })
+
+      dataEventos17.push(data);
+
+      Object.assign(this, {dataEventos17});
+      localStorage.setItem('dataEventos17', JSON.stringify(dataEventos17));
+      this.filtroGraf17()
+    }
   }
   filtroGraf17(){
+    let dataEventos17: any[] = JSON.parse(localStorage.getItem('dataEventos17')!)
 
+    if(this.selectPais17 == 'Corona Total' && this.selecteDivision17 != 'Total'){
+      if(this.selecteDivision17 && this.selecteDivision17.length > 0){
+        dataEventos17 = dataEventos17.filter(data => this.selecteDivision17.includes(data.name));
+      }
+    }else if(this.selecteDivision17 == 'Total')
+      if(this.selecteLocalidad17 && this.selecteLocalidad17.length > 0){
+        dataEventos17 = dataEventos17.filter(data => this.selecteLocalidad17.includes(data.name));
+      }
+
+    if(this.selectPais17 != 'Corona Total' && this.selecteDivision17 != 'Total')
+      if(this.selecteArea17 && this.selecteArea17.length > 0){
+        dataEventos17 = dataEventos17.filter(data => this.selecteArea17.includes(data.name));
+      }
+
+      if(this.selectFiltro17 && this.selectFiltro17.length > 0){
+        dataEventos17.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro17.includes(dataSeries.name));
+        });
+      }
+
+   Object.assign(this, {dataEventos17}); 
   }
   grafData18(){
     let flagZero:boolean=false
@@ -3521,6 +4048,489 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
     Object.assign(this, {dataEventos19}); 
   }
+  grafData20(){
+    let flagZero:boolean=false
+
+    if(this.selectPais20 == 'Corona Total' || this.selecteDivision20 == 'Total' || this.selecteLocalidad20){
+      let dataAnalisisRiesgo20: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos20: any[] = [];
+
+      let ejeY:any
+      let variableText:any
+      if(this.selectPais20 == 'Corona Total'){
+        ejeY=[...this.divisionList20] 
+        variableText='division'
+      }
+      if(this.selecteDivision20 == 'Total'){
+        ejeY=[...this.localidadesList20]
+        variableText='planta'
+      }
+      if(this.selecteLocalidad20){
+        ejeY=[...this.areasList20]
+        variableText='area'
+      }
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo20 = dataAnalisisRiesgo20.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf20)dataAnalisisRiesgo20 = dataAnalisisRiesgo20.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf20!));
+      if(this.hasta1Graf20)dataAnalisisRiesgo20 = dataAnalisisRiesgo20.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf20!));
+
+      //nuevo
+        dataAnalisisRiesgo20= dataAnalisisRiesgo20.filter(at => at.pais != null);
+        dataAnalisisRiesgo20= dataAnalisisRiesgo20.filter(at => at.division != null);
+        dataAnalisisRiesgo20= dataAnalisisRiesgo20.filter(at => at.planta != null);
+        dataAnalisisRiesgo20= dataAnalisisRiesgo20.filter(at => at.area != null);
+        if(this.selectPais20)if(this.selectPais20!='Corona Total')dataAnalisisRiesgo20 = dataAnalisisRiesgo20.filter(at => at.pais == this.selectPais20);
+        if(this.selectePeligro20)if(this.selectePeligro20.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro20.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo20.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo20=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let gpiTotal:number=0
+      let gpfTotal:number=0
+
+      for(const y of ejeY){
+
+        let data:any = {
+          name: y.label,
+          series: []
+        }
+
+        let gpi: number = dataAnalisisRiesgo20.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, ini) => {
+          return (count + Number(ini.nrInicial));
+        }, 0);
+        let gpf: number = dataAnalisisRiesgo20.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, fin) => {
+          return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+        }, 0);
+                
+        gpiTotal +=gpi
+        gpfTotal +=gpf
+
+        if(gpi==0 && gpf==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro16[0].value,
+            value: gpi
+          });
+          data.series.push({
+            name: this.filtro16[1].value,
+            value: gpf
+          })
+          dataEventos20.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro16[0].value,
+        value: gpiTotal
+      });
+      data.series.push({
+        name: this.filtro16[1].value,
+        value: gpfTotal
+      })
+
+      dataEventos20.push(data);
+
+      Object.assign(this, {dataEventos20});
+      localStorage.setItem('dataEventos20', JSON.stringify(dataEventos20));
+      this.filtroGraf20()
+    }
+  }
+  filtroGraf20(){
+    let dataEventos20: any[] = JSON.parse(localStorage.getItem('dataEventos20')!)
+
+    if(this.selectPais20 == 'Corona Total' && this.selecteDivision20 != 'Total'){
+      if(this.selecteDivision20 && this.selecteDivision20.length > 0){
+        dataEventos20 = dataEventos20.filter(data => this.selecteDivision20.includes(data.name));
+      }
+    }else if(this.selecteDivision20 == 'Total')
+      if(this.selecteLocalidad20 && this.selecteLocalidad20.length > 0){
+        dataEventos20 = dataEventos20.filter(data => this.selecteLocalidad20.includes(data.name));
+      }
+
+    if(this.selectPais20 != 'Corona Total' && this.selecteDivision20 != 'Total')
+      if(this.selecteArea20 && this.selecteArea20.length > 0){
+        dataEventos20 = dataEventos20.filter(data => this.selecteArea20.includes(data.name));
+      }
+
+      if(this.selectFiltro20 && this.selectFiltro20.length > 0){
+        dataEventos20.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro20.includes(dataSeries.name));
+        });
+      }
+
+   Object.assign(this, {dataEventos20}); 
+  }
+  grafData21(){
+    let flagZero:boolean=false
+
+    if(this.selectPais21){
+      let dataAnalisisRiesgo21: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos21: any[] = [];
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo21 = dataAnalisisRiesgo21.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf21)dataAnalisisRiesgo21 = dataAnalisisRiesgo21.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf21!));
+      if(this.hasta1Graf21)dataAnalisisRiesgo21 = dataAnalisisRiesgo21.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf21!));
+
+      //nuevo
+        dataAnalisisRiesgo21= dataAnalisisRiesgo21.filter(at => at.pais != null);
+        dataAnalisisRiesgo21= dataAnalisisRiesgo21.filter(at => at.division != null);
+        dataAnalisisRiesgo21= dataAnalisisRiesgo21.filter(at => at.planta != null);
+        dataAnalisisRiesgo21= dataAnalisisRiesgo21.filter(at => at.area != null);
+        if(this.selectPais21)if(this.selectPais21!='Corona Total')dataAnalisisRiesgo21 = dataAnalisisRiesgo21.filter(at => at.pais == this.selectPais21);
+        if(this.selecteDivision21)dataAnalisisRiesgo21= dataAnalisisRiesgo21.filter(at => at.division == this.selecteDivision21);
+        if(this.selecteLocalidad21)dataAnalisisRiesgo21= dataAnalisisRiesgo21.filter(at => at.planta == this.selecteLocalidad21);
+        if(this.selecteArea21)if(this.selecteArea21.length>0){
+          dataMPCopyDiv=[]
+          this.selecteArea21.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo21.filter(at => at.area == element));
+          });
+          dataAnalisisRiesgo21=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let gpiTotal:number=0
+      let gpfTotal:number=0
+      
+      if(this.tipoPeligroItemList)
+      for(const tipoPeligro of this.tipoPeligroItemList){
+
+        let data:any = {
+          name: tipoPeligro.label,
+          series: []
+        }
+
+        let gpi: number = dataAnalisisRiesgo21.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, ini) => {
+          return (count + Number(ini.nrInicial));
+        }, 0);
+        let gpf: number = dataAnalisisRiesgo21.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, fin) => {
+          return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+        }, 0);
+
+        gpiTotal +=gpi
+        gpfTotal +=gpf
+
+        if(gpi==0 && gpf==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro16[0].value,
+            value: gpi
+          });
+          data.series.push({
+            name: this.filtro16[1].value,
+            value: gpf
+          })
+          dataEventos21.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro16[0].value,
+        value: gpiTotal
+      });
+      data.series.push({
+        name: this.filtro16[1].value,
+        value: gpfTotal
+      })
+
+      dataEventos21.push(data);
+
+      Object.assign(this, {dataEventos21});
+      localStorage.setItem('dataEventos21', JSON.stringify(dataEventos21));
+      this.filtroGraf21()
+    }
+  }
+  filtroGraf21(){
+    let dataEventos21: any[] = JSON.parse(localStorage.getItem('dataEventos21')!)
+
+    if(this.selectePeligro21 && this.selectePeligro21.length > 0){
+      let selectePeligro21=this.selectePeligro21.map((ele:any)=>ele.nombre)
+      dataEventos21 = dataEventos21.filter(data => selectePeligro21.includes(data.name));
+    }
+
+    if(this.selectFiltro21 && this.selectFiltro21.length > 0){
+      dataEventos21.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro21.includes(dataSeries.name));
+      });
+    }
+    Object.assign(this, {dataEventos21}); 
+  }
+  grafData22(){
+    let flagZero:boolean=false
+
+    if(this.selectPais22){
+      let dataAnalisisRiesgo22: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos22: any[] = [];
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo22 = dataAnalisisRiesgo22.filter(at => at.fechaEdicion != null);
+
+
+      //nuevo
+        dataAnalisisRiesgo22= dataAnalisisRiesgo22.filter(at => at.pais != null);
+        dataAnalisisRiesgo22= dataAnalisisRiesgo22.filter(at => at.division != null);
+        dataAnalisisRiesgo22= dataAnalisisRiesgo22.filter(at => at.planta != null);
+        dataAnalisisRiesgo22= dataAnalisisRiesgo22.filter(at => at.area != null);
+        dataAnalisisRiesgo22 = dataAnalisisRiesgo22.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio22);
+        if(this.selectPais22)if(this.selectPais22!='Corona Total')dataAnalisisRiesgo22 = dataAnalisisRiesgo22.filter(at => at.pais == this.selectPais22);
+        if(this.selecteDivision22)dataAnalisisRiesgo22= dataAnalisisRiesgo22.filter(at => at.division == this.selecteDivision22);
+        if(this.selecteLocalidad22)dataAnalisisRiesgo22= dataAnalisisRiesgo22.filter(at => at.planta == this.selecteLocalidad22);
+        if(this.selecteArea22)if(this.selecteArea22.length>0){
+          dataMPCopyDiv=[]
+          this.selecteArea22.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo22.filter(at => at.area == element));
+          });
+          dataAnalisisRiesgo22=[...dataMPCopyDiv]
+        }
+        if(this.selectePeligro22)if(this.selectePeligro22.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro22.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo22.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo22=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let gpiTotal:number=0
+      let gpfTotal:number=0
+      
+      if(this.tipoPeligroItemList)
+      for(const mes of this.meses){
+
+        let data:any = {
+          name: mes,
+          series: []
+        }
+
+        let gpi: number = dataAnalisisRiesgo22.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, ini) => {
+          return (count + Number(ini.nrInicial));
+        }, 0);
+        let gpf: number = dataAnalisisRiesgo22.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, fin) => {
+          return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+        }, 0);   
+
+        gpiTotal +=gpi
+        gpfTotal +=gpf
+
+        if(gpi==0 && gpf==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro16[0].value,
+            value: gpi
+          });
+          data.series.push({
+            name: this.filtro16[1].value,
+            value: gpf
+          })
+          dataEventos22.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro16[0].value,
+        value: gpiTotal
+      });
+      data.series.push({
+        name: this.filtro16[1].value,
+        value: gpfTotal
+      })
+
+      dataEventos22.push(data);
+
+      Object.assign(this, {dataEventos22});
+      localStorage.setItem('dataEventos22', JSON.stringify(dataEventos22));
+      this.filtroGraf22()
+    }
+  }
+  filtroGraf22(){
+    let dataEventos22: any[] = JSON.parse(localStorage.getItem('dataEventos22')!)
+
+    if(this.selectMes22 && this.selectMes22.length > 0){
+      dataEventos22 = dataEventos22.filter(data => this.selectMes22.includes(data.name));
+    }
+
+    if(this.selectFiltro22 && this.selectFiltro22.length > 0){
+      dataEventos22.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro22.includes(dataSeries.name));
+      });
+    }
+
+    Object.assign(this, {dataEventos22}); 
+  }
+
+  grafData23(){
+    let flagZero:boolean=false
+
+    if(this.selectPais23 == 'Corona Total' || this.selecteDivision23 == 'Total' || this.selecteLocalidad23){
+      let dataAnalisisRiesgo23: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+
+      let ejeY:any
+      let variableText:any
+      if(this.selectPais23 == 'Corona Total'){
+        ejeY=[...this.divisionList23] 
+        variableText='division'
+      }
+      if(this.selecteDivision23 == 'Total'){
+        ejeY=[...this.localidadesList23]
+        variableText='planta'
+      }
+      if(this.selecteLocalidad23){
+        ejeY=[...this.areasList23]
+        variableText='area'
+      }
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf23)dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf23!));
+      if(this.hasta1Graf23)dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf23!));
+
+      //nuevo
+        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.pais != null);
+        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.division != null);
+        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.planta != null);
+        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.area != null);
+        if(this.selectPais23)if(this.selectPais23!='Corona Total')dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => at.pais == this.selectPais23);
+        if(this.selectePeligro23)if(this.selectePeligro23.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro23.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo23.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo23=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+
+      let labels =[]
+      let dataEventos23: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: [],
+        datasets: [
+          {
+            label: 'ICR',
+            backgroundColor: 'rgb(0, 176, 240,0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta ICR',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+
+      let gpiTotal:number=0
+      let gpfTotal:number=0
+
+      let icr:any=[]
+      let metaIcr:any=[]
+      for(const y of ejeY){
+
+        let data:any = {
+          name: y.label,
+          series: []
+        }
+
+        let gpi: number = dataAnalisisRiesgo23.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, ini) => {
+          return (count + Number(ini.nrInicial));
+        }, 0);
+        let gpf: number = dataAnalisisRiesgo23.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, fin) => {
+          return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+        }, 0);
+                
+        gpiTotal +=gpi
+        gpfTotal +=gpf
+
+        if(gpi==0 && gpf==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          labels.push(y.label)
+          icr.push(((gpi-gpf)/gpi)*100)
+          metaIcr.push(((gpi-gpf)/gpi)*100)
+        }
+      }
+      icr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
+      metaIcr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
+
+      dataEventos23.labels=labels
+      dataEventos23.datasets[0].data=icr
+      dataEventos23.datasets[1].data=metaIcr
+
+      console.log(dataEventos23)
+
+      Object.assign(this, {dataEventos23});
+      localStorage.setItem('dataEventos23', JSON.stringify(dataEventos23));
+      // this.filtroGraf20()
+    }
+  }
+  filtroGraf23(){
+    let dataEventos20: any[] = JSON.parse(localStorage.getItem('dataEventos20')!)
+
+    if(this.selectPais20 == 'Corona Total' && this.selecteDivision20 != 'Total'){
+      if(this.selecteDivision20 && this.selecteDivision20.length > 0){
+        dataEventos20 = dataEventos20.filter(data => this.selecteDivision20.includes(data.name));
+      }
+    }else if(this.selecteDivision20 == 'Total')
+      if(this.selecteLocalidad20 && this.selecteLocalidad20.length > 0){
+        dataEventos20 = dataEventos20.filter(data => this.selecteLocalidad20.includes(data.name));
+      }
+
+    if(this.selectPais20 != 'Corona Total' && this.selecteDivision20 != 'Total')
+      if(this.selecteArea20 && this.selecteArea20.length > 0){
+        dataEventos20 = dataEventos20.filter(data => this.selecteArea20.includes(data.name));
+      }
+
+      if(this.selectFiltro20 && this.selectFiltro20.length > 0){
+        dataEventos20.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro20.includes(dataSeries.name));
+        });
+      }
+
+   Object.assign(this, {dataEventos20}); 
+  }
+  grafData24(){}
+  filtroGraf24(){}
+  grafData25(){}
+  filtroGraf25(){}
   imgFlag:boolean=false
 
 }
