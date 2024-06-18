@@ -292,14 +292,29 @@ export class DirectorioService extends CRUDService<Directorio> {
             padding: CryptoJS.pad.Pkcs7
         }).toString();
 
-        return new Promise((resolve) => {
-            let end_point = this.httpInt
-                .delete(this.end_point + 'documento/' + encryptedId)
+        return new Promise(async (resolve) => {
+            let options: any = {
+                // responseType: 'blob',
+                headers: new HttpHeaders()
+                    .set('Param-Emp', this.httpInt.getSesionService().getParamEmp())
+                    .set('app-version', this.httpInt.getSesionService().getAppVersion())
+                    .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
+                withCredentials: true,
+                
+            };
+            
+
+            let formData: FormData = new FormData();
+            formData.append('data', encryptedId);
+            
+
+            await this.httpInt.http
+                .post(this.end_point + 'documento/', formData, options)
                 .subscribe(
                     (res) => {
                         resolve(res);
                     },
-                    (err) => this.manageError(err)
+                    (err) => this.manageBlobError(err)
                 );
         });
     }
