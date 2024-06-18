@@ -1962,18 +1962,16 @@
           </div>
         </ng-container>
         <div class="col-1">&nbsp;</div>
-        <div class="col-2">&nbsp;</div>
-        <div class="col-8 grid">
-          <div class="col-6">  
-            <p-calendar [(ngModel)]="desde1Graf23" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData23()"> </p-calendar> 
-          </div>
-          <div class="col-6">
-            <p-calendar [(ngModel)]="hasta1Graf23" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData23()"> </p-calendar>
-          </div>
-        </div>
       </div>
 
       <div class="col-12 md:col-4 lg:col-4 filter">
+        <h3>Año</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+          [(ngModel)]="selectAnio23" (onChange)="grafData23()"
+          ></p-dropdown>
+          <h3>Meses</h3>
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes23"
+           (onChange)="grafData23()"></p-multiSelect>
         <h3>País</h3>
           <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais23" 
           placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf23');">
@@ -2022,18 +2020,16 @@
             </div>
           </ng-container>
           <div class="col-1">&nbsp;</div>
-          <div class="col-2">&nbsp;</div>
-          <div class="col-8 grid">
-              <div class="col-6">  
-                <p-calendar [(ngModel)]="desde1Graf24" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Desde" (ngModelChange)="grafData24()"> </p-calendar> 
-              </div>
-              <div class="col-6">
-                <p-calendar [(ngModel)]="hasta1Graf24" [showIcon]="true" appendTo="body"  view="month" [showButtonBar]="true" dateFormat="mm/yy" placeholder="Hasta" (ngModelChange)="grafData24()"> </p-calendar>
-              </div>
-          </div>
         </div>
 
         <div class="col-12 md:col-4 lg:col-4 filter">
+          <h3>Año</h3>
+          <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="yearRange" placeholder="Seleccionar año"
+          [(ngModel)]="selectAnio24" (onChange)="grafData24()"
+          ></p-dropdown>
+          <h3>Meses</h3>
+          <p-multiSelect appendTo="body" [style]="{'width':'100%'}" defaultLabel="Seleccione" [options]="Meses" [(ngModel)]="selectMes24"
+           (onChange)="grafData24()"></p-multiSelect>
           <h3>País</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesListtotal" [(ngModel)]="selectPais24" 
             placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf24');">

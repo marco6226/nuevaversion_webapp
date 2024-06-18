@@ -15,6 +15,7 @@ import { ViewMatrizPeligrosService } from '../../../core/services/view-matriz-pe
 import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 import { PeligroService } from '../../../core/services/peligro.service';
 import { Peligro } from '../../../comun/entities/peligro';
+import { ViewHHtMetasService } from '../../../core/services/viewhhtmetas.service';
 
 @Component({
   selector: 'app-ind-matriz-peligros',
@@ -228,6 +229,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectAnio19: number = new Date().getFullYear();
   selectAnio20: number = new Date().getFullYear();
   selectAnio22: number = new Date().getFullYear();
+  selectAnio23: number = new Date().getFullYear();
+  selectAnio24: number = new Date().getFullYear();
   selectAnio25: number = new Date().getFullYear();
 
   selectMes1: any[] = [];
@@ -251,6 +254,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   selectMes19: any[] = [];
   selectMes20: any[] = [];
   selectMes22: any[] = [];
+  selectMes23: any[] = [];
+  selectMes24: any[] = [];
   selectMes25: any[] = [];
 
   radio1Gra1:number=0
@@ -540,6 +545,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     private peligroService: PeligroService,
     private viewMatrizPeligrosService: ViewMatrizPeligrosService,
     private areaMatrizService: AreaMatrizService,
+    private viewHHtMetasService: ViewHHtMetasService,
     private config: PrimeNGConfig
   ) {
  
@@ -575,6 +581,19 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       dataMP=resp.data
       localStorage.setItem('dataMP', JSON.stringify(dataMP))
     })
+
+    let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.filterList = [
+        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
+        {criteria: Criteria.EQUALS, field: "modulo", value1: 'Matriz de Peligros'}
+      ];
+      
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+        meta=metas.data
+        localStorage.setItem('metaMP', JSON.stringify(meta))
+        console.log(meta)
+      })
 
   }
 
@@ -4178,6 +4197,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
     if(this.selectPais21){
       let dataAnalisisRiesgo21: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+
       let dataEventos21: any[] = [];
 
       let dataMPCopyDiv: any[]=[]
@@ -4391,6 +4411,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
     if(this.selectPais23 == 'Corona Total' || this.selecteDivision23 == 'Total' || this.selecteLocalidad23){
       let dataAnalisisRiesgo23: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let ejeY:any
       let variableText:any
@@ -4409,10 +4430,11 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => at.fechaEdicion != null);
-
-      if(this.desde1Graf23)dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf23!));
-      if(this.hasta1Graf23)dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf23!));
-
+      dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio23);
+      metaMP = metaMP.filter(at => at.anio == this.selectAnio23);
+      metaMP = metaMP.filter(at => at.pais == this.selectPais23);
+      console.log(metaMP)
+      
       //nuevo
         dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.pais != null);
         dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.division != null);
@@ -4494,8 +4516,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       dataEventos23.labels=labels
       dataEventos23.datasets[0].data=icr
       dataEventos23.datasets[1].data=metaIcr
-
-      console.log(dataEventos23)
 
       Object.assign(this, {dataEventos23});
       localStorage.setItem('dataEventos23', JSON.stringify(dataEventos23));

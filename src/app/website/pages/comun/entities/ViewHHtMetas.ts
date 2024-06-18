@@ -22,4 +22,7 @@ export class viewHHtMetas {
   tsPlanta?: Number;
   tsDivision?: Number;
   tsAnual?: Number;
+  icrPlanta?: Number;
+  icrDivision?: Number;
+  icrAnual?: Number;
 }
