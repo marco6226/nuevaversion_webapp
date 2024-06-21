@@ -1,4 +1,6 @@
-export class viewHHtMetas {
+import { Localidades } from "../../ctr/entities/aliados";
+
+export interface viewHHtMetas {
   id?: Number | any;
   pais?: string;
   anio?: Number;

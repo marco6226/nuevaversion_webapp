@@ -1087,7 +1087,7 @@
               placeholder="Seleccionar país" (onChange)="funcSelectPais($event,'graf10');">
               </p-dropdown>
             <h3>Division</h3>
-              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10" [(ngModel)]="selecteDivision10" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'hasta1Graf10')">
+              <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisionList10" [(ngModel)]="selecteDivision10" placeholder="Seleccionar división" (onChange)="funcSelectDivision($event,'graf10')">
               </p-dropdown>
               <h3>Localidades</h3>
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList10" [(ngModel)]="selecteLocalidad10" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf10')">
@@ -1993,7 +1993,7 @@
             <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="localidadesList23" [(ngModel)]="selecteLocalidad23" placeholder="Seleccionar localidad" (onChange)="funcSelectLocalidad($event,'graf23')">
             </p-dropdown>
             <h3>Area</h3>
-            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList23" [(ngModel)]="selecteArea23" defaultLabel="Seleccionar area"  (onChange)="grafData23()">
+            <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="areasList23" [(ngModel)]="selecteArea23" defaultLabel="Seleccionar area"  (onChange)="filtroGraf23()">
             </p-multiSelect>
             <h3>Filtro tipo peligros</h3>
             <p-multiSelect [style]="{'width':'100%'}" appendTo="body" [options]="tipoPeligroItemList" [(ngModel)]="selectePeligro23" defaultLabel="Seleccionar peligro" (onChange)="grafData23()">
@@ -2014,7 +2014,7 @@
           &nbsp;
         </div>
         <div  class="col-8 grid">
-          <ng-container *ngIf="selectPais24; else filtroFaltante">
+          <ng-container *ngIf="selectPais24 && selecteDivision24; else filtroFaltante">
             <div class="col-11 grafic" style="color: black; font-weight: bold;">
               <p-chart type="bar" [data]="dataEventos24" [options]="dataOpciones24" width="90%" height="100%"></p-chart>
             </div>
@@ -2059,7 +2059,7 @@
           &nbsp;
         </div>
         <div  class="col-8 grid">
-          <ng-container *ngIf="selectPais25; else filtroFaltante">
+          <ng-container *ngIf="selectPais25 && selecteDivision25; else filtroFaltante">
             <div class="col-11 grafic" style="color: black; font-weight: bold;">
               <p-chart type="bar" [data]="dataEventos25" [options]="dataOpciones25" width="90%" height="100%"></p-chart>
             </div>

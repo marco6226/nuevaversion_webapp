@@ -16,6 +16,7 @@ import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 import { PeligroService } from '../../../core/services/peligro.service';
 import { Peligro } from '../../../comun/entities/peligro';
 import { ViewHHtMetasService } from '../../../core/services/viewhhtmetas.service';
+import { division } from '../../../comun/entities/datosGraf4';
 
 @Component({
   selector: 'app-ind-matriz-peligros',
@@ -565,6 +566,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
   async getData(){
     await this.getDivision()
+    await this.getAreaTotal()
     await this.cargarTiposPeligro();
     await this.datosMP();
     this.tableroRiesgoIncial()
@@ -592,7 +594,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
         localStorage.setItem('metaMP', JSON.stringify(meta))
-        console.log(meta)
       })
 
   }
@@ -1250,6 +1251,21 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         break;
     }
   }
+
+  areasList:any
+  async getAreaTotal(){
+    let filterArea = new FilterQuery();
+    filterArea.sortField = "id";
+    filterArea.sortOrder = -1;
+    filterArea.fieldList= ['id','nombre','localidad_plantas_id','localidad_plantas_nombre']
+    filterArea.filterList = [{ field: 'eliminado', criteria: Criteria.EQUALS, value1: 'false'}];
+
+    await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
+        this.areasList=[...resp.data]
+      })
+  }
+
+
   async getArea(eve:any){
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
@@ -1261,6 +1277,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     let areaMatrizItemList:any=[]
     return new Promise(async (resolve, reject) => {
       await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
+    
         resp.data.forEach((element:any) => {
           areaMatrizItemList.push({ label: element.nombre, value: element.nombre})
         });
@@ -4407,6 +4424,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   }
 
   grafData23(){
+    this.meta23=[]
+    
     let flagZero:boolean=false
 
     if(this.selectPais23 == 'Corona Total' || this.selecteDivision23 == 'Total' || this.selecteLocalidad23){
@@ -4427,27 +4446,36 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         ejeY=[...this.areasList23]
         variableText='area'
       }
-
+      ejeY.sort((obj1:any, obj2:any) => {
+        let label1 = obj1.label.toUpperCase(); // Convertir a mayúsculas para ordenar sin distinción entre mayúsculas y minúsculas
+        let label2 = obj2.label.toUpperCase();
+    
+        if (label1 < label2) {
+            return -1;
+        }
+        if (label1 > label2) {
+            return 1;
+        }
+        return 0;
+      });
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => at.fechaEdicion != null);
       dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio23);
       metaMP = metaMP.filter(at => at.anio == this.selectAnio23);
-      metaMP = metaMP.filter(at => at.pais == this.selectPais23);
-      console.log(metaMP)
+      if(this.selectPais23!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais23);
+      if(this.selectPais23!='Corona Total')if(this.selecteDivision23)if(this.selecteDivision23!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision23)
+
       
       //nuevo
-        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.pais != null);
-        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.division != null);
-        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.planta != null);
-        dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.area != null);
-        if(this.selectPais23)if(this.selectPais23!='Corona Total')dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => at.pais == this.selectPais23);
-        if(this.selectePeligro23)if(this.selectePeligro23.length>0){
-          dataMPCopyDiv=[]
-          this.selectePeligro23.forEach((element:any) => {
-            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo23.filter(at => at.peligro == element.nombre));
-          });
-          dataAnalisisRiesgo23=[...dataMPCopyDiv]
-        }
+      dataAnalisisRiesgo23= dataAnalisisRiesgo23.filter(at => at.pais != null && at.division != null && at.planta != null && at.area != null);
+      if(this.selectPais23)if(this.selectPais23!='Corona Total')dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => at.pais == this.selectPais23);
+      if(this.selectePeligro23)if(this.selectePeligro23.length>0){
+        dataMPCopyDiv=[]
+        this.selectePeligro23.forEach((element:any) => {
+          dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo23.filter(at => at.peligro == element.nombre));
+        });
+        dataAnalisisRiesgo23=[...dataMPCopyDiv]
+      }
       //fin nuevo
 
       let labels =[]
@@ -4485,7 +4513,25 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       let icr:any=[]
       let metaIcr:any=[]
       for(const y of ejeY){
-
+        let metaF=0
+        if(variableText=='division'){
+          let m =metaMP.find(f=>{return f.nombreDivision == y.label})
+          if(m)metaF=m.icrDivision
+        }
+        if(variableText=='planta'){
+          let l=this.localidadesList.find((l:any)=>l.localidad==y.label)
+          if(l && l.plantas_nombre){
+            let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+            if(m)metaF=m.icrPlanta
+          }
+        }
+        if(variableText=='area'){
+          let a=this.areasList.find((a:any)=>a.nombre==y.label)
+          if(a && a.localidad_plantas_nombre){
+            let m =metaMP.find(f=>{return f.nombrePlanta == a.localidad_plantas_nombre})
+            if(m)metaF=m.icrPlanta
+          }
+        }
         let data:any = {
           name: y.label,
           series: []
@@ -4505,52 +4551,381 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         else flagZero=false
 
         if(!flagZero){
+          this.meta23.push(y.label)
           labels.push(y.label)
           icr.push(((gpi-gpf)/gpi)*100)
-          metaIcr.push(((gpi-gpf)/gpi)*100)
+          metaIcr.push(metaF)
         }
       }
+      labels.push('Total')
       icr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
-      metaIcr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
-
+      let metaTotal=0
+      if(variableText=='division')metaTotal=(metaMP.length>0)?((metaMP[0].icrAnual)?metaMP[0].icrAnual:0):0
+      if(variableText=='planta')metaTotal=(metaMP.length>0)?((metaMP[0].icrAnual)?metaMP[0].icrAnual:0):0
+      if(variableText=='area'){
+        let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad23)
+        if(l && l.plantas_nombre){
+          let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+          metaTotal=(m)?((m.icrPlanta)??m.icrPlanta):0
+        }
+      }
+      metaIcr.push(metaTotal)
       dataEventos23.labels=labels
       dataEventos23.datasets[0].data=icr
       dataEventos23.datasets[1].data=metaIcr
 
       Object.assign(this, {dataEventos23});
       localStorage.setItem('dataEventos23', JSON.stringify(dataEventos23));
-      // this.filtroGraf20()
+      this.filtroGraf23()
     }
   }
+  meta23:any
+  meta24:any
+  meta25:any
   filtroGraf23(){
-    let dataEventos20: any[] = JSON.parse(localStorage.getItem('dataEventos20')!)
+    let dataEventos23: any = JSON.parse(localStorage.getItem('dataEventos23')!)
 
-    if(this.selectPais20 == 'Corona Total' && this.selecteDivision20 != 'Total'){
-      if(this.selecteDivision20 && this.selecteDivision20.length > 0){
-        dataEventos20 = dataEventos20.filter(data => this.selecteDivision20.includes(data.name));
+    
+    if(this.selectPais23 == 'Corona Total' && this.selecteDivision23 != 'Total'){
+      if(this.selecteDivision23 && this.selecteDivision23.length > 0){
+        let divisionList23 = [...this.meta23]
+        let selecteDivision = this.selecteDivision23.map((div:any) => div).sort();
+        dataEventos23.labels = selecteDivision;
+        dataEventos23.datasets[1].data = dataEventos23.datasets[1].data.filter((data:any, index:any) => selecteDivision.includes(divisionList23[index]));
+        dataEventos23.datasets[0].data = dataEventos23.datasets[0].data.filter((data:any, index:any) => selecteDivision.includes(divisionList23[index]));
       }
-    }else if(this.selecteDivision20 == 'Total')
-      if(this.selecteLocalidad20 && this.selecteLocalidad20.length > 0){
-        dataEventos20 = dataEventos20.filter(data => this.selecteLocalidad20.includes(data.name));
+    }else if(this.selecteDivision23 == 'Total')
+      if(this.selecteLocalidad23 && this.selecteLocalidad23.length > 0){
+        let localidadesList23 = [...this.meta23]
+        let selecteLocalidad = this.selecteLocalidad23.map((loc:any) => loc).sort();
+        dataEventos23.labels = selecteLocalidad;
+        dataEventos23.datasets[1].data = dataEventos23.datasets[1].data.filter((data:any, index:any) => selecteLocalidad.includes(localidadesList23[index]));
+        dataEventos23.datasets[0].data = dataEventos23.datasets[0].data.filter((data:any, index:any) => selecteLocalidad.includes(localidadesList23[index]));
+        }
+        
+        if(this.selectPais23 != 'Corona Total' && this.selecteDivision23 != 'Total')
+          if(this.selecteArea23 && this.selecteArea23.length > 0){
+            let areaList23 = [...this.meta23]
+            let selecteArea = this.selecteArea23.map((loc:any) => loc).sort();
+            dataEventos23.labels = selecteArea;
+            dataEventos23.datasets[1].data = dataEventos23.datasets[1].data.filter((data:any, index:any) => selecteArea.includes(areaList23[index]));
+            dataEventos23.datasets[0].data = dataEventos23.datasets[0].data.filter((data:any, index:any) => selecteArea.includes(areaList23[index]));
       }
 
-    if(this.selectPais20 != 'Corona Total' && this.selecteDivision20 != 'Total')
-      if(this.selecteArea20 && this.selecteArea20.length > 0){
-        dataEventos20 = dataEventos20.filter(data => this.selecteArea20.includes(data.name));
+      if(this.selectFiltro23 && this.selectFiltro23.length > 0){
+        let selectFiltro23Meta = this.filtro17.map((div:any) => div.label);
+        let selectFiltro23 = this.selectFiltro23.map((div:any) => div);
+        dataEventos23.datasets = dataEventos23.datasets.filter((data:any, index:any) => selectFiltro23.includes(selectFiltro23Meta[index]));
       }
 
-      if(this.selectFiltro20 && this.selectFiltro20.length > 0){
-        dataEventos20.forEach(de1 => {
-          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro20.includes(dataSeries.name));
-        });
-      }
-
-   Object.assign(this, {dataEventos20}); 
+   Object.assign(this, {dataEventos23}); 
   }
-  grafData24(){}
-  filtroGraf24(){}
-  grafData25(){}
-  filtroGraf25(){}
+  grafData24(){
+    this.meta24=[]
+    let flagZero:boolean=false
+
+    if(this.selectPais24){
+      let dataAnalisisRiesgo24: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo24 = dataAnalisisRiesgo24.filter(at => at.fechaEdicion != null);
+      dataAnalisisRiesgo24 = dataAnalisisRiesgo24.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio24);
+      metaMP = metaMP.filter(at => at.anio == this.selectAnio24);
+
+
+      //nuevo
+        dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.pais != null);
+        dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.division != null);
+        dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.planta != null);
+        dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.area != null);
+        if(this.selectPais24)if(this.selectPais24!='Corona Total')dataAnalisisRiesgo24 = dataAnalisisRiesgo24.filter(at => at.pais == this.selectPais24);
+        if(this.selectPais24!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais24);
+        if(this.selectPais24!='Corona Total')if(this.selecteDivision24)if(this.selecteDivision24!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision24)
+        if(this.selecteDivision24)dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.division == this.selecteDivision24);
+        if(this.selecteLocalidad24)dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.planta == this.selecteLocalidad24);
+        if(this.selecteArea24)if(this.selecteArea24.length>0){
+          dataMPCopyDiv=[]
+          this.selecteArea24.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo24.filter(at => at.area == element));
+          });
+          dataAnalisisRiesgo24=[...dataMPCopyDiv]
+        }
+        if(this.selectMes24)if(this.selectMes24.length>0){
+          dataMPCopyDiv=[]
+          this.selectMes24.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo24.filter(at => this.meses[new Date(at.fechaEdicion).getMonth()] == element));
+          });
+          dataAnalisisRiesgo24=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+
+      let labels =[]
+      let dataEventos24: {
+        labels: any;
+        datasets: any[];
+        options?: any;
+      } = {
+        labels: [],
+        datasets: [
+          {
+            label: 'ICR',
+            backgroundColor: 'rgb(0, 176, 240,0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar'
+          },
+          {
+            label: 'Meta ICR',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line'
+          }
+        ]
+      };
+
+      let gpiTotal:number=0
+      let gpfTotal:number=0
+      let icr:any=[]
+      let metaIcr:any=[]
+      if(this.tipoPeligroItemList)
+      for(const tipoPeligro of this.tipoPeligroItemList){
+        let metaF=0
+        if(this.selecteDivision24 && this.selecteLocalidad24==null){
+          let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision24})
+          if(m)metaF=m.icrDivision
+        }
+        if(this.selecteLocalidad24){
+          let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad24)
+          if(l && l.plantas_nombre){
+            let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+            if(m)metaF=m.icrPlanta
+          }
+        }
+
+        let data:any = {
+          name: tipoPeligro.label,
+          series: []
+        }
+
+        let gpi: number = dataAnalisisRiesgo24.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, ini) => {
+          return (count + Number(ini.nrInicial));
+        }, 0);
+        let gpf: number = dataAnalisisRiesgo24.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, fin) => {
+          return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+        }, 0);
+
+        gpiTotal +=gpi
+        gpfTotal +=gpf
+
+        if(gpi==0 && gpf==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          this.meta24.push(tipoPeligro.label)
+          labels.push(tipoPeligro.label)
+          icr.push(((gpi-gpf)/gpi)*100)
+          metaIcr.push(metaF)
+        }
+      }
+      labels.push('Total')
+      icr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
+      let metaTotal=0
+      if(this.selecteDivision24 && this.selecteLocalidad24==null){
+        let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision24})
+        if(m)metaTotal=m.icrDivision
+      }
+      if(this.selecteLocalidad24){
+        let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad24)
+        if(l && l.plantas_nombre){
+          let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+          if(m)metaTotal=m.icrPlanta
+        }
+      }
+
+      metaIcr.push(metaTotal)
+      dataEventos24.labels=labels
+      dataEventos24.datasets[0].data=icr
+      dataEventos24.datasets[1].data=metaIcr
+
+      Object.assign(this, {dataEventos24});
+      localStorage.setItem('dataEventos24', JSON.stringify(dataEventos24));
+      this.filtroGraf24()
+    }
+  }
+  filtroGraf24(){
+    let dataEventos24: any = JSON.parse(localStorage.getItem('dataEventos24')!)
+
+    if(this.selectePeligro24 && this.selectePeligro24.length > 0){
+      let peligroList24 = [...this.meta24]
+      console.log(this.selectePeligro24)
+      let selectePeligro24 = this.selectePeligro24.map((p:any) => p.nombre).sort();
+      dataEventos24.labels = selectePeligro24;
+      dataEventos24.datasets[1].data = dataEventos24.datasets[1].data.filter((data:any, index:any) => selectePeligro24.includes(peligroList24[index]));
+      dataEventos24.datasets[0].data = dataEventos24.datasets[0].data.filter((data:any, index:any) => selectePeligro24.includes(peligroList24[index]));
+    }
+
+    if(this.selectFiltro24 && this.selectFiltro24.length > 0){
+      let selectFiltro24Meta = this.filtro17.map((div:any) => div.label);
+      let selectFiltro24 = this.selectFiltro24.map((div:any) => div);
+      dataEventos24.datasets = dataEventos24.datasets.filter((data:any, index:any) => selectFiltro24.includes(selectFiltro24Meta[index]));
+    }
+    Object.assign(this, {dataEventos24}); 
+    }
+    grafData25(){
+      this.meta25=[]
+      let flagZero:boolean=false
+  
+      if(this.selectPais25){
+        let dataAnalisisRiesgo25: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
+  
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.fechaEdicion != null);
+        dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio25);
+        metaMP = metaMP.filter(at => at.anio == this.selectAnio25);
+
+        //nuevo
+          dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.pais != null);
+          dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.division != null);
+          dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.planta != null);
+          dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.area != null);
+          if(this.selectPais25)if(this.selectPais25!='Corona Total')dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.pais == this.selectPais25);
+          if(this.selectPais25!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais25);
+          if(this.selectPais25!='Corona Total')if(this.selecteDivision25)if(this.selecteDivision25!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision25)
+          if(this.selecteDivision25)dataAnalisisRiesgo25= dataAnalisisRiesgo25.filter(at => at.division == this.selecteDivision25);
+          if(this.selecteLocalidad25)dataAnalisisRiesgo25= dataAnalisisRiesgo25.filter(at => at.planta == this.selecteLocalidad25);
+          if(this.selecteArea25)if(this.selecteArea25.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea25.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo25.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo25=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+  
+        let labels =[]
+        let dataEventos25: {
+          labels: any;
+          datasets: any[];
+          options?: any;
+        } = {
+          labels: [],
+          datasets: [
+            {
+              label: 'ICR',
+              backgroundColor: 'rgb(0, 176, 240,0.5)',
+              borderColor: 'rgb(0, 176, 240)',
+              borderWidth: 1,
+              data: [],
+              type: 'bar'
+            },
+            {
+              label: 'Meta ICR',
+              backgroundColor: 'rgb(10, 53, 255)',
+              fill: false,
+              tension: 0.4,
+              borderWidth: 2,
+              borderColor: 'rgb(10, 53, 255)',
+              data: [],
+              type: 'line'
+            }
+          ]
+        };
+  
+        let gpiTotal:number=0
+        let gpfTotal:number=0
+        let icr:any=[]
+        let metaIcr:any=[]
+        if(this.tipoPeligroItemList)
+        for(const mes of this.meses){
+          let metaF=0
+          if(this.selecteDivision25 && this.selecteLocalidad25==null){
+            let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision25})
+            if(m)metaF=m.icrDivision
+          }
+          if(this.selecteLocalidad25){
+            let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad25)
+            if(l && l.plantas_nombre){
+              let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+              if(m)metaF=m.icrPlanta
+            }
+          }
+  
+          let data:any = {
+            name: mes,
+            series: []
+          }
+  
+          let gpi: number = dataAnalisisRiesgo25.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, ini) => {
+            return (count + Number(ini.nrInicial));
+          }, 0);
+          let gpf: number = dataAnalisisRiesgo25.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, fin) => {
+            return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          }, 0);
+  
+          gpiTotal +=gpi
+          gpfTotal +=gpf
+  
+          if(gpi==0 && gpf==0)flagZero=true
+          else flagZero=false
+  
+          if(!flagZero){
+            this.meta25.push(mes)
+            labels.push(mes)
+            icr.push(((gpi-gpf)/gpi)*100)
+            metaIcr.push(metaF)
+          }
+        }
+        labels.push('Total')
+        icr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
+        let metaTotal=0  
+        if(this.selecteDivision25 && this.selecteLocalidad25==null){
+          let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision25})
+          if(m)metaTotal=m.icrDivision
+        }
+        if(this.selecteLocalidad25){
+          let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad25)
+          if(l && l.plantas_nombre){
+            let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+            if(m)metaTotal=m.icrPlanta
+          }
+        }
+
+  
+        metaIcr.push(metaTotal)
+        dataEventos25.labels=labels
+        dataEventos25.datasets[0].data=icr
+        dataEventos25.datasets[1].data=metaIcr
+  
+        Object.assign(this, {dataEventos25});
+        localStorage.setItem('dataEventos25', JSON.stringify(dataEventos25));
+        // this.filtroGraf25()
+      }
+    }
+    filtroGraf25(){
+      let dataEventos25: any = JSON.parse(localStorage.getItem('dataEventos25')!)
+  
+      if(this.selectMes25 && this.selectMes25.length > 0){
+        let mesList25 = [...this.meta25]
+        let selectMes25 = this.selectMes25.map((m:any) => m).sort();
+        dataEventos25.labels = selectMes25;
+        dataEventos25.datasets[1].data = dataEventos25.datasets[1].data.filter((data:any, index:any) => selectMes25.includes(mesList25[index]));
+        dataEventos25.datasets[0].data = dataEventos25.datasets[0].data.filter((data:any, index:any) => selectMes25.includes(mesList25[index]));
+      }
+  
+      if(this.selectFiltro25 && this.selectFiltro25.length > 0){
+        let selectFiltro25Meta = this.filtro17.map((div:any) => div.label);
+        let selectFiltro25 = this.selectFiltro25.map((div:any) => div);
+        dataEventos25.datasets = dataEventos25.datasets.filter((data:any, index:any) => selectFiltro25.includes(selectFiltro25Meta[index]));
+      }
+      Object.assign(this, {dataEventos25}); 
+    }
   imgFlag:boolean=false
 
 }
