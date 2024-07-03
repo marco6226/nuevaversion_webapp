@@ -618,8 +618,7 @@ export class SaludLaboralComponent implements OnInit {
 
     this.chargueValue();
     this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
-    this.loadMailData(this.idSl);
-    this.loadMailDataUser(this.idSl, this.pkuser);
+
     console.log("esto me trae salud", this.idSl);
 
     this.doc = [
@@ -649,6 +648,8 @@ export class SaludLaboralComponent implements OnInit {
       'Resultado de bateria personal y general',
       'Plan de intervención'
     ]
+    this.loadMailData(this.idSl);
+    this.loadMailDataUser(this.idSl, this.pkuser);
 
   }
   onFilter(event: any) {
@@ -1507,6 +1508,11 @@ export class SaludLaboralComponent implements OnInit {
 
 
   async loadMailData(param: number) {
+    if (param == null || param === undefined) {
+      console.error('Invalid parameter for loadMailData:', param);
+      return;
+    }
+  
     try {
       const data = await this.scmService.findAllByIdMail(param);
       this.documentacionList = data; // Asigna los datos a documentacionList
@@ -1516,7 +1522,13 @@ export class SaludLaboralComponent implements OnInit {
       console.error('Error loading mail data', error);
     }
   }
+  
   async loadMailDataUser(param: number, user: number) {
+    if (param == null || param === undefined || user == null || user === undefined) {
+      console.error('Invalid parameters for loadMailDataUser:', param, user);
+      return;
+    }
+  
     try {
       const data = await this.scmService.findAllByIdMailUser(param, user);
       this.documentacionListUser = data;
@@ -1527,6 +1539,7 @@ export class SaludLaboralComponent implements OnInit {
       console.error('Error loading mail data', error);
     }
   }
+  
   documentoId: any[] = [];
   async onUpload(event: Directorio) {
     if (this.documentos == null) {
