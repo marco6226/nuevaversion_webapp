@@ -369,7 +369,7 @@ export class IndCaracterizacionComponent implements OnInit {
     for (let i = 0; i < this.yearRangeNumber.length; i++) {
       this.yearRange.push({label:this.yearRangeNumber[i],value:this.yearRangeNumber[i]});
     }
-    await this.caracterizacionViewService.findAllCAR().then(async (resp)=>{
+    await this.caracterizacionViewService.findAllCAR2().then(async (resp)=>{
       this.CaracterizacionView=resp
       this.CaracterizacionView.map((res1:any)=>{
         res1.hora=Number(res1.hora.substr(0,2))

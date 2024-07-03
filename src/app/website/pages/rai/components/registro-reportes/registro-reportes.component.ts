@@ -49,6 +49,7 @@ export class RegistroReportesComponent implements OnInit {
       if (repParam.id != null) {
       filterQuery.filterList = [{ field: 'id', criteria: Criteria.EQUALS, value1:  repParam.id.toString(), value2: null }];
       }
+      // debugger
     await  this.reporteService.findByFilter(filterQuery).then(
       (resp:any) => {
           this.reporteSelect = <Reporte>(resp['data'][0]);

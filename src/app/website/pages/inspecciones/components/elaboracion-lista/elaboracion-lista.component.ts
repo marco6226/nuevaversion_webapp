@@ -348,5 +348,14 @@ async getTareaEvidences(lista_id: number, version_id: number) {
         }
     } catch (e) {}
 }
-
+validarDefault(eve:any,id:any){
+    if(eve.checked){
+        this.opcionesCalifList.forEach((ele:any)=>{
+            if(ele.id != id){
+                let index=this.opcionesCalifList.findIndex(i=>i.id==ele.id)
+                this.opcionesCalifList[index].defecto=false
+            }
+        })
+    }
+}
 }

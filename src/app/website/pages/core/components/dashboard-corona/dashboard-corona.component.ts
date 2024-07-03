@@ -605,7 +605,7 @@ export class DashboardCoronaComponent implements OnInit {
   async dataSegundaGrafica(){
     this.date1 = new Date(new Date().getFullYear(), 0, 1);
     this.date2 = new Date();
-    await this.caracterizacionViewService.findAllCAR().then(async (resp)=>{
+    await this.caracterizacionViewService.findAllCAR2().then(async (resp)=>{
       this.CaracterizacionView=resp
       this.CaracterizacionView.map((res1:any)=>{
         res1.hora=Number(res1.hora.substr(0,2))

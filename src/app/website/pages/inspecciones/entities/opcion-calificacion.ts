@@ -7,4 +7,6 @@ export interface OpcionCalificacion {
     requerirDoc: boolean;
     numeral: number;
     requerirDesc: boolean;
+    defecto: boolean;
+    
 }

@@ -85,7 +85,12 @@ export class EmpleadoFormComponent implements OnInit {
         { label: "Minerales Industriales S.A", empresa: "Minerales Industriales S.A",nit:"890917398-1" },
         { label: "Nexentia S.A.S", empresa: "Nexentia S.A.S",nit:"900596618-3" },
         { label: "Suministros de Colombia S.A.S", empresa: "Suministros de Colombia S.A.S",nit:"890900120-7" },
-        { label: "Organización corona", empresa: "Organización corona",nit:"860002688-6" }
+        { label: "Organización corona", empresa: "Organización corona",nit:"860002688-6" },
+        { label: "Industria Ceramica Costarricense", empresa: "Industria Ceramica Costarricense",nit:"1-811-0957" },//honduras - costarica
+        { label: "Industria Centroamericana de Sanitarios", empresa: "Industria Centroamericana de Sanitarios",nit:"1078" },//honduras - costarica
+        { label: "Sociedad Anonima", empresa: "Sociedad Anonima",nit:"7568991" },// Guatemala
+        { label: "Porcelana Corona de México, S.A. de C.V.", empresa: "Porcelana Corona de México, S.A. de C.V.",nit:"SLA630306CF7" }, //Moterrey - Ramos Arispe
+        { label: "Industria Cerámica Centroamericana, S.A.", empresa: "Industria Cerámica Centroamericana, S.A.",nit:"J0310000003211" } //Nicaragua
 	]
     
     empresaSelect2!: empresaNit;
@@ -210,6 +215,7 @@ export class EmpleadoFormComponent implements OnInit {
                     this.onSelectionJefeInmediato(this.empleadoSelect.jefeInmediato);
                 }
                 await this.usuarioPermisos()
+                
                 this.form.patchValue({
                     id: this.empleadoSelect.id,
                     primerNombre: this.empleadoSelect.primerNombre,
@@ -251,8 +257,9 @@ export class EmpleadoFormComponent implements OnInit {
                 setTimeout(() => {
                     this.form.patchValue({
                         'ciudad': this.empleadoSelect!.ciudad,
+                        'departamento': this.empleadoSelect!.ciudad.departamento,
                     })
-                }, 2000);
+                }, 2100);
             });
         } 
         else {
@@ -297,6 +304,7 @@ export class EmpleadoFormComponent implements OnInit {
                     this.buildPerfilesIdList();
                 }, 3000);
         });
+        
         this.getTareaEvidences();
     }
 

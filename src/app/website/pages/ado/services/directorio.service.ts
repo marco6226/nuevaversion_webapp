@@ -255,16 +255,37 @@ export class DirectorioService extends CRUDService<Directorio> {
         
         let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
         
-        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(id), CryptoJS.enc.Hex.parse(key), {
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7
-        }).toString();
+        let encryptedId = CryptoJS.AES.encrypt(id, key).toString();
           
 
         
         
         let endPoint = modulo == null ? this.end_point : this.end_point + modulo + '/';
-        return new Promise((resolve) => {
+        // return new Promise((resolve) => {
+        //     let options: any = {
+        //         // responseType: 'blob',
+        //         headers: new HttpHeaders()
+        //             .set('Param-Emp', this.httpInt.getSesionService().getParamEmp())
+        //             .set('app-version', this.httpInt.getSesionService().getAppVersion())
+        //             .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
+        //         withCredentials: true,
+                
+        //     };
+        //     console.log(options);
+            
+
+        //     let end_point = this.httpInt
+        //         // .delete(endPoint + id)
+        //         .delete(endPoint + 'documento/' + encryptedId)
+        //         .subscribe(
+        //             (res) => {
+        //                 resolve(res);
+        //             },
+        //             (err) => this.manageError(err)
+        //         );
+        // });
+
+        return new Promise(async (resolve) => {
             let options: any = {
                 // responseType: 'blob',
                 headers: new HttpHeaders()
@@ -274,17 +295,19 @@ export class DirectorioService extends CRUDService<Directorio> {
                 withCredentials: true,
                 
             };
-            console.log(options);
             
 
-            let end_point = this.httpInt
-                // .delete(endPoint + id)
-                .delete(endPoint + 'documento/' + encryptedId)
+            let formData: FormData = new FormData();
+            formData.append('data', encryptedId);
+            
+
+            await this.httpInt.http
+                .post(endPoint + 'documento/', formData, options)
                 .subscribe(
                     (res) => {
                         resolve(res);
                     },
-                    (err) => this.manageError(err)
+                    (err) => this.manageBlobError(err)
                 );
         });
     }
@@ -325,14 +348,33 @@ export class DirectorioService extends CRUDService<Directorio> {
             padding: CryptoJS.pad.Pkcs7
         }).toString();
 
-        return new Promise((resolve) => {
-            let end_point = this.httpInt
-                .delete(this.end_point + 'documento/' + encryptedId)
+        
+
+        let endPoint = this.end_point + 'documento/';
+
+        return new Promise(async (resolve) => {
+            let options: any = {
+                // responseType: 'blob',
+                headers: new HttpHeaders()
+                    .set('Param-Emp', this.httpInt.getSesionService().getParamEmp())
+                    .set('app-version', this.httpInt.getSesionService().getAppVersion())
+                    .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
+                withCredentials: true,
+                
+            };
+            
+
+            let formData: FormData = new FormData();
+            formData.append('data', encryptedId);
+            
+
+            await this.httpInt.http
+                .post(endPoint, formData, options)
                 .subscribe(
                     (res) => {
                         resolve(res);
                     },
-                    (err) => this.manageError(err)
+                    (err) => this.manageBlobError(err)
                 );
         });
     }

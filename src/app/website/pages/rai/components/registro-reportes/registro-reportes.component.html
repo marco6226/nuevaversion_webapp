@@ -31,7 +31,6 @@
     <br/>
     
     <s-form-accidente [reporte]="reporteSelect " *ngIf="reporteSelect " (onSave)="onSave($event) " [consultar]="consultar " [modificar]="modificar " [adicionar]="adicionar "></s-form-accidente>
-    
     <br/>
      
     <button pButton type="button " class="float-btn " [title]="consultar || modificar ? ' Atras ' : 'Cancelar ' " [icon]="consultar || modificar ? 'bi bi-chevron-left ' : 'bi bi-slash-circle'" (click)="volver() " *ngIf="reporteSelect" style="margin-right:65px;" > </button>

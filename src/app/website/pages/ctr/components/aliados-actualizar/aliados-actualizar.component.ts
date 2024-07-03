@@ -147,10 +147,16 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
 
   loadDocumentos(){
     if(this.aliadoInformacion.documentos){
-      JSON.parse(this.aliadoInformacion.documentos).forEach(async (element: any) => {
+      let docId:any=[]
+      let docId2:any=[]
+      docId=[...JSON.parse(this.aliadoInformacion.documentos)]
+      docId.forEach(async (element: any) => {
         await this.directorioService.buscarDocumentosById(element).then((elem: Directorio[])=>{
+          if(elem.length>0){
           this.documentos.push(elem[0]);
-        })
+          docId2.push(element)}
+        }).catch(er=>console.log(er))
+        this.aliadoInformacion.documentos = JSON.stringify(docId2);
       });      
     }
     

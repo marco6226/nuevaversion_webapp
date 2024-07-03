@@ -276,7 +276,8 @@
                                         <label for="" class="active">Ciudad de residencia</label>
                                         <s-ciudadSelector [disabled]="consultar2" formControlName="ciudad"
                                             [id]="departamento" class="select-material" styleClass="select-material"
-                                            required [styleCol]="'col-4'">
+                                            required [styleCol]="'col-4'" [_value]="this.empleadoForm.value!.ciudad">
+                                            
                                         </s-ciudadSelector>
                                     </div>
                                 </div>

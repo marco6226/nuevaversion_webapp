@@ -152,7 +152,7 @@
                         Pais - Ciudad
                     </div>
                     <div class="col-12 md:col-4 lg:col-4">
-                        <s-ciudadSelector formControlName="ciudadEmpresa"></s-ciudadSelector>
+                        <s-ciudadSelector formControlName="ciudadEmpresa" [_value]="this.form.value!.ciudadEmpresa"></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
                         Código
@@ -215,7 +215,7 @@
                        Pais-ciudad
                     </div>
                     <div class="col-12 md:col-4 lg:col-4">
-                        <s-ciudadSelector formControlName="ciudadCentroTrabajo"></s-ciudadSelector>
+                        <s-ciudadSelector formControlName="ciudadCentroTrabajo" [_value]="this.form.value!.ciudadCentroTrabajo"></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Zona
@@ -354,14 +354,15 @@
                         <p-calendar   appendTo="body" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange">
                         </p-calendar>
                     </div>
+                    
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Pais - Ciudad
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
-                        <s-ciudadSelector id="ciudadSelector" formControlName="ciudadEmpleado" required></s-ciudadSelector>
+                        <s-ciudadSelector id="ciudadSelector" formControlName="ciudadEmpleado" [_value]="this.form.value!.ciudadEmpleado" required></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
-                        <s-ciudadSelector formControlName="ciudadEmpleado"></s-ciudadSelector>
+                        <s-ciudadSelector formControlName="ciudadEmpleado" [_value]="this.form.value!.ciudadEmpleado"></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Cargo
@@ -544,10 +545,10 @@
                         Pais - Ciudad 
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
-                        <s-ciudadSelector formControlName="ciudadAccidente" required></s-ciudadSelector>
+                        <s-ciudadSelector formControlName="ciudadAccidente" [_value]="this.form.value!.ciudadAccidente" required></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
-                        <s-ciudadSelector formControlName="ciudadAccidente"></s-ciudadSelector>
+                        <s-ciudadSelector formControlName="ciudadAccidente" [_value]="this.form.value!.ciudadAccidente"></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Zona

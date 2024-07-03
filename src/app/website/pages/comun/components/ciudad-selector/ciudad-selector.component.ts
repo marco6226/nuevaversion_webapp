@@ -39,10 +39,16 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   _value!: Ciudad | null;
   @Input('_value')
   set value2(_value: Ciudad) {
+
     console.log(_value);
-    this._value = _value;
-    this.updateUI();
+    if (this._value != null) {
+      this.valueIn = _value;
+      this.updateUI();
+    }
   }
+
+  valueIn: Ciudad | null = null;
+
   @Input('disabled') disabled: boolean = false;
   @Input() styleRow: string = 'row g-2 mb-3';
   @Input() styleCol: string = 'col-6';
@@ -55,9 +61,9 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   departamentosItems: SelectItem[] = [];
   ciudadesItems: SelectItem[] = [];
 
-  propagateChange = (_: any) => {};
+  propagateChange = (_: any) => { };
 
-  constructor(private comunService: ComunService) {}
+  constructor(private comunService: ComunService) { }
 
   // Interface implements
   async ngAfterViewInit() {
@@ -69,31 +75,42 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     setTimeout(async () => {
 
       await this.comunService.findAllPais().then(async (data) => {
-        this.loadPaisItems(<Pais[]>data);
-        this.paisSelectId= this.value?.departamento?.pais?.id;
+        await this.loadPaisItems(<Pais[]>data);
+
+        this.paisSelectId = await this.valueIn!.departamento?.pais.id;
+        console.log(this.paisSelectId);
+
         // Ahora que hemos cargado los países, podemos llamar a findDepartamentoByPais
         if (this.paisSelectId) {
           await this.comunService
             .findDepartamentoByPais(this.paisSelectId)
-            .then((data) => {
-              this.loadDepartamentosItems(<Departamento[]>data);
-              this.departamentoSelectId = this.value?.departamento?.id!;
+            .then(async (data) => {
+              await this.loadDepartamentosItems(<Departamento[]>data);
+              this.departamentoSelectId = await this.valueIn!.departamento!.id!;
+
+              await this.comunService
+                .findCiudadByDepartamento(this.departamentoSelectId)
+                .then((data) => {
+                  this.loadCiudadesItems(<Ciudad[]>data);
+                  this.value = this.valueIn;
+                });
+
             });
         }
       });
-    }, 3500);
+    }, 2500);
 
   }
 
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   writeValue(value: Ciudad) {
     this.value = value;
   }
-  setDisabledState(isDisabled: boolean): void {}
+  setDisabledState(isDisabled: boolean): void { }
 
-  registerOnTouched() {}
+  registerOnTouched() { }
 
   memori: any;
   get value() {
@@ -118,9 +135,10 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   loadDepartamentosItems(departamentos: any[]) {
     this.departamentosItems.splice(1, this.departamentosItems.length - 1);
     departamentos.forEach(depto => {
-        this.departamentosItems.push({ label: depto.nombre, value: depto.id });
+      this.departamentosItems.push({ label: depto.nombre, value: depto.id });
     });
-}
+
+  }
 
 
 
@@ -146,12 +164,13 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     this.ciudadesItems = [];
     // Utiliza el ID seleccionado para cargar los departamentos correspondientes
     // Puedes llamar a tu servicio aquí para cargar los departamentos y asignarlos a 'departamentosItems'
-    if(selectedPaisId)
-    this.comunService
-      .findDepartamentoByPais(selectedPaisId)
-      .then((data: Departamento[]) => {
-        this.loadDepartamentosItems(data);
-      });
+    if (selectedPaisId)
+      this.comunService
+        .findDepartamentoByPais(selectedPaisId)
+        .then((data: Departamento[]) => {
+          this.loadDepartamentosItems(data);
+        });
+
   }
 
   onDepartamentoChange(event: any) {
@@ -162,56 +181,64 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
     // Si se selecciona un departamento, cargar las ciudades correspondientes
     if (event.value) {
       this.loadCiudades(event.value);
+
     }
   }
 
-  onDepartamentomexChange(event: any) {
-    this.value = null;
-    if (event.value) this.loadCiudadesmex(event.value);
-    else this.ciudadesItems = [];
-  }
+  // onDepartamentomexChange(event: any) {
+  //   this.value = null;
+  //   if (event.value) this.loadCiudadesmex(event.value);
+  //   else this.ciudadesItems = [];
+  // }
 
   async loadCiudades(departamentoId: string) {
     this.ciudadesItems.splice(2, this.ciudadesItems.length); // Limpiar la lista antes de agregar nuevas ciudades
     await this.comunService
       .findCiudadByDepartamento(departamentoId)
       .then((data) => this.loadCiudadesItems(<Ciudad[]>data));
-}
-  async loadCiudadesmex(departamentoId: string) {
-    await this.comunService
-      .findCiudadByDepartamento(departamentoId)
-      .then((data) => this.loadCiudadesmexico(<Ciudad[]>data));
   }
+  // async loadCiudadesmex(departamentoId: string) {
+  //   await this.comunService
+  //     .findCiudadByDepartamento(departamentoId)
+  //     .then((data) => this.loadCiudadesmexico(<Ciudad[]>data));
+  // }
 
   loadCiudadesItems(ciudades: Ciudad[]) {
     this.ciudadesItems.splice(2, this.ciudadesItems.length);
     ciudades.forEach((ciudad) => {
-      if (this.value != null && ciudad.id == this.value.id) {
+      if (this.valueIn != null && ciudad.id == this.valueIn.id) {
         this._value = ciudad;
       }
       this.ciudadesItems.push({ label: ciudad.nombre, value: ciudad });
     });
   }
 
-  loadCiudadesmexico(ciudades: Ciudad[]) {
-    this.ciudadesItems.splice(2, this.ciudadesItems.length);
-    ciudades.forEach((ciudad) => {
-      if (this.value != null && ciudad.id == this.value.id) {
-        this._value = ciudad;
-      }
-      this.ciudadesItems.push({ label: ciudad.nombre, value: ciudad });
-    });
-  }
+  // loadCiudadesmexico(ciudades: Ciudad[]) {
+  //   this.ciudadesItems.splice(2, this.ciudadesItems.length);
+  //   ciudades.forEach((ciudad) => {
+  //     if (this.value != null && ciudad.id == this.value.id) {
+  //       this._value = ciudad;
+  //     }
+  //     this.ciudadesItems.push({ label: ciudad.nombre, value: ciudad });
+  //   });
+  // }
+
 
   updateUI() {
     // console.log(this.value)
-    // setTimeout(() => {
-    if (this.value != null) {
-      this.departamentoSelectId = this.value?.departamento?.id!;
-      this.paisSelectId= this.value?.departamento?.pais?.id;
-      this.loadCiudades(this.departamentoSelectId);
-    } else {
+    for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      if (this.value != null) {
+        this.paisSelectId = this.value?.departamento?.pais?.id;
+
+        this.departamentoSelectId = this.value?.departamento?.id!;
+
+        this.loadCiudades(this.departamentoSelectId);
+
+      } else {
+
+      }
+      }, 1200);
     }
-    // }, 3000);
   }
 }
