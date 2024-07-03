@@ -79,6 +79,9 @@ import { ListaMatrizPeligrosComponent } from './pages/ipr/components/lista-matri
 import { MetasComponent } from './pages/ind/components/metas/metas.component';
 import { SaludLaboralComponent } from './pages/scm/components/salud-laboral/salud-laboral.component';
 import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-peligros/ind-matriz-peligros.component';
+import { CasosMedicosListComponent } from './pages/scm/components/casos-medicos-list/casos-medicos-list.component';
+import { DocumentacionSaludLaboralComponent } from './pages/scm/components/salud-laboral/components/documentacion-salud-laboral/documentacion-salud-laboral.component';
+import { ListDocumentacionSolicitanteComponent } from './pages/scm/components/salud-laboral/components/list-documentacion-solicitante/list-documentacion-solicitante.component';
 
 const routes: Routes = [
   {
@@ -207,6 +210,10 @@ const routes: Routes = [
           { path: 'case/:id', component: FormularioScmComponent },
           { path: 'permisos', component: ScmpermisosComponent },
           { path: 'saludlaboral', component: SaludLaboralComponent },
+          {path: 'saludlaborallist', component: CasosMedicosListComponent},
+          { path: 'saludlaboral/:iddt', component: SaludLaboralComponent },
+          {path: 'documentacionsolicitado', component: DocumentacionSaludLaboralComponent},
+          {path: 'listdocumentacionsolicitante', component: ListDocumentacionSolicitanteComponent}
         ]
       },
       {

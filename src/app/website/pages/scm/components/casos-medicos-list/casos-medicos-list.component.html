@@ -1,0 +1,261 @@
+<p-toast key="msgScm"></p-toast>
+<div class="shadow">
+  <p-panel styleClass="material-panel">
+    <p-header> Casos de salud laboral </p-header>
+
+    <p-table
+      #dt
+      styleClass="material-table"
+      autoLayout="true"
+      selectionMode="single"
+      [loading]="loading"
+      [(selection)]="caseSelect"
+      [value]="casosList"
+      [paginator]="true"
+      [rows]="10"
+      dataKey="idSl"
+      [lazy]="true"
+      (onLazyLoad)="lazyLoad($event)"
+      sortField="fechaCreacion"
+      sortOrder="1"
+      [totalRecords]="totalRecords"
+      (onFilter)="onFilter($event)"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th pSortableColumn="idSl">
+            #CASO
+            <p-sortIcon field="idSl"></p-sortIcon>
+          </th>
+          <th pSortableColumn="usuarioCreador">
+            Usuario Creador
+            <p-sortIcon field="usuarioCreador"></p-sortIcon>
+          </th>
+          <th pSortableColumn="usuarioAsignado">
+            Trabajador Solicitado
+            <p-sortIcon field="usuarioAsignado"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fechaCreacion">
+            Fecha Creación
+            <p-sortIcon field="fechaCreacion"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fechaEdicion">
+            Fecha Edición
+            <p-sortIcon field="fechaEdicion"></p-sortIcon>
+          </th>
+          <th pSortableColumn="cargoOriginal">
+            Cargo Original
+            <p-sortIcon field="cargoOriginal"></p-sortIcon>
+          </th>
+          <th pSortableColumn="cargoActual">
+            Cargo Actual
+            <p-sortIcon field="cargoActual"></p-sortIcon>
+          </th>
+          <th pSortableColumn="divisionOrigen">
+            División Origen
+            <p-sortIcon field="divisionOrigen"></p-sortIcon>
+          </th>
+          <th pSortableColumn="divisionActual">
+            Division Actual
+            <p-sortIcon field="divisionActual"></p-sortIcon>
+          </th>
+          <th pSortableColumn="localidadOrigen">
+            Localidad Origen
+            <p-sortIcon field="localidadOrigen"></p-sortIcon>
+          </th>
+          <th pSortableColumn="localidadActual">
+            Localidad Actual
+            <p-sortIcon field="localidadActual"></p-sortIcon>
+          </th>
+          
+        </tr>
+        <tr class="filters">
+          <!-- Ajustar campos en los filtros según la estructura de tus datos -->
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="number"
+                (input)="dt.filter($event.target.value, 'idSl', 'equals')"
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'usuarioCreador', 'contains')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'usuarioAsignado', 'contains')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <s-rangoFechaSelector
+                (onSelect)="dt.filter($event, 'fechaCreacion', 'bt')"
+              ></s-rangoFechaSelector>
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <s-rangoFechaSelector
+                (onSelect)="dt.filter($event, 'fechaEdicion', 'bt')"
+              ></s-rangoFechaSelector>
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'cargoOriginal', 'equals')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value.nombre, 'cargoActual', 'equals')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="number"
+                (input)="
+                  dt.filter($event.target.value, 'divisionOrigen', 'equals')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="number"
+                (input)="
+                  dt.filter($event.target.value, 'divisionActual', 'equals')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="number"
+                (input)="
+                  dt.filter($event.target.value, 'localidadOrigen', 'equals')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="number"
+                (input)="
+                  dt.filter($event.target.value, 'localidadActual', 'equals')
+                "
+              />
+            </div>
+          </td>
+         
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-case>
+        <tr [pSelectableRow]="case" class="table-row table-row-selectable">
+          <td class="p-text-center">{{ case.idSl }}</td>
+          <td class="p-text-center">{{ case.usuarioCreador }}</td>
+          <td class="p-text-center">{{ case.usuarioAsignado }}</td>
+          <td class="p-text-center">
+            {{ case.fechaCreacion | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="p-text-center">
+            {{ case.fechaEdicion | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="p-text-center">{{ idToCargo(case.cargoOriginal) }}</td>
+          <td class="p-text-center">{{ idToCargo(case.cargoActual) }}</td>
+          <td class="p-text-center">{{idToDivision( case.divisionOrigen)}}</td>
+          <td class="p-text-center">{{ idToDivision( case.divisionActual) }}</td>
+          <td class="p-text-center">{{ idToLocalidad(case.localidadOrigen) }}</td>
+          <td class="p-text-center">{{ idToLocalidad(case.localidadActual) }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" let-rowData>
+        <div class="d-flex justify-content-center">
+          <div class="btn-group" role="group">
+            <button
+            *sTienePermiso="'SCM_POST_CSL'"
+              class="p-button-raised p-button-primary margin-right"
+              pButton
+              type="button"
+              icon="bi bi-plus"
+              label="Adicionar"
+              [routerLink]="['/app/scm/saludlaboral']"
+            ></button>
+            <button
+              *sTienePermiso="'SCM_PUT_CSL'"
+              class="p-button-raised p-button-success margin-right margin-left"
+              pButton
+              type="button"
+              icon="bi bi-pencil"
+              label="Modificar"
+              (click)="openCase()"
+              [disabled]="!caseSelect"
+            ></button>
+            <button
+              *sTienePermiso="'SCM_GET_CSL'"
+              pButton
+              type="button"
+              icon="bi bi-search"
+              label="Consultar"
+              style="color: var(--white)"
+              class="p-button-raised p-button-warning margin-right margin-left"
+              (click)="openCaseConsultar()"
+              [disabled]="!caseSelect"
+            ></button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="15" class="p-text-center">
+            No hay registro de casos médicos o con los términos de filtro usados
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+</div>

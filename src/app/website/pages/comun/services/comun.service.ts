@@ -62,10 +62,12 @@ export class ComunService {
     
     findAllJuntas() {
         return new Promise(resolve => {
-            this.httpInt.get(endPoints.com_eps)
+            this.httpInt.get(endPoints.com_juntas)
                 .subscribe(
                     (res: unknown) => {
                         resolve(res);
+                        console.log(res);
+                        
                     }
                     ,
                     err => this.manageError(err)

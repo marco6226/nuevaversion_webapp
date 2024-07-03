@@ -37,8 +37,23 @@
                 <small *ngIf="codigo?.errors?.required && codigo?.touched" id="username2-help" class="p-invalid">Obligatorio</small>
             </div>
             <br>
+            <div class="col">
+                <div class="input-field">
+                    <div>
+                        <label for="" class="active">Fecha Diagnóstico</label>
+                    </div>
+                    <div>
+                        <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [touchUI]="true" [yearNavigator]="true" 
+                        [yearRange]="yearRange" formControlName="fechaDiagnostico"  dateFormat="dd/mm/yy" 
+                        inputStyleClass="form-material" appendTo="body">
+                        </p-calendar>
+                    </div>
+                </div>
+                <small *ngIf="fechaDiagnostico?.errors?.required && fechaDiagnostico?.touched" id="username2-help" 
+                class="p-invalid">Obligatorio</small>
+            </div>
             
-            <div class="col" *ngIf="!saludLaboralFlag">
+            <div class="col" *ngIf="!saludLaboralFlag && idEmpresa!='22'">
                 <div class="input-field">
                     <div>
                         <label for="" class="active">Origen</label>
@@ -67,21 +82,7 @@
                 <small *ngIf="sistemaAfec?.errors?.required && sistemaAfec?.touched" id="username2-help" 
                 class="p-invalid">Obligatorio</small>
             </div>
-            <div class="col">
-                <div class="input-field">
-                    <div>
-                        <label for="" class="active">Fecha Diagnóstico</label>
-                    </div>
-                    <div>
-                        <p-calendar [disabled]="esConsulta" [monthNavigator]="true" [touchUI]="true" [yearNavigator]="true" 
-                        [yearRange]="yearRange" formControlName="fechaDiagnostico"  dateFormat="dd/mm/yy" 
-                        inputStyleClass="form-material" appendTo="body">
-                        </p-calendar>
-                    </div>
-                </div>
-                <small *ngIf="fechaDiagnostico?.errors?.required && fechaDiagnostico?.touched" id="username2-help" 
-                class="p-invalid">Obligatorio</small>
-            </div>
+        
         </div>
         <!-- div -->
         <div class="row">

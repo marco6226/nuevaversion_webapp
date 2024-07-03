@@ -15,7 +15,7 @@ import { PrimeNGConfig } from 'primeng/api';
     providers: [CasosMedicosService, SesionService, ComunService, MessageService]
 })
 export class DiagnosticoFormComponent implements OnInit, OnChanges {
-    
+
     diagnosticoForm: FormGroup;
     sistemaAfectado: any[] = [];
     @Input() caseId!: string;
@@ -23,11 +23,11 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     @Output() eventClose = new EventEmitter<any>()
     @Output() closeModal = new EventEmitter<any>()
     @Input() diagSelect: any;
-    @Input() saludLaboralFlag: boolean=false;
+    @Input() saludLaboralFlag: boolean = false;
 
     origenList: any;
     idEmpresa!: string | null;
-    esConsulta:boolean = false;
+    esConsulta: boolean = false;
     localeES: any = locale_es;
     es: any;
     fechaActual = new Date();
@@ -35,15 +35,8 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     usuario: Usuario | null = new Usuario();
     cieTipo: String = "";
 
-    parteAfectadaList:any= [
-        { label: 'Cuello', value: 'Cuello' },
-        { label: 'Hombro', value: 'Hombro' },
-        { label: 'Codo', value: 'Codo' },
-        { label: 'Manos', value: 'Manos' },
-        { label: 'Columna', value: 'Columna' },
-        { label: 'Cadera', value: 'Cadera' },
-        { label: 'Rodilla', value: 'Rodilla' },
-        { label: 'Pies', value: 'Pies' },
+    parteAfectadaList: any[] = [
+
 
     ];
 
@@ -54,7 +47,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
                 { label: 'Común', value: 'Común' },
                 { label: 'Accidente de trabajo', value: 'Accidente Laboral' },
                 { label: 'Enfermedad laboral', value: 'Enfermedad Laboral' },
-    
+
             ];
         }else{
             this.origenList = [
@@ -63,7 +56,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
                 { label: 'Accidente de trabajo', value: 'Accidente Laboral' },
                 { label: 'Mixto', value: 'Mixto' },
                 { label: 'Enfermedad laboral', value: 'Enfermedad Laboral' },
-    
+
             ];
         }
 
@@ -79,11 +72,11 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         this.usuario = this.sesionService.getUsuario();
         this.diagnosticoForm = fb.group({
             codigoCie10: [null, Validators.required],
-            parteAfectada:[null],
+            parteAfectada: [null],
             diagnostico: [null, Validators.required],
             fechaDiagnostico: [null, Validators.required],
             sistemaAfectado: [null],
-            origen: [null, Validators.required],
+            origen: [null],
             detalle: [null, Validators.required],
 
         });
@@ -98,9 +91,16 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     get origen() { return this.diagnosticoForm.get('origen'); }
 
     async ngOnInit() {
+
+
         this.config.setTranslation(this.localeES);
-        this.idEmpresa =this.sesionService.getEmpresa()?.id!;
-        this.createOrigenList()
+        this.idEmpresa = this.sesionService.getEmpresa()?.id!;
+        this.scmService.getpartesCuerpo().then(value => {
+            const valuepivot: any = value
+            this.parteAfectadaList = valuepivot
+
+        })
+         this.createOrigenList()
         let resp: any = await this.scmService.getSistemasAFectados();
         this.esConsulta = JSON.parse(localStorage.getItem('scmShowCase')!) == true ? true : false;
 
@@ -108,11 +108,32 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         resp.forEach((sistema: any, index: any) => {
             this.sistemaAfectado.push({ label: sistema.name, value: sistema.id })
         });
-    }
 
-    ngOnChanges(changes: SimpleChanges) {
+
+    }
+    idPivotbase: any[] = []
+
+    async ngOnChanges(changes: SimpleChanges) {
         this.patchFormValues();
-        // You can also use categoryId.previousValue and 
+        console.log(this.diagnosticoForm);
+        console.log('shi sheñolll', this.diagSelect);
+        if (this.diagSelect['id'] != undefined && this.diagSelect['id'].toString().length > 0) {
+            await this.scmService.findAllByIdDiagPartes(this.diagSelect['id']).then(value => {
+                console.log('son las partes bebe', value);
+                const response: any = value;
+                const listNewPivot: any[] = response;
+                let valueFor: any[] = []
+                listNewPivot.forEach(element => {
+                    valueFor.push(this.parteAfectadaList.find(value => {
+                        return value['id'] == element['idPartes']
+                    }))
+                });
+                this.idPivotbase = valueFor
+                this.diagnosticoForm.controls['parteAfectada'].setValue(valueFor)
+
+            })
+        }
+        // You can also use categoryId.previousValue and
         // categoryId.firstChange for comparing old and new values
     }
 
@@ -144,7 +165,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
 
         let { codigoCie10, diagnostico, fechaDiagnostico, detalle, origen } = this.diagnosticoForm.value;
 
-        let body = {
+        let body: any = {
             id: "",
             codigoCie10,
             fechaDiagnostico,
@@ -160,23 +181,60 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         try {
             let res: any;
             if (this.diagSelect) {
+
                 body.id = this.diagSelect.id;
+                body['saludLaboral'] = this.saludLaboralFlag;
                 res = await this.scmService.updateDiagnosticos(body);
+                console.log(this.saludLaboralFlag, 'esta es la flag mi so');
+                console.log(this.idPivotbase, 'esta es la la base mi so');
+                console.log((this.diagnosticoForm.controls['parteAfectada'].value) as any[], 'esta es el cambio mi so');
+                if (this.saludLaboralFlag) {
+                    let idSelected = ((this.diagnosticoForm.controls['parteAfectada'].value) as any[]);
+                    let deleteItems = this.idPivotbase.filter(value => {
+                        return !idSelected.includes(value)
+                    })
+                    console.log('deleteame esta ', deleteItems);
+                    
+                    let createItems = idSelected.filter(value => {
+                        return !this.idPivotbase.includes(value)
+                    })
+                    console.log('creame esta ', createItems);
+                    await this.scmService.createDiagnosticosSL({
+                        idDiagnostico: res.id,
+                        idPartes: createItems.map(value => value['id'])
+
+                    })
+                    await deleteItems.forEach(async value => {
+                        await this.scmService.deleteIdDiagPartes(this.diagSelect.id, value['id'])
+                    })
+                }
 
             } else {
+                body['saludLaboral'] = this.saludLaboralFlag;
                 res = await this.scmService.createDiagnosticos(body);
+                if (this.saludLaboralFlag) {
+                    await this.scmService.createDiagnosticosSL({
+                        idDiagnostico: res.id,
+                        idPartes: ((this.diagnosticoForm.controls['parteAfectada'].value) as any[]).map(value => {
+                            return value['id']
+                        })
+
+                    })
+                }
+
+
 
             }
 
             if (res) {
-                
+
                 this.clearInputs();
                 this.messageServices.add({
                     severity: "success",
                     summary: "Mensaje del sistema",
                     detail: this.diagSelect ? "El diagnóstico fue actualizado exitosamente" : 'El diagnóstico fue creado exitosamente',
                 });
-                
+
                 setTimeout(() => {
                     this.eventClose.emit();
                 }, 1500);

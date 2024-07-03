@@ -147,9 +147,11 @@ export class ScmComponent implements OnInit {
         try {
             let res: any = await this.scmService.findByFilter(filterQuery);
             this.casosList = [];
+            console.log(this.casosList)
             res?.data?.forEach((dto: any) => {
                 this.casosList.push(FilterQuery.dtoToObject(dto));
             });
+            console.log(res)
             this.totalRecords = res.count;
 
         } catch (error) {
