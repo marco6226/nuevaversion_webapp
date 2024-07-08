@@ -10,6 +10,7 @@ export const Modulo = {
   RAI: { value: 'RAI', label: 'Reporte accidentes/incidentes' },
   SEC: { value: 'SEC', label: 'Seguimiento y control' },
   SGE: { value: 'SGE', label: 'Sistema de gestión' },
+  SSL: { value: 'SSL', label: 'Salud Laboral' },
   EMPRESA: { value: 'EMPRESA', label: 'Contratista'}
 };
 

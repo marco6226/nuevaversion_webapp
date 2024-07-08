@@ -115,7 +115,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         { label: "EPS", value: "EPS" },
         { label: "ARL", value: "ARL" },
         { label: "AFP", value: "AFP" },
-        { label: "Junta Regional", value: "Junta Regional" },
+        { label: "Junta Regional", value: "Junta_Regional" },
         { label: "Junta Nacional", value: "Junta Nacional" }
     ]
     conceptoRehabilitacion: SelectItem[] = [
@@ -252,7 +252,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     nameAndLastName = "";
     solicitando: boolean = false;
     departamento: any;
-    entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [] };
+    entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [], Junta_Regional: [] };
     anexo6Form?:FormGroup
     nombreSesion?:string
     seguimientoid:number=6795;
@@ -554,8 +554,10 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
             (<JuntaRegional[]>data).forEach((JuntaRegional) => {
                 this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
+                
 
             });
+            console.log(this.JuntaRegionalList)
             this.entity.Junta_Regional = this.JuntaRegionalList;
         });
 
@@ -947,6 +949,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let empleado = new Empleado();
 
         empleado.id = this.empleadoForm.value.id;
+        console.log("id 1",this.empleadoForm.value.id );
+        
         empleado.primerNombre = this.empleadoForm.value.primerNombre;
         empleado.segundoNombre = this.empleadoForm.value.segundoNombre;
         empleado.primerApellido = this.empleadoForm.value.primerApellido;
@@ -1008,6 +1012,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         });
         this.solicitando = true;
         empleado.usuario.id = this.empleadoSelect?.usuario.id;
+        console.log("id2",this.empleadoSelect?.usuario.id );
+        
         empleado.usuario.ipPermitida = this.empleadoSelect?.usuario.ipPermitida
         empleado.empresa = this.empresaForm!.value.empresa == null ? null : this.empresaForm!.value.empresa.label;
         empleado.nit = this.empresaForm!.value.empresa == null ? 0 : this.empresaForm!.value.empresa.nit;
@@ -1532,6 +1538,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             let seg = { pkCase: this.caseSelect.id }
             let resp = await this.scmService.createSeguimiento(seg);
             this.seguimientos.push(resp)
+            console.log(resp);
+            console.log(seg)
             this.seguimientos.sort(function(a:any,b:any){
                 if(a.id < b.id){
                   return 1

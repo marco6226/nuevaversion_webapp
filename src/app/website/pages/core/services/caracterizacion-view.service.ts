@@ -4,6 +4,7 @@ import { CRUDService } from 'src/app/website/pages/core/services/crud.service'
 import { endPoints } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js';
 
+
 @Injectable({
   providedIn: "root"
 })
@@ -28,7 +29,7 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
       let secureKey = 'dlMvbmWwxVXO3LVwhQTmnPBsaL7lSyjq';
 
       // let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
-      
+
       let key = CryptoJS.SHA256(secureKey).toString(CryptoJS.enc.Hex).substring(0, 32);
 
       this.httpInt.http.get(`${endPoints.CaracterizacionViewService}all`, { responseType: 'text' })
@@ -62,6 +63,22 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
           //   this.manageError(err);
           //   reject(err);
           // }
+        )
+    });
+  }
+
+  findAllCAR2(){
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(`${endPoints.CaracterizacionViewService}all2`)
+        .subscribe(
+        res => {
+          resolve(res);
+        }
+        ,
+        err => {
+            this.manageError(err);
+            reject(err);
+         }
         )
     });
   }

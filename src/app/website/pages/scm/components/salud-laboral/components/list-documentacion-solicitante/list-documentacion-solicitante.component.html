@@ -1,0 +1,162 @@
+<p-toast key="formScmSL"></p-toast>
+<p-confirmDialog ></p-confirmDialog>
+<div class="shadow">
+    <p-panel styleClass="material-panel">
+        <p-header> Documentación enviada del trabajador </p-header>
+<p-table
+*sTienePermiso="'SCM_GET_DSR'"
+#dt
+[value]="documentacionList"
+autoLayout="true"
+selectionMode="single"
+[(selection)]="documentacionSelectSolicitado"
+[rows]="10"
+[paginator]="true"
+dataKey="id"
+[lazy]="true"
+>
+<ng-template pTemplate="header">
+  <tr>
+    <th pSortableColumn="fechaSolicitud">Fecha de solicitud</th>
+    <th pSortableColumn="pkCase">Caso Asociado</th>
+    <th pSortableColumn="asignacionTarea">Asignación de tareas</th>
+    <th pSortableColumn="docSolicitado">Listado de documentos solicitados</th>
+    <th pSortableColumn="UsuarioSolicitado">Trabajador solicitado</th>
+    <th pSortableColumn="responsable">Responsable</th>
+    <th pSortableColumn="fechaLimite">Fecha límite envío de documentación</th>
+    <th pSortableColumn="fechaEnvio">Fecha de envío de documentación</th>
+    <th pSortableColumn="estadoCorreo">Estado</th> 
+    <th>Documento</th>
+    <th pSortableColumn="razonRechazoSolicitado">Razón de rechazo</th>
+  </tr>
+</ng-template>
+<ng-template pTemplate="body" let-case>
+  <tr [pSelectableRow]="case" class="table-row table-row-selectable">
+    <td>{{ case.fechaSolicitud | date : "dd/MM/yyyy" }}</td>
+    <td>{{case.pkCase}}</td>
+    <td>{{ case.asignacionTarea }}</td>
+    <td><p>{{ case.docSolicitado }}</p></td>
+    <td>{{ case.solicitadoNombres }} - {{case.solicitadoCedula}}</td>
+    <td>{{ case.usuarioSolicitado }}</td>
+    <td>{{ case.fechaLimite | date : "dd/MM/yyyy" }}</td>
+    <td>{{ case.fechaEnvio | date : "dd/MM/yyyy" }}</td>
+    <td>{{ convertirEstadoCorreoUser(case.estadoCorreo) }}</td>
+    <td>
+      <!-- <button
+        pButton
+        type="button"
+        icon="pi pi-download"
+        title="Descargar documento"
+        class="p-button-info margin-left margin-right"
+      ></button> -->
+      <div class="ui-g" style="margin-top: 10px;">
+        <div class="ui-g-12 ui-sm-12 ui-md-10">
+          <div *ngFor="let doc of directorios">
+            <table class="caption-top" *ngIf="doc.documento.proceso === 'cargaDocumentosSL' + case.id">
+              <p>Soportes para Descargar:</p>
+
+              <tbody>
+                <tr>
+                  <td>
+                    <a type="button" class="btn btn-outline-primary" (click)="descargarDocumento(doc.documento)">{{ doc.documento.descripcion }}</a>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td>{{ case.razonRechazoSolicitado }}</td>
+  </tr>
+</ng-template>
+<ng-template pTemplate="summary" let-rowData>
+    <button
+    *sTienePermiso="'SCM_POST_ADS'"
+    pButton
+    type="button"
+    icon="bi bi-check"
+    label="Aprobar"
+    class="p-button-info margin-left margin-right"
+    [disabled]="!documentacionSelectSolicitado?.documentos || documentacionSelectSolicitado.documentos.length === 0"
+    (click)="onEditState(documentacionSelectSolicitado.id)"
+  ></button>
+  
+  
+  <button
+    pButton
+    *sTienePermiso="'SCM_POST_RDS'"
+    type="button"
+    icon="bi bi-x"
+    label="Rechazar"
+    class="p-button-danger margin-left margin-right"
+    [disabled]="!documentacionSelectSolicitado || !documentacionSelectSolicitado.documentos || documentacionSelectSolicitado.documentos.length === 0"
+    (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
+  ></button>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+  <tr>
+    <td colspan="9" class="p-text-center">
+      No hay documentación solicitada.
+    </td>
+  </tr>
+</ng-template>
+</p-table>
+</p-panel>
+</div>
+<p-dialog
+  [header]="'Rechazo documentación'"
+  [(visible)]="dialogRechazoFlagSolicitante"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  [responsive]="true"
+  [style]="{ width: '50vw' }"
+>
+  <div class="grid">
+    <div class="col-12">Detalle del porqué se rechaza:</div>
+    <div class="col-12">
+      <textarea
+        name="motivoRechazoSolicitante"
+        [(ngModel)]="motivoRechazoSolicitante"
+        required
+        cols="30"
+        rows="10"
+      ></textarea>
+    </div>
+    <div class="col-12">
+      <label for="fechaLimite">Fecha Límite:</label>
+      <p-calendar
+        id="fechaLimite"
+        [(ngModel)]="fechaLimite"
+        required
+        dateFormat="dd/mm/yy"
+        appendTo="body"
+        [monthNavigator]="true"
+        [yearNavigator]="true"
+        [yearRange]="'2020:2030'"
+      ></p-calendar>
+    </div>
+    <div class="col-12">
+      <button
+        pButton
+        type="button"
+        icon="bi bi-check-lg"
+        label="Aceptar"
+        class="p-button-primary margin-left margin-right"
+        (click)="putmailSoliictante()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="bi bi-x"
+        label="Cancelar"
+        class="p-button-danger margin-left margin-right"
+        (click)="dialogRechazoFlagSolicitante = false"
+      ></button>
+    </div>
+  </div>
+</p-dialog>
+<a style="visibility: hidden" id="dwldLink"></a>

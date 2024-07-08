@@ -1,0 +1,254 @@
+<p-toast key="formScmSL"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="shadow">
+  <p-panel styleClass="material-panel">
+    <p-header> Documentación solicitada del trabajador </p-header>
+    <p-table
+      *sTienePermiso="'SCM_GET_DQSR'"
+      #dt
+      [value]="documentacionListUser"
+      autoLayout="true"
+      selectionMode="single"
+      [(selection)]="documentacionSelectUser"
+      [rows]="10"
+      [paginator]="true"
+      dataKey="id"
+      [lazy]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="fechaSolicitud">Fecha de solicitud</th>
+          <th pSortableColumn="pkCase">Caso Asociado</th>
+          <th pSortableColumn="asignacionTarea">Asignación de tareas</th>
+          <th pSortableColumn="listadoDocSolicitados">
+            Listado de documentos solicitados
+          </th>
+          <th pSortableColumn="solicitante">Solicitante</th>
+          <th pSortableColumn="UsuarioSolicitado">Trabajador Solicitado</th>
+          <th pSortableColumn="fechaLimiteEnvioDoc">
+            Fecha limite envío de documentación
+          </th>
+          <th pSortableColumn="fechaEnvioDoc">
+            Fecha de envío de documentación
+          </th>
+          <th pSortableColumn="estado">Estado</th>
+          <th pSortableColumn="razonRechazoSolicitante">Motivo Rechazo</th>
+          <th>Documento</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-docsub>
+        <tr [pSelectableRow]="docsub" class="table-row table-row-selectable">
+          <td>{{ docsub.fechaSolicitud | date : "dd/MM/yyyy" }}</td>
+          <td>
+            {{ docsub.pkCase }}
+          </td>
+          <td>{{ docsub.asignacionTarea }}</td>
+          <td>
+            <p>{{ docsub.docSolicitado }}</p>
+          </td>
+          <td>{{ docsub.soliictanteNombres }}</td>
+          <td>{{ docsub.solicitadoNombres }}- {{ docsub.solicitadoCedula }}</td>
+          <td
+            [class.fechaProxima]="
+              isFechaLimiteProxima(docsub.fechaLimite) &&
+              docsub.estadoCorreo !== 3
+            "
+          >
+            {{ docsub.fechaLimite | date : "dd/MM/yyyy" }}
+            <br />
+            <span
+              *ngIf="
+                isFechaLimiteProxima(docsub.fechaLimite) &&
+                docsub.estadoCorreo !== 3
+              "
+              class="mensaje-proximo"
+              >Próximo a vencer</span
+            >
+          </td>
+
+          <td>{{ docsub.fechaEnvio | date : "dd/MM/yyyy" }}</td>
+          <td>{{ convertirEstadoCorreo(docsub.estadoCorreo) }}</td>
+          <td>{{ docsub.razonRechazoSolicitante }}</td>
+          <td>
+            <ng-container>
+              <button
+                pButton
+                type="button"
+                icon="bi bi-upload"
+                title="Subir documento"
+                class="p-button-info margin-left margin-right"
+                (click)="openUploadDialog(docsub.id, docsub.documentos)"
+                [disabled]="
+                  (docsub.documentos && docsub.documentos.length >= 3) ||
+                  docsub.fechaLimite > fechaActual
+                "
+              ></button>
+            </ng-container>
+            <s-documentoUpload
+              [privadoCheck]="false"
+              [(visible)]="flagDoc"
+              [modParam]="selectedDocId"
+              [modulo]="modulo"
+              [tipoEvidencia]="'cargaDocumentosSL' + selectedDocId"
+              (onUpload)="onUpload($event)"
+            >
+            </s-documentoUpload>
+            <div class="ui-g" style="margin-top: 10px">
+              <div class="ui-g-12 ui-sm-12 ui-md-10">
+                <div *ngFor="let doc of directorios">
+                  <table
+                    class="caption-top"
+                    *ngIf="
+                      doc!.documento.proceso == 'cargaDocumentosSL' + docsub.id
+                    "
+                  >
+                    <p>Soportes:</p>
+                    <thead>
+                      <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span class="document-name">{{
+                            doc.documento.descripcion
+                          }}</span>
+                        </td>
+                        <td>
+                          <a>&nbsp;</a>
+                          <a
+                            type="button"
+                            [ariaDisabled]="true"
+                            class="btn btn-outline-danger"
+                            title="Eliminar documento"
+                            (click)="eliminarDocument(doc)"
+                            ><span class="pi pi-trash"></span
+                          ></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" let-rowData>
+        <!-- <button
+            pButton
+            type="button"
+            icon="bi bi-search"
+            label="Consultar trazabilidad"
+            class="p-button-info margin-left margin-right"
+            [disabled]="!documentacionSelectUser"
+            (click)="dialogTrazabilidadFlag = true"
+          ></button> -->
+        <button
+          pButton
+          type="button"
+          icon="bi bi-x"
+          label="Rechazar"
+          class="p-button-danger margin-left margin-right"
+          [disabled]="!documentacionSelectUser"
+          (click)="dialogRechazoFlag = true; getSelectedId(); setStylePDialog()"
+        ></button>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9" class="p-text-center">
+            No hay documentación solicitada.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <!-- <p-dialog
+      [header]="'Rechazo documentación'"
+      [(visible)]="dialogRechazoFlag"
+      [modal]="true"
+      [closable]="false"
+      [draggable]="false"
+      [resizable]="false"
+      [ngStyle]="'margin-top:400px'"
+      [responsive]="true"
+      [style]="{ width: '50vw' , margin:'1500px 0px 0px 0px'}"
+    >
+      <div class="grid">
+        <div class="col-12">Detalle del porque se rechaza:</div>
+        <div class="col-12">
+          <textarea
+            name="motivoRechazo"
+            [(ngModel)]="motivoRechazo"
+            cols="30"
+            rows="10"
+          ></textarea>
+        </div>
+        <div class="col-12">
+          <button
+            pButton
+            type="button"
+            icon="bi bi-check-lg"
+            label="Aceptar"
+            class="p-button-primary margin-left margin-right"
+            (click)="putmail()"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="bi bi-x"
+            label="Cancelar"
+            class="p-button-danger margin-left margin-right"
+            (click)="dialogRechazoFlag = false"
+          ></button>
+        </div>
+      </div>
+    </p-dialog> -->
+
+
+  </p-panel>
+</div>
+<p-dialog
+[header]="'Rechazo documentación'"
+[(visible)]="dialogRechazoFlag"
+[modal]="true"
+[closable]="false"
+[draggable]="false"
+[resizable]="false"
+[responsive]="true"
+[style]="{ width: '50vw' }"
+>
+<div class="grid">
+  <div class="col-12">Detalle del porqué se rechaza:</div>
+  <div class="col-12">
+    <textarea
+      name="motivoRechazoSolicitante"
+      [(ngModel)]="motivoRechazo"
+      required
+      cols="30"
+      rows="10"
+    ></textarea>
+  </div>
+  <div class="col-12">
+    <button
+      pButton
+      type="button"
+      icon="bi bi-check-lg"
+      label="Aceptar"
+      class="p-button-primary margin-left margin-right"
+      (click)="putmail()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      icon="bi bi-x"
+      label="Cancelar"
+      class="p-button-danger margin-left margin-right"
+      (click)="dialogRechazoFlag = false"
+    ></button>
+  </div>
+</div>
+</p-dialog>
+
+<a style="visibility: hidden" id="dwldLink"></a>
