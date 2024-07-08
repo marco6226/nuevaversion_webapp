@@ -444,7 +444,7 @@ export class IndCaracterizacionComponent implements OnInit {
   
   CardsClasificacion(){
 
-    this.CaracterizacionView1=this.CaracterizacionView.map((e:any)=>e)
+    this.CaracterizacionView1=this.CaracterizacionView
 
     if(this.date1 && !this.date2)
       this.CaracterizacionView1=this.CaracterizacionView.filter((resp:any)=>{
