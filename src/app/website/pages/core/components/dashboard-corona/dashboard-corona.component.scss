@@ -356,3 +356,50 @@ label{
         }
         
     }
+
+    // cuarta grafica
+.colorfondo{
+  background: #ebe9e5;
+  }
+
+.cardGrid2{
+  padding: 2px;
+  padding-bottom: 20px;
+  padding-inline: 15px;
+  height: 4.7cm;
+}
+
+
+.colorResiduo{
+  color:#a4dcfd;
+  text-shadow: 1px 1px 2px black; 
+  background: linear-gradient(
+      to left,
+      red 0%,
+      red var(--muyAlto),
+      orange var(--muyAlto),
+      orange var(--alto),
+      yellow var(--alto),
+      yellow var(--medio),
+      green var(--medio),
+        
+    );
+}
+
+.tamañotextomp {
+  font-size: 25px;
+}
+
+.tamañotexto2 {
+  font-size: 15px;
+}
+
+.cardmp {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  border: none;
+  margin-bottom: 30px;
+  padding: 5% 3% 2% 3%;
+  height: 100%;
+}

@@ -884,6 +884,15 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
   localeES = locale_es;
 
+  tituloGraf1:string=''
+  tituloGraf1_2:string=''
+  tituloGraf14:string=''
+  tituloGraf14_2:string=''
+  tituloGraf17:string=''
+  tituloGraf17_2:string=''
+  tituloGraf20:string=''
+  tituloGraf20_2:string=''
+
   constructor(
     private sessionService: SesionService,
     private empresaService: EmpresaService,
@@ -2570,7 +2579,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
             this.estaAbiertoGraf7_2 = !this.estaAbiertoGraf7_2;
             break;
           case 'graf8':
-            this.estaAbiertoGraf8_2 = !this.estaAbiertoGraf8;
+            this.estaAbiertoGraf8_2 = !this.estaAbiertoGraf8_2;
             break;
           case 'graf9':
             this.estaAbiertoGraf9_2 = !this.estaAbiertoGraf9_2;
@@ -2723,14 +2732,17 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       if(this.selectPais1 == 'Corona Total'){
         ejeY=[...this.divisionList1] 
         variableText='division'
+        this.tituloGraf1='Divisiones'
       }
       if(this.selecteDivision1 == 'Total'){
         ejeY=[...this.localidadesList1]
         variableText='planta'
+        this.tituloGraf1='Plantas'
       }
       if(this.selecteLocalidad1){
         ejeY=[...this.areasList1]
         variableText='area'
+        this.tituloGraf1='Areas'
       }
 
       let dataMPCopyDiv: any[]=[]
@@ -3867,6 +3879,15 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           dataAnalisisRiesgo9=[...dataMPCopyDiv]
         }
       //fin nuevo
+
+      
+      if(this.selectePeligro9)if(this.selectePeligro9.length>0){
+        dataMPCopyDiv=[]
+        this.selectePeligro9.forEach((element:any) => {
+          dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo9.filter(at => at.peligro == element.nombre));
+        });
+        dataAnalisisRiesgo9=[...dataMPCopyDiv]
+      }
       let pendienteTotal:number=0
       let ejecutadoTotal:number=0
 
@@ -4449,6 +4470,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           });
           dataAnalisisRiesgo13=[...dataMPCopyDiv]
         }
+        if(this.selectePeligro13)dataAnalisisRiesgo13= dataAnalisisRiesgo13.filter(at => at.peligro == this.selectePeligro13.nombre);
+
         if(this.selecteTipoPeligro13)if(this.selecteTipoPeligro13.length>0){
           dataMPCopyDiv=[]
           this.selecteTipoPeligro13.forEach((element:any) => {
@@ -4573,14 +4596,17 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       if(this.selectPais14 == 'Corona Total'){
         ejeY=[...this.divisionList14] 
         variableText='division'
+        this.tituloGraf14='Divisiones'
       }
       if(this.selecteDivision14 == 'Total'){
         ejeY=[...this.localidadesList14]
         variableText='planta'
+        this.tituloGraf14='Plantas'
       }
       if(this.selecteLocalidad14){
         ejeY=[...this.areasList14]
         variableText='area'
+        this.tituloGraf14='Areas'
       }
 
       let dataMPCopyDiv: any[]=[]
@@ -5000,14 +5026,17 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       if(this.selectPais17 == 'Corona Total'){
         ejeY=[...this.divisionList17] 
         variableText='division'
+        this.tituloGraf17='Divisiones'
       }
       if(this.selecteDivision17 == 'Total'){
         ejeY=[...this.localidadesList17]
         variableText='planta'
+        this.tituloGraf17='Plantas'
       }
       if(this.selecteLocalidad17){
         ejeY=[...this.areasList17]
         variableText='area'
+        this.tituloGraf17='Areas'
       }
 
       let dataMPCopyDiv: any[]=[]
@@ -5328,14 +5357,17 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       if(this.selectPais20 == 'Corona Total'){
         ejeY=[...this.divisionList20] 
         variableText='division'
+        this.tituloGraf20='Divisiones'
       }
       if(this.selecteDivision20 == 'Total'){
         ejeY=[...this.localidadesList20]
         variableText='planta'
+        this.tituloGraf20='Plantas'
       }
       if(this.selecteLocalidad20){
         ejeY=[...this.areasList20]
         variableText='area'
+        this.tituloGraf20='Areas'
       }
 
       let dataMPCopyDiv: any[]=[]
@@ -5814,6 +5846,9 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   meta23:any
   meta24:any
   meta25:any
+  meta23_2:any
+  meta24_2:any
+  meta25_2:any
   filtroGraf23(){
     let dataEventos23: any = JSON.parse(localStorage.getItem('dataEventos23')!)
 
@@ -6008,7 +6043,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       dataEventos24.datasets = dataEventos24.datasets.filter((data:any, index:any) => selectFiltro24.includes(selectFiltro24Meta[index]));
     }
     Object.assign(this, {dataEventos24}); 
-    }
+  }
     grafData25(){
       this.meta25=[]
       let flagZero:boolean=false
@@ -6170,14 +6205,17 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       if(this.selectPais1_2 == 'Corona Total'){
         ejeY=[...this.divisionList1_2] 
         variableText='division'
+        this.tituloGraf1_2='Divisiones'
       }
       if(this.selecteDivision1_2 == 'Total'){
         ejeY=[...this.localidadesList1_2]
         variableText='planta'
+        this.tituloGraf1_2='Plantas'
       }
       if(this.selecteLocalidad1_2){
         ejeY=[...this.areasList1_2]
         variableText='area'
+        this.tituloGraf1_2='Areas'
       }
 
       let dataMPCopyDiv_2: any[]=[]
@@ -7302,6 +7340,14 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
             dataAnalisisRiesgo9_2=[...dataMPCopyDiv]
           }
         //fin nuevo
+        if(this.selectePeligro9_2)if(this.selectePeligro9_2.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro9_2.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo9_2.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo9_2=[...dataMPCopyDiv]
+        }
+
         let pendienteTotal:number=0
         let ejecutadoTotal:number=0
 
@@ -7881,6 +7927,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
             });
             dataAnalisisRiesgo13_2=[...dataMPCopyDiv]
           }
+          if(this.selectePeligro13_2)dataAnalisisRiesgo13_2= dataAnalisisRiesgo13_2.filter(at => at.peligro == this.selectePeligro13_2.nombre);
           if(this.selecteTipoPeligro13_2)if(this.selecteTipoPeligro13_2.length>0){
             dataMPCopyDiv=[]
             this.selecteTipoPeligro13_2.forEach((element:any) => {
@@ -7974,7 +8021,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         dataEventos13_2.push(data);
 
         Object.assign(this, {dataEventos13_2});
-        localStorage.setItem('dataEventos13', JSON.stringify(dataEventos13_2));
+        localStorage.setItem('dataEventos13_2', JSON.stringify(dataEventos13_2));
         this.filtroGraf13_2()
       }
     }
@@ -7993,30 +8040,1607 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       Object.assign(this, {dataEventos13_2}); 
     }
-    grafData14_2(){}
-    filtroGraf14_2(){}
-    grafData15_2(){}
-    filtroGraf15_2(){}
-    grafData16_2(){}
-    filtroGraf16_2(){}
-    grafData17_2(){}
-    filtroGraf17_2(){}
-    grafData18_2(){}
-    filtroGraf18_2(){}
-    grafData19_2(){}
-    filtroGraf19_2(){}
-    grafData20_2(){}
-    filtroGraf20_2(){}
-    grafData21_2(){}
-    filtroGraf21_2(){}
-    grafData22_2(){}
-    filtroGraf22_2(){}
-    grafData23_2(){}
-    filtroGraf23_2(){}
-    grafData24_2(){}
-    filtroGraf24_2(){}
-    grafData25_2(){}
-    filtroGraf25_2(){}
+    grafData14_2(){
+      let flagZero:boolean=false
+
+    if(this.selectPais14_2 == 'Corona Total' || this.selecteDivision14_2 == 'Total' || this.selecteLocalidad14_2){
+      let dataAnalisisRiesgo14_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataEventos14_2: any[] = [];
+
+      let ejeY:any
+      let variableText:any
+      if(this.selectPais14_2 == 'Corona Total'){
+        ejeY=[...this.divisionList14_2] 
+        variableText='division'
+        this.tituloGraf14='Divisiones'
+      }
+      if(this.selecteDivision14_2 == 'Total'){
+        ejeY=[...this.localidadesList14_2]
+        variableText='planta'
+        this.tituloGraf14='Plantas'
+      }
+      if(this.selecteLocalidad14_2){
+        ejeY=[...this.areasList14_2]
+        variableText='area'
+        this.tituloGraf14='Areas'
+      }
+
+      let dataMPCopyDiv: any[]=[]
+      dataAnalisisRiesgo14_2 = dataAnalisisRiesgo14_2.filter(at => at.fechaEdicion != null);
+
+      if(this.desde1Graf14_2)dataAnalisisRiesgo14_2 = dataAnalisisRiesgo14_2.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf14_2!));
+      if(this.hasta1Graf14_2)dataAnalisisRiesgo14_2 = dataAnalisisRiesgo14_2.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf14_2!));
+
+      //nuevo
+        dataAnalisisRiesgo14_2= dataAnalisisRiesgo14_2.filter(at => at.pais != null);
+        dataAnalisisRiesgo14_2= dataAnalisisRiesgo14_2.filter(at => at.division != null);
+        dataAnalisisRiesgo14_2= dataAnalisisRiesgo14_2.filter(at => at.planta != null);
+        dataAnalisisRiesgo14_2= dataAnalisisRiesgo14_2.filter(at => at.area != null);
+        if(this.selectPais14_2)if(this.selectPais14_2!='Corona Total')dataAnalisisRiesgo14_2= dataAnalisisRiesgo14_2.filter(at => at.pais == this.selectPais14_2);
+        if(this.selectePeligro14_2)if(this.selectePeligro14_2.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro14_2.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo14_2.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo14_2=[...dataMPCopyDiv]
+        }
+      //fin nuevo
+      let controlAdmTotal:number=0
+      let controlIngTotal:number=0
+      let controlEPPTotal:number=0      
+
+      for(const y of ejeY){
+
+        let data:any = {
+          name: y.label,
+          series: []
+        }
+
+        let controlAdm: number = dataAnalisisRiesgo14_2.filter(mp => mp[variableText] === y.label && mp.administrativos !=null).reduce((count, adm) => {
+          return (count + JSON.parse(adm.administrativos).length);
+        }, 0);
+
+        dataAnalisisRiesgo14_2.filter(mp => mp[variableText] === y.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlAdm+= planAccion.filter(p => (p.jerarquia === 'Controles administrativos' && p.estado=='Ejecutado')).length
+        }) 
+
+        let controlIng: number = dataAnalisisRiesgo14_2.filter(mp => mp[variableText] === y.label && mp.ingenieria !=null).reduce((count, adm) => {
+          return (count + JSON.parse(adm.ingenieria).length);
+        }, 0);
+
+        dataAnalisisRiesgo14_2.filter(mp => mp[variableText] === y.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlIng+= planAccion.filter(p => (p.jerarquia === 'Control de ingeniería' && p.estado=='Ejecutado')).length
+        }) 
+
+        let controlEPP: number = dataAnalisisRiesgo14_2.filter(mp => mp[variableText] === y.label && mp.elementospro !=null).reduce((count, adm) => {
+          return (count + JSON.parse(adm.elementospro).length);
+        }, 0);
+
+        dataAnalisisRiesgo14_2.filter(mp => mp[variableText] === y.label).forEach(mp=>{
+          let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+          if(planAccion && planAccion.length>0)controlEPP+= planAccion.filter(p => (p.jerarquia === 'Elementos de protección personal' && p.estado=='Ejecutado')).length
+        }) 
+
+        controlAdmTotal+=controlAdm
+        controlIngTotal+=controlIng
+        controlEPPTotal+=controlEPP
+        
+
+        if(controlAdm==0 && controlIng==0 && controlEPP==0)flagZero=true
+        else flagZero=false
+
+        if(!flagZero){
+          data.series.push({
+            name: this.filtro13[0].value,
+            value: controlAdm
+          });
+          data.series.push({
+            name: this.filtro13[1].value,
+            value: controlIng
+          })
+          data.series.push({
+            name: this.filtro13[2].value,
+            value: controlEPP
+          })
+          dataEventos14_2.push(data);
+        }
+      }
+
+
+      let data:any = {
+        name: 'Total',
+        series: []
+      }
+
+      data.series.push({
+        name: this.filtro13[0].value,
+        value: controlAdmTotal
+      });
+      data.series.push({
+        name: this.filtro13[1].value,
+        value: controlIngTotal
+      })
+      data.series.push({
+        name: this.filtro13[2].value,
+        value: controlEPPTotal
+      })
+
+      dataEventos14_2.push(data);
+
+      Object.assign(this, {dataEventos14_2});
+      localStorage.setItem('dataEventos14_2', JSON.stringify(dataEventos14_2));
+      this.filtroGraf14_2()
+    }
+    }
+    filtroGraf14_2(){
+      let dataEventos14_2: any[] = JSON.parse(localStorage.getItem('dataEventos14_2')!)
+
+      if(this.selectPais14_2 == 'Corona Total' && this.selecteDivision14_2 != 'Total'){
+        if(this.selecteDivision14_2 && this.selecteDivision14_2.length > 0){
+          dataEventos14_2 = dataEventos14_2.filter(data => this.selecteDivision14_2.includes(data.name));
+        }
+      }else if(this.selecteDivision14_2 == 'Total')
+        if(this.selecteLocalidad14_2 && this.selecteLocalidad14_2.length > 0){
+          dataEventos14_2 = dataEventos14_2.filter(data => this.selecteLocalidad14_2.includes(data.name));
+        }
+
+      if(this.selectPais14_2 != 'Corona Total' && this.selecteDivision14_2 != 'Total')
+        if(this.selecteArea14_2 && this.selecteArea14_2.length > 0){
+          dataEventos14_2 = dataEventos14_2.filter(data => this.selecteArea14_2.includes(data.name));
+        }
+
+        if(this.selectFiltro14_2 && this.selectFiltro14_2.length > 0){
+          dataEventos14_2.forEach(de1 => {
+            de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro14_2.includes(dataSeries.name));
+          });
+        }
+
+      Object.assign(this, {dataEventos14_2}); 
+    }
+    grafData15_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais15_2){
+        let dataAnalisisRiesgo15_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let dataEventos15_2: any[] = [];
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo15_2 = dataAnalisisRiesgo15_2.filter(at => at.fechaEdicion != null);
+
+        if(this.desde1Graf15_2)dataAnalisisRiesgo15_2 = dataAnalisisRiesgo15_2.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf15_2!));
+        if(this.hasta1Graf15_2)dataAnalisisRiesgo15_2 = dataAnalisisRiesgo15_2.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf15_2!));
+
+        //nuevo
+          dataAnalisisRiesgo15_2= dataAnalisisRiesgo15_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo15_2= dataAnalisisRiesgo15_2.filter(at => at.division != null);
+          dataAnalisisRiesgo15_2= dataAnalisisRiesgo15_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo15_2= dataAnalisisRiesgo15_2.filter(at => at.area != null);
+          if(this.selectPais15_2)if(this.selectPais15_2!='Corona Total')dataAnalisisRiesgo15_2 = dataAnalisisRiesgo15_2.filter(at => at.pais == this.selectPais15_2);
+          if(this.selecteDivision15_2)dataAnalisisRiesgo15_2= dataAnalisisRiesgo15_2.filter(at => at.division == this.selecteDivision15_2);
+          if(this.selecteLocalidad15_2)dataAnalisisRiesgo15_2= dataAnalisisRiesgo15_2.filter(at => at.planta == this.selecteLocalidad15_2);
+          if(this.selecteArea15_2)if(this.selecteArea15_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea15_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo15_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo15_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let controlAdmTotal:number=0
+        let controlIngTotal:number=0
+        let controlEPPTotal:number=0      
+
+        if(this.tipoPeligroItemList)
+        for(const tipoPeligro of this.tipoPeligroItemList){
+
+          let data:any = {
+            name: tipoPeligro.label,
+            series: []
+          }
+
+          let controlAdm: number = dataAnalisisRiesgo15_2.filter(mp => mp.peligro === tipoPeligro.label && mp.administrativos !=null).reduce((count, adm) => {
+            return (count + JSON.parse(adm.administrativos).length);
+          }, 0);
+
+          dataAnalisisRiesgo15_2.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+            let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+            if(planAccion && planAccion.length>0)controlAdm+= planAccion.filter(p => (p.jerarquia === 'Controles administrativos' && p.estado=='Ejecutado')).length
+          }) 
+
+          let controlIng: number = dataAnalisisRiesgo15_2.filter(mp => mp.peligro === tipoPeligro.label && mp.ingenieria !=null).reduce((count, adm) => {
+            return (count + JSON.parse(adm.ingenieria).length);
+          }, 0);
+
+          dataAnalisisRiesgo15_2.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+            let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+            if(planAccion && planAccion.length>0)controlIng+= planAccion.filter(p => (p.jerarquia === 'Control de ingeniería' && p.estado=='Ejecutado')).length
+          }) 
+
+          let controlEPP: number = dataAnalisisRiesgo15_2.filter(mp => mp.peligro === tipoPeligro.label && mp.elementospro !=null).reduce((count, adm) => {
+            return (count + JSON.parse(adm.elementospro).length);
+          }, 0);
+
+          dataAnalisisRiesgo15_2.filter(mp => mp.peligro === tipoPeligro.label).forEach(mp=>{
+            let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+            if(planAccion && planAccion.length>0)controlEPP+= planAccion.filter(p => (p.jerarquia === 'Elementos de protección personal' && p.estado=='Ejecutado')).length
+          }) 
+
+          controlAdmTotal+=controlAdm
+          controlIngTotal+=controlIng
+          controlEPPTotal+=controlEPP
+          
+
+          if(controlAdm==0 && controlIng==0 && controlEPP==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro13[0].value,
+              value: controlAdm
+            });
+            data.series.push({
+              name: this.filtro13[1].value,
+              value: controlIng
+            })
+            data.series.push({
+              name: this.filtro13[2].value,
+              value: controlEPP
+            })
+            dataEventos15_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro13[0].value,
+          value: controlAdmTotal
+        });
+        data.series.push({
+          name: this.filtro13[1].value,
+          value: controlIngTotal
+        })
+        data.series.push({
+          name: this.filtro13[2].value,
+          value: controlEPPTotal
+        })
+
+        dataEventos15_2.push(data);
+
+        Object.assign(this, {dataEventos15_2});
+        localStorage.setItem('dataEventos15_2', JSON.stringify(dataEventos15_2));
+        this.filtroGraf15_2()
+      }
+    }
+    filtroGraf15_2(){
+      let dataEventos15_2: any[] = JSON.parse(localStorage.getItem('dataEventos15_2')!)
+
+    if(this.selectePeligro15_2 && this.selectePeligro15_2.length > 0){
+      let selectePeligro15_2=this.selectePeligro15_2.map((ele:any)=>ele.nombre)
+      dataEventos15_2 = dataEventos15_2.filter(data => selectePeligro15_2.includes(data.name));
+    }
+
+    if(this.selectFiltro15_2 && this.selectFiltro15_2.length > 0){
+      dataEventos15_2.forEach(de1 => {
+        de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro15_2.includes(dataSeries.name));
+      });
+    }
+    Object.assign(this, {dataEventos15_2}); 
+    }
+    grafData16_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais16_2){
+        let dataAnalisisRiesgo16_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let dataEventos16_2: any[] = [];
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo16_2 = dataAnalisisRiesgo16_2.filter(at => at.fechaEdicion != null);
+
+        //nuevo
+          dataAnalisisRiesgo16_2= dataAnalisisRiesgo16_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo16_2= dataAnalisisRiesgo16_2.filter(at => at.division != null);
+          dataAnalisisRiesgo16_2= dataAnalisisRiesgo16_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo16_2= dataAnalisisRiesgo16_2.filter(at => at.area != null);
+          if(this.selectPais16_2)if(this.selectPais16!='Corona Total')dataAnalisisRiesgo16_2 = dataAnalisisRiesgo16_2.filter(at => at.pais == this.selectPais16_2);
+          if(this.selecteDivision16_2)dataAnalisisRiesgo16_2= dataAnalisisRiesgo16_2.filter(at => at.division == this.selecteDivision16_2);
+          if(this.selecteLocalidad16_2)dataAnalisisRiesgo16_2= dataAnalisisRiesgo16_2.filter(at => at.planta == this.selecteLocalidad16_2);
+          if(this.selecteArea16_2)if(this.selecteArea16_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea16_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo16_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo16_2=[...dataMPCopyDiv]
+          }
+          if(this.selectePeligro16_2)if(this.selectePeligro16_2.length>0){
+            dataMPCopyDiv=[]
+            this.selectePeligro16_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo16_2.filter(at => at.peligro == element.nombre));
+            });
+            dataAnalisisRiesgo16_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let controlAdmTotal:number=0
+        let controlIngTotal:number=0
+        let controlEPPTotal:number=0      
+
+        if(this.tipoPeligroItemList)
+        for(const mes of this.meses){
+
+          let data:any = {
+            name: mes,
+            series: []
+          }
+
+          let controlAdm: number = dataAnalisisRiesgo16_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.administrativos !=null).reduce((count, adm) => {
+            return (count + JSON.parse(adm.administrativos).length);
+          }, 0);
+
+          dataAnalisisRiesgo16_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+            let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+            if(planAccion && planAccion.length>0)controlAdm+= planAccion.filter(p => (p.jerarquia === 'Controles administrativos' && p.estado=='Ejecutado')).length
+          }) 
+
+          let controlIng: number = dataAnalisisRiesgo16_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.ingenieria !=null).reduce((count, adm) => {
+            return (count + JSON.parse(adm.ingenieria).length);
+          }, 0);
+
+          dataAnalisisRiesgo16_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+            let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+            if(planAccion && planAccion.length>0)controlIng+= planAccion.filter(p => (p.jerarquia === 'Control de ingeniería' && p.estado=='Ejecutado')).length
+          }) 
+
+          let controlEPP: number = dataAnalisisRiesgo16_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.elementospro !=null).reduce((count, adm) => {
+            return (count + JSON.parse(adm.elementospro).length);
+          }, 0);
+
+          dataAnalisisRiesgo16_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes).forEach(mp=>{
+            let planAccion = (<Array<any>>JSON.parse(mp.planAccion))
+            if(planAccion && planAccion.length>0)controlEPP+= planAccion.filter(p => (p.jerarquia === 'Elementos de protección personal' && p.estado=='Ejecutado')).length
+          }) 
+
+          controlAdmTotal+=controlAdm
+          controlIngTotal+=controlIng
+          controlEPPTotal+=controlEPP
+          
+
+          if(controlAdm==0 && controlIng==0 && controlEPP==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro13[0].value,
+              value: controlAdm
+            });
+            data.series.push({
+              name: this.filtro13[1].value,
+              value: controlIng
+            })
+            data.series.push({
+              name: this.filtro13[2].value,
+              value: controlEPP
+            })
+            dataEventos16_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro13[0].value,
+          value: controlAdmTotal
+        });
+        data.series.push({
+          name: this.filtro13[1].value,
+          value: controlIngTotal
+        })
+        data.series.push({
+          name: this.filtro13[2].value,
+          value: controlEPPTotal
+        })
+
+        dataEventos16_2.push(data);
+
+        Object.assign(this, {dataEventos16_2});
+        localStorage.setItem('dataEventos16_2', JSON.stringify(dataEventos16_2));
+        this.filtroGraf16_2()
+      }
+    }
+    filtroGraf16_2(){
+      let dataEventos16_2: any[] = JSON.parse(localStorage.getItem('dataEventos16_2')!)
+
+      if(this.selectMes16_2 && this.selectMes16_2.length > 0){
+        dataEventos16_2 = dataEventos16_2.filter(data => this.selectMes16_2.includes(data.name));
+      }
+
+      if(this.selectFiltro16_2 && this.selectFiltro16_2.length > 0){
+        dataEventos16_2.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro16_2.includes(dataSeries.name));
+        });
+      }
+      Object.assign(this, {dataEventos16_2}); 
+    }
+    grafData17_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais17_2 == 'Corona Total' || this.selecteDivision17_2 == 'Total' || this.selecteLocalidad17_2){
+        let dataAnalisisRiesgo17_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let dataEventos17_2: any[] = [];
+
+        let ejeY:any
+        let variableText:any
+        if(this.selectPais17_2 == 'Corona Total'){
+          ejeY=[...this.divisionList17_2] 
+          variableText='division'
+          this.tituloGraf17_2='Divisiones'
+        }
+        if(this.selecteDivision17_2 == 'Total'){
+          ejeY=[...this.localidadesList17_2]
+          variableText='planta'
+          this.tituloGraf17_2='Plantas'
+        }
+        if(this.selecteLocalidad17_2){
+          ejeY=[...this.areasList17_2]
+          variableText='area'
+          this.tituloGraf17='Areas'
+        }
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo17_2 = dataAnalisisRiesgo17_2.filter(at => at.fechaEdicion != null);
+
+        if(this.desde1Graf17_2)dataAnalisisRiesgo17_2 = dataAnalisisRiesgo17_2.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf17_2!));
+        if(this.hasta1Graf17_2)dataAnalisisRiesgo17_2 = dataAnalisisRiesgo17_2.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf17_2!));
+
+        //nuevo
+          dataAnalisisRiesgo17_2= dataAnalisisRiesgo17_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo17_2= dataAnalisisRiesgo17_2.filter(at => at.division != null);
+          dataAnalisisRiesgo17_2= dataAnalisisRiesgo17_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo17_2= dataAnalisisRiesgo17_2.filter(at => at.area != null);
+          dataAnalisisRiesgo17_2= dataAnalisisRiesgo17_2.filter(at => at.accmayor != null);
+          if(this.selectPais17_2)if(this.selectPais17_2!='Corona Total')dataAnalisisRiesgo17_2 = dataAnalisisRiesgo17_2.filter(at => at.pais == this.selectPais17_2);
+          if(this.selectePeligro17_2)if(this.selectePeligro17_2.length>0){
+            dataMPCopyDiv=[]
+            this.selectePeligro17_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo17_2.filter(at => at.peligro == element.nombre));
+            });
+            dataAnalisisRiesgo17_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let siTotal:number=0
+        let noTotal:number=0
+
+        for(const y of ejeY){
+
+          let data:any = {
+            name: y.label,
+            series: []
+          }
+
+          let si: number = dataAnalisisRiesgo17_2.filter(mp => mp[variableText] === y.label && mp.accmayor=='Sí').length
+          let no: number = dataAnalisisRiesgo17_2.filter(mp => mp[variableText] === y.label && mp.accmayor=='No').length
+                  
+          siTotal +=si
+          noTotal +=no
+
+          if(si==0 && no==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro15[0].value,
+              value: si
+            });
+            data.series.push({
+              name: this.filtro15[1].value,
+              value: no
+            })
+            dataEventos17_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro15[0].value,
+          value: siTotal
+        });
+        data.series.push({
+          name: this.filtro15[1].value,
+          value: noTotal
+        })
+
+        dataEventos17_2.push(data);
+
+        Object.assign(this, {dataEventos17_2});
+        localStorage.setItem('dataEventos17_2', JSON.stringify(dataEventos17_2));
+        this.filtroGraf17_2()
+      }
+    }
+    filtroGraf17_2(){
+      let dataEventos17_2: any[] = JSON.parse(localStorage.getItem('dataEventos17_2')!)
+
+      if(this.selectPais17_2 == 'Corona Total' && this.selecteDivision17_2 != 'Total'){
+        if(this.selecteDivision17_2 && this.selecteDivision17_2.length > 0){
+          dataEventos17_2 = dataEventos17_2.filter(data => this.selecteDivision17_2.includes(data.name));
+        }
+      }else if(this.selecteDivision17_2 == 'Total')
+        if(this.selecteLocalidad17_2 && this.selecteLocalidad17.length > 0){
+          dataEventos17_2 = dataEventos17_2.filter(data => this.selecteLocalidad17_2.includes(data.name));
+        }
+
+      if(this.selectPais17_2 != 'Corona Total' && this.selecteDivision17_2 != 'Total')
+        if(this.selecteArea17_2 && this.selecteArea17_2.length > 0){
+          dataEventos17_2 = dataEventos17_2.filter(data => this.selecteArea17_2.includes(data.name));
+        }
+
+        if(this.selectFiltro17_2 && this.selectFiltro17_2.length > 0){
+          dataEventos17_2.forEach(de1 => {
+            de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro17_2.includes(dataSeries.name));
+          });
+        }
+
+    Object.assign(this, {dataEventos17_2}); 
+    }
+    grafData18_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais18_2){
+        let dataAnalisisRiesgo18_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let dataEventos18_2: any[] = [];
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo18_2 = dataAnalisisRiesgo18_2.filter(at => at.fechaEdicion != null);
+
+        if(this.desde1Graf18_2)dataAnalisisRiesgo18_2 = dataAnalisisRiesgo18_2.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf18_2!));
+        if(this.hasta1Graf18_2)dataAnalisisRiesgo18_2 = dataAnalisisRiesgo18_2.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf18_2!));
+
+        //nuevo
+          dataAnalisisRiesgo18_2= dataAnalisisRiesgo18_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo18_2= dataAnalisisRiesgo18_2.filter(at => at.division != null);
+          dataAnalisisRiesgo18_2= dataAnalisisRiesgo18_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo18_2= dataAnalisisRiesgo18_2.filter(at => at.area != null);
+          dataAnalisisRiesgo18_2= dataAnalisisRiesgo18_2.filter(at => at.accmayor != null);
+          if(this.selectPais18_2)if(this.selectPais18_2!='Corona Total')dataAnalisisRiesgo18_2 = dataAnalisisRiesgo18_2.filter(at => at.pais == this.selectPais18_2);
+          if(this.selecteDivision18_2)dataAnalisisRiesgo18_2= dataAnalisisRiesgo18_2.filter(at => at.division == this.selecteDivision18_2);
+          if(this.selecteLocalidad18_2)dataAnalisisRiesgo18_2= dataAnalisisRiesgo18_2.filter(at => at.planta == this.selecteLocalidad18_2);
+          if(this.selecteArea18_2)if(this.selecteArea18_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea18_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo18_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo18_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let siTotal:number=0
+        let noTotal:number=0
+        
+        if(this.tipoPeligroItemList)
+        for(const tipoPeligro of this.tipoPeligroItemList){
+
+          let data:any = {
+            name: tipoPeligro.label,
+            series: []
+          }
+
+          let si: number = dataAnalisisRiesgo18_2.filter(mp => mp.peligro === tipoPeligro.label && mp.accmayor=='Sí').length
+          let no: number = dataAnalisisRiesgo18_2.filter(mp => mp.peligro === tipoPeligro.label && mp.accmayor=='No').length
+                  
+          siTotal +=si
+          noTotal +=no
+
+          if(si==0 && no==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro15[0].value,
+              value: si
+            });
+            data.series.push({
+              name: this.filtro15[1].value,
+              value: no
+            })
+            dataEventos18_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro15[0].value,
+          value: siTotal
+        });
+        data.series.push({
+          name: this.filtro15[1].value,
+          value: noTotal
+        })
+
+        dataEventos18_2.push(data);
+
+        Object.assign(this, {dataEventos18_2});
+        localStorage.setItem('dataEventos18_2', JSON.stringify(dataEventos18_2));
+        this.filtroGraf18_2()
+      }
+    }
+    filtroGraf18_2(){
+      let dataEventos18_2: any[] = JSON.parse(localStorage.getItem('dataEventos18_2')!)
+
+      if(this.selectePeligro18_2 && this.selectePeligro18_2.length > 0){
+        let selectePeligro18_2=this.selectePeligro18_2.map((ele:any)=>ele.nombre)
+        dataEventos18_2 = dataEventos18_2.filter(data => selectePeligro18_2.includes(data.name));
+      }
+
+      if(this.selectFiltro18_2 && this.selectFiltro18_2.length > 0){
+        dataEventos18_2.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro18_2.includes(dataSeries.name));
+        });
+      }
+      Object.assign(this, {dataEventos18_2}); 
+    }
+    grafData19_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais19_2){
+        let dataAnalisisRiesgo19_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let dataEventos19_2: any[] = [];
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo19_2 = dataAnalisisRiesgo19_2.filter(at => at.fechaEdicion != null);
+
+
+        //nuevo
+          dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => at.division != null);
+          dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => at.area != null);
+          dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => at.accmayor != null);
+          dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio19_2);
+          if(this.selectPais19_2)if(this.selectPais19_2!='Corona Total')dataAnalisisRiesgo19_2 = dataAnalisisRiesgo19_2.filter(at => at.pais == this.selectPais19_2);
+          if(this.selecteDivision19_2)dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => at.division == this.selecteDivision19_2);
+          if(this.selecteLocalidad19_2)dataAnalisisRiesgo19_2= dataAnalisisRiesgo19_2.filter(at => at.planta == this.selecteLocalidad19_2);
+          if(this.selecteArea19_2)if(this.selecteArea19_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea19_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo19_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo19_2=[...dataMPCopyDiv]
+          }
+          if(this.selectePeligro19_2)if(this.selectePeligro19_2.length>0){
+            dataMPCopyDiv=[]
+            this.selectePeligro19_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo19_2.filter(at => at.peligro == element.nombre));
+            });
+            dataAnalisisRiesgo19_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let siTotal:number=0
+        let noTotal:number=0
+        
+        if(this.tipoPeligroItemList)
+        for(const mes of this.meses){
+
+          let data:any = {
+            name: mes,
+            series: []
+          }
+
+          let si: number = dataAnalisisRiesgo19_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.accmayor=='Sí').length
+          let no: number = dataAnalisisRiesgo19_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.accmayor=='No').length
+                  
+          siTotal +=si
+          noTotal +=no
+
+          if(si==0 && no==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro15[0].value,
+              value: si
+            });
+            data.series.push({
+              name: this.filtro15[1].value,
+              value: no
+            })
+            dataEventos19_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro15[0].value,
+          value: siTotal
+        });
+        data.series.push({
+          name: this.filtro15[1].value,
+          value: noTotal
+        })
+
+        dataEventos19_2.push(data);
+
+        Object.assign(this, {dataEventos19_2});
+        localStorage.setItem('dataEventos19_2', JSON.stringify(dataEventos19_2));
+        this.filtroGraf19_2()
+      }
+    }
+    filtroGraf19_2(){
+      let dataEventos19_2: any[] = JSON.parse(localStorage.getItem('dataEventos19_2')!)
+
+      if(this.selectMes19_2 && this.selectMes19_2.length > 0){
+        dataEventos19_2 = dataEventos19_2.filter(data => this.selectMes19_2.includes(data.name));
+      }
+
+      if(this.selectFiltro19_2 && this.selectFiltro19_2.length > 0){
+        dataEventos19_2.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro19_2.includes(dataSeries.name));
+        });
+      }
+
+      Object.assign(this, {dataEventos19_2}); 
+    }
+    grafData20_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais20_2 == 'Corona Total' || this.selecteDivision20_2 == 'Total' || this.selecteLocalidad20_2){
+        let dataAnalisisRiesgo20_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let dataEventos20_2: any[] = [];
+
+        let ejeY:any
+        let variableText:any
+        if(this.selectPais20_2 == 'Corona Total'){
+          ejeY=[...this.divisionList20_2] 
+          variableText='division'
+          this.tituloGraf20_2='Divisiones'
+        }
+        if(this.selecteDivision20_2 == 'Total'){
+          ejeY=[...this.localidadesList20_2]
+          variableText='planta'
+          this.tituloGraf20_2='Plantas'
+        }
+        if(this.selecteLocalidad20_2){
+          ejeY=[...this.areasList20_2]
+          variableText='area'
+          this.tituloGraf20_2='Areas'
+        }
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo20_2 = dataAnalisisRiesgo20_2.filter(at => at.fechaEdicion != null);
+
+        if(this.desde1Graf20_2)dataAnalisisRiesgo20_2 = dataAnalisisRiesgo20_2.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf20_2!));
+        if(this.hasta1Graf20_2)dataAnalisisRiesgo20_2 = dataAnalisisRiesgo20_2.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf20_2!));
+
+        //nuevo
+          dataAnalisisRiesgo20_2= dataAnalisisRiesgo20_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo20_2= dataAnalisisRiesgo20_2.filter(at => at.division != null);
+          dataAnalisisRiesgo20_2= dataAnalisisRiesgo20_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo20_2= dataAnalisisRiesgo20_2.filter(at => at.area != null);
+          if(this.selectPais20_2)if(this.selectPais20_2!='Corona Total')dataAnalisisRiesgo20_2 = dataAnalisisRiesgo20_2.filter(at => at.pais == this.selectPais20_2);
+          if(this.selectePeligro20_2)if(this.selectePeligro20_2.length>0){
+            dataMPCopyDiv=[]
+            this.selectePeligro20_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo20_2.filter(at => at.peligro == element.nombre));
+            });
+            dataAnalisisRiesgo20_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let gpiTotal:number=0
+        let gpfTotal:number=0
+
+        for(const y of ejeY){
+
+          let data:any = {
+            name: y.label,
+            series: []
+          }
+
+          let gpi: number = dataAnalisisRiesgo20_2.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, ini) => {
+            return (count + Number(ini.nrInicial));
+          }, 0);
+          let gpf: number = dataAnalisisRiesgo20_2.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, fin) => {
+            return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          }, 0);
+                  
+          gpiTotal +=gpi
+          gpfTotal +=gpf
+
+          if(gpi==0 && gpf==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro16[0].value,
+              value: gpi
+            });
+            data.series.push({
+              name: this.filtro16[1].value,
+              value: gpf
+            })
+            dataEventos20_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro16[0].value,
+          value: gpiTotal
+        });
+        data.series.push({
+          name: this.filtro16[1].value,
+          value: gpfTotal
+        })
+
+        dataEventos20_2.push(data);
+
+        Object.assign(this, {dataEventos20_2});
+        localStorage.setItem('dataEventos20_2', JSON.stringify(dataEventos20_2));
+        this.filtroGraf20_2()
+      }
+    }
+    filtroGraf20_2(){
+      let dataEventos20_2: any[] = JSON.parse(localStorage.getItem('dataEventos20_2')!)
+
+      if(this.selectPais20_2 == 'Corona Total' && this.selecteDivision20_2 != 'Total'){
+        if(this.selecteDivision20_2 && this.selecteDivision20_2.length > 0){
+          dataEventos20_2 = dataEventos20_2.filter(data => this.selecteDivision20_2.includes(data.name));
+        }
+      }else if(this.selecteDivision20_2 == 'Total')
+        if(this.selecteLocalidad20_2 && this.selecteLocalidad20_2.length > 0){
+          dataEventos20_2 = dataEventos20_2.filter(data => this.selecteLocalidad20_2.includes(data.name));
+        }
+
+      if(this.selectPais20_2 != 'Corona Total' && this.selecteDivision20_2 != 'Total')
+        if(this.selecteArea20_2 && this.selecteArea20_2.length > 0){
+          dataEventos20_2 = dataEventos20_2.filter(data => this.selecteArea20_2.includes(data.name));
+        }
+
+        if(this.selectFiltro20_2 && this.selectFiltro20_2.length > 0){
+          dataEventos20_2.forEach(de1 => {
+            de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro20_2.includes(dataSeries.name));
+          });
+        }
+
+      Object.assign(this, {dataEventos20_2}); 
+    }
+    grafData21_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais21_2){
+        let dataAnalisisRiesgo21_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+
+        let dataEventos21_2: any[] = [];
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo21_2 = dataAnalisisRiesgo21_2.filter(at => at.fechaEdicion != null);
+
+        if(this.desde1Graf21_2)dataAnalisisRiesgo21_2 = dataAnalisisRiesgo21_2.filter(at => new Date(at.fechaEdicion) >= new Date(this.desde1Graf21_2!));
+        if(this.hasta1Graf21_2)dataAnalisisRiesgo21_2 = dataAnalisisRiesgo21_2.filter(at => new Date(at.fechaEdicion) <= new Date(this.hasta1Graf21_2!));
+
+        //nuevo
+          dataAnalisisRiesgo21_2= dataAnalisisRiesgo21_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo21_2= dataAnalisisRiesgo21_2.filter(at => at.division != null);
+          dataAnalisisRiesgo21_2= dataAnalisisRiesgo21_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo21_2= dataAnalisisRiesgo21_2.filter(at => at.area != null);
+          if(this.selectPais21_2)if(this.selectPais21_2!='Corona Total')dataAnalisisRiesgo21_2 = dataAnalisisRiesgo21_2.filter(at => at.pais == this.selectPais21_2);
+          if(this.selecteDivision21_2)dataAnalisisRiesgo21_2= dataAnalisisRiesgo21_2.filter(at => at.division == this.selecteDivision21_2);
+          if(this.selecteLocalidad21_2)dataAnalisisRiesgo21_2= dataAnalisisRiesgo21_2.filter(at => at.planta == this.selecteLocalidad21_2);
+          if(this.selecteArea21_2)if(this.selecteArea21_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea21_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo21_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo21_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let gpiTotal:number=0
+        let gpfTotal:number=0
+        
+        if(this.tipoPeligroItemList)
+        for(const tipoPeligro of this.tipoPeligroItemList){
+
+          let data:any = {
+            name: tipoPeligro.label,
+            series: []
+          }
+
+          let gpi: number = dataAnalisisRiesgo21_2.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, ini) => {
+            return (count + Number(ini.nrInicial));
+          }, 0);
+          let gpf: number = dataAnalisisRiesgo21_2.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, fin) => {
+            return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          }, 0);
+
+          gpiTotal +=gpi
+          gpfTotal +=gpf
+
+          if(gpi==0 && gpf==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro16[0].value,
+              value: gpi
+            });
+            data.series.push({
+              name: this.filtro16[1].value,
+              value: gpf
+            })
+            dataEventos21_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro16[0].value,
+          value: gpiTotal
+        });
+        data.series.push({
+          name: this.filtro16[1].value,
+          value: gpfTotal
+        })
+
+        dataEventos21_2.push(data);
+
+        Object.assign(this, {dataEventos21_2});
+        localStorage.setItem('dataEventos21_2', JSON.stringify(dataEventos21_2));
+        this.filtroGraf21_2()
+      }
+    }
+    filtroGraf21_2(){
+      let dataEventos21_2: any[] = JSON.parse(localStorage.getItem('dataEventos21_2')!)
+
+      if(this.selectePeligro21_2 && this.selectePeligro21_2.length > 0){
+        let selectePeligro21_2=this.selectePeligro21_2.map((ele:any)=>ele.nombre)
+        dataEventos21_2 = dataEventos21_2.filter(data => selectePeligro21_2.includes(data.name));
+      }
+
+      if(this.selectFiltro21_2 && this.selectFiltro21_2.length > 0){
+        dataEventos21_2.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro21_2.includes(dataSeries.name));
+        });
+      }
+      Object.assign(this, {dataEventos21_2}); 
+    }
+    grafData22_2(){
+      let flagZero:boolean=false
+
+      if(this.selectPais22_2){
+        let dataAnalisisRiesgo22_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let dataEventos22_2: any[] = [];
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo22_2 = dataAnalisisRiesgo22_2.filter(at => at.fechaEdicion != null);
+
+
+        //nuevo
+          dataAnalisisRiesgo22_2= dataAnalisisRiesgo22_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo22_2= dataAnalisisRiesgo22_2.filter(at => at.division != null);
+          dataAnalisisRiesgo22_2= dataAnalisisRiesgo22_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo22_2= dataAnalisisRiesgo22_2.filter(at => at.area != null);
+          dataAnalisisRiesgo22_2 = dataAnalisisRiesgo22_2.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio22_2);
+          if(this.selectPais22_2)if(this.selectPais22_2!='Corona Total')dataAnalisisRiesgo22_2 = dataAnalisisRiesgo22_2.filter(at => at.pais == this.selectPais22_2);
+          if(this.selecteDivision22_2)dataAnalisisRiesgo22_2= dataAnalisisRiesgo22_2.filter(at => at.division == this.selecteDivision22_2);
+          if(this.selecteLocalidad22_2)dataAnalisisRiesgo22_2= dataAnalisisRiesgo22_2.filter(at => at.planta == this.selecteLocalidad22_2);
+          if(this.selecteArea22_2)if(this.selecteArea22_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea22_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo22_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo22_2=[...dataMPCopyDiv]
+          }
+          if(this.selectePeligro22_2)if(this.selectePeligro22_2.length>0){
+            dataMPCopyDiv=[]
+            this.selectePeligro22_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo22_2.filter(at => at.peligro == element.nombre));
+            });
+            dataAnalisisRiesgo22_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+        let gpiTotal:number=0
+        let gpfTotal:number=0
+        
+        if(this.tipoPeligroItemList)
+        for(const mes of this.meses){
+
+          let data:any = {
+            name: mes,
+            series: []
+          }
+
+          let gpi: number = dataAnalisisRiesgo22_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, ini) => {
+            return (count + Number(ini.nrInicial));
+          }, 0);
+          let gpf: number = dataAnalisisRiesgo22_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, fin) => {
+            return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          }, 0);   
+
+          gpiTotal +=gpi
+          gpfTotal +=gpf
+
+          if(gpi==0 && gpf==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            data.series.push({
+              name: this.filtro16[0].value,
+              value: gpi
+            });
+            data.series.push({
+              name: this.filtro16[1].value,
+              value: gpf
+            })
+            dataEventos22_2.push(data);
+          }
+        }
+
+
+        let data:any = {
+          name: 'Total',
+          series: []
+        }
+
+        data.series.push({
+          name: this.filtro16[0].value,
+          value: gpiTotal
+        });
+        data.series.push({
+          name: this.filtro16[1].value,
+          value: gpfTotal
+        })
+
+        dataEventos22_2.push(data);
+
+        Object.assign(this, {dataEventos22_2});
+        localStorage.setItem('dataEventos22_2', JSON.stringify(dataEventos22_2));
+        this.filtroGraf22_2()
+      }
+    }
+    filtroGraf22_2(){
+      let dataEventos22_2: any[] = JSON.parse(localStorage.getItem('dataEventos22_2')!)
+
+      if(this.selectMes22_2 && this.selectMes22_2.length > 0){
+        dataEventos22_2 = dataEventos22_2.filter(data => this.selectMes22_2.includes(data.name));
+      }
+
+      if(this.selectFiltro22_2 && this.selectFiltro22_2.length > 0){
+        dataEventos22_2.forEach(de1 => {
+          de1.series = de1.series.filter((dataSeries:any) => this.selectFiltro22_2.includes(dataSeries.name));
+        });
+      }
+
+      Object.assign(this, {dataEventos22_2}); 
+    }
+    grafData23_2(){
+      this.meta23_2=[]
+    
+      let flagZero:boolean=false
+
+      if(this.selectPais23_2 == 'Corona Total' || this.selecteDivision23_2 == 'Total' || this.selecteLocalidad23_2){
+        let dataAnalisisRiesgo23_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
+
+        let ejeY:any
+        let variableText:any
+        if(this.selectPais23_2 == 'Corona Total'){
+          ejeY=[...this.divisionList23_2] 
+          variableText='division'
+        }
+        if(this.selecteDivision23_2 == 'Total'){
+          ejeY=[...this.localidadesList23_2]
+          variableText='planta'
+        }
+        if(this.selecteLocalidad23_2){
+          ejeY=[...this.areasList23_2]
+          variableText='area'
+        }
+        ejeY.sort((obj1:any, obj2:any) => {
+          let label1 = obj1.label.toUpperCase(); // Convertir a mayúsculas para ordenar sin distinción entre mayúsculas y minúsculas
+          let label2 = obj2.label.toUpperCase();
+      
+          if (label1 < label2) {
+              return -1;
+          }
+          if (label1 > label2) {
+              return 1;
+          }
+          return 0;
+        });
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo23_2 = dataAnalisisRiesgo23_2.filter(at => at.fechaEdicion != null);
+        dataAnalisisRiesgo23_2 = dataAnalisisRiesgo23_2.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio23_2);
+        metaMP = metaMP.filter(at => at.anio == this.selectAnio23_2);
+        if(this.selectPais23_2!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais23_2);
+        if(this.selectPais23_2!='Corona Total')if(this.selecteDivision23_2)if(this.selecteDivision23_2!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision23_2)
+
+        
+        //nuevo
+        dataAnalisisRiesgo23_2= dataAnalisisRiesgo23_2.filter(at => at.pais != null && at.division != null && at.planta != null && at.area != null);
+        if(this.selectPais23_2)if(this.selectPais23_2!='Corona Total')dataAnalisisRiesgo23_2 = dataAnalisisRiesgo23_2.filter(at => at.pais == this.selectPais23_2);
+        if(this.selectePeligro23_2)if(this.selectePeligro23_2.length>0){
+          dataMPCopyDiv=[]
+          this.selectePeligro23_2.forEach((element:any) => {
+            dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo23_2.filter(at => at.peligro == element.nombre));
+          });
+          dataAnalisisRiesgo23_2=[...dataMPCopyDiv]
+        }
+        //fin nuevo
+
+        let labels =[]
+        let dataEventos23_2: {
+          labels: any;
+          datasets: any[];
+          options?: any;
+        } = {
+          labels: [],
+          datasets: [
+            {
+              label: 'ICR',
+              backgroundColor: 'rgb(0, 176, 240,0.5)',
+              borderColor: 'rgb(0, 176, 240)',
+              borderWidth: 1,
+              data: [],
+              type: 'bar'
+            },
+            {
+              label: 'Meta ICR',
+              backgroundColor: 'rgb(10, 53, 255)',
+              fill: false,
+              tension: 0.4,
+              borderWidth: 2,
+              borderColor: 'rgb(10, 53, 255)',
+              data: [],
+              type: 'line'
+            }
+          ]
+        };
+
+        let gpiTotal:number=0
+        let gpfTotal:number=0
+
+        let icr:any=[]
+        let metaIcr:any=[]
+        for(const y of ejeY){
+          let metaF=0
+          if(variableText=='division'){
+            let m =metaMP.find(f=>{return f.nombreDivision == y.label})
+            if(m)metaF=m.icrDivision
+          }
+          if(variableText=='planta'){
+            let l=this.localidadesList.find((l:any)=>l.localidad==y.label)
+            if(l && l.plantas_nombre){
+              let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+              if(m)metaF=m.icrPlanta
+            }
+          }
+          if(variableText=='area'){
+            let a=this.areasList.find((a:any)=>a.nombre==y.label)
+            if(a && a.localidad_plantas_nombre){
+              let m =metaMP.find(f=>{return f.nombrePlanta == a.localidad_plantas_nombre})
+              if(m)metaF=m.icrPlanta
+            }
+          }
+          let data:any = {
+            name: y.label,
+            series: []
+          }
+
+          let gpi: number = dataAnalisisRiesgo23_2.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, ini) => {
+            return (count + Number(ini.nrInicial));
+          }, 0);
+          let gpf: number = dataAnalisisRiesgo23_2.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, fin) => {
+            return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          }, 0);
+                  
+          gpiTotal +=gpi
+          gpfTotal +=gpf
+
+          if(gpi==0 && gpf==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            this.meta23_2.push(y.label)
+            labels.push(y.label)
+            icr.push(((gpi-gpf)/gpi)*100)
+            metaIcr.push(metaF)
+          }
+        }
+        labels.push('Total')
+        icr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
+        let metaTotal=0
+        if(variableText=='division')metaTotal=(metaMP.length>0)?((metaMP[0].icrAnual)?metaMP[0].icrAnual:0):0
+        if(variableText=='planta')metaTotal=(metaMP.length>0)?((metaMP[0].icrAnual)?metaMP[0].icrAnual:0):0
+        if(variableText=='area'){
+          let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad23_2)
+          if(l && l.plantas_nombre){
+            let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+            metaTotal=(m)?((m.icrPlanta)??m.icrPlanta):0
+          }
+        }
+        metaIcr.push(metaTotal)
+        dataEventos23_2.labels=labels
+        dataEventos23_2.datasets[0].data=icr
+        dataEventos23_2.datasets[1].data=metaIcr
+
+        Object.assign(this, {dataEventos23_2});
+        localStorage.setItem('dataEventos23_2', JSON.stringify(dataEventos23_2));
+        this.filtroGraf23_2()
+      }
+    }
+    filtroGraf23_2(){
+      let dataEventos23_2: any = JSON.parse(localStorage.getItem('dataEventos23_2')!)
+
+    
+      if(this.selectPais23_2 == 'Corona Total' && this.selecteDivision23_2 != 'Total'){
+        if(this.selecteDivision23_2 && this.selecteDivision23_2.length > 0){
+          let divisionList23_2 = [...this.meta23_2]
+          let selecteDivision = this.selecteDivision23_2.map((div:any) => div).sort();
+          dataEventos23_2.labels = selecteDivision;
+          dataEventos23_2.datasets[1].data = dataEventos23_2.datasets[1].data.filter((data:any, index:any) => selecteDivision.includes(divisionList23_2[index]));
+          dataEventos23_2.datasets[0].data = dataEventos23_2.datasets[0].data.filter((data:any, index:any) => selecteDivision.includes(divisionList23_2[index]));
+        }
+      }else if(this.selecteDivision23_2 == 'Total')
+        if(this.selecteLocalidad23_2 && this.selecteLocalidad23_2.length > 0){
+          let localidadesList23 = [...this.meta23_2]
+          let selecteLocalidad = this.selecteLocalidad23_2.map((loc:any) => loc).sort();
+          dataEventos23_2.labels = selecteLocalidad;
+          dataEventos23_2.datasets[1].data = dataEventos23_2.datasets[1].data.filter((data:any, index:any) => selecteLocalidad.includes(localidadesList23[index]));
+          dataEventos23_2.datasets[0].data = dataEventos23_2.datasets[0].data.filter((data:any, index:any) => selecteLocalidad.includes(localidadesList23[index]));
+          }
+          
+          if(this.selectPais23_2 != 'Corona Total' && this.selecteDivision23_2 != 'Total')
+            if(this.selecteArea23_2 && this.selecteArea23_2.length > 0){
+              let areaList23 = [...this.meta23_2]
+              let selecteArea = this.selecteArea23_2.map((loc:any) => loc).sort();
+              dataEventos23_2.labels = selecteArea;
+              dataEventos23_2.datasets[1].data = dataEventos23_2.datasets[1].data.filter((data:any, index:any) => selecteArea.includes(areaList23[index]));
+              dataEventos23_2.datasets[0].data = dataEventos23_2.datasets[0].data.filter((data:any, index:any) => selecteArea.includes(areaList23[index]));
+        }
+
+        if(this.selectFiltro23_2 && this.selectFiltro23_2.length > 0){
+          let selectFiltro23Meta = this.filtro17.map((div:any) => div.label);
+          let selectFiltro23 = this.selectFiltro23_2.map((div:any) => div);
+          dataEventos23_2.datasets = dataEventos23_2.datasets.filter((data:any, index:any) => selectFiltro23.includes(selectFiltro23Meta[index]));
+        }
+
+    Object.assign(this, {dataEventos23_2}); 
+    }
+    grafData24_2(){
+      this.meta24_2=[]
+      let flagZero:boolean=false
+
+      if(this.selectPais24_2){
+        let dataAnalisisRiesgo24_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
+
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo24_2 = dataAnalisisRiesgo24_2.filter(at => at.fechaEdicion != null);
+        dataAnalisisRiesgo24_2 = dataAnalisisRiesgo24_2.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio24_2);
+        metaMP = metaMP.filter(at => at.anio == this.selectAnio24_2);
+
+
+        //nuevo
+          dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.division != null);
+          dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.area != null);
+          if(this.selectPais24_2)if(this.selectPais24_2!='Corona Total')dataAnalisisRiesgo24_2 = dataAnalisisRiesgo24_2.filter(at => at.pais == this.selectPais24_2);
+          if(this.selectPais24_2!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais24_2);
+          if(this.selectPais24_2!='Corona Total')if(this.selecteDivision24_2)if(this.selecteDivision24_2!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision24_2)
+          if(this.selecteDivision24_2)dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.division == this.selecteDivision24_2);
+          if(this.selecteLocalidad24_2)dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.planta == this.selecteLocalidad24_2);
+          if(this.selecteArea24_2)if(this.selecteArea24_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea24_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo24_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo24_2=[...dataMPCopyDiv]
+          }
+          if(this.selectMes24_2)if(this.selectMes24_2.length>0){
+            dataMPCopyDiv=[]
+            this.selectMes24_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo24_2.filter(at => this.meses[new Date(at.fechaEdicion).getMonth()] == element));
+            });
+            dataAnalisisRiesgo24_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+
+        let labels =[]
+        let dataEventos24_2: {
+          labels: any;
+          datasets: any[];
+          options?: any;
+        } = {
+          labels: [],
+          datasets: [
+            {
+              label: 'ICR',
+              backgroundColor: 'rgb(0, 176, 240,0.5)',
+              borderColor: 'rgb(0, 176, 240)',
+              borderWidth: 1,
+              data: [],
+              type: 'bar'
+            },
+            {
+              label: 'Meta ICR',
+              backgroundColor: 'rgb(10, 53, 255)',
+              fill: false,
+              tension: 0.4,
+              borderWidth: 2,
+              borderColor: 'rgb(10, 53, 255)',
+              data: [],
+              type: 'line'
+            }
+          ]
+        };
+
+        let gpiTotal:number=0
+        let gpfTotal:number=0
+        let icr:any=[]
+        let metaIcr:any=[]
+        if(this.tipoPeligroItemList)
+        for(const tipoPeligro of this.tipoPeligroItemList){
+          let metaF=0
+          if(this.selecteDivision24_2 && this.selecteLocalidad24_2==null){
+            let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision24_2})
+            if(m)metaF=m.icrDivision
+          }
+          if(this.selecteLocalidad24_2){
+            let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad24_2)
+            if(l && l.plantas_nombre){
+              let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+              if(m)metaF=m.icrPlanta
+            }
+          }
+
+          let data:any = {
+            name: tipoPeligro.label,
+            series: []
+          }
+
+          let gpi: number = dataAnalisisRiesgo24_2.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, ini) => {
+            return (count + Number(ini.nrInicial));
+          }, 0);
+          let gpf: number = dataAnalisisRiesgo24_2.filter(mp => mp.peligro === tipoPeligro.label && mp.nrInicial != null).reduce((count, fin) => {
+            return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          }, 0);
+
+          gpiTotal +=gpi
+          gpfTotal +=gpf
+
+          if(gpi==0 && gpf==0)flagZero=true
+          else flagZero=false
+
+          if(!flagZero){
+            this.meta24_2.push(tipoPeligro.label)
+            labels.push(tipoPeligro.label)
+            icr.push(((gpi-gpf)/gpi)*100)
+            metaIcr.push(metaF)
+          }
+        }
+        labels.push('Total')
+        icr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
+        let metaTotal=0
+        if(this.selecteDivision24_2 && this.selecteLocalidad24_2==null){
+          let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision24_2})
+          if(m)metaTotal=m.icrDivision
+        }
+        if(this.selecteLocalidad24_2){
+          let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad24_2)
+          if(l && l.plantas_nombre){
+            let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+            if(m)metaTotal=m.icrPlanta
+          }
+        }
+
+        metaIcr.push(metaTotal)
+        dataEventos24_2.labels=labels
+        dataEventos24_2.datasets[0].data=icr
+        dataEventos24_2.datasets[1].data=metaIcr
+
+        Object.assign(this, {dataEventos24_2});
+        localStorage.setItem('dataEventos24_2', JSON.stringify(dataEventos24_2));
+        this.filtroGraf24_2()
+      }
+    }
+    filtroGraf24_2(){
+      let dataEventos24_2: any = JSON.parse(localStorage.getItem('dataEventos24_2')!)
+
+      if(this.selectePeligro24_2 && this.selectePeligro24_2.length > 0){
+        let peligroList24 = [...this.meta24_2]
+        let selectePeligro24_2 = this.selectePeligro24_2.map((p:any) => p.nombre).sort();
+        dataEventos24_2.labels = selectePeligro24_2;
+        dataEventos24_2.datasets[1].data = dataEventos24_2.datasets[1].data.filter((data:any, index:any) => selectePeligro24_2.includes(peligroList24[index]));
+        dataEventos24_2.datasets[0].data = dataEventos24_2.datasets[0].data.filter((data:any, index:any) => selectePeligro24_2.includes(peligroList24[index]));
+      }
+
+      if(this.selectFiltro24_2 && this.selectFiltro24_2.length > 0){
+        let selectFiltro24Meta_2 = this.filtro17.map((div:any) => div.label);
+        let selectFiltro24_2 = this.selectFiltro24_2.map((div:any) => div);
+        dataEventos24_2.datasets = dataEventos24_2.datasets.filter((data:any, index:any) => selectFiltro24_2.includes(selectFiltro24Meta_2[index]));
+      }
+      Object.assign(this, {dataEventos24_2}); 
+    }
+    grafData25_2(){
+      this.meta25_2=[]
+      let flagZero:boolean=false
+  
+      if(this.selectPais25_2){
+        let dataAnalisisRiesgo25_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+        let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
+  
+        let dataMPCopyDiv: any[]=[]
+        dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.fechaEdicion != null);
+        dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio25_2);
+        metaMP = metaMP.filter(at => at.anio == this.selectAnio25_2);
+
+        //nuevo
+          dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.pais != null);
+          dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.division != null);
+          dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.planta != null);
+          dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.area != null);
+          if(this.selectPais25_2)if(this.selectPais25_2!='Corona Total')dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.pais == this.selectPais25_2);
+          if(this.selectPais25_2!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais25_2);
+          if(this.selectPais25_2!='Corona Total')if(this.selecteDivision25_2)if(this.selecteDivision25_2!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision25_2)
+          if(this.selecteDivision25_2)dataAnalisisRiesgo25_2= dataAnalisisRiesgo25_2.filter(at => at.division == this.selecteDivision25_2);
+          if(this.selecteLocalidad25_2)dataAnalisisRiesgo25_2= dataAnalisisRiesgo25_2.filter(at => at.planta == this.selecteLocalidad25_2);
+          if(this.selecteArea25_2)if(this.selecteArea25_2.length>0){
+            dataMPCopyDiv=[]
+            this.selecteArea25_2.forEach((element:any) => {
+              dataMPCopyDiv=dataMPCopyDiv.concat(dataAnalisisRiesgo25_2.filter(at => at.area == element));
+            });
+            dataAnalisisRiesgo25_2=[...dataMPCopyDiv]
+          }
+        //fin nuevo
+  
+        let labels =[]
+        let dataEventos25_2: {
+          labels: any;
+          datasets: any[];
+          options?: any;
+        } = {
+          labels: [],
+          datasets: [
+            {
+              label: 'ICR',
+              backgroundColor: 'rgb(0, 176, 240,0.5)',
+              borderColor: 'rgb(0, 176, 240)',
+              borderWidth: 1,
+              data: [],
+              type: 'bar'
+            },
+            {
+              label: 'Meta ICR',
+              backgroundColor: 'rgb(10, 53, 255)',
+              fill: false,
+              tension: 0.4,
+              borderWidth: 2,
+              borderColor: 'rgb(10, 53, 255)',
+              data: [],
+              type: 'line'
+            }
+          ]
+        };
+  
+        let gpiTotal:number=0
+        let gpfTotal:number=0
+        let icr:any=[]
+        let metaIcr:any=[]
+        if(this.tipoPeligroItemList)
+        for(const mes of this.meses){
+          let metaF=0
+          if(this.selecteDivision25_2 && this.selecteLocalidad25_2==null){
+            let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision25_2})
+            if(m)metaF=m.icrDivision
+          }
+          if(this.selecteLocalidad25_2){
+            let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad25_2)
+            if(l && l.plantas_nombre){
+              let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+              if(m)metaF=m.icrPlanta
+            }
+          }
+  
+          let data:any = {
+            name: mes,
+            series: []
+          }
+  
+          let gpi: number = dataAnalisisRiesgo25_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, ini) => {
+            return (count + Number(ini.nrInicial));
+          }, 0);
+          let gpf: number = dataAnalisisRiesgo25_2.filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null).reduce((count, fin) => {
+            return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          }, 0);
+  
+          gpiTotal +=gpi
+          gpfTotal +=gpf
+  
+          if(gpi==0 && gpf==0)flagZero=true
+          else flagZero=false
+  
+          if(!flagZero){
+            this.meta25.push(mes)
+            labels.push(mes)
+            icr.push(((gpi-gpf)/gpi)*100)
+            metaIcr.push(metaF)
+          }
+        }
+        labels.push('Total')
+        icr.push(((gpiTotal-gpfTotal)/gpiTotal)*100)
+        let metaTotal=0  
+        if(this.selecteDivision25_2 && this.selecteLocalidad25_2==null){
+          let m =metaMP.find(f=>{return f.nombreDivision == this.selecteDivision25_2})
+          if(m)metaTotal=m.icrDivision
+        }
+        if(this.selecteLocalidad25_2){
+          let l=this.localidadesList.find((l:any)=>l.localidad==this.selecteLocalidad25_2)
+          if(l && l.plantas_nombre){
+            let m =metaMP.find(f=>{return f.nombrePlanta == l.plantas_nombre})
+            if(m)metaTotal=m.icrPlanta
+          }
+        }
+
+  
+        metaIcr.push(metaTotal)
+        dataEventos25_2.labels=labels
+        dataEventos25_2.datasets[0].data=icr
+        dataEventos25_2.datasets[1].data=metaIcr
+  
+        Object.assign(this, {dataEventos25_2});
+        localStorage.setItem('dataEventos25_2', JSON.stringify(dataEventos25_2));
+        this.filtroGraf25()
+      }
+    }
+    filtroGraf25_2(){
+      let dataEventos25_2: any = JSON.parse(localStorage.getItem('dataEventos25_2')!)
+  
+      if(this.selectMes25_2 && this.selectMes25_2.length > 0){
+        let mesList25 = [...this.meta25_2]
+        let selectMes25 = this.selectMes25_2.map((m:any) => m).sort();
+        dataEventos25_2.labels = selectMes25;
+        dataEventos25_2.datasets[1].data = dataEventos25_2.datasets[1].data.filter((data:any, index:any) => selectMes25.includes(mesList25[index]));
+        dataEventos25_2.datasets[0].data = dataEventos25_2.datasets[0].data.filter((data:any, index:any) => selectMes25.includes(mesList25[index]));
+      }
+  
+      if(this.selectFiltro25_2 && this.selectFiltro25_2.length > 0){
+        let selectFiltro25Meta_2 = this.filtro17.map((div:any) => div.label);
+        let selectFiltro25_2 = this.selectFiltro25_2.map((div:any) => div);
+        dataEventos25_2.datasets = dataEventos25_2.datasets.filter((data:any, index:any) => selectFiltro25_2.includes(selectFiltro25Meta_2[index]));
+      }
+      Object.assign(this, {dataEventos25_2}); 
+    }
   imgFlag:boolean=false
 
 }

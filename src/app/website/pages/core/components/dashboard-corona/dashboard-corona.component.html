@@ -239,4 +239,232 @@
             </div>
         </div>
     </p-panel>
+    <br>
+    <p-panel header="RESUMEN MATRIZ DE PELIGROS (MAPA DE CALOR)" style="text-align:center;">
+        <div class="grid colorfondo" *ngIf="flagResumen">           
+            <div class="col-12 " style="padding-bottom: 0%;">
+                <div class="grid " style="padding-bottom: 0%;">
+                    <div class="col-12 grid" style="padding-bottom: 0%; padding-top: 10px;">
+                        <div class="col-5"><h1 style="color:black !important">Riesgo inicial / Riesgo residual</h1>
+                        </div>
+                        <div class="col-5">&nbsp;</div>
+                        <div class="col-1" style="padding-left: 10px;">
+                            <button pButton type="button" icon="pi pi-external-link" title="Indicadores Matriz de peligros"
+                            (click)="IndicadoresMatrizPeligros()"></button>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                        <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Almacenes Corona'][0]+'%'),'--alto': (resumenInicial['Almacenes Corona'][1]+'%'),'--medio': (resumenInicial['Almacenes Corona'][2]+'%')}" class="cardmp colorResiduo">
+                            <div  style="text-align:left;" class="tamañotextomp">
+                                <span>Almacenes Corona</span>
+                            </div>
+                            <div style="text-align:right;" class="tamañotexto2">
+                                <span>Bajo: {{resumenInicialText['Almacenes Corona'][3]}}%</span><br>
+                                <span>Medio: {{resumenInicialText['Almacenes Corona'][2]}}%</span><br>
+                                <span>Alto: {{resumenInicialText['Almacenes Corona'][1]}}%</span><br>
+                                <span>Muy alto: {{resumenInicialText['Almacenes Corona'][0]}}%</span>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                      <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Almacenes Corona'][0]+'%'),'--alto': (resumenResidual['Almacenes Corona'][1]+'%'),'--medio': (resumenResidual['Almacenes Corona'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Almacenes Corona</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenResidualText['Almacenes Corona'][3]}}%</span><br>
+                            <span>Medio: {{resumenResidualText['Almacenes Corona'][2]}}%</span><br>
+                            <span>Alto: {{resumenResidualText['Almacenes Corona'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenResidualText['Almacenes Corona'][0]}}%</span>
+                        </div>  
+                      </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                      <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Bathrooms and Kitchen'][0]+'%'),'--alto': (resumenInicial['Bathrooms and Kitchen'][1]+'%'),'--medio': (resumenInicial['Bathrooms and Kitchen'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Bathrooms and Kitchen</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenInicialText['Bathrooms and Kitchen'][3]}}%</span><br>
+                            <span>Medio: {{resumenInicialText['Bathrooms and Kitchen'][2]}}%</span><br>
+                            <span>Alto: {{resumenInicialText['Bathrooms and Kitchen'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenInicialText['Bathrooms and Kitchen'][0]}}%</span>
+                        </div>  
+                      </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                      <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Bathrooms and Kitchen'][0]+'%'),'--alto': (resumenResidual['Bathrooms and Kitchen'][1]+'%'),'--medio': (resumenResidual['Bathrooms and Kitchen'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Bathrooms and Kitchen</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenResidualText['Bathrooms and Kitchen'][3]}}%</span><br>
+                            <span>Medio: {{resumenResidualText['Bathrooms and Kitchen'][2]}}%</span><br>
+                            <span>Alto: {{resumenResidualText['Bathrooms and Kitchen'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenResidualText['Bathrooms and Kitchen'][0]}}%</span>
+                        </div>  
+                      </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                      <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Comercial Corona Colombia'][0]+'%'),'--alto': (resumenInicial['Comercial Corona Colombia'][1]+'%'),'--medio': (resumenInicial['Comercial Corona Colombia'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Comercial Corona Colombia</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenInicialText['Comercial Corona Colombia'][3]}}%</span><br>
+                            <span>Medio: {{resumenInicialText['Comercial Corona Colombia'][2]}}%</span><br>
+                            <span>Alto: {{resumenInicialText['Comercial Corona Colombia'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenInicialText['Comercial Corona Colombia'][0]}}%</span>
+                        </div>  
+                      </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                      <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Comercial Corona Colombia'][0]+'%'),'--alto': (resumenResidual['Comercial Corona Colombia'][1]+'%'),'--medio': (resumenResidual['Comercial Corona Colombia'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Comercial Corona Colombia</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenResidualText['Comercial Corona Colombia'][3]}}%</span><br>
+                            <span>Medio: {{resumenResidualText['Comercial Corona Colombia'][2]}}%</span><br>
+                            <span>Alto: {{resumenResidualText['Comercial Corona Colombia'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenResidualText['Comercial Corona Colombia'][0]}}%</span>
+                        </div>  
+                      </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                      <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Funciones Transversales'][0]+'%'),'--alto': (resumenInicial['Funciones Transversales'][1]+'%'),'--medio': (resumenInicial['Funciones Transversales'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Funciones Transversales</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenInicialText['Funciones Transversales'][3]}}%</span><br>
+                            <span>Medio: {{resumenInicialText['Funciones Transversales'][2]}}%</span><br>
+                            <span>Alto: {{resumenInicialText['Funciones Transversales'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenInicialText['Funciones Transversales'][0]}}%</span>
+                        </div>  
+                      </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                      <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Funciones Transversales'][0]+'%'),'--alto': (resumenResidual['Funciones Transversales'][1]+'%'),'--medio': (resumenResidual['Funciones Transversales'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Funciones Transversales</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenResidualText['Funciones Transversales'][3]}}%</span><br>
+                            <span>Medio: {{resumenResidualText['Funciones Transversales'][2]}}%</span><br>
+                            <span>Alto: {{resumenResidualText['Funciones Transversales'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenResidualText['Funciones Transversales'][0]}}%</span>
+                        </div>  
+                      </div>
+                  </div>
+    
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Insumos Industriales y Energias'][0]+'%'),'--alto': (resumenInicial['Insumos Industriales y Energias'][1]+'%'),'--medio': (resumenInicial['Insumos Industriales y Energias'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Insumos Industriales y Energias</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenInicialText['Insumos Industriales y Energias'][3]}}%</span><br>
+                          <span>Medio: {{resumenInicialText['Insumos Industriales y Energias'][2]}}%</span><br>
+                          <span>Alto: {{resumenInicialText['Insumos Industriales y Energias'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenInicialText['Insumos Industriales y Energias'][0]}}%</span>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Insumos Industriales y Energias'][0]+'%'),'--alto': (resumenResidual['Insumos Industriales y Energias'][1]+'%'),'--medio': (resumenResidual['Insumos Industriales y Energias'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Insumos Industriales y Energias</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenResidualText['Insumos Industriales y Energias'][3]}}%</span><br>
+                          <span>Medio: {{resumenResidualText['Insumos Industriales y Energias'][2]}}%</span><br>
+                          <span>Alto: {{resumenResidualText['Insumos Industriales y Energias'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenResidualText['Insumos Industriales y Energias'][0]}}%</span>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Mesa Servida'][0]+'%'),'--alto': (resumenInicial['Mesa Servida'][1]+'%'),'--medio': (resumenInicial['Mesa Servida'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Mesa Servida</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenInicialText['Mesa Servida'][3]}}%</span><br>
+                          <span>Medio: {{resumenInicialText['Mesa Servida'][2]}}%</span><br>
+                          <span>Alto: {{resumenInicialText['Mesa Servida'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenInicialText['Mesa Servida'][0]}}%</span>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Mesa Servida'][0]+'%'),'--alto': (resumenResidual['Mesa Servida'][1]+'%'),'--medio': (resumenResidual['Mesa Servida'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Mesa Servida</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenResidualText['Mesa Servida'][3]}}%</span><br>
+                          <span>Medio: {{resumenResidualText['Mesa Servida'][2]}}%</span><br>
+                          <span>Alto: {{resumenResidualText['Mesa Servida'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenResidualText['Mesa Servida'][0]}}%</span>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Superficies, materiales y pinturas'][0]+'%'),'--alto': (resumenInicial['Superficies, materiales y pinturas'][1]+'%'),'--medio': (resumenInicial['Superficies, materiales y pinturas'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Superficies, materiales y pinturas</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenInicialText['Superficies, materiales y pinturas'][3]}}%</span><br>
+                          <span>Medio: {{resumenInicialText['Superficies, materiales y pinturas'][2]}}%</span><br>
+                          <span>Alto: {{resumenInicialText['Superficies, materiales y pinturas'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenInicialText['Superficies, materiales y pinturas'][0]}}%</span>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Superficies, materiales y pinturas'][0]+'%'),'--alto': (resumenResidual['Superficies, materiales y pinturas'][1]+'%'),'--medio': (resumenResidual['Superficies, materiales y pinturas'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Superficies, materiales y pinturas</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenResidualText['Superficies, materiales y pinturas'][3]}}%</span><br>
+                          <span>Medio: {{resumenResidualText['Superficies, materiales y pinturas'][2]}}%</span><br>
+                          <span>Alto: {{resumenResidualText['Superficies, materiales y pinturas'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenResidualText['Superficies, materiales y pinturas'][0]}}%</span>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenInicial['Corona Total'][0]+'%'),'--alto': (resumenInicial['Corona Total'][1]+'%'),'--medio': (resumenInicial['Corona Total'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Corona Total</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenInicialText['Corona Total'][3]}}%</span><br>
+                          <span>Medio: {{resumenInicialText['Corona Total'][2]}}%</span><br>
+                          <span>Alto: {{resumenInicialText['Corona Total'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenInicialText['Corona Total'][0]}}%</span>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  [ngStyle]="{ '--muyAlto': (resumenResidual['Corona Total'][0]+'%'),'--alto': (resumenResidual['Corona Total'][1]+'%'),'--medio': (resumenResidual['Corona Total'][2]+'%')}" class="cardmp colorResiduo">
+                      <div  style="text-align:left;" class="tamañotextomp">
+                          <span>Corona Total</span>
+                      </div>
+                      <div style="text-align:right;" class="tamañotexto2">
+                          <span>Bajo: {{resumenResidualText['Corona Total'][3]}}%</span><br>
+                          <span>Medio: {{resumenResidualText['Corona Total'][2]}}%</span><br>
+                          <span>Alto: {{resumenResidualText['Corona Total'][1]}}%</span><br>
+                          <span>Muy alto: {{resumenResidualText['Corona Total'][0]}}%</span>
+                      </div>  
+                    </div>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+    </p-panel>
 </div>
