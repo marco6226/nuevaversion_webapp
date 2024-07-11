@@ -5729,7 +5729,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => at.fechaEdicion != null);
       dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio23);
       metaMP = metaMP.filter(at => at.anio == this.selectAnio23);
-      if(this.selectPais23!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais23);
+      metaMP = metaMP.filter(at => at.pais == this.selectPais23);
       if(this.selectPais23!='Corona Total')if(this.selecteDivision23)if(this.selecteDivision23!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision23)
 
       
@@ -5910,7 +5910,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.planta != null);
         dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.area != null);
         if(this.selectPais24)if(this.selectPais24!='Corona Total')dataAnalisisRiesgo24 = dataAnalisisRiesgo24.filter(at => at.pais == this.selectPais24);
-        if(this.selectPais24!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais24);
+        metaMP = metaMP.filter(at => at.pais == this.selectPais24);
         if(this.selectPais24!='Corona Total')if(this.selecteDivision24)if(this.selecteDivision24!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision24)
         if(this.selecteDivision24)dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.division == this.selecteDivision24);
         if(this.selecteLocalidad24)dataAnalisisRiesgo24= dataAnalisisRiesgo24.filter(at => at.planta == this.selecteLocalidad24);
@@ -6066,7 +6066,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.planta != null);
           dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.area != null);
           if(this.selectPais25)if(this.selectPais25!='Corona Total')dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.pais == this.selectPais25);
-          if(this.selectPais25!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais25);
+          metaMP = metaMP.filter(at => at.pais == this.selectPais25);
           if(this.selectPais25!='Corona Total')if(this.selecteDivision25)if(this.selecteDivision25!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision25)
           if(this.selecteDivision25)dataAnalisisRiesgo25= dataAnalisisRiesgo25.filter(at => at.division == this.selecteDivision25);
           if(this.selecteLocalidad25)dataAnalisisRiesgo25= dataAnalisisRiesgo25.filter(at => at.planta == this.selecteLocalidad25);
@@ -8476,15 +8476,16 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       Object.assign(this, {dataEventos16_2}); 
     }
     grafData17_2(){
+      console.log('aqui')
       let flagZero:boolean=false
 
-      if(this.selectPais17_2  || this.selecteDivision17_2 == 'Total' || this.selecteLocalidad17_2){
+      if(this.selectPais17_2){
         let dataAnalisisRiesgo17_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
         let dataEventos17_2: any[] = [];
 
         let ejeY:any
         let variableText:any
-        if(this.selectPais17_2 == 'Corona Total'){
+        if(this.selectPais17_2){
           ejeY=[...this.divisionList17_2] 
           variableText='division'
           this.tituloGraf17_2='Divisiones'
@@ -8497,7 +8498,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         if(this.selecteLocalidad17_2){
           ejeY=[...this.areasList17_2]
           variableText='area'
-          this.tituloGraf17='Areas'
+          this.tituloGraf17_2='Areas'
         }
 
         let dataMPCopyDiv: any[]=[]
@@ -9186,7 +9187,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         dataAnalisisRiesgo23_2 = dataAnalisisRiesgo23_2.filter(at => at.fechaEdicion != null);
         dataAnalisisRiesgo23_2 = dataAnalisisRiesgo23_2.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio23_2);
         metaMP = metaMP.filter(at => at.anio == this.selectAnio23_2);
-        if(this.selectPais23_2!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais23_2);
+        metaMP = metaMP.filter(at => at.pais == this.selectPais23_2);
         if(this.selectPais23_2!='Corona Total')if(this.selecteDivision23_2)if(this.selecteDivision23_2!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision23_2)
 
         
@@ -9361,7 +9362,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.planta != null);
           dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.area != null);
           if(this.selectPais24_2)if(this.selectPais24_2!='Corona Total')dataAnalisisRiesgo24_2 = dataAnalisisRiesgo24_2.filter(at => at.pais == this.selectPais24_2);
-          if(this.selectPais24_2!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais24_2);
+          metaMP = metaMP.filter(at => at.pais == this.selectPais24_2);
           if(this.selectPais24_2!='Corona Total')if(this.selecteDivision24_2)if(this.selecteDivision24_2!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision24_2)
           if(this.selecteDivision24_2)dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.division == this.selecteDivision24_2);
           if(this.selecteLocalidad24_2)dataAnalisisRiesgo24_2= dataAnalisisRiesgo24_2.filter(at => at.planta == this.selecteLocalidad24_2);
@@ -9516,7 +9517,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.planta != null);
           dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.area != null);
           if(this.selectPais25_2)if(this.selectPais25_2!='Corona Total')dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(at => at.pais == this.selectPais25_2);
-          if(this.selectPais25_2!='Corona Total')metaMP = metaMP.filter(at => at.pais == this.selectPais25_2);
+          metaMP = metaMP.filter(at => at.pais == this.selectPais25_2);
           if(this.selectPais25_2!='Corona Total')if(this.selecteDivision25_2)if(this.selecteDivision25_2!='Total')metaMP=metaMP.filter(m=>m.nombreDivision==this.selecteDivision25_2)
           if(this.selecteDivision25_2)dataAnalisisRiesgo25_2= dataAnalisisRiesgo25_2.filter(at => at.division == this.selecteDivision25_2);
           if(this.selecteLocalidad25_2)dataAnalisisRiesgo25_2= dataAnalisisRiesgo25_2.filter(at => at.planta == this.selecteLocalidad25_2);
