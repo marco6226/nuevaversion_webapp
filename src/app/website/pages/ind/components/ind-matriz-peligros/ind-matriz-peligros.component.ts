@@ -2723,13 +2723,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   grafData1(){
 
     let flagZero:boolean=false
-    if(this.selectPais1 == 'Corona Total' || this.selecteDivision1 == 'Total' || this.selecteLocalidad1){
+    if(this.selectPais1){
       let dataAnalisisRiesgo1: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos1: any[] = [];
 
       let ejeY:any
       let variableText:any
-      if(this.selectPais1 == 'Corona Total'){
+      if(this.selectPais1){
         ejeY=[...this.divisionList1] 
         variableText='division'
         this.tituloGraf1='Divisiones'
@@ -4587,13 +4587,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   grafData14(){
     let flagZero:boolean=false
 
-    if(this.selectPais14 == 'Corona Total' || this.selecteDivision14 == 'Total' || this.selecteLocalidad14){
+    if(this.selectPais14 || this.selecteDivision14 == 'Total' || this.selecteLocalidad14){
       let dataAnalisisRiesgo14: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos14: any[] = [];
 
       let ejeY:any
       let variableText:any
-      if(this.selectPais14 == 'Corona Total'){
+      if(this.selectPais14 ){
         ejeY=[...this.divisionList14] 
         variableText='division'
         this.tituloGraf14='Divisiones'
@@ -4886,6 +4886,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
       let dataMPCopyDiv: any[]=[]
       dataAnalisisRiesgo16 = dataAnalisisRiesgo16.filter(at => at.fechaEdicion != null);
+      dataAnalisisRiesgo16 = dataAnalisisRiesgo16.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio16);
+
 
       //nuevo
         dataAnalisisRiesgo16= dataAnalisisRiesgo16.filter(at => at.pais != null);
@@ -5017,13 +5019,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   grafData17(){
     let flagZero:boolean=false
 
-    if(this.selectPais17 == 'Corona Total' || this.selecteDivision17 == 'Total' || this.selecteLocalidad17){
+    if(this.selectPais17){
       let dataAnalisisRiesgo17: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos17: any[] = [];
 
       let ejeY:any
       let variableText:any
-      if(this.selectPais17 == 'Corona Total'){
+      if(this.selectPais17){
         ejeY=[...this.divisionList17] 
         variableText='division'
         this.tituloGraf17='Divisiones'
@@ -5348,13 +5350,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
   grafData20(){
     let flagZero:boolean=false
 
-    if(this.selectPais20 == 'Corona Total' || this.selecteDivision20 == 'Total' || this.selecteLocalidad20){
+    if(this.selectPais20 || this.selecteDivision20 == 'Total' || this.selecteLocalidad20){
       let dataAnalisisRiesgo20: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos20: any[] = [];
 
       let ejeY:any
       let variableText:any
-      if(this.selectPais20 == 'Corona Total'){
+      if(this.selectPais20 ){
         ejeY=[...this.divisionList20] 
         variableText='division'
         this.tituloGraf20='Divisiones'
@@ -5692,13 +5694,14 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     
     let flagZero:boolean=false
 
-    if(this.selectPais23 == 'Corona Total' || this.selecteDivision23 == 'Total' || this.selecteLocalidad23){
+    if(this.selectPais23 || this.selecteDivision23 == 'Total' || this.selecteLocalidad23){
       let dataAnalisisRiesgo23: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      console.log(dataAnalisisRiesgo23)
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let ejeY:any
       let variableText:any
-      if(this.selectPais23 == 'Corona Total'){
+      if(this.selectPais23){
         ejeY=[...this.divisionList23] 
         variableText='division'
       }
@@ -6196,13 +6199,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     grafData1_2(){
       
     let flagZero:boolean=false
-    if(this.selectPais1_2 == 'Corona Total' || this.selecteDivision1_2 == 'Total' || this.selecteLocalidad1_2){
+    if(this.selectPais1_2 || this.selecteDivision1_2 == 'Total' || this.selecteLocalidad1_2){
       let dataAnalisisRiesgo1_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos1_2: any[] = [];
 
       let ejeY:any
       let variableText:any
-      if(this.selectPais1_2 == 'Corona Total'){
+      if(this.selectPais1_2){
         ejeY=[...this.divisionList1_2] 
         variableText='division'
         this.tituloGraf1_2='Divisiones'
@@ -8043,26 +8046,26 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     grafData14_2(){
       let flagZero:boolean=false
 
-    if(this.selectPais14_2 == 'Corona Total' || this.selecteDivision14_2 == 'Total' || this.selecteLocalidad14_2){
+    if(this.selectPais14_2 || this.selecteDivision14_2 == 'Total' || this.selecteLocalidad14_2){
       let dataAnalisisRiesgo14_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataEventos14_2: any[] = [];
 
       let ejeY:any
       let variableText:any
-      if(this.selectPais14_2 == 'Corona Total'){
+      if(this.selectPais14_2 ){
         ejeY=[...this.divisionList14_2] 
         variableText='division'
-        this.tituloGraf14='Divisiones'
+        this.tituloGraf14_2='Divisiones'
       }
       if(this.selecteDivision14_2 == 'Total'){
         ejeY=[...this.localidadesList14_2]
         variableText='planta'
-        this.tituloGraf14='Plantas'
+        this.tituloGraf14_2='Plantas'
       }
       if(this.selecteLocalidad14_2){
         ejeY=[...this.areasList14_2]
         variableText='area'
-        this.tituloGraf14='Areas'
+        this.tituloGraf14_2='Areas'
       }
 
       let dataMPCopyDiv: any[]=[]
@@ -8342,6 +8345,8 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
         let dataMPCopyDiv: any[]=[]
         dataAnalisisRiesgo16_2 = dataAnalisisRiesgo16_2.filter(at => at.fechaEdicion != null);
+        dataAnalisisRiesgo16_2 = dataAnalisisRiesgo16_2.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio16_2);
+
 
         //nuevo
           dataAnalisisRiesgo16_2= dataAnalisisRiesgo16_2.filter(at => at.pais != null);
@@ -8473,7 +8478,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     grafData17_2(){
       let flagZero:boolean=false
 
-      if(this.selectPais17_2 == 'Corona Total' || this.selecteDivision17_2 == 'Total' || this.selecteLocalidad17_2){
+      if(this.selectPais17_2  || this.selecteDivision17_2 == 'Total' || this.selecteLocalidad17_2){
         let dataAnalisisRiesgo17_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
         let dataEventos17_2: any[] = [];
 
@@ -8804,13 +8809,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     grafData20_2(){
       let flagZero:boolean=false
 
-      if(this.selectPais20_2 == 'Corona Total' || this.selecteDivision20_2 == 'Total' || this.selecteLocalidad20_2){
+      if(this.selectPais20_2){
         let dataAnalisisRiesgo20_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
         let dataEventos20_2: any[] = [];
 
         let ejeY:any
         let variableText:any
-        if(this.selectPais20_2 == 'Corona Total'){
+        if(this.selectPais20_2){
           ejeY=[...this.divisionList20_2] 
           variableText='division'
           this.tituloGraf20_2='Divisiones'
@@ -9147,13 +9152,13 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
     
       let flagZero:boolean=false
 
-      if(this.selectPais23_2 == 'Corona Total' || this.selecteDivision23_2 == 'Total' || this.selecteLocalidad23_2){
+      if(this.selectPais23_2 || this.selecteDivision23_2 == 'Total' || this.selecteLocalidad23_2){
         let dataAnalisisRiesgo23_2: any[] = JSON.parse(localStorage.getItem('dataMP')!);
         let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
         let ejeY:any
         let variableText:any
-        if(this.selectPais23_2 == 'Corona Total'){
+        if(this.selectPais23_2){
           ejeY=[...this.divisionList23_2] 
           variableText='division'
         }
@@ -9591,7 +9596,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
           else flagZero=false
   
           if(!flagZero){
-            this.meta25.push(mes)
+            this.meta25_2.push(mes)
             labels.push(mes)
             icr.push(((gpi-gpf)/gpi)*100)
             metaIcr.push(metaF)
