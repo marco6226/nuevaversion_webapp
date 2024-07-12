@@ -117,25 +117,32 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         this.patchFormValues();
         console.log(this.diagnosticoForm);
         console.log('shi sheñolll', this.diagSelect);
-        if (this.diagSelect['id'] != undefined && this.diagSelect['id'].toString().length > 0) {
-            await this.scmService.findAllByIdDiagPartes(this.diagSelect['id']).then(value => {
+    
+        if (this.diagSelect && this.diagSelect['id'] != undefined && this.diagSelect['id'].toString().length > 0) {
+            try {
+                const value = await this.scmService.findAllByIdDiagPartes(this.diagSelect['id']);
                 console.log('son las partes bebe', value);
                 const response: any = value;
                 const listNewPivot: any[] = response;
-                let valueFor: any[] = []
+                let valueFor: any[] = [];
                 listNewPivot.forEach(element => {
-                    valueFor.push(this.parteAfectadaList.find(value => {
-                        return value['id'] == element['idPartes']
-                    }))
+                    const foundElement = this.parteAfectadaList.find(value => {
+                        return value['id'] == element['idPartes'];
+                    });
+                    if (foundElement) {
+                        valueFor.push(foundElement);
+                    }
                 });
-                this.idPivotbase = valueFor
-                this.diagnosticoForm.controls['parteAfectada'].setValue(valueFor)
-
-            })
+                this.idPivotbase = valueFor;
+                this.diagnosticoForm.controls['parteAfectada'].setValue(valueFor);
+            } catch (error) {
+                console.error('Error fetching data', error);
+            }
         }
         // You can also use categoryId.previousValue and
         // categoryId.firstChange for comparing old and new values
     }
+    
 
     async patchFormValues() {
         if (this.diagSelect) {

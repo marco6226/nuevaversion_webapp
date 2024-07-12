@@ -1030,6 +1030,87 @@
     <ng-container *sTienePermiso="'SCM_POST_SDCSL'">
       <p-tabPanel *ngIf="flagSaludLaboralRegistro" header="Documentación">
         <p-accordion [multiple]="true">
+          <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+            <!-- Otros campos del formulario -->
+            
+            <p-accordionTab header="Fecha de apertura del caso">
+              <div class="form-row mt-3">
+                <div class="col-12">
+                  <label for="fechaLimite">Fecha recepción de solicitud de documentación:</label>
+                  <p-calendar
+                    id="fechaLimite"
+                    appendTo="body"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="yearRange"
+                    [maxDate]="fechaActual"
+                    formControlName="fechaRecepcionDocs"
+                    dateFormat="dd/mm/yy"
+                  ></p-calendar>
+                </div>
+                <div class="col">
+                  <div class="input-field">
+                    <label for="" class="active">Entidad que emite la calificación origen</label>
+                    <p-dropdown
+                      appendTo="body"
+                      [filter]="true"
+                      [options]="emitPclentity"
+                      formControlName="entidadEmiteCalificacion"
+                      class="select-material"
+                      styleClass="select-material"
+                      [readonly]="action"
+                      (onChange)="onEntidadChange($event)"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+                
+                <!-- Campo de texto para "Otros" -->
+                <div class="col" *ngIf="selectedEntidad === 'otros'">
+                  <div class="input-field">
+                    <label for="" class="active">Escriba la entidad de calificación de origen</label>
+                    <input type="text" formControlName="otroDetalle" class="form-control">
+                  </div>
+                </div>
+                
+                <!-- Dropdown para detalles -->
+                <div class="col" *ngIf="isDetalleEnabled">
+                  <div class="input-field">
+                    <label for="" class="active">Seleccionar Entidad</label>
+                    <p-dropdown
+                      appendTo="body"
+                      [filter]="true"
+                      [options]="detalleOptions"
+                      formControlName="detalleCalificacion"
+                      class="select-material"
+                      styleClass="select-material"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label for="fechaLimite">Fecha maxima de envio para solicitud de documentación:</label>
+                  <p-calendar
+                    id="fechaLimite"
+                    appendTo="body"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="yearRange"
+                    [maxDate]="fechaActual"
+                    formControlName="fechaMaximaEnvDocs"
+                    dateFormat="dd/mm/yy"
+                  ></p-calendar>
+                </div>
+                
+                
+                
+                
+              </div>
+            </p-accordionTab>
+            
+            
+          </form>
+          
           <p-accordionTab header="GH Admon personal">
             <div *ngIf="flag1" class="container-fluid">
               <div class="form-row">
@@ -1156,6 +1237,7 @@
               </div>            
             </div>
           </p-accordionTab>
+
           <p-accordionTab header="Seguridad">
             <div class="container-fluid cew-9 grid">
               <div *ngIf="flag2" class="container-fluid">
@@ -1541,8 +1623,132 @@
               </div>
             </div>
           </p-accordionTab>
+          <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+            <p-accordionTab header="Fecha de cierre del caso">
+              <div class="col-12">
+                <label for="fechaLimite">Fecha de cierre de envio documentación:</label>
+                <p-calendar
+                  id="fechaCierreCaso"
+                  appendTo="body"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  [yearRange]="yearRange"
+                  [maxDate]="fechaActual"
+                  formControlName="fechaCierreCaso"
+                  dateFormat="dd/mm/yy"
+                ></p-calendar>
+              </div>
+              <div class="col">
+                <div class="input-field">
+                  <label for="" class="active">Entidad que emite la calificación origen</label>
+                  <p-dropdown
+                    appendTo="body"
+                    [filter]="true"
+                    [options]="emitPclentity"
+                    formControlName="entidadEmiteCalificacion"
+                    class="select-material"
+                    styleClass="select-material"
+                    [readonly]="true"
+                    (onChange)="onEntidadChange($event)"
+                  >
+                  </p-dropdown>
+                </div>
+                <div class="col" *ngIf="selectedEntidad === 'otros'">
+                  <div class="input-field">
+                    <label for="" class="active">Escriba la entidad de calificación de origen</label>
+                    <input type="text" formControlName="otroDetalle" class="form-control">
+                  </div>
+                </div>
+                
+                <!-- Dropdown para detalles -->
+                <div class="col" *ngIf="isDetalleEnabled">
+                  <div class="input-field">
+                    <label for="" class="active">Seleccionar Entidad</label>
+                    <p-dropdown
+                      appendTo="body"
+                      [filter]="true"
+                      [options]="detalleOptions"
+                      formControlName="detalleCalificacion"
+                      class="select-material"
+                      styleClass="select-material"
+                      [readonly]="true"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+              <ng-container>
+                <button
+                  pButton
+                  type="button"
+                  icon="bi bi-upload"
+                  title="Subir documento"
+                  [value]="documentacionSubirSelect"
+                  class="p-button-info margin-left margin-right"
+                  (click)="openUploadDialogCaseDT(idSl, documentosDT)"
+                ></button>
+              </ng-container>
+              <s-documentoUpload
+                [privadoCheck]="false"
+                [(visible)]="flagDocDT"
+                [modParam]="selectedDocIDDT"
+                [modulo]="modulo"
+                [tipoEvidencia]="'cargaDocumentosDT' + selectedDocIDDT"
+                (onUpload)="onUploadCaseDT($event)"
+              >
+              </s-documentoUpload>
+              <div class="ui-g" style="margin-top: 10px">
+                <div class="ui-g-12 ui-sm-12 ui-md-10">
+                  <div *ngFor="let doc of directorios">
+                    <table
+                      class="caption-top"
+                      *ngIf="doc!.documento.proceso === 'cargaDocumentosDT' + idSl"
+                    >
+                      <p>Soportes:</p>
+                      <thead>
+                        <tr>
+                          <th scope="col">Descripción</th>
+                          <th scope="col">Opciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a type="button" class="btn btn-outline-primary" (click)="descargarDocumento(doc.documento)">{{ doc.documento.descripcion }}</a>
+                          </td>
+                          <td>
+                            <a>&nbsp;</a>
+                            <a
+                              type="button"
+                              [ariaDisabled]="true"
+                              class="btn btn-outline-danger"
+                              title="Eliminar documento"
+                              (click)="eliminarDocumentCaseDT(doc)"
+                            ><span class="pi pi-trash"></span></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </form>
+          
+          
           
         </p-accordion>
+        <button
+            pButton
+            *sTienePermiso="'SCM_POST_CSL'"
+            (click)="onSubmit(); submitEmp()"
+            type="submit"
+            icon="pi pi-save"
+            class="float-btn"
+            style="bottom: 200px"
+            title="Guardar datos de Empleado"
+            [disabled]="!this.empleadoForm.valid"
+          ></button>
         <!-- Botón para enviar -->
         <button
               pButton
@@ -1554,6 +1760,7 @@
               title="Enviar Correos"
   
             ></button>
+            
   
       
   

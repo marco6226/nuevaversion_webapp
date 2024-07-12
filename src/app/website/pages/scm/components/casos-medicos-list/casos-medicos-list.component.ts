@@ -55,7 +55,9 @@ export class CasosMedicosListComponent implements OnInit {
     'procesoOrigen',
     'procesoActual',
     'pkUser',
-    'nombreCompletoSL'
+    'nombreCompletoSL',
+    'documentos',
+    'fechaRecepcionDocs'
   ];
   consultar: boolean = false;
   async ngOnInit() {
@@ -263,10 +265,11 @@ export class CasosMedicosListComponent implements OnInit {
       console.error("Error al cargar las localidades:", error);
     });
   }
-  idToDivision(divison:number){
-   return  this.divisionActual.find(value=>value['id']==divison)['nombre']
-  }
-  
+  idToDivision(division: number): string {
+    const foundDivision = this.divisionActual.find(value => value['id'] == division);
+    return foundDivision ? foundDivision['nombre'] : 'No encontrado';
+}
+
   
 divisionActual: any[]=[]
   getAreaById(): void {
@@ -293,10 +296,11 @@ divisionActual: any[]=[]
       }
     );
   }
+  idToLocalidad(division: number): string {
+    const foundLocalidad = this.localidadAct.find(value => value['id'] == division);
+    return foundLocalidad ? foundLocalidad['localidad'] : 'No encontrado';
+}
 
-  idToLocalidad(divison:number){
-    return  this.localidadAct.find(value=>value['id']==divison)['localidad']
-   }
 
 
   

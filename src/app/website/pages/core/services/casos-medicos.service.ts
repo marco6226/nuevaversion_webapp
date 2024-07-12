@@ -97,9 +97,18 @@ export class CasosMedicosService {
         return this.http.put(`${endPoints.scm}documents/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
+    putCaseDatosTrabajadorDocs(id: string | number, body: any) {
+        console.log('Datos a enviar en PUT para docs:', body);
+        return this.http.put(`${endPoints.scm}documentsDT/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
     updateMailSaludLaboral(docId: number, documentoId: String): Promise<any> {
         const body = { documentos: documentoId };
         return this.putCaseDOcs(docId, body);
+      }
+      updateDatosTrabajadorDocs(docId: number, documentoId: String): Promise<any> {
+        const body = { documentos: documentoId };
+        return this.putCaseDatosTrabajadorDocs(docId, body);
       }
     getCaseList(document: string | number): any {
         return this.http.get<any[]>(`${endPoints.scm}validate/${document}`, this.getRequestHeaders(this.headers)).toPromise();
@@ -184,6 +193,11 @@ export class CasosMedicosService {
         console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocument/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+    deleteIdDocsCaseDT(id: string | number, docID: string | number): any {
+        console.log("que se esta enviando en eliminar", id, docID);
+        
+        return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentDT/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     updateDiagnosticos(diagnosticos: any) {

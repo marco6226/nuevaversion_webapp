@@ -93,6 +93,7 @@ export class PclComponent implements OnInit {
             observaciones: [null, /*Validators.required*/],
             origenPcl : [null, /*Validators.required*/],
             observacionesPcl: [null, /*Validators.required*/],
+            tiempoCalificacion: [{ value: '', disabled: true }]
 
         });
 
@@ -101,6 +102,25 @@ export class PclComponent implements OnInit {
         this.pclSelect = null;
         this.pclSelect2 = null;
     }
+    calculateTimeDifference(fechaInicio: number, fechaFin: Date): string {
+        const startDate = new Date(fechaInicio);
+        const endDate = new Date(fechaFin);
+    
+        let totalMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12;
+        totalMonths -= startDate.getMonth();
+        totalMonths += endDate.getMonth();
+        totalMonths = totalMonths <= 0 ? 0 : totalMonths;
+    
+        let totalDays = endDate.getDate() - startDate.getDate();
+        if (totalDays < 0) {
+            totalMonths--;
+            totalDays += new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
+        }
+    
+        return `${totalMonths} meses y ${totalDays} días`;
+    }
+      
+      
 
     async ngOnInit() {
         this.config.setTranslation(this.localeES);
@@ -126,6 +146,23 @@ export class PclComponent implements OnInit {
         this.pclList = Array.from(pclUniqueMap.values()).map(pcl => ({ ...pcl, diag: Array.from(pcl.diag) }));
         
         await this.iniciarPcl();
+
+        const saludL = localStorage.getItem('saludL');
+        let fechaRecepcionDocs: Date | null = null;
+        if (saludL) {
+            const parsedSaludL = JSON.parse(saludL);
+            if (parsedSaludL.fechaRecepcionDocs) {
+                fechaRecepcionDocs = new Date(parsedSaludL.fechaRecepcionDocs);
+                console.log("fechaRecepcionDocs", fechaRecepcionDocs);
+            }
+        }
+    
+        this.pclForm.get('fechaCalificacion')?.valueChanges.subscribe(fechaCalificacion => {
+            if (fechaRecepcionDocs && fechaCalificacion) {
+                const tiempoCalificacion = this.calculateTimeDifference(fechaRecepcionDocs.getTime(), fechaCalificacion);
+                this.pclForm.get('tiempoCalificacion')?.setValue(tiempoCalificacion);
+            }
+        });
     }
     
 

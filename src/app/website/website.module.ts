@@ -225,6 +225,7 @@ import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-pe
 import { CasosMedicosListComponent } from './pages/scm/components/casos-medicos-list/casos-medicos-list.component';
 import { DocumentacionSaludLaboralComponent } from './pages/scm/components/salud-laboral/components/documentacion-salud-laboral/documentacion-salud-laboral.component';
 import { ListDocumentacionSolicitanteComponent } from './pages/scm/components/salud-laboral/components/list-documentacion-solicitante/list-documentacion-solicitante.component';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -470,7 +471,8 @@ import { ListDocumentacionSolicitanteComponent } from './pages/scm/components/sa
     UsuarioService,
     CapitalizePipe,
     AuthGuardService,
-    EditService 
+    EditService ,
+    DatePipe
   ],
   exports:[
     ConfiguracionGeneralDirective,

@@ -41,6 +41,7 @@ import { JuntaRegional } from '../../../comun/entities/juntaregional';
 import { Area } from '../../../empresa/entities/area';
 import { UsuarioService } from '../../../admin/services/usuario.service';
 import { em } from '@fullcalendar/core/internal-common';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -56,6 +57,7 @@ export class SaludLaboralComponent implements OnInit {
   consultar2: boolean = false;
   consultar: boolean = false;
   documentos!: Documento[];
+  documentosDT!: Documento[];
   @Input('documentos') directorios: Directorio[] = [];
   documentosList!: any[];
 
@@ -99,6 +101,10 @@ export class SaludLaboralComponent implements OnInit {
   empresaSelect2!: empresaNit;
   loaded!: boolean;
   selectedDocId: number = 0;
+  selectedDocIDDT: number = 0;
+
+  documentacionCase: any;
+  documentacionSelectCase: any;
 
   nameAndLastName = "";
   antiguedad: any;
@@ -150,7 +156,10 @@ export class SaludLaboralComponent implements OnInit {
     'procesoOrigen',
     'procesoActual',
     'pkUser',
-    'nombreCompletoSL'
+    'nombreCompletoSL',
+    'documentos',
+    'fechaRecepcionDocs',
+    'fechaCierreCaso'
   ];
 
   rangoAntiguedad = [
@@ -212,8 +221,11 @@ export class SaludLaboralComponent implements OnInit {
     { label: "ARL", value: "ARL" },
     { label: "AFP", value: "AFP" },
     { label: "Junta Regional", value: "Junta_Regional" },
-    { label: "Junta Nacional", value: "Junta Nacional" }
+    { label: "Junta Nacional", value: "Junta Nacional" },
+    { label: "Otros", value: "otros" }
   ]
+  detalleOptions: SelectItem[] = [];
+  action: boolean = false;
   pclOptionList: SelectItem[] = [
     { label: "--Seleccione--", value: null },
     { label: "En Calificación", value: "1" },
@@ -232,6 +244,8 @@ export class SaludLaboralComponent implements OnInit {
   documentacionList: any;
   documentacionListUser: any;
   documentacionSubirSelect: any
+
+  documentacionListCase: any;
 
   empresaList2: empresaNit[] = [
     { label: "--Seleccione--", empresa: null, nit: null },
@@ -339,6 +353,7 @@ export class SaludLaboralComponent implements OnInit {
   dialogRechazoFlagSolicitante: boolean = false
   dialogTrazabilidadFlag: boolean = false
   flagDoc: boolean = false
+  flagDocDT: boolean = false;
   flagDialogCargoActual: boolean = false
   cargoActual: string = ''
 
@@ -425,8 +440,19 @@ export class SaludLaboralComponent implements OnInit {
           this.buildPerfilesIdList();
         }, 500);
     });
+   try {
     await this.getArea()
+   } catch (error) {
+      console.log('error area');
+      
+   }
+   try {
     await this.getCargoActual()
+   } catch (error) {
+    console.log(error,'error cargo');
+    
+   }
+   
     this.router.params.subscribe(async params => {
       this.iddt = params ? params['iddt'] : undefined;
       if (this.iddt) {
@@ -660,14 +686,14 @@ export class SaludLaboralComponent implements OnInit {
     try {
       this.flagSaludLaboralRegistro = true;
       const data: any = await this.scmService.getCaseSL(this.iddt!.toString());
-      console.log("cargo act", this.empleadoForm.controls);
+
       await this.buscarEmpleado({ query: data['usuarioAsignado'] })
       const empleado = this.empleadosList[0];
-
+      console.log("cargo act", JSON.stringify(data));
       if (typeof empleado === 'object' && empleado !== null) {
         let empresaNitpivot: empresaNit = { empresa: empleado['empresa'], nit: empleado['nit'], label: empleado['empresa'] }
         this.empresaForm?.controls['empresa'].setValue(empresaNitpivot);
-        
+
         let cedula = this.empleadoForm.controls['numeroIdentificacion'].setValue(empleado['numeroIdentificacion'])
         this.empleadoForm.controls['area'].setValue(empleado['area'])
 
@@ -696,6 +722,7 @@ export class SaludLaboralComponent implements OnInit {
         this.empleadoForm.controls['emailEmergencyContact'].setValue(empleado['emailEmergencyContact']);
         this.empleadoForm.controls['phoneEmergencyContact'].setValue(empleado['phoneEmergencyContact']);
         this.empleadoForm.controls['emergencyContact'].setValue(empleado['emergencyContact']);
+
         console.log("aca va el jefe");
 
         const jefeInmediato = empleado['jefeInmediato'] ?? {};
@@ -707,6 +734,45 @@ export class SaludLaboralComponent implements OnInit {
         //this.jefeInmediato.controls['cargoId'].setValue(jefeInmediato['cargo']['id'])
         this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION')
         this.empleadoForm.controls['email'].setValue(jefe['email']);
+        await this.onEntidadChange({ value: data['entidadEmiteCalificacion'] })
+        console.log(this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] }), 'dettallecalificacion');
+
+        this.empleadoForm.controls['entidadEmiteCalificacion'].setValue(data['entidadEmiteCalificacion']);
+        var a =this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] })
+        console.log(a?.value, "a");
+        
+        this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value);
+        console.log("calif",this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value));
+        this.empleadoForm.controls['otroDetalle'].setValue(data['otroDetalle']);
+        
+
+
+        console.log(this.empleadoForm.controls['detalleCalificacion']);
+        
+
+        if (data['fechaCierreCaso'] != null && data['fechaCierreCaso'] != undefined) {
+          const formattedDate = new Date(data['fechaCierreCaso']);
+          this.empleadoForm.controls['fechaCierreCaso'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaCierreCaso'].setValue(null);
+        }
+        console.log("fecha cierre", this.empleadoForm.controls['fechaCierreCaso']);
+
+        if (data['fechaRecepcionDocs'] != null && data['fechaRecepcionDocs'] != undefined) {
+          const formattedDate = new Date(data['fechaRecepcionDocs']);
+          this.empleadoForm.controls['fechaRecepcionDocs'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaRecepcionDocs'].setValue(null);
+        }
+        console.log("fecha recept", this.empleadoForm.controls['fechaRecepcionDocs']);
+
+        if (data['fechaMaximaEnvDocs'] != null && data['fechaMaximaEnvDocs'] != undefined) {
+          const formattedDate = new Date(data['fechaMaximaEnvDocs']);
+          this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(null);
+        }
+        console.log("fecha max", this.empleadoForm.controls['fechaMaximaEnvDocs']);
 
 
 
@@ -749,6 +815,7 @@ export class SaludLaboralComponent implements OnInit {
         this.empleadoForm.controls['localidadActual'].setValue(parseInt(data['localidadActual']));
         this.empleadoForm.controls['procesoOrigen'].setValue(parseInt(data['procesoOrigen']));
         this.empleadoForm.controls['procesoActual'].setValue(parseInt(data['procesoActual']));
+
         // Llamar a cargarPlantaLocalidad para actualizar las localidades
         await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionOrigen'].value, 'Origen');
         await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionActual'].value, 'Actual');
@@ -761,12 +828,16 @@ export class SaludLaboralComponent implements OnInit {
         await this.cargarProceso(this.empleadoForm.controls['areaActual'].value, 'Actual')
         this.empleadoForm.controls['procesoActual'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoActual'])));
 
-      }setTimeout(() => {
+
+
+
+      } setTimeout(() => {
         this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
         this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
         console.log('LACONSULTA', this.saludLaboralSelect);
-      }, 2000); 
-      
+        this.loadDocumentosCaseDT();
+      }, 2000);
+
 
     } catch (error) {
       console.error('Error al obtener los datos del trabajador', error);
@@ -807,6 +878,7 @@ export class SaludLaboralComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private directorioService: DirectorioService,
     private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,
 
     fb: FormBuilder,
   ) {
@@ -869,7 +941,13 @@ export class SaludLaboralComponent implements OnInit {
       procesoOrigen: [null],
       procesoActual: [null],
       pkUser: [this.empleadoSelect?.id],
-      nombreCompletoSL: [null]
+      nombreCompletoSL: [null],
+      fechaRecepcionDocs: [null],
+      entidadEmiteCalificacion: [null],
+      otroDetalle: [null],
+      detalleCalificacion: [null],
+      fechaMaximaEnvDocs: [null],
+      fechaCierreCaso: [null],
     });
 
 
@@ -1190,7 +1268,13 @@ export class SaludLaboralComponent implements OnInit {
       'procesoOrigen': [''],
       'procesoActual': [''],
       'pkCase': [null],
-      'nombreCompletoSL': [this.empleadoSelect.primerNombre]
+      'nombreCompletoSL': [this.empleadoSelect.primerNombre],
+      'fechaRecepcionDocs': [''],
+      'entidadEmiteCalificacion': [''],
+      'otroDetalle': [''],
+      'detalleCalificacion': [''],
+      'fechaMaximaEnvDocs': [''],
+      'fechaCierreCaso': [''],
     });
     const dataToSend = {
       'iddt': null,
@@ -1209,7 +1293,13 @@ export class SaludLaboralComponent implements OnInit {
       'procesoOrigen': [''],
       'procesoActual': [''],
       'pkUser': [this.empleadoSelect.id],
-      'nombreCompletoSL': ['']
+      'nombreCompletoSL': [''],
+      'fechaRecepcionDocs': [''],
+      'entidadEmiteCalificacion': [''],
+      'otroDetalle': [''],
+      'detalleCalificacion': [null],
+      'fechaMaximaEnvDocs': [''],
+      'fechaCierreCaso': ['']
     };
     const cleanDataToSend = this.prepareFormData(dataToSend);
     this.empleadoForm.patchValue(cleanDataToSend);
@@ -1223,6 +1313,8 @@ export class SaludLaboralComponent implements OnInit {
         'ciudad': this.empleadoSelect!.ciudad,
       })
     }, 2000);
+
+
 
     this.empresaForm?.patchValue({
       'nit': this.empleadoSelect.nit,
@@ -1248,31 +1340,28 @@ export class SaludLaboralComponent implements OnInit {
     console.log('Formulario antes de validación:', this.empleadoForm.controls);
 
     if (this.empleadoForm.valid) {
-      // Clonar el valor del formulario para evitar mutaciones inesperadas
       let body = { ...this.empleadoForm.value };
 
+      // Aquí asegúrate de no hacer modificaciones que puedan afectar a entidadEmiteCalificacion
+      console.log('Valor de entidadEmiteCalificacion antes de enviar:', body.entidadEmiteCalificacion);
 
-      // Actualizar los campos con los valores seleccionados (asegúrate de que el formulario tenga estos campos)
+      // Actualizar los campos según sea necesario
       body.procesoActual = body.procesoActual?.id || body.procesoActual;
       body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
       body.areaActual = body.areaActual?.id || body.areaActual;
       body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
       body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
-      console.log(body.nombreCompletoSL);
 
       if (Array.isArray(body.pkUser)) {
         body.pkUser = body.pkUser[0];
-        console.log("que esta enviando aca", body.pkUser[0]);
-
       }
 
-
-      // Limpiar el formulario
+      // Limpia el formulario según sea necesario
       body = this.prepareFormData(body);
 
       console.log('Cuerpo a enviar antes de enviar:', body);
 
-      // Decidir si actualizar o crear basado en la presencia de this.iddt
+      // Decide si actualizar o crear basado en la presencia de this.iddt
       (this.iddt !== undefined ? this.casoMedico.putCaseSL(this.iddt, body) : this.casoMedico.createDT(body))
         .then((response) => {
           if (response) {
@@ -1281,24 +1370,32 @@ export class SaludLaboralComponent implements OnInit {
           }
         })
         .catch((error) => {
-          this.msgs = []
+          console.error('Error al enviar el empleado:', error);
+          this.msgs = [];
           this.messageService.add({
             key: 'formScmSL',
             severity: "error",
-            summary: "Usuario actualizado",
-            detail: `Empleado con  identificación  ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
+            summary: "Error al enviar empleado",
+            detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
           });
         });
     } else {
-      this.msgs = []
+      this.msgs = [];
       this.messageService.add({
         key: 'formScmSL',
         severity: "error",
         summary: "Usuario no creado",
-        detail: `Empleado con  identificación  ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario invalido`,
+        detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
       });
     }
   }
+
+
+
+
+
+
+
   solicitando: boolean = false;
 
   async submitEmp() {
@@ -1512,7 +1609,7 @@ export class SaludLaboralComponent implements OnInit {
       console.error('Invalid parameter for loadMailData:', param);
       return;
     }
-  
+
     try {
       const data = await this.scmService.findAllByIdMail(param);
       this.documentacionList = data; // Asigna los datos a documentacionList
@@ -1522,13 +1619,13 @@ export class SaludLaboralComponent implements OnInit {
       console.error('Error loading mail data', error);
     }
   }
-  
+
   async loadMailDataUser(param: number, user: number) {
     if (param == null || param === undefined || user == null || user === undefined) {
       console.error('Invalid parameters for loadMailDataUser:', param, user);
       return;
     }
-  
+
     try {
       const data = await this.scmService.findAllByIdMailUser(param, user);
       this.documentacionListUser = data;
@@ -1539,9 +1636,12 @@ export class SaludLaboralComponent implements OnInit {
       console.error('Error loading mail data', error);
     }
   }
-  
+
   documentoId: any[] = [];
+
   async onUpload(event: Directorio) {
+    console.log("esta entrando en elue no es por alguna extraña razon");
+
     if (this.documentos == null) {
       this.documentos = [];
     }
@@ -1588,6 +1688,54 @@ export class SaludLaboralComponent implements OnInit {
     }
   }
 
+  documentotoIDT: any[] = [];
+  async onUploadCaseDT(event: Directorio) {
+
+    if (this.documentos == null) {
+      this.documentos = [];
+    }
+    if (this.directorios == null) {
+      this.directorios = [];
+    }
+
+    try {
+      this.directorios.push(event);
+      this.documentos.push(event.documento!);
+      let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+      console.log("INDEXXXXX", index);
+
+      this.documentoId.push(event.documento!.id);
+      // this.documentacionListUser[index].documentos = this.documentoId;
+
+      console.log('el directorio', this.directorios);
+
+      // Llamada para actualizar la tabla mail_saludlaboral
+      await this.updateCaseDT(this.idSl, this.documentoId.toString());
+
+      // Mostrar mensaje de éxito
+      this.messageService.add({
+        // this.msgs.push({
+        key: 'formScmSL',
+        severity: "success",
+        summary: "Usuario actualizado",
+        detail: `Documentacion Adjuntada`,
+      });
+
+    } catch (error) {
+      console.error(error);
+
+      // Mostrar mensaje de error
+      this.messageService.add({
+        // this.msgs.push({
+        key: 'formScmSL',
+        severity: "warn",
+        summary: "Usuario actualizado",
+        detail: `Documentacion no Adjuntada revisa`,
+      });
+    }
+  }
+
+
   async updateMailSaludLaboral(docId: number, documentoId: String) {
     try {
       await this.scmService.updateMailSaludLaboral(docId, documentoId);
@@ -1597,6 +1745,16 @@ export class SaludLaboralComponent implements OnInit {
       console.error('Error actualizando mail salud laboral', error);
     }
   }
+
+  async updateCaseDT(docId: number, documentoId: string) {
+    try {
+      await this.scmService.updateDatosTrabajadorDocs(docId, documentoId);
+      console.log('Mail salud laboral actualizado correctamente');
+    } catch (error) {
+      console.error('Error actualizando mail salud laboral', error);
+    }
+  }
+
   openUploadDialog(docId: number, documentsID: any) {
     this.selectedDocId = docId;
     this.flagDoc = true;
@@ -1609,6 +1767,20 @@ export class SaludLaboralComponent implements OnInit {
 
 
   }
+
+  openUploadDialogCaseDT(docId: number, documentsID: any) {
+    this.selectedDocIDDT = docId;
+    this.flagDocDT = true;
+    if (documentsID) {
+      this.documentotoIDT = documentsID.split(",");
+    } else {
+      this.documentotoIDT = [];
+    }
+    console.log("openUploadDialogCaseDT", docId, documentsID);
+  }
+
+
+
   descargarDocumento(doc: Documento) {
     let msg = { severity: 'info', summary: 'Descargando documento...', detail: 'Archivo \"' + doc.nombre + "\" en proceso de descarga" };
     this.messageService.add(msg);
@@ -1634,6 +1806,54 @@ export class SaludLaboralComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.deleteDocument(this.documentacionSelectUser.id, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directorios = this.directorios.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directorios.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err.status !== 404) {
+              // Si el error no es 404, maneja otros posibles errores.
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Usuario actualizado",
+                detail: `No se pudo eliminar el documento`,
+              });
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directorios = this.directorios.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directorios.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
+  eliminarDocumentCaseDT(doc: Documento) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentCaseDT(this.idSl, doc.id),
           this.directorioService.eliminarDocumento(doc.id).then(
             data => {
               this.directorios = this.directorios.filter(val => val.id !== doc.id);
@@ -1703,6 +1923,26 @@ export class SaludLaboralComponent implements OnInit {
 
   }
 
+
+  loadDocumentosCaseDT() {
+    if (this.saludLaboralSelect && this.saludLaboralSelect.documentos) {
+      console.log("doclistuser", this.saludLaboralSelect);
+
+
+      let docum = this.saludLaboralSelect.documentos.split(",");
+      console.log("vardocum", docum);
+
+      docum.forEach((algo: string) => {
+        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          console.log("algo", algo);
+
+          this.directorios.push(elem[0]);
+        })
+      });
+
+    }
+
+  }
   showSuccessToast() {
     // this.envioExitoso = true;
     // setTimeout(() => {
@@ -1902,6 +2142,18 @@ export class SaludLaboralComponent implements OnInit {
   }
   deleteDocument(diagId: string | number, docId: string | number) {
     this.scmService.deleteIdDocs(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+      });
+  }
+  deleteDocumentCaseDT(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsCaseDT(diagId, docId)
       .then((response: any) => {
         // Actualizar la lista de documentos o manejar la respuesta
         this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
@@ -2264,7 +2516,95 @@ export class SaludLaboralComponent implements OnInit {
       suggestion.toLowerCase().includes(value.toLowerCase())
     );
   }
+  isDetalleEnabled: boolean = false;
+  selectedEntidad: string | null = null;
+  async onEntidadChange(event: any) {
+    this.selectedEntidad = event.value;
+    if (this.selectedEntidad) {
+      if (this.selectedEntidad === 'otros') {
+        this.isDetalleEnabled = false; // Desactivar el dropdown de detalles
+      } else {
+        this.isDetalleEnabled = true;
+        await this.loadDetalles(this.selectedEntidad);
+      }
+    } else {
+      this.isDetalleEnabled = false;
+      this.detalleOptions = [];
+    }
+  }
+  async loadDetalles(entidad: string) {
+    let endpoint: string;
+
+    switch (entidad) {
+      case 'EPS':
+        await this.comunService.findAllEps().then(
+          (res: any) => {
+            this.detalleOptions = res.map((item: any) => ({
+              label: item.nombre, // Ajusta esto según la estructura de tus datos
+              value: item.id // Ajusta esto según la estructura de tus datos
+            }));
+          },
+          err => {
+            console.error('Error loading detalles:', err);
+            this.detalleOptions = [];
+          }
+        );
+        break;
+      case 'ARL':
+        await this.comunService.findAllArl().then(
+          (res: any) => {
+            this.detalleOptions = res.map((item: any) => ({
+              label: item.nombre, // Ajusta esto según la estructura de tus datos
+              value: item.id // Ajusta esto según la estructura de tus datos
+            }));
+          },
+          err => {
+            console.error('Error loading detalles:', err);
+            this.detalleOptions = [];
+          }
+        );
+        break;
+      case 'AFP':
+        await this.comunService.findAllAfp().then(
+          (res: any) => {
+            this.detalleOptions = res.map((item: any) => ({
+              label: item.nombre, // Ajusta esto según la estructura de tus datos
+              value: item.id // Ajusta esto según la estructura de tus datos
+            }));
+          },
+          err => {
+            console.error('Error loading detalles:', err);
+            this.detalleOptions = [];
+          }
+        );
+        break;
+      case 'Junta_Regional':
+        await this.comunService.findAllJuntas().then(
+          (res: any) => {
+            this.detalleOptions = res.map((item: any) => ({
+              label: item.nombre, // Ajusta esto según la estructura de tus datos
+              value: item.id // Ajusta esto según la estructura de tus datos
+            }));
+          },
+          err => {
+            console.error('Error loading detalles:', err);
+            this.detalleOptions = [];
+          }
+        );
+        break;
+      case 'Junta_Nacional':
+        this.detalleOptions = [];
+        this.isDetalleEnabled = false; // Aquí desactivamos el campo de detalle
+        break;
+      default:
+        this.detalleOptions = [];
+        this.isDetalleEnabled = false;
+    }
+
+
+  }
 }
+
 interface empresaNit {
   label: string;
   empresa: string | null;
