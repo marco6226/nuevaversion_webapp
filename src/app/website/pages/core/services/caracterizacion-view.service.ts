@@ -10,12 +10,30 @@ import * as CryptoJS from 'crypto-js';
 })
 export class CaracterizacionViewService extends CRUDService<Carview> {
 
-  findAllCAR() {
-    return new Promise((resolve, reject) => {
-      let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
 
-      this.httpInt.get(`${endPoints.CaracterizacionViewService}all`)
-        .subscribe(
+  
+  async findAllCAR() {
+
+    debugger;
+
+    // new Promise((resolve, ) => {
+    //   this.httpInt.http.get(`${endPoints.CaracterizacionViewService}all`, { responseType: 'text' }).subscribe((y:any) => {
+    //     console.log(y);
+    //     resolve = y;
+    //   });
+    // });
+
+    
+    return new Promise((resolve, reject) => {
+
+      let secureKey = 'dlMvbmWwxVXO3LVwhQTmnPBsaL7lSyjq';
+
+      // let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+
+      let key = CryptoJS.SHA256(secureKey).toString(CryptoJS.enc.Hex).substring(0, 32);
+
+      this.httpInt.http.get(`${endPoints.CaracterizacionViewService}all`, { responseType: 'text' })
+        .forEach(
           (res: any) => {
             let decryptedBytes = CryptoJS.AES.decrypt(res, CryptoJS.enc.Hex.parse(key), {
               mode: CryptoJS.mode.ECB,
@@ -24,14 +42,27 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
             });
 
             let decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+            console.log(decryptedText);
 
-            resolve(decryptedText);
+            const jsonArray = JSON.parse(decryptedText);
+
+            const carviews: Carview[] = jsonArray.map((jsonObj: any) => {
+              const carview = new Carview();
+              Object.assign(carview, jsonObj);
+
+              console.log(carview);
+              
+
+              return carview;
+
+            });
+            // resolve(decryptedText);
           }
           ,
-          err => {
-            this.manageError(err);
-            reject(err);
-          }
+          // err => {
+          //   this.manageError(err);
+          //   reject(err);
+          // }
         )
     });
   }

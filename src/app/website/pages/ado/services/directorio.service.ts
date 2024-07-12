@@ -261,30 +261,7 @@ export class DirectorioService extends CRUDService<Directorio> {
         
         
         let endPoint = modulo == null ? this.end_point : this.end_point + modulo + '/';
-        // return new Promise((resolve) => {
-        //     let options: any = {
-        //         // responseType: 'blob',
-        //         headers: new HttpHeaders()
-        //             .set('Param-Emp', this.httpInt.getSesionService().getParamEmp())
-        //             .set('app-version', this.httpInt.getSesionService().getAppVersion())
-        //             .set('Authorization', this.httpInt.getSesionService().getBearerAuthToken()),
-        //         withCredentials: true,
-                
-        //     };
-        //     console.log(options);
-            
-
-        //     let end_point = this.httpInt
-        //         // .delete(endPoint + id)
-        //         .delete(endPoint + 'documento/' + encryptedId)
-        //         .subscribe(
-        //             (res) => {
-        //                 resolve(res);
-        //             },
-        //             (err) => this.manageError(err)
-        //         );
-        // });
-
+     
         return new Promise(async (resolve) => {
             let options: any = {
                 // responseType: 'blob',
