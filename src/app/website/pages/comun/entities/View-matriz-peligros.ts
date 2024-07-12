@@ -2,6 +2,7 @@ export class ViewMatrizPeligros {
 
     id?: number;
     idplantas?: number;
+    pais?: string;
     division?: string;
     planta?: string;
     area?: string;
