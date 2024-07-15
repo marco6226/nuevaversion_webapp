@@ -222,6 +222,10 @@ import { GridModule, EditService } from '@syncfusion/ej2-angular-grids';
 import { MetasComponent } from './pages/ind/components/metas/metas.component';
 import { SaludLaboralComponent } from './pages/scm/components/salud-laboral/salud-laboral.component';
 import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-peligros/ind-matriz-peligros.component';
+import { CasosMedicosListComponent } from './pages/scm/components/casos-medicos-list/casos-medicos-list.component';
+import { DocumentacionSaludLaboralComponent } from './pages/scm/components/salud-laboral/components/documentacion-salud-laboral/documentacion-salud-laboral.component';
+import { ListDocumentacionSolicitanteComponent } from './pages/scm/components/salud-laboral/components/list-documentacion-solicitante/list-documentacion-solicitante.component';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -338,6 +342,7 @@ import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-pe
     FlowChartComponent,
     EmpleadoBasicSelectorComponent,
     DiagnosticoFormComponent,
+    CasosMedicosListComponent,
     CieSelectorComponent,
     FormularioScmComponent,
     SaludLaboralComponent,
@@ -403,6 +408,8 @@ import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-pe
     ProgramacionEventoComponent,
     ListaMatrizPeligrosComponent,
     MetasComponent,
+    DocumentacionSaludLaboralComponent,
+    ListDocumentacionSolicitanteComponent,
   ],
   imports: [
     GridModule,
@@ -464,7 +471,8 @@ import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-pe
     UsuarioService,
     CapitalizePipe,
     AuthGuardService,
-    EditService 
+    EditService ,
+    DatePipe
   ],
   exports:[
     ConfiguracionGeneralDirective,

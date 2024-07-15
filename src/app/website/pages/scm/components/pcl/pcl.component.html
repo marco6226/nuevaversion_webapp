@@ -180,127 +180,7 @@
                         </ng-container> -->
           </div>
         </div>
-        <div class="row" *ngIf="estado == 'consulta'">
-          <ng-containter *sTienePermiso="'SCM_GET_CONSULTAPCL'">
-            <div class="col-12">
-              <h5 class="title-header p-mb-2">PCL</h5>
-            </div>
-            <div class="row">
-              <div class="col" *sTienePermiso="'SCM_GET_DIAGPCL'">
-                <div class="input-field">
-                  <label for="" class="active">Diagnósticos</label>
-                  <p-dropdown
-                    appendTo="body"
-                    [filter]="true"
-                    [options]="diagList"
-                    class="select-material"
-                    formControlName="diag"
-                    styleClass="select-material"
-                    required="true"
-                    [readonly]="action"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-
-              <div class="col">
-                <div class="input-field">
-                  <label for="" class="active">PCL</label>
-                  <p-dropdown
-                    appendTo="body"
-                    [options]="pclOptionList"
-                    formControlName="pcl"
-                    class="select-material"
-                    styleClass="select-material"
-                    [readonly]="action"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <div class="input-field">
-                  <label for="" class="active">% de la PCL</label>
-                  <input
-                    type="text"
-                    pInputText
-                    formControlName="porcentajePcl"
-                    placeholder="% de la PCL"
-                    class="form-material"
-                    id="porcentajePcl"
-                    [readonly]="action"
-                  />
-                </div>
-              </div>
-
-              <div class="col">
-                <div class="input-field">
-                  <label for="" class="active"
-                    >Fecha de emisión de la PCL</label
-                  >
-                  <p-calendar
-                    appendTo="body"
-                    [monthNavigator]="true"
-                    [touchUI]="true"
-                    [yearNavigator]="true"
-                    showButtonBar="true"
-                    yearRange="2010:2030"
-                    [maxDate]="fechaActual"
-                    formControlName="emisionPclFecha"
-                    dateFormat="dd/mm/yy"
-                    styleClass="calendar-material"
-                    inputStyleClass="form-material"
-                    [disabled]="action"
-                  >
-                  </p-calendar>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <div class="input-field">
-                  <label for="" class="active">Entidad que emite la PCL</label>
-                  <p-dropdown
-                    appendTo="body"
-                    [filter]="true"
-                    [options]="emitPclentity"
-                    formControlName="entidadEmitePcl"
-                    class="select-material"
-                    styleClass="select-material"
-                    [readonly]="action"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-
-              <div
-                class="col"
-                *ngIf="
-                  pclForm.get('entidadEmitePcl')?.value == 'EPS' ||
-                  pclForm.get('entidadEmitePcl')?.value == 'ARL' ||
-                  pclForm.get('entidadEmitePcl')?.value == 'AFP'
-                "
-              >
-                <div class="input-field">
-                  <label for="" class="active">Entidad</label>
-                  <p-dropdown
-                    appendTo="body"
-                    [filter]="true"
-                    [options]="entity[pclForm.get('entidadEmitePcl').value]"
-                    formControlName="entidadEmitida"
-                    class="select-material"
-                    styleClass="select-material"
-                    [readonly]="action"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-            </div>
-          </ng-containter>
-        </div>
+        
         <ng-container>
           <div *ngIf="estado == 'crear' || estado == 'edit'">
             <div class="col">
@@ -309,48 +189,7 @@
             <div class="row">
               <div class="col">
                 <div class="input-field">
-                  <label for="" class="active">Origen</label>
-                  <p-dropdown
-                    appendTo="body"
-                    [options]="origenList"
-                    formControlName="origen"
-                    class="select-material"
-                    styleClass="select-material"
-                    [readonly]="action"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-
-              <div class="col">
-                <div class="input-field">
-                  <label for="" class="active"
-                    >Fecha de calificación origen</label
-                  >
-                  <p-calendar
-                    appendTo="body"
-                    [monthNavigator]="true"
-                    [touchUI]="true"
-                    [yearNavigator]="true"
-                    showButtonBar="true"
-                    [yearRange]="yearRange"
-                    [maxDate]="fechaActual"
-                    formControlName="fechaCalificacion"
-                    dateFormat="dd/mm/yy"
-                    styleClass="calendar-material"
-                    inputStyleClass="form-material"
-                    [disabled]="action"
-                  ></p-calendar>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <div class="input-field">
-                  <label for="" class="active"
-                    >Estado de calificación origen</label
-                  >
+                  <label for="" class="active">Estado de calificación origen</label>
                   <p-dropdown
                     appendTo="body"
                     [filter]="true"
@@ -383,13 +222,62 @@
               </div>
             </div>
 
+            <div class="row" *ngIf="pclForm.get('statusDeCalificacion')?.value ==  2">
+              <div class="col">
+                <div class="input-field">
+                  <label for="" class="active"
+                    >Origen</label
+                  >
+                  <p-dropdown
+                    appendTo="body"
+                    [options]="origenList"
+                    formControlName="origen"
+                    class="select-material"
+                    styleClass="select-material"
+                    [readonly]="action"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="input-field">
+                  <label for="" class="active"
+                    >Fecha de calificación origen</label>
+                    <p-calendar
+                    appendTo="body"
+                    [monthNavigator]="true"
+                    [touchUI]="true"
+                    [yearNavigator]="true"
+                    showButtonBar="true"
+                    [yearRange]="yearRange"
+                    [maxDate]="fechaActual"
+                    formControlName="fechaCalificacion"
+                    dateFormat="dd/mm/yy"
+                    styleClass="calendar-material"
+                    inputStyleClass="form-material"
+                    [disabled]="action"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="col">
+                <div class="input-field">
+                  <label for="tiempoCalificacion" class="active">Tiempo que tardó la calificación de origen</label>
+                  <input type="text" formControlName="tiempoCalificacion" class="form-control" disabled>
+                </div>
+              </div>
+              
+              
+            </div>
+
             <div class="row">
               <div
                 class="col"
                 *ngIf="
                   pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' ||
                   pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' ||
-                  pclForm.get('entidadEmiteCalificacion')?.value == 'AFP'
+                  pclForm.get('entidadEmiteCalificacion')?.value == 'AFP' ||
+                  pclForm.get('entidadEmiteCalificacion')?.value == 'Junta_Regional'
                 "
               >
                 <div class="input-field">
@@ -452,6 +340,22 @@
                     appendTo="body"
                     [options]="pclOptionList"
                     formControlName="pcl"
+                    class="select-material"
+                    styleClass="select-material"
+                    [readonly]="action"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col" *ngIf="pclForm.get('pcl')?.value == 2">
+                <div class="input-field">
+                  <label for="" class="active"
+                    >Origen PCL</label
+                  >
+                  <p-dropdown
+                    appendTo="body"
+                    [options]="origenPclList"
+                    formControlName="origenPcl"
                     class="select-material"
                     styleClass="select-material"
                     [readonly]="action"
@@ -525,7 +429,8 @@
                 *ngIf="
                   pclForm.get('entidadEmitePcl')?.value == 'EPS' ||
                   pclForm.get('entidadEmitePcl')?.value == 'ARL' ||
-                  pclForm.get('entidadEmitePcl')?.value == 'AFP'
+                  pclForm.get('entidadEmitePcl')?.value == 'AFP' ||
+                  pclForm.get('entidadEmiteCalificacion')?.value == 'Junta_Regional'
                 "
               >
                 <div class="input-field">
@@ -541,6 +446,20 @@
                   >
                   </p-dropdown>
                 </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-field">
+                <label for="" class="active"
+                  >Observaciones o diagnósticos para PCL</label
+                >
+                <textarea
+                  class="textarea-material"
+                  rows="3"
+                  pInputTextarea
+                  formControlName="observacionesPcl"
+                  [readonly]="action"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -633,7 +552,8 @@
                 *ngIf="
                   pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' ||
                   pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' ||
-                  pclForm.get('entidadEmiteCalificacion')?.value == 'AFP'
+                  pclForm.get('entidadEmiteCalificacion')?.value == 'AFP' ||
+                  pclForm.get('entidadEmiteCalificacion')?.value == 'Junta_Regional'
                 "
               >
                 <div class="input-field">
@@ -753,7 +673,7 @@
     <h5 class="title-header">Origen</h5>
   </div>
   <div class="container">
-    <div class="row">
+    <div class="row" >
       <div class="col">
         <p>Origen</p>
         <input
@@ -787,7 +707,7 @@
         <p>Fecha de calificación del origen</p>
         <input
           type="text"
-          [value]="pclSeleccionada.fechaCalificacion ? pclSeleccionada.fechaCalificacion : ''"
+          [value]="pclSeleccionada.fechaCalificacion ? (pclSeleccionada.fechaCalificacion | date:'yyyy-MM-dd') : ''"
           class="form-control"
           disabled
         />
@@ -850,7 +770,7 @@
               <p>Fecha de emisión de la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada?.emisionPclFecha ? pclSeleccionada?.emisionPclFecha : ''"
+                [value]="pclSeleccionada?.emisionPclFecha ? (pclSeleccionada?.emisionPclFecha | date:'yyyy-MM-dd') : ''"
                 class="form-control"
                 disabled
               />

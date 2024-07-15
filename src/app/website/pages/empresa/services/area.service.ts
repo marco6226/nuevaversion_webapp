@@ -25,6 +25,21 @@ export class AreaService extends CRUDService<Area>{
     });
   }
 
+  findByIdSL( ) {
+    console.log("que se esta enviando");
+    
+    return new Promise(resolve => {
+      this.httpInt.get(endPoints.area + "findSL")
+        .subscribe(
+        res => {
+          resolve(res);
+        }
+        ,
+        err => err
+        )
+    });
+  }
+
   getAreaRWithFilter(filterQuery?: FilterQuery){
     return new Promise((resolve, reject) => {
       this.httpInt.get(this.end_point + 'filterArea/?' + this.buildUrlParams(filterQuery!))

@@ -37,6 +37,20 @@ export class EmpresaService extends CRUDService<Empresa>{
             )
     });
 }
+findByIdSLocalidad( ) {
+  
+  return new Promise(resolve => {
+    this.httpInt.get(endPoints.EmpresaService + "findSLoc")
+      .subscribe(
+      res => {
+        resolve(res);
+        
+      }
+      ,
+      err => err
+      )
+  });
+}
   async getActividadesContratadas(aliadoId: number =1): Promise<ActividadesContratadas[]>{
     return new Promise( (resolve, reject) =>
       this.httpInt.get(endPoints.EmpresaService + "getActividadesContratadas/"+aliadoId)

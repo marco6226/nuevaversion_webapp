@@ -1,13 +1,13 @@
 //local
-let protocol = "http";
-let host = "localhost";
-let port = "8080";
-let path = protocol + "://" + host + ":" + port + "/sigess/api/";
+ let protocol = "http";
+ let host = "localhost";
+ let port = "8080";
+ let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 //Demo
-// let protocol = 'https';
-// let host = 'demo.sigess.app'
-// let port = '2096';
+//  let protocol = 'https';
+//  let host = 'demo.sigess.app'
+//  let port = '2096';
 // let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 //Produccion
@@ -78,6 +78,7 @@ export const endPoints: string | any = {
   com_arl: path + "arl/",
   com_afp: path + "afp/",
   com_eps: path + "eps/",
+  com_juntas:path + "JuntaRegional/",
   com_prepagadas: path + "prepagadas/",
   com_provsalud: path + "provsalud/",
   com_ccf: path + "ccf/",

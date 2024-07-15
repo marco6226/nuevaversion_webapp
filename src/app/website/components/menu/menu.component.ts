@@ -167,8 +167,10 @@ export class MenuComponent implements OnInit, AfterContentInit {
                 [
                     { label: 'Creacion de seguimiento caso', codigo: 'SCM_CREATE_CASE', routerLink: ['/app/scm/creacion'], icon: 'bi bi-bag-plus'},
                     { label: 'Listado de seguimientos', codigo: 'SCM_LIST_CASE', routerLink: ['/app/scm/list'], icon: 'bi bi-card-list'},
-                    { label: 'Creación salud laboral', codigo: 'SCM_GET_MODCM', routerLink: ['/app/scm/saludlaboral'], icon: 'bi bi-heart-pulse'},
-                    { label: 'Listado salud laboral', codigo: 'SCM_GET_MODCM', routerLink: ['/app/scm/saludlaboral'], icon: 'bi bi-postcard-heart'},
+                    { label: 'Creación salud laboral', codigo: 'SCM_GET_MODSL', routerLink: ['/app/scm/saludlaboral'], icon: 'bi bi-heart-pulse'},
+                    { label: 'Listado salud laboral', codigo: 'SCM_GET_LCSL', routerLink: ['/app/scm/saludlaborallist'], icon: 'bi bi-postcard-heart'},
+                    {label: 'Listado Documentacion Solicitada', codigo: 'SCM_GET_LDS', routerLink:['/app/scm/documentacionsolicitado'],icon: 'bi bi-file-earmark-arrow-up-fill'},
+                    {label: 'Listado Documentacion Solicitante', codigo: 'SCM_GET_LDUS', routerLink:['/app/scm/listdocumentacionsolicitante'], icon: 'bi bi-file-earmark-arrow-down-fill'},
                     { label: 'Permisos', codigo: 'SCM_PERF_SCM', routerLink: ['/app/scm/permisos'], icon: 'bi bi-lock'},
   
                 ]

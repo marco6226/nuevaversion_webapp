@@ -147,6 +147,7 @@ export class DashboardCoronaComponent implements OnInit {
   }
 
   async ngOnInit() {
+    debugger
     this.config.setTranslation(this.localeES);
     //Primera grafica
     await this.dataPrimeraGrafica()
@@ -611,7 +612,7 @@ export class DashboardCoronaComponent implements OnInit {
   async dataSegundaGrafica(){
     this.date1 = new Date(new Date().getFullYear(), 0, 1);
     this.date2 = new Date();
-    await this.caracterizacionViewService.findAllCAR2().then(async (resp)=>{
+    await this.caracterizacionViewService.findAllCAR().then(async (resp: any)=>{
       this.CaracterizacionView=resp
       this.CaracterizacionView.map((res1:any)=>{
         res1.hora=Number(res1.hora.substr(0,2))
@@ -657,9 +658,9 @@ export class DashboardCoronaComponent implements OnInit {
     return localidades.length > 0 ? localidades: null;
   }
 
-  CardsClasificacion(){
+  async CardsClasificacion(){
 
-    this.CaracterizacionView1=this.CaracterizacionView.map((e:any)=>e)
+    this.CaracterizacionView1 = await this.CaracterizacionView
 
     if(this.date1 && !this.date2)
       this.CaracterizacionView1=this.CaracterizacionView.filter((resp:any)=>{

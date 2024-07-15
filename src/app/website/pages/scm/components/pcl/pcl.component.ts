@@ -28,6 +28,7 @@ export class PclComponent implements OnInit {
     @Input() entity!: epsorarl;
     @Output() eventClose: EventEmitter<any> = new EventEmitter<any>()
     @Output() dlistaPCL: EventEmitter<any> = new EventEmitter();
+    @Input() saludLaboralFlag: boolean = false;
     action: boolean = false;
     loadingForm: boolean = false;
     modalDialog: boolean = false;
@@ -44,6 +45,7 @@ export class PclComponent implements OnInit {
         { label: "En apelación", value: "0" }
     ]
     origenList: any;
+    origenPclList: any;
     idEmpresa!: string;
     differ: any;
     diagList: SelectItem[] = [];
@@ -89,6 +91,9 @@ export class PclComponent implements OnInit {
             entidadEmitida: [null, /*Validators.required*/],
             origen: [null, /*Validators.required*/],
             observaciones: [null, /*Validators.required*/],
+            origenPcl : [null, /*Validators.required*/],
+            observacionesPcl: [null, /*Validators.required*/],
+            tiempoCalificacion: [{ value: '', disabled: true }]
 
         });
 
@@ -97,6 +102,25 @@ export class PclComponent implements OnInit {
         this.pclSelect = null;
         this.pclSelect2 = null;
     }
+    calculateTimeDifference(fechaInicio: number, fechaFin: Date): string {
+        const startDate = new Date(fechaInicio);
+        const endDate = new Date(fechaFin);
+    
+        let totalMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12;
+        totalMonths -= startDate.getMonth();
+        totalMonths += endDate.getMonth();
+        totalMonths = totalMonths <= 0 ? 0 : totalMonths;
+    
+        let totalDays = endDate.getDate() - startDate.getDate();
+        if (totalDays < 0) {
+            totalMonths--;
+            totalDays += new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
+        }
+    
+        return `${totalMonths} meses y ${totalDays} días`;
+    }
+      
+      
 
     async ngOnInit() {
         this.config.setTranslation(this.localeES);
@@ -122,6 +146,23 @@ export class PclComponent implements OnInit {
         this.pclList = Array.from(pclUniqueMap.values()).map(pcl => ({ ...pcl, diag: Array.from(pcl.diag) }));
         
         await this.iniciarPcl();
+
+        const saludL = localStorage.getItem('saludL');
+        let fechaRecepcionDocs: Date | null = null;
+        if (saludL) {
+            const parsedSaludL = JSON.parse(saludL);
+            if (parsedSaludL.fechaRecepcionDocs) {
+                fechaRecepcionDocs = new Date(parsedSaludL.fechaRecepcionDocs);
+                console.log("fechaRecepcionDocs", fechaRecepcionDocs);
+            }
+        }
+    
+        this.pclForm.get('fechaCalificacion')?.valueChanges.subscribe(fechaCalificacion => {
+            if (fechaRecepcionDocs && fechaCalificacion) {
+                const tiempoCalificacion = this.calculateTimeDifference(fechaRecepcionDocs.getTime(), fechaCalificacion);
+                this.pclForm.get('tiempoCalificacion')?.setValue(tiempoCalificacion);
+            }
+        });
     }
     
 
@@ -131,6 +172,11 @@ export class PclComponent implements OnInit {
                 { label: 'Seleccione', value: null },
                 { label: 'Común', value: 'Común' },
                 { label: 'Enfermedad Laboral', value: 'Enfermedad Laboral' },
+            ];
+            this.origenPclList = [
+                { label: 'Seleccione', value: null },
+                { label: 'Común', value: 'Común' },
+                { label: 'Laboral', value: 'Laboral' },
             ];
         } else {
             this.origenList = [
@@ -188,7 +234,13 @@ export class PclComponent implements OnInit {
     async iniciarPcl() {
         this.loading = true;
         try {
-            this.pclList = await this.scmService.getListPcl(this.pkCase);
+            if (this.saludLaboralFlag) {
+                this.pclList = await this.scmService.listPclSL(this.pkCase);
+            } else {
+                this.pclList = await this.scmService.getListPcl(this.pkCase);
+            }
+            
+            
     
             if (this.pclList) {
                 let pclMap = new Map<number, any>();
@@ -214,7 +266,9 @@ export class PclComponent implements OnInit {
                 pcl.emisionPclFecha = pcl.emisionPclFecha == null ? null : new Date(pcl.emisionPclFecha);
                 pcl.fechaCalificacion = pcl.fechaCalificacion == null ? null : new Date(pcl.fechaCalificacion);
                 pcl.entidadEmitida = parseInt(pcl.entidadEmitida);
+                // Asegúrate de asignar los campos origenPcl y observacionesPcl
             });
+            
     
             this.loading = false;
             this.cd.markForCheck();
@@ -352,6 +406,7 @@ export class PclComponent implements OnInit {
         this.modalDianostico = !this.editing; // Solo abre el modal si no estás editando
         if (!this.editing) {
             this.pclForm.patchValue(this.pclSelect);
+            console.log(this.pclSelect)
         }
     }
 
@@ -390,6 +445,11 @@ export class PclComponent implements OnInit {
         try {
             let res: any;
             if (upd) {
+                let pcl = this.pclForm.value;
+                
+                if (this.saludLaboralFlag) {
+                    pcl.saludLaboral = true;
+                }
                 res = await this.scmService.updatePcl(this.pclForm.value);
                 console.log(upd)
                 console.log(res)
@@ -398,7 +458,11 @@ export class PclComponent implements OnInit {
                 let diags: any[] = pcl.diag.slice(); // Haciendo una copia de pcl.diag
                 delete pcl.diag;
                 diags = diags.map<number>(element => Number.parseInt(element))
+                if (this.saludLaboralFlag) {
+                    pcl.saludLaboral = true;
+                }
                 res = await this.scmService.createPcl(this.pclForm.value, diags);
+                
             }
             console.log('Respuesta del servidor:', res); // Agregar este console.log
             if (res) {

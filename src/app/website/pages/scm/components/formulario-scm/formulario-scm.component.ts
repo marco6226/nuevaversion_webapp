@@ -115,7 +115,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         { label: "EPS", value: "EPS" },
         { label: "ARL", value: "ARL" },
         { label: "AFP", value: "AFP" },
-        { label: "Junta Regional", value: "Junta Regional" },
+        { label: "Junta Regional", value: "Junta_Regional" },
         { label: "Junta Nacional", value: "Junta Nacional" }
     ]
     conceptoRehabilitacion: SelectItem[] = [
@@ -252,7 +252,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     nameAndLastName = "";
     solicitando: boolean = false;
     departamento: any;
-    entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [] };
+    entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [], Junta_Regional: [] };
     anexo6Form?:FormGroup
     nombreSesion?:string
     seguimientoid:number=6795;
@@ -513,7 +513,13 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 this.sveOptionList.push({ label: sve.nombre, value: sve.id.toString() });
             });
             this.idCase=this.route.snapshot.params["id"];
-            this.caseSelect = await this.scmService.getCase(this.route.snapshot.params["id"]);
+            if (this.idCase !== undefined) {
+                // Si el idCase existe, cargar el caso existente
+                this.caseSelect = await this.scmService.getCase(this.idCase);
+            } else{
+                
+            }
+            
             this.onLoadInit();
             this.modifyCase();
         } catch (e) {
@@ -554,6 +560,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
             (<JuntaRegional[]>data).forEach((JuntaRegional) => {
                 this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
+                
 
             });
             this.entity.Junta_Regional = this.JuntaRegionalList;
@@ -743,6 +750,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
             this.idCase = status
             this.caseSelect = await this.scmService.getCase(status);
+            
             this.caseSelect.id = status;
             this.casocreado = true;
         }
@@ -849,7 +857,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let emp = <Empleado>this.value;
         this.casosList = await this.scmService.getCaseList(emp.id!);
         this.empleadoSelect = emp;
-        console.log(this.empleadoSelect)
         this.empresaForm!.reset()
         if(this.empleadoSelect){
             this.empresaForm!.value.nit = this.empleadoSelect.nit
@@ -893,7 +900,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
 
         await this.usuarioPermisos()
-        console.log(this.empleadoSelect)
         this.empleadoForm.patchValue({
             'id': this.empleadoSelect.id,
             'primerNombre': this.empleadoSelect.primerNombre,
@@ -947,6 +953,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let empleado = new Empleado();
 
         empleado.id = this.empleadoForm.value.id;
+        
         empleado.primerNombre = this.empleadoForm.value.primerNombre;
         empleado.segundoNombre = this.empleadoForm.value.segundoNombre;
         empleado.primerApellido = this.empleadoForm.value.primerApellido;
@@ -1008,6 +1015,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         });
         this.solicitando = true;
         empleado.usuario.id = this.empleadoSelect?.usuario.id;
+        
         empleado.usuario.ipPermitida = this.empleadoSelect?.usuario.ipPermitida
         empleado.empresa = this.empresaForm!.value.empresa == null ? null : this.empresaForm!.value.empresa.label;
         empleado.nit = this.empresaForm!.value.empresa == null ? 0 : this.empresaForm!.value.empresa.nit;
@@ -1175,7 +1183,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             cargoId: empleado.cargo.id,
             email: [empleado.usuario.email],
         });
-        console.log(this.jefeInmediato)
         this.jefeInmediatoName0=(empleado.primerNombre || "") + " " + (empleado.segundoNombre || "") + " " + (empleado.primerApellido || "") + " " + (empleado.segundoApellido || " ")
     }
 
@@ -1192,7 +1199,15 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.consultar = false;
         this.actualizar = true;
         this.caseSelect = this.casoSeleccionado || this.caseSelect;
-        let { fechaCalificacion, emisionPclFecha, fechaConceptRehabilitacion, fechaConceptRehabilitacionTwo, fechaFinal, ...caseFiltered } = this.caseSelect
+        if (this.caseSelect) {
+            let { fechaCalificacion, emisionPclFecha, fechaConceptRehabilitacion, fechaConceptRehabilitacionTwo, fechaFinal, ...caseFiltered } = this.caseSelect;
+            
+            if (fechaCalificacion !== undefined) {
+                // Realiza las operaciones necesarias con fechaCalificacion aquí
+            } else {
+                console.warn("fechaCalificacion is undefined");
+            }
+        
         this.casoMedicoForm.patchValue(caseFiltered);
         this.casoMedicoForm.patchValue({
             fechaConceptRehabilitacion: fechaConceptRehabilitacion == null ? null : new Date(fechaConceptRehabilitacion),
@@ -1217,6 +1232,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             console.error(error);
         }
     }
+}
 
     async readCase() {
         this.consultar = true;
@@ -1247,7 +1263,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
 
     async onLoadInit() {
-        this.onSelection(this.caseSelect.pkUser);
+        if (this.caseSelect && this.caseSelect.pkUser !== undefined) {
+            this.onSelection(this.caseSelect.pkUser);
+        } else {
+            console.warn("pkUser is undefined, skipping onSelection call");
+        }
     }
 
     createCaso() {
@@ -1290,7 +1310,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             firm.idempresa=this.empresaId
             firm.fechacreacion=new Date()
             let resp:any = await this.scmService.createSeguimiento(product);
-            console.log(resp)
             firm.idrelacionado=resp.id
             await this.firmaservice.create(firm)
             await this.firmaservice.create(firm)
@@ -1716,7 +1735,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         return false;
     }
     test(eve:any){
-        console.log(eve.index)
     }
 
     flagObligatorioSVE:boolean=false
