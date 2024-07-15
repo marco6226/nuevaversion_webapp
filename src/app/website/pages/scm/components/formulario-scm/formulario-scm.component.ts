@@ -513,7 +513,14 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 this.sveOptionList.push({ label: sve.nombre, value: sve.id.toString() });
             });
             this.idCase=this.route.snapshot.params["id"];
-            this.caseSelect = await this.scmService.getCase(this.route.snapshot.params["id"]);
+            if (this.idCase !== undefined) {
+                // Si el idCase existe, cargar el caso existente
+                this.caseSelect = await this.scmService.getCase(this.idCase);
+                console.log("case selectr", this.caseSelect);
+            } else{
+                
+            }
+            
             this.onLoadInit();
             this.modifyCase();
         } catch (e) {
@@ -745,6 +752,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
             this.idCase = status
             this.caseSelect = await this.scmService.getCase(status);
+            
             this.caseSelect.id = status;
             this.casocreado = true;
         }
@@ -1198,7 +1206,15 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         this.consultar = false;
         this.actualizar = true;
         this.caseSelect = this.casoSeleccionado || this.caseSelect;
-        let { fechaCalificacion, emisionPclFecha, fechaConceptRehabilitacion, fechaConceptRehabilitacionTwo, fechaFinal, ...caseFiltered } = this.caseSelect
+        if (this.caseSelect) {
+            let { fechaCalificacion, emisionPclFecha, fechaConceptRehabilitacion, fechaConceptRehabilitacionTwo, fechaFinal, ...caseFiltered } = this.caseSelect;
+            
+            if (fechaCalificacion !== undefined) {
+                // Realiza las operaciones necesarias con fechaCalificacion aquí
+            } else {
+                console.warn("fechaCalificacion is undefined");
+            }
+        
         this.casoMedicoForm.patchValue(caseFiltered);
         this.casoMedicoForm.patchValue({
             fechaConceptRehabilitacion: fechaConceptRehabilitacion == null ? null : new Date(fechaConceptRehabilitacion),
@@ -1223,6 +1239,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             console.error(error);
         }
     }
+}
 
     async readCase() {
         this.consultar = true;
@@ -1253,7 +1270,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
 
 
     async onLoadInit() {
-        this.onSelection(this.caseSelect.pkUser);
+        if (this.caseSelect && this.caseSelect.pkUser !== undefined) {
+            this.onSelection(this.caseSelect.pkUser);
+        } else {
+            console.warn("pkUser is undefined, skipping onSelection call");
+        }
     }
 
     createCaso() {
