@@ -516,7 +516,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             if (this.idCase !== undefined) {
                 // Si el idCase existe, cargar el caso existente
                 this.caseSelect = await this.scmService.getCase(this.idCase);
-                console.log("case selectr", this.caseSelect);
             } else{
                 
             }
@@ -564,7 +563,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 
 
             });
-            console.log(this.JuntaRegionalList)
             this.entity.Junta_Regional = this.JuntaRegionalList;
         });
 
@@ -859,7 +857,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let emp = <Empleado>this.value;
         this.casosList = await this.scmService.getCaseList(emp.id!);
         this.empleadoSelect = emp;
-        console.log(this.empleadoSelect)
         this.empresaForm!.reset()
         if(this.empleadoSelect){
             this.empresaForm!.value.nit = this.empleadoSelect.nit
@@ -903,7 +900,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         }
 
         await this.usuarioPermisos()
-        console.log(this.empleadoSelect)
         this.empleadoForm.patchValue({
             'id': this.empleadoSelect.id,
             'primerNombre': this.empleadoSelect.primerNombre,
@@ -957,7 +953,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let empleado = new Empleado();
 
         empleado.id = this.empleadoForm.value.id;
-        console.log("id 1",this.empleadoForm.value.id );
         
         empleado.primerNombre = this.empleadoForm.value.primerNombre;
         empleado.segundoNombre = this.empleadoForm.value.segundoNombre;
@@ -1020,7 +1015,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         });
         this.solicitando = true;
         empleado.usuario.id = this.empleadoSelect?.usuario.id;
-        console.log("id2",this.empleadoSelect?.usuario.id );
         
         empleado.usuario.ipPermitida = this.empleadoSelect?.usuario.ipPermitida
         empleado.empresa = this.empresaForm!.value.empresa == null ? null : this.empresaForm!.value.empresa.label;
@@ -1189,7 +1183,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             cargoId: empleado.cargo.id,
             email: [empleado.usuario.email],
         });
-        console.log(this.jefeInmediato)
         this.jefeInmediatoName0=(empleado.primerNombre || "") + " " + (empleado.segundoNombre || "") + " " + (empleado.primerApellido || "") + " " + (empleado.segundoApellido || " ")
     }
 
@@ -1317,7 +1310,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             firm.idempresa=this.empresaId
             firm.fechacreacion=new Date()
             let resp:any = await this.scmService.createSeguimiento(product);
-            console.log(resp)
             firm.idrelacionado=resp.id
             await this.firmaservice.create(firm)
             await this.firmaservice.create(firm)
@@ -1559,8 +1551,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             let seg = { pkCase: this.caseSelect.id }
             let resp = await this.scmService.createSeguimiento(seg);
             this.seguimientos.push(resp)
-            console.log(resp);
-            console.log(seg)
             this.seguimientos.sort(function(a:any,b:any){
                 if(a.id < b.id){
                   return 1
@@ -1745,7 +1735,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         return false;
     }
     test(eve:any){
-        console.log(eve.index)
     }
 
     flagObligatorioSVE:boolean=false
