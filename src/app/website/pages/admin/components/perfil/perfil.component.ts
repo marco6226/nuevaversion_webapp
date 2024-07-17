@@ -18,6 +18,7 @@ export class PerfilComponent implements OnInit {
   perfil!: Perfil;
   visibleBtnSave!: boolean;
   loading!: boolean;
+  testing! :boolean;
   totalRecords!: number;
   fields: string[] = [
     'id',
@@ -34,11 +35,14 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.testing = true;
   }
 
 
   lazyLoad(event: any) {
     this.loading = true;
+    this.testing = true;
+
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
     filterQuery.sortOrder = event.sortOrder;
@@ -50,14 +54,17 @@ export class PerfilComponent implements OnInit {
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
 
     this.perfilService.findByFilter(filterQuery).then(
-      (resp: any) => {
-        this.totalRecords = resp['count'];
-        this.loading = false;
-        this.perfilList = [];
-        (<any[]>resp['data']).forEach(dto => this.perfilList.push(FilterQuery.dtoToObject(dto)));
-      }
+        (resp: any) => {
+            this.totalRecords = resp['count'];
+            this.perfilList = [];
+            (<any[]>resp['data']).forEach(dto => this.perfilList.push(FilterQuery.dtoToObject(dto)));
+
+                this.loading = false;
+                this.testing = false; 
+          
+        }
     );
-  }
+}
 
   abrirDlgNuevo() {
     this.visibleDlg = true;

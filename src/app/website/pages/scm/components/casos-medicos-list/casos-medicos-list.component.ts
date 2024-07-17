@@ -26,6 +26,7 @@ import { Table } from 'primeng/table';
 export class CasosMedicosListComponent implements OnInit {
   localeES: any = locale_es;
   loading: boolean = false;
+  testing: boolean = false;
   caseSelect: any;
   casosList: any;
   saludLaboralSelect: any;
@@ -61,6 +62,7 @@ export class CasosMedicosListComponent implements OnInit {
   ];
   consultar: boolean = false;
   async ngOnInit() {
+    this.testing = true;
     this.getAreaById();
     this.getLocalidad();
     
@@ -115,6 +117,7 @@ export class CasosMedicosListComponent implements OnInit {
   }
   filtrosExcel: any;
   async lazyLoad(event: any) {
+    this.testing = false; 
     this.filtrosExcel = event;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
