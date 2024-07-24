@@ -13,12 +13,13 @@ import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/websit
 import { PrimeNGConfig } from 'primeng/api';
 import { ViewListaInspeccionService } from '../../services/viewlista-inspeccion.service';
 import * as xlsx from 'xlsx';
+
 @Component({
-  selector: 'app-listas-inspeccion',
-  templateUrl: './listas-inspeccion.component.html',
-  styleUrls: ['./listas-inspeccion.component.scss']
+  selector: 'app-lista-inspeccion-signos',
+  templateUrl: './lista-inspeccion-signos.component.html',
+  styleUrl: './lista-inspeccion-signos.component.scss'
 })
-export class ListasInspeccionComponent implements OnInit {
+export class ListaInspeccionSignosComponent implements OnInit {
 
   localeES: any = locale_es;
   listaInspeccionList!: ListaInspeccion[];
@@ -111,7 +112,7 @@ export class ListasInspeccionComponent implements OnInit {
 
     filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'pkUsuarioId', value1: user.usuario.id.toString()});
     filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresa.id', value1: user.empresa.id.toString()});
-    filterQuery.filterList.push({criteria: Criteria.NOT_EQUALS, field: 'tipoLista', value1: 'Signos Vitales'});
+    filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'tipoLista', value1: 'Signos Vitales'});
     await this.viewListaInspeccionService.getFilterListInspeccionToPerfilToUsuario(filterQuery).then((resp:any)=>{
         this.totalRecords = resp['count'];
         this.loading = false;
