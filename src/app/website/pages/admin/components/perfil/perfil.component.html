@@ -1,4 +1,7 @@
 <div class="shadow">
+    <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
+        <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+    </div>
     <p-panel header="Perfiles">
         <p-table #dt [tableStyle]="{'min-width': '50rem'}" [value]="perfilList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
             dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">

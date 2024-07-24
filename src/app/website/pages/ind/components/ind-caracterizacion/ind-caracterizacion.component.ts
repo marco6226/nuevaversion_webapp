@@ -341,6 +341,7 @@ export class IndCaracterizacionComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.getDivision()
+    console.log(this.divisionList)
     this.config.setTranslation(this.localeES);
     this.cargarTiposPeligro();
     let cargofiltQuery = new FilterQuery();

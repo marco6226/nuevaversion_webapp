@@ -3,6 +3,7 @@ export class ViewMatrizPeligrosLog {
     id?: number;
     idRiesgo?: number;
     idplantas?: number;
+    pais?: string;
     division?: string;
     planta?: string;
     area?: string;

@@ -788,7 +788,8 @@ export class AccidentalidadComponent implements OnInit, AfterViewInit, OnDestroy
     filterQueryCoronameta.sortField = "id";
     filterQueryCoronameta.filterList = [
       {criteria: Criteria.EQUALS, field: "anio", value1: this.anioActualResumen.toString()},
-      {criteria: Criteria.EQUALS, field: "empresaId", value1: empresaId}
+      {criteria: Criteria.EQUALS, field: "empresaId", value1: empresaId},
+      {criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'}
     ];
 
     if(this.selectPais1)filterQueryCoronameta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais1.toString()})
@@ -2921,8 +2922,10 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       let filterQueryMeta = new FilterQuery();
       filterQueryMeta.filterList = [
         {criteria: Criteria.EQUALS, field: "anio", value1: this.selectedAnioIli_1.toString()},
-        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()}
+        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
+        {criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'}
       ];
+      
       if(this.selectPais8)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais8.toString()})
       let meta:any
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
@@ -3149,6 +3152,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       ];
       if(this.selectPais8)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais8.toString()})
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -3365,6 +3369,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       ];
       if(this.selectPais8_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais8_2.toString()})
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -3579,6 +3584,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       ];
       if(this.selectPais8_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais8_2.toString()})
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -3775,6 +3781,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       if(this.selectPais9)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "pais", value1: this.selectPais9.toString()})
       if(this.selectedDivisionResumen9)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen9.toString()})
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -3968,6 +3975,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       if(this.selectedDivisionResumen9_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen9_2.toString()})
 
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -4222,6 +4230,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       if(this.selectedDivisionResumen10)if(this.selectPais10!='Corona Total')filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10})
       
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -4238,6 +4247,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       // if(this.selectedDivisionResumen10)filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10})
 
       let metaTotal:any
+      filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
         metaTotal=metas.data
       })
@@ -4530,6 +4540,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       if(this.selectedDivisionResumen10_2)if(this.selectPais10_2!='Corona Total')filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10_2})
       
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -4546,6 +4557,7 @@ await this.hhtService.findByFilter(filterQuery).then(async (res: any) => {
       // if(this.selectedDivisionResumen10)filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen10})
 
       let metaTotal:any
+      filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
         metaTotal=metas.data
       })
@@ -4806,6 +4818,7 @@ optionsMeta_2meses: any = {
         if(this.selectedDivisionResumen12)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen12})
         
         let meta:any
+        filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
         await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
           meta=metas.data
         })
@@ -5004,6 +5017,7 @@ optionsMeta_2meses: any = {
         if(this.selectedDivisionResumen12_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen12_2})
         
         let meta:any
+        filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
         await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
           meta=metas.data
         })
@@ -5170,6 +5184,7 @@ optionsMeta_2meses: any = {
       if(this.selectedDivisionResumen11)if(this.selectPais11 != 'Corona Total')filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen11})
 
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -5184,6 +5199,7 @@ optionsMeta_2meses: any = {
       ];
 
       let metaTotal:any
+      filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
         metaTotal=metas.data
       })
@@ -5538,6 +5554,7 @@ optionsMeta_2meses: any = {
       if(this.selectedDivisionResumen11_2)if(this.selectPais11_2 != 'Corona Total')filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen11_2})
 
       let meta:any
+      filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
         meta=metas.data
       })
@@ -5552,6 +5569,7 @@ optionsMeta_2meses: any = {
       ];
 
       let metaTotal:any
+      filterQueryTotal.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
       await this.viewHHtMetasService.getWithFilter(filterQueryTotal).then((metas:any)=>{
         metaTotal=metas.data
       })
@@ -6002,6 +6020,7 @@ optionsMeta_2meses: any = {
             if(this.selectedDivisionResumen13)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen13})
 
             let meta:any
+            filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
             await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
               meta=metas.data
             })
@@ -6266,6 +6285,7 @@ optionsMeta_2meses: any = {
             if(this.selectedDivisionResumen13_2)filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "nombreDivision", value1: this.selectedDivisionResumen13_2})
 
             let meta:any
+            filterQueryMeta.filterList.push({criteria: Criteria.EQUALS, field: "modulo", value1: 'Accidentalidad'})
             await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
               meta=metas.data
             })

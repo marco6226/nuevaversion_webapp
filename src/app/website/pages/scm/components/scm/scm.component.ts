@@ -44,6 +44,7 @@ export class ScmComponent implements OnInit {
     visibleForm!: boolean;
     solicitando: boolean = false;
     loading: boolean = false;;
+    testing: boolean = false;
     totalRecords!: number;
     excel:any=[]
     fields: string[] = [
@@ -87,8 +88,9 @@ export class ScmComponent implements OnInit {
         private viewscmInformeService: ViewscmInformeService,
         private config: PrimeNGConfig
     ) { }
-
+    
     async ngOnInit() {
+        this.testing = true;
         this.config.setTranslation(this.localeES);
         let cargofiltQuery = new FilterQuery();
         cargofiltQuery.sortOrder = SortOrder.ASC;
@@ -102,7 +104,6 @@ export class ScmComponent implements OnInit {
             });
         });
         this.idEmpresa = this.sesionService.getEmpresa()?.id!;
-        
     }
 
     openCase() {

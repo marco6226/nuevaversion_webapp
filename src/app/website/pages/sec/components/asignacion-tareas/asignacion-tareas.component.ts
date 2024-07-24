@@ -24,6 +24,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   @ViewChild("dt") dataTableComponent: Table | null = null;
   @ViewChild("calendarExcel") calendarExcel: Calendar | null = null;
   loading: boolean = true;
+  testing :boolean = false;
   yearRange?:any;
   tareasList: any[] = [];
   tareaListFilter: any;
@@ -77,6 +78,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     });
 
     this.loading = true;
+    this.testing = true;
 
     await this.getTareas();
 
@@ -109,6 +111,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     });
 
     this.loading = true;
+    this.testing =true;
     if(this.esAliado) {
       this.opcionesModulos = [
         {label: 'Inspecciones CC', value: 'Inspecciones CC'}
@@ -119,6 +122,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
       this.dataTableComponent?.filter(this.moduloSelected, 'module', 'equals');
     }
     this.loading = false;
+    this.testing = false;
   }
 
   ngAfterViewInit(): void {

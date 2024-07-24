@@ -19,11 +19,12 @@ import * as xlsx from 'xlsx';
   styleUrls: ['./listas-inspeccion.component.scss']
 })
 export class ListasInspeccionComponent implements OnInit {
-
+  
   localeES: any = locale_es;
   listaInspeccionList!: ListaInspeccion[];
   listaInpSelect!: ListaInspeccion;
   loading!: boolean;
+  testing! :boolean;
   totalRecords!: number;
   fields: string[] = [
     'listaInspeccionPK_id',
@@ -55,6 +56,7 @@ export class ListasInspeccionComponent implements OnInit {
   ngOnInit(): void {
     this.config.setTranslation(this.localeES);
     this.loading = true;
+    this.testing = true;
   }
 
   async lazyLoad(event?: any) {
@@ -71,7 +73,7 @@ export class ListasInspeccionComponent implements OnInit {
     let userParray:any = userP;    
 
     this.loading = true;
-
+   
     filterQuery.sortField = event?.sortField;
     filterQuery.sortOrder = event?.sortOrder;
     filterQuery.offset = event?.first;

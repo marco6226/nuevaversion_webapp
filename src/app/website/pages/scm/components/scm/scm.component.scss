@@ -14,3 +14,15 @@ th {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.image{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    width: 20%;
+    height: auto;
+}

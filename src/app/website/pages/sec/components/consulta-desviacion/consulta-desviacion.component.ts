@@ -29,7 +29,8 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
     { label: 'Inspecciones', value: 'Inspecciones' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Reporte A/I', value: 'Reporte A/I' },
-    { label: 'Inspecciones CC', value: 'Inspecciones CC'}
+    { label: 'Inspecciones CC', value: 'Inspecciones CC'},
+    {label: 'Salud Laboral', value:'Salud Laboral'}
   ];
   moduloSelected: string = 'Reporte A/I';
 

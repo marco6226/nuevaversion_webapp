@@ -20,6 +20,7 @@ import { Plantas } from "../../../comun/entities/Plantas";
 import {Hht} from "../../../comun/entities/hht"
 import { Localidades } from "../../../ctr/entities/aliados";
 import { EmpresaService } from "../../../empresa/services/empresa.service";
+import { ViewMatrizPeligrosService } from "../../services/view-matriz-peligros.service";
 
 
 @Component({
@@ -149,13 +150,17 @@ export class DashboardCoronaComponent implements OnInit {
     debugger
     this.config.setTranslation(this.localeES);
     //Primera grafica
-    this.dataPrimeraGrafica()
+    await this.dataPrimeraGrafica()
 
     //segunda grafica
     this.dataSegundaGrafica()
 
     //Tercera grafica
     this.dataTerceraGrafica()
+
+    //Tercera grafica
+    this.dataCuartaGrafica()
+    
   }
 
   constructor(
@@ -169,10 +174,11 @@ export class DashboardCoronaComponent implements OnInit {
     private viewHHtMetasService: ViewHHtMetasService,
     private plantasService: PlantasService,
     private empresaService: EmpresaService,
+    private viewMatrizPeligrosService: ViewMatrizPeligrosService,
     private config: PrimeNGConfig
   ){}
 
-  dataPrimeraGrafica(){
+  async dataPrimeraGrafica(){
     localStorage.removeItem('reportesAt');
 
     if(this.ili<=this.metaIli){
@@ -189,7 +195,7 @@ export class DashboardCoronaComponent implements OnInit {
     this.fechaInicioResumen = new Date(new Date().getFullYear(), 0, 1);
     this.fechaFinalResumen = new Date();
 
-    this.getData().then();
+    await this.getData().then();
   }
 
   async getData(){
@@ -854,6 +860,163 @@ export class DashboardCoronaComponent implements OnInit {
   }
   IndicadoresCasosMedicos(){
     this.paramNav.redirect('app/ind/indcasosmedicos');
+  }
+
+
+  // MATRIZ PELIGROS
+  flagResumen:boolean=false
+  resumenInicial:any
+  resumenInicialText:any
+  tableroRiesgoIncial(){
+    this.flagResumen=false
+
+    this.resumenInicial=[]
+    this.resumenInicialText=[]
+    let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+    dataRiesgoInicial= dataRiesgoInicial.filter(at => at.division != null  && at.division != "");
+    dataRiesgoInicial= dataRiesgoInicial.filter(at => at.cualitativoInicial != null  && at.cualitativoInicial != "");
+    let divisionList = this.divisionList.map((resp:any)=>resp.nombre)
+
+    divisionList = divisionList.filter((resp:any)=>resp != 'TEST')
+
+    for(const div of divisionList){
+      console.log(div)
+      let data=[]
+      let dataT=[]
+
+      let dataRiesgoInicialTotal=dataRiesgoInicial.filter(mp => mp.division === div)
+      let total: number = dataRiesgoInicialTotal.length
+
+      let muyAlto: number = dataRiesgoInicialTotal.filter(mp => mp.cualitativoInicial === 'Muy Alto').length
+      data.push((Number(muyAlto/total)*100).toFixed(1))
+      dataT.push((Number(muyAlto/total)*100).toFixed(1))
+      let alto: number = dataRiesgoInicialTotal.filter(mp => mp.cualitativoInicial === 'Alto').length
+      data.push(((Number(muyAlto/total)+Number(alto/total))*100).toFixed(1))
+      dataT.push(((Number(alto/total))*100).toFixed(1))
+      let medio: number = dataRiesgoInicialTotal.filter(mp => mp.cualitativoInicial === 'Medio').length
+      data.push(((Number(muyAlto/total)+Number(alto/total)+Number(medio/total))*100).toFixed(1))
+      dataT.push(((Number(medio/total))*100).toFixed(1))
+      let bajo: number = dataRiesgoInicialTotal.filter(mp => mp.cualitativoInicial === 'Bajo').length
+      data.push(((Number(bajo/total))*100).toFixed(1))
+      dataT.push(((Number(bajo/total))*100).toFixed(1))
+
+      this.resumenInicial[div]=data
+      this.resumenInicialText[div]=dataT
+    }    
+
+    let data=[]
+    let dataT=[]
+
+    let total: number = dataRiesgoInicial.length
+    let muyAlto: number = dataRiesgoInicial.filter(mp => mp.cualitativoInicial === 'Muy Alto').length
+    data.push((Number(muyAlto/total)*100).toFixed(1))
+    dataT.push((Number(muyAlto/total)*100).toFixed(1))
+    let alto: number = dataRiesgoInicial.filter(mp => mp.cualitativoInicial === 'Alto').length
+    data.push(((Number(muyAlto/total)+Number(alto/total))*100).toFixed(1))
+    dataT.push(((Number(alto/total))*100).toFixed(1))
+    let medio: number = dataRiesgoInicial.filter(mp => mp.cualitativoInicial === 'Medio').length
+    data.push(((Number(muyAlto/total)+Number(alto/total)+Number(medio/total))*100).toFixed(1))
+    dataT.push(((Number(medio/total))*100).toFixed(1))
+    let bajo: number = dataRiesgoInicial.filter(mp => mp.cualitativoInicial === 'Bajo').length
+    data.push(((Number(bajo/total))*100).toFixed(1))
+    dataT.push(((Number(bajo/total))*100).toFixed(1))
+
+    this.resumenInicial['Corona Total']=data
+    this.resumenInicialText['Corona Total']=dataT
+
+    this.flagResumen=true
+
+    console.log(this.resumenInicial)
+
+  }
+
+  resumenResidual:any
+  resumenResidualText:any
+  tableroRiesgofinal(){
+    this.flagResumen=false
+
+    this.resumenResidual=[]
+    this.resumenResidualText=[]
+    let dataRiesgoFinal: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+    dataRiesgoFinal= dataRiesgoFinal.filter(at => at.division != null && at.division != "");
+    dataRiesgoFinal= dataRiesgoFinal.filter(at => at.cualitativoResidual != null && at.cualitativoResidual != "");
+    let divisionList = this.divisionList.map((resp:any)=>resp.nombre)
+
+    divisionList = divisionList.filter((resp:any)=>resp != 'TEST')
+
+    for(const div of divisionList){
+      let data=[]
+      let dataT=[]
+
+      let dataRiesgoFinalTotal=dataRiesgoFinal.filter(mp => mp.division === div)
+      let total: number = dataRiesgoFinalTotal.length
+      let muyAlto: number = dataRiesgoFinalTotal.filter(mp => mp.cualitativoResidual === 'Muy Alto').length
+      data.push((Number(muyAlto/total)*100).toFixed(1))
+      dataT.push((Number(muyAlto/total)*100).toFixed(1))
+      let alto: number = dataRiesgoFinalTotal.filter(mp => mp.cualitativoResidual === 'Alto').length
+      data.push(((Number(muyAlto/total)+Number(alto/total))*100).toFixed(1))
+      dataT.push(((Number(alto/total))*100).toFixed(1))
+      let medio: number = dataRiesgoFinalTotal.filter(mp => mp.cualitativoResidual === 'Medio').length
+      data.push(((Number(muyAlto/total)+Number(alto/total)+Number(medio/total))*100).toFixed(1))
+      dataT.push(((Number(medio/total))*100).toFixed(1))
+      let bajo: number = dataRiesgoFinalTotal.filter(mp => mp.cualitativoResidual === 'Bajo').length
+      data.push(((Number(bajo/total))*100).toFixed(1))
+      dataT.push(((Number(bajo/total))*100).toFixed(1))
+
+      this.resumenResidual[div]=data
+      this.resumenResidualText[div]=dataT
+    } 
+    let data=[]
+    let dataT=[]
+
+    let total: number = dataRiesgoFinal.length
+    let muyAlto: number = dataRiesgoFinal.filter(mp => mp.cualitativoResidual === 'Muy Alto').length
+    data.push((Number(muyAlto/total)*100).toFixed(1))
+    dataT.push((Number(muyAlto/total)*100).toFixed(1))
+    let alto: number = dataRiesgoFinal.filter(mp => mp.cualitativoResidual === 'Alto').length
+    data.push(((Number(alto/total))*100).toFixed(1))
+    dataT.push(((Number(muyAlto/total)+Number(alto/total))*100).toFixed(1))
+    let medio: number = dataRiesgoFinal.filter(mp => mp.cualitativoResidual === 'Medio').length
+    data.push(((Number(muyAlto/total)+Number(alto/total)+Number(medio/total))*100).toFixed(1))
+    dataT.push(((Number(medio/total))*100).toFixed(1))
+    let bajo: number = dataRiesgoFinal.filter(mp => mp.cualitativoResidual === 'Bajo').length
+    data.push(((Number(bajo/total))*100).toFixed(1))
+    dataT.push(((Number(bajo/total))*100).toFixed(1))
+
+    this.resumenResidual['Corona Total']=data
+    this.resumenResidualText['Corona Total']=dataT
+
+    this.flagResumen=true
+  }
+
+  async dataCuartaGrafica(){
+    let dataMP:any
+    let filterMatriz = new FilterQuery();
+    filterMatriz.sortField = "id";
+    filterMatriz.sortOrder = -1;
+
+    await this.viewMatrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
+      dataMP=resp.data
+      localStorage.setItem('dataMP', JSON.stringify(dataMP))
+    })
+
+    let filterQueryMeta = new FilterQuery();
+      filterQueryMeta.filterList = [
+        {criteria: Criteria.EQUALS, field: "empresaId", value1: this.sessionService.getParamEmp()},
+        {criteria: Criteria.EQUALS, field: "modulo", value1: 'Matriz de Peligros'}
+      ];
+      
+      let meta:any
+      await this.viewHHtMetasService.getWithFilter(filterQueryMeta).then((metas:any)=>{
+        meta=metas.data
+        localStorage.setItem('metaMP', JSON.stringify(meta))
+      })
+    this.tableroRiesgoIncial()
+    this.tableroRiesgofinal()
+  }
+
+  IndicadoresMatrizPeligros(){
+    this.paramNav.redirect('app/ind/indmatrizpeligros');
   }
 
 }
