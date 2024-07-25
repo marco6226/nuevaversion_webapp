@@ -27,8 +27,8 @@
                             <input type="number" pInputText formControlName="version" required />
 
                             <label class="s-float-label">Tipo lista</label>
-                            <p-dropdown [filter]="true" [options]="tipoListaOpts" formControlName="tipoLista" editable="true"
-                                placeholder="--Seleccione--" required></p-dropdown>
+                            <p-dropdown [filter]="true" [options]="tipoListaOpts" formControlName="tipoLista" styleClass="custom-dropdown"
+                                placeholder="--Seleccione--" required></p-dropdown>                            
 
                             <label class="s-float-label">Perfiles</label>
                             <p-multiSelect [options]="perfilList" formControlName="perfilesId"

@@ -226,8 +226,8 @@ import { CasosMedicosListComponent } from './pages/scm/components/casos-medicos-
 import { DocumentacionSaludLaboralComponent } from './pages/scm/components/salud-laboral/components/documentacion-salud-laboral/documentacion-salud-laboral.component';
 import { ListDocumentacionSolicitanteComponent } from './pages/scm/components/salud-laboral/components/list-documentacion-solicitante/list-documentacion-solicitante.component';
 import { DatePipe } from '@angular/common';
-import { DatosTrabajadorInvolucradoComponent } from './pages/scm/components/salud-laboral/modules/informacion-general/components/datos-trabajador-involucrado/datos-trabajador-involucrado.component';
-import { CargueDocumentosEmpresaComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-empresa.component';
+//import { DatosTrabajadorInvolucradoComponent } from './pages/scm/components/salud-laboral/modules/informacion-general/components/datos-trabajador-involucrado/datos-trabajador-involucrado.component';
+//import { CargueDocumentosEmpresaComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-empresa.component';
 import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/lista-inspeccion-signos/lista-inspeccion-signos.component';
 @NgModule({
   declarations: [
@@ -281,7 +281,7 @@ import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/
     ConsultaTableroComponent,
     ElaboracionTableroComponent,
     HoraHombresTrabajadaComponent,
-    DatosTrabajadorInvolucradoComponent,
+   // DatosTrabajadorInvolucradoComponent,
     IndicadoresAusentismoComponent,
     IndicadoresEmpComponent,
     IndicadoresInpComponent,
@@ -414,7 +414,7 @@ import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/
     MetasComponent,
     DocumentacionSaludLaboralComponent,
     ListDocumentacionSolicitanteComponent,
-    CargueDocumentosEmpresaComponent,
+   // CargueDocumentosEmpresaComponent,
     ListaInspeccionSignosComponent,
   ],
   imports: [
