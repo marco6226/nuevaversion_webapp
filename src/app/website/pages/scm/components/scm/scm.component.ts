@@ -102,6 +102,7 @@ export class ScmComponent implements OnInit {
             (<Cargo[]>resp['data']).forEach((cargo) => {
                 this.cargoList.push({ label: cargo.nombre, value: cargo.id });
             });
+            console.log('eNTRO POR ACA EN CARGOS');
         });
         this.idEmpresa = this.sesionService.getEmpresa()?.id!;
     }

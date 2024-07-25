@@ -313,6 +313,18 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                     respuesta2.campoId = campo.id;
                     this.respuestaCampos.push(respuesta2);
                     break;
+                    case 'fecha':
+                    if(!this.respuestaCampos) this.respuestaCampos = [];
+                    let fecha = new Date(); // Obtiene la fecha y hora actuales
+                    let dia = fecha.getDate(); // Obtiene el día del mes (1-31)
+                    let mes = ('0' + (fecha.getMonth() + 1)).slice(-2);
+                    let año = fecha.getFullYear(); // Obtiene el año (cuatro dígitos)
+                    let fechaFormateada = `${dia}/${mes}/${año}`;
+                    let respuesta3: RespuestaCampo = {} as RespuestaCampo;
+                    respuesta3.valor = fechaFormateada;
+                    respuesta3.campoId = campo.id;
+                    this.respuestaCampos.push(respuesta3);
+                    break;
                 default:
                     break;
             }

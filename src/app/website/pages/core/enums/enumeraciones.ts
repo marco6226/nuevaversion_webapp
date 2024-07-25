@@ -6,7 +6,11 @@ export const Modulo = {
   EMP: { value: 'EMP', label: 'Empresa' },
   IND: { value: 'IND', label: 'Indicadores' },
   INP: { value: 'INP', label: 'Inspecciones' },
+<<<<<<< HEAD
   ISV: { value: 'ISV', label: 'Signos vitales' },
+=======
+  ISV:{value: 'ISV', label: 'Inspecciones Signos'},
+>>>>>>> c43ad53cf4436f3c2d114861baf2b137716217f1
   IPR: { value: 'IPR', label: 'Ipecr' },
   RAI: { value: 'RAI', label: 'Reporte accidentes/incidentes' },
   SEC: { value: 'SEC', label: 'Seguimiento y control' },

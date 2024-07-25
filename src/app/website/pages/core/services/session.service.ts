@@ -17,7 +17,7 @@ export class SesionService {
   constructor(private router: Router) {}
 
   getAppVersion(): any {
-    return '1.0.258';
+    return '1.0.259';
   }
 
   public getUsuario(): Usuario | null {
