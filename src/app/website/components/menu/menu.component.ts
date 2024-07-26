@@ -218,11 +218,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
             label: 'Signos vitales',
             icon: 'bi bi-lungs-fill',
             codigo: 'ISV',
-<<<<<<< HEAD
-            expanded: true,
-=======
             expanded: false,
->>>>>>> c43ad53cf4436f3c2d114861baf2b137716217f1
             items:
                 [
                     { label: 'Listas de Signos vitales', codigo: 'INP_GET_LISTSIGNOS', routerLink: ['/app/signos/listaInspeccionSignos'], icon: 'pi pi-list'},
