@@ -1,0 +1,12 @@
+<p-panel header="PROGRAMACIÓN DE INSPECCIONES">
+
+    <ng-template pTemplate="body" let-reporte>
+      <full-calendar [options]="calendarOptions" [events]="events" deepChangeDetection="true"></full-calendar>
+    </ng-template>
+  
+  </p-panel>
+  
+  <s-programacion-evento [esNueva]="adicionar" [loading]="loading" [(visible)]="visibleDlg" style="width: 50%;"
+  [listasInspeccion]="listasInspeccionList" [esNueva]="adicionar" [fechaSelected]="fechaSelected" modulo="INP"
+  [(value)]="value" [deshabilitar]="deshabilitarEvento" (onChange)="onChangeProgramacionEvento($event)"></s-programacion-evento>
+  

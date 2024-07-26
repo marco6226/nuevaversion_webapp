@@ -6,10 +6,12 @@ export const Modulo = {
   EMP: { value: 'EMP', label: 'Empresa' },
   IND: { value: 'IND', label: 'Indicadores' },
   INP: { value: 'INP', label: 'Inspecciones' },
+  ISV: { value: 'ISV', label: 'Signos vitales'},
   IPR: { value: 'IPR', label: 'Ipecr' },
   RAI: { value: 'RAI', label: 'Reporte accidentes/incidentes' },
   SEC: { value: 'SEC', label: 'Seguimiento y control' },
   SGE: { value: 'SGE', label: 'Sistema de gestión' },
+  
 };
 
 export const TIPO_PARTICIPANTE =[
