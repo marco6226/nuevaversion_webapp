@@ -54,9 +54,9 @@ export class ListasInspeccionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.testing = true;
     this.config.setTranslation(this.localeES);
     this.loading = true;
-    this.testing = true;
   }
 
   async lazyLoad(event?: any) {
@@ -72,8 +72,9 @@ export class ListasInspeccionComponent implements OnInit {
     const userP = await this.userService.findByFilter(filterQuery);
     let userParray:any = userP;    
 
+    this.testing = true;
     this.loading = true;
-   
+       
     filterQuery.sortField = event?.sortField;
     filterQuery.sortOrder = event?.sortOrder;
     filterQuery.offset = event?.first;
@@ -117,6 +118,7 @@ export class ListasInspeccionComponent implements OnInit {
     await this.viewListaInspeccionService.getFilterListInspeccionToPerfilToUsuario(filterQuery).then((resp:any)=>{
         this.totalRecords = resp['count'];
         this.loading = false;
+        this.testing = false;
         this.listaInspeccionList = [];
   
         if((<any[]>resp['data']).length > 0)

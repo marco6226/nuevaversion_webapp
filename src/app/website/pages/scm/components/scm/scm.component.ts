@@ -43,7 +43,7 @@ export class ScmComponent implements OnInit {
     form!: FormGroup;
     visibleForm!: boolean;
     solicitando: boolean = false;
-    loading: boolean = false;;
+    loading: boolean = false;
     testing: boolean = false;
     totalRecords!: number;
     excel:any=[]
@@ -151,14 +151,17 @@ export class ScmComponent implements OnInit {
             console.log(this.casosList)
             res?.data?.forEach((dto: any) => {
                 this.casosList.push(FilterQuery.dtoToObject(dto));
+                this.testing = false;
+               
             });
             console.log(res)
             this.totalRecords = res.count;
-
+            
         } catch (error) {
             
         }
-    }
+       
+    } 
 
     async exportexcel(): Promise<void> 
     {
