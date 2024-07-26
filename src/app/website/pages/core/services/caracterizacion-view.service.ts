@@ -9,7 +9,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class CaracterizacionViewService extends CRUDService<Carview> {
   async findAllCAR() {
-    debugger;
+    //debugger;
 
     // new Promise((resolve, ) => {
     //   this.httpInt.http.get(`${endPoints.CaracterizacionViewService}all`, { responseType: 'text' }).subscribe((y:any) => {
