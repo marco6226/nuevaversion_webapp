@@ -1,3 +1,6 @@
+<div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
+    <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+</div>
 <!-- <p-messages [(value)]="growlMsgs" [closable]="true"></p-messages> -->
 <p-confirmDialog key="docoutscm"></p-confirmDialog>
 <s-dataNotFound style="margin: auto;" *ngIf="(!directorioList || directorioList.length <= 0)  && !esConsulta" icon="pi pi-file" message="Aún no se cuenta con registros de carpetas o archivos adicionados">
@@ -36,7 +39,7 @@
                 [totalRecords]="totalRecords"
                 [(selection)]="nodeSelect"
                 dataKey="id"
-                sortField="fechaCreacion"
+                sortField="nombre"
                 sortOrder="-1"
             >
                 <ng-template pTemplate="header">
