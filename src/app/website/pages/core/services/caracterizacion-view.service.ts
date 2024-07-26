@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Carview } from 'src/app/website/pages/comun/entities/caracterizacion';
-import { CRUDService } from 'src/app/website/pages/core/services/crud.service'
+import { CRUDService } from 'src/app/website/pages/core/services/crud.service';
 import { endPoints } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js';
 
-
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class CaracterizacionViewService extends CRUDService<Carview> {
-
-
-  
   async findAllCAR() {
-
     debugger;
 
     // new Promise((resolve, ) => {
@@ -23,23 +18,29 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
     //   });
     // });
 
-    
     return new Promise((resolve, reject) => {
-
       let secureKey = 'dlMvbmWwxVXO3LVwhQTmnPBsaL7lSyjq';
 
       // let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
 
-      let key = CryptoJS.SHA256(secureKey).toString(CryptoJS.enc.Hex).substring(0, 32);
+      let key = CryptoJS.SHA256(secureKey)
+        .toString(CryptoJS.enc.Hex)
+        .substring(0, 32);
 
-      this.httpInt.http.get(`${endPoints.CaracterizacionViewService}all`, { responseType: 'text' })
+      this.httpInt.http
+        .get(`${endPoints.CaracterizacionViewService}all`, {
+          responseType: 'text',
+        })
         .forEach(
           (res: any) => {
-            let decryptedBytes = CryptoJS.AES.decrypt(res, CryptoJS.enc.Hex.parse(key), {
-              mode: CryptoJS.mode.ECB,
-              padding: CryptoJS.pad.Pkcs7
-
-            });
+            let decryptedBytes = CryptoJS.AES.decrypt(
+              res,
+              CryptoJS.enc.Hex.parse(key),
+              {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7,
+              }
+            );
 
             let decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
             console.log(decryptedText);
@@ -50,40 +51,33 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
               const carview = new Carview();
               Object.assign(carview, jsonObj);
 
-              console.log(carview);
-              
-
               return carview;
-
             });
             // resolve(decryptedText);
           }
-          ,
           // err => {
           //   this.manageError(err);
           //   reject(err);
           // }
-        )
+        );
     });
   }
 
-  findAllCAR2(){
+  findAllCAR2() {
     return new Promise((resolve, reject) => {
-      this.httpInt.get(`${endPoints.CaracterizacionViewService}all2`)
-        .subscribe(
-        res => {
+      this.httpInt.get(`${endPoints.CaracterizacionViewService}all2`).subscribe(
+        (res) => {
           resolve(res);
+        },
+        (err) => {
+          this.manageError(err);
+          reject(err);
         }
-        ,
-        err => {
-            this.manageError(err);
-            reject(err);
-         }
-        )
+      );
     });
   }
 
   getClassName(): string {
-    return "CaracterizacionViewService";
+    return 'CaracterizacionViewService';
   }
 }
