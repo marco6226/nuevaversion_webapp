@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Carview } from 'src/app/website/pages/comun/entities/caracterizacion';
 import { CRUDService } from 'src/app/website/pages/core/services/crud.service';
-import { endPoints } from 'src/environments/environment';
+import { endPoints, environment } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js';
 
 @Injectable({
@@ -19,7 +19,8 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
     // });
 
     return new Promise((resolve, reject) => {
-      let secureKey = 'dlMvbmWwxVXO3LVwhQTmnPBsaL7lSyjq';
+      
+      let secureKey = environment.secureKey;
 
       // let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
 
