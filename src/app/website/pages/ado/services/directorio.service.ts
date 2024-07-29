@@ -324,12 +324,19 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     eliminarDocumento(id: string) {   
-        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+        let secureKey = environment.secureKey;
+
+        let key = CryptoJS.SHA256(secureKey)
+        .toString(CryptoJS.enc.Hex)
+        .substring(0, 32);
         
-        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(id), CryptoJS.enc.Hex.parse(key), {
+        
+        let keyHex = CryptoJS.enc.Hex.parse(key);
+      
+        let encryptedId = CryptoJS.AES.encrypt(id.toString(), keyHex, {
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
-        }).toString();
+          }).toString();;
 
         
 
