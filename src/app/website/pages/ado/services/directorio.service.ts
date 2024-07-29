@@ -253,30 +253,18 @@ export class DirectorioService extends CRUDService<Directorio> {
 
         let secureKey = environment.secureKey;
 
-        console.log('eliminarDocumento');
-        
-        // let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
-        
         let key = CryptoJS.SHA256(secureKey)
         .toString(CryptoJS.enc.Hex)
         .substring(0, 32);
         
-        console.log('key',key, secureKey, id);
         
         let keyHex = CryptoJS.enc.Hex.parse(key);
-        // let encryptedId = CryptoJS.AES.encrypt(id.toString(), key).toString();
+      
         let encryptedId = CryptoJS.AES.encrypt(id.toString(), keyHex, {
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
           }).toString();
 
-          let encryptedId2 = CryptoJS.AES.encrypt(id.toString(), CryptoJS.enc.Utf8.parse(key), {
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7
-          }).toString();
-
-          console.log('Key:', key);
-          console.log('Encrypted ID:', encryptedId, encryptedId2);
         
         let endPoint = modulo == null ? this.end_point : this.end_point + modulo + '/';
      

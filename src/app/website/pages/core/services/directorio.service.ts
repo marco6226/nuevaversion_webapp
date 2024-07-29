@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { endPoints } from 'src/environments/environment';
+import { endPoints, environment } from 'src/environments/environment';
 import { CRUDService } from 'src/app/website/pages/core/services/crud.service';
 import { Directorio } from 'src/app/website/pages/ado/entities/directorio';
 import { Documento } from 'src/app/website/pages/ado/entities/documento';
@@ -285,12 +285,20 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     eliminarDocumento(id: string) {
-        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+        let secureKey = environment.secureKey;
+
+        let key = CryptoJS.SHA256(secureKey)
+        .toString(CryptoJS.enc.Hex)
+        .substring(0, 32);
         
-        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(id), CryptoJS.enc.Hex.parse(key), {
+        
+        let keyHex = CryptoJS.enc.Hex.parse(key);
+      
+        let encryptedId = CryptoJS.AES.encrypt(id.toString(), keyHex, {
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
-        }).toString();
+          }).toString();
+
 
         return new Promise(async (resolve) => {
             let options: any = {
