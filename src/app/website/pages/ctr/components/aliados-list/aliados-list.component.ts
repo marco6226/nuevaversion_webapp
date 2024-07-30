@@ -21,6 +21,7 @@ export class AliadosListComponent implements OnInit {
   
   caseSelect: boolean=false;
   loading: boolean = false;
+  testing: boolean = false;
   selectedList: any[]=[];
   fileName = 'ListadoAliados.xlsx';
   excel!: any[];
@@ -50,6 +51,7 @@ export class AliadosListComponent implements OnInit {
     this.loadData();
 
     this.filterUtils();
+    this.testing = true;
   }
   
  
@@ -85,6 +87,7 @@ export class AliadosListComponent implements OnInit {
     
     this.empresaService.findByFilter(filterQuery).then(
         (resp: any) => {
+          this.testing = false;
           this.empresaService.obtenerDivisionesDeAliados(Number(idAux)).then(
             (respDiv: any) => {
               resp['data'].forEach((element: any) => {

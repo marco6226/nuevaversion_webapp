@@ -22,6 +22,7 @@ import { Perfil } from 'src/app/website/pages/empresa/entities/perfil';
 })
 export class GestionDocumentalComponent implements OnInit {
     @Input('flagSCM') flagSCM: boolean = false;
+    testing!: boolean;
     growlMsgs?: Message[];
     msgs1?: Message[];
     @Input() caseid: any;
@@ -70,6 +71,7 @@ export class GestionDocumentalComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.testing = true;
         this.perfilService.findAll().then((resp: any) => {
             (<Perfil[]>resp['data']).forEach((perfil) => {
                 this.perfilList.push({ label: perfil.nombre, value: perfil.id });
@@ -184,6 +186,7 @@ export class GestionDocumentalComponent implements OnInit {
             this.directorioList = this.generarModelo(dirList2, null);
 
             this.loading = false;
+            this.testing = false;
         });
     }
 
@@ -393,6 +396,9 @@ export class GestionDocumentalComponent implements OnInit {
         let filterPadre = new Filter();
         filterPadre.criteria = Criteria.EQUALS;
         filterPadre.field = 'directorioPadre.id';
+        filterQuery.sortField = "nombre";
+        // filterQuery.sortOrder = event.sortOrder;
+        filterQuery.sortOrder = -1;
         filterPadre.value1 = this.nodoPadre.data.id;
 
         let filterCase = new Filter();

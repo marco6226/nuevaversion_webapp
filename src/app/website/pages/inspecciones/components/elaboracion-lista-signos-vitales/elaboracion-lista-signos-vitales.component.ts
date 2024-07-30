@@ -16,12 +16,11 @@ import { OpcionCalificacion } from '../../entities/opcion-calificacion';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 
 @Component({
-  selector: 'app-elaboracion-lista',
-  templateUrl: './elaboracion-lista.component.html',
-  styleUrls: ['./elaboracion-lista.component.scss'],
-  providers: [MessageService]
+  selector: 'app-elaboracion-lista-signos-vitales',
+  templateUrl: './elaboracion-lista-signos-vitales.component.html',
+  styleUrl: './elaboracion-lista-signos-vitales.component.scss'
 })
-export class ElaboracionListaComponent implements OnInit {
+export class ElaboracionListaSignosVitalesComponent implements OnInit {
 
   @ViewChild(FormularioConstructorComponent) formularioConstructor!: FormularioConstructorComponent;
   
@@ -42,31 +41,6 @@ export class ElaboracionListaComponent implements OnInit {
   listaEvidence: any[] = [];
 
   tipoListaOpts: SelectItem[] = [
-      { label: 'Ambiente', value: 'Ambiente' },
-      { label: 'Bioseguridad', value: 'Bioseguridad' },
-      { label: 'Bodega - almacén', value: 'Bodega - almacén' },
-      { label: 'COPASST', value: 'COPASST' },
-      { label: 'Eléctrico', value: 'Eléctrico' },
-      { label: 'Emergencias', value: 'Emergencias' },
-      { label: 'EPP', value: 'EPP' },
-      { label: 'Equipos', value: 'Equipos' },
-      { label: 'Ergonomía', value: 'Ergonomía' },
-      { label: 'Gestión', value: 'Gestión' },
-      { label: 'Herramienta', value: 'Herramienta' },
-      { label: 'Higiene Industrial', value: 'Higiene Industrial' },
-      { label: 'Instalaciones', value: 'Instalaciones' },
-      { label: 'Legal', value: 'Legal' },
-      { label: 'Mantenimiento', value: 'Mantenimiento' },
-      { label: 'Maquinaria', value: 'Maquinaria' },
-      { label: 'Medicina', value: 'Medicina' },
-      { label: 'Orden y Aseo', value: 'Orden y Aseo' },
-      { label: 'Primeros Auxilios', value: 'Primeros Auxilios' },
-      { label: 'Psicosocial', value: 'Psicosocial' },
-      { label: 'Químicos', value: 'Químicos' },
-      { label: 'Seguridad', value: 'Seguridad' },
-      { label: 'Teletrabajo', value: 'Teletrabajo' },
-      { label: 'Transporte', value: 'Transporte' },
-      { label: 'Ciclo corto', value: 'Ciclo corto'},
       {label: 'Signos Vitales', value: 'Signos Vitales'},
   ];
 
@@ -360,3 +334,4 @@ validarDefault(eve:any,id:any){
     }
 }
 }
+

@@ -215,6 +215,19 @@ export class MenuComponent implements OnInit, AfterContentInit {
                 ]
         },
         {
+            label: 'Signos vitales',
+            icon: 'bi bi-lungs-fill',
+            codigo: 'ISV',
+            expanded: false,
+            items:
+                [
+                    { label: 'Listas de Signos vitales', codigo: 'INP_GET_LISTSIGNOS', routerLink: ['/app/signos/listaInspeccionSignos'], icon: 'pi pi-list'},
+                    { label: 'Elaboración Listas Signos Vitales', codigo: 'INP_GET_LISTSIGNOS', routerLink: ['/app/signos/elaboracionListaSv'], icon: 'pi pi-cog'},
+                    { label: 'Programación Signos Vitales', codigo: 'INP_GET_LISTSIGNOS', routerLink: ['/app/signos/programacionSv'], icon: 'pi pi-calendar'},
+                    { label: 'Signos vitales Realizadas', codigo: 'INP_GET_LISTSIGNOS', routerLink: ['/app/signos/consultarInspeccionesSv'], icon: 'pi pi-check-square'}
+                ]
+        },
+        {
             label: this.nombreAUC,
             icon: 'pi pi-eye',
             codigo: 'AUC',

@@ -14,3 +14,15 @@
 :host ::ng-deep .p-datatable-gridlines .p-datatable .p-component .p-datatable-hoverable-rows{
     width: 1px !important;
 }
+
+.image{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    width: 10%;
+    height: auto;
+}

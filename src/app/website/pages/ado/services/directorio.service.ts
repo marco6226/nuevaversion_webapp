@@ -12,7 +12,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { FilterQuery } from '../../core/entities/filter-query';
 import { CRUDService } from '../../core/services/crud.service';
 import { Directorio } from '../entities/directorio';
-import { endPoints } from 'src/environments/environment';
+import { endPoints,environment } from 'src/environments/environment';
 import { Documento } from '../entities/documento';
 import * as CryptoJS from 'crypto-js';
 
@@ -251,14 +251,20 @@ export class DirectorioService extends CRUDService<Directorio> {
 
     override delete(id: string, modulo?: string) {
 
-        console.log('eliminarDocumento');
-        
-        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
-        
-        let encryptedId = CryptoJS.AES.encrypt(id, key).toString();
-          
+        let secureKey = environment.secureKey;
 
+        let key = CryptoJS.SHA256(secureKey)
+        .toString(CryptoJS.enc.Hex)
+        .substring(0, 32);
         
+        
+        let keyHex = CryptoJS.enc.Hex.parse(key);
+      
+        let encryptedId = CryptoJS.AES.encrypt(id.toString(), keyHex, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+          }).toString();
+
         
         let endPoint = modulo == null ? this.end_point : this.end_point + modulo + '/';
      
@@ -318,12 +324,19 @@ export class DirectorioService extends CRUDService<Directorio> {
     }
 
     eliminarDocumento(id: string) {   
-        let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
+        let secureKey = environment.secureKey;
+
+        let key = CryptoJS.SHA256(secureKey)
+        .toString(CryptoJS.enc.Hex)
+        .substring(0, 32);
         
-        let encryptedId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(id), CryptoJS.enc.Hex.parse(key), {
+        
+        let keyHex = CryptoJS.enc.Hex.parse(key);
+      
+        let encryptedId = CryptoJS.AES.encrypt(id.toString(), keyHex, {
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7
-        }).toString();
+          }).toString();;
 
         
 

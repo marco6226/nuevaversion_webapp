@@ -76,9 +76,11 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
 
       await this.comunService.findAllPais().then(async (data) => {
         await this.loadPaisItems(<Pais[]>data);
-
-        this.paisSelectId = await this.valueIn!.departamento?.pais.id;
+       // if (this.paisSelectId) {
+        this.paisSelectId = await this.valueIn?.departamento?.pais.id;
         console.log(this.paisSelectId);
+      //};
+        
 
         // Ahora que hemos cargado los países, podemos llamar a findDepartamentoByPais
         if (this.paisSelectId) {
@@ -86,7 +88,9 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
             .findDepartamentoByPais(this.paisSelectId)
             .then(async (data) => {
               await this.loadDepartamentosItems(<Departamento[]>data);
-              this.departamentoSelectId = await this.valueIn!.departamento!.id!;
+              if (this.valueIn?.departamento?.id !== undefined) {
+              this.departamentoSelectId = await this.valueIn.departamento.id;
+            }
 
               await this.comunService
                 .findCiudadByDepartamento(this.departamentoSelectId)

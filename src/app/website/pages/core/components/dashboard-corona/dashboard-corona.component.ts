@@ -147,7 +147,7 @@ export class DashboardCoronaComponent implements OnInit {
   }
 
   async ngOnInit() {
-    debugger
+    //debugger
     this.config.setTranslation(this.localeES);
     //Primera grafica
     await this.dataPrimeraGrafica()

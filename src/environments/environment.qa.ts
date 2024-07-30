@@ -4,7 +4,8 @@ let port = '2096';
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 export const environment = {
-    production: false
+    production: false,
+    secureKey: 'dlMvbmWwxVXO3LVwhQTmnPBsaL7lSyjq',
 };
 
 export const endPoints: string | any = {

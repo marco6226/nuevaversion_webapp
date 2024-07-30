@@ -26,6 +26,10 @@ import { Programacion } from '../../entities/programacion';
 import { InspeccionService } from '../../services/inspeccion.service';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 import { ListaInspeccionFormComponent } from '../lista-inspeccion-form/lista-inspeccion-form.component';
+import { Formulario } from 'src/app/website/pages/comun/entities/formulario';
+import { Campo } from 'src/app/website/pages/comun/entities/campo';
+import { RespuestaCampo } from 'src/app/website/pages/comun/entities/respuesta-campo';
+
 
 @Component({
     selector: 'app-elaboracion-inspecciones',
@@ -103,9 +107,30 @@ export class ElaboracionInspeccionesComponent implements OnInit {
         { label: "Operativo", value: "Operativo" },
     ];
 
+    CapacidadOptionList = [
+        { label: "10Lbs", value: "10Lbs" },
+        { label: "15Lbs", value: "15Lbs" },
+        { label: "20Lbs", value: "20Lbs" },
+        { label: "150Lbs", value: "150Lbs" },
+        { label: "3700Grs", value: "3700Grs" },
+        { label: "9000Grs", value: "9000Grs" },
+        { label: "2,5Gls", value: "2,5Gls" },
+    ];
+
+    TipoOptionList = [
+        { label: "Multipropósito (ABC)Lbs", value: "Multipropósito (ABC)Lbs" },
+        { label: "Agente limpio 123 (ABC)Lbs", value: "Agente limpio 123 (ABC)Lbs" },
+        { label: "20Lbs", value: "20Lbs" },
+        { label: "150Lbs", value: "150Lbs" },
+        { label: "3700Grs", value: "3700Grs" },
+        { label: "9000Grs", value: "9000Grs" },
+        { label: "2,5Gls", value: "2,5Gls" },
+    ];
+
     listasConPeso: Set<string> = new Set([
         'Ciclo corto'
     ]);
+    respuestaCampos: RespuestaCampo[] | null = null;
 
     constructor(
         private router: Router,
@@ -275,8 +300,29 @@ export class ElaboracionInspeccionesComponent implements OnInit {
                     this.initLoading = false;
                 });;
         }
-
+        this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
         this.paramNav.reset();
+    }
+
+    async precargarDatos(formulario: Formulario, programacion: Programacion) {
+        formulario.campoList.forEach((campo:Campo, index: number) => {
+            switch(campo.nombre.trim().toLowerCase()) {
+                case 'fecha':
+                    if(!this.respuestaCampos) this.respuestaCampos = [];
+                    let fecha = new Date(); // Obtiene la fecha y hora actuales
+                    let dia = fecha.getDate(); // Obtiene el día del mes (1-31)
+                    let mes = ('0' + (fecha.getMonth() + 1)).slice(-2);
+                    let año = fecha.getFullYear(); // Obtiene el año (cuatro dígitos)
+                    let fechaFormateada = `${dia}/${mes}/${año}`;
+                    let respuesta3: RespuestaCampo = {} as RespuestaCampo;
+                    respuesta3.valor = fechaFormateada;
+                    respuesta3.campoId = campo.id;
+                    this.respuestaCampos.push(respuesta3);
+                    break;
+                default:
+                    break;
+            }
+        })
     }
 
     findMatrizValue(fecha: Date) {

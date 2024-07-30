@@ -442,12 +442,14 @@ export class SaludLaboralComponent implements OnInit {
     });
    try {
     await this.getArea()
+    console.log('eNTRO area');
    } catch (error) {
       console.log('error area');
       
    }
    try {
     await this.getCargoActual()
+    console.log('eNTRO EN CARGOS');
    } catch (error) {
     console.log(error,'error cargo');
     

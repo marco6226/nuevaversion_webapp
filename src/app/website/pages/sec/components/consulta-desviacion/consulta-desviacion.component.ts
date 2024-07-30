@@ -29,7 +29,8 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
     { label: 'Inspecciones', value: 'Inspecciones' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Reporte A/I', value: 'Reporte A/I' },
-    { label: 'Inspecciones CC', value: 'Inspecciones CC'}
+    { label: 'Inspecciones CC', value: 'Inspecciones CC'},
+    {label: 'Salud Laboral', value:'Salud Laboral'}
   ];
   moduloSelected: string = 'Reporte A/I';
 
@@ -44,6 +45,7 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
   fileName= 'ListaDesviaciones.xlsx';
 
   loading: boolean = true;
+  testing!: boolean;
   totalRecords?: number;
   fields: string[] = [
     'modulo',
@@ -79,6 +81,7 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.testing = true;
     this.config.setTranslation(this.localeES);
     this.areasPermiso = this.sesionService.getPermisosMap()['SEC_GET_DESV'].areas;
     let areasPermiso =this.areasPermiso?.replace('{','');
@@ -182,6 +185,7 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
         console.log(resp['data'])
         this.totalRecords = resp['count'];
         this.loading = false;
+        this.testing = false;
         this.desviacionesList = resp['data'];
         
         if(this.desviacionesList)

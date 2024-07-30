@@ -82,6 +82,10 @@ import { IndMatrizPeligrosComponent } from './pages/ind/components/ind-matriz-pe
 import { CasosMedicosListComponent } from './pages/scm/components/casos-medicos-list/casos-medicos-list.component';
 import { DocumentacionSaludLaboralComponent } from './pages/scm/components/salud-laboral/components/documentacion-salud-laboral/documentacion-salud-laboral.component';
 import { ListDocumentacionSolicitanteComponent } from './pages/scm/components/salud-laboral/components/list-documentacion-solicitante/list-documentacion-solicitante.component';
+import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/lista-inspeccion-signos/lista-inspeccion-signos.component';
+import { ElaboracionListaSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-lista-signos-vitales/elaboracion-lista-signos-vitales.component';
+import { ProgramacionSignosVitalesComponent } from './pages/inspecciones/components/programacion-signos-vitales/programacion-signos-vitales.component';
+import { ConsultaInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/consulta-inspecciones-signos-vitales/consulta-inspecciones-signos-vitales.component';
 
 const routes: Routes = [
   {
@@ -151,6 +155,15 @@ const routes: Routes = [
           { path: 'elaboracionInspecciones/:id/:version', component: ElaboracionInspeccionesComponent},
           { path: 'consultaInspecciones', component: ConsultaInspeccionesComponent },
           { path: 'elaboracionLista/:id/:version', component: ElaboracionListaComponent}
+        ]
+      },
+      {
+        path: 'signos',
+        children:[
+          {path: 'listaInspeccionSignos', component:ListaInspeccionSignosComponent},
+          {path: 'elaboracionListaSv', component: ElaboracionListaSignosVitalesComponent},
+          {path: 'programacionSv', component: ProgramacionSignosVitalesComponent},
+          {path: 'consultarInspeccionesSv', component: ConsultaInspeccionesSignosVitalesComponent}
         ]
       },
       {

@@ -43,7 +43,8 @@ export class ScmComponent implements OnInit {
     form!: FormGroup;
     visibleForm!: boolean;
     solicitando: boolean = false;
-    loading: boolean = false;;
+    loading: boolean = false;
+    testing: boolean = false;
     totalRecords!: number;
     excel:any=[]
     fields: string[] = [
@@ -87,8 +88,9 @@ export class ScmComponent implements OnInit {
         private viewscmInformeService: ViewscmInformeService,
         private config: PrimeNGConfig
     ) { }
-
+    
     async ngOnInit() {
+        this.testing = true;
         this.config.setTranslation(this.localeES);
         let cargofiltQuery = new FilterQuery();
         cargofiltQuery.sortOrder = SortOrder.ASC;
@@ -100,9 +102,9 @@ export class ScmComponent implements OnInit {
             (<Cargo[]>resp['data']).forEach((cargo) => {
                 this.cargoList.push({ label: cargo.nombre, value: cargo.id });
             });
+            console.log('eNTRO POR ACA EN CARGOS');
         });
         this.idEmpresa = this.sesionService.getEmpresa()?.id!;
-        
     }
 
     openCase() {
@@ -150,14 +152,17 @@ export class ScmComponent implements OnInit {
             console.log(this.casosList)
             res?.data?.forEach((dto: any) => {
                 this.casosList.push(FilterQuery.dtoToObject(dto));
+                this.testing = false;
+               
             });
             console.log(res)
             this.totalRecords = res.count;
-
+            
         } catch (error) {
             
         }
-    }
+       
+    } 
 
     async exportexcel(): Promise<void> 
     {
