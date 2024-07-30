@@ -2389,6 +2389,7 @@ export class SaludLaboralComponent implements OnInit {
             summary: "Correo Enviado",
             detail: `El correo electronico fue enviado`,
           });
+          this.loadMailData(this.idSl);
         },
         error => {
           this.msgs = []
@@ -2397,7 +2398,7 @@ export class SaludLaboralComponent implements OnInit {
             key: 'formScmSL',
             severity: "warn",
             summary: "Correo no Enviado",
-            detail: `El correo electronico fue no enviado, verifica la información`,
+            detail: `El correo electronico no fue enviado, verifica la información`,
           });
         }
       );
@@ -2413,7 +2414,7 @@ export class SaludLaboralComponent implements OnInit {
   }
 
   async onSubmiSLtSeg() {
-    await this.seguridad.forEach(async value => {
+    for(const value  of this.seguridad){
       await this.scmService.createMail(value).then(
         response => {
           this.modalConfirmacionVisible = false
@@ -2425,6 +2426,7 @@ export class SaludLaboralComponent implements OnInit {
             summary: "Correo Enviado",
             detail: `El correo electronico fue enviado`,
           });
+          this.loadMailData(this.idSl);
         },
         error => {
           this.msgs = []
@@ -2437,9 +2439,9 @@ export class SaludLaboralComponent implements OnInit {
           });
         }
       );
-    })
+    };
 
-  }
+  };
   async onSubmiSLl() {
     await this.saludLaboralMail.forEach(async value => {
       await this.scmService.createMail(value).then(
