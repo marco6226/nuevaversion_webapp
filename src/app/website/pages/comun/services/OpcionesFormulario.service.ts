@@ -3,9 +3,11 @@ import { Criteria } from '../../core/entities/filter';
 import { FilterQuery } from '../../core/entities/filter-query';
 import { SesionService } from '../../core/services/session.service';
 import { Localidades } from '../../ctr/entities/aliados';
+import { Area } from '../../empresa/entities/area';
 import { EmpresaService } from '../../empresa/services/empresa.service';
 import { Campo } from '../entities/campo';
 import { nitCorona, procesosCorona } from '../entities/inspeccion-utils';
+
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,25 @@ export class OpcionesFormularioService {
           return localidadesTemp;
         }
       },
+
+      {
+        servicioId: 'DIVISION DE NEGOCIO',
+        getData: async function(){
+          let divisionesTemp: any[] = [];
+          await empresaService.getArea()
+          .then(
+            (res: Area[]) => {
+              let nombreDivision: string[] = res.map(area => area.nombre);
+              divisionesTemp = nombreDivision.map(loc => {
+                return {label: loc, value: loc}
+              })
+            }
+          ).catch((err: any) => {
+            console.error('Error al obtener las divisiones', err);
+          });
+          return divisionesTemp;
+        }
+      },      
       
       {
         servicioId: 'ALIADO',

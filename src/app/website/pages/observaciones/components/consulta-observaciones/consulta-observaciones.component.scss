@@ -5,3 +5,16 @@ select{
     width: 100%;
     background: #fff0;
   }
+
+  
+.image{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: 10%;
+  height: auto;
+}

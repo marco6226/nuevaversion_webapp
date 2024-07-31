@@ -5,3 +5,15 @@
 :host ::ng-deep .p-chips .p-chips-multiple-container {
     width: -webkit-fill-available;
 }
+
+.image{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    width: 10%;
+    height: auto;
+}

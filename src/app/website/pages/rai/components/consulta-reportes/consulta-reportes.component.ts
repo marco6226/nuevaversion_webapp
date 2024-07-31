@@ -21,6 +21,7 @@ export class ConsultaReportesComponent implements OnInit {
   reporteSelect?: Reporte;
   reportesList?: Reporte[];
   loading: boolean=true;
+  testing!: boolean;
   totalRecords?: number;
   fields: string[] = [
     
@@ -46,6 +47,7 @@ export class ConsultaReportesComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.testing = true;
     this.idEmpresa = await this.sesionService.getEmpresa()?.id;
     this.sortedTable=(this.idEmpresa=='22')?"fechaAccidente":"fechaReporte";
   }
@@ -64,6 +66,7 @@ export class ConsultaReportesComponent implements OnInit {
       (resp: any) => {
         this.totalRecords = resp['count'];
         this.loading = false;
+        this.testing = false;
         this.reportesList = [];
         (<any[]>resp['data']).forEach(dto => {
           this.reportesList?.push(FilterQuery.dtoToObject(dto));

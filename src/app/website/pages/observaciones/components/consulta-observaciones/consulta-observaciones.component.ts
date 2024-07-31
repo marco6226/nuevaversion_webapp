@@ -20,6 +20,7 @@ export class ConsultaObservacionesComponent implements OnInit {
   observacionesList?: Observacion[];
   observacionSelect?: Observacion;
   loading?: boolean;
+  testing!: boolean;
   totalRecords?: number;
   idEmpresa?: string | null;
   observacion?: Observacion;
@@ -47,6 +48,7 @@ export class ConsultaObservacionesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.testing = true;
     this.loading = true;
     this.idEmpresa = this.sesionService.getEmpresa()!.id;
     this.areasPermiso = this.sesionService.getPermisosMap()['AUC_GET_OBS'].areas;
@@ -77,6 +79,7 @@ export class ConsultaObservacionesComponent implements OnInit {
       (resp:any) => {
         this.totalRecords = resp['count'];
         this.loading = false;
+        this.testing = false;
         this.observacionesList = [];
         (<any[]>resp['data']).forEach(dto => {
           this.observacionesList!.push(FilterQuery.dtoToObject(dto));
