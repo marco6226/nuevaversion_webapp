@@ -58,7 +58,19 @@ export class CasosMedicosListComponent implements OnInit {
     'pkUser',
     'nombreCompletoSL',
     'documentos',
-    'fechaRecepcionDocs'
+    'fechaRecepcionDocs',
+    'fechaCierreCaso',
+    'documentosEmpresa',
+    'documentosMinisterio',
+    'epsDictamen',
+    'fechaDictamenArl',
+    'arlDictamen',
+    'documentosArl',
+    'fechaDictamenJr',
+    'jrDictamen',
+    'documentosJr',
+    'fechaDictamenJn',
+      'documentosJn'
   ];
   consultar: boolean = false;
   async ngOnInit() {
@@ -187,10 +199,13 @@ export class CasosMedicosListComponent implements OnInit {
 
   }
   idToCargo(id: number) {
-    return this.cargoActualList.find(value => {
-      return value.value == id
-    })?.label
+    if (!this.cargoActualList) {
+      return null; // O algún valor por defecto
+    }
+  
+    return this.cargoActualList.find(value => value.value === id)?.label || null;
   }
+  
   async getCargoActual() {
     let cargoActualfiltQuery = new FilterQuery();
     cargoActualfiltQuery.sortOrder = SortOrder.ASC;

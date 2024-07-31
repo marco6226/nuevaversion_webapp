@@ -274,11 +274,7 @@
                                 <div class="col-6">
                                     <div>
                                         <label for="" class="active">Ciudad de residencia</label>
-                                        <s-ciudadSelector [disabled]="consultar2" formControlName="ciudad"
-                                            [id]="departamento" class="select-material" styleClass="select-material"
-                                            required [styleCol]="'col-4'" [_value]="this.empleadoForm.value!.ciudad">
-                                            
-                                        </s-ciudadSelector>
+                                        <s-ciudadSelector id="ciudadSelector" formControlName="ciudad" [_value]="this.empleadoForm.value!.ciudad" required></s-ciudadSelector>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -952,7 +948,7 @@
 
                 <p-table *ngIf="!caseSelect && !createCase" #dt [value]="casosList" (click)="onClick()"
                     autoLayout="true" selectionMode="single" [(selection)]="casoSeleccionado" [rows]="10"
-                    (onLazyLoad)="lazyLoad($event)" [paginator]="true" dataKey="id" [lazy]="true">
+                     [paginator]="true" dataKey="id" [lazy]="true">
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="id">No. Caso

@@ -1,681 +1,10 @@
 <p-toast key="formScmSL"></p-toast>
 <!-- <p-messages [(value)]="msgs" ></p-messages> -->
-<p-confirmDialog ></p-confirmDialog>
+<p-confirmDialog></p-confirmDialog>
 
 <p-tabView>
   <p-tabPanel header="Información General" *sTienePermiso="'SCM_GET_ICSL'">
-    <p-panel header="Datos del trabajador involucrado">
-      <form [formGroup]="empleadoForm">
-        <div class="container-fluid cew-9">
-          <div class="container-fluid cew-9">
-            <div class="row">
-              <div class="col">
-                <div>
-                  <label for="" class="active">Número de identificación</label>
-                  <p-autoComplete
-                    styleClass="form-control-autocomplete"
-                    #autocomplete
-                    placeholder="Digite"
-                    [style]="{ width: '100%' }"
-                    (onSelect)="onSelection($event)"
-                    [suggestions]="empleadosList"
-                    (completeMethod)="buscarEmpleado($event)"
-                    formControlName="numeroIdentificacion"
-                    *ngIf="empleado?.id == null"
-                    required
-                  >
-                    <ng-template let-empleado pTemplate="item">
-                      <div class="ui-helper-clearfix">
-                        <div class="wrapper">
-                          <i
-                            *ngIf="!empleado.usuario?.icon"
-                            class="fa fa-user-circle"
-                            style="font-size: 48px"
-                            aria-hidden="true"
-                          ></i>
-                          <img
-                            *ngIf="empleado.usuario?.icon"
-                            [src]="empleado.usuario?.icon"
-                            style="border-radius: 50%"
-                            #imgAvatar
-                            alt=""
-                          />
-                          <div style="margin-left: 20px">
-                            <br />
-                            {{ empleado?.primerApellido }}
-                            {{ empleado?.primerNombre }}
-                            {{ empleado?.segundoNombre }}
-                            <br />
-                            {{ empleado?.numeroIdentificacion }} <br />
-                            {{ empleado?.usuario.email }}
-                          </div>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-autoComplete>
-                </div>
-              </div>
-              <div class="col">
-                <div>
-                  <div>
-                    <label for="" class="active">Tipo de identificación</label>
-                  </div>
-                  <div>
-                    <p-dropdown
-                      [options]="tipoIdentificacionList"
-                      formControlName="tipoIdentificacion"
-                      [attr.disabled]="true"
-                      required
-                      styleClass="select-material"
-                      required
-                    >
-                    </p-dropdown>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div>
-                  <label for="" class="active">Apellidos y nombres</label>
-                  <input
-                    type="text"
-                    pInputText
-                    [value]="nameAndLastName"
-                    placeholder="Apellidos y nombres"
-                    class="form-control"
-                    id="nameAndLastName"
-                    [attr.disabled]="true"
-                  />
-                </div>
-              </div>
-
-              <div class="col">
-                <div>
-                  <label for="" class="active">División/Unidad</label>
-                  <input
-                    readonly
-                    type="text"
-                    pInputText
-                    formControlName="division"
-                    placeholder="División/Unidad"
-                    class="form-control"
-                    id="division"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- div -->
-          <div class="container-fluid cew-9">
-            <div class="row">
-              <div class="col">
-                <div>
-                  <div>
-                    <label for="" class="active">Cargo Origen</label>
-                  </div>
-                  <div>
-                    <p-dropdown
-                      [filter]="true"
-                      [options]="cargoActualList"
-                      formControlName="cargoOriginal"
-                      class="select-material"
-                      styleClass="select-material"
-                      placeholder="Seleccione cargo"
-                      required
-                    >
-                    </p-dropdown>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div>
-                  <div>
-                    <label for="" class="active">Cargo Actual</label>
-                  </div>
-                  <div class="grid">
-                    <div class="col-8">
-                      <p-dropdown
-                        [filter]="true"
-                        [options]="cargoActualList"
-                        formControlName="cargoActual"
-                        placeholder="Seleccione cargo"
-                        required
-                        class="select-material"
-                        styleClass="select-material"
-                      >
-                      </p-dropdown>
-                    </div>
-                    <div class="col-4">
-                      <button
-                        pButton
-                        type="button"
-                        icon="bi bi-plus"
-                        class="p-button-raised p-button-primary margin-right"
-                        title="Crear oficio actual"
-                        (click)="flagDialogCargoActual = true"
-                      ></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col"></div>
-              <div class="col"></div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col">
-              <div>
-                <label for="" class="active">División origen</label>
-                <p-dropdown
-                  formControlName="divisionOrigen"
-                  [filter]="true"
-                  placeholder="Seleccione una división"
-                  [options]="listDivision"
-                  appendTo="body"
-                  required
-                  (onChange)="cargarPlantaLocalidad($event.value, 'Origen')"
-                ></p-dropdown>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Localidad origen</label>
-                <p-dropdown
-                  formControlName="localidadOrigen"
-                  [filter]="true"
-                  [options]="localidadesList"
-                  class="select-material"
-                  styleClass="select-material"
-                  placeholder="Seleccione localidad"
-                  required
-                  (onChange)="cargarArea($event.value, 'Origen')"
-                >
-                </p-dropdown>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Área origen</label>
-              </div>
-              <div>
-                <p-dropdown
-                  formControlName="areaOrigen"
-                  [filter]="true"
-                  placeholder="Seleccione una área"
-                  [options]="areaList"
-                  optionLabel="name"
-                  appendTo="body"
-                  required
-                  (onChange)="cargarProceso($event.value, 'Origen')"
-                ></p-dropdown>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">Proceso origen</label>
-                </div>
-                <div>
-                  <p-dropdown
-                    formControlName="procesoOrigen"
-                    [filter]="true"
-                    placeholder="Seleccione una proceso"
-                    [options]="procesoList"
-                    optionLabel="label"
-                    required
-                    appendTo="body"
-                  ></p-dropdown>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col">
-              <div>
-                <label for="" class="active">División actual</label>
-                <p-dropdown
-                  formControlName="divisionActual"
-                  [filter]="true"
-                  placeholder="Seleccione una división"
-                  [options]="listDivision"
-                  appendTo="body"
-                  required
-                  (onChange)="cargarPlantaLocalidad($event.value, 'Actual')"
-                ></p-dropdown>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Localidad actual</label>
-                <p-dropdown
-                  formControlName="localidadActual"
-                  [filter]="true"
-                  [options]="localidadesListActual"
-                  class="select-material"
-                  styleClass="select-material"
-                  placeholder="Seleccione localidad"
-                  required
-                  (onChange)="cargarArea($event.value, 'Actual')"
-                >
-                </p-dropdown>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Área actual</label>
-              </div>
-              <div>
-                <p-dropdown
-                  formControlName="areaActual"
-                  [filter]="true"
-                  placeholder="Seleccione una área"
-                  [options]="areaListActual"
-                  optionLabel="name"
-                  appendTo="body"
-                  required
-                  (onChange)="cargarProceso($event.value, 'Actual')"
-                ></p-dropdown>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">Proceso actual</label>
-                </div>
-                <div>
-                  <p-dropdown
-                    formControlName="procesoActual"
-                    [filter]="true"
-                    placeholder="Seleccione una proceso"
-                    [options]="procesoListActual"
-                    required
-                    appendTo="body"
-                  ></p-dropdown>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div>
-                <label for="" class="active">Sexo </label>
-              </div>
-              <div
-                class="form-check form-check-inline"
-                style="display: flex; justify-content: space-evenly"
-              >
-                <p-radioButton
-                  name="genero"
-                  value="M"
-                  label=" Masculino"
-                  formControlName="genero"
-                >
-                </p-radioButton>
-                <p-radioButton
-                  name="genero"
-                  value="F"
-                  label="Femenino"
-                  formControlName="genero"
-                >
-                </p-radioButton>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">Fecha de nacimiento</label>
-                </div>
-                <div>
-                  <p-calendar
-                    appendTo="body"
-                    required
-                    [attr.disabled]="true"
-                    [monthNavigator]="true"
-                    [yearNavigator]="true"
-                    [yearRange]="yearRange"
-                    [maxDate]="fechaActual"
-                    dateFormat="dd/mm/yy"
-                    formControlName="fechaNacimiento"
-                  ></p-calendar>
-                </div>
-              </div>
-            </div>
-            <div class="col"></div>
-            <div class="col"></div>
-          </div>
-          <div class="container-fluid cew-9">
-            <div class="row">
-              <div class="col">
-                <div>
-                  <div>
-                    <label for="" class="active">Fecha de vinculación</label>
-                  </div>
-                  <div>
-                    <p-calendar
-                      appendTo="body"
-                      required
-                      [attr.disabled]="true"
-                      [monthNavigator]="true"
-                      [yearNavigator]="true"
-                      [yearRange]="yearRange"
-                      [maxDate]="fechaActual"
-                      dateFormat="dd/mm/yy"
-                      formControlName="fechaIngreso"
-                    ></p-calendar>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div>
-                  <label for="" class="active">Antigüedad</label>
-                  <input
-                    type="text"
-                    pInputText
-                    [value]="antiguedad || ''"
-                    placeholder="Antigüedad"
-                    class="form-control"
-                    id="antiguedad"
-                    [attr.disabled]="true"
-                  />
-                </div>
-              </div>
-              <div class="col">
-                <div>
-                  <label for="" class="active">Rango de antigüedad</label>
-                  <input
-                    type="text"
-                    pInputText
-                    [value]="range || ''"
-                    placeholder="Antigüedad"
-                    class="form-control"
-                    id="rango"
-                    [attr.disabled]="true"
-                  />
-                </div>
-              </div>
-              <div class="col"></div>
-            </div>
-          </div>
-
-          <!-- div -->
-          <div class="row">
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">Fecha de desvinculación</label>
-                </div>
-                <p-calendar
-                  [attr.disabled]="true"
-                  [monthNavigator]="true"
-                  [yearNavigator]="true"
-                  [yearRange]="yearRange"
-                  [maxDate]="fechaActual"
-                  dateFormat="dd/mm/yy"
-                  appendTo="body"
-                >
-                </p-calendar>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Teléfono corporativo</label>
-                <input
-                  pInputText
-                  formControlName="corporativePhone"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Correo corporativo</label>
-                <input
-                  type="email"
-                  pInputText
-                  formControlName="email"
-                  placeholder="Correo corporativo"
-                  class="form-control"
-                  id="correocorporativo"
-                  autocomplete="off"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Ciudad</label>
-                <input
-                  type="text"
-                  pInputText
-                  formControlName="ciudadGerencia"
-                  placeholder="Ciudad"
-                  class="form-control"
-                  id="ciudad"
-                />
-              </div>
-            </div>
-          </div>
-          <!-- div -->
-
-          <!-- div -->
-          <div class="row">
-            <div class="col">
-              <div>
-                <label for="" class="active">Edad</label>
-                <input
-                  [attr.disabled]="true"
-                  type="text"
-                  pInputText
-                  [value]="edad || ''"
-                  placeholder="Edad"
-                  class="form-control"
-                  id="Edad"
-                />
-              </div>
-            </div>
-            <!-- <div class="col">
-                            <div>
-                                <label for="" class="active">Ciudad de residencia</label>
-                                <s-ciudadSelector formControlName="ciudad"
-                                    [id]="departamento" class="select-material" styleClass="select-material" [_value]="this.empleadoForm.value!.ciudad"
-                                    >
-                                </s-ciudadSelector>
-                            </div>
-                        </div> -->
-            <div class="col">
-              <div>
-                <label for="" class="active">Dirección de residencia</label>
-                <input
-                  pInputText
-                  class="form-control"
-                  formControlName="direccion"
-                  styleClass="form-control"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Zona de residencia</label>
-              </div>
-              <div
-                class="form-check form-check-inline"
-                style="display: flex; justify-content: space-evenly"
-              >
-                <p-radioButton
-                  name="zonaResidencia"
-                  value="U"
-                  label=" Urbana"
-                  formControlName="zonaResidencia"
-                >
-                </p-radioButton>
-                <p-radioButton
-                  name="zonaResidencia"
-                  value="R"
-                  label="Rural"
-                  formControlName="zonaResidencia"
-                >
-                </p-radioButton>
-              </div>
-            </div>
-          </div>
-          <!-- div -->
-          <div class="row">
-            <div class="col">
-              <div>
-                <label for="" class="active">Teléfono personal</label>
-                <input
-                  pInputText
-                  formControlName="telefono1"
-                  class="form-control"
-                  styleClass="form-control"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Teléfono de residencia</label>
-                <input
-                  pInputText
-                  formControlName="telefono2"
-                  class="form-control"
-                  styleClass="form-control"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Correo personal</label>
-                <input
-                  type="email"
-                  pInputText
-                  formControlName="correoPersonal"
-                  plaholder="Correo personal"
-                  class="form-control"
-                  autocomplete="off"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">EPS</label>
-                </div>
-                <div>
-                  <p-dropdown
-                    required
-                    [filter]="true"
-                    [options]="epsList"
-                    formControlName="eps"
-                    class="select-material"
-                    styleClass="select-material"
-                  ></p-dropdown>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- div -->
-          <div class="row">
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">AFP</label>
-                </div>
-                <div>
-                  <p-dropdown
-                    required
-                    [filter]="true"
-                    [options]="afpList"
-                    formControlName="afp"
-                    class="select-material"
-                    styleClass="select-material"
-                  ></p-dropdown>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">ARL</label>
-                <input
-                  required
-                  [attr.disabled]="true"
-                  type="text"
-                  pInputText
-                  [value]="arl || ''"
-                  placeholder="Arl"
-                  class="form-material"
-                  id="arl"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Contacto de emergencia</label>
-                <input
-                  type="text"
-                  pInputText
-                  formControlName="emergencyContact"
-                  placeholder="Contacto de emergencia"
-                  class="form-control"
-                  id="emergencyContact"
-                />
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active"
-                  >Telefono de contacto de emergencia</label
-                >
-                <input
-                  pInputText
-                  formControlName="phoneEmergencyContact"
-                  class="form-control"
-                  styleClass="form-control"
-                />
-              </div>
-            </div>
-          </div>
-          <!-- div -->
-          <div class="row">
-            <div class="col">
-              <div>
-                <label for="" class="active"
-                  >Correo de contacto de emergencia</label
-                >
-                <input
-                  type="email"
-                  pInputText
-                  formControlName="emailEmergencyContact"
-                  placeholder="Correo corporativo"
-                  class="form-control"
-                  id="emailEmergencyContact"
-                  autocomplete="off"
-                />
-              </div>
-            </div>
-            <div class="col"></div>
-            <div class="col"></div>
-            <div class="col"></div>
-          </div>
-        </div>
-
-        <!-- <button pButton (click)="onSubmit()" type="submit"
-                        icon="pi pi-save" class="float-btn" style="bottom: 100px;"
-                        title="Guardar datos de Empleado" [disabled]="!this.empleadoForm.valid"></button> -->
-
-        <div *ngIf="!consultar2" style="text-align: center; width: 100%">
-          <button
-            pButton
-            *sTienePermiso="'SCM_POST_CSL'"
-            (click)="onSubmit(); submitEmp()"
-            type="submit"
-            icon="pi pi-save"
-            class="float-btn"
-            style="bottom: 100px"
-            title="Guardar datos de Empleado"
-            [disabled]="!this.empleadoForm.valid"
-          ></button>
-        </div>
-      </form>
-    </p-panel>
+    <app-datos-trabajador-involucrado></app-datos-trabajador-involucrado>
     <br />
     <p-panel header="Datos del jefe inmediato">
       <form [formGroup]="jefeInmediato">
@@ -749,6 +78,7 @@
                 />
               </div>
             </div>
+
             <div class="col">
               <div>
                 <div>
@@ -913,7 +243,7 @@
       </p-table>
     </p-tabPanel>
     <ng-container *sTienePermiso="'SCM_GET_DCSL'">
-      <p-tabPanel *ngIf="flagSaludLaboralRegistro" header="Diagnósticos" >
+      <p-tabPanel *ngIf="flagSaludLaboralRegistro" header="Diagnósticos">
         <div class="container-fluid cew-9">
           <div class="row">
             <h2 class="title-header p-mb-2">Información sobre diagnósticos</h2>
@@ -937,7 +267,7 @@
                   <th pSortableColumn="sistemaAfectado">Sistema Afectado</th>
                   <th pSortableColumn="diagnostico">Diagnóstico</th>
                   <th pSortableColumn="detalle">Detalles</th>
-  
+
                   <th pSortableColumn="fechaDiagnostico">Fecha</th>
                 </tr>
               </ng-template>
@@ -948,7 +278,9 @@
                   class="table-row table-row-selectable"
                 >
                   <td class="p-text-center">{{ case.codigoCie10 }}</td>
-                  <td class="p-text-center">{{ case.sistemaAfectado || "" }}</td>
+                  <td class="p-text-center">
+                    {{ case.sistemaAfectado || "" }}
+                  </td>
                   <td class="p-text-center">{{ case.diagnostico }}</td>
                   <td class="p-text-center">{{ case.detalle }}</td>
                   <td class="p-text-center">
@@ -989,7 +321,7 @@
                                       class="p-button-raised p-button-warning margin-right margin-left"
                                       [disabled]="!diagSelect" (click)="showModalDiagnosticoConsulta()"></button> -->
                 </ng-container>
-  
+
                 <!-- <ng-container><button *sTienePermiso="'SCM_PUT_CASE_DIAG'" pButton
                                       type="button" icon="bi bi-search" label="Consultar" class="p-button-warning"
                                       (click)="showModalDiagnosticoConsulta()"
@@ -1006,9 +338,8 @@
           </div>
         </div>
       </p-tabPanel>
-    </ng-container >
-    
-    
+    </ng-container>
+
     <ng-container *sTienePermiso="'SCM_GET_LCPCLSL'">
       <p-tabPanel
         header="Calificación (origen -PCL)"
@@ -1032,11 +363,15 @@
         <p-accordion [multiple]="true">
           <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
             <!-- Otros campos del formulario -->
-            
-            <p-accordionTab header="Fecha de apertura del caso">
+
+            <p-accordionTab
+              header="Fecha recepción de solicitud de documentación"
+            >
               <div class="form-row mt-3">
                 <div class="col-12">
-                  <label for="fechaLimite">Fecha recepción de solicitud de documentación:</label>
+                  <label for="fechaLimite"
+                    >Fecha recepción de solicitud de documentación:</label
+                  >
                   <p-calendar
                     id="fechaLimite"
                     appendTo="body"
@@ -1050,7 +385,9 @@
                 </div>
                 <div class="col">
                   <div class="input-field">
-                    <label for="" class="active">Entidad que emite la calificación origen</label>
+                    <label for="" class="active"
+                      >Entidad que solicita la documentación</label
+                    >
                     <p-dropdown
                       appendTo="body"
                       [filter]="true"
@@ -1064,19 +401,25 @@
                     </p-dropdown>
                   </div>
                 </div>
-                
+
                 <!-- Campo de texto para "Otros" -->
                 <div class="col" *ngIf="selectedEntidad === 'otros'">
                   <div class="input-field">
-                    <label for="" class="active">Escriba la entidad de calificación de origen</label>
-                    <input type="text" formControlName="otroDetalle" class="form-control">
+                    <label for="" class="active"
+                      >Escriba la entidad que solicito la documentación</label
+                    >
+                    <input
+                      type="text"
+                      formControlName="otroDetalle"
+                      class="form-control"
+                    />
                   </div>
                 </div>
-                
+
                 <!-- Dropdown para detalles -->
                 <div class="col" *ngIf="isDetalleEnabled">
                   <div class="input-field">
-                    <label for="" class="active">Seleccionar Entidad</label>
+                    <label for="" class="active">Entidad</label>
                     <p-dropdown
                       appendTo="body"
                       [filter]="true"
@@ -1089,7 +432,10 @@
                   </div>
                 </div>
                 <div class="col-12">
-                  <label for="fechaLimite">Fecha maxima de envio para solicitud de documentación:</label>
+                  <label for="fechaLimite"
+                    >Fecha maxima de envio para solicitud de
+                    documentación:</label
+                  >
                   <p-calendar
                     id="fechaLimite"
                     appendTo="body"
@@ -1101,16 +447,10 @@
                     dateFormat="dd/mm/yy"
                   ></p-calendar>
                 </div>
-                
-                
-                
-                
               </div>
             </p-accordionTab>
-            
-            
           </form>
-          
+
           <p-accordionTab header="GH Admon personal">
             <div *ngIf="flag1" class="container-fluid">
               <div class="form-row">
@@ -1131,7 +471,9 @@
                         <div class="wrapper">
                           <div class="empleado-info">
                             <br />
-                            {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                            {{ empleado?.primerApellido }}
+                            {{ empleado?.primerNombre }}
+                            {{ empleado?.segundoNombre }}
                             <br />
                             {{ empleado?.numeroIdentificacion }}
                             <br />
@@ -1145,7 +487,9 @@
               </div>
               <div class="form-row mt-3">
                 <div class="col-12">
-                  <label for="tipoDocumento">Tipo de documento a solicitar:</label>
+                  <label for="tipoDocumento"
+                    >Tipo de documento a solicitar:</label
+                  >
                   <p-dropdown
                     id="tipoDocumento"
                     [options]="doc"
@@ -1157,7 +501,9 @@
               </div>
               <div class="form-row mt-3">
                 <div class="col-12">
-                  <label for="fechaLimite">Fecha límite envío de documentación:</label>
+                  <label for="fechaLimite"
+                    >Fecha límite envío de documentación:</label
+                  >
                   <p-calendar
                     id="fechaLimite"
                     appendTo="body"
@@ -1172,7 +518,10 @@
               </div>
               <div class="form-row mt-3">
                 <div class="col-12">
-                  <button class="btn btn-primary" (click)="addEmailSendghAdmon()">
+                  <button
+                    class="btn btn-primary"
+                    (click)="addEmailSendghAdmon()"
+                  >
                     <i class="fas fa-save"></i> Guardar selección
                   </button>
                 </div>
@@ -1180,7 +529,10 @@
               <div class="form-row mt-4">
                 <div class="col-12">
                   <h5>Correos para enviar:</h5>
-                  <div *ngFor="let item of ghAdmonPersonal; let i = index" class="form-group saved-item">
+                  <div
+                    *ngFor="let item of ghAdmonPersonal; let i = index"
+                    class="form-group saved-item"
+                  >
                     <div class="saved-item-content">
                       <label>Responsable:</label>
                       <p-autoComplete
@@ -1188,7 +540,9 @@
                         placeholder="Digite"
                         [style]="{ width: '100%' }"
                         [suggestions]="empleadosList"
-                        (onSelect)="selectResonsableSelected($event, 'res1', item)"
+                        (onSelect)="
+                          selectResonsableSelected($event, 'res1', item)
+                        "
                         (completeMethod)="buscarEmpleado($event)"
                         [(ngModel)]="item.usuarioSolicitado"
                       >
@@ -1197,7 +551,9 @@
                             <div class="wrapper">
                               <div class="empleado-info">
                                 <br />
-                                {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                                {{ empleado?.primerApellido }}
+                                {{ empleado?.primerNombre }}
+                                {{ empleado?.segundoNombre }}
                                 <br />
                                 {{ empleado?.numeroIdentificacion }}
                                 <br />
@@ -1225,23 +581,24 @@
                         dateFormat="dd/mm/yy"
                       ></p-calendar>
                       <div>
-                        <button class="btn btn-danger btn-sm mt-2" (click)="removeEmail(i)">
+                        <button
+                          class="btn btn-danger btn-sm mt-2"
+                          (click)="removeEmail(i)"
+                        >
                           <i class="fas fa-times"></i> Eliminar
                         </button>
                       </div>
-                      
                     </div>
-                    <hr class="divider">
+                    <hr class="divider" />
                   </div>
                 </div>
-              </div>            
+              </div>
             </div>
           </p-accordionTab>
 
           <p-accordionTab header="Seguridad">
             <div class="container-fluid cew-9 grid">
               <div *ngIf="flag2" class="container-fluid">
-                
                 <div class="form-row">
                   <div class="col-12">
                     <label for="responsableSeguridad">Responsable:</label>
@@ -1260,7 +617,9 @@
                           <div class="wrapper">
                             <div class="empleado-info">
                               <br />
-                              {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                              {{ empleado?.primerApellido }}
+                              {{ empleado?.primerNombre }}
+                              {{ empleado?.segundoNombre }}
                               <br />
                               {{ empleado?.numeroIdentificacion }}
                               <br />
@@ -1274,7 +633,9 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <label for="tipoDocumentoSeguridad">Tipo de documento a solicitar:</label>
+                    <label for="tipoDocumentoSeguridad"
+                      >Tipo de documento a solicitar:</label
+                    >
                     <p-dropdown
                       id="tipoDocumentoSeguridad"
                       [options]="docSalud"
@@ -1286,7 +647,9 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <label for="fechaLimiteSeguridad">Fecha límite envío de documentación:</label>
+                    <label for="fechaLimiteSeguridad"
+                      >Fecha límite envío de documentación:</label
+                    >
                     <p-calendar
                       id="fechaLimiteSeguridad"
                       appendTo="body"
@@ -1301,7 +664,10 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <button class="btn btn-primary" (click)="addEmailSeguridad()">
+                    <button
+                      class="btn btn-primary"
+                      (click)="addEmailSeguridad()"
+                    >
                       <i class="fas fa-save"></i> Guardar selección
                     </button>
                   </div>
@@ -1309,7 +675,10 @@
                 <div class="form-row mt-4">
                   <div class="col-12">
                     <h5>Correos para enviar:</h5>
-                    <div *ngFor="let item of seguridad" class="form-group saved-item">
+                    <div
+                      *ngFor="let item of seguridad"
+                      class="form-group saved-item"
+                    >
                       <div class="saved-item-content">
                         <label>Responsable:</label>
                         <p-autoComplete
@@ -1317,7 +686,9 @@
                           placeholder="Digite"
                           [style]="{ width: '100%' }"
                           [suggestions]="empleadoListSegu"
-                          (onSelect)="selectResonsableSelectedSeg($event, 'res2', item)"
+                          (onSelect)="
+                            selectResonsableSelectedSeg($event, 'res2', item)
+                          "
                           (completeMethod)="buscarEmpleado2($event)"
                           [(ngModel)]="item.usuarioSolicitado"
                         >
@@ -1326,7 +697,9 @@
                               <div class="wrapper">
                                 <div class="empleado-info">
                                   <br />
-                                  {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                                  {{ empleado?.primerApellido }}
+                                  {{ empleado?.primerNombre }}
+                                  {{ empleado?.segundoNombre }}
                                   <br />
                                   {{ empleado?.numeroIdentificacion }}
                                   <br />
@@ -1354,12 +727,15 @@
                           dateFormat="dd/mm/yy"
                         ></p-calendar>
                         <div>
-                          <button class="btn btn-danger btn-sm mt-2" (click)="removeEmailSeg(i)">
+                          <button
+                            class="btn btn-danger btn-sm mt-2"
+                            (click)="removeEmailSeg(i)"
+                          >
                             <i class="fas fa-times"></i> Eliminar
                           </button>
                         </div>
                       </div>
-                      <hr class="divider">
+                      <hr class="divider" />
                     </div>
                   </div>
                 </div>
@@ -1369,7 +745,6 @@
           <p-accordionTab header="Salud">
             <div class="container-fluid cew-9 grid">
               <div *ngIf="flag3" class="container-fluid">
-                
                 <div class="form-row">
                   <div class="col-12">
                     <label for="responsableSalud">Responsable:</label>
@@ -1388,7 +763,9 @@
                           <div class="wrapper">
                             <div class="empleado-info">
                               <br />
-                              {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                              {{ empleado?.primerApellido }}
+                              {{ empleado?.primerNombre }}
+                              {{ empleado?.segundoNombre }}
                               <br />
                               {{ empleado?.numeroIdentificacion }}
                               <br />
@@ -1402,7 +779,9 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <label for="tipoDocumentoSalud">Tipo de documento a solicitar:</label>
+                    <label for="tipoDocumentoSalud"
+                      >Tipo de documento a solicitar:</label
+                    >
                     <p-dropdown
                       id="tipoDocumentoSaludLaboral"
                       [options]="docSaludLaboral"
@@ -1414,7 +793,9 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <label for="fechaLimiteSeguridad">Fecha límite envío de documentación:</label>
+                    <label for="fechaLimiteSeguridad"
+                      >Fecha límite envío de documentación:</label
+                    >
                     <p-calendar
                       id="fechaLimiteSeguridad"
                       appendTo="body"
@@ -1437,7 +818,10 @@
                 <div class="form-row mt-4">
                   <div class="col-12">
                     <h5>Correos para enviar:</h5>
-                    <div *ngFor="let item of saludLaboralMail" class="form-group saved-item">
+                    <div
+                      *ngFor="let item of saludLaboralMail"
+                      class="form-group saved-item"
+                    >
                       <div class="saved-item-content">
                         <label>Responsable:</label>
                         <p-autoComplete
@@ -1445,7 +829,9 @@
                           placeholder="Digite"
                           [style]="{ width: '100%' }"
                           [suggestions]="empleadoListSalud"
-                          (onSelect)="selectResonsableSelectedSalud($event, 'res3', item)"
+                          (onSelect)="
+                            selectResonsableSelectedSalud($event, 'res3', item)
+                          "
                           (completeMethod)="buscarEmpleadoSalud($event)"
                           [(ngModel)]="item.usuarioSolicitado"
                         >
@@ -1454,7 +840,9 @@
                               <div class="wrapper">
                                 <div class="empleado-info">
                                   <br />
-                                  {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                                  {{ empleado?.primerApellido }}
+                                  {{ empleado?.primerNombre }}
+                                  {{ empleado?.segundoNombre }}
                                   <br />
                                   {{ empleado?.numeroIdentificacion }}
                                   <br />
@@ -1482,23 +870,25 @@
                           dateFormat="dd/mm/yy"
                         ></p-calendar>
                         <div>
-                          <button class="btn btn-danger btn-sm mt-2" (click)="removeEmailSaludL(i)">
+                          <button
+                            class="btn btn-danger btn-sm mt-2"
+                            (click)="removeEmailSaludL(i)"
+                          >
                             <i class="fas fa-times"></i> Eliminar
                           </button>
                         </div>
                       </div>
-                      <hr class="divider">
+                      <hr class="divider" />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </p-accordionTab>
-  
+
           <p-accordionTab header="Psicosocial">
             <div class="container-fluid cew-9 grid">
               <div *ngIf="flag3" class="container-fluid">
-                
                 <div class="form-row">
                   <div class="col-12">
                     <label for="responsablePsicosocial">Responsable:</label>
@@ -1517,7 +907,9 @@
                           <div class="wrapper">
                             <div class="empleado-info">
                               <br />
-                              {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                              {{ empleado?.primerApellido }}
+                              {{ empleado?.primerNombre }}
+                              {{ empleado?.segundoNombre }}
                               <br />
                               {{ empleado?.numeroIdentificacion }}
                               <br />
@@ -1531,7 +923,9 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <label for="tipoDocumentoPsicosocial">Tipo de documento a solicitar:</label>
+                    <label for="tipoDocumentoPsicosocial"
+                      >Tipo de documento a solicitar:</label
+                    >
                     <p-dropdown
                       id="tipoDocumentoPsicosiscial"
                       [options]="docPsicosocial"
@@ -1543,7 +937,9 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <label for="fechaLimiteSeguridad">Fecha límite envío de documentación:</label>
+                    <label for="fechaLimiteSeguridad"
+                      >Fecha límite envío de documentación:</label
+                    >
                     <p-calendar
                       id="fechaLimiteSeguridad"
                       appendTo="body"
@@ -1558,7 +954,10 @@
                 </div>
                 <div class="form-row mt-3">
                   <div class="col-12">
-                    <button class="btn btn-primary" (click)="addEmailPsicosocial()">
+                    <button
+                      class="btn btn-primary"
+                      (click)="addEmailPsicosocial()"
+                    >
                       <i class="fas fa-save"></i> Guardar selección
                     </button>
                   </div>
@@ -1566,7 +965,10 @@
                 <div class="form-row mt-4">
                   <div class="col-12">
                     <h5>Correos para enviar:</h5>
-                    <div *ngFor="let item of psicosocial" class="form-group saved-item">
+                    <div
+                      *ngFor="let item of psicosocial"
+                      class="form-group saved-item"
+                    >
                       <div class="saved-item-content">
                         <label>Responsable:</label>
                         <p-autoComplete
@@ -1574,7 +976,13 @@
                           placeholder="Digite"
                           [style]="{ width: '100%' }"
                           [suggestions]="empeladoListPsicosocial"
-                          (onSelect)="selectResonsableSelectedPsicosocial($event, 'res4', item)"
+                          (onSelect)="
+                            selectResonsableSelectedPsicosocial(
+                              $event,
+                              'res4',
+                              item
+                            )
+                          "
                           (completeMethod)="buscarEmpleadoPsicosocial($event)"
                           [(ngModel)]="item.usuarioSolicitado"
                         >
@@ -1583,7 +991,9 @@
                               <div class="wrapper">
                                 <div class="empleado-info">
                                   <br />
-                                  {{ empleado?.primerApellido }} {{ empleado?.primerNombre }} {{ empleado?.segundoNombre }}
+                                  {{ empleado?.primerApellido }}
+                                  {{ empleado?.primerNombre }}
+                                  {{ empleado?.segundoNombre }}
                                   <br />
                                   {{ empleado?.numeroIdentificacion }}
                                   <br />
@@ -1611,12 +1021,15 @@
                           dateFormat="dd/mm/yy"
                         ></p-calendar>
                         <div>
-                          <button class="btn btn-danger btn-sm mt-2" (click)="removeEmailPsico(i)">
+                          <button
+                            class="btn btn-danger btn-sm mt-2"
+                            (click)="removeEmailPsico(i)"
+                          >
                             <i class="fas fa-times"></i> Eliminar
                           </button>
                         </div>
                       </div>
-                      <hr class="divider">
+                      <hr class="divider" />
                     </div>
                   </div>
                 </div>
@@ -1624,9 +1037,9 @@
             </div>
           </p-accordionTab>
           <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
-            <p-accordionTab header="Fecha de cierre del caso">
+            <p-accordionTab header="Fecha de envio documentación">
               <div class="col-12">
-                <label for="fechaLimite">Fecha de cierre de envio documentación:</label>
+                <label for="fechaLimite">Fecha de envio documentación:</label>
                 <p-calendar
                   id="fechaCierreCaso"
                   appendTo="body"
@@ -1640,7 +1053,9 @@
               </div>
               <div class="col">
                 <div class="input-field">
-                  <label for="" class="active">Entidad que emite la calificación origen</label>
+                  <label for="" class="active"
+                    >Entidad que solicito la documentación</label
+                  >
                   <p-dropdown
                     appendTo="body"
                     [filter]="true"
@@ -1655,15 +1070,21 @@
                 </div>
                 <div class="col" *ngIf="selectedEntidad === 'otros'">
                   <div class="input-field">
-                    <label for="" class="active">Escriba la entidad de calificación de origen</label>
-                    <input type="text" formControlName="otroDetalle" class="form-control">
+                    <label for="" class="active"
+                      >entidad que solicito la documentación</label
+                    >
+                    <input
+                      type="text"
+                      formControlName="otroDetalle"
+                      class="form-control"
+                    />
                   </div>
                 </div>
-                
+
                 <!-- Dropdown para detalles -->
                 <div class="col" *ngIf="isDetalleEnabled">
                   <div class="input-field">
-                    <label for="" class="active">Seleccionar Entidad</label>
+                    <label for="" class="active"> Entidad</label>
                     <p-dropdown
                       appendTo="body"
                       [filter]="true"
@@ -1682,6 +1103,7 @@
                   pButton
                   type="button"
                   icon="bi bi-upload"
+                  label="Adjuntar Soporte"
                   title="Subir documento"
                   [value]="documentacionSubirSelect"
                   class="p-button-info margin-left margin-right"
@@ -1700,70 +1122,577 @@
               <div class="ui-g" style="margin-top: 10px">
                 <div class="ui-g-12 ui-sm-12 ui-md-10">
                   <div *ngFor="let doc of directorios">
-                    <table
-                      class="caption-top"
-                      *ngIf="doc!.documento.proceso === 'cargaDocumentosDT' + idSl"
-                    >
-                      <p>Soportes:</p>
-                      <thead>
-                        <tr>
-                          <th scope="col">Descripción</th>
-                          <th scope="col">Opciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <a type="button" class="btn btn-outline-primary" (click)="descargarDocumento(doc.documento)">{{ doc.documento.descripcion }}</a>
-                          </td>
-                          <td>
-                            <a>&nbsp;</a>
-                            <a
-                              type="button"
-                              [ariaDisabled]="true"
-                              class="btn btn-outline-danger"
-                              title="Eliminar documento"
-                              (click)="eliminarDocumentCaseDT(doc)"
-                            ><span class="pi pi-trash"></span></a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <ng-container *ngIf="doc?.documento">
+                      <table
+                        class="caption-top"
+                        *ngIf="
+                          doc.documento.proceso === 'cargaDocumentosDT' + idSl
+                        "
+                      >
+                        <p>Soportes:</p>
+                        <thead>
+                          <tr>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Opciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <a
+                                type="button"
+                                class="btn btn-outline-primary"
+                                (click)="descargarDocumento(doc.documento)"
+                                >{{ doc.documento.descripcion }}</a
+                              >
+                            </td>
+                            <td>
+                              <a>&nbsp;</a>
+                              <a
+                                type="button"
+                                [ariaDisabled]="true"
+                                class="btn btn-outline-danger"
+                                title="Eliminar documento"
+                                (click)="eliminarDocumentCaseDT(doc)"
+                                ><span class="pi pi-trash"></span
+                              ></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ng-container>
                   </div>
                 </div>
               </div>
             </p-accordionTab>
           </form>
-          
-          
-          
+          <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+            <p-accordionTab header="Fecha de notificacion del dictamen">
+              <!-- <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                  <div class="card" style="padding: 2%">
+                    <p-panel header="Dictamen de la EPS">
+                    <p-dropdown
+                      [options]="ePSDocs"
+                      appendTo="body"
+                      [filter]="true"
+                      formControlName="selectedEps"
+                      optionLabel="label"
+                      placeholder="Seleccione una EPS"
+                    >
+                    </p-dropdown>
+
+                    <label for="fechaLimite"
+                      >Fecha notificacion de la empresa:</label
+                    >
+                    <p-calendar
+                      id="fechaNotificacionEmp"
+                      appendTo="body"
+                      [monthNavigator]="true"
+                      [yearNavigator]="true"
+                      [yearRange]="yearRange"
+                      [maxDate]="fechaActual"
+                      formControlName="fechaNotificacionEmp"
+                      dateFormat="dd/mm/yy"
+                    ></p-calendar>
+
+                    <button
+                      pButton
+                      type="button"
+                      icon="bi bi-upload"
+                      label="Adjuntar Soporte"
+                      title="Subir documento"
+                      [value]="documentacionSubirSelect"
+                      class="p-button-info margin-left margin-right"
+                      (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
+                    ></button>
+
+                    <s-documentoUpload
+                      [privadoCheck]="false"
+                      [(visible)]="flagDocEmp"
+                      [modParam]="selectedDocEmp"
+                      [modulo]="modulo"
+                      [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
+                      (onUpload)="onUploadCaseEmp($event)"
+                    >
+                    </s-documentoUpload>
+                    <div class="ui-g" style="margin-top: 10px">
+                      <div class="ui-g-12 ui-sm-12 ui-md-10">
+                        <div *ngFor="let doc of directorios">
+                          <ng-container *ngIf="doc?.documento">
+                            <table
+                              class="caption-top"
+                              *ngIf="
+                                doc.documento.proceso ===
+                                'cargaDocumentosEmp' + idSl
+                              "
+                            >
+                              <p>Soportes:</p>
+                              <thead>
+                                <tr>
+                                  <th scope="col">Descripción</th>
+                                  <th scope="col">Opciones</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <a
+                                      type="button"
+                                      class="btn btn-outline-primary"
+                                      (click)="
+                                        descargarDocumento(doc.documento)
+                                      "
+                                      >{{ doc.documento.descripcion }}</a
+                                    >
+                                  </td>
+                                  <td>
+                                    <a>&nbsp;</a>
+                                    <a
+                                      type="button"
+                                      [ariaDisabled]="true"
+                                      class="btn btn-outline-danger"
+                                      title="Eliminar documento"
+                                      (click)="eliminarDocumentEmp(doc)"
+                                      ><span class="pi pi-trash"></span
+                                    ></a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </p-panel>
+                  </div>
+                  
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <div class="card-body">
+                      <p-panel header="Dictamen de la Junta Regional">
+                        <p-dropdown
+                          [options]="jrDocs"
+                          appendTo="body"
+                          [filter]="true"
+                          formControlName="selectedArl"
+                          optionLabel="label"
+                          placeholder="Seleccione el departamento asociado"
+                        >
+                        </p-dropdown>
+    
+                        <label for="fechaLimite"
+                          >Fecha notificacion de la empresa:</label
+                        >
+                        <p-calendar
+                          id="fechaNotificacionEmp"
+                          appendTo="body"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          [yearRange]="yearRange"
+                          [maxDate]="fechaActual"
+                          formControlName="fechaNotificacionEmp"
+                          dateFormat="dd/mm/yy"
+                        ></p-calendar>
+    
+                        <button
+                          pButton
+                          type="button"
+                          icon="bi bi-upload"
+                          label="Adjuntar Soporte"
+                          title="Subir documento"
+                          [value]="documentacionSubirSelect"
+                          class="p-button-info margin-left margin-right"
+                          (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
+                        ></button>
+    
+                        <s-documentoUpload
+                          [privadoCheck]="false"
+                          [(visible)]="flagDocEmp"
+                          [modParam]="selectedDocEmp"
+                          [modulo]="modulo"
+                          [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
+                          (onUpload)="onUploadCaseEmp($event)"
+                        >
+                        </s-documentoUpload>
+                        <div class="ui-g" style="margin-top: 10px">
+                          <div class="ui-g-12 ui-sm-12 ui-md-10">
+                            <div *ngFor="let doc of directorios">
+                              <ng-container *ngIf="doc?.documento">
+                                <table
+                                  class="caption-top"
+                                  *ngIf="
+                                    doc.documento.proceso ===
+                                    'cargaDocumentosEmp' + idSl
+                                  "
+                                >
+                                  <p>Soportes:</p>
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Descripción</th>
+                                      <th scope="col">Opciones</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <a
+                                          type="button"
+                                          class="btn btn-outline-primary"
+                                          (click)="
+                                            descargarDocumento(doc.documento)
+                                          "
+                                          >{{ doc.documento.descripcion }}</a
+                                        >
+                                      </td>
+                                      <td>
+                                        <a>&nbsp;</a>
+                                        <a
+                                          type="button"
+                                          [ariaDisabled]="true"
+                                          class="btn btn-outline-danger"
+                                          title="Eliminar documento"
+                                          (click)="eliminarDocumentEmp(doc)"
+                                          ><span class="pi pi-trash"></span
+                                        ></a>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </p-panel>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                  <div class="card">
+                    <div class="card-body">
+                      <p-panel header="Dictamen de la ARL">
+                        <p-dropdown
+                          [options]="arlDocs"
+                          appendTo="body"
+                          [filter]="true"
+                          formControlName="selectedArl"
+                          optionLabel="label"
+                          placeholder="Seleccione una ARL"
+                        >
+                        </p-dropdown>
+    
+                        <label for="fechaLimite"
+                          >Fecha notificacion de la empresa:</label
+                        >
+                        <p-calendar
+                          id="fechaNotificacionEmp"
+                          appendTo="body"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          [yearRange]="yearRange"
+                          [maxDate]="fechaActual"
+                          formControlName="fechaNotificacionEmp"
+                          dateFormat="dd/mm/yy"
+                        ></p-calendar>
+    
+                        <button
+                          pButton
+                          type="button"
+                          icon="bi bi-upload"
+                          label="Adjuntar Soporte"
+                          title="Subir documento"
+                          [value]="documentacionSubirSelect"
+                          class="p-button-info margin-left margin-right"
+                          (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
+                        ></button>
+    
+                        <s-documentoUpload
+                          [privadoCheck]="false"
+                          [(visible)]="flagDocEmp"
+                          [modParam]="selectedDocEmp"
+                          [modulo]="modulo"
+                          [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
+                          (onUpload)="onUploadCaseEmp($event)"
+                        >
+                        </s-documentoUpload>
+                        <div class="ui-g" style="margin-top: 10px">
+                          <div class="ui-g-12 ui-sm-12 ui-md-10">
+                            <div *ngFor="let doc of directorios">
+                              <ng-container *ngIf="doc?.documento">
+                                <table
+                                  class="caption-top"
+                                  *ngIf="
+                                    doc.documento.proceso ===
+                                    'cargaDocumentosEmp' + idSl
+                                  "
+                                >
+                                  <p>Soportes:</p>
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Descripción</th>
+                                      <th scope="col">Opciones</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <a
+                                          type="button"
+                                          class="btn btn-outline-primary"
+                                          (click)="
+                                            descargarDocumento(doc.documento)
+                                          "
+                                          >{{ doc.documento.descripcion }}</a
+                                        >
+                                      </td>
+                                      <td>
+                                        <a>&nbsp;</a>
+                                        <a
+                                          type="button"
+                                          [ariaDisabled]="true"
+                                          class="btn btn-outline-danger"
+                                          title="Eliminar documento"
+                                          (click)="eliminarDocumentEmp(doc)"
+                                          ><span class="pi pi-trash"></span
+                                        ></a>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </p-panel>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card">
+                    <div class="card-body">
+                      <p-panel header="Dictamen de la Junta Nacional">
+                         <div class="input-field">
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="Junta Nacional"
+                      disabled
+                    />
+                  </div>
+                 <br>
+    
+                        <label for="fechaLimite"
+                          >Fecha notificacion de la empresa:</label
+                        >
+                        <p-calendar
+                          id="fechaNotificacionEmp"
+                          appendTo="body"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          [yearRange]="yearRange"
+                          [maxDate]="fechaActual"
+                          formControlName="fechaNotificacionEmp"
+                          dateFormat="dd/mm/yy"
+                        ></p-calendar>
+    
+                        <button
+                          pButton
+                          type="button"
+                          icon="bi bi-upload"
+                          label="Adjuntar Soporte"
+                          title="Subir documento"
+                          [value]="documentacionSubirSelect"
+                          class="p-button-info margin-left margin-right"
+                          (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
+                        ></button>
+    
+                        <s-documentoUpload
+                          [privadoCheck]="false"
+                          [(visible)]="flagDocEmp"
+                          [modParam]="selectedDocEmp"
+                          [modulo]="modulo"
+                          [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
+                          (onUpload)="onUploadCaseEmp($event)"
+                        >
+                        </s-documentoUpload>
+                        <div class="ui-g" style="margin-top: 10px">
+                          <div class="ui-g-12 ui-sm-12 ui-md-10">
+                            <div *ngFor="let doc of directorios">
+                              <ng-container *ngIf="doc?.documento">
+                                <table
+                                  class="caption-top"
+                                  *ngIf="
+                                    doc.documento.proceso ===
+                                    'cargaDocumentosEmp' + idSl
+                                  "
+                                >
+                                  <p>Soportes:</p>
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Descripción</th>
+                                      <th scope="col">Opciones</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <a
+                                          type="button"
+                                          class="btn btn-outline-primary"
+                                          (click)="
+                                            descargarDocumento(doc.documento)
+                                          "
+                                          >{{ doc.documento.descripcion }}</a
+                                        >
+                                      </td>
+                                      <td>
+                                        <a>&nbsp;</a>
+                                        <a
+                                          type="button"
+                                          [ariaDisabled]="true"
+                                          class="btn btn-outline-danger"
+                                          title="Eliminar documento"
+                                          (click)="eliminarDocumentEmp(doc)"
+                                          ><span class="pi pi-trash"></span
+                                        ></a>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </p-panel>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <app-cargue-documentos-empresa
+                [directorios]="this.directorios"
+                [directoriosArl]="this.directoriosArl"
+                [directoriosJr]="this.directoriosJr"
+                [directoriosJn]="this.directoriosJn"
+                [empleadoForm]="empleadoForm"
+                (deleteDoc)="eliminarDocumentEmp($event)"
+                
+                
+              ></app-cargue-documentos-empresa>
+            </p-accordionTab>
+          </form>
+
+          <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+            <p-accordionTab header="Fecha de notificacion al ministerio">
+              <div class="col-12">
+                <label for="fechaLimite"
+                  >Fecha notificacion al ministerio</label
+                >
+                <p-calendar
+                  id="fechaNotificacionMin"
+                  appendTo="body"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  [yearRange]="yearRange"
+                  [maxDate]="fechaActual"
+                  formControlName="fechaNotificacionMin"
+                  dateFormat="dd/mm/yy"
+                ></p-calendar>
+              </div>
+              <ng-container>
+                <button
+                  pButton
+                  type="button"
+                  icon="bi bi-upload"
+                  label="Adjuntar Soporte"
+                  title="Subir documento"
+                  [value]="documentacionSubirSelect"
+                  class="p-button-info margin-left margin-right"
+                  (click)="openUploadDialogCaseMinisterio(idSl, documentosMin)"
+                ></button>
+              </ng-container>
+              <s-documentoUpload
+                [privadoCheck]="false"
+                [(visible)]="flagDocMin"
+                [modParam]="selectedDocMin"
+                [modulo]="modulo"
+                [tipoEvidencia]="'cargaDocumentosMin' + selectedDocMin"
+                (onUpload)="onUploadCaseMin($event)"
+              >
+              </s-documentoUpload>
+              <div class="ui-g" style="margin-top: 10px">
+                <div class="ui-g-12 ui-sm-12 ui-md-10">
+                  <div *ngFor="let doc of directorios">
+                    <ng-container *ngIf="doc?.documento">
+                      <table
+                        class="caption-top"
+                        *ngIf="
+                          doc.documento.proceso === 'cargaDocumentosMin' + idSl
+                        "
+                      >
+                        <p>Soportes:</p>
+                        <thead>
+                          <tr>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Opciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <a
+                                type="button"
+                                class="btn btn-outline-primary"
+                                (click)="descargarDocumento(doc.documento)"
+                                >{{ doc.documento.descripcion }}</a
+                              >
+                            </td>
+                            <td>
+                              <a>&nbsp;</a>
+                              <a
+                                type="button"
+                                [ariaDisabled]="true"
+                                class="btn btn-outline-danger"
+                                title="Eliminar documento"
+                                (click)="eliminarDocumentMin(doc)"
+                                ><span class="pi pi-trash"></span
+                              ></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </form>
         </p-accordion>
         <button
-            pButton
-            *sTienePermiso="'SCM_POST_CSL'"
-            (click)="onSubmit(); submitEmp()"
-            type="submit"
-            icon="pi pi-save"
-            class="float-btn"
-            style="bottom: 200px"
-            title="Guardar datos de Empleado"
-            [disabled]="!this.empleadoForm.valid"
-          ></button>
+          pButton
+          *sTienePermiso="'SCM_POST_CSL'"
+          (click)="onSubmit(); submitEmp()"
+          type="submit"
+          icon="pi pi-save"
+          class="float-btn"
+          style="bottom: 200px"
+          title="Guardar datos de Empleado"
+          [disabled]="!this.empleadoForm.valid"
+        ></button>
         <!-- Botón para enviar -->
         <button
-              pButton
-              (click)="abrirModalConfirmacion()"
-              type="submit"
-              icon="pi pi-envelope"
-              class="float-btn"
-              style="bottom: 100px"
-              title="Enviar Correos"
-  
-            ></button>
-            
-  
-      
-  
+          pButton
+          (click)="abrirModalConfirmacion()"
+          type="submit"
+          icon="pi pi-envelope"
+          class="float-btn"
+          style="bottom: 100px"
+          title="Enviar Correos"
+        ></button>
+
         <!-- Modal de confirmación -->
         <p-dialog
           header="Confirmación de Envío"
@@ -1780,7 +1709,9 @@
             <button
               type="button"
               pButton
-              (click)="onSubmiSLt(); onSubmiSLtSeg(); onSubmiSLl(); onSubmitPsico()"
+              (click)="
+                onSubmiSLt(); onSubmiSLtSeg(); onSubmiSLl(); onSubmitPsico()
+              "
               label="Enviar"
               class="p-button-success"
             ></button>
@@ -1793,223 +1724,274 @@
             ></button>
           </ng-template>
         </p-dialog>
-  
-      
       </p-tabPanel>
     </ng-container>
-    
-    
+
     <ng-container *sTienePermiso="'SCM_GET_DSR'">
       <p-tabPanel
-      header="Documentación Solicitada al responsable"
-      *ngIf="flagSaludLaboralRegistro"
-    >
-    <p-table
-    #dt
-    [value]="documentacionList"
-    autoLayout="true"
-    selectionMode="single"
-    [(selection)]="documentacionSelectSolicitado"
-    [rows]="10"
-    [paginator]="true"
-    dataKey="id"
-    [lazy]="true"
-  >
-    <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="fechaSolicitud">Fecha de solicitud</th>
-        <th pSortableColumn="asignacionTarea">Asignación de tareas</th>
-        <th pSortableColumn="docSolicitado">Listado de documentos solicitados</th>
-        <th pSortableColumn="responsable">Responsable</th>
-        <th pSortableColumn="fechaLimite">Fecha límite envío de documentación</th>
-        <th pSortableColumn="fechaEnvio">Fecha de envío de documentación</th>
-        <th pSortableColumn="estadoCorreo">Estado</th> 
-        <th>Documento</th>
-        <th pSortableColumn="razonRechazoSolicitado">Razón de rechazo</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-case>
-      <tr [pSelectableRow]="case" class="table-row table-row-selectable">
-        <td>{{ case.fechaSolicitud | date : "dd/MM/yyyy" }}</td>
-        <td>{{ case.asignacionTarea }}</td>
-        <td><p>{{ case.docSolicitado }}</p></td>
-        <td>{{ case.usuarioSolicitado }}</td>
-        <td>{{ case.fechaLimite | date : "dd/MM/yyyy" }}</td>
-        <td>{{ case.fechaEnvio | date : "dd/MM/yyyy" }}</td>
-        <td>{{ convertirEstadoCorreoUser(case.estadoCorreo) }}</td>
-        <td>
-          <!-- <button
+        header="Documentación Solicitada al responsable"
+        *ngIf="flagSaludLaboralRegistro"
+      >
+        <p-table
+          #dt
+          [value]="documentacionList"
+          autoLayout="true"
+          selectionMode="single"
+          [(selection)]="documentacionSelectSolicitado"
+          [rows]="10"
+          [paginator]="true"
+          dataKey="id"
+          [lazy]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="fechaSolicitud">Fecha de solicitud</th>
+              <th pSortableColumn="asignacionTarea">Asignación de tareas</th>
+              <th pSortableColumn="docSolicitado">
+                Listado de documentos solicitados
+              </th>
+              <th pSortableColumn="responsable">Responsable</th>
+              <th pSortableColumn="fechaLimite">
+                Fecha límite envío de documentación
+              </th>
+              <th pSortableColumn="fechaEnvio">
+                Fecha de envío de documentación
+              </th>
+              <th pSortableColumn="estadoCorreo">Estado</th>
+              <th>Documento</th>
+              <th pSortableColumn="razonRechazoSolicitado">Razón de rechazo</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-case>
+            <tr [pSelectableRow]="case" class="table-row table-row-selectable">
+              <td>{{ case.fechaSolicitud | date : "dd/MM/yyyy" }}</td>
+              <td>{{ case.asignacionTarea }}</td>
+              <td>
+                <p>{{ case.docSolicitado }}</p>
+              </td>
+              <td>{{ case.usuarioSolicitado }}</td>
+              <td>{{ case.fechaLimite | date : "dd/MM/yyyy" }}</td>
+              <td>{{ case.fechaEnvio | date : "dd/MM/yyyy" }}</td>
+              <td>{{ convertirEstadoCorreoUser(case.estadoCorreo) }}</td>
+              <td>
+                <!-- <button
             pButton
             type="button"
             icon="pi pi-download"
             title="Descargar documento"
             class="p-button-info margin-left margin-right"
           ></button> -->
-          <div class="ui-g" style="margin-top: 10px;">
-            <div class="ui-g-12 ui-sm-12 ui-md-10">
-              <div *ngFor="let doc of directorios">
-                <table class="caption-top" *ngIf="doc.documento.proceso === 'cargaDocumentosSL' + case.id">
-                  <p>Soportes para Descargar:</p>
+                <div class="ui-g" style="margin-top: 10px">
+                  <div class="ui-g-12 ui-sm-12 ui-md-10">
+                    <div *ngFor="let doc of directorios">
+                      <table
+                        class="caption-top"
+                        *ngIf="doc?.documento?.proceso === 'cargaDocumentosSL' + case.id"
+                      >
+                        <p>Soportes para Descargar:</p>
 
-                  <tbody>
-                    <tr>
-                      <td>
-                        <a type="button" class="btn btn-outline-primary" (click)="descargarDocumento(doc.documento)">{{ doc.documento.descripcion }}</a>
-                      </td>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <a
+                                type="button"
+                                class="btn btn-outline-primary"
+                                (click)="descargarDocumento(doc.documento)"
+                                >{{ doc.documento.descripcion }}</a
+                              >
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>{{ case.razonRechazoSolicitado }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary" let-rowData>
+            <button
+              *sTienePermiso="'SCM_POST_RDS'"
+              pButton
+              type="button"
+              icon="bi bi-check"
+              label="Aprobar"
+              class="p-button-info margin-left margin-right"
+              [disabled]="
+                !documentacionSelectSolicitado ||
+                documentacionSelectSolicitado.documentos.length === 0
+              "
+              (click)="onEditState(documentacionSelectSolicitado.id)"
+            ></button>
+            <button
+              *sTienePermiso="'SCM_POST_ADS'"
+              pButton
+              type="button"
+              icon="bi bi-x"
+              label="Rechazar"
+              class="p-button-danger margin-left margin-right"
+              [disabled]="
+                !documentacionSelectSolicitado ||
+                !documentacionSelectSolicitado.documentos ||
+                documentacionSelectSolicitado.documentos.length === 0
+              "
+              (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
+            ></button>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="9" class="p-text-center">
+                No hay documentación solicitada.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
 
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </td>
-        <td>{{ case.razonRechazoSolicitado }}</td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="summary" let-rowData>
-      <button
-    *sTienePermiso="'SCM_POST_RDS'"
-        pButton
-        type="button"
-        icon="bi bi-check"
-        label="Aprobar"
-        class="p-button-info margin-left margin-right"
-        [disabled]="!documentacionSelectSolicitado || documentacionSelectSolicitado.documentos.length === 0"
-        (click)="onEditState(documentacionSelectSolicitado.id) "
-      ></button>
-      <button
-      *sTienePermiso="'SCM_POST_ADS'"
-        pButton
-        type="button"
-        icon="bi bi-x"
-        label="Rechazar"
-        class="p-button-danger margin-left margin-right"
-        [disabled]="!documentacionSelectSolicitado || !documentacionSelectSolicitado.documentos || documentacionSelectSolicitado.documentos.length === 0"
-        (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
-      ></button>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="9" class="p-text-center">
-          No hay documentación solicitada.
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-
-
-
-  <!--hasta aca va la parte del solicitante-->
-  
-    </p-tabPanel>
+        <!--hasta aca va la parte del solicitante-->
+      </p-tabPanel>
     </ng-container>
-    
+
     <ng-container *sTienePermiso="'SCM_GET_DQSR'">
       <p-tabPanel
-      header="Documentación Solicitada"
-      *ngIf="flagSaludLaboralRegistro"
-     >
-
-    
-      <p-table
-        #dt
-        [value]="documentacionListUser"
-        autoLayout="true"
-        selectionMode="single"
-        [(selection)]="documentacionSelectUser"
-        [rows]="10"
-        [paginator]="true"
-        dataKey="id"
-        [lazy]="true"
+        header="Documentación Solicitada"
+        *ngIf="flagSaludLaboralRegistro"
       >
-        <ng-template pTemplate="header">
-          <tr>
-            <th pSortableColumn="fechaSolicitud">Fecha de solicitud</th>
-            <th pSortableColumn="asignacionTarea">Asignación de tareas</th>
-            <th pSortableColumn="listadoDocSolicitados">
-              Listado de documentos solicitados
-            </th>
-            <th pSortableColumn="solicitante">Solicitante</th>
-            <th pSortableColumn="UsuarioSolicitado">Trabajador Solicitado</th>
-            <th pSortableColumn="fechaLimiteEnvioDoc">
-              Fecha limite envío de documentación
-            </th>
-            <th pSortableColumn="fechaEnvioDoc">
-              Fecha de envío de documentación
-            </th>
-            <th pSortableColumn="estado">Estado</th>
-            <th pSortableColumn="razonRechazoSolicitante">Motivo Rechazo</th>
-            <th>Documento</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-docsub>
-          <tr [pSelectableRow]="docsub" class="table-row table-row-selectable">
-            <td>{{ docsub.fechaSolicitud | date : "dd/MM/yyyy" }}</td>
-            <td>{{ docsub.asignacionTarea }}</td>
-            <td>
-              <p>{{ docsub.docSolicitado }}</p>
-            </td>
-            <td>{{ docsub.soliictanteNombres }} - {{docsub.solicitanteCedula}}</td>
-            <td>{{ docsub.solicitadoNombres }}- {{docsub.solicitadoCedula}}</td>
-            <td [class.fechaProxima]="isFechaLimiteProxima(docsub.fechaLimite) && docsub.estadoCorreo !== 3">
-              {{ docsub.fechaLimite | date : "dd/MM/yyyy" }}
-              <br>
-              <span *ngIf="isFechaLimiteProxima(docsub.fechaLimite) && docsub.estadoCorreo !== 3" class="mensaje-proximo">Próximo a vencer</span>
-            </td>
-            
-             
-            <td>{{ docsub.fechaEnvio | date : "dd/MM/yyyy" }}</td>
-            <td>{{ convertirEstadoCorreo(docsub.estadoCorreo)  }}</td>
-            <td>{{docsub.razonRechazoSolicitante}}</td>
-            <td>
-              <ng-container
-              
+        <p-table
+          #dt
+          [value]="documentacionListUser"
+          autoLayout="true"
+          selectionMode="single"
+          [(selection)]="documentacionSelectUser"
+          [rows]="10"
+          [paginator]="true"
+          dataKey="id"
+          [lazy]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="fechaSolicitud">Fecha de solicitud</th>
+              <th pSortableColumn="asignacionTarea">Asignación de tareas</th>
+              <th pSortableColumn="listadoDocSolicitados">
+                Listado de documentos solicitados
+              </th>
+              <th pSortableColumn="solicitante">Solicitante</th>
+              <th pSortableColumn="UsuarioSolicitado">Trabajador Solicitado</th>
+              <th pSortableColumn="fechaLimiteEnvioDoc">
+                Fecha limite envío de documentación
+              </th>
+              <th pSortableColumn="fechaEnvioDoc">
+                Fecha de envío de documentación
+              </th>
+              <th pSortableColumn="estado">Estado</th>
+              <th pSortableColumn="razonRechazoSolicitante">Motivo Rechazo</th>
+              <th>Documento</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-docsub>
+            <tr
+              [pSelectableRow]="docsub"
+              class="table-row table-row-selectable"
+            >
+              <td>{{ docsub.fechaSolicitud | date : "dd/MM/yyyy" }}</td>
+              <td>{{ docsub.asignacionTarea }}</td>
+              <td>
+                <p>{{ docsub.docSolicitado }}</p>
+              </td>
+              <td>
+                {{ docsub.soliictanteNombres }} - {{ docsub.solicitanteCedula }}
+              </td>
+              <td>
+                {{ docsub.solicitadoNombres }}- {{ docsub.solicitadoCedula }}
+              </td>
+              <td
+                [class.fechaProxima]="
+                  isFechaLimiteProxima(docsub.fechaLimite) &&
+                  docsub.estadoCorreo !== 3
+                "
               >
-                
-              <button
-                pButton
-                type="button"
-                icon="bi bi-upload"
-                title="Subir documento"
-                class="p-button-info margin-left margin-right"
-                (click)="openUploadDialog(docsub.id, docsub.documentos)"
-                [disabled]="docsub.documentos && docsub.documentos.length >= 3 || docsub.fechaLimite  > fechaActual" 
+                {{ docsub.fechaLimite | date : "dd/MM/yyyy" }}
+                <br />
+                <span
+                  *ngIf="
+                    isFechaLimiteProxima(docsub.fechaLimite) &&
+                    docsub.estadoCorreo !== 3
+                  "
+                  class="mensaje-proximo"
+                  >Próximo a vencer</span
+                >
+              </td>
 
-              ></button>
-            </ng-container>
-              <s-documentoUpload [privadoCheck]=" false" [(visible)]="flagDoc" [modParam]="selectedDocId" [modulo]="modulo" [tipoEvidencia]="'cargaDocumentosSL'+ selectedDocId" (onUpload)="onUpload($event)"> </s-documentoUpload>       
-                <div class="ui-g" style="margin-top: 10px;">
-                    <div class="ui-g-12 ui-sm-12 ui-md-10">
-                        <div *ngFor="let doc of directorios">
-                            <table class="caption-top" *ngIf="doc!.documento.proceso==('cargaDocumentosSL'+ docsub.id)"> 
-                                <p>Soportes: </p>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Descripción</th>
-                                        <th scope="col">Opciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                          <span class="document-name">{{ doc.documento.descripcion }}</span>
-                                        </td>
-                                        <td>
-                                            <a>&nbsp;</a>
-                                            <a type="button" [ariaDisabled]="true" class="btn btn-outline-danger"  title="Eliminar documento" (click)="eliminarDocument(doc)"><span class="pi pi-trash"></span></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+              <td>{{ docsub.fechaEnvio | date : "dd/MM/yyyy" }}</td>
+              <td>{{ convertirEstadoCorreo(docsub.estadoCorreo) }}</td>
+              <td>{{ docsub.razonRechazoSolicitante }}</td>
+              <td>
+                <ng-container>
+                  <button
+                    pButton
+                    type="button"
+                    icon="bi bi-upload"
+                    title="Subir documento"
+                    class="p-button-info margin-left margin-right"
+                    (click)="openUploadDialog(docsub.id, docsub.documentos)"
+                    [disabled]="
+                      (docsub.documentos && docsub.documentos.length >= 3) ||
+                      docsub.fechaLimite > fechaActual
+                    "
+                  ></button>
+                </ng-container>
+                <s-documentoUpload
+                  [privadoCheck]="false"
+                  [(visible)]="flagDoc"
+                  [modParam]="selectedDocId"
+                  [modulo]="modulo"
+                  [tipoEvidencia]="'cargaDocumentosSL' + selectedDocId"
+                  (onUpload)="onUpload($event)"
+                >
+                </s-documentoUpload>
+                <div class="ui-g" style="margin-top: 10px">
+                  <div class="ui-g-12 ui-sm-12 ui-md-10">
+                    <div *ngFor="let doc of directorios">
+                      <table
+                        class="caption-top"
+                        *ngIf="doc?.documento?.proceso === 'cargaDocumentosSL' + docsub.id"
+                      >
+                        <p>Soportes:</p>
+                        <thead>
+                          <tr>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Opciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <span class="document-name">{{
+                                doc.documento.descripcion
+                              }}</span>
+                            </td>
+                            <td>
+                              <a>&nbsp;</a>
+                              <a
+                                type="button"
+                                [ariaDisabled]="true"
+                                class="btn btn-outline-danger"
+                                title="Eliminar documento"
+                                (click)="eliminarDocument(doc)"
+                                ><span class="pi pi-trash"></span
+                              ></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
                 </div>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="summary" let-rowData>
-          <!-- <button
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary" let-rowData>
+            <!-- <button
             pButton
             type="button"
             icon="bi bi-search"
@@ -2018,30 +2000,26 @@
             [disabled]="!documentacionSelectUser"
             (click)="dialogTrazabilidadFlag = true"
           ></button> -->
-          <button
-            pButton
-            type="button"
-            icon="bi bi-x"
-            label="Rechazar"
-            class="p-button-danger margin-left margin-right"
-            [disabled]="!documentacionSelectUser"
-            (click)="dialogRechazoFlag = true; getSelectedId()"
-          ></button>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="9" class="p-text-center">
-              No hay documentación solicitada.
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-
-
-    </p-tabPanel>
+            <button
+              pButton
+              type="button"
+              icon="bi bi-x"
+              label="Rechazar"
+              class="p-button-danger margin-left margin-right"
+              [disabled]="!documentacionSelectUser"
+              (click)="dialogRechazoFlag = true; getSelectedId()"
+            ></button>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="9" class="p-text-center">
+                No hay documentación solicitada.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-tabPanel>
     </ng-container>
-    
-    
   </ng-container>
 </p-tabView>
 
@@ -2161,9 +2139,6 @@
     </div>
   </div>
 </p-dialog>
-
-
-
 
 <p-dialog
   [header]="'Trazabilidad'"

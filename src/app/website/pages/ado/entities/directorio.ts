@@ -11,7 +11,7 @@ export class Directorio {
     directorioPadre?: Directorio | null;
     documento?: Documento;
     tamanio?: number;
-    fechaCreacion?: Date;
+    fechaCreacion?: Date |number;
     nivelAcceso?: string;
     perfilId: any
 }

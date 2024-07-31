@@ -34,12 +34,9 @@ export const endPoints: string | any = {
     HhtService: path + "hht/",
     HhtIliService: path + "hhtIli",
     emp_perfil: path + "perfil/",
-  
     anexoSCM:path + "anexscm/",
-    
     departamento: path + "departamento/",
     ciudad: path + "ciudad/",
-  
     SistemaGestionService: path + "sistemaGestion/",
     sge_sistemagestion: path + "sistemaGestion/",
     EvaluacionService: path + "evaluacion/",
@@ -48,13 +45,13 @@ export const endPoints: string | any = {
     sge_reporte: path + "reportesSGE/",
     ReporteSGEService: path + "reportesSGE/",
     ElementoService: path + "elementoSGE",
-  
     com_ciiu: path + "ciiu/",
     com_arl: path + "arl/",
     com_afp: path + "afp/",
     com_eps: path + "eps/",
     com_prepagadas: path + "prepagadas/",
     com_provsalud: path + "provsalud/",
+    com_juntas:path + "JuntaRegional/",
     com_ccf: path + "ccf/",
     com_pais: path + "pais/",
     com_cie: path + "cie/",
@@ -63,7 +60,6 @@ export const endPoints: string | any = {
     com_tipoIdentificacion: path + "enums/tipoIdentificacion/",
     com_tipoVinculacion: path + "enums/tipoVinculacion/",
     com_tipoSede: path + "enums/tipoSede/",
-  
     DesviacionService: path + "desviacion/",
     DesviacionAliadosService: path + "desviacionAliados/",
     ReporteAtService: path + "reporteatview/",
@@ -73,11 +69,9 @@ export const endPoints: string | any = {
     TareaService: path + "tarea/",
     TipoAreaService: path + "tipoArea/",
     AreaService: path + "area/",
-  
     ListaInspeccionService: path + "listaInspeccion/",
     ViewListaInspeccionService: path + "vlistainpperfil/",
     ViewInspeccionService:path+"vinpperfil/",
-
     ProgramacionService: path + "programacion/",
     InspeccionService: path + "inspeccion/",
     ViewInspeccionCtr: path + "viewInspeccionesCtr/",
@@ -85,19 +79,13 @@ export const endPoints: string | any = {
     ViewResumenAliadosService: path + "viewResumenAliados/",
     TipoHallazgoService: path + "tipoHallazgo/",
     SerieService: path + "serieEvento/",
-  
     SistemaNivelRiesgoService: path + "sistemaNivelRiesgo/",
-  
     TarjetaService: path + "tarjeta/",
     ObservacionService: path + "observacion/",
-  
     ReporteService: path + "reporte/",
-  
     DirectorioService: path + "directorio/",
-  
     ReporteAusentismoService: path + "reporteAusentismo/",
     CausaAusentismoService: path + "causaAusentismo/",
-  
     IndicadorAusentismoService: path + "indicadorAusentismo/",
     IndicadorEmpresaService: path + "indicadorEmpresa/",
     IndicadorSgeService: path + "indicadorSge/",
@@ -109,10 +97,7 @@ export const endPoints: string | any = {
     ViewscmcoService: path + "indscmco/",
     ViewscmgeService: path + "indscmge/",
     ViewHHtMetasService: path + "viewhhtmeta/",
-
-    
-  metaService: path + "meta/",
-  
+    metaService: path + "meta/",
     MatrizPeligrosLogService: path +"matrizPlog/",
     MatrizPeligrosService: path + "matrizP/",
     ViewMatrizPeligrosService: path + "vmatrizP/",
@@ -129,19 +114,15 @@ export const endPoints: string | any = {
     AreaMatrizService: path + "areaMatriz/",
     SubprocesoMatrizService:  path + "subProcesoMatriz/",
     ProcesoMatrizService:  path + "procesoMatriz/",
-  
     ConfiguracionGeneralService: path + "configuracion/",
     SistemaCausaAdministrativaService: path + "sistemaCausaAdministrativa/",
     ActaService: path + "acta/",
     ContactoService: path + "contacto/",
-
     ViewscmInformeService: path + "viewinfoscm/",
-  
     ManualService: path + "manual/",
     tareaService: path,
-
     firmaservice: path + "firm/",
     firma: 'https://demo.sigess.app/firma/',
-
+    
     seguimientoid: 5721
   };

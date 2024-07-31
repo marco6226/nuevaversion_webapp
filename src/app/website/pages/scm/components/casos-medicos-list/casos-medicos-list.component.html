@@ -46,26 +46,26 @@
             Fecha Edición
             <p-sortIcon field="fechaEdicion"></p-sortIcon>
           </th>
-          <th pSortableColumn="cargoOriginal">
+          <!-- <th pSortableColumn="cargoOriginal">
             Cargo Original
             <p-sortIcon field="cargoOriginal"></p-sortIcon>
-          </th>
+          </th> -->
           <th pSortableColumn="cargoActual">
             Cargo Actual
             <p-sortIcon field="cargoActual"></p-sortIcon>
           </th>
-          <th pSortableColumn="divisionOrigen">
+          <!-- <th pSortableColumn="divisionOrigen">
             División Origen
             <p-sortIcon field="divisionOrigen"></p-sortIcon>
-          </th>
+          </th> -->
           <th pSortableColumn="divisionActual">
             Division Actual
             <p-sortIcon field="divisionActual"></p-sortIcon>
           </th>
-          <th pSortableColumn="localidadOrigen">
+          <!-- <th pSortableColumn="localidadOrigen">
             Localidad Origen
             <p-sortIcon field="localidadOrigen"></p-sortIcon>
-          </th>
+          </th> -->
           <th pSortableColumn="localidadActual">
             Localidad Actual
             <p-sortIcon field="localidadActual"></p-sortIcon>
@@ -122,7 +122,7 @@
               ></s-rangoFechaSelector>
             </div>
           </td>
-          <td class="text-center bg-light">
+          <!-- <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
                 class="filter-input"
@@ -133,7 +133,7 @@
                 "
               />
             </div>
-          </td>
+          </td> -->
           <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
@@ -146,7 +146,7 @@
               />
             </div>
           </td>
-          <td class="text-center bg-light">
+          <!-- <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
                 class="filter-input"
@@ -157,7 +157,7 @@
                 "
               />
             </div>
-          </td>
+          </td> -->
           <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
@@ -170,7 +170,7 @@
               />
             </div>
           </td>
-          <td class="text-center bg-light">
+          <!-- <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
                 class="filter-input"
@@ -181,7 +181,7 @@
                 "
               />
             </div>
-          </td>
+          </td> -->
           <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
@@ -208,11 +208,11 @@
           <td class="p-text-center">
             {{ case.fechaEdicion | date : "dd/MM/yyyy" }}
           </td>
-          <td class="p-text-center">{{ idToCargo(case.cargoOriginal) }}</td>
+          <!-- <td class="p-text-center">{{ idToCargo(case.cargoOriginal) }}</td> -->
           <td class="p-text-center">{{ idToCargo(case.cargoActual) }}</td>
-          <td class="p-text-center">{{idToDivision( case.divisionOrigen)}}</td>
+          <!-- <td class="p-text-center">{{idToDivision( case.divisionOrigen)}}</td> -->
           <td class="p-text-center">{{ idToDivision( case.divisionActual) }}</td>
-          <td class="p-text-center">{{ idToLocalidad(case.localidadOrigen) }}</td>
+          <!-- <td class="p-text-center">{{ idToLocalidad(case.localidadOrigen) }}</td> -->
           <td class="p-text-center">{{ idToLocalidad(case.localidadActual) }}</td>
         </tr>
       </ng-template>

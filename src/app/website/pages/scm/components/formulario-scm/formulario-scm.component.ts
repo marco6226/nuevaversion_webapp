@@ -38,6 +38,7 @@ import { endPoints } from 'src/environments/environment';
 import{firma} from 'src/app/website/pages/comun/entities/firma';
 import { Message } from 'primeng/api';
 import { EmpleadoBasic } from "../../../empresa/entities/empleado-basic";
+//import { ComunService } from "../../../core/services/comun.service";
 
 export interface TreeNode {
     data?: any;
@@ -414,6 +415,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             ciudadGerencia: [null],
             division: [null],
         });
+        
 
         this.casoMedicoForm = fb.group({
             id: [null],
@@ -555,16 +557,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             });
             this.entity.EPS = this.epsList;
         });
-        await this.comunService.findAllJuntas().then((data) => {
-            this.JuntaRegionalList = [];
-            this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
-            (<JuntaRegional[]>data).forEach((JuntaRegional) => {
-                this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
-                
-
-            });
-            this.entity.Junta_Regional = this.JuntaRegionalList;
-        });
+        
 
         await this.comunService.findAllArl().then((data) => {
             this.arlList = [];
@@ -597,11 +590,13 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         cargofiltQuery.sortOrder = SortOrder.ASC;
         cargofiltQuery.sortField = "nombre";
         cargofiltQuery.fieldList = ["id", "nombre"];
-        this.cargoService.findByFilter(cargofiltQuery).then((resp: any) => {
+        await this.cargoService.findByFilter(cargofiltQuery).then((resp: any) => {
             this.cargoList = [];
             this.cargoList.push({ label: '--Seleccione--', value: null });
             (<Cargo[]>resp['data']).forEach((cargo) => {
                 this.cargoList.push({ label: cargo.nombre, value: cargo.id });
+                console.log(resp,"cargos para creacion");
+                
             });
         });
 
@@ -616,6 +611,19 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         });
 
         this.obligatoriedadSVE()
+
+        await this.comunService.findAllJuntas().then((data) => {
+            this.JuntaRegionalList = [];
+            this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
+            (<JuntaRegional[]>data).forEach((JuntaRegional) => {
+                this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
+                console.log(this.JuntaRegionalList);
+                
+                
+
+            });
+            this.entity.Junta_Regional = this.JuntaRegionalList;
+        });
 
     }
 
@@ -857,6 +865,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let emp = <Empleado>this.value;
         this.casosList = await this.scmService.getCaseList(emp.id!);
         this.empleadoSelect = emp;
+        console.log("emp",emp);
+        
         this.empresaForm!.reset()
         if(this.empleadoSelect){
             this.empresaForm!.value.nit = this.empleadoSelect.nit
@@ -940,6 +950,8 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 'ciudad': this.empleadoSelect!.ciudad,
             })
         }, 2000);
+        console.log("wea",this.empleadoSelect!.ciudad.id);
+        
 
         this.empresaForm?.patchValue({
             'nit':this.empleadoSelect.nit,

@@ -1,0 +1,795 @@
+
+<p-toast key="formScmSL"></p-toast>
+<!-- <p-messages [(value)]="msgs" ></p-messages> -->
+<p-confirmDialog ></p-confirmDialog>
+
+<p-panel header="Datos del trabajador involucrado">
+  <div *ngIf="!consultar2" class="mt-4">
+    <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" type="button" pButton
+        class="ui-button-raised p-button-warning" label="Cerrar caso"
+        icon="bi bi-arrow-left-right" (click)="cambiarEstado(iddt)"></button>
+</div>
+    <form [formGroup]="empleadoForm">
+      <div class="container-fluid cew-9">
+        <div class="container-fluid cew-9">
+          <div class="row">
+            <div class="col">
+              <div>
+                <label for="" class="active">Número de identificación</label>
+                <p-autoComplete
+                  styleClass="form-control-autocomplete"
+                  #autocomplete
+                  placeholder="Digite"
+                  [style]="{ width: '100%' }"
+                  (onSelect)="onSelection($event)"
+                  [suggestions]="empleadosList"
+                  (completeMethod)="buscarEmpleado($event)"
+                  formControlName="numeroIdentificacion"
+                  *ngIf="empleado?.id == null"
+                  required
+                >
+                  <ng-template let-empleado pTemplate="item">
+                    <div class="ui-helper-clearfix">
+                      <div class="wrapper">
+                        <i
+                          *ngIf="!empleado.usuario?.icon"
+                          class="fa fa-user-circle"
+                          style="font-size: 48px"
+                          aria-hidden="true"
+                        ></i>
+                        <img
+                          *ngIf="empleado.usuario?.icon"
+                          [src]="empleado.usuario?.icon"
+                          style="border-radius: 50%"
+                          #imgAvatar
+                          alt=""
+                        />
+                        <div style="margin-left: 20px">
+                          <br />
+                          {{ empleado?.primerApellido }}
+                          {{ empleado?.primerNombre }}
+                          {{ empleado?.segundoNombre }}
+                          <br />
+                          {{ empleado?.numeroIdentificacion }} <br />
+                          {{ empleado?.usuario.email }}
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-autoComplete>
+              </div>
+            </div>
+            <div class="col">
+              <div>
+                <div>
+                  <label for="" class="active">Tipo de identificación</label>
+                </div>
+                <div>
+                  <p-dropdown
+                    [options]="tipoIdentificacionList"
+                    formControlName="tipoIdentificacion"
+                    [attr.disabled]="true"
+                    required
+                    styleClass="select-material"
+                    required
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div>
+                <label for="" class="active">Apellidos y nombres</label>
+                <input
+                  type="text"
+                  pInputText
+                  [value]="nameAndLastName"
+                  placeholder="Apellidos y nombres"
+                  class="form-control"
+                  id="nameAndLastName"
+                  [attr.disabled]="true"
+                />
+              </div>
+            </div>
+            
+
+           
+          </div>
+        </div>
+
+        <!-- div -->
+        <div class="container-fluid cew-9">
+          <div class="row">
+            <div class="col">
+              <div>
+                <div>
+                  <label for="" class="active">Cargo Origen</label>
+                </div>
+                <div>
+                  <p-dropdown
+                    [filter]="true"
+                    [options]="cargoActualList"
+                    formControlName="cargoOriginal"
+                    class="select-material"
+                    styleClass="select-material"
+                    placeholder="Seleccione cargo"
+                    required
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div>
+                <div>
+                  <label for="" class="active">Cargo Actual</label>
+                </div>
+                <div class="grid">
+                  <div class="col-8">
+                    <p-dropdown
+                      [filter]="true"
+                      [options]="cargoActualList"
+                      formControlName="cargoActual"
+                      placeholder="Seleccione cargo"
+                      required
+                      class="select-material"
+                      styleClass="select-material"
+                    >
+                    </p-dropdown>
+                  </div>
+                  <div class="col-4">
+                    <button
+                      pButton
+                      type="button"
+                      icon="bi bi-plus"
+                      class="p-button-raised p-button-primary margin-right"
+                      title="Crear oficio actual"
+                      (click)="flagDialogCargoActual = true"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <div>
+              <label for="" class="active">División origen</label>
+              <p-dropdown
+                formControlName="divisionOrigen"
+                [filter]="true"
+                placeholder="Seleccione una división"
+                [options]="listDivision"
+                appendTo="body"
+                required
+                (onChange)="cargarPlantaLocalidad($event.value, 'Origen')"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Localidad origen</label>
+              <p-dropdown
+                formControlName="localidadOrigen"
+                [filter]="true"
+                [options]="localidadesList"
+                class="select-material"
+                styleClass="select-material"
+                placeholder="Seleccione localidad"
+                required
+                (onChange)="cargarArea($event.value, 'Origen')"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Área origen</label>
+            </div>
+            <div>
+              <p-dropdown
+                formControlName="areaOrigen"
+                [filter]="true"
+                placeholder="Seleccione una área"
+                [options]="areaList"
+                optionLabel="name"
+                appendTo="body"
+                required
+                (onChange)="cargarProceso($event.value, 'Origen')"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <div>
+                <label for="" class="active">Proceso origen</label>
+              </div>
+              <div>
+                <p-dropdown
+                  formControlName="procesoOrigen"
+                  [filter]="true"
+                  placeholder="Seleccione una proceso"
+                  [options]="procesoList"
+                  optionLabel="label"
+                  required
+                  appendTo="body"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <div>
+              <label for="" class="active">División actual</label>
+              <p-dropdown
+                formControlName="divisionActual"
+                [filter]="true"
+                placeholder="Seleccione una división"
+                [options]="listDivision"
+                appendTo="body"
+                required
+                (onChange)="cargarPlantaLocalidad($event.value, 'Actual')"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Localidad actual</label>
+              <p-dropdown
+                formControlName="localidadActual"
+                [filter]="true"
+                [options]="localidadesListActual"
+                class="select-material"
+                styleClass="select-material"
+                placeholder="Seleccione localidad"
+                required
+                (onChange)="cargarArea($event.value, 'Actual')"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Área actual</label>
+            </div>
+            <div>
+              <p-dropdown
+                formControlName="areaActual"
+                [filter]="true"
+                placeholder="Seleccione una área"
+                [options]="areaListActual"
+                optionLabel="name"
+                appendTo="body"
+                required
+                (onChange)="cargarProceso($event.value, 'Actual')"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <div>
+                <label for="" class="active">Proceso actual</label>
+              </div>
+              <div>
+                <p-dropdown
+                  formControlName="procesoActual"
+                  [filter]="true"
+                  placeholder="Seleccione una proceso"
+                  [options]="procesoListActual"
+                  required
+                  appendTo="body"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div>
+              <label for="" class="active">Sexo </label>
+            </div>
+            <div
+              class="form-check form-check-inline"
+              style="display: flex; justify-content: space-evenly"
+            >
+              <p-radioButton
+                name="genero"
+                value="M"
+                label=" Masculino"
+                formControlName="genero"
+              >
+              </p-radioButton>
+              <p-radioButton
+                name="genero"
+                value="F"
+                label="Femenino"
+                formControlName="genero"
+              >
+              </p-radioButton>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <div>
+                <label for="" class="active">Fecha de nacimiento</label>
+              </div>
+              <div>
+                <p-calendar
+                  appendTo="body"
+                  required
+                  [attr.disabled]="true"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  [yearRange]="yearRange"
+                  [maxDate]="fechaActual"
+                  dateFormat="dd/mm/yy"
+                  formControlName="fechaNacimiento"
+                ></p-calendar>
+              </div>
+            </div>
+          </div>
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
+        <div class="container-fluid cew-9">
+          <div class="row">
+            <div class="col">
+              <div>
+                <div>
+                  <label for="" class="active">Fecha de vinculación</label>
+                </div>
+                <div>
+                  <p-calendar
+                    appendTo="body"
+                    required
+                    [attr.disabled]="true"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="yearRange"
+                    [maxDate]="fechaActual"
+                    dateFormat="dd/mm/yy"
+                    formControlName="fechaIngreso"
+                  ></p-calendar>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div>
+                <label for="" class="active">Antigüedad</label>
+                <input
+                  type="text"
+                  pInputText
+                  [value]="antiguedad || ''"
+                  placeholder="Antigüedad"
+                  class="form-control"
+                  id="antiguedad"
+                  [attr.disabled]="true"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <div>
+                <label for="" class="active">Rango de antigüedad</label>
+                <input
+                  type="text"
+                  pInputText
+                  [value]="range || ''"
+                  placeholder="Antigüedad"
+                  class="form-control"
+                  id="rango"
+                  [attr.disabled]="true"
+                />
+              </div>
+            </div>
+            <div class="col"></div>
+          </div>
+        </div>
+
+        <!-- div -->
+        <div class="row">
+          <div class="col">
+            <div>
+              <div>
+                <label for="" class="active">Fecha de desvinculación</label>
+              </div>
+              <p-calendar
+                [attr.disabled]="true"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                [yearRange]="yearRange"
+                [maxDate]="fechaActual"
+                dateFormat="dd/mm/yy"
+                appendTo="body"
+              >
+              </p-calendar>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Teléfono corporativo</label>
+              <input
+                pInputText
+                formControlName="corporativePhone"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Correo corporativo</label>
+              <input
+                type="email"
+                pInputText
+                formControlName="email"
+                placeholder="Correo corporativo"
+                class="form-control"
+                id="correocorporativo"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+        
+        </div>
+        <!-- div -->
+
+        <!-- div -->
+        <div class="row">
+          <div class="col">
+            <div>
+              <label for="" class="active">Edad</label>
+              <input
+                [attr.disabled]="true"
+                type="text"
+                pInputText
+                [value]="edad || ''"
+                placeholder="Edad"
+                class="form-control"
+                id="Edad"
+              />
+            </div>
+          </div>
+          <!-- <div class="col">
+                          <div>
+                              <label for="" class="active">Ciudad de residencia</label>
+                              <s-ciudadSelector formControlName="ciudad"
+                                  [id]="departamento" class="select-material" styleClass="select-material" [_value]="this.empleadoForm.value!.ciudad"
+                                  >
+                              </s-ciudadSelector>
+                          </div>
+                      </div> -->
+          <div class="col">
+            <div>
+              <label for="" class="active">Dirección de residencia</label>
+              <input
+                pInputText
+                class="form-control"
+                formControlName="direccion"
+                styleClass="form-control"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Zona de residencia</label>
+            </div>
+            <div
+              class="form-check form-check-inline"
+              style="display: flex; justify-content: space-evenly"
+            >
+              <p-radioButton
+                name="zonaResidencia"
+                value="U"
+                label=" Urbana"
+                formControlName="zonaResidencia"
+              >
+              </p-radioButton>
+              <p-radioButton
+                name="zonaResidencia"
+                value="R"
+                label="Rural"
+                formControlName="zonaResidencia"
+              >
+              </p-radioButton>
+            </div>
+          </div>
+        </div>
+        <!-- div -->
+        <div class="row">
+          <div class="col">
+            <div>
+              <label for="" class="active">Teléfono personal</label>
+              <input
+                pInputText
+                formControlName="telefono1"
+                class="form-control"
+                styleClass="form-control"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Teléfono de residencia</label>
+              <input
+                pInputText
+                formControlName="telefono2"
+                class="form-control"
+                styleClass="form-control"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Correo personal</label>
+              <input
+                type="email"
+                pInputText
+                formControlName="correoPersonal"
+                plaholder="Correo personal"
+                class="form-control"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <div>
+                <label for="" class="active">EPS</label>
+              </div>
+              <div>
+                <p-dropdown
+                  required
+                  [filter]="true"
+                  [options]="epsList"
+                  formControlName="eps"
+                  class="select-material"
+                  styleClass="select-material"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- div -->
+        <div class="row">
+          <div class="col">
+            <div>
+              <div>
+                <label for="" class="active">AFP</label>
+              </div>
+              <div>
+                <p-dropdown
+                  required
+                  [filter]="true"
+                  [options]="afpList"
+                  formControlName="afp"
+                  class="select-material"
+                  styleClass="select-material"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">ARL</label>
+              <input
+                required
+                [attr.disabled]="true"
+                type="text"
+                pInputText
+                [value]="arl || ''"
+                placeholder="Arl"
+                class="form-material"
+                id="arl"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active">Contacto de emergencia</label>
+              <input
+                type="text"
+                pInputText
+                formControlName="emergencyContact"
+                placeholder="Contacto de emergencia"
+                class="form-control"
+                id="emergencyContact"
+              />
+            </div>
+          </div>
+          <div class="col">
+            <div>
+              <label for="" class="active"
+                >Telefono de contacto de emergencia</label
+              >
+              <input
+                pInputText
+                formControlName="phoneEmergencyContact"
+                class="form-control"
+                styleClass="form-control"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- div -->
+        <div class="row">
+          <div class="col">
+            <div>
+              <label for="" class="active"
+                >Correo de contacto de emergencia</label
+              >
+              <input
+                type="email"
+                pInputText
+                formControlName="emailEmergencyContact"
+                placeholder="Correo corporativo"
+                class="form-control"
+                id="emailEmergencyContact"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="col"></div>
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
+      </div>
+
+      <!-- <button pButton (click)="onSubmit()" type="submit"
+                      icon="pi pi-save" class="float-btn" style="bottom: 100px;"
+                      title="Guardar datos de Empleado" [disabled]="!this.empleadoForm.valid"></button> -->
+
+      <div *ngIf="!consultar2" style="text-align: center; width: 100%">
+        <button
+          pButton
+          *sTienePermiso="'SCM_POST_CSL'"
+          (click)="onSubmit(); submitEmp()"
+          type="submit"
+          icon="pi pi-save"
+          class="float-btn"
+          style="bottom: 100px"
+          title="Guardar datos de Empleado"
+         
+        ></button>
+      </div>
+    </form>
+  </p-panel>
+  <ng-container *ngIf="empleadoSelect || consultar">
+    <p-tabPanel
+      header="Casos de Salud laboral"
+      *ngIf="!flagSaludLaboralRegistro"
+    >
+      <p-table
+        *ngIf="!caseSelect && !createCase"
+        #dt
+        styleClass="material-table"
+        [value]="saludlaboralCHANGETest"
+        autoLayout="true"
+        selectionMode="single"
+        [loading]="loading"
+        [(selection)]="saludLaboralSelect"
+        [rows]="10"
+        [paginator]="true"
+        dataKey="idSl"
+        [lazy]="true"
+        (onLazyLoad)="lazyLoad($event)"
+        [totalRecords]="totalRecords"
+        (onFilter)="onFilter($event)"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="idSl">No.</th>
+            <th pSortableColumn="fechaCreacion">Fecha de creación</th>
+
+            <th pSortableColumn="usuarioCreador">Correo Electronico</th>
+            <th pSortableColumn="usuarioAsignado">Nombre</th>
+            <th pSortableColumn="idSl">No. Documento</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-case>
+          <tr [pSelectableRow]="case" class="table-row table-row-selectable">
+            <td>{{ case.idSl }}</td>
+            <td>{{ case.fechaCreacion | date : "dd/MM/yyyy" }}</td>
+            <td>{{ case.usuarioCreador }}</td>
+            <td>{{ case.nombreCompletoSL }}</td>
+            <td>{{ case.usuarioAsignado }}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" let-rowData>
+          <button
+            pButton
+            *sTienePermiso="'SCM_POST_CSL'"
+            type="button"
+            (click)="createCaso()"
+            icon="bi bi-plus"
+            class="p-button-raised p-button-primary margin-right"
+            label="Crear Caso"
+          ></button>
+
+          <button
+            pButton
+            *sTienePermiso="'SCM_PUT_CSL'"
+            type="button"
+            label="Modificar"
+            icon="bi bi-pencil"
+            class="p-button-raised p-button-success margin-right margin-left"
+            (click)="openCase()"
+            [disabled]="!saludLaboralSelect"
+          ></button>
+
+          <button
+            pButton
+            *sTienePermiso="'SCM_GET_CSL'"
+            type="button"
+            icon="bi bi-eye"
+            label="Consultar"
+            class="p-button-info margin-left margin-right"
+            (click)="openCaseConsultar()"
+            [disabled]="!saludLaboralSelect"
+          ></button>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="p-text-center">
+              No hay casos de salud laboral registrados.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+
+    
+    <p-dialog
+  [header]="'Crear cargo actual'"
+  [(visible)]="flagDialogCargoActual"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [responsive]="true"
+  [style]="{ width: '50vw' }"
+>
+  <div class="grid">
+    <div class="col-12">
+      <h1>Nombre del cargo actual nuevo</h1>
+    </div>
+    <div class="col-12">
+      <input
+        type="text"
+        (input)="onInput($event.target.value)"
+        [(ngModel)]="selectedItem"
+        class="autocomplete-input"
+      />
+      <ul *ngIf="filteredSuggestions.length > 0" class="autocomplete-list">
+        <li
+          *ngFor="let suggestion of filteredSuggestions"
+          (click)="onSelect(suggestion)"
+          class="autocomplete-item"
+        >
+          {{ suggestion }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-12" style="display: flex">
+      <button
+        pButton
+        type="button"
+        icon="bi bi-pencil"
+        label="Crear"
+        class="p-button-info margin-left margin-right"
+        (click)="crearCargoActual()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="bi bi-x"
+        label="Cerrar"
+        class="p-button-danger margin-left margin-right"
+        (click)="flagDialogCargoActual = false; cargoActual = ''"
+      ></button>
+    </div>
+  </div>
+</p-dialog>

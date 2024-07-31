@@ -102,6 +102,31 @@ export class CasosMedicosService {
         return this.http.put(`${endPoints.scm}documentsDT/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
+    putCaseDatosTrabajadorEmp(id: string | number, body: any) {
+        console.log('Datos a enviar en PUT para docs emp:', body);
+        return this.http.put(`${endPoints.scm}documentsEmp/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
+    putCaseDatosTrabajadorJn(id: string | number, body: any) {
+        console.log('Datos a enviar en PUT para docs emp:', body);
+        return this.http.put(`${endPoints.scm}documentsJn/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
+    putCaseDatosTrabajadorArl(id: string | number, body: any) {
+        console.log('Datos a enviar en PUT para docs emp:', body);
+        return this.http.put(`${endPoints.scm}documentsArl/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
+    putCaseDatosTrabajadorJr(id: string | number, body: any) {
+        console.log('Datos a enviar en PUT para docs emp:', body);
+        return this.http.put(`${endPoints.scm}documentsJr/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
+    putCaseDatosTrabajadorMin(id: string | number, body: any) {
+        console.log('Datos a enviar en PUT para docs min:', body);
+        return this.http.put(`${endPoints.scm}documentsMin/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
     updateMailSaludLaboral(docId: number, documentoId: String): Promise<any> {
         const body = { documentos: documentoId };
         return this.putCaseDOcs(docId, body);
@@ -110,7 +135,28 @@ export class CasosMedicosService {
         const body = { documentos: documentoId };
         return this.putCaseDatosTrabajadorDocs(docId, body);
       }
+      updateDatosTrabajadorEmp(docId: number, documentoId: String): Promise<any> {
+        const body = { documentosEmpresa: documentoId };
+        return this.putCaseDatosTrabajadorEmp(docId, body);
+      }
+      updateDatosTrabajadorJn(docId: number, documentoId: String): Promise<any> {
+        const body = { documentosJn: documentoId };
+        return this.putCaseDatosTrabajadorJn(docId, body);
+      }
+      updateDatosTrabajadorArl(docId: number, documentoId: String): Promise<any> {
+        const body = { documentosArl: documentoId };
+        return this.putCaseDatosTrabajadorArl(docId, body);
+      }
+      updateDatosTrabajadorJr(docId: number, documentoId: String): Promise<any> {
+        const body = { documentosJr: documentoId };
+        return this.putCaseDatosTrabajadorJr(docId, body);
+      }
+      updateDatosTrabajadorMin(docId: number, documentoId: String): Promise<any> {
+        const body = { documentosMinisterio: documentoId };
+        return this.putCaseDatosTrabajadorMin(docId, body);
+      }
     getCaseList(document: string | number): any {
+        console.log("document", document);
         return this.http.get<any[]>(`${endPoints.scm}validate/${document}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
@@ -134,6 +180,19 @@ export class CasosMedicosService {
     changeEstadoById(id: number) {
         return new Promise((resolve, reject) => {
             this.http.put(`${endPoints.scm}cambiarEstado/${id}`, null, this.getRequestHeaders(this.headers))
+                .subscribe(
+                    res => {
+                        resolve(res);
+                    },
+                    err => {
+                        reject(err);
+                    }
+                )
+        });
+    }
+    changeEstadoSL(id: number) {
+        return new Promise((resolve, reject) => {
+            this.http.put(`${endPoints.scm}cambiarEstadoSL/${id}`, null, this.getRequestHeaders(this.headers))
                 .subscribe(
                     res => {
                         resolve(res);
@@ -198,6 +257,31 @@ export class CasosMedicosService {
         console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentDT/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+    deleteIdDocsEmp(id: string | number, docID: string | number): any {
+        console.log("que se esta enviando en eliminar", id, docID);
+        
+        return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentEmp/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+    deleteIdDocsArl(id: string | number, docID: string | number): any {
+        console.log("que se esta enviando en eliminar", id, docID);
+        
+        return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentArl/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+    deleteIdDocsJr(id: string | number, docID: string | number): any {
+        console.log("que se esta enviando en eliminar", id, docID);
+        
+        return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentJr/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+    deleteIdDocsJn(id: string | number, docID: string | number): any {
+        console.log("que se esta enviando en eliminar", id, docID);
+        
+        return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentJn/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
+    deleteIdDocsMin(id: string | number, docID: string | number): any {
+        console.log("que se esta enviando en eliminar", id, docID);
+        
+        return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentMin/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     updateDiagnosticos(diagnosticos: any) {

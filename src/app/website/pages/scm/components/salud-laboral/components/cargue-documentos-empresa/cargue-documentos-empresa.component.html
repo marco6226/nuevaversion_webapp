@@ -1,0 +1,524 @@
+<p-messages [(value)]="msgs" [closable]="true"></p-messages>
+<p-confirmDialog></p-confirmDialog>
+<!-- <form [formGroup]="empleadoForm">
+  <div class="col-12">
+                <label for="fechaLimite">Fecha notificacion de la empresa:</label>
+                <p-calendar
+                  id="fechaNotificacionEmp"
+                  appendTo="body"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  [yearRange]="yearRange"
+                  [maxDate]="fechaActual"
+                  formControlName="fechaNotificacionEmp"
+                  dateFormat="dd/mm/yy"
+                ></p-calendar>
+              </div>
+              <ng-container>
+                
+                <button
+                
+                  pButton
+                  type="button"
+                  icon="bi bi-upload"
+                  label="Adjuntar Soporte"
+                  title="Subir documento"
+                  [value]="documentacionSubirSelect"
+                  class="p-button-info margin-left margin-right"
+                  (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
+                ></button>
+              </ng-container>
+              <s-documentoUpload
+                [privadoCheck]="false"
+                [(visible)]="flagDocEmp"
+                [modParam]="selectedDocEmp"
+                [modulo]="modulo"
+                [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
+                (onUpload)="onUploadCaseEmp($event)"
+              >
+              </s-documentoUpload>
+              <div class="ui-g" style="margin-top: 10px">
+                <div class="ui-g-12 ui-sm-12 ui-md-10">
+                  <div *ngFor="let doc of directorios">
+                    <ng-container *ngIf="doc?.documento">
+                      <table class="caption-top" *ngIf="doc.documento.proceso === 'cargaDocumentosEmp' + idSl">
+                        <p>Soportes:</p>
+                        <thead>
+                          <tr>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Opciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <a type="button" class="btn btn-outline-primary" (click)="descargarDocumento(doc.documento)">{{ doc.documento.descripcion }}</a>
+                            </td>
+                            <td>
+                              <a>&nbsp;</a>
+                              <a
+                                type="button"
+                                [ariaDisabled]="true"
+                                class="btn btn-outline-danger"
+                                title="Eliminar documento"
+                                (click)="eliminarDocumentEmp(doc)"
+                              ><span class="pi pi-trash"></span></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ng-container>
+                  </div>
+                </div>
+              </div> 
+            </form> -->
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <div class="card" style="padding: 2%">
+      <p-panel header="Dictamen de la EPS">
+        <form [formGroup]="empleadoForm">
+          <p-dropdown
+            [options]="ePSDocs"
+            appendTo="body"
+            [filter]="true"
+            formControlName="epsDictamen"
+            optionLabel="label"
+            placeholder="Seleccione una EPS"
+          >
+          </p-dropdown>
+
+          <!-- <label for="fechaLimite">Fecha notificacion:</label>
+          <p-calendar
+            id="fechaNotificacionEmp"
+            appendTo="body"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [yearRange]="yearRange"
+            [maxDate]="fechaActual"
+            formControlName="fechaNotificacionEmp"
+            dateFormat="dd/mm/yy"
+          ></p-calendar> -->
+
+          <button
+            pButton
+            type="button"
+            icon="bi bi-upload"
+            label="Adjuntar Soporte"
+            title="Subir documento"
+            [value]="documentacionSubirSelect"
+            class="p-button-info margin-left margin-right"
+            (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
+          ></button>
+        </form>
+        <s-documentoUpload
+          [privadoCheck]="false"
+          [(visible)]="flagDocEmp"
+          [modParam]="selectedDocEmp"
+          [modulo]="modulo"
+          [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
+          (onUpload)="onUploadCaseEmp($event)"
+        >
+        </s-documentoUpload>
+        <div class="ui-g" style="margin-top: 10px">
+          <div class="ui-g-12 ui-sm-12 ui-md-10">
+            <div *ngFor="let doc of directorios">
+              <ng-container *ngIf="doc?.documento">
+                <table
+                  class="caption-top"
+                  *ngIf="doc.documento.proceso === 'cargaDocumentosEmp' + idSl"
+                >
+                  <p>Soportes:</p>
+                  <thead>
+                    <tr>
+                      <th scope="col">Descripción</th>
+                      <th scope="col">Opciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <a
+                          type="button"
+                          class="btn btn-outline-primary"
+                          (click)="descargarDocumento(doc.documento)"
+                          >{{ doc.documento.descripcion }}</a
+                        >
+                      </td>
+
+                      <td>
+                        <a>&nbsp;</a>
+                        <a
+                          type="button"
+                          [ariaDisabled]="true"
+                          class="btn btn-outline-danger"
+                          title="Eliminar documento"
+                          (click)="eliminarDocumentEmp(doc)"
+                          ><span class="pi pi-trash"></span
+                        ></a>
+                      </td>
+                      <td>
+                        <div>
+                          <label for="fechaNot">Fecha de notificación:</label>
+                          <p-calendar
+                            id="fechaCreacion"
+                            appendTo="body"
+                            [monthNavigator]="true"
+                            [yearNavigator]="true"
+                            [yearRange]="yearRange"
+                            [maxDate]="fechaActual"
+                            [(ngModel)]="doc.fechaCreacion"
+                            (onSelect)="updateDocDate(doc)"
+                            dateFormat="dd/mm/yy"
+                          ></p-calendar>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <p-panel header="Dictamen de la ARL">
+          <form [formGroup]="empleadoForm">
+          <p-dropdown
+            [options]="arlDocs"
+            appendTo="body"
+            [filter]="true"
+            formControlName="arlDictamen"
+            optionLabel="label"
+            placeholder="Seleccione la ARL asociada"
+          >
+          </p-dropdown>
+
+          <!-- <label for="fechaLimite">Fecha notificacion:</label>
+          <p-calendar
+            id="fechaDictamenArl"
+            appendTo="body"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [yearRange]="yearRange"
+            [maxDate]="fechaActual"
+            formControlName="fechaDictamenArl"
+            dateFormat="dd/mm/yy"
+          ></p-calendar> -->
+
+          <button
+            pButton
+            type="button"
+            icon="bi bi-upload"
+            label="Adjuntar Soporte"
+            title="Subir documento"
+            [value]="documentacionSubirSelect"
+            class="p-button-info margin-left margin-right"
+            (click)="openUploadDialogCaseArl(idSl, documentosArl)"
+          ></button>
+        </form>
+
+          <s-documentoUpload
+            [privadoCheck]="false"
+            [(visible)]="flagDocArl"
+            [modParam]="selectedDocArl"
+            [modulo]="modulo"
+            [tipoEvidencia]="'cargaDocumentosArl' + selectedDocArl"
+            (onUpload)="onUploadCaseArl($event)"
+          >
+          </s-documentoUpload>
+          <div class="ui-g" style="margin-top: 10px">
+            <div class="ui-g-12 ui-sm-12 ui-md-10">
+              <div *ngFor="let doc of directoriosArl">
+                <ng-container *ngIf="doc?.documento">
+                  <table
+                    class="caption-top"
+                    *ngIf="
+                      doc.documento.proceso === 'cargaDocumentosArl' + idSl
+                    "
+                  >
+                    <p>Soportes:</p>
+                    <thead>
+                      <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a
+                            type="button"
+                            class="btn btn-outline-primary"
+                            (click)="descargarDocumento(doc.documento)"
+                            >{{ doc.documento.descripcion }}</a
+                          >
+                        </td>
+                        <td>
+                          <a>&nbsp;</a>
+                          <a
+                            type="button"
+                            [ariaDisabled]="true"
+                            class="btn btn-outline-danger"
+                            title="Eliminar documento"
+                            (click)="eliminarDocumentArl(doc)"
+                            ><span class="pi pi-trash"></span
+                          ></a>
+                        </td>
+                        <td>
+                          <div>
+                            <label for="fechaNot">Fecha de notificación:</label>
+                            <p-calendar
+                              id="fechaCreacion"
+                              appendTo="body"
+                              [monthNavigator]="true"
+                              [yearNavigator]="true"
+                              [yearRange]="yearRange"
+                              [maxDate]="fechaActual"
+                              [(ngModel)]="doc.fechaCreacion"
+                              (onSelect)="updateDocDate(doc)"
+                              dateFormat="dd/mm/yy"
+                            ></p-calendar>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <p-panel header="Dictamen de la Junta Regional">
+          <form [formGroup]="empleadoForm">
+          <p-dropdown
+            [options]="jrDocs"
+            appendTo="body"
+            [filter]="true"
+            formControlName="jrDictamen"
+            optionLabel="label"
+            placeholder="Seleccione la Junta Regional asociada"
+          >
+          </p-dropdown>
+
+          <!-- <label for="fechaLimite">Fecha notificacion:</label>
+          <p-calendar
+            id="fechaDictamenJr"
+            appendTo="body"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [yearRange]="yearRange"
+            [maxDate]="fechaActual"
+            formControlName="fechaDictamenJr"
+            dateFormat="dd/mm/yy"
+          ></p-calendar> -->
+
+          <button
+            pButton
+            type="button"
+            icon="bi bi-upload"
+            label="Adjuntar Soporte"
+            title="Subir documento"
+            [value]="documentacionSubirSelect"
+            class="p-button-info margin-left margin-right"
+            (click)="openUploadDialogCaseJR(idSl, documentosJr)"
+          ></button>
+        </form>
+
+          <s-documentoUpload
+            [privadoCheck]="false"
+            [(visible)]="flagDocJr"
+            [modParam]="selectedDocJr"
+            [modulo]="modulo"
+            [tipoEvidencia]="'cargaDocumentosJr' + selectedDocJr"
+            (onUpload)="onUploadCaseJr($event)"
+          >
+          </s-documentoUpload>
+          <div class="ui-g" style="margin-top: 10px">
+            <div class="ui-g-12 ui-sm-12 ui-md-10">
+              <div *ngFor="let doc of directoriosJr">
+                <ng-container *ngIf="doc?.documento">
+                  <table
+                    class="caption-top"
+                    *ngIf="doc.documento.proceso === 'cargaDocumentosJr' + idSl"
+                  >
+                    <p>Soportes:</p>
+                    <thead>
+                      <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a
+                            type="button"
+                            class="btn btn-outline-primary"
+                            (click)="descargarDocumento(doc.documento)"
+                            >{{ doc.documento.descripcion }}</a
+                          >
+                        </td>
+                        <td>
+                          <a>&nbsp;</a>
+                          <a
+                            type="button"
+                            [ariaDisabled]="true"
+                            class="btn btn-outline-danger"
+                            title="Eliminar documento"
+                            (click)="eliminarDocumentJr(doc)"
+                            ><span class="pi pi-trash"></span
+                          ></a>
+                        </td>
+                        <td>
+                          <div>
+                            <label for="fechaNot">Fecha de notificación:</label>
+                            <p-calendar
+                              id="fechaCreacion"
+                              appendTo="body"
+                              [monthNavigator]="true"
+                              [yearNavigator]="true"
+                              [yearRange]="yearRange"
+                              [maxDate]="fechaActual"
+                              [(ngModel)]="doc.fechaCreacion"
+                              (onSelect)="updateDocDate(doc)"
+                              dateFormat="dd/mm/yy"
+                            ></p-calendar>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <p-panel header="Dictamen de la Junta Nacional">
+          <form [formGroup]="empleadoForm">
+          <div class="input-field">
+            <input
+              type="text"
+              class="form-control"
+              value="Junta Nacional"
+              disabled
+            />
+          </div>
+
+          <!-- <label for="fechaLimite">Fecha notificacion:</label>
+          <p-calendar
+            id="fechaDictamenJn"
+            appendTo="body"
+            [monthNavigator]="true"
+            [yearNavigator]="true"
+            [yearRange]="yearRange"
+            [maxDate]="fechaActual"
+            formControlName="fechaDictamenJn"
+            dateFormat="dd/mm/yy"
+          ></p-calendar> -->
+
+          <button
+            pButton
+            type="button"
+            icon="bi bi-upload"
+            label="Adjuntar Soporte"
+            title="Subir documento"
+            [value]="documentacionSubirSelect"
+            class="p-button-info margin-left margin-right"
+            (click)="openUploadDialogCaseJN(idSl, documentosJn)"
+          ></button>
+        </form>
+
+          <s-documentoUpload
+            [privadoCheck]="false"
+            [(visible)]="flagDocJn"
+            [modParam]="selectedDocJn"
+            [modulo]="modulo"
+            [tipoEvidencia]="'cargaDocumentosJn' + selectedDocJn"
+            (onUpload)="onUploadCaseJn($event)"
+          >
+          </s-documentoUpload>
+          <div class="ui-g" style="margin-top: 10px">
+            <div class="ui-g-12 ui-sm-12 ui-md-10">
+              <div *ngFor="let doc of directoriosJn">
+                <ng-container *ngIf="doc?.documento">
+                  <table
+                    class="caption-top"
+                    *ngIf="doc.documento.proceso === 'cargaDocumentosJn' + idSl"
+                  >
+                    <p>Soportes:</p>
+                    <thead>
+                      <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a
+                            type="button"
+                            class="btn btn-outline-primary"
+                            (click)="descargarDocumento(doc.documento)"
+                            >{{ doc.documento.descripcion }}</a
+                          >
+                        </td>
+                        <td>
+                          <a>&nbsp;</a>
+                          <a
+                            type="button"
+                            [ariaDisabled]="true"
+                            class="btn btn-outline-danger"
+                            title="Eliminar documento"
+                            (click)="eliminarDocumentJn(doc)"
+                            ><span class="pi pi-trash"></span
+                          ></a>
+                        </td>
+                        <td>
+                          <div>
+                            <label for="fechaNot">Fecha de notificación:</label>
+                            <p-calendar
+                              id="fechaCreacion"
+                              appendTo="body"
+                              [monthNavigator]="true"
+                              [yearNavigator]="true"
+                              [yearRange]="yearRange"
+                              [maxDate]="fechaActual"
+                              [(ngModel)]="doc.fechaCreacion"
+                              (onSelect)="updateDocDate(doc)"
+                              dateFormat="dd/mm/yy"
+                            ></p-calendar>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a style="visibility: hidden" id="dwldLink"></a>

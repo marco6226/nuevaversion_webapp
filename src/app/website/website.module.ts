@@ -226,8 +226,8 @@ import { CasosMedicosListComponent } from './pages/scm/components/casos-medicos-
 import { DocumentacionSaludLaboralComponent } from './pages/scm/components/salud-laboral/components/documentacion-salud-laboral/documentacion-salud-laboral.component';
 import { ListDocumentacionSolicitanteComponent } from './pages/scm/components/salud-laboral/components/list-documentacion-solicitante/list-documentacion-solicitante.component';
 import { DatePipe } from '@angular/common';
-//import { DatosTrabajadorInvolucradoComponent } from './pages/scm/components/salud-laboral/modules/informacion-general/components/datos-trabajador-involucrado/datos-trabajador-involucrado.component';
-//import { CargueDocumentosEmpresaComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-empresa.component';
+import { DatosTrabajadorInvolucradoComponent } from './pages/scm/components/salud-laboral/modules/informacion-general/components/datos-trabajador-involucrado/datos-trabajador-involucrado.component';
+import { CargueDocumentosEmpresaComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-empresa.component';
 import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/lista-inspeccion-signos/lista-inspeccion-signos.component';
 import { ElaboracionListaSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-lista-signos-vitales/elaboracion-lista-signos-vitales.component';
 import { ProgramacionSignosVitalesComponent } from './pages/inspecciones/components/programacion-signos-vitales/programacion-signos-vitales.component';
@@ -417,11 +417,12 @@ import { ConsultaInspeccionesSignosVitalesComponent } from './pages/inspecciones
     MetasComponent,
     DocumentacionSaludLaboralComponent,
     ListDocumentacionSolicitanteComponent,
-   // CargueDocumentosEmpresaComponent,
+    CargueDocumentosEmpresaComponent,
     ListaInspeccionSignosComponent,
     ElaboracionListaSignosVitalesComponent,
     ProgramacionSignosVitalesComponent,
-    ConsultaInspeccionesSignosVitalesComponent
+    ConsultaInspeccionesSignosVitalesComponent,
+    DatosTrabajadorInvolucradoComponent
   ],
   imports: [
     GridModule,

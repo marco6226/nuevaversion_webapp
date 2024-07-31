@@ -58,8 +58,14 @@ export class SaludLaboralComponent implements OnInit {
   consultar: boolean = false;
   documentos!: Documento[];
   documentosDT!: Documento[];
+  documentosEmp!: Documento[];
+  documentosMin!: Documento[];
   @Input('documentos') directorios: Directorio[] = [];
+  @Input('documentos') directoriosArl: Directorio[] = [];
+  @Input('documentos') directoriosJr: Directorio[] = [];
+  @Input('documentos') directoriosJn: Directorio[] = [];
   documentosList!: any[];
+  @Input() Directorio: any[] = [];
 
   @Input() isUpdate!: boolean;
   @Input() show!: boolean;
@@ -102,6 +108,8 @@ export class SaludLaboralComponent implements OnInit {
   loaded!: boolean;
   selectedDocId: number = 0;
   selectedDocIDDT: number = 0;
+  selectedDocEmp: number = 0;
+  selectedDocMin: number = 0;
 
   documentacionCase: any;
   documentacionSelectCase: any;
@@ -159,7 +167,18 @@ export class SaludLaboralComponent implements OnInit {
     'nombreCompletoSL',
     'documentos',
     'fechaRecepcionDocs',
-    'fechaCierreCaso'
+    'fechaCierreCaso',
+    'documentosEmpresa',
+    'documentosMinisterio',
+    'epsDictamen',
+    'fechaDictamenArl',
+    'arlDictamen',
+    'documentosArl',
+    'fechaDictamenJr',
+    'jrDictamen',
+    'documentosJr',
+    'fechaDictamenJn',
+      'documentosJn'
   ];
 
   rangoAntiguedad = [
@@ -354,6 +373,8 @@ export class SaludLaboralComponent implements OnInit {
   dialogTrazabilidadFlag: boolean = false
   flagDoc: boolean = false
   flagDocDT: boolean = false;
+  flagDocEmp: boolean = false;
+  flagDocMin: boolean = false;
   flagDialogCargoActual: boolean = false
   cargoActual: string = ''
 
@@ -392,7 +413,7 @@ export class SaludLaboralComponent implements OnInit {
 
     });
 
-    await this.comunService.findAllEps().then((data) => {
+    this.comunService.findAllEps().then((data) => {
       this.epsList = [];
       this.epsList.push({ label: "--Seleccione--", value: null });
       (<Eps[]>data).forEach((eps) => {
@@ -440,21 +461,19 @@ export class SaludLaboralComponent implements OnInit {
           this.buildPerfilesIdList();
         }, 500);
     });
-   try {
-    await this.getArea()
-    console.log('eNTRO area');
-   } catch (error) {
+    try {
+      await this.getArea()
+    } catch (error) {
       console.log('error area');
-      
-   }
-   try {
-    await this.getCargoActual()
-    console.log('eNTRO EN CARGOS');
-   } catch (error) {
-    console.log(error,'error cargo');
-    
-   }
-   
+
+    }
+    try {
+      await this.getCargoActual()
+    } catch (error) {
+      console.log(error, 'error cargo');
+
+    }
+
     this.router.params.subscribe(async params => {
       this.iddt = params ? params['iddt'] : undefined;
       if (this.iddt) {
@@ -645,6 +664,7 @@ export class SaludLaboralComponent implements OnInit {
     console.log("data de user", this.usuarioId, this.pkuser);
 
     this.chargueValue();
+
     this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
 
     console.log("esto me trae salud", this.idSl);
@@ -740,17 +760,20 @@ export class SaludLaboralComponent implements OnInit {
         console.log(this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] }), 'dettallecalificacion');
 
         this.empleadoForm.controls['entidadEmiteCalificacion'].setValue(data['entidadEmiteCalificacion']);
-        var a =this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] })
+        var a = this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] })
         console.log(a?.value, "a");
-        
+
+
+        this.empleadoForm.controls['epsDictamen'].setValue(a?.value);
+
         this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value);
-        console.log("calif",this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value));
+        console.log("calif", this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value));
         this.empleadoForm.controls['otroDetalle'].setValue(data['otroDetalle']);
-        
+
 
 
         console.log(this.empleadoForm.controls['detalleCalificacion']);
-        
+
 
         if (data['fechaCierreCaso'] != null && data['fechaCierreCaso'] != undefined) {
           const formattedDate = new Date(data['fechaCierreCaso']);
@@ -775,6 +798,21 @@ export class SaludLaboralComponent implements OnInit {
           this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(null);
         }
         console.log("fecha max", this.empleadoForm.controls['fechaMaximaEnvDocs']);
+
+        if (data['fechaNotificacionEmp'] != null && data['fechaNotificacionEmp'] != undefined) {
+          const formattedDate = new Date(data['fechaNotificacionEmp']);
+          this.empleadoForm.controls['fechaNotificacionEmp'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaNotificacionEmp'].setValue(null);
+        }
+        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionEmp']);
+        if (data['fechaNotificacionMin'] != null && data['fechaNotificacionMin'] != undefined) {
+          const formattedDate = new Date(data['fechaNotificacionMin']);
+          this.empleadoForm.controls['fechaNotificacionMin'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaNotificacionMin'].setValue(null);
+        }
+        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionMin']);
 
 
 
@@ -838,6 +876,11 @@ export class SaludLaboralComponent implements OnInit {
         this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
         console.log('LACONSULTA', this.saludLaboralSelect);
         this.loadDocumentosCaseDT();
+        this.loadDocumentosEmp();
+        this.loadDocumentosArl();
+        this.loadDocumentosMin();
+        this.loadDocumentosJn();
+        this.loadDocumentosJr();
       }, 2000);
 
 
@@ -950,6 +993,18 @@ export class SaludLaboralComponent implements OnInit {
       detalleCalificacion: [null],
       fechaMaximaEnvDocs: [null],
       fechaCierreCaso: [null],
+      fechaNotificacionEmp: [null],
+      fechaNotificacionMin: [null],
+      epsDictamen: [null],
+      fechaDictamenArl:[null],
+    arlDictamen:[null],
+    documentosArl:[null],
+    fechaDictamenJr:[''],
+    jrDictamen:[''],
+    documentosJr:[''],
+    fechaDictamenJn:[''],
+      documentosJn:[''],
+
     });
 
 
@@ -1277,6 +1332,17 @@ export class SaludLaboralComponent implements OnInit {
       'detalleCalificacion': [''],
       'fechaMaximaEnvDocs': [''],
       'fechaCierreCaso': [''],
+      'fechaNotificacionEmp': [''],
+      'fechaNotificacionMin': [''],
+      'epsDictamen': [''],
+      'fechaDictamenArl':[''],
+    'arlDictamen':[''],
+    'documentosArl':[''],
+    'fechaDictamenJr':[''],
+    'jrDictamen':[''],
+    'documentosJr':[''],
+    'fechaDictamenJn':[''],
+      'documentosJn':[''],
     });
     const dataToSend = {
       'iddt': null,
@@ -1301,7 +1367,18 @@ export class SaludLaboralComponent implements OnInit {
       'otroDetalle': [''],
       'detalleCalificacion': [null],
       'fechaMaximaEnvDocs': [''],
-      'fechaCierreCaso': ['']
+      'fechaCierreCaso': [''],
+      'fechaNotificacionEmp': [''],
+      'fechaNotificacionMin': [''],
+      'epsDictamen': [''],
+      'fechaDictamenArl':[''],
+    'arlDictamen':[''],
+    'documentosArl':[''],
+    'fechaDictamenJr':[''],
+    'jrDictamen':[''],
+    'documentosJr':[''],
+    'fechaDictamenJn':[''],
+      'documentosJn':[''],
     };
     const cleanDataToSend = this.prepareFormData(dataToSend);
     this.empleadoForm.patchValue(cleanDataToSend);
@@ -1312,7 +1389,8 @@ export class SaludLaboralComponent implements OnInit {
 
     setTimeout(() => {
       this.empleadoForm.patchValue({
-        'ciudad': this.empleadoSelect!.ciudad,
+        ciudad: this.empleadoSelect!.ciudad,
+        departamento: this.empleadoSelect?.ciudad.departamento
       })
     }, 2000);
 
@@ -1356,6 +1434,15 @@ export class SaludLaboralComponent implements OnInit {
 
       if (Array.isArray(body.pkUser)) {
         body.pkUser = body.pkUser[0];
+      }
+      if (body.epsDictamen && body.epsDictamen.value) {
+        body.epsDictamen = body.epsDictamen.value;
+      }
+      if (body.arlDictamen && body.arlDictamen.value) {
+        body.arlDictamen = body.arlDictamen.value;
+      }
+      if (body.jrDictamen && body.jrDictamen.value) {
+        body.jrDictamen = body.jrDictamen.value;
       }
 
       // Limpia el formulario según sea necesario
@@ -1608,7 +1695,7 @@ export class SaludLaboralComponent implements OnInit {
 
   async loadMailData(param: number) {
     if (param == null || param === undefined) {
-      console.error('Invalid parameter for loadMailData:', param);
+      // console.info('Invalid parameter for loadMailData:', param);
       return;
     }
 
@@ -1624,7 +1711,7 @@ export class SaludLaboralComponent implements OnInit {
 
   async loadMailDataUser(param: number, user: number) {
     if (param == null || param === undefined || user == null || user === undefined) {
-      console.error('Invalid parameters for loadMailDataUser:', param, user);
+      // console.info('Invalid parameters for loadMailDataUser:', param, user);
       return;
     }
 
@@ -1736,7 +1823,111 @@ export class SaludLaboralComponent implements OnInit {
       });
     }
   }
+  // documentoEmp: any[] = [];
 
+  // async onUploadCaseEmp(event: Directorio) {
+  //   if (!this.documentos) {
+  //     this.documentos = [];
+  //   }
+  //   if (!this.directorios) {
+  //     this.directorios = [];
+  //   }
+  
+  //   try {
+  //     this.directorios.push(event);
+  //     this.documentos.push(event.documento!);
+  
+  //     console.log(this.saludLaboralSelect);
+  
+  //     let ids: string[] = [];
+  
+  //     // Verificar si saludLaboralSelect y documentosEmpresa están definidos y no están vacíos
+  //     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosEmpresa) {
+  //       ids = this.saludLaboralSelect.documentosEmpresa.split(',');
+  //     }
+  
+  //     let index = ids.findIndex((c: any) => c === this.selectedDocId);
+  //     console.log("INDEXXXXXemp", index);
+  
+  //     // Agregar el nuevo ID del documento
+  //     this.documentoId.push(event.documento!.id);
+      
+  //     // Concatenar los nuevos IDs con los existentes
+  //     ids.push(event.documento!.id);
+  
+  //     console.log('el directorio emp', this.directorios);
+  
+  //     // Llamada para actualizar la tabla mail_saludlaboral
+  //     await this.updateCaseEmp(this.idSl, ids.join(','));
+  
+  //     // Mostrar mensaje de éxito
+  //     this.messageService.add({
+  //       key: 'formScmSL',
+  //       severity: "success",
+  //       summary: "Usuario actualizado",
+  //       detail: `Documentacion Adjuntada`,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  
+  //     // Mostrar mensaje de error
+  //     this.messageService.add({
+  //       key: 'formScmSL',
+  //       severity: "warn",
+  //       summary: "Usuario actualizado",
+  //       detail: `Documentacion no Adjuntada revisa`,
+  //     });
+  //   }
+  // }
+  
+
+
+  documentoMin: any[] = [];
+  async onUploadCaseMin(event: Directorio) {
+
+    if (this.documentos == null) {
+      this.documentos = [];
+    }
+    if (this.directorios == null) {
+      this.directorios = [];
+    }
+
+    try {
+      this.directorios.push(event);
+      this.documentos.push(event.documento!);
+      let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+      console.log("INDEXXXXX", index);
+
+      this.documentoId.push(event.documento!.id);
+      // this.documentacionListUser[index].documentos = this.documentoId;
+
+      console.log('el directorio', this.directorios);
+
+      // Llamada para actualizar la tabla mail_saludlaboral
+      await this.updateCaseMin(this.idSl, this.documentoId.toString());
+
+      // Mostrar mensaje de éxito
+      this.messageService.add({
+        // this.msgs.push({
+        key: 'formScmSL',
+        severity: "success",
+        summary: "Usuario actualizado",
+        detail: `Documentacion Adjuntada`,
+      });
+
+    } catch (error) {
+      console.error(error);
+
+      // Mostrar mensaje de error
+      this.messageService.add({
+        // this.msgs.push({
+        key: 'formScmSL',
+        severity: "warn",
+        summary: "Usuario actualizado",
+        detail: `Documentacion no Adjuntada revisa`,
+      });
+    }
+  }
 
   async updateMailSaludLaboral(docId: number, documentoId: String) {
     try {
@@ -1751,6 +1942,22 @@ export class SaludLaboralComponent implements OnInit {
   async updateCaseDT(docId: number, documentoId: string) {
     try {
       await this.scmService.updateDatosTrabajadorDocs(docId, documentoId);
+      console.log('Mail salud laboral actualizado correctamente');
+    } catch (error) {
+      console.error('Error actualizando mail salud laboral', error);
+    }
+  }
+  async updateCaseEmp(docId: number, documentoId: string) {
+    try {
+      await this.scmService.updateDatosTrabajadorEmp(docId, documentoId);
+      console.log('Mail salud laboral actualizado correctamente');
+    } catch (error) {
+      console.error('Error actualizando mail salud laboral', error);
+    }
+  }
+  async updateCaseMin(docId: number, documentoId: string) {
+    try {
+      await this.scmService.updateDatosTrabajadorMin(docId, documentoId);
       console.log('Mail salud laboral actualizado correctamente');
     } catch (error) {
       console.error('Error actualizando mail salud laboral', error);
@@ -1777,6 +1984,27 @@ export class SaludLaboralComponent implements OnInit {
       this.documentotoIDT = documentsID.split(",");
     } else {
       this.documentotoIDT = [];
+    }
+    console.log("openUploadDialogCaseDT", docId, documentsID);
+  }
+
+  // openUploadDialogCaseEmpresa(docId: number, documentsID: any) {
+  //   this.selectedDocEmp = docId;
+  //   this.flagDocEmp = true;
+  //   if (documentsID) {
+  //     this.documentoEmp = documentsID.split(",");
+  //   } else {
+  //     this.documentoEmp = [];
+  //   }
+  //   console.log("openUploadDialogCaseDT", docId, documentsID);
+  // }
+  openUploadDialogCaseMinisterio(docId: number, documentsID: any) {
+    this.selectedDocMin = docId;
+    this.flagDocMin = true;
+    if (documentsID) {
+      this.documentoMin = documentsID.split(",");
+    } else {
+      this.documentoMin = [];
     }
     console.log("openUploadDialogCaseDT", docId, documentsID);
   }
@@ -1897,6 +2125,240 @@ export class SaludLaboralComponent implements OnInit {
       }
     });
   }
+  eliminarDocumentEmp(doc: Documento) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentEmp(this.idSl, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directorios = this.directorios.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directorios.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err.status !== 404) {
+              // Si el error no es 404, maneja otros posibles errores.
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Usuario actualizado",
+                detail: `No se pudo eliminar el documento`,
+              });
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directorios = this.directorios.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directorios.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
+  eliminarDocumentArl(doc: Documento) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentArl(this.idSl, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directoriosArl.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err) {
+             console.log("error");
+             
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directoriosArl.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
+  eliminarDocumentjR(doc: Documento) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentJr(this.idSl, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directorios = this.directorios.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directorios.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err.status !== 404) {
+              // Si el error no es 404, maneja otros posibles errores.
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Usuario actualizado",
+                detail: `No se pudo eliminar el documento`,
+              });
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directorios = this.directorios.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directorios.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
+  eliminarDocumentJn(doc: Documento) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentJn(this.idSl, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directorios = this.directorios.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directorios.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err.status !== 404) {
+              // Si el error no es 404, maneja otros posibles errores.
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Usuario actualizado",
+                detail: `No se pudo eliminar el documento`,
+              });
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directorios = this.directorios.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directorios.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
+  eliminarDocumentMin(doc: Documento) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentMin(this.idSl, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directorios = this.directorios.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directorios.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err.status !== 404) {
+              // Si el error no es 404, maneja otros posibles errores.
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Usuario actualizado",
+                detail: `No se pudo eliminar el documento`,
+              });
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directorios = this.directorios.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directorios.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
   // isDateExceeded(fechaLimiteTimestamp: number): boolean {
   //   const fechaLimite = new Date(fechaLimiteTimestamp);
   //   const año =fechaLimite.getFullYear;
@@ -1944,6 +2406,109 @@ export class SaludLaboralComponent implements OnInit {
 
     }
 
+
+  }
+   timestampToDate(timestamp: number): Date {
+    return new Date(timestamp);
+  }
+  loadDocumentosEmp() {
+    if (this.saludLaboralSelect && this.saludLaboralSelect.documentosEmpresa) {
+      console.log("doclistuseremp", this.saludLaboralSelect);
+
+
+      let docum = this.saludLaboralSelect.documentosEmpresa.split(",");
+      console.log("vardocumemp", docum);
+
+      docum.forEach((algo: string) => {
+        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          console.log("algoemp", algo);
+          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          this.directorios.push(elem[0]);
+          console.log("load direct", this.directorios.find);
+          
+        })
+      });
+
+    }
+  }
+  
+  loadDocumentosArl() {
+    if (this.saludLaboralSelect && this.saludLaboralSelect.documentosArl) {
+      console.log("doclistuseremp", this.saludLaboralSelect);
+
+
+      let docum = this.saludLaboralSelect.documentosArl.split(",");
+      console.log("vardocumemp", docum);
+
+      docum.forEach((algo: string) => {
+        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          console.log("algoemp", algo);
+          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          this.directoriosArl.push(elem[0]);
+          console.log("load direct", this.directoriosArl.find);
+          
+        })
+      });
+
+    }
+  }
+  loadDocumentosJr() {
+    if (this.saludLaboralSelect && this.saludLaboralSelect.documentosJr) {
+      console.log("doclistuseremp", this.saludLaboralSelect);
+
+
+      let docum = this.saludLaboralSelect.documentosJr.split(",");
+      console.log("vardocumemp", docum);
+
+      docum.forEach((algo: string) => {
+        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          console.log("algoemp", algo);
+          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          this.directoriosJr.push(elem[0]);
+          console.log("load direct", this.directoriosJr.find);
+          
+        })
+      });
+
+    }
+  }
+  loadDocumentosJn() {
+    if (this.saludLaboralSelect && this.saludLaboralSelect.documentosJn) {
+      console.log("doclistuseremp", this.saludLaboralSelect);
+
+
+      let docum = this.saludLaboralSelect.documentosJn.split(",");
+      console.log("vardocumemp", docum);
+
+      docum.forEach((algo: string) => {
+        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          console.log("algoemp", algo);
+          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          this.directoriosJn.push(elem[0]);
+          console.log("load direct", this.directoriosJn.find);
+          
+        })
+      });
+
+    }
+  }
+  loadDocumentosMin() {
+    if (this.saludLaboralSelect && this.saludLaboralSelect.documentosMinisterio) {
+      console.log("doclistuseremp", this.saludLaboralSelect);
+
+
+      let docum = this.saludLaboralSelect.documentosMinisterio.split(",");
+      console.log("vardocumemp", docum);
+
+      docum.forEach((algo: string) => {
+        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          console.log("algoemp", algo);
+
+          this.directorios.push(elem[0]);
+        })
+      });
+
+    }
   }
   showSuccessToast() {
     // this.envioExitoso = true;
@@ -2156,6 +2721,66 @@ export class SaludLaboralComponent implements OnInit {
   }
   deleteDocumentCaseDT(diagId: string | number, docId: string | number) {
     this.scmService.deleteIdDocsCaseDT(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+      });
+  }
+  deleteDocumentEmp(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsEmp(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+      });
+  }
+  deleteDocumentArl(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsArl(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+      });
+  }
+  deleteDocumentJr(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsJr(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+      });
+  }
+  deleteDocumentJn(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsJn(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+      });
+  }
+  deleteDocumentMin(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsMin(diagId, docId)
       .then((response: any) => {
         // Actualizar la lista de documentos o manejar la respuesta
         this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
@@ -2391,6 +3016,7 @@ export class SaludLaboralComponent implements OnInit {
             summary: "Correo Enviado",
             detail: `El correo electronico fue enviado`,
           });
+          this.loadMailData(this.idSl);
         },
         error => {
           this.msgs = []
@@ -2399,7 +3025,7 @@ export class SaludLaboralComponent implements OnInit {
             key: 'formScmSL',
             severity: "warn",
             summary: "Correo no Enviado",
-            detail: `El correo electronico fue no enviado, verifica la información`,
+            detail: `El correo electronico no fue enviado, verifica la información`,
           });
         }
       );
@@ -2415,7 +3041,7 @@ export class SaludLaboralComponent implements OnInit {
   }
 
   async onSubmiSLtSeg() {
-    await this.seguridad.forEach(async value => {
+    for(const value  of this.seguridad){
       await this.scmService.createMail(value).then(
         response => {
           this.modalConfirmacionVisible = false
@@ -2427,6 +3053,7 @@ export class SaludLaboralComponent implements OnInit {
             summary: "Correo Enviado",
             detail: `El correo electronico fue enviado`,
           });
+          this.loadMailData(this.idSl);
         },
         error => {
           this.msgs = []
@@ -2439,9 +3066,9 @@ export class SaludLaboralComponent implements OnInit {
           });
         }
       );
-    })
+    };
 
-  }
+  };
   async onSubmiSLl() {
     await this.saludLaboralMail.forEach(async value => {
       await this.scmService.createMail(value).then(
@@ -2539,7 +3166,7 @@ export class SaludLaboralComponent implements OnInit {
 
     switch (entidad) {
       case 'EPS':
-        await this.comunService.findAllEps().then(
+        this.comunService.findAllEps().then(
           (res: any) => {
             this.detalleOptions = res.map((item: any) => ({
               label: item.nombre, // Ajusta esto según la estructura de tus datos
