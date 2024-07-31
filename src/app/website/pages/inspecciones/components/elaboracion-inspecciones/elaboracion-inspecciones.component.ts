@@ -309,7 +309,13 @@ export class ElaboracionInspeccionesComponent implements OnInit {
     async precargarDatos(formulario: Formulario, programacion: Programacion) {
         formulario.campoList.forEach((campo:Campo, index: number) => {
             switch(campo.nombre.trim().toLowerCase()) {
-
+                case 'division':
+                    if(!this.respuestaCampos) this.respuestaCampos = [];
+                    let respuesta1: RespuestaCampo = {} as RespuestaCampo;
+                    respuesta1.valor = programacion.area;
+                    respuesta1.campoId = campo.id;
+                    this.respuestaCampos.push(respuesta1);
+                    break;
                 case 'localidad':
                     if(!this.respuestaCampos) this.respuestaCampos = [];
                     let respuesta: RespuestaCampo = {} as RespuestaCampo;

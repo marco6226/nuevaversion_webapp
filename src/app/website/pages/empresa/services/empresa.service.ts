@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { endPoints } from 'src/environments/environment';
 import { CRUDService } from '../../core/services/crud.service';
 import { ActividadesContratadas, AliadoInformacion, Localidades, SST, Subcontratista } from '../../ctr/entities/aliados';
+import { Area } from '../../empresa/entities/area';
 import { Empresa } from '../entities/empresa';
 import { FilterQuery } from '../../core/entities/filter-query';
 
@@ -166,6 +167,21 @@ findByIdSLocalidad( ) {
   getLocalidades(): Promise<Localidades[]>{       
     return new Promise((resolve, reject) =>{
       this.httpInt.get(endPoints.EmpresaService + "getActividadesContratadas")
+        .subscribe(
+          (res: any) => {
+            resolve(res);
+          },
+          err => {
+            this.manageError(err);
+            reject(err);
+          }
+        );
+    });
+  }
+
+  getArea(): Promise<Area[]>{       
+    return new Promise((resolve, reject) =>{
+      this.httpInt.get(endPoints.EmpresaService + "getAreas")
         .subscribe(
           (res: any) => {
             resolve(res);

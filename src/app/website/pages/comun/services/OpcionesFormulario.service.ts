@@ -44,7 +44,7 @@ export class OpcionesFormularioService {
       },
 
       {
-        servicioId: 'DIVISION DE NEGOCIO',
+        servicioId: 'DIVISION',
         getData: async function(){
           let divisionesTemp: any[] = [];
           await empresaService.getArea()
@@ -52,8 +52,9 @@ export class OpcionesFormularioService {
             (res: Area[]) => {
               let nombreDivision: string[] = res.map(area => area.nombre);
               divisionesTemp = nombreDivision.map(loc => {
-                return {label: loc, value: loc}
+                return {label: loc, value: loc}        
               })
+              console.log(res, "Aqui está");
             }
           ).catch((err: any) => {
             console.error('Error al obtener las divisiones', err);

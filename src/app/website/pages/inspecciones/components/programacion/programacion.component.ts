@@ -20,6 +20,9 @@ import { PrimeNGConfig } from 'primeng/api';
 import { CalendarOptions, EventSourceInput } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 
+
+
+
 @Component({
   selector: 'app-programacion',
   templateUrl: './programacion.component.html',
@@ -46,8 +49,9 @@ export class ProgramacionComponent implements OnInit, AfterViewInit, OnChanges, 
   areasPerm!: string;
   loading: boolean = false;
   progLoading: boolean = false;
-  permiso: boolean = false;;
+  permiso: boolean = false;
   totalRecords!: number;
+ 
 
   calendarOptions!: CalendarOptions;
   // events!: any[];
@@ -91,6 +95,7 @@ export class ProgramacionComponent implements OnInit, AfterViewInit, OnChanges, 
   }
 
   async ngOnInit() {
+  
     this.config.setTranslation(this.localeES);
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, ],
@@ -149,6 +154,7 @@ export class ProgramacionComponent implements OnInit, AfterViewInit, OnChanges, 
     sessionStorage.removeItem('userP');
   }
 
+  
   async loadListasInspeccion(){
     let user: any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();
