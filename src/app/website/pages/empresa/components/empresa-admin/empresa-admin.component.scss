@@ -66,3 +66,15 @@
     width: 128px; 
     height: 128px; 
 }
+
+.image{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loader {
+    width: 10%;
+    height: auto;
+  }

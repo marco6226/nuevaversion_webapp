@@ -1,6 +1,8 @@
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
-
+    <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
+      <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+    </div>
 <p-panel header="Actas COPASST">
 
   <p-table #dt [value]="actasList" autoLayout="true" [rows]="10" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
