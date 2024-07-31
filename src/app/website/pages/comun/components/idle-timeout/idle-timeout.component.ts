@@ -81,14 +81,22 @@ export class IdleTimeoutComponent implements OnInit {
         this.visibleBtn = true;
 
         clearInterval(this.intervalID);
-        await this.authService.logout().then(
-          async (resp: any) => {
-
-            this.visibleBtn = true;
+        await this.authService.logout().then(()=>{
+          this.redireccionar();
+        }).catch((error)=>{
+          if(error.status === 0){
+            this.redireccionar();
           }
-        );
-        localStorage.setItem('mouseMove','0')
-        await this.redireccionar()
+        });
+
+        // await this.authService.logout().then(
+        //   async (resp: any) => {
+
+        //     this.visibleBtn = true;
+        //   }
+        // );
+        // localStorage.setItem('mouseMove','0')
+        
       }
     }else if(mouseMove=='0'){
     // else{
@@ -106,12 +114,13 @@ export class IdleTimeoutComponent implements OnInit {
     this.startTimer();
   }
 
-  async redireccionar(){
+  redireccionar(){
     
-    await this.navService.redirect('/login');
-    setTimeout(() => {
-      localStorage.clear()
-    }, 2000);
+    localStorage.clear();
+    this.navService.redirect('/login');
+    // setTimeout(() => {
+      
+    // }, 2000);
   }
 
 }
