@@ -4,9 +4,11 @@ import { FilterQuery } from '../../core/entities/filter-query';
 import { SesionService } from '../../core/services/session.service';
 import { Localidades } from '../../ctr/entities/aliados';
 import { Area } from '../../empresa/entities/area';
+import { AreaMatriz } from '../../comun/entities/Area-matriz';
 import { EmpresaService } from '../../empresa/services/empresa.service';
 import { Campo } from '../entities/campo';
 import { nitCorona, procesosCorona } from '../entities/inspeccion-utils';
+import { AreaMatrizService } from '../../core/services/area-matriz.service';
 
 
 @Injectable({
@@ -21,7 +23,8 @@ export class OpcionesFormularioService {
 
   constructor(
     private empresaService: EmpresaService,
-    private sesionService: SesionService
+    private sesionService: SesionService,
+    private areaMatrizService: AreaMatrizService
   ) {
     this.servicios = [
       {
@@ -54,14 +57,35 @@ export class OpcionesFormularioService {
               divisionesTemp = nombreDivision.map(loc => {
                 return {label: loc, value: loc}        
               })
-              console.log(res, "Aqui está");
             }
           ).catch((err: any) => {
             console.error('Error al obtener las divisiones', err);
           });
           return divisionesTemp;
         }
-      },      
+      }, 
+      
+      {
+        servicioId: 'AREA',
+        getData: async function(){
+          let areasTemp: any[] = [];
+          await areaMatrizService.getAreaM()
+          .then(
+            (res: AreaMatriz[]) => {
+              let nombreArea: string[] = res.map(areaMatriz => areaMatriz.nombre)
+              .filter((nombreArea): nombreArea is string => nombreArea !== undefined);
+
+              areasTemp = nombreArea.map(are => ({
+                label: are, 
+                value: are,     
+              }));
+            }
+          ).catch((err: any) => {
+            console.error('Error al obtener las areas', err);
+          });
+          return areasTemp;
+        }
+      }, 
       
       {
         servicioId: 'ALIADO',
