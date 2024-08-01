@@ -102,6 +102,12 @@ export class PclComponent implements OnInit {
         this.pclSelect = null;
         this.pclSelect2 = null;
     }
+    get isButtonDisabled(): boolean {
+        const status = this.pclForm.get('statusDeCalificacion')?.value;
+        const origen = this.pclForm.get('origen')?.value;
+        return status !== '2' || origen !== 'Enfermedad Laboral';
+      }
+      
     calculateTimeDifference(fechaInicio: number, fechaFin: Date): string {
         const startDate = new Date(fechaInicio);
         const endDate = new Date(fechaFin);

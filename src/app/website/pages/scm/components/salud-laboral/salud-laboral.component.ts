@@ -431,6 +431,17 @@ export class SaludLaboralComponent implements OnInit {
       });
       this.entity.ARL = this.arlList;
     });
+    await this.comunService.findAllJuntas().then((data) => {
+      this.JuntaRegionalList = [];
+      this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
+      (<JuntaRegional[]>data).forEach((JuntaRegional) => {
+        this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
+
+
+      });
+      console.log(this.JuntaRegionalList)
+      this.entity.Junta_Regional = this.JuntaRegionalList;
+    });
 
     await this.comunService.findAllPrepagadas().then((data) => {
       this.prepagadasList = [];
@@ -1073,17 +1084,7 @@ export class SaludLaboralComponent implements OnInit {
         this.listDivision.push({ label: resp2.nombre, value: resp2.id })
       });
     })
-    await this.comunService.findAllJuntas().then((data) => {
-      this.JuntaRegionalList = [];
-      this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
-      (<JuntaRegional[]>data).forEach((JuntaRegional) => {
-        this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
 
-
-      });
-      console.log(this.JuntaRegionalList)
-      this.entity.Junta_Regional = this.JuntaRegionalList;
-    });
   }
 
 
@@ -2173,48 +2174,48 @@ export class SaludLaboralComponent implements OnInit {
       }
     });
   }
-  eliminarDocumentArl(doc: Documento) {
-    this.confirmationService.confirm({
-      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
-      header: 'Confirmar',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.deleteDocumentArl(this.idSl, doc.id),
-          this.directorioService.eliminarDocumento(doc.id).then(
-            data => {
-              this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
-              let docIds: string[] = [];
+  // eliminarDocumentArl(doc: Documento) {
+  //   this.confirmationService.confirm({
+  //     message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+  //     header: 'Confirmar',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       this.deleteDocumentArl(this.idSl, doc.id),
+  //         this.directorioService.eliminarDocumento(doc.id).then(
+  //           data => {
+  //             this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
+  //             let docIds: string[] = [];
 
-              this.directoriosArl.forEach(el => {
-                docIds.push(el.id!);
-              });
-              this.messageService.add({
-                // this.msgs.push({
-                key: 'formScmSL',
-                severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
-              });
-            }
+  //             this.directoriosArl.forEach(el => {
+  //               docIds.push(el.id!);
+  //             });
+  //             this.messageService.add({
+  //               // this.msgs.push({
+  //               key: 'formScmSL',
+  //               severity: "success",
+  //               summary: "Usuario actualizado",
+  //               detail: `Documento Retirado`,
+  //             });
+  //           }
 
-          ).catch(err => {
-            if (err) {
-             console.log("error");
+  //         ).catch(err => {
+  //           if (err) {
+  //            console.log("error");
              
-            }
+  //           }
 
-            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
-            this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
-            let docIds: string[] = [];
+  //           // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+  //           this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
+  //           let docIds: string[] = [];
 
-            this.directoriosArl.forEach(el => {
-              docIds.push(el.id!);
-            });
-            console.log("que trae dosid", docIds);
-          });
-      }
-    });
-  }
+  //           this.directoriosArl.forEach(el => {
+  //             docIds.push(el.id!);
+  //           });
+  //           console.log("que trae dosid", docIds);
+  //         });
+  //     }
+  //   });
+  // }
   eliminarDocumentjR(doc: Documento) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
@@ -2263,54 +2264,54 @@ export class SaludLaboralComponent implements OnInit {
       }
     });
   }
-  eliminarDocumentJn(doc: Documento) {
-    this.confirmationService.confirm({
-      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
-      header: 'Confirmar',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.deleteDocumentJn(this.idSl, doc.id),
-          this.directorioService.eliminarDocumento(doc.id).then(
-            data => {
-              this.directorios = this.directorios.filter(val => val.id !== doc.id);
-              let docIds: string[] = [];
+  // eliminarDocumentJn(doc: Documento) {
+  //   this.confirmationService.confirm({
+  //     message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+  //     header: 'Confirmar',
+  //     icon: 'pi pi-exclamation-triangle',
+  //     accept: () => {
+  //       this.deleteDocumentJn(this.idSl, doc.id),
+  //         this.directorioService.eliminarDocumento(doc.id).then(
+  //           data => {
+  //             this.directorios = this.directorios.filter(val => val.id !== doc.id);
+  //             let docIds: string[] = [];
 
-              this.directorios.forEach(el => {
-                docIds.push(el.id!);
-              });
-              this.messageService.add({
-                // this.msgs.push({
-                key: 'formScmSL',
-                severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
-              });
-            }
+  //             this.directorios.forEach(el => {
+  //               docIds.push(el.id!);
+  //             });
+  //             this.messageService.add({
+  //               // this.msgs.push({
+  //               key: 'formScmSL',
+  //               severity: "success",
+  //               summary: "Usuario actualizado",
+  //               detail: `Documento Retirado`,
+  //             });
+  //           }
 
-          ).catch(err => {
-            if (err.status !== 404) {
-              // Si el error no es 404, maneja otros posibles errores.
-              this.messageService.add({
-                // this.msgs.push({
-                key: 'formScmSL',
-                severity: "warn",
-                summary: "Usuario actualizado",
-                detail: `No se pudo eliminar el documento`,
-              });
-            }
+  //         ).catch(err => {
+  //           if (err.status !== 404) {
+  //             // Si el error no es 404, maneja otros posibles errores.
+  //             this.messageService.add({
+  //               // this.msgs.push({
+  //               key: 'formScmSL',
+  //               severity: "warn",
+  //               summary: "Usuario actualizado",
+  //               detail: `No se pudo eliminar el documento`,
+  //             });
+  //           }
 
-            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
-            this.directorios = this.directorios.filter(val => val.id !== doc.id);
-            let docIds: string[] = [];
+  //           // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+  //           this.directorios = this.directorios.filter(val => val.id !== doc.id);
+  //           let docIds: string[] = [];
 
-            this.directorios.forEach(el => {
-              docIds.push(el.id!);
-            });
-            console.log("que trae dosid", docIds);
-          });
-      }
-    });
-  }
+  //           this.directorios.forEach(el => {
+  //             docIds.push(el.id!);
+  //           });
+  //           console.log("que trae dosid", docIds);
+  //         });
+  //     }
+  //   });
+  // }
   eliminarDocumentMin(doc: Documento) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
@@ -2740,21 +2741,20 @@ export class SaludLaboralComponent implements OnInit {
       })
       .catch((error: any) => {
         // Manejar errores
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
       });
   }
-  deleteDocumentArl(diagId: string | number, docId: string | number) {
-    this.scmService.deleteIdDocsArl(diagId, docId)
-      .then((response: any) => {
-        // Actualizar la lista de documentos o manejar la respuesta
-        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
-      })
-      .catch((error: any) => {
-        // Manejar errores
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
-      });
-  }
+  // deleteDocumentArl(diagId: string | number, docId: string | number) {
+  //   this.scmService.deleteIdDocsArl(diagId, docId)
+  //     .then((response: any) => {
+  //       // Actualizar la lista de documentos o manejar la respuesta
+  //       this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+  //     })
+  //     .catch((error: any) => {
+  //       // Manejar errores
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+  //     });
+  // }
   deleteDocumentJr(diagId: string | number, docId: string | number) {
     this.scmService.deleteIdDocsJr(diagId, docId)
       .then((response: any) => {
@@ -2764,21 +2764,19 @@ export class SaludLaboralComponent implements OnInit {
       })
       .catch((error: any) => {
         // Manejar errores
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
       });
   }
-  deleteDocumentJn(diagId: string | number, docId: string | number) {
-    this.scmService.deleteIdDocsJn(diagId, docId)
-      .then((response: any) => {
-        // Actualizar la lista de documentos o manejar la respuesta
-        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
-      })
-      .catch((error: any) => {
-        // Manejar errores
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
-      });
-  }
+  // deleteDocumentJn(diagId: string | number, docId: string | number) {
+  //   this.scmService.deleteIdDocsJn(diagId, docId)
+  //     .then((response: any) => {
+  //       // Actualizar la lista de documentos o manejar la respuesta
+  //       this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+  //     })
+  //     .catch((error: any) => {
+  //       // Manejar errores
+  //     });
+  // }
   deleteDocumentMin(diagId: string | number, docId: string | number) {
     this.scmService.deleteIdDocsMin(diagId, docId)
       .then((response: any) => {
@@ -2788,7 +2786,6 @@ export class SaludLaboralComponent implements OnInit {
       })
       .catch((error: any) => {
         // Manejar errores
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
       });
   }
   closeModalDiagnostico() {

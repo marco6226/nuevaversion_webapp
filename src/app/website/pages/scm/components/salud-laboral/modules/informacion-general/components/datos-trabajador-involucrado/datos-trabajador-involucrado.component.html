@@ -4,11 +4,7 @@
 <p-confirmDialog ></p-confirmDialog>
 
 <p-panel header="Datos del trabajador involucrado">
-  <div *ngIf="!consultar2" class="mt-4">
-    <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" type="button" pButton
-        class="ui-button-raised p-button-warning" label="Cerrar caso"
-        icon="bi bi-arrow-left-right" (click)="cambiarEstado(iddt)"></button>
-</div>
+
     <form [formGroup]="empleadoForm">
       <div class="container-fluid cew-9">
         <div class="container-fluid cew-9">
@@ -740,7 +736,7 @@
       </p-table>
     </p-tabPanel>
 
-    
+
     <p-dialog
   [header]="'Crear cargo actual'"
   [(visible)]="flagDialogCargoActual"

@@ -102,6 +102,8 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
 
     filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'pkUsuarioId', value1: user.usuario.id.toString()});
     filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresa.id', value1: user.empresa.id.toString()});
+    filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales' });
+
 
     var x: any[] = [];
 

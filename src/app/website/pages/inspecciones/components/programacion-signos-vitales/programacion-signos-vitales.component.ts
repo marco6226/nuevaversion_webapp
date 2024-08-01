@@ -207,7 +207,8 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       let filterQuery = new FilterQuery();
 
       filterQuery.filterList = [
-        { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm }
+        { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm },
+        {criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales'}
       ];
 
       filterQuery.fieldList = [

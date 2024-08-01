@@ -200,7 +200,9 @@ export class ProgramacionComponent implements OnInit, AfterViewInit, OnChanges, 
       let filterQuery = new FilterQuery();
 
       filterQuery.filterList = [
-        { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm }
+        { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm },
+        {criteria: Criteria.NOT_EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales'}
+
       ];
 
       filterQuery.fieldList = [
