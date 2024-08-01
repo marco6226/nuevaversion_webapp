@@ -2,6 +2,9 @@
 
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
 <div class="shadow">
+    <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
+        <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+    </div>
     <p-panel header="Empresas">
 
         <p-table #dt [value]="empresasList" [(selection)]="empresaSelect" autoLayout="true" selectionMode="single"

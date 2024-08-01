@@ -152,11 +152,11 @@ export class ScmComponent implements OnInit {
             console.log(this.casosList)
             res?.data?.forEach((dto: any) => {
                 this.casosList.push(FilterQuery.dtoToObject(dto));
-                this.testing = false;
-               
+                
             });
             console.log(res)
             this.totalRecords = res.count;
+            this.testing = false;
             
         } catch (error) {
             

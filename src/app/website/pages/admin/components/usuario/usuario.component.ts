@@ -29,6 +29,7 @@ export class UsuarioComponent implements OnInit {
 
   solicitando: boolean = false;
   loading!: boolean;
+  testing!: boolean;
   downloading!: boolean;
   totalRecords!: number;
   fields: string[] = [
@@ -87,6 +88,7 @@ export class UsuarioComponent implements OnInit {
         })
       });
     this.loading = true;
+    this.testing = true; 
   }
 
   lazyLoad(event: any) {
@@ -106,6 +108,7 @@ export class UsuarioComponent implements OnInit {
       (resp:any) => {
         this.totalRecords = resp['count'];
         this.loading = false;
+        this.testing = false;
         this.usuarioList = [];
         (<any[]>resp['data']).forEach(dto => {
           this.usuarioList.push(FilterQuery.dtoToObject(dto));

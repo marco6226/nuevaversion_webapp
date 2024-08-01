@@ -22,7 +22,8 @@ export class ConsultaInspeccionesComponent implements OnInit {
   inspeccionesList!: any[];
   inspeccionSelect!: Inspeccion;
   totalRecords!: number;
-  loading: boolean = true;
+  loading: boolean = false;
+  testing!: boolean;
   fields: string[] = [
     'id',
     'programacion_fecha',
@@ -41,7 +42,7 @@ export class ConsultaInspeccionesComponent implements OnInit {
   inspeccionNoProgList!: any[];
   inspeccionNoProgSelect!: Inspeccion;
   totalRecordsNoProg!: number;
-  loadingNoProg: boolean = true;
+  loadingNoProg: boolean = false;
   fieldsNoProg: string[] = [
     'id',
     'fechaRealizada',
@@ -64,6 +65,7 @@ export class ConsultaInspeccionesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.testing = true;
     this.areasPermiso = this.sesionService.getPermisosMap()['INP_GET_INP'].areas;
     let areasPermiso = this.areasPermiso.replace('{', '');
     areasPermiso = areasPermiso.replace('}', '');
@@ -120,7 +122,6 @@ export class ConsultaInspeccionesComponent implements OnInit {
     await this.viewInspeccionService.getFilterInspeccionToPerfilToUsuario(filterQuery).then((resp:any)=>{
       this.totalRecordsNoProg = resp['count'];
 
-        this.loadingNoProg = false;
         this.inspeccionNoProgList = [];
         if((<any[]>resp['data']).length > 0)
         (<any[]>resp['data']).forEach(dto => {
@@ -129,6 +130,7 @@ export class ConsultaInspeccionesComponent implements OnInit {
           this.inspeccionNoProgList.push(obj);
         });
   }).catch(er=>console.log(er))
+  this.loadingNoProg = false;
 
     // this.inspeccionService.findByFilter(filterQuery).then(
     //   (resp: any) => {
@@ -201,6 +203,7 @@ export class ConsultaInspeccionesComponent implements OnInit {
         });
   }).catch(er=>console.log(er)).finally(() => {
       this.loading = false;
+      this.testing = false;
     });
 
     // await this.inspeccionService.findByFilter(filterQuery).then(

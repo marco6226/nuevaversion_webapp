@@ -347,7 +347,7 @@ export class DashboardCoronaComponent implements OnInit {
       return new Promise(async (resolve, reject) => {
         await this.plantasService.getPlantaWithFilter(filterPlantaQuery)
         .then((res:any) => {
-          console.log(res)
+          //console.log(res)
           this.plantasList = (<Plantas[]>res.data).map(planta => planta);
           for(const ele of this.divisionList){
             if(this.getPlantasByArea(ele.id,res.data))divisionListOut.push({label:ele['nombre'],value:ele['nombre']})
@@ -472,7 +472,7 @@ export class DashboardCoronaComponent implements OnInit {
     });
 
     await this.viewHHtMetasService.getWithFilter(filterQueryCoronameta).then(async (res: any) => {
-      console.log(res.data)
+      //console.log(res.data)
       if(res.data.length > 0){
         let hhtmeta = Array.from(res.data);
         if(this.selectPais1 && !this.selectedDivisionResumen1){
@@ -880,7 +880,7 @@ export class DashboardCoronaComponent implements OnInit {
     divisionList = divisionList.filter((resp:any)=>resp != 'TEST')
 
     for(const div of divisionList){
-      console.log(div)
+     // console.log(div)
       let data=[]
       let dataT=[]
 
@@ -926,7 +926,7 @@ export class DashboardCoronaComponent implements OnInit {
 
     this.flagResumen=true
 
-    console.log(this.resumenInicial)
+   // console.log(this.resumenInicial)
 
   }
 

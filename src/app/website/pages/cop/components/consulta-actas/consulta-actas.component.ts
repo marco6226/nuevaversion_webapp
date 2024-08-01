@@ -31,6 +31,7 @@ export class ConsultaActasComponent implements OnInit {
   visibleDlg?: boolean;
   msgs?: Message[];
   loading?: boolean;
+  testing!: boolean;
   totalRecords?: number;
 
   areasPerm?: string;
@@ -44,6 +45,7 @@ export class ConsultaActasComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+      this.testing = true;
       this.loading = true;
       this.areasPerm = this.sesionService.getPermisosMap()['COP_GET_ACT'].areas;
       let areasPermiso =this.areasPerm!.replace('{','');
@@ -70,6 +72,7 @@ export class ConsultaActasComponent implements OnInit {
 
       this.actaService.findByFilter(filterQuery)
           .then((resp:any) => {
+              this.testing = false;
               this.totalRecords = resp['count'];
               this.loading = false;
               this.actasList = [];

@@ -35,6 +35,7 @@ export class EmpresaAdminComponent implements OnInit {
     canvas: any;
 
     loading?: boolean;
+    testing!: boolean;
     totalRecords?: number;
     fields: string[] = [
         'logo',
@@ -80,6 +81,7 @@ export class EmpresaAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.testing = true;
     this.loading = true;
         this.arlList.push({ label: '--Seleccione--', value: null });
         this.ciiuList.push({ label: '--Seleccione--', value: null });
@@ -115,6 +117,7 @@ export class EmpresaAdminComponent implements OnInit {
         (resp : any) => {
             this.totalRecords = (<any[]>resp['data']).length;
             this.loading = false;
+            this.testing = false;
             this.empresasList = [];
             (<any[]>resp['data']).forEach(dto => this.empresasList?.push(FilterQuery.dtoToObject(dto)));
         }

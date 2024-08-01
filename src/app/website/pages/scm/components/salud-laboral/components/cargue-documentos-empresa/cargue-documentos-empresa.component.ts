@@ -7,7 +7,6 @@ import { DirectorioService } from 'src/app/website/pages/ado/services/directorio
 import { ComunService } from 'src/app/website/pages/comun/services/comun.service';
 import { Modulo } from 'src/app/website/pages/core/enums/enumeraciones';
 import { CasosMedicosService } from 'src/app/website/pages/core/services/casos-medicos.service';
-//import { ComunService } from 'src/app/website/pages/core/services/comun.service';
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado';
 
 @Component({
