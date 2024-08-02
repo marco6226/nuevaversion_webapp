@@ -72,7 +72,6 @@ export class ListasInspeccionComponent implements OnInit {
     const userP = await this.userService.findByFilter(filterQuery);
     let userParray:any = userP;    
 
-    this.testing = true;
     this.loading = true;
        
     filterQuery.sortField = event?.sortField;
@@ -119,8 +118,8 @@ export class ListasInspeccionComponent implements OnInit {
         this.totalRecords = resp['count'];
         this.loading = false;
         this.testing = false;
+        
         this.listaInspeccionList = [];
-  
         if((<any[]>resp['data']).length > 0)
           (<any[]>resp['data']).forEach(dto => {
             let obj = FilterQuery.dtoToObject(dto)

@@ -198,6 +198,8 @@ export class ElaboracionInspeccionesComponent implements OnInit {
                 })
                 .catch(err => {
                     this.initLoading = false;
+                }).finally(() => {
+                    this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
                 });
             this.getTareaEvidences(parseInt(this.listaInspeccion.listaInspeccionPK.id), this.listaInspeccion.listaInspeccionPK.version);
 
@@ -300,13 +302,21 @@ export class ElaboracionInspeccionesComponent implements OnInit {
                     this.initLoading = false;
                 });;
         }
-        this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
+        
         this.paramNav.reset();
     }
 
     async precargarDatos(formulario: Formulario, programacion: Programacion) {
         formulario.campoList.forEach((campo:Campo, index: number) => {
             switch(campo.nombre.trim().toLowerCase()) {
+              
+                case 'localidad':
+                    if(!this.respuestaCampos) this.respuestaCampos = [];
+                    let respuesta: RespuestaCampo = {} as RespuestaCampo;
+                    respuesta.valor = programacion.localidad;
+                    respuesta.campoId = campo.id;
+                    this.respuestaCampos.push(respuesta);
+                    break;
                 case 'fecha':
                     if(!this.respuestaCampos) this.respuestaCampos = [];
                     let fecha = new Date(); // Obtiene la fecha y hora actuales

@@ -27,4 +27,19 @@ export class AreaMatrizService extends CRUDService<AreaMatriz>{
     })
   }
 
+  getAreaM(): Promise<AreaMatriz[]>{
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(endPoints.AreaMatrizService + "getAreaM")
+      .subscribe(
+        (res: any) => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err);
+        }
+      );
+    });
+  }
+
 }

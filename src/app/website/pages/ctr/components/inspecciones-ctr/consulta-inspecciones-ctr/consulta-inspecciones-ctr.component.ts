@@ -27,6 +27,7 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
   inspeccionSelect!: Inspeccion;
   totalRecords!: number;
   loading: boolean = true;
+  testing: boolean = false;
   areasPermiso!: string;
   userParray: any;
   listaInspeccion!: ListaInspeccion;
@@ -75,6 +76,7 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.testing = true;
     this.areasPermiso = this.sesionService.getPermisosMap()['INP_GET_INP'].areas;
     let areasPermiso = this.areasPermiso.replace('{', '');
     areasPermiso = areasPermiso.replace('}', '');
@@ -234,6 +236,7 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
       }
     ).finally(() => {
       this.loading = false;
+      this.testing = false;
     });
   }
 

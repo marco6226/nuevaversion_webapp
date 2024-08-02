@@ -519,7 +519,7 @@ resetFechaCreacion(doc: any) {
           label: item.nombre, // Ajusta esto según la estructura de tus datos
           value: item.id // Ajusta esto según la estructura de tus datos
         }));
-        this.empleadoForm.controls['epsDictamen'].setValue(this.ePSDocs.find(value => value.value.toString() == data['epsDictamen'].toString()));
+        this.empleadoForm.controls['epsDictamen'].setValue(this.ePSDocs.find(value => value.value == data['epsDictamen']));
       },
       err => {
         console.error('Error loading detalles:', err);
@@ -532,7 +532,7 @@ resetFechaCreacion(doc: any) {
           label: item.nombre, // Ajusta esto según la estructura de tus datos
           value: item.id // Ajusta esto según la estructura de tus datos
         }));
-        this.empleadoForm.controls['arlDictamen'].setValue(this.arlDocs.find(value => value.value.toString() == data['arlDictamen'].toString()));
+        this.empleadoForm.controls['arlDictamen'].setValue(this.arlDocs.find(value => value.value == data['arlDictamen']));
       },
       err => {
         console.error('Error loading detalles:', err);
@@ -546,7 +546,7 @@ resetFechaCreacion(doc: any) {
           value: item.id // Ajusta esto según la estructura de tus datos
         }));
         console.log(res, "res");
-        this.empleadoForm.controls['jrDictamen'].setValue(this.jrDocs.find(value => value.value.toString() == data['jrDictamen'].toString()));
+        this.empleadoForm.controls['jrDictamen'].setValue(this.jrDocs.find(value => value.value == data['jrDictamen']));
 
 
       },
@@ -602,13 +602,6 @@ resetFechaCreacion(doc: any) {
     this.deleteDoc.emit(doc);
   }
 
-  eliminarDocumentJr(doc: any) {
-    this.deleteDoc.emit(doc);
-  }
-
-  eliminarDocumentJn(doc: any) {
-    this.deleteDoc.emit(doc);
-  }
 
   prepareFormData(formValue: any) {
     const processedFormValue = { ...formValue };
@@ -691,6 +684,126 @@ resetFechaCreacion(doc: any) {
             let docIds: string[] = [];
 
             this.directoriosArl.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
+
+  deleteDocumentJr(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsJr(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+      });
+  }
+  eliminarDocumentjR(doc: Documento) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentJr(this.idSl, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directoriosJr = this.directoriosJr.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directoriosJr.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err.status !== 404) {
+              // Si el error no es 404, maneja otros posibles errores.
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Usuario actualizado",
+                detail: `No se pudo eliminar el documento`,
+              });
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directoriosJr = this.directoriosJr.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directoriosJr.forEach(el => {
+              docIds.push(el.id!);
+            });
+            console.log("que trae dosid", docIds);
+          });
+      }
+    });
+  }
+  deleteDocumentJn(diagId: string | number, docId: string | number) {
+    this.scmService.deleteIdDocsJn(diagId, docId)
+      .then((response: any) => {
+        // Actualizar la lista de documentos o manejar la respuesta
+        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+      })
+      .catch((error: any) => {
+        // Manejar errores
+      });
+  }
+  eliminarDocumentJn(doc: Documento) {
+    
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocumentJn(this.idSl, doc.id),
+          this.directorioService.eliminarDocumento(doc.id).then(
+            data => {
+              this.directoriosJn = this.directoriosJn.filter(val => val.id !== doc.id);
+              let docIds: string[] = [];
+
+              this.directoriosJn.forEach(el => {
+                docIds.push(el.id!);
+              });
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Documento Retirado`,
+              });
+            }
+
+          ).catch(err => {
+            if (err.status !== 404) {
+              // Si el error no es 404, maneja otros posibles errores.
+              this.messageService.add({
+                // this.msgs.push({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Usuario actualizado",
+                detail: `No se pudo eliminar el documento`,
+              });
+            }
+
+            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
+            this.directoriosJn = this.directoriosJn.filter(val => val.id !== doc.id);
+            let docIds: string[] = [];
+
+            this.directoriosJn.forEach(el => {
               docIds.push(el.id!);
             });
             console.log("que trae dosid", docIds);

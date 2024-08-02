@@ -5,6 +5,7 @@
 <div class="card">
   <div class="grid">
     <div class="col-12">
+      
       <p-table
         [value]="pclList"
         dataKey="id"
@@ -128,6 +129,7 @@
   </div>
 
   <p-dialog
+  
     [header]="
       !pclSelect
         ? 'Crear PCL - Origen'
@@ -145,10 +147,23 @@
     <form [formGroup]="pclForm">
       <div class="">
         <div class="row" *ngIf="estado == 'crear' || estado == 'edit'">
+          <div *ngIf="saludLaboralFlag" class="mt-4">
+            <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" 
+                    type="button" 
+                    pButton
+                    class="ui-button-raised p-button-warning" 
+                    label="Cerrar caso"
+                    icon="bi bi-arrow-left-right" 
+                    (click)="cambiarEstado(iddt)"
+                    [disabled]="isButtonDisabled">
+            </button>
+          </div>
+          
           <div class="row">
             <ng-container *ngIf="estado == 'crear'">
               <!-- <div class="col" *sTienePermiso="'SCM_POST_DIAGPCL'"> -->
               <div class="col">
+                
                 <div class="input-field">
                   <label for="" class="active">Diagnósticos</label>
                   <p-multiSelect

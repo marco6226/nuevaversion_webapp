@@ -22,6 +22,7 @@ export class ListasInspeccionCtrComponent implements OnInit {
   listaInspeccionList!: ListaInspeccion[];
   listaInpSelect!: ListaInspeccion;
   loading!: boolean;
+  testing!: boolean;
   totalRecords!: number;
   fields: string[] = [
     'listaInspeccionPK_id',
@@ -50,6 +51,7 @@ export class ListasInspeccionCtrComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.testing = true;
     this.config.setTranslation(this.localeES);
     this.loading = true;
   }
@@ -67,6 +69,7 @@ export class ListasInspeccionCtrComponent implements OnInit {
     const userP = await this.userService.findByFilter(filterQuery);
     let userParray:any = userP;    
 
+    this.testing = true;
     this.loading = true;
 
     filterQuery.sortField = event.sortField;
@@ -86,6 +89,7 @@ export class ListasInspeccionCtrComponent implements OnInit {
       (resp: any) => {
         this.totalRecords = resp['count'];
         this.loading = false;
+        this.testing = false;
         this.listaInspeccionList = [];
         (<any[]>resp['data']).forEach(dto => {
           let obj = FilterQuery.dtoToObject(dto)

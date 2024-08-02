@@ -67,7 +67,6 @@ export class ElaboracionListaComponent implements OnInit {
       { label: 'Teletrabajo', value: 'Teletrabajo' },
       { label: 'Transporte', value: 'Transporte' },
       { label: 'Ciclo corto', value: 'Ciclo corto'},
-      {label: 'Signos Vitales', value: 'Signos Vitales'},
   ];
 
 
