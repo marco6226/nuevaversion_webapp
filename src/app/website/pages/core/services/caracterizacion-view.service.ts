@@ -19,7 +19,6 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
     // });
 
     return new Promise((resolve, reject) => {
-      
       let secureKey = environment.secureKey;
 
       // let key = CryptoJS.SHA256(this.httpInt.getSesionService().getBearerAuthToken()).toString(CryptoJS.enc.Hex).substring(0, 32);
@@ -44,7 +43,7 @@ export class CaracterizacionViewService extends CRUDService<Carview> {
             );
 
             let decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-            console.log(decryptedText);
+            // console.log(decryptedText);
 
             const jsonArray = JSON.parse(decryptedText);
 
