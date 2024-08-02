@@ -5,7 +5,7 @@ import { Empleado } from "src/app/website/pages/empresa/entities/empleado";
 
 import * as XLSX from "xlsx";
 
-import { ComunService } from "src/app/website/pages/core/services/comun.service";
+import { ComunService } from "src/app/website/pages/comun/services/comun.service";
 import { CiudadService } from "src/app/website/pages/core/services/ciudad.service";
 import { CargoService } from "src/app/website/pages/empresa/services/cargo.service";
 import { PerfilService } from "src/app/website/pages/admin/services/perfil.service";

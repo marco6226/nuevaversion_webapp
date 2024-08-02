@@ -38,7 +38,6 @@ import { endPoints } from 'src/environments/environment';
 import{firma} from 'src/app/website/pages/comun/entities/firma';
 import { Message } from 'primeng/api';
 import { EmpleadoBasic } from "../../../empresa/entities/empleado-basic";
-//import { ComunService } from "../../../core/services/comun.service";
 
 export interface TreeNode {
     data?: any;
