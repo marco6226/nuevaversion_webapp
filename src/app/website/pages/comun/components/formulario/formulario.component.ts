@@ -83,16 +83,106 @@ export class FormularioComponent implements OnInit {
         }
       }
       let formControl = campo.requerido ? new FormControl(campo.respuestaCampo.valor, Validators.required) : new FormControl(campo.respuestaCampo.valor);
-      formControl.valueChanges.subscribe(
-        data => {
-          campo.respuestaCampo.valor = data;
-          this.form.updateValueAndValidity();
-          this.onValidChange.emit(this.form.valid);
-        }
-      );
+      formControl.valueChanges.subscribe(async data => {
+        campo.respuestaCampo.valor = data;
+        this.form.updateValueAndValidity();
+        this.onValidChange.emit(this.form.valid);
+
+      });
       group[campo.nombre+campo.id] = formControl;
     });
     this.form = new FormGroup(group);
     this.onValidChange.emit(this.form.valid);
   }
+  onChange(event: any, campoNombre: string) {
+    if (campoNombre === 'DIVISION' || campoNombre === 'DIVISIÓN DE NEGOCIO') {
+      const selectedId = event.value;
+      this.resetLocalidades();
+      this.resetAreas();
+      this.resetProcesos();
+      this.loadLocalidades(selectedId);
+    }
+
+    if (campoNombre === 'LOCALIDAD') {
+      const selectedId = event.value;
+      console.log("ID de localidad: " + selectedId);
+      this.resetAreas();
+      this.resetProcesos();
+      this.loadAreas(selectedId);
+    }
+
+    if (campoNombre === 'AREA') {
+      const selectedId = event.value;
+      console.log("ID de área: " + selectedId);
+      this.resetProcesos();
+      this.loadProcesos(selectedId);
+    }
+  }
+
+  resetLocalidades() {
+    const campoLocalidades = this.formulario.campoList.find(campo => campo.nombre === 'LOCALIDAD');
+    if (campoLocalidades) {
+      this.selectorsMap[campoLocalidades.id] = [];
+      this.form.get(campoLocalidades.nombre + campoLocalidades.id)?.setValue(null);
+    }
+  }
+
+  resetAreas() {
+    const campoAreas = this.formulario.campoList.find(campo => campo.nombre === 'AREA');
+    if (campoAreas) {
+      this.selectorsMap[campoAreas.id] = [];
+      this.form.get(campoAreas.nombre + campoAreas.id)?.setValue(null);
+    }
+  }
+
+  resetProcesos() {
+    const campoProcesos = this.formulario.campoList.find(campo => campo.nombre === 'PROCESO');
+    if (campoProcesos) {
+      this.selectorsMap[campoProcesos.id] = [];
+      this.form.get(campoProcesos.nombre + campoProcesos.id)?.setValue(null);
+    }
+  }
+
+  async loadLocalidades(divisionId: string) {
+    try {
+      const campoLocalidades = this.formulario.campoList.find(campo => campo.nombre === 'LOCALIDAD');
+      if (campoLocalidades) {
+        const localidades = await this.opcionesFormularioService.getOpciones(campoLocalidades, divisionId);
+        this.selectorsMap[campoLocalidades.id] = localidades;
+      } else {
+        console.error('Campo de localidad no encontrado');
+      }
+    } catch (error) {
+      console.error('Error al cargar localidades', error);
+    }
+  }
+
+  async loadAreas(localidadId: string) {
+    try {
+      const campoAreas = this.formulario.campoList.find(campo => campo.nombre === 'AREA');
+      if (campoAreas) {
+        const areas = await this.opcionesFormularioService.getOpciones(campoAreas, localidadId);
+        this.selectorsMap[campoAreas.id] = areas;
+      } else {
+        console.error('Campo de área no encontrado');
+      }
+    } catch (error) {
+      console.error('Error al cargar áreas', error);
+    }
+  }
+
+  async loadProcesos(areaId: string) {
+    try {
+      const campoProcesos = this.formulario.campoList.find(campo => campo.nombre === 'PROCESO');
+      if (campoProcesos) {
+        const procesos = await this.opcionesFormularioService.getOpciones(campoProcesos, areaId);
+        this.selectorsMap[campoProcesos.id] = procesos;
+      } else {
+        console.error('Campo de proceso no encontrado');
+      }
+    } catch (error) {
+      console.error('Error al cargar procesos', error);
+    }
+  }
+  
 }
