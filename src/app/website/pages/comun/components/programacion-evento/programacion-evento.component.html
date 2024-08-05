@@ -85,6 +85,40 @@
       </div>
     </div>
     <!-- Fin formulario inspecciones -->
+
+    <!--Formulario de Signos vitales-->
+    <div class="grid" *ngIf="modulo==='ISV'">
+      <div class="col-12 md:col-4 lg:col-4">
+        <label for="numeroInspecciones">Número de inspecciones uwu</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required />
+      </div>
+      <div class="col-12 md:col-4 lg:col-4">
+        <label for="listaInsp">Lista de inspección</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <p-dropdown id="listaInsp" [options]="listasInspeccionList" [filter]="true" formControlName="listaInspeccionPK"
+          appendTo="body" required></p-dropdown>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4" *ngIf="esListaInactiva"></div>
+      <div class="col-12 md:col-8 lg:col-8" *ngIf="esListaInactiva">
+        <label style="color: red;">*Se recomienda usar la versión mas reciente de esta lista de inspeccion.</label>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4">
+        <label for="areaResponsable">Ubicación responsable</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8">
+        <area-selector formControlName="area" required></area-selector>
+      </div>
+      <div class="col-12 md:col-4 lg:col-4" *ngIf="!esNueva">
+        <label for="fecha">Fecha</label>
+      </div>
+      <div class="col-12 md:col-8 lg:col-8" *ngIf="!esNueva">
+        <p-calendar appendTo="body" id="fecha" formControlName="fechaInicio" placeholder="dd/mm/yyyy" dateFormat="dd/mm/yy" firstDayOfWeek="0" required></p-calendar>
+      </div>
+    </div>
+    <!--Fin de signos vitales-->
     <p-panel header="Periodicidad" *ngIf="esNueva">
       <div class="grid">
         <div class="col-12 md:col-3 lg:col-3">
