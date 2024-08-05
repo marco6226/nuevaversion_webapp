@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Empresa } from './../../entities/empresa';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 import { config } from 'src/app/config';
@@ -11,13 +11,18 @@ import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SelectItem, Message } from 'primeng/api';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Table } from 'primeng/table';
+
 
 @Component({
   selector: 'app-empresa-admin',
   templateUrl: './empresa-admin.component.html',
   styleUrls: ['./empresa-admin.component.scss']
 })
-export class EmpresaAdminComponent implements OnInit {
+export class EmpresaAdminComponent implements OnInit,AfterViewInit  {
+
+  @ViewChild('dt', { static: false }) table!: Table;
+  scrollableContainer!: HTMLElement;
 
   @ViewChild('imgAvatar', { static: false }) imgAvatar?: HTMLImageElement;
     @ViewChild('inputFile', { static: false }) inputFile?: HTMLInputElement;
@@ -33,6 +38,9 @@ export class EmpresaAdminComponent implements OnInit {
     form?: FormGroup;
     isUpdate?: boolean;
     canvas: any;
+    tableScroll!:any;
+    isScrollRigth: boolean = true;
+    isScrollLeft: boolean = false;
 
     loading?: boolean;
     testing!: boolean;
@@ -100,6 +108,43 @@ export class EmpresaAdminComponent implements OnInit {
             }
         );
   }
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`; // Adjust 16px as needed for margin
+    }
+  }
+
+  
 
   lazyLoad(event: any) {
     this.loading = true;
@@ -251,5 +296,29 @@ export class EmpresaAdminComponent implements OnInit {
 
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
+  }
+
+  scrollLeft() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft -= 10000;
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
+  
+  scrollRight() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft += 10000;
+      this.isScrollRigth = false;
+      this.isScrollLeft = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
   }
 }
