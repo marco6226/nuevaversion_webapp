@@ -578,22 +578,37 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   procesoList: any[] = []
   procesoListActual: any[] = []
   async cargarProceso(eve: any, tipo: string) {
-    let filterProceso = new FilterQuery();
-    filterProceso.fieldList = [
-      'id',
-      'nombre'
-    ];
-    filterProceso.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve },
-    { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }];
-    let procesoList: any = []
-    await this.procesoMatrizService.findByFilter().then(async (resp: any) => {
-      resp.data.forEach((element: any) => {
-        procesoList.push({ label: element.nombre, id: element.id })
+    try {
+      console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
+      
+      let filterProceso = new FilterQuery();
+      filterProceso.fieldList = ['id', 'nombre'];
+      filterProceso.filterList = [
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve.id },  // Solo pasar el ID aquí
+        { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+      ];
+  
+      let procesoList: any = [];
+      await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
+        console.log("Respuesta de procesos:", resp);
+        resp.data.forEach((element: any) => {
+          procesoList.push({ label: element.nombre, id: element.id });
+        });
+      }).catch(error => {
+        console.error("Error al cargar los procesos:", error);
+        throw error;
       });
-    })
-    if (tipo == 'Origen') this.procesoList = [...procesoList]
-    else this.procesoListActual = [...procesoList]
+  
+      if (tipo === 'Origen') {
+        this.procesoList = [...procesoList];
+      } else {
+        this.procesoListActual = [...procesoList];
+      }
+    } catch (error) {
+      console.error("Error en cargarProceso:", error);
+    }
   }
+  
   prepareFormData(formValue: any) {
     const processedFormValue = { ...formValue };
 
