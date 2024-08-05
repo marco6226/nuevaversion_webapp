@@ -41,6 +41,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   empleado!: Empleado;
   empresa: Empresa | null;
   tipoIdentificacionList: SelectItem[];
+  cargoActual: string = ''
 
   nameAndLastName = "";
   selectedItem: string = '';
@@ -415,24 +416,34 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   suggestions: string[] = [];
   filteredSuggestions: string[] = [];
+  
   onInput(value: string) {
+    // Lógica para filtrar sugerencias
     let cargoActualfiltQuery2 = new FilterQuery();
     cargoActualfiltQuery2.sortOrder = SortOrder.ASC;
     cargoActualfiltQuery2.sortField = "nombre";
     cargoActualfiltQuery2.fieldList = ["id", "nombre"];
-    cargoActualfiltQuery2.filterList = []
+    cargoActualfiltQuery2.filterList = [];
     cargoActualfiltQuery2.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: this.empresa?.id?.toString() });
+  
     this.cargoActualService.getcargoRWithFilter(cargoActualfiltQuery2).then((resp: any) => {
-      this.suggestions = []
-      resp.data.forEach((ele: any) => {
-        this.suggestions.push(ele.nombre)
-      });
-    })
+      this.suggestions = resp.data.map((ele: any) => ele.nombre);
+      this.filteredSuggestions = this.suggestions
+        .filter(suggestion => suggestion.toLowerCase().includes(value.toLowerCase()))
+        .slice(0, 10);
+    });
+  
     this.selectedItem = value;
-    this.filteredSuggestions = this.suggestions.filter(suggestion =>
-      suggestion.toLowerCase().includes(value.toLowerCase())
-    );
   }
+  
+  closeDialog() {
+    this.flagDialogCargoActual = false;
+    this.selectedItem = '';
+    this.suggestions = [];
+    this.filteredSuggestions = [];
+  }
+  
+  
   onSelect(item: string) {
     this.selectedItem = item;
 

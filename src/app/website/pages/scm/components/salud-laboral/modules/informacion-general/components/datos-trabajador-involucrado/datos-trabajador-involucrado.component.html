@@ -736,56 +736,78 @@
       </p-table>
     </p-tabPanel>
 
+ 
 
-    <p-dialog
-  [header]="'Crear cargo actual'"
-  [(visible)]="flagDialogCargoActual"
-  [modal]="true"
-  [closable]="true"
-  [draggable]="false"
-  [resizable]="false"
-  [responsive]="true"
-  [style]="{ width: '50vw' }"
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="crearCargoActualModal"
+  tabindex="-1"
+  aria-labelledby="crearCargoActualLabel"
+  aria-hidden="true"
+  [class.show]="flagDialogCargoActual"
+  [style.display]="flagDialogCargoActual ? 'block' : 'none'"
+  (click)="closeDialog()"
 >
-  <div class="grid">
-    <div class="col-12">
-      <h1>Nombre del cargo actual nuevo</h1>
-    </div>
-    <div class="col-12">
-      <input
-        type="text"
-        (input)="onInput($event.target.value)"
-        [(ngModel)]="selectedItem"
-        class="autocomplete-input"
-      />
-      <ul *ngIf="filteredSuggestions.length > 0" class="autocomplete-list">
-        <li
-          *ngFor="let suggestion of filteredSuggestions"
-          (click)="onSelect(suggestion)"
-          class="autocomplete-item"
+  <div
+    class="modal-dialog modal-dialog-centered"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="crearCargoActualLabel">Crear cargo actual</h5>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="closeDialog()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <h1>Nombre del cargo actual nuevo</h1>
+        </div>
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            (input)="onInput($event.target.value)"
+            [(ngModel)]="selectedItem"
+            placeholder="Ingrese el nombre del cargo"
+          />
+          <ul *ngIf="filteredSuggestions.length > 0" class="list-group">
+            <li
+              *ngFor="let suggestion of filteredSuggestions"
+              (click)="onSelect(suggestion)"
+              class="list-group-item list-group-item-action"
+            >
+              {{ suggestion }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="crearCargoActual()"
         >
-          {{ suggestion }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="col-12" style="display: flex">
-      <button
-        pButton
-        type="button"
-        icon="bi bi-pencil"
-        label="Crear"
-        class="p-button-info margin-left margin-right"
-        (click)="crearCargoActual()"
-      ></button>
-      <button
-        pButton
-        type="button"
-        icon="bi bi-x"
-        label="Cerrar"
-        class="p-button-danger margin-left margin-right"
-        (click)="flagDialogCargoActual = false; cargoActual = ''"
-      ></button>
+          Crear
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="closeDialog()"
+        >
+          Cerrar
+        </button>
+      </div>
     </div>
   </div>
-</p-dialog>
+</div>
+
+
+
+
+<a style="visibility: hidden" id="dwldLink"></a>
