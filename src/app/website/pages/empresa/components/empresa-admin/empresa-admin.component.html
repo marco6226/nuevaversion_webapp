@@ -5,15 +5,20 @@
     <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
         <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
     </div>
-    <p-panel header="Empresas">
+    <p-panel header="Empresas" style="position: relative;">
         <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
             <span>
                 Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
             </span>
         </div>
+        <div class="floating-buttons-scroll">
+            <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()"><span class="pi pi-angle-left"></span></button>
+            <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()"><span class="pi pi-angle-right"></span></button>
+        </div>
+
         <p-table #dt [value]="empresasList" [(selection)]="empresaSelect" autoLayout="true" selectionMode="single"
             [rows]="10" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
-            [totalRecords]="totalRecords" [loading]="loading" [rowsPerPageOptions]="[10, 20, 50, 100]">
+            [totalRecords]="totalRecords" [loading]="loading" [rowsPerPageOptions]="[10, 20, 50, 100]" scrollable="true">
             
             <ng-template pTemplate="header">
                 <tr>
@@ -142,15 +147,7 @@
                     </div>
                 </div>
             </ng-template>
-            <!-- <ng-template pTemplate="paginatorleft" class="pruebaPaginador">
-                <div class="p-d-flex p-jc-center">
-                    <span>
-                        Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
-                    </span>
-                </div>
-            </ng-template> -->
         </p-table>
-
     </p-panel>
 </div>
 

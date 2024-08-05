@@ -9,7 +9,7 @@ import { HttpInt } from './httpInt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/Interceptor/token.interceptor';
 import { AuthGuardService } from './website/pages/core/services/auth-guard.service';
-
+import { ButtonModule } from 'primeng/button';
 
 // import { HttpAuthInterceptorService } from './website/pages/core/services/http-auth-interceptor.service';
 
@@ -28,7 +28,8 @@ declare global {
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    ButtonModule
   ],
   providers: [
     HttpInt,
