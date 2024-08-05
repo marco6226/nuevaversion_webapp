@@ -18,24 +18,16 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   files!: TreeNode[]; 
 
   @Output() onElementoClick = new EventEmitter<any>();
-  // @Input("value") value!: ElementoInspeccion[];
-  @Input("value") 
-  set funValue(value: ElementoInspeccion[]) {
-    this.value = value;
-  }
-  value!: ElementoInspeccion[]
+  @Input("value") value!: ElementoInspeccion[];
+  @Input("opciones") opciones?: OpcionCalificacion[];
+  // @Input('opciones')
+  // set funOpciones(opciones: OpcionCalificacion[]) {
+  //   this.opciones = opciones;
+  //   let def=opciones.find(ele=>ele.defecto==true)
 
+  //   if(def)this.default=def.id
 
-  // @Input("opciones") opciones?: OpcionCalificacion[];
-  @Input('opciones')
-  set funOpciones(opciones: OpcionCalificacion[]) {
-    this.opciones = opciones;
-    let def=opciones.find(ele=>ele.defecto==true)
-
-    if(def)this.default=def.id
-
-  }
-  opciones?: OpcionCalificacion[];
+  // }
   default?:any
 
   @Input() editable?: boolean;
@@ -49,7 +41,8 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   elemConEtiqueta: number[] = [];
 
   listasConPeso: string[] = [
-    'Ciclo corto'
+    'Signos Vitales',
+    'Ciclo Corto'
   ]
 
   @Input() nodeOpts: any = {
@@ -90,8 +83,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     elemList.forEach(element => {
       if (element.calificacion == null) {
         element.calificacion = {} as Calificacion;
-        element.calificacion.opcionCalificacion = (element.calificable)?{ id: this.default }:{} as any;
-        // element.calificacion.opcionCalificacion = (this.default)?this.default:{} as OpcionCalificacion;
+        element.calificacion.opcionCalificacion = {} as OpcionCalificacion;
         element.calificacion.tipoHallazgo = {} as TipoHallazgo;
         element.calificacion.nivelRiesgo = {} as NivelRiesgo;
       } else if (element.calificacion.nivelRiesgo == null) {
@@ -121,12 +113,12 @@ export class ElementoInspeccionNodeComponent implements OnInit {
       }
     }
 
-    for (let i = 0; i < elementoList.length; i++) {
-      if (i>=num!) {
-        let codigo:string=ele[i].codigo
-        elementoList[i] = {...elementoList[i], codigo: codigo}
-      }
-    }
+    // for (let i = 0; i < elementoList.length; i++) {
+    //   if (i>=num!) {
+    //     let codigo:string=ele[i].codigo
+    //     elementoList[i] = {...elementoList[i], codigo: codigo}
+    //   }
+    // }
   }
 
   emitirEventoSelecElemento(elem: ElementoInspeccion) {
