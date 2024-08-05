@@ -6,7 +6,7 @@ import { Usuario } from 'src/app/website/pages/empresa/entities/usuario';
 import { Arl } from 'src/app/website/pages/comun/entities/arl';
 import { Ciiu } from 'src/app/website/pages/comun/entities/ciiu';
 import { EmpresaService } from './../../services/empresa.service';
-import { ComunService } from 'src/app/website/pages/core/services/comun.service';
+import { ComunService } from 'src/app/website/pages/comun/services/comun.service';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { SelectItem, Message } from 'primeng/api';
@@ -115,7 +115,7 @@ export class EmpresaAdminComponent implements OnInit {
 
     this.empresaService.findByFilter(filterQuery).then(
         (resp : any) => {
-            this.totalRecords = (<any[]>resp['data']).length;
+            this.totalRecords = resp.count;
             this.loading = false;
             this.testing = false;
             this.empresasList = [];

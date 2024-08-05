@@ -179,6 +179,21 @@ findByIdSLocalidad( ) {
     });
   }
 
+  getLocalidadesByDivisiones(divisionId: string): Promise<Localidades[]>{       
+    return new Promise((resolve, reject) =>{
+      this.httpInt.get(endPoints.EmpresaService + "getLocalidades/"+divisionId)
+        .subscribe(
+          (res: any) => {
+            resolve(res);
+          },
+          err => {
+            this.manageError(err);
+            reject(err);
+          }
+        );
+    });
+  }
+
   getArea(): Promise<Area[]>{       
     return new Promise((resolve, reject) =>{
       this.httpInt.get(endPoints.EmpresaService + "getAreas")
