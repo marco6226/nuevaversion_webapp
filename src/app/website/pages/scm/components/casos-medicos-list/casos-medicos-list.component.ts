@@ -198,13 +198,7 @@ export class CasosMedicosListComponent implements OnInit {
 
 
   }
-  idToCargo(id: number) {
-    if (!this.cargoActualList) {
-      return null; // O algún valor por defecto
-    }
-  
-    return this.cargoActualList.find(value => value.value === id)?.label || null;
-  }
+
   
   async getCargoActual() {
     let cargoActualfiltQuery = new FilterQuery();
@@ -218,10 +212,18 @@ export class CasosMedicosListComponent implements OnInit {
       const resp: any = await this.cargoActualService.getcargoRWithFilter(cargoActualfiltQuery);
       this.cargoActualList = resp.data.map((ele: any) => {
         return { label: ele.nombre, value: ele.id };
+        
       });
+      console.log("cargo actual", this.cargoActualList);
+
     } catch (error) {
       console.error("Error fetching cargos:", error);
     }
+  }
+  idToCargo(id: number) {
+    return this.cargoActualList.find(value => {
+      return value.value == id
+    })?.label
   }
   
   areaList: any[] = []

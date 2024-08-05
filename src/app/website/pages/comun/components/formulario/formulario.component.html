@@ -15,7 +15,7 @@
             </div>
 
             <p-dropdown *ngSwitchCase="'single_select'" placeholder="-- seleccione --" [options]="selectorsMap[campo.id]" [formControlName]="campo.nombre+campo.id" [attr.required]="campo.requerido ? '' : null" 
-            [filter]="selectorsMap[campo.id].length > 15"></p-dropdown>
+            [filter]="selectorsMap[campo.id].length > 15"  (onChange)="onChange($event, campo.nombre)"> ></p-dropdown>
             <p-multiSelect *ngSwitchCase="'multiple_select'" [options]="selectorsMap[campo.id]" defaultLabel="--seleccione--" [formControlName]="campo.nombre+campo.id"
               [attr.required]="campo.requerido ? '' : null"></p-multiSelect>
             <p-calendar appendTo="body" *ngSwitchCase="'date'" [locale]="es" [formControlName]="campo.nombre+campo.id" [attr.required]="campo.requerido ? '' : null"></p-calendar>

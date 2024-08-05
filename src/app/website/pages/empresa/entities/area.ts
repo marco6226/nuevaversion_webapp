@@ -3,7 +3,7 @@ import { Sede } from "./sede";
 import { TipoArea } from "./tipo-area";
 
 export class Area{
-    id?: string;
+    id!: string;
     nombre!: string;
     descripcion!: string;
     estructura!: string;

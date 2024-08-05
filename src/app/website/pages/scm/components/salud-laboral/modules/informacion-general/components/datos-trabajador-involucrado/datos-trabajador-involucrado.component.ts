@@ -41,6 +41,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   empleado!: Empleado;
   empresa: Empresa | null;
   tipoIdentificacionList: SelectItem[];
+  cargoActual: string = ''
 
   nameAndLastName = "";
   selectedItem: string = '';
@@ -415,24 +416,34 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   suggestions: string[] = [];
   filteredSuggestions: string[] = [];
+  
   onInput(value: string) {
+    // Lógica para filtrar sugerencias
     let cargoActualfiltQuery2 = new FilterQuery();
     cargoActualfiltQuery2.sortOrder = SortOrder.ASC;
     cargoActualfiltQuery2.sortField = "nombre";
     cargoActualfiltQuery2.fieldList = ["id", "nombre"];
-    cargoActualfiltQuery2.filterList = []
+    cargoActualfiltQuery2.filterList = [];
     cargoActualfiltQuery2.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: this.empresa?.id?.toString() });
+  
     this.cargoActualService.getcargoRWithFilter(cargoActualfiltQuery2).then((resp: any) => {
-      this.suggestions = []
-      resp.data.forEach((ele: any) => {
-        this.suggestions.push(ele.nombre)
-      });
-    })
+      this.suggestions = resp.data.map((ele: any) => ele.nombre);
+      this.filteredSuggestions = this.suggestions
+        .filter(suggestion => suggestion.toLowerCase().includes(value.toLowerCase()))
+        .slice(0, 10);
+    });
+  
     this.selectedItem = value;
-    this.filteredSuggestions = this.suggestions.filter(suggestion =>
-      suggestion.toLowerCase().includes(value.toLowerCase())
-    );
   }
+  
+  closeDialog() {
+    this.flagDialogCargoActual = false;
+    this.selectedItem = '';
+    this.suggestions = [];
+    this.filteredSuggestions = [];
+  }
+  
+  
   onSelect(item: string) {
     this.selectedItem = item;
 
@@ -567,22 +578,37 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   procesoList: any[] = []
   procesoListActual: any[] = []
   async cargarProceso(eve: any, tipo: string) {
-    let filterProceso = new FilterQuery();
-    filterProceso.fieldList = [
-      'id',
-      'nombre'
-    ];
-    filterProceso.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve },
-    { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }];
-    let procesoList: any = []
-    await this.procesoMatrizService.findByFilter().then(async (resp: any) => {
-      resp.data.forEach((element: any) => {
-        procesoList.push({ label: element.nombre, id: element.id })
+    try {
+      console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
+      
+      let filterProceso = new FilterQuery();
+      filterProceso.fieldList = ['id', 'nombre'];
+      filterProceso.filterList = [
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve.id },  // Solo pasar el ID aquí
+        { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+      ];
+  
+      let procesoList: any = [];
+      await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
+        console.log("Respuesta de procesos:", resp);
+        resp.data.forEach((element: any) => {
+          procesoList.push({ label: element.nombre, id: element.id });
+        });
+      }).catch(error => {
+        console.error("Error al cargar los procesos:", error);
+        throw error;
       });
-    })
-    if (tipo == 'Origen') this.procesoList = [...procesoList]
-    else this.procesoListActual = [...procesoList]
+  
+      if (tipo === 'Origen') {
+        this.procesoList = [...procesoList];
+      } else {
+        this.procesoListActual = [...procesoList];
+      }
+    } catch (error) {
+      console.error("Error en cargarProceso:", error);
+    }
   }
+  
   prepareFormData(formValue: any) {
     const processedFormValue = { ...formValue };
 
