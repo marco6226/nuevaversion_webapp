@@ -9,3 +9,20 @@
     width: 10%;
     height: auto;
 }
+
+.floating-buttons-scroll{
+    position: absolute;
+    right: 1rem;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+    top: 50px;
+  }
+
+  floating-buttons-scroll, button {
+    background-color: #00000057;
+    border: none;
+    padding: 0.7rem;
+    color: #fff;
+    border-radius: 8px;
+  }

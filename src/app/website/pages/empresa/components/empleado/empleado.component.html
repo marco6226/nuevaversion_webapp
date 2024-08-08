@@ -2,7 +2,28 @@
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <div *ngIf="!visibleForm">
     <p-panel header="Administración de empleados">
-        <p-table #dt styleClass="p-datatable-gridlines" [value]="empleadosList" [(selection)]="empleadoSelect" autoLayout="true" selectionMode="single" [rows]="10" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+            <span>
+                Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+            </span>
+        </div>
+        <div class="floating-buttons-scroll">
+            <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()"><span class="pi pi-angle-left"></span></button>
+            <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()"><span class="pi pi-angle-right"></span></button>
+        </div>
+        <p-table #dt styleClass="p-datatable-gridlines" 
+        [value]="empleadosList" 
+        [(selection)]="empleadoSelect" 
+        autoLayout="true" 
+        selectionMode="single" 
+        [rows]="10" 
+        [paginator]="true" 
+        dataKey="id" [lazy]="true" 
+        (onLazyLoad)="lazyLoad($event)" 
+        [totalRecords]="totalRecords" 
+        [loading]="loading" 
+        [rowsPerPageOptions]="[10, 20, 50, 100]" 
+        scrollable="true">
             <ng-template pTemplate="header">
                 <tr>
                     <th rowspan="2"></th>
@@ -84,6 +105,11 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" let-rowData>
+                <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+                    <span>
+                        Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+                    </span>
+                </div>
                 <div class="d-flex justify-content-center">
                     <div class="btn-group" role="group" >
                         <button *sTienePermiso="'EMP_POST_EMPL'" pButton type="button" icon="bi bi-plus" class="margin-right" label="Nuevo" (click)="showAddForm()"></button>

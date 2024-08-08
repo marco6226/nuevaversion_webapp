@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Empresa } from '../../../empresa/entities/empresa';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
@@ -8,6 +8,7 @@ import { UsuarioService } from '../../../admin/services/usuario.service';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { Criteria, Filter } from '../../../core/entities/filter';
 import { ConfirmationService, FilterService } from 'primeng/api';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-aliados-list',
@@ -15,8 +16,9 @@ import { ConfirmationService, FilterService } from 'primeng/api';
   styleUrls: ['./aliados-list.component.scss'],
   providers: [UsuarioService, SesionService, EmpresaService]
 })
-export class AliadosListComponent implements OnInit {
+export class AliadosListComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('dt', { static: false }) table!: Table;
   aliadosList: Empresa[] = [];
   
   caseSelect: boolean=false;
@@ -27,6 +29,10 @@ export class AliadosListComponent implements OnInit {
   excel!: any[];
   rangeDatesCreacion: any;
   rangeDatesActualizacion: any;
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
+
   es = {
     firstDayOfWeek: 1,
     dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
@@ -52,6 +58,42 @@ export class AliadosListComponent implements OnInit {
 
     this.filterUtils();
     this.testing = true;
+  }
+
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`; // Adjust 16px as needed for margin
+    }
   }
   
  
@@ -245,6 +287,30 @@ export class AliadosListComponent implements OnInit {
           break;
         default:
           break;
+      }
+    }
+
+    scrollLeft() {
+      if (this.tableScroll) {
+        this.tableScroll.scrollLeft -= 10000;
+        this.isScrollLeft = false;
+        this.isScrollRigth = true;
+        this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+        setTimeout(() => {
+          this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+        }, 50);
+      }
+    }
+    
+    scrollRight() {
+      if (this.tableScroll) {
+        this.tableScroll.scrollLeft += 10000;
+        this.isScrollRigth = false;
+        this.isScrollLeft = true;
+        this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+        setTimeout(() => {
+          this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+        }, 50);
       }
     }
 };

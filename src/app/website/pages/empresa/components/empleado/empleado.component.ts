@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService, Message } from 'primeng/api';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { SesionService } from '../../../core/services/session.service';
 import { Empleado } from '../../entities/empleado';
 import { EmpleadoService } from '../../services/empleado.service';
+import { Table } from 'primeng/table';
 
 @Component({
     selector: 'app-empleado',
@@ -11,13 +12,18 @@ import { EmpleadoService } from '../../services/empleado.service';
     styleUrls: ['./empleado.component.scss'],
     providers: [SesionService, MessageService, EmpleadoService]
 })
-export class EmpleadoComponent implements OnInit {
+export class EmpleadoComponent implements OnInit, AfterViewInit {
+
+    @ViewChild('dt', { static: false }) table!: Table;
 
     empleadosList!: Empleado[];
     empleadoSelect!: Empleado | null;
     empresaId = this.sesionService.getEmpresa()?.id;
     visibleForm!: boolean;
     show!: boolean;
+    tableScroll!:any;
+    isScrollRigth: boolean = true;
+    isScrollLeft: boolean = false;
 
     isUpdate!: boolean;
     isEditable!: boolean;
@@ -46,6 +52,43 @@ export class EmpleadoComponent implements OnInit {
         private messageService: MessageService
     ) {
     }
+
+    ngAfterViewInit() {
+        this.tableWrapper();
+        this.addScrollEventListener();
+      }
+    
+      private tableWrapper() {
+        this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+      }
+    
+      private addScrollEventListener() {
+        if (this.tableScroll) {
+          this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+        }
+      }
+    
+      private onManualScroll() {
+    
+        if(this.tableScroll.scrollLeft === 0){
+          this.isScrollLeft = false;
+          this.isScrollRigth = true;
+        }else{
+          this.isScrollLeft = true;
+          this.isScrollRigth = false;
+        }
+    
+      }
+    
+      @HostListener('window:scroll', ['$event'])
+      onWindowScroll(event: Event) {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+        if (buttons) {
+          buttons.style.top = `${scrollTop + 60}px`;
+        }
+      }
+      
     msgs?:Message[]=[]
     ngOnInit() {
         this.loading = true;
@@ -167,5 +210,29 @@ export class EmpleadoComponent implements OnInit {
         // this.msgs.push({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion, key:'empleado' });
         this.messageService.add({severity: 'success', summary: 'Nuevo empleado creado', detail: "Se ha creado el empleado " + empleado.numeroIdentificacion, key:'empleado' });
     }
+
+    scrollLeft() {
+        if (this.tableScroll) {
+          this.tableScroll.scrollLeft -= 10000;
+          this.isScrollLeft = false;
+          this.isScrollRigth = true;
+          this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+          setTimeout(() => {
+            this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+          }, 50);
+        }
+      }
+      
+      scrollRight() {
+        if (this.tableScroll) {
+          this.tableScroll.scrollLeft += 10000;
+          this.isScrollRigth = false;
+          this.isScrollLeft = true;
+          this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+          setTimeout(() => {
+            this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+          }, 50);
+        }
+      }
 
 }
