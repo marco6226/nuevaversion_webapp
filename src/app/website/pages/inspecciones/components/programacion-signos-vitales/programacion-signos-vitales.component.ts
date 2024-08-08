@@ -375,6 +375,9 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       }
     });
   }
+  cleanFilters(){
+    this.formFilters.reset();
+  }
   async loadListasInspeccion(){
     let user: any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();
