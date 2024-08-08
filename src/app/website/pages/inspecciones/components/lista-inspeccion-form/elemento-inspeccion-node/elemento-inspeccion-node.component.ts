@@ -19,7 +19,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
 
   @Output() onElementoClick = new EventEmitter<any>();
   @Input("value") value!: ElementoInspeccion[];
-  @Input("opciones") opciones?: OpcionCalificacion[];
+  @Input("opciones") opciones: OpcionCalificacion[] = [];
   // @Input('opciones')
   // set funOpciones(opciones: OpcionCalificacion[]) {
   //   this.opciones = opciones;
@@ -123,6 +123,13 @@ export class ElementoInspeccionNodeComponent implements OnInit {
 
   emitirEventoSelecElemento(elem: ElementoInspeccion) {
     this.onElementoClick.emit(elem);
+  }
+
+  emitirEventoSelecElemento2(elem: ElementoInspeccion) {
+    const opcionSeleccionada = this.opciones.find(op => op.id === elem.calificacion?.opcionCalificacion?.id);
+    if (opcionSeleccionada && opcionSeleccionada.nombre === 'Ausente') {
+      this.onElementoClick.emit(elem);
+    }
   }
 
   get conPeso(): boolean{

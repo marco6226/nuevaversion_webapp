@@ -24,7 +24,7 @@ export class ListaInspeccionFormComponent implements OnInit {
 
     @Output() onElementoClick = new EventEmitter<any>();
     @Input("value") value!: ElementoInspeccion[];
-    @Input("opciones") opciones!: OpcionCalificacion[];
+    @Input("opciones") opciones: OpcionCalificacion[] = [];
     @Input("editable") editable: boolean = false;
     @Input("disabled") disabled: boolean = false;
     @Input("nivelRiesgoList") nivelRiesgoList: any;
@@ -52,6 +52,9 @@ export class ListaInspeccionFormComponent implements OnInit {
     loadingImg!: boolean;
     numMaxImg = 3;
     idempresa: string;
+    opciones2: any[] = [];
+    opciones3: any[] = [];
+    opcionSeleccionada: string | null = null;
 
     constructor(
         private sessionService: SesionService,
@@ -73,6 +76,44 @@ export class ListaInspeccionFormComponent implements OnInit {
             .then((resp: any) => {
                 this.tipoHallazgoList = resp['data'];
             });
+        this.opciones2 = this.crearOpciones();
+        this.opciones3 = this.crearOpcionesPlan();
+    }
+
+
+    crearOpciones(){
+        return [
+        {id: '1',nombre: 'Corrección inmediata',descripcion: 'Corrección inmediata',valor: 5,},
+        {id: '2',nombre: 'Medida de mitigación',descripcion: 'Medida de mitigación',valor: 5,},
+        {id: '3', nombre: 'Sin corregir - Plan de acción', descripcion: 'Sin corregir - Plan de acción',valor: 5,},
+        ];
+    }
+
+    crearOpcionesPlan(){
+        return [
+        {id: '1',nombre: 'Tarjeta amarilla',descripcion: 'Tarjeta amarilla',valor: 5,},
+        {id: '2',nombre: 'Reporte mantenimiento',descripcion: 'Reporte mantenimiento',valor: 5,},
+        ];
+    }
+
+    AusenteSelected(): boolean {
+        const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
+        return opcionSeleccionada ? opcionSeleccionada.nombre === 'Ausente' : false;
+    }
+
+    PlanASelected(): boolean{
+        const opcionSeleccionada = this.opciones2.find(op => op.id === this.opcionSeleccionada);
+        return opcionSeleccionada ? opcionSeleccionada.nombre === 'Sin corregir - Plan de acción' : false;
+    }
+
+    CorrecionSelect(): boolean {
+        const opcionSeleccionada = this.opciones2.find(op => op.id === this.opcionSeleccionada);
+        return opcionSeleccionada ? opcionSeleccionada.nombre === 'Corrección inmediata' : false;
+    }
+
+    MitigacionSelect(): boolean {
+        const opcionSeleccionada = this.opciones2.find(op => op.id === this.opcionSeleccionada);
+        return opcionSeleccionada ? opcionSeleccionada.nombre === 'Medida de mitigación' : false;
     }
 
     buscarEmpleado(event: any) {
