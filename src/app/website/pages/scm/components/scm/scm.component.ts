@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MessageService, SelectItem } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { ViewscmInformeService } from 'src/app/website/pages/core/services/view-
 import { PrimeNGConfig } from 'primeng/api';
 import { locale_es } from "../../../comun/entities/reporte-enumeraciones";
 import { Calendar } from 'primeng/calendar';
+import { Table } from 'primeng/table';
 
 @Component({
     selector: 'app-scm',
@@ -23,8 +24,9 @@ import { Calendar } from 'primeng/calendar';
     providers: [CasosMedicosService, CargoService, SesionService, MessageService]
 })
 
-export class ScmComponent implements OnInit {
+export class ScmComponent implements OnInit, AfterViewInit {
     @ViewChild('myCalendar') myCalendar!: Calendar;
+    @ViewChild('dt', { static: false }) table!: Table;
     localeES:any = locale_es;
     reintegroList: Reintegro[] =[]
     idEmpresa!: string | null;
@@ -46,6 +48,10 @@ export class ScmComponent implements OnInit {
     loading: boolean = false;
     testing: boolean = false;
     totalRecords!: number;
+    tableScroll!:any;
+    isScrollRigth: boolean = true;
+    isScrollLeft: boolean = false;
+
     excel:any=[]
     fields: string[] = [
         'id',
@@ -88,6 +94,42 @@ export class ScmComponent implements OnInit {
         private viewscmInformeService: ViewscmInformeService,
         private config: PrimeNGConfig
     ) { }
+
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`;
+    }
+  }
     
     async ngOnInit() {
         this.testing = true;
@@ -297,4 +339,28 @@ export class ScmComponent implements OnInit {
     closeCalendar(){
         this.myCalendar.hideOverlay();
     }
+
+    scrollLeft() {
+        if (this.tableScroll) {
+          this.tableScroll.scrollLeft -= 10000;
+          this.isScrollLeft = false;
+          this.isScrollRigth = true;
+          this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+          setTimeout(() => {
+            this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+          }, 50);
+        }
+      }
+      
+      scrollRight() {
+        if (this.tableScroll) {
+          this.tableScroll.scrollLeft += 10000;
+          this.isScrollRigth = false;
+          this.isScrollLeft = true;
+          this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+          setTimeout(() => {
+            this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+          }, 50);
+        }
+      }
 }

@@ -8,6 +8,15 @@
             <p-header>
                 Casos médicos
             </p-header>
+            <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+                <span>
+                    Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+                </span>
+            </div>
+            <div class="floating-buttons-scroll">
+                <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()"><span class="pi pi-angle-left"></span></button>
+                <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()"><span class="pi pi-angle-right"></span></button>
+            </div>
 
             <button *sTienePermiso="'SCM_GET_INFO'" pButton type="button" (click)="visibleDlgInforme=true"
                 title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button>
@@ -15,7 +24,7 @@
             <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [loading]="loading"
                 [(selection)]="caseSelect" [value]="casosList" [paginator]="true" [rows]="10" dataKey="id" [lazy]="true"
                 (onLazyLoad)="lazyLoad($event)" sortField="fechaCreacion" sortOrder="1" [totalRecords]="totalRecords"
-                (onFilter)="onFilter($event)">
+                (onFilter)="onFilter($event)" [rowsPerPageOptions]="[10, 20, 50, 100]" scrollable="true">
                 <ng-template pTemplate="header" let-columns>
                     <tr>
                         <th pSortableColumn="id">#CASO
@@ -224,6 +233,11 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>
+                    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+                        <span>
+                            Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+                        </span>
+                    </div>
                     <!-- <button *sTienePermiso="'SCM_CREATE_CASE'" pButton type="button" icon="fa fa-plus" [routerLink]="['/app/scm/creacion']" label="Crear"></button>
     
                 <button *sTienePermiso="'SCM_PUT_CASE'" pButton type="button" icon="bi bi-pencil-square" label="Modificar" class="p-button-success" (click)="openCase()" [disabled]="!caseSelect"></button>
