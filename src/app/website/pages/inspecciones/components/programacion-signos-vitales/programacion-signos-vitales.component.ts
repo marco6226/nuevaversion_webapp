@@ -17,8 +17,15 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import esLocale from '@fullcalendar/core/locales/es';
 import { PrimeNGConfig } from 'primeng/api';
-import { CalendarOptions, EventSourceInput } from '@fullcalendar/core';
+import { CalendarOptions, EventInput, EventSourceFuncArg } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { Empresa } from '../../../empresa/entities/empresa';
+import { Localidades, _divisionList } from '../../../ctr/entities/aliados';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { Area } from '../../../empresa/entities/area';
+import { division } from '../../../comun/entities/datosGraf4';
+import { area } from 'd3-shape';
 @Component({
   selector: 'app-programacion-signos-vitales',
   templateUrl: './programacion-signos-vitales.component.html',
@@ -35,23 +42,31 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   visibleDlg!: boolean;
   fechaSelect!: Date;
   form!: FormGroup;
+  formFilters!: FormGroup;
   actualizar!: boolean;
   adicionar!: boolean;
   btnInspDisable!: boolean;
   visibleProgMasiva!: boolean;
   fechaMaxima!: Date;
   semanaLaboral = ['1', '2', '3', '4', '5',];
+  localidadesOption: {label: string; value: Localidades}[] = [];
+  areasOption:{label: string, value: Area}[]=[];
   listaInspeccionList!: ListaInspeccion[];
   areasPerm!: string;
   loading: boolean = false;
   progLoading: boolean = false;
   permiso: boolean = false;;
   totalRecords!: number;
+  empresasAliadasOption: {label: string; value: Empresa}[] = [];
+
 
   calendarOptions!: CalendarOptions;
   // events!: any[];
   events: EventList[] = [];
   event!: EventList;
+
+  eventsSV: EventInput[] = [];
+  eventSV!: EventInput;
 
   programacionList: Programacion[] = []
 
@@ -72,8 +87,10 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     private paramNav: ParametroNavegacionService,
     private programacionService: ProgramacionService,
     private listaInspeccionService: ListaInspeccionService,
+    private empresaService: EmpresaService,
     private fb: FormBuilder,
     private messageService: MessageService,
+    private areaMatrizService: AreaMatrizService,
     private config: PrimeNGConfig,
     private cdr: ChangeDetectorRef
   ) {
@@ -86,6 +103,15 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       valorFrecuencia: null,
       fechaHasta: null,
       semana: null
+    });
+    this.formFilters = this.fb.group({
+      localidades: [null],
+      empresasAliadas: [null],
+      empleado: [null],
+      division: [null],
+      localidadSv:[null],
+      areaSv:[null],
+      procesoSv:[null],
     });
   }
 
@@ -112,6 +138,9 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     };
 
     this.areasPerm = this.sesionService.getPermisosMap()['INP_GET_PROG'].areas;
+    await this.loadLocalidades();
+    await this.loadDiv();
+    await this.applyFilter();
     
     try {
       this.loadListasInspeccion().then(() => {
@@ -141,13 +170,211 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       this.actualizarEventos();
     });
   }
+  
+  localidades: Localidades[] = [];
+  async loadLocalidades(){
+    this.empresaService.getLocalidades().then(
+      (res: Localidades[]) => {
+        this.localidades = Array.from(res);
+        this.localidadesOption = [];
+        this.localidades.forEach(localidad => {
+          this.localidadesOption.push({label: localidad.localidad, value: localidad});
+        })
+      },
+      (reason: any) => {
+        console.error('Error al obtener localidades', reason);
+      }
+    )
+  }
+  divisiones: Area[] = [];
+  async loadDiv(){
+    this.empresaService.getArea().then(
+      (res: Area[]) => {
+        this.divisiones = Array.from(res);
+        this.areasOption = [];
+        this.divisiones.forEach(divi => {
+          this.areasOption.push({label: divi.nombre, value: divi});
+        })
+        console.log(this.areasOption), 'area';
+        
+      },
+      (reason: any) => {
+        console.error('Error al obtener localidades', reason);
+      }
+    )
+  }
 
+  areaList: any[] = []
+  areaListActual: any[] = []
+  async cargarArea(eve: any, tipo: string) {
+    console.log(eve);
+
+    let filterArea = new FilterQuery();
+    filterArea.sortField = "id";
+    filterArea.sortOrder = -1;
+    filterArea.fieldList = [
+      'id',
+      'nombre'
+    ];
+    filterArea.filterList = [
+      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve },
+      { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+    ];
+
+    let areaList: any = [];
+    await this.areaMatrizService.findByFilter(filterArea).then(async (resp: any) => {
+      resp.data.forEach((element: any) => {
+        areaList.push({ 'name': element.nombre, 'id': element.id }); // Solo agregar el nombre del área
+      });
+    });
+
+    if (tipo === 'Origen') {
+      this.areaList = [...areaList];
+      console.log(areaList)
+    } else {
+      this.areaListActual = [...areaList];
+      console.log(this.areaListActual)
+    }
+  }
   ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnDestroy(): void {
     sessionStorage.removeItem('userP');
   }
 
+  visibleDlgFiltros: boolean = false;
+  openDlgFiltros(){
+    this.visibleDlgFiltros = true;
+  }
+  getIdsForFilter(event: any[]): string{
+    let ids = <number[]>event.map(item => {
+      return item.id;
+    });
+    return '{' + ids.join(',') + '}';
+  }
+  async applyFilter(){
+    let localidades: any[] = this.formFilters.value.localidades;
+    let empresas: any[] = this.formFilters.value.empresasAliadas;
+    let empleado: any = this.formFilters.value.empleado;
+    let divisiones: any[] = this.formFilters.value.division;
+    let localidadesSv: any[] = this.formFilters.value.localidadSv;
+    let areaSv: any[] = this.formFilters.value.areaSv;
+
+    let filterList: Filter[] = [];
+    if(localidades && localidades.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'localidad.id', value1: this.getIdsForFilter(localidades)});
+    if(divisiones && divisiones.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'area.id', value1: this.getIdsForFilter(divisiones)});
+    if(areaSv && areaSv.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'areaSv', value1: this.getIdsForFilter(areaSv)});
+    if(localidadesSv && localidadesSv.length>0 )filterList.push({criteria: Criteria.CONTAINS, field: 'localidadSv', value1: this.getIdsForFilter(localidadesSv)})
+    if(empresas && empresas.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'empresaAliada.id', value1: this.getIdsForFilter(empresas)});
+    if(empleado) filterList.push({criteria: Criteria.LIKE, field: 'empleadoBasic', value1: '%' + empleado.usuarioBasic.email + '%'});
+    if(divisiones && divisiones.length > 0 && localidadesSv && localidadesSv.length>0 )filterList.push({criteria: Criteria.CONTAINS, field: 'area.id' && 'localidadSv', value1: this.getIdsForFilter(divisiones && localidadesSv)})
+
+    this.actualizarEventosSV(filterList);
+    this.visibleDlgFiltros = false;
+  }
+  actualizarEventosSV(filters?: Filter[]): Promise<EventInput[]> {
+
+    return new Promise((resolve, reject) => {let filterQuery = new FilterQuery();
+
+      filterQuery.filterList = [
+        { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm },
+        {criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales'}
+      ];
+
+      filterQuery.fieldList = [
+        'id',
+        'fecha',
+        'listaInspeccion_listaInspeccionPK',
+        'listaInspeccion_fkPerfilId',
+        'area_id',
+        'area_nombre',
+        'numeroInspecciones',
+        'numeroRealizadas',
+        'localidadSv',
+        'areaSv',
+        'procesoSv'
+      ];
+      if(filters) filterQuery.filterList.push(...filters);
+  
+      if(this.calendarComponent && this.calendarComponent.getApi().getCurrentData()) {
+        let calendarData = this.calendarComponent.getApi().getCurrentData();
+        let filters: Filter[] = [];
+        filters.push({
+          criteria: Criteria.BETWEEN,
+          field: 'fecha',
+          value1: calendarData.getCurrentData().dateProfile.renderRange.start.toISOString(),
+          value2: calendarData.getCurrentData().dateProfile.renderRange.end.toISOString()
+        });
+        filterQuery.filterList.push(...filters);
+      }
+
+      this.progLoading = true;
+      this.eventsSV = [];
+      this.eventSV = {} as EventInput;
+      let userP: any[] = JSON.parse(sessionStorage.getItem('userP') ?? '[]');
+      try {
+        this.programacionService.findByFilter(filterQuery)
+          .then((data: any) => {
+  
+            let array = <any[]>data['data'];
+            let objArray: any[] = [];
+  
+            array.forEach(dto => {
+              objArray.push(FilterQuery.dtoToObject(dto));
+            });
+  
+            this.matriz = [];
+            this.events = [];
+  
+            this.programacionList = objArray;
+  
+            objArray.forEach(element => {
+              let matrizData: MatrizList = {
+                dia: new Date,
+                programacionList: []
+              }
+              // debugger
+              let perfilesLista: number[] = JSON.parse(element?.listaInspeccion?.fkPerfilId ?? '[]') ?? [];
+              let tienePermiso: boolean = false;
+              for(let pr of userP){
+                if(perfilesLista.includes(pr.id)){
+                  tienePermiso = true;
+                  break;
+                }
+              }
+              if(!tienePermiso) return;
+
+              this.matriz?.push(matrizData);
+  
+              var _color = '#007AD9';
+              if (element.numeroRealizadas == element.numeroInspecciones) {
+                _color = 'green';
+              }
+  
+              this.event = {
+                id: element.id,
+                title: element.numeroRealizadas + '/' + element.numeroInspecciones + ' Insp. en ' + element.area.nombre,
+                start: new Date(element.fecha),
+                end: new Date(element.fecha + 3600000),
+                color: _color,
+              }
+              console.log(element, 'element');
+              
+              this.events.push(this.event)
+            });
+
+            this.progLoading = false;
+            resolve(this.eventsSV);
+          })
+          .catch(err => {
+            this.progLoading = false;
+            reject(err);
+          });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
   async loadListasInspeccion(){
     let user: any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();

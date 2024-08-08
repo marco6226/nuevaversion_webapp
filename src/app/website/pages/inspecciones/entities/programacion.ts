@@ -14,5 +14,8 @@ export interface Programacion {
     empresaAliada: Empresa;
     empleadoBasic: any;
     listaInspeccion: ListaInspeccion;
+    localidadSv: any | null;
+    areaSv: any | null;
+    procesoSv: any  | null;
     // serie: Serie | null;
 }

@@ -1,4 +1,11 @@
-<p-panel header="PROGRAMACIÓN DE INSPECCIONES">
+<p-panel>
+  <p-header style="width: 100%;">
+    <div class="flex justify-content-between flex-wrap">
+      <span class="p-panel-title flex-order-0">PROGRAMACIÓN DE INSPECCIONES</span>
+      <div class="flex-order-1"></div>
+      <button *sTienePermiso="'CTR_GET_AUDIT_CC'" pButton label="FILTROS" icon="pi pi-filter-fill" iconPos="right" class="p-button-sm flex-order-2" (click)="openDlgFiltros()"></button>
+    </div>
+  </p-header>
 
     <ng-template pTemplate="body" let-reporte>
       <full-calendar [options]="calendarOptions" [events]="events" deepChangeDetection="true"></full-calendar>
@@ -10,3 +17,42 @@
   [listasInspeccion]="listasInspeccionList" [esNueva]="adicionar" [fechaSelected]="fechaSelected" modulo="ISV"
   [(value)]="value" [deshabilitar]="deshabilitarEvento" (onChange)="onChangeProgramacionEvento($event)"></s-programacion-evento>
   
+  <p-dialog [style]="{'width':'60%'}" [(visible)]="visibleDlgFiltros" [responsive]="true" [modal]="true" appendTo="body">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">FILTROS</span>
+    </ng-template>
+    <div class="m-0">
+      <form [formGroup]="formFilters">
+        <div class="grid">
+          <!-- <div class="col-6 md:col-6 sm:col-12">
+            <label for="empresasAliadas">Aliados</label>
+            <p-multiSelect id="empresasAliadas" [options]="empresasAliadasOption" formControlName="empresasAliadas" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+          </div> -->
+          <div class="col-6 md:col-6 sm:col-12">
+            <label for="Division">Division</label>
+            <p-multiSelect id="Division" [options]="areasOption" formControlName="division" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+          </div>
+          <div class="col-6 md:col-6 sm:col-12">
+            <label for="localidades">Localidad</label>
+            <p-multiSelect id="localidades" [options]="localidadesOption" formControlName="localidadSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+          </div>
+          <div class="col-6 md:col-6 sm:col-12">
+            <label for="area">area</label>
+            <p-multiSelect id="area" [options]="areasOption" formControlName="areaSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+          </div>
+          
+          <div class="col-6 md:col-6 sm:col-12">
+            <label for="gestor">Gestor</label>
+            <s-empleadoBasicSelector [(ngModel)]="this.formFilters.value.empleado" [ngModelOptions]="{standalone: true}"></s-empleadoBasicSelector>
+          </div>
+        </div>
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex justify-content-end flex-wrap">
+        <button pButton class="flex m-2 p-button-warning p-button-sm" label="LIMPIAR" icon="pi pi-times-circle" (click)="cleanFilters()"></button>
+        <button pButton class="flex m-2 p-button-danger p-button-sm" label="CANCELAR" icon="pi pi-delete-left" (click)="visibleDlgFiltros=false"></button>
+        <button pButton class="flex m-2 p-button-success p-button-sm" label="APLICAR" icon="pi pi-filter" (click)="applyFilter()"></button>
+      </div>
+    </ng-template>
+  </p-dialog>

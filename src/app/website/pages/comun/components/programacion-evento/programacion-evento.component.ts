@@ -15,6 +15,12 @@ import { ProgramacionService } from '../../../inspecciones/services/programacion
 import { locale_es } from '../../entities/reporte-enumeraciones';
 import { Serie } from '../../entities/serie';
 import { SesionService } from '../../../core/services/session.service';
+import { Area } from '../../../empresa/entities/area';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { AreaService } from '../../../empresa/services/area.service';
+import { JuntaRegional } from '../../entities/juntaregional';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 
 @Component({
   selector: 's-programacion-evento',
@@ -25,6 +31,7 @@ import { SesionService } from '../../../core/services/session.service';
 export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
   form: FormGroup | undefined = undefined;
+  listDivision: any = []
   diasList: SelectItem[] = [
     { label: 'D', value: 0, title: 'Domingo' },
     { label: 'L', value: 1, title: 'Lunes' },
@@ -99,7 +106,14 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     private serieService: SerieService,
     private paramNav: ParametroNavegacionService,
     private config: PrimeNGConfig,
-    private sessionService: SesionService
+    private sessionService: SesionService,
+    private empresaService: EmpresaService,
+    private areaMatrizService: AreaMatrizService,
+    private areaService: AreaService,
+    private procesoMatrizService: ProcesoMatrizService,
+
+
+
   ) {
     this.form = this.fb.group({
       id: null,
@@ -115,17 +129,92 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       fechaInicio: null,
       fechaFin: null,
       semana: null,
-      serie: null
+      serie: null,
+      localidadSv: null,
+      areaSv: null,
+      procesoSv: null
     });
   }
 
   ngOnInit() {
     this.config.setTranslation(locale_es);
+    this.loadDiv();
+    this.getArea();
+    
 
     if (this.modulo === 'INPCC') {
       this.form?.get('empleadoBasic')?.setValidators([Validators.required]);
     } else {
       this.form?.get('empleadoBasic')?.clearValidators();
+    }
+  }
+  areaList: any[] = []
+  areaListActual: any[] = []
+  async cargarArea(eve: any, tipo: string) {
+    console.log(eve);
+
+    let filterArea = new FilterQuery();
+    filterArea.sortField = "id";
+    filterArea.sortOrder = -1;
+    filterArea.fieldList = [
+      'id',
+      'nombre'
+    ];
+    filterArea.filterList = [
+      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve },
+      { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+    ];
+
+    let areaList: any = [];
+    await this.areaMatrizService.findByFilter(filterArea).then(async (resp: any) => {
+      resp.data.forEach((element: any) => {
+        areaList.push({ 'name': element.nombre, 'id': element.id }); // Solo agregar el nombre del área
+      });
+    });
+
+    if (tipo === 'Origen') {
+      this.areaList = [...areaList];
+      console.log(areaList)
+    } else {
+      this.areaListActual = [...areaList];
+      console.log(this.areaListActual)
+    }
+  }
+  procesoList: any[] = []
+  procesoListActual: any[] = []
+  async cargarProceso(eve: any, tipo: string) {
+    try {
+      console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
+      
+      // Verifica que eve tenga el ID correcto
+      const areaId = eve?.id;
+      console.log("ID del área:", areaId);
+  
+      let filterProceso = new FilterQuery();
+      filterProceso.fieldList = ['id', 'nombre'];
+      filterProceso.filterList = [
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: areaId },
+        { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+      ];
+  
+      console.log("Consulta de procesos con filtro:", filterProceso);
+  
+      let procesoList: any = [];
+      await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
+        console.log("Respuesta de procesos:", resp);
+        procesoList = resp.data.map((element: any) => ({ label: element.nombre, id: element.id }));
+      }).catch(error => {
+        console.error("Error al cargar los procesos:", error);
+        throw error;
+      });
+  
+      if (tipo === 'Origen') {
+        this.procesoList = [...procesoList];
+      } else {
+        this.procesoListActual = [...procesoList];
+      }
+    } catch (error) {
+      console.error("Error en cargarProceso:", error);
     }
   }
 
@@ -134,6 +223,73 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     // console.log(changes);
     // }
   }
+  divisiones: Area[] = [];
+  areasOption: {label: string, value: number}[] = [];  // value debe ser number
+  
+  async loadDiv() {
+    this.empresaService.getArea().then(
+      (res: Area[]) => {
+        this.divisiones = Array.from(res);
+        this.areasOption = [];
+  
+        this.divisiones.forEach(divi => {
+          // Convertir divi.id a number si es necesario
+          const id = typeof divi.id === 'string' ? parseInt(divi.id, 10) : divi.id;
+          this.areasOption.push({ label: divi.nombre, value: id });
+        });
+  
+        console.log(this.areasOption, 'area');
+      },
+      (reason: any) => {
+        console.error('Error al obtener localidades', reason);
+      }
+    )
+  }
+  localidadesList: any[] = [];
+  localidadesListActual: any = [];
+  
+  async cargarPlantaLocalidad(eve: any, tipo: string) {
+    console.log("cargarPlantaLocalidad - Evento:", eve, "Tipo:", tipo);
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id", "localidad"];
+    filterPlantaQuery.filterList = [
+      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
+    ];
+  
+    try {
+      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
+      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+      
+      // Almacenar los objetos completos de Localidades
+      if (tipo === 'Origen') {
+        this.localidadesList = localidadesList;
+      } else {
+        this.localidadesListActual = localidadesList;
+      }
+    } catch (error) {
+      console.error("Error al cargar las localidades:", error);
+    }
+  }
+  JuntaRegionalList!: SelectItem[];
+  async getArea() {
+    let filterAreaQuery = new FilterQuery();
+    filterAreaQuery.sortField = "id";
+    filterAreaQuery.sortOrder = -1;
+    filterAreaQuery.fieldList = ["id", "nombre"];
+    filterAreaQuery.filterList = [
+      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+    ];
+
+    await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
+      resp.data.forEach((resp2: any) => {
+        this.listDivision.push({ label: resp2.nombre, value: resp2.id })
+      });
+    })
+
+  }
+  
 
   onChangeListaInspeccion(event: DropdownChangeEvent) {
     // console.log(event);
@@ -156,6 +312,8 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     findProgramacion(filterQuery)
       .then((res: any) => {
         let programacion: Programacion = res?.data && res?.data?.length > 0 ? res.data[0] : {} as Programacion;
+        console.log('Datos cargados:', programacion);
+
         // console.log(this.listasInspeccionList);
         // console.log(programacion);
         if (programacion.listaInspeccion.estado === 'inactivo') {
@@ -173,11 +331,32 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
         this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
         this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
-        this.form?.get('area')?.setValue(programacion.area);
+        if (this.modulo === 'ISV') {
+          this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
+          this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
+          this.form?.get('areaSv')?.setValue(programacion.areaSv);
+          this.form?.get('procesoSv')?.setValue(programacion.procesoSv);
+           this.cargarPlantaLocalidad(this.form?.controls['area'].value, 'Origen');         
+           this.cargarArea(this.form?.controls['localidadSv'].value, 'Origen');
+           this.form?.controls['areaSv'].setValue(this.areaList.find(value => value.id == parseInt(programacion['areaSv'])));
+           this.cargarProceso(this.form?.controls['areaSv'].value, 'Origen')
+          this.form?.controls['procesoSv'].setValue(this.procesoList.find(value => value.id == parseInt(programacion['procesoSv'])));
+        } else {
+          this.form?.get('area')?.setValue(programacion.area ? programacion.area : null);
+          // Puedes agregar más campos específicos para otros módulos aquí
+        }
         this.form?.get('empresaAliada')?.setValue(programacion.empresaAliada);
         this.form?.get('localidad')?.setValue(programacion.localidad);
         this.form?.get('empleadoBasic')?.setValue(JSON.parse(programacion.empleadoBasic));
         this.form?.get('fechaInicio')?.setValue(new Date(programacion.fecha));
+
+
+
+
+
+
+        
+        
       }).catch((e) => {
         throw new Error(e);
       });
@@ -214,6 +393,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       } else if (this.modulo === 'ISV') {
         if (this.esNueva) {
           programacionList.forEach(async (prog: Programacion) => {
+            prog.area=this.localidadesList.find(elment=>{return elment['value']})
             await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), prog);
           });
         } else {
@@ -283,6 +463,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     programacion.area = this.form?.get('area')?.value;
     programacion.empresaAliada = this.form?.get('empresaAliada')?.value;
     programacion.localidad = this.form?.get('localidad')?.value;
+    programacion.localidadSv = this.form?.get('localidadSv')?.value;
+    programacion.areaSv =  this.form?.get('areaSv')?.value?.id;
+    programacion.procesoSv = this.form.get('procesoSv')?.value?.id;
     programacion.empleadoBasic = JSON.stringify(this.form?.get('empleadoBasic')?.value);
 
     if (!programacion.listaInspeccion.listaInspeccionPK) throw 'Error al procesar programación única'
@@ -394,6 +577,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         localidad: this.form?.get('localidad')?.value,
         numeroInspecciones: this.form?.get('numeroInspecciones')?.value,
         numeroRealizadas: this.form?.get('numeroRealizadas')?.value,
+        localidadSv: this.form?.get('localidadSv')?.value,
+        areaSv: this.form?.get('areaSv')?.value.id,
+        procesoSv: this.form?.get('procesoSv')?.value.id,
         // serie: this.form?.get('serie')?.value
       }
     })
@@ -433,6 +619,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       localidad: this.form?.get('localidad')?.value,
       numeroInspecciones: this.form?.get('numeroInspecciones')?.value,
       numeroRealizadas: this.form?.get('numeroRealizadas')?.value,
+      localidadSv: this.form?.get('localidadSv')?.value,
+      areaSv: this.form?.get('areaSv')?.value.id,
+      procesoSv: this.form?.get('procesoSv')?.value.id,
       // serie: this.form?.get('serie')?.value
     }
 
