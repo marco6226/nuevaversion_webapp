@@ -581,19 +581,23 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     try {
       console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
       
+      // Verifica que eve tenga el ID correcto
+      const areaId = eve?.id;
+      console.log("ID del área:", areaId);
+  
       let filterProceso = new FilterQuery();
       filterProceso.fieldList = ['id', 'nombre'];
       filterProceso.filterList = [
-        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve.id },  // Solo pasar el ID aquí
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: areaId },
         { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
       ];
+  
+      console.log("Consulta de procesos con filtro:", filterProceso);
   
       let procesoList: any = [];
       await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
         console.log("Respuesta de procesos:", resp);
-        resp.data.forEach((element: any) => {
-          procesoList.push({ label: element.nombre, id: element.id });
-        });
+        procesoList = resp.data.map((element: any) => ({ label: element.nombre, id: element.id }));
       }).catch(error => {
         console.error("Error al cargar los procesos:", error);
         throw error;
@@ -608,6 +612,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       console.error("Error en cargarProceso:", error);
     }
   }
+  
   
   prepareFormData(formValue: any) {
     const processedFormValue = { ...formValue };
@@ -931,29 +936,41 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   async setDataRelatedValues(data: any) {
     const origenActualFields = ['divisionOrigen', 'divisionActual', 'localidadOrigen', 'localidadActual', 'procesoOrigen', 'procesoActual'];
-
+  
+    // Establecer valores iniciales del formulario
     origenActualFields.forEach(field => {
       this.empleadoForm.controls[field].setValue(parseInt(data[field]));
     });
-
+  
+    // Cargar datos necesarios
     await Promise.all([
       this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionOrigen'].value, 'Origen'),
       this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionActual'].value, 'Actual'),
       this.cargarArea(this.empleadoForm.controls['localidadOrigen'].value, 'Origen'),
       this.cargarArea(this.empleadoForm.controls['localidadActual'].value, 'Actual')
     ]);
-
-    this.empleadoForm.controls['areaOrigen'].setValue(this.areaList.find(value => value.id == parseInt(data['areaOrigen'])));
-    this.empleadoForm.controls['areaActual'].setValue(this.areaListActual.find(value => value.id == parseInt(data['areaActual'])));
-
+  
+    // Establecer valores para áreas
+    const areaOrigen = this.areaList.find(value => value.id === parseInt(data['areaOrigen']));
+    const areaActual = this.areaListActual.find(value => value.id === parseInt(data['areaActual']));
+  
+    this.empleadoForm.controls['areaOrigen'].setValue(areaOrigen);
+    this.empleadoForm.controls['areaActual'].setValue(areaActual);
+  
+    // Esperar a que se carguen los procesos
     await Promise.all([
-      this.cargarProceso(this.empleadoForm.controls['areaOrigen'].value, 'Origen'),
-      this.cargarProceso(this.empleadoForm.controls['areaActual'].value, 'Actual')
-    ]);
-
-    this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoOrigen'])));
-    this.empleadoForm.controls['procesoActual'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoActual'])));
+      this.cargarProceso(areaOrigen?.id, 'Origen'),
+      this.cargarProceso(areaActual?.id, 'Actual')
+     
+      
+    ]);  
+    // Establecer valores para procesos
+    this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id === parseInt(data['procesoOrigen'])));
+    this.empleadoForm.controls['procesoActual'].setValue(this.procesoListActual.find(value => value.id === parseInt(data['procesoActual'])));
   }
+  
+  
+  
 
 
   isDetalleEnabled: boolean = false;

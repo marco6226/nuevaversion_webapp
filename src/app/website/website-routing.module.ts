@@ -86,6 +86,7 @@ import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/
 import { ElaboracionListaSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-lista-signos-vitales/elaboracion-lista-signos-vitales.component';
 import { ProgramacionSignosVitalesComponent } from './pages/inspecciones/components/programacion-signos-vitales/programacion-signos-vitales.component';
 import { ConsultaInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/consulta-inspecciones-signos-vitales/consulta-inspecciones-signos-vitales.component';
+import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-inspecciones-signos-vitales/elaboracion-inspecciones-signos-vitales.component';
 
 const routes: Routes = [
   {
@@ -163,7 +164,9 @@ const routes: Routes = [
           {path: 'listaInspeccionSignos', component:ListaInspeccionSignosComponent},
           {path: 'elaboracionListaSv', component: ElaboracionListaSignosVitalesComponent},
           {path: 'programacionSv', component: ProgramacionSignosVitalesComponent},
-          {path: 'consultarInspeccionesSv', component: ConsultaInspeccionesSignosVitalesComponent}
+          {path: 'consultarInspeccionesSv', component: ConsultaInspeccionesSignosVitalesComponent},
+          { path: 'elaboracionInspeccionesSv/:id/:version', component: ElaboracionInspeccionesSignosVitalesComponent},
+
         ]
       },
       {

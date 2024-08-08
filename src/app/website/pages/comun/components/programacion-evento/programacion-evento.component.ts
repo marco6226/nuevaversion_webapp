@@ -15,6 +15,12 @@ import { ProgramacionService } from '../../../inspecciones/services/programacion
 import { locale_es } from '../../entities/reporte-enumeraciones';
 import { Serie } from '../../entities/serie';
 import { SesionService } from '../../../core/services/session.service';
+import { Area } from '../../../empresa/entities/area';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { AreaService } from '../../../empresa/services/area.service';
+import { JuntaRegional } from '../../entities/juntaregional';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 
 @Component({
   selector: 's-programacion-evento',
@@ -25,22 +31,23 @@ import { SesionService } from '../../../core/services/session.service';
 export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
   form: FormGroup | undefined = undefined;
+  listDivision: any = []
   diasList: SelectItem[] = [
-    {label: 'D', value: 0, title: 'Domingo'},
-    {label: 'L', value: 1, title: 'Lunes'},
-    {label: 'M', value: 2, title: 'Martes'},
-    {label: 'M', value: 3, title: 'Miércoles'},
-    {label: 'J', value: 4, title: 'Jueves'},
-    {label: 'V', value: 5, title: 'Viernes'},
-    {label: 'S', value: 6, title: 'Sábado'}
+    { label: 'D', value: 0, title: 'Domingo' },
+    { label: 'L', value: 1, title: 'Lunes' },
+    { label: 'M', value: 2, title: 'Martes' },
+    { label: 'M', value: 3, title: 'Miércoles' },
+    { label: 'J', value: 4, title: 'Jueves' },
+    { label: 'V', value: 5, title: 'Viernes' },
+    { label: 'S', value: 6, title: 'Sábado' }
   ]
   diasSemanaSelected: number[] | null = null;
   numerosOrdinales: SelectItem[] = [
-    {label:'Primer', value: 1},
-    {label:'Segundo', value: 2},
-    {label:'Tercero', value: 3},
-    {label:'Cuarto', value: 4},
-    {label:'Último', value: 5},
+    { label: 'Primer', value: 1 },
+    { label: 'Segundo', value: 2 },
+    { label: 'Tercero', value: 3 },
+    { label: 'Cuarto', value: 4 },
+    { label: 'Último', value: 5 },
   ];
   programacionSwitch: boolean = false;
   periodicidadList: SelectItem[] = [
@@ -57,33 +64,33 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   @Input('visible') visible: boolean = false;
   @Input('modulo') modulo: string = 'INP';
   @Input('listasInspeccion') listasInspeccionList: SelectItem[] = [];
-  @Input('empresasAliadas') empresasAliadasOption: {label: string, value: Empresa}[] = [];
-  @Input('localidades') localidadesOption: {label: string, value: Localidades}[] = [];
+  @Input('empresasAliadas') empresasAliadasOption: { label: string, value: Empresa }[] = [];
+  @Input('localidades') localidadesOption: { label: string, value: Localidades }[] = [];
   @Input('esNueva') esNueva: boolean = true;
   @Input() loading: boolean = false;
   programacion: Programacion | null = null;
-  @Input('programacion') set setProgramacion(prog: Programacion){
+  @Input('programacion') set setProgramacion(prog: Programacion) {
     this.programacion = prog;
   }
   idProgramacion: string | null = null;
-  @Input('value') set setValue(value: string | null){
+  @Input('value') set setValue(value: string | null) {
     this.idProgramacion = value;
-    if(this.idProgramacion === null) return;
-    try{
+    if (this.idProgramacion === null) return;
+    try {
       this.loading = true;
       this.loadDataEvento()
-      .then(() => {
-        this.loading = false;;
-      }).catch((e) => {
-        throw new Error(e);
-      });
-    }catch(e) {
+        .then(() => {
+          this.loading = false;;
+        }).catch((e) => {
+          throw new Error(e);
+        });
+    } catch (e) {
       this.loading = false;
-      this.messageService.add({key: 'progEvento', severity: 'error', summary: 'Error', detail: 'Error al buscar inspección'});
+      this.messageService.add({ key: 'progEvento', severity: 'error', summary: 'Error', detail: 'Error al buscar inspección' });
     }
   }
-  @Input('fechaSelected') set fechaSelected(fecha: Date | null){
-    if(fecha === null) return;
+  @Input('fechaSelected') set fechaSelected(fecha: Date | null) {
+    if (fecha === null) return;
     this.form?.get('fechaInicio')?.setValue(fecha);
   }
   @Input('deshabilitar') deshabilitar: boolean = false;
@@ -99,7 +106,14 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     private serieService: SerieService,
     private paramNav: ParametroNavegacionService,
     private config: PrimeNGConfig,
-    private sessionService: SesionService
+    private sessionService: SesionService,
+    private empresaService: EmpresaService,
+    private areaMatrizService: AreaMatrizService,
+    private areaService: AreaService,
+    private procesoMatrizService: ProcesoMatrizService,
+
+
+
   ) {
     this.form = this.fb.group({
       id: null,
@@ -115,17 +129,92 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       fechaInicio: null,
       fechaFin: null,
       semana: null,
-      serie: null
+      serie: null,
+      localidadSv: null,
+      areaSv: null,
+      procesoSv: null
     });
   }
 
   ngOnInit() {
     this.config.setTranslation(locale_es);
+    this.loadDiv();
+    this.getArea();
+    
 
-    if(this.modulo === 'INPCC'){
+    if (this.modulo === 'INPCC') {
       this.form?.get('empleadoBasic')?.setValidators([Validators.required]);
-    }else {
+    } else {
       this.form?.get('empleadoBasic')?.clearValidators();
+    }
+  }
+  areaList: any[] = []
+  areaListActual: any[] = []
+  async cargarArea(eve: any, tipo: string) {
+    console.log(eve);
+
+    let filterArea = new FilterQuery();
+    filterArea.sortField = "id";
+    filterArea.sortOrder = -1;
+    filterArea.fieldList = [
+      'id',
+      'nombre'
+    ];
+    filterArea.filterList = [
+      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve },
+      { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+    ];
+
+    let areaList: any = [];
+    await this.areaMatrizService.findByFilter(filterArea).then(async (resp: any) => {
+      resp.data.forEach((element: any) => {
+        areaList.push({ 'name': element.nombre, 'id': element.id }); // Solo agregar el nombre del área
+      });
+    });
+
+    if (tipo === 'Origen') {
+      this.areaList = [...areaList];
+      console.log(areaList)
+    } else {
+      this.areaListActual = [...areaList];
+      console.log(this.areaListActual)
+    }
+  }
+  procesoList: any[] = []
+  procesoListActual: any[] = []
+  async cargarProceso(eve: any, tipo: string) {
+    try {
+      console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
+      
+      // Verifica que eve tenga el ID correcto
+      const areaId = eve?.id;
+      console.log("ID del área:", areaId);
+  
+      let filterProceso = new FilterQuery();
+      filterProceso.fieldList = ['id', 'nombre'];
+      filterProceso.filterList = [
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: areaId },
+        { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+      ];
+  
+      console.log("Consulta de procesos con filtro:", filterProceso);
+  
+      let procesoList: any = [];
+      await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
+        console.log("Respuesta de procesos:", resp);
+        procesoList = resp.data.map((element: any) => ({ label: element.nombre, id: element.id }));
+      }).catch(error => {
+        console.error("Error al cargar los procesos:", error);
+        throw error;
+      });
+  
+      if (tipo === 'Origen') {
+        this.procesoList = [...procesoList];
+      } else {
+        this.procesoListActual = [...procesoList];
+      }
+    } catch (error) {
+      console.error("Error en cargarProceso:", error);
     }
   }
 
@@ -134,63 +223,153 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     // console.log(changes);
     // }
   }
+  divisiones: Area[] = [];
+  areasOption: {label: string, value: number}[] = [];  // value debe ser number
+  
+  async loadDiv() {
+    this.empresaService.getArea().then(
+      (res: Area[]) => {
+        this.divisiones = Array.from(res);
+        this.areasOption = [];
+  
+        this.divisiones.forEach(divi => {
+          // Convertir divi.id a number si es necesario
+          const id = typeof divi.id === 'string' ? parseInt(divi.id, 10) : divi.id;
+          this.areasOption.push({ label: divi.nombre, value: id });
+        });
+  
+        console.log(this.areasOption, 'area');
+      },
+      (reason: any) => {
+        console.error('Error al obtener localidades', reason);
+      }
+    )
+  }
+  localidadesList: any[] = [];
+  localidadesListActual: any = [];
+  
+  async cargarPlantaLocalidad(eve: any, tipo: string) {
+    console.log("cargarPlantaLocalidad - Evento:", eve, "Tipo:", tipo);
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id", "localidad"];
+    filterPlantaQuery.filterList = [
+      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
+    ];
+  
+    try {
+      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
+      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+      
+      // Almacenar los objetos completos de Localidades
+      if (tipo === 'Origen') {
+        this.localidadesList = localidadesList;
+      } else {
+        this.localidadesListActual = localidadesList;
+      }
+    } catch (error) {
+      console.error("Error al cargar las localidades:", error);
+    }
+  }
+  JuntaRegionalList!: SelectItem[];
+  async getArea() {
+    let filterAreaQuery = new FilterQuery();
+    filterAreaQuery.sortField = "id";
+    filterAreaQuery.sortOrder = -1;
+    filterAreaQuery.fieldList = ["id", "nombre"];
+    filterAreaQuery.filterList = [
+      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+    ];
+
+    await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
+      resp.data.forEach((resp2: any) => {
+        this.listDivision.push({ label: resp2.nombre, value: resp2.id })
+      });
+    })
+
+  }
+  
 
   onChangeListaInspeccion(event: DropdownChangeEvent) {
     // console.log(event);
     this.deshabilitar = false;
     this.esListaInactiva = false;
-    if(this.form?.get('numeroRealizadas')?.value && this.form?.get('numeroRealizadas')?.value > 0) this.deshabilitar = true;
+    if (this.form?.get('numeroRealizadas')?.value && this.form?.get('numeroRealizadas')?.value > 0) this.deshabilitar = true;
   }
 
   async loadDataEvento() {
     let filterQuery: FilterQuery = new FilterQuery();
-    filterQuery.filterList = [{criteria: Criteria.EQUALS, field: 'id', value1: this.idProgramacion}]
+    filterQuery.filterList = [{ criteria: Criteria.EQUALS, field: 'id', value1: this.idProgramacion }]
 
-    if(this.modulo === 'INP') {
+    if (this.modulo === 'INP') {
       let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
-      filterQuery.filterList.push({criteria: Criteria.CONTAINS, field: 'area.id', value1: areas});
+      filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: areas });
     }
 
     let findProgramacion = this.modulo === 'INP' ? this.programacionService.findByFilter.bind(this.programacionService) : this.programacionService.findAuditoriasWithFilter.bind(this.programacionService);
 
     findProgramacion(filterQuery)
-    .then((res: any) => {
-      let programacion: Programacion =  res?.data && res?.data?.length > 0 ? res.data[0] : {} as Programacion;
-      // console.log(this.listasInspeccionList);
-      // console.log(programacion);
-      if(programacion.listaInspeccion.estado === 'inactivo'){
-        if(!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
-        this.deshabilitar = true;
-        // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
-        let listaInp = {
-          label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
-          value: {id: programacion.listaInspeccion.listaInspeccionPK.id, version: programacion.listaInspeccion.listaInspeccionPK.version},
-          disabled: true
-        } as SelectItem;
-        this.listasInspeccionList.push(listaInp);
-      }
-      this.form?.get('id')?.setValue(programacion.id);
-      this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
-      this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
-      this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
-      this.form?.get('area')?.setValue(programacion.area);
-      this.form?.get('empresaAliada')?.setValue(programacion.empresaAliada);
-      this.form?.get('localidad')?.setValue(programacion.localidad);
-      this.form?.get('empleadoBasic')?.setValue(JSON.parse(programacion.empleadoBasic));
-      this.form?.get('fechaInicio')?.setValue(new Date(programacion.fecha));
-    }).catch((e) => {
-      throw new Error(e);
-    });
+      .then((res: any) => {
+        let programacion: Programacion = res?.data && res?.data?.length > 0 ? res.data[0] : {} as Programacion;
+        console.log('Datos cargados:', programacion);
+
+        // console.log(this.listasInspeccionList);
+        // console.log(programacion);
+        if (programacion.listaInspeccion.estado === 'inactivo') {
+          if (!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
+          this.deshabilitar = true;
+          // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
+          let listaInp = {
+            label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
+            value: { id: programacion.listaInspeccion.listaInspeccionPK.id, version: programacion.listaInspeccion.listaInspeccionPK.version },
+            disabled: true
+          } as SelectItem;
+          this.listasInspeccionList.push(listaInp);
+        }
+        this.form?.get('id')?.setValue(programacion.id);
+        this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
+        this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
+        this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
+        if (this.modulo === 'ISV') {
+          this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
+          this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
+          this.form?.get('areaSv')?.setValue(programacion.areaSv);
+          this.form?.get('procesoSv')?.setValue(programacion.procesoSv);
+           this.cargarPlantaLocalidad(this.form?.controls['area'].value, 'Origen');         
+           this.cargarArea(this.form?.controls['localidadSv'].value, 'Origen');
+           this.form?.controls['areaSv'].setValue(this.areaList.find(value => value.id == parseInt(programacion['areaSv'])));
+           this.cargarProceso(this.form?.controls['areaSv'].value, 'Origen')
+          this.form?.controls['procesoSv'].setValue(this.procesoList.find(value => value.id == parseInt(programacion['procesoSv'])));
+        } else {
+          this.form?.get('area')?.setValue(programacion.area ? programacion.area : null);
+          // Puedes agregar más campos específicos para otros módulos aquí
+        }
+        this.form?.get('empresaAliada')?.setValue(programacion.empresaAliada);
+        this.form?.get('localidad')?.setValue(programacion.localidad);
+        this.form?.get('empleadoBasic')?.setValue(JSON.parse(programacion.empleadoBasic));
+        this.form?.get('fechaInicio')?.setValue(new Date(programacion.fecha));
+
+
+
+
+
+
+        
+        
+      }).catch((e) => {
+        throw new Error(e);
+      });
   }
 
   onReceiveEmpleadoBasic(event?: EmpleadoBasic) {
     this.form?.get('empleadoBasic')?.setValue(event);
   }
 
-  async onSubmit(){
+  async onSubmit() {
     this.loading = true;
-    if(this.programacionSwitch){
-      let programacionList : Programacion[] = [];
+    if (this.programacionSwitch) {
+      let programacionList: Programacion[] = [];
       try {
         programacionList = this.getProgramacionList();
       } catch (error) {
@@ -202,36 +381,52 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         });
       }
       // console.log(programacionList);
-      if(this.modulo === 'INP') {
+      if (this.modulo === 'INP') {
         // console.log('INP');
-        if(this.esNueva){
+        if (this.esNueva) {
           programacionList.forEach(async (prog: Programacion) => {
             await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), prog);
           });
-        }else {
+        } else {
           console.info('Actualizar not found');
         }
-      } else if(this.modulo === 'INPCC') {
+      } else if (this.modulo === 'ISV') {
+        if (this.esNueva) {
+          programacionList.forEach(async (prog: Programacion) => {
+            prog.area=this.localidadesList.find(elment=>{return elment['value']})
+            await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), prog);
+          });
+        } else {
+          console.info('Actualizar not found');
+        }
+      }
+      else if (this.modulo === 'INPCC') {
         // console.log('INPCC');
         // console.log(programacionList);
-        if(this.esNueva){
+        if (this.esNueva) {
           programacionList.forEach(async (prog: Programacion) => {
             await this.createOrUpdate(this.programacionService.createAuditoria.bind(this.programacionService), prog);
           });
-        }else {
+        } else {
           console.info('Actualizar not found');
         }
       }
     } else {
       let programacion: Programacion = this.getProgrammacionUnica();
-      if(this.modulo === 'INP'){
-        if(this.esNueva){
+      if (this.modulo === 'INP') {
+        if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), programacion);
         } else {
           await this.createOrUpdate(this.programacionService.update.bind(this.programacionService), programacion);
         }
-      } else if(this.modulo === 'INPCC') {
-        if(this.esNueva){
+      } else if (this.modulo === 'ISV') {
+        if (this.esNueva) {
+          await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), programacion);
+        } else {
+          await this.createOrUpdate(this.programacionService.update.bind(this.programacionService), programacion);
+        }
+      } else if (this.modulo === 'INPCC') {
+        if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.createAuditoria.bind(this.programacionService), programacion);
         } else {
           await this.createOrUpdate(this.programacionService.updateAuditoria.bind(this.programacionService), programacion);
@@ -242,20 +437,20 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     this.loading = false;
   }
 
-  private async createOrUpdate(method: Function, programacion: Programacion){
+  private async createOrUpdate(method: Function, programacion: Programacion) {
     try {
       await method(programacion);
       this.procesarRespuesta(true, this.esNueva ? 'guardar' : 'actualizar');
-    } catch(error) {
+    } catch (error) {
       this.procesarRespuesta(false, this.esNueva ? 'guardar' : 'actualizar');
     }
   }
 
   getProgrammacionUnica(): Programacion {
     let programacion: Programacion = {} as Programacion;
-    
-    if(!this.form?.valid) {
-      this.messageService.add({severity: 'warn', summary: 'Datos incompletos', detail: 'Debe llenar los campos requeridos en el formulario'});
+
+    if (!this.form?.valid) {
+      this.messageService.add({ severity: 'warn', summary: 'Datos incompletos', detail: 'Debe llenar los campos requeridos en el formulario' });
       throw 'Error datos incompletos en el formulario'
     }
 
@@ -268,9 +463,12 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     programacion.area = this.form?.get('area')?.value;
     programacion.empresaAliada = this.form?.get('empresaAliada')?.value;
     programacion.localidad = this.form?.get('localidad')?.value;
+    programacion.localidadSv = this.form?.get('localidadSv')?.value;
+    programacion.areaSv =  this.form?.get('areaSv')?.value?.id;
+    programacion.procesoSv = this.form.get('procesoSv')?.value?.id;
     programacion.empleadoBasic = JSON.stringify(this.form?.get('empleadoBasic')?.value);
 
-    if(!programacion.listaInspeccion.listaInspeccionPK) throw 'Error al procesar programación única'
+    if (!programacion.listaInspeccion.listaInspeccionPK) throw 'Error al procesar programación única'
 
     return programacion
   }
@@ -280,19 +478,19 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     let dates: Date[] = [];
     let currentDate: Date;
 
-    if(this.form?.get('fechaInicio')?.value == null || this.form?.get('fechaFin')?.value == null) throw new Error('Debe proporcionar una fecha inicial y una fecha final.');
-    if(this.form?.get('valorFrecuencia')?.value == null) throw new Error('Debe proporcionar el valor de la frecuencia del evento.');
-    if(this.getUnidadFrecuencia() === null) throw new Error('Debe elegir la unidad de frecuencia del evento.');
+    if (this.form?.get('fechaInicio')?.value == null || this.form?.get('fechaFin')?.value == null) throw new Error('Debe proporcionar una fecha inicial y una fecha final.');
+    if (this.form?.get('valorFrecuencia')?.value == null) throw new Error('Debe proporcionar el valor de la frecuencia del evento.');
+    if (this.getUnidadFrecuencia() === null) throw new Error('Debe elegir la unidad de frecuencia del evento.');
 
-    switch(this.getUnidadFrecuencia()){
+    switch (this.getUnidadFrecuencia()) {
       case 'diario':
         currentDate = new Date(this.form?.get('fechaInicio')?.value);
         // Recorre todos los días hasta la fecha final
-        while(currentDate <= this.form?.get('fechaFin')?.value){
+        while (currentDate <= this.form?.get('fechaFin')?.value) {
           dates.push(new Date(currentDate));
 
           // Si existe un valor de frecuencia mayor que 1 saltamos hasta el día que corresponde el siguiente evento
-          if(this.form?.get('valorFrecuencia')?.value > 1){
+          if (this.form?.get('valorFrecuencia')?.value > 1) {
             currentDate.setDate(currentDate.getDate() + this.form?.get('valorFrecuencia')?.value);
           } else {
             currentDate.setDate(currentDate.getDate() + 1);
@@ -300,14 +498,14 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         }
         break;
       case 'semana':
-        if(this.diasSemanaSelected == null || this.diasSemanaSelected?.length == 0) throw new Error('Debe elegir los días de la semana en que se realizará el evento.')
+        if (this.diasSemanaSelected == null || this.diasSemanaSelected?.length == 0) throw new Error('Debe elegir los días de la semana en que se realizará el evento.')
 
         this.diasSemanaSelected?.sort((a, b) => a - b);
         currentDate = new Date(this.form?.get('fechaInicio')?.value);
         // Recorre todos los días hasta la fecha final
-        while(currentDate <= this.form?.get('fechaFin')?.value){
+        while (currentDate <= this.form?.get('fechaFin')?.value) {
           // Revisa si a la fecha de inicio corresponde un evento y lo agrega
-          if(this.diasSemanaSelected?.includes(currentDate.getDay())) {
+          if (this.diasSemanaSelected?.includes(currentDate.getDay())) {
             dates.push(new Date(currentDate));
           }
 
@@ -315,25 +513,25 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
           currentDate.setDate(currentDate.getDate() + 1);
 
           // // Si ya recorrimos los días seleccionados y el valor de frecuencia es mayor a 1 viajamos a la siguiente semana
-          if(this.diasSemanaSelected && currentDate.getDay() === this.diasSemanaSelected[0] && this.form?.get('valorFrecuencia')?.value > 1){
+          if (this.diasSemanaSelected && currentDate.getDay() === this.diasSemanaSelected[0] && this.form?.get('valorFrecuencia')?.value > 1) {
             currentDate.setDate(currentDate.getDate() + 7 * (this.form?.get('valorFrecuencia')?.value - 1));
           }
         }
         break;
       case 'mes':
-        if(this.radioBSelected === 'diaSemana'){
-          if(this.diaSelected == null || this.numeroOrdinalSelected == null) throw new Error('Debe elegir el día y la semana en que se programará el evento');
+        if (this.radioBSelected === 'diaSemana') {
+          if (this.diaSelected == null || this.numeroOrdinalSelected == null) throw new Error('Debe elegir el día y la semana en que se programará el evento');
 
           currentDate = new Date(this.form?.get('fechaInicio')?.value);
           // Recorre los meses hasta la fecha final
           currentDate.setDate(1);
-          while(currentDate <= this.form?.get('fechaFin')?.value) {
+          while (currentDate <= this.form?.get('fechaFin')?.value) {
             // Se revisa si el día actual corresponde al día de la semana seleccionado;
-            if(currentDate.getDay() === this.diaSelected) {
+            if (currentDate.getDay() === this.diaSelected) {
               // Obtenemos el día y la semana seleccionada requerido
               const newDate = this.getDiaEspecificoDelMes(this.diaSelected, this.numeroOrdinalSelected, currentDate.getFullYear(), currentDate.getMonth());
               // Revisa si la fecha se encuentra entre la fecha inicial y la fecha final
-              if(newDate >= this.form?.get('fechaInicio')?.value && newDate <= this.form?.get('fechaFin')?.value) {
+              if (newDate >= this.form?.get('fechaInicio')?.value && newDate <= this.form?.get('fechaFin')?.value) {
                 dates.push(new Date(newDate));
               }
               // Vamos al primero del siguiente mes
@@ -344,13 +542,13 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
             }
           }
         } else {
-          if(!this.inputDia || (this.inputDia > 31 || this.inputDia < 1)) {
+          if (!this.inputDia || (this.inputDia > 31 || this.inputDia < 1)) {
             // this.messageService.add({severity: 'error', detail: 'Error', summary: 'Debe diligenciar un día valido'});
             throw new Error('Debe digitar un día del mes válido');
           }
           currentDate = new Date(this.form?.get('fechaInicio')?.value);
           // currentDate.setDate(this.inputDia);
-          while(currentDate <= this.form?.get('fechaFin')?.value){
+          while (currentDate <= this.form?.get('fechaFin')?.value) {
             let diasDelMes: number = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
             if (diasDelMes <= this.inputDia) {
               dates.push(new Date(currentDate.getFullYear(), currentDate.getMonth(), diasDelMes));
@@ -379,6 +577,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         localidad: this.form?.get('localidad')?.value,
         numeroInspecciones: this.form?.get('numeroInspecciones')?.value,
         numeroRealizadas: this.form?.get('numeroRealizadas')?.value,
+        localidadSv: this.form?.get('localidadSv')?.value,
+        areaSv: this.form?.get('areaSv')?.value.id,
+        procesoSv: this.form?.get('procesoSv')?.value.id,
         // serie: this.form?.get('serie')?.value
       }
     })
@@ -387,7 +588,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
   getDiaEspecificoDelMes(diaSemana: number, numeroSemana: number, anio: number, mes: number) {
     const fecha = new Date(anio, mes, 1);
-    
+
     // Recorre los días de la semana hasta el requerido en la semana 1
     while (fecha.getDay() !== diaSemana) {
       fecha.setDate(fecha.getDate() + 1);
@@ -397,15 +598,15 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     fecha.setDate(fecha.getDate() + 7 * (numeroSemana - 1));
 
     // Si el mes al que corresponde la fecha encontrada corresponde al mes siguiente se devuelve a la última semana del mes anterior
-    if(fecha.getMonth() !== mes) {
+    if (fecha.getMonth() !== mes) {
       fecha.setDate(fecha.getDate() - 7);
     }
 
     return fecha;
   }
 
-  irInspeccion(){
-    
+  irInspeccion() {
+
     let programacion: Programacion = {
       id: this.form?.get('id')?.value,
       area: this.form?.get('area')?.value,
@@ -418,19 +619,25 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       localidad: this.form?.get('localidad')?.value,
       numeroInspecciones: this.form?.get('numeroInspecciones')?.value,
       numeroRealizadas: this.form?.get('numeroRealizadas')?.value,
+      localidadSv: this.form?.get('localidadSv')?.value,
+      areaSv: this.form?.get('areaSv')?.value.id,
+      procesoSv: this.form?.get('procesoSv')?.value.id,
       // serie: this.form?.get('serie')?.value
     }
 
     this.paramNav.setParametro<Programacion>(programacion);
     this.paramNav.setAccion<string>('POST');
-    switch(this.modulo){
+    switch (this.modulo) {
       case 'INP':
         this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones/' + this.form?.value?.listaInspeccionPK?.id + "/" + this.form?.value?.listaInspeccionPK?.version);
         break;
       case 'INPCC':
         this.paramNav.redirect('/app/ctr/elaboracionAuditoriaCicloCorto/' + this.form?.value?.listaInspeccionPK?.id + "/" + this.form?.value?.listaInspeccionPK?.version);
         break;
-      default: 
+      case 'ISV':
+        this.paramNav.redirect('/app/signos/elaboracionInspeccionesSv/' + this.form?.value?.listaInspeccionPK?.id + "/" + this.form?.value?.listaInspeccionPK?.version)
+        break;
+      default:
 
     }
   }
@@ -458,7 +665,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       });
   }
 
-  hideDialog(){
+  hideDialog() {
     this.form?.reset();
     this.listasInspeccionList = this.listasInspeccionList.filter(lista => !lista.disabled);
     this.visible = false;
@@ -474,25 +681,25 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     this.valueChange.emit(null);
     this.visibleChange.emit(false);
   }
-  
+
   getUnidadFrecuencia(): string | null {
     return this.form?.get('unidadFrecuencia')?.value;
   }
 
-  procesarRespuesta(esSatisfactoria: boolean, accion: string, error?: any){
+  procesarRespuesta(esSatisfactoria: boolean, accion: string, error?: any) {
     if (esSatisfactoria) {
-      this.messageService.add({severity: 'success', summary: 'Guardado'});
+      this.messageService.add({ severity: 'success', summary: 'Guardado' });
       this.form?.reset();
       this.onChange.emit(true);
       this.hideDialog();
     } else {
       console.log(error);
-      this.messageService.add({severity: 'error', summary: 'Error', detail: `No se pudo ${accion} el evento`});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: `No se pudo ${accion} el evento` });
     }
   }
 
   onChangeUnidadDeFrecuencia(event: DropdownChangeEvent) {
-    if(event.value === 'mes') {
+    if (event.value === 'mes') {
       this.radioBSelected = 'dia';
       let date = new Date(this.form?.get('fechaInicio')?.value);
       // console.log( date, this.form?.get('fechaInicio')?.value, date.getDate());

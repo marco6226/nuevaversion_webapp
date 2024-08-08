@@ -232,7 +232,11 @@ import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/
 import { ElaboracionListaSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-lista-signos-vitales/elaboracion-lista-signos-vitales.component';
 import { ProgramacionSignosVitalesComponent } from './pages/inspecciones/components/programacion-signos-vitales/programacion-signos-vitales.component';
 import { ConsultaInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/consulta-inspecciones-signos-vitales/consulta-inspecciones-signos-vitales.component';
+<<<<<<< .mine
 import { ListTableComponent } from './components/list-table/list-table.component';
+=======
+import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-inspecciones-signos-vitales/elaboracion-inspecciones-signos-vitales.component';
+>>>>>>> .theirs
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -423,8 +427,13 @@ import { ListTableComponent } from './components/list-table/list-table.component
     ElaboracionListaSignosVitalesComponent,
     ProgramacionSignosVitalesComponent,
     ConsultaInspeccionesSignosVitalesComponent,
+<<<<<<< .mine
     DatosTrabajadorInvolucradoComponent,
     ListTableComponent,
+=======
+    DatosTrabajadorInvolucradoComponent,
+    ElaboracionInspeccionesSignosVitalesComponent
+>>>>>>> .theirs
   ],
   imports: [
     GridModule,

@@ -3,7 +3,7 @@ import {
     Input, KeyValueDiffers, OnInit, Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService, SelectItem } from 'primeng/api';
+import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { locale_es } from '../../../comun/entities/reporte-enumeraciones';
 import { CasosMedicosService } from '../../../core/services/casos-medicos.service';
 import { ConfirmService } from '../../../core/services/confirm.service';
@@ -73,6 +73,8 @@ export class PclComponent implements OnInit {
         private sesionService: SesionService,
         private messageService: MessageService,
         private config: PrimeNGConfig,
+        private confirmationService: ConfirmationService,
+
 
     ) {
         this.differ = differs.find({}).create();
@@ -107,6 +109,7 @@ export class PclComponent implements OnInit {
         const origen = this.pclForm.get('origen')?.value;
         return status !== '2' || origen !== 'Enfermedad Laboral';
       }
+   
       
     calculateTimeDifference(fechaInicio: number, fechaFin: Date): string {
         const startDate = new Date(fechaInicio);
@@ -415,6 +418,32 @@ export class PclComponent implements OnInit {
             console.log(this.pclSelect)
         }
     }
+    cambiarEstado(iddt: number): void {
+        const saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
+        const idSl = saludL.idSl;
+        this.confirmationService.confirm({
+        message: '¿Estás seguro de que quieres enviar el caso ' + idSl+' a investigación ?',
+        header: 'Confirmar',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.scmService.changeEstadoSL(idSl).then(
+                response => {
+                  this.messageService.add({
+                    key: 'pcl',
+                    severity: "success",
+                    summary: "Documento aprobado",
+                    detail: `El caso ha sido enviado a investigación`,
+                  });
+                },
+                error => {
+                  console.error('Error al enviar datos:', error);
+                }
+              );
+
+        }
+        })
+        
+      }
 
     async nuevoTratamiento() {
         this.editing = false;
