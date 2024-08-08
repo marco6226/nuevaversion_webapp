@@ -145,15 +145,19 @@
 
 
 
-
-            <div class="col-12">
-                <app-formulario-constructor #formularioConstructor></app-formulario-constructor>
+            <div class="grid mb-2 mt-2">
+                <div class="col">
+                    <app-formulario-constructor #formularioConstructor></app-formulario-constructor>
+                </div>
             </div>
 
-            <div class="col-12">
-                <app-lista-inspeccion-form [value]="elementoInspeccionList" [editable]="!consultar"
-                    [tipoLista]="form.value.tipoLista"></app-lista-inspeccion-form>
+            <div class="grid">
+                <div class="col">
+                    <app-lista-inspeccion-form [value]="elementoInspeccionList" [editable]="!consultar"
+                        [tipoLista]="form.value.tipoLista"></app-lista-inspeccion-form>
+                </div>
             </div>
+            
         </p-panel>
     </div>
     <div *ngIf="adicionar">
