@@ -1,0 +1,30 @@
+<h1>Desde el componente de tabla</h1>
+<p-table 
+#dt
+[value]="listTable"  
+[paginator]="true" 
+[rows]="10" 
+scrollable="true"
+[tableStyle]="{ 'min-width': '50rem' }"
+[rowsPerPageOptions]="[10,20,50,100]"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let column of columns">{{column}}</th>
+        </tr>
+        
+    </ng-template>
+    <ng-template pTemplate="body" let-valueList>
+        <tr>
+            <td *ngFor="let column of columns">
+                <ng-container *ngIf="column === 'Logo'|| column === 'logo'; else notImg">
+                    <i *ngIf="!valueList.logo" class="pi pi-box" aria-hidden="true" style="font-size: 100px;"></i>
+                    <img *ngIf="valueList.logo" [src]="valueList.logo" class="img-logo" />
+                </ng-container>
+                <ng-template #notImg>
+                    {{getValue(valueList, column)}}
+                </ng-template>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
