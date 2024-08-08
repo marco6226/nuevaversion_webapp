@@ -232,6 +232,7 @@ import { ListaInspeccionSignosComponent } from './pages/inspecciones/components/
 import { ElaboracionListaSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-lista-signos-vitales/elaboracion-lista-signos-vitales.component';
 import { ProgramacionSignosVitalesComponent } from './pages/inspecciones/components/programacion-signos-vitales/programacion-signos-vitales.component';
 import { ConsultaInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/consulta-inspecciones-signos-vitales/consulta-inspecciones-signos-vitales.component';
+import { ListTableComponent } from './components/list-table/list-table.component';
 import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-inspecciones-signos-vitales/elaboracion-inspecciones-signos-vitales.component';
 @NgModule({
   declarations: [
@@ -423,6 +424,8 @@ import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspeccio
     ElaboracionListaSignosVitalesComponent,
     ProgramacionSignosVitalesComponent,
     ConsultaInspeccionesSignosVitalesComponent,
+    DatosTrabajadorInvolucradoComponent,
+    ListTableComponent,
     DatosTrabajadorInvolucradoComponent,
     ElaboracionInspeccionesSignosVitalesComponent
   ],

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { PerfilService } from './../../services/perfil.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Criteria } from '../../../core/entities/filter';
@@ -8,6 +8,7 @@ import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { SesionService } from '../../../core/services/session.service';
 import { Perfil } from '../../../empresa/entities/perfil';
 import { FilterQuery } from '../../../core/entities/filter-query';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-usuario',
@@ -15,7 +16,9 @@ import { FilterQuery } from '../../../core/entities/filter-query';
   styleUrls: ['./usuario.component.scss'],
   providers: [UsuarioService, PerfilService],
 })
-export class UsuarioComponent implements OnInit {
+export class UsuarioComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('dt', { static: false }) table!: Table;
 
   empresaId!: string;
   usuarioList!: Usuario[];
@@ -26,6 +29,9 @@ export class UsuarioComponent implements OnInit {
   // msgs: Message[] = [];
   isUpdate!: boolean;
   form: FormGroup;
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
 
   solicitando: boolean = false;
   loading!: boolean;
@@ -89,6 +95,42 @@ export class UsuarioComponent implements OnInit {
       });
     this.loading = true;
     this.testing = true; 
+  }
+
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`; 
+    }
   }
 
   lazyLoad(event: any) {
@@ -273,6 +315,30 @@ onClick(){
       .catch((err:any) => {
         this.downloading = false;
       });
+  }
+
+  scrollLeft() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft -= 10000;
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
+  
+  scrollRight() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft += 10000;
+      this.isScrollRigth = false;
+      this.isScrollLeft = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
   }
 
 }

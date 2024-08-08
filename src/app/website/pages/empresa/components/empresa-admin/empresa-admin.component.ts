@@ -41,6 +41,7 @@ export class EmpresaAdminComponent implements OnInit,AfterViewInit  {
     tableScroll!:any;
     isScrollRigth: boolean = true;
     isScrollLeft: boolean = false;
+    loadData: boolean = false;
 
     loading?: boolean;
     testing!: boolean;
@@ -61,6 +62,20 @@ export class EmpresaAdminComponent implements OnInit,AfterViewInit  {
         'ciiu_codigo',
         'ciiu_nombre',
         'ciiu_id',
+    ];
+    fieldsFrontListTable: string[] = [
+      "Logo",
+      "Razon Social",
+      "Nombre Comercial",
+      "Nit",
+      "Dirección",
+      "Teléfono",
+      "Número de Sedes",
+      "Email",
+      "Pagina Web",
+      "ARL",
+      "Código CIIU",
+      "Nombre IIU"
     ];
 
   constructor(
@@ -144,8 +159,6 @@ export class EmpresaAdminComponent implements OnInit,AfterViewInit  {
     }
   }
 
-  
-
   lazyLoad(event: any) {
     this.loading = true;
     let filterQuery = new FilterQuery();
@@ -165,6 +178,9 @@ export class EmpresaAdminComponent implements OnInit,AfterViewInit  {
             this.testing = false;
             this.empresasList = [];
             (<any[]>resp['data']).forEach(dto => this.empresasList?.push(FilterQuery.dtoToObject(dto)));
+            if(this.empresasList){
+              this.loadData = true;
+            }
         }
     );
   }

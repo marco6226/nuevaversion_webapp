@@ -607,7 +607,6 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   }
 
   irInspeccion() {
-
     let programacion: Programacion = {
       id: this.form?.get('id')?.value,
       area: this.form?.get('area')?.value,
@@ -620,10 +619,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       localidad: this.form?.get('localidad')?.value,
       numeroInspecciones: this.form?.get('numeroInspecciones')?.value,
       numeroRealizadas: this.form?.get('numeroRealizadas')?.value,
-      localidadSv: this.form?.get('localidadSv')?.value,
-      areaSv: this.form?.get('areaSv')?.value.id,
-      procesoSv: this.form?.get('procesoSv')?.value.id,
-      // serie: this.form?.get('serie')?.value
+      localidadSv: this.modulo === 'ISV' ? this.form?.get('localidadSv')?.value : 0, // Valor predeterminado
+      areaSv: this.modulo === 'ISV' ? this.form?.get('areaSv')?.value.id : 0, // Valor predeterminado
+      procesoSv: this.modulo === 'ISV' ? this.form?.get('procesoSv')?.value.id : 0 // Valor predeterminado
     }
 
     this.paramNav.setParametro<Programacion>(programacion);
@@ -639,9 +637,11 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         this.paramNav.redirect('/app/signos/elaboracionInspeccionesSv/' + this.form?.value?.listaInspeccionPK?.id + "/" + this.form?.value?.listaInspeccionPK?.version)
         break;
       default:
-
+        // Manejo de otros casos si es necesario
     }
-  }
+}
+
+
 
   eliminarProgramacion() {
     this.loading = true;
