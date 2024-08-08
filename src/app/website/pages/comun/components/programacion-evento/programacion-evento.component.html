@@ -95,7 +95,7 @@
         <input pInputText id="numeroInspecciones" formControlName="numeroInspecciones" required />
       </div>
       <div class="col-12 md:col-4 lg:col-4">
-        <label for="listaInsp">Lista de inspección uwu</label>
+        <label for="listaInsp">Lista de inspección Signos Vitales</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
         <p-dropdown id="listaInsp" [options]="listasInspeccionList" [filter]="true" formControlName="listaInspeccionPK"
@@ -105,6 +105,54 @@
       <div class="col-12 md:col-8 lg:col-8" *ngIf="esListaInactiva">
         <label style="color: red;">*Se recomienda usar la versión mas reciente de esta lista de inspeccion.</label>
       </div>
+      
+      <div class="col-12 md:col-4 lg:col-4">
+          <label for="" class="active">Número de identificación</label>
+          <p-autoComplete
+            styleClass="form-control-autocomplete"
+            #autocomplete
+            placeholder="Digite"
+            [style]="{ width: '100%' }"
+            (onSelect)="onSelection($event)"
+            [suggestions]="empleadosList"
+            (completeMethod)="buscarEmpleado($event)"
+            formControlName="numeroIdentificacion"
+            *ngIf="empleado?.id == null"
+            required
+          >
+            <ng-template let-empleado pTemplate="item">
+              <div class="ui-helper-clearfix">
+                <div class="wrapper">
+                  <i
+                    *ngIf="!empleado.usuario?.icon"
+                    class="fa fa-user-circle"
+                    style="font-size: 48px"
+                    aria-hidden="true"
+                  ></i>
+                  <img
+                    *ngIf="empleado.usuario?.icon"
+                    [src]="empleado.usuario?.icon"
+                    style="border-radius: 50%"
+                    #imgAvatar
+                    alt=""
+                  />
+                  <div style="margin-left: 20px">
+                    <br />
+                    {{ empleado?.primerApellido }}
+                    {{ empleado?.primerNombre }}
+                    {{ empleado?.segundoNombre }}
+                    <br />
+                    {{ empleado?.numeroIdentificacion }} <br />
+                    {{ empleado?.usuario.email }}
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+      </div>
+          
+        
+      
       <div class="col-12 md:col-4 lg:col-4">
         <label for="areaResponsable">Ubicación responsable</label>
       </div>
