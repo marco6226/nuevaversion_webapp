@@ -14,6 +14,10 @@ import { ListaInspeccion } from '../../entities/lista-inspeccion';
 import { ListaInspeccionPK } from '../../entities/lista-inspeccion-pk';
 import { OpcionCalificacion } from '../../entities/opcion-calificacion';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
+import { AreaService } from '../../../empresa/services/area.service';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 
 @Component({
   selector: 'app-elaboracion-lista-signos-vitales',
@@ -35,6 +39,7 @@ export class ElaboracionListaSignosVitalesComponent implements OnInit {
   canvas: any;
   imagenesList!: any[];
   numMaxImg = 2;
+  listDivision: any = []
 
   cambiarImagenAnterior: boolean = true;
 
@@ -52,7 +57,11 @@ export class ElaboracionListaSignosVitalesComponent implements OnInit {
     private perfilService: PerfilService,
     private directorioService: DirectorioService,
     private messageService: MessageService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private areaService: AreaService,
+    private empresaService: EmpresaService,
+    private areaMatrizService: AreaMatrizService,
+    private procesoMatrizService: ProcesoMatrizService,
   ) { 
     this.canvas = document.createElement('canvas');
     this.canvas.width = 256;
@@ -71,6 +80,10 @@ export class ElaboracionListaSignosVitalesComponent implements OnInit {
         codigo: [null, Validators.required],
         nombre: [null, Validators.required],
         tipoLista: [null, Validators.required],
+        divisionSv: [null, Validators.required],
+        localidadSv: [null, Validators.required],
+        areaSv: [null, Validators.required],
+        procesoSv: [null, Validators.required],
         descripcion: [null],
         perfilesId: [null, Validators.required],
         estado: [null],
@@ -90,6 +103,7 @@ export class ElaboracionListaSignosVitalesComponent implements OnInit {
             break;
     }
     this.paramNav.reset();
+    this.getArea()
   }
 
   buildPerfilesIdList(ids: Array<any>) {
@@ -118,6 +132,13 @@ consultarLista(listaInsp: ListaInspeccion) {
         this.opcionesCalifList = listaInsp.opcionCalificacionList;
         this.elementoInspeccionList = listaInsp.elementoInspeccionList;
         this.formularioConstructor.formulario = listaInsp.formulario;
+        this.form?.get('divisionSv')?.setValue(listaInsp.divisionSv ? listaInsp.divisionSv : null);
+        this.form?.get('localidadSv')?.setValue(listaInsp.localidadSv);
+        this.form?.get('areaSv')?.setValue(listaInsp.areaSv);
+        this.form?.get('procesoSv')?.setValue(listaInsp.procesoSv);
+        this.cargarPlantaLocalidad(this.form?.controls['divisionSv'].value, 'Origen');         
+        this.cargarArea(this.form?.controls['localidadSv'].value, 'Origen');
+        this.cargarProceso(this.form?.controls['areaSv'].value, 'Origen')
         this.form.patchValue({ perfilesId: JSON.parse(listaInsp.fkPerfilId) });
     });
     this.form.patchValue({
@@ -126,6 +147,10 @@ consultarLista(listaInsp: ListaInspeccion) {
         nombre: listaInsp.nombre,
         version: listaInsp.listaInspeccionPK.version,
         tipoLista: listaInsp.tipoLista,
+        divisionSv: listaInsp.divisionSv,
+        localidadSv: listaInsp.localidadSv,
+        areaSv: listaInsp.areaSv,
+        procesoSv: listaInsp.procesoSv,
         descripcion: listaInsp.descripcion,
     });
     if (this.consultar) {
@@ -153,6 +178,98 @@ removeOpcionCalificacion(opc: OpcionCalificacion) {
     }
 }
 
+async getArea() {
+    let filterAreaQuery = new FilterQuery();
+    filterAreaQuery.sortField = "id";
+    filterAreaQuery.sortOrder = -1;
+    filterAreaQuery.fieldList = ["id", "nombre"];
+    filterAreaQuery.filterList = [
+      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+      { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
+    ];
+
+    await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
+      resp.data.forEach((resp2: any) => {
+        this.listDivision.push({ label: resp2.nombre, value: resp2.id })
+      });
+    })
+
+  }
+
+  localidadesList: any[] = [];
+  localidadesListActual: any = [];
+
+  async cargarPlantaLocalidad(eve: any, tipo: string) {
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id", "localidad"];
+    filterPlantaQuery.filterList = [
+      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
+    ];
+  
+    try {
+      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
+      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+      if (tipo === 'Origen') {
+        this.localidadesList = localidadesList;
+      } else {
+        this.localidadesListActual = localidadesList;
+      }
+    } catch (error) {
+      console.error("Error al cargar las localidades:", error);
+    }
+  }
+
+  areaList: any[] = []
+  areaListActual: any[] = []
+
+  async cargarArea(eve: any, tipo: string) {
+    let filterArea = new FilterQuery();
+    filterArea.sortField = "id";
+    filterArea.sortOrder = -1;
+    filterArea.fieldList = [
+      'id',
+      'nombre'
+    ];
+    filterArea.filterList = [
+      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve.toString() },
+      { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+    ];
+
+    const resp: any = await this.areaMatrizService.findByFilter(filterArea);
+    const areaList = resp.data.map((element: any) => ({ label: element.nombre, value: element.id }));
+    if (tipo === 'Origen') {
+      this.areaList = [...areaList];
+    } else {
+      this.areaListActual = [...areaList];
+    }
+  }
+
+  procesoList: any[] = []
+  procesoListActual: any[] = []
+  async cargarProceso(eve: any, tipo: string) {
+    try {
+      let filterProceso = new FilterQuery();
+      filterProceso.sortField = "id";
+      filterProceso.sortOrder = -1;
+      filterProceso.fieldList = ['id', 'nombre'];
+      filterProceso.filterList = [
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve },
+        { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+      ];
+  
+      const resp: any = await this.procesoMatrizService.findByFilter(filterProceso);
+      const procesoList = resp.data.map((element: any) => ({ label: element.nombre, value: element.id }))
+      if (tipo === 'Origen') {
+        this.procesoList = [...procesoList];
+      } else {
+        this.procesoListActual = [...procesoList];
+      }
+    } catch (error) {
+      console.error("Error en cargarProceso:", error);
+    }
+  }
 async guardar() {
     if (this.opcionesCalifList.length < 2) {
         this.messageService.add({ key: 'elaboracionLista', severity: 'warn', summary: 'Cuidado', detail: 'Necesitas minimo dos opciones de respuesta'});
@@ -185,6 +302,10 @@ async guardar() {
     listInp.fkPerfilId = JSON.stringify(this.form.value.perfilesId);
     listInp.descripcion = this.form.value.descripcion;
     listInp.tipoLista = this.form.value.tipoLista;
+    listInp.divisionSv = this.form?.get('divisionSv')?.value;
+    listInp.localidadSv = this.form.value.localidadSv;
+    listInp.areaSv = this.form?.get('areaSv')?.value;
+    listInp.procesoSv = this.form?.get('procesoSv')?.value;
     listInp.opcionCalificacionList = this.opcionesCalifList;
     listInp.estado = 'activo';
     listInp.elementoInspeccionList = this.elementoInspeccionList;
@@ -224,9 +345,12 @@ actualizar(actualizarVersion: boolean) {
     listInp.nombre = this.form.value.nombre;
     listInp.codigo = this.form.value.codigo;
     listInp.fkPerfilId = JSON.stringify(this.form.value.perfilesId);
-
     listInp.descripcion = this.form.value.descripcion;
     listInp.tipoLista = this.form.value.tipoLista;
+    listInp.divisionSv = this.form.value.divisionSv;
+    listInp.localidadSv = this.form.value.localidadSv;
+    listInp.areaSv = this.form.value.areaSv;
+    listInp.procesoSv = this.form.value.procesoSv;
     listInp.opcionCalificacionList = this.opcionesCalifList;
     listInp.elementoInspeccionList = this.elementoInspeccionList;
     listInp.formulario = this.formularioConstructor.formulario;

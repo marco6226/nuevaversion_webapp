@@ -23,7 +23,7 @@ import { Calendar } from 'primeng/calendar';
 export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   @ViewChild("dt") dataTableComponent: Table | null = null;
   @ViewChild("calendarExcel") calendarExcel: Calendar | null = null;
-  loading: boolean = true;
+  loading: boolean = false;
   testing :boolean = false;
   yearRange?:any;
   tareasList: any[] = [];
@@ -59,7 +59,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
-
+    this.testing = true;
     this.esAliado = this.sesionService.getEmpresa()?.idEmpresaAliada ? true : false;
     this.idEmpresa = this.esAliado ? new String(this.sesionService.getEmpresa()?.idEmpresaAliada).toString() : new String(this.sesionService.getEmpresa()?.id).toString();
 
@@ -78,8 +78,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     });
 
     this.loading = true;
-    this.testing = true;
-
+  
     await this.getTareas();
 
     // FilterUtils['dateFilter'] = (value, filter):boolean => {
@@ -110,8 +109,6 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
       return (value1 <= new Date(value) && value2 >= new Date(value)) ? value : false;
     });
 
-    this.loading = true;
-    this.testing =true;
     if(this.esAliado) {
       this.opcionesModulos = [
         {label: 'Inspecciones CC', value: 'Inspecciones CC'}
@@ -121,8 +118,8 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     } else {
       this.dataTableComponent?.filter(this.moduloSelected, 'module', 'equals');
     }
-    this.loading = false;
-    this.testing = false;
+    
+
   }
 
   ngAfterViewInit(): void {
@@ -182,11 +179,11 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
                 tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
                 return tarea;
             }));
-            this.loading = false;       
         }
-
-    );
+    ); this.loading = false; 
+    this.testing = false;  
   }
+  
   async verifyStatus(tarea:any) {
 
     let trackings = tarea.trackings;

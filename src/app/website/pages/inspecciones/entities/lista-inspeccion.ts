@@ -20,4 +20,8 @@ export interface ListaInspeccion {
   fkdocumento: number;
   version: number;
   numeroPreguntas: number;
+  divisionSv: any | null;
+  localidadSv: any | null;
+  areaSv: any | null;
+  procesoSv: any | null;
 }
