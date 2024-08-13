@@ -9,10 +9,10 @@
     </s-dataNotFound>
 </ng-container>
    
-<div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
-<div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+<div class="shadow">
+    <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
+    <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
 </div>
-
 <p-panel header="Listado de tareas" styleClass="material-panel" [style.display]="(tareasList && tareasList.length > 0) || loading ? 'block':'none'">
     <!-- Mover aquí el permiso -->
     <button pButton type="button" (click)="abrirDialogo()" title="Exportar a archivo Excel" icon="bi bi-file-earmark-excel" class="p-button-success"></button>
