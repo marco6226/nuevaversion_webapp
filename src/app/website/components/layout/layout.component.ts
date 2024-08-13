@@ -1,4 +1,4 @@
-import { Component, ContentChild, OnInit, ViewChild,Input } from '@angular/core';
+import { Component, ContentChild, OnInit, ViewChild,Input, ElementRef, AfterViewInit } from '@angular/core';
 //import { Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 import { PermisoService } from '../../pages/admin/services/permiso.service';
@@ -14,17 +14,19 @@ import { Usuario } from '../../pages/empresa/entities/usuario';
 import { EmpleadoService } from '../../pages/empresa/services/empleado.service';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
 import { LayoutMenuComponent } from '../layout-menu/layout-menu.component';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { CambioPasswdService } from '../../pages/comun/services/cambio-passwd.service';
+import { HideAndShowMenuService } from '../shared-services/hide-and-show-menu.service';
 
 @Component({
 	selector: 'app-layout',
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, AfterViewInit {
 
 	@ViewChild(LayoutMenuComponent) layoutMenuComp!: LayoutMenuComponent;
+	@ViewChild(RouterOutlet,{static:false}) outlet: RouterOutlet | undefined;
 	statusMenu: boolean=false;
     
 	
@@ -39,6 +41,8 @@ export class LayoutComponent implements OnInit {
 	menu:string="closed-menu";
 	contenedor:string="closed-contenedor";
 
+	menuToggle:boolean = false;
+
 	constructor(
 		private helperService: HelperService,
 		private empresaService: EmpresaService,
@@ -48,10 +52,12 @@ export class LayoutComponent implements OnInit {
 		private empleadoService: EmpleadoService,
 		private router: Router,
 		private authService: AuthService,
-		private changePasswordService: CambioPasswdService
+		private changePasswordService: CambioPasswdService,
+		private _hideAndShowMenuService:HideAndShowMenuService
 	) { }
 
 	public async ngOnInit(): Promise<void> {
+
 
 		this.changePasswordService.getObservable().subscribe(value => {
 			if(!value){
@@ -77,6 +83,19 @@ export class LayoutComponent implements OnInit {
 		);
 
 	}
+
+	ngAfterViewInit(): void {
+		//this.componentWithTable(this.outlet);
+	}
+
+	hideHorizontalMenu(component:any){
+		if(component){
+			this._hideAndShowMenuService.hideMenu();
+			this._hideAndShowMenuService.setMenuToggle(!this._hideAndShowMenuService.getMenuToggle());
+		}
+	}
+
+
 
 	async loadItems(empresas: Empresa[]) {
 		this.empresasItems=[]

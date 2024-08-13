@@ -1,7 +1,16 @@
 <p-panel header="Reportes A/I" >
+  <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+    <span>
+        Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+    </span>
+  </div>
+  <div class="floating-buttons-scroll">
+    <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()"><span class="pi pi-angle-left"></span></button>
+    <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()"><span class="pi pi-angle-right"></span></button>
+  </div>
   <p-table #dt sortField={{sortedTable}} sortOrder="1" [value]="reportesList" autoLayout="true" selectionMode="single" [(selection)]="reporteSelect"
     [rows]="10" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords"
-    [loading]="loading">
+    [loading]="loading" [rowsPerPageOptions]="[10, 20, 50, 100]" scrollable="true">
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="fechaAccidente">Fecha accidente
@@ -76,6 +85,11 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
+      <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+        <span>
+            Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+        </span>
+    </div>
       <button *sTienePermiso="'RAI_GET_REPT'" pButton type="button" icon="pi pi-plus" label="Consultar" (click)="consultarDetalle()"
         [disabled]="!reporteSelect" style="margin-right: 15px;"></button>
       <button *sTienePermiso="'RAI_PUT_REPT'" pButton type="button" icon="fa fa-pencil" label="Modificar" class="ui-button-success"

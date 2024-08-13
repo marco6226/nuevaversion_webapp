@@ -40,6 +40,19 @@ export class AreaService extends CRUDService<Area>{
     });
   }
 
+  findById(id:String){
+    return new Promise(resolve => {
+      this.httpInt.get(endPoints.AreaService + "areaById/" + id)
+        .subscribe(
+        res => {
+          resolve(res);
+        }
+        ,
+        err => err
+        )
+    });
+  }
+
   getAreaRWithFilter(filterQuery?: FilterQuery){
     return new Promise((resolve, reject) => {
       this.httpInt.get(this.end_point + 'filterArea/?' + this.buildUrlParams(filterQuery!))

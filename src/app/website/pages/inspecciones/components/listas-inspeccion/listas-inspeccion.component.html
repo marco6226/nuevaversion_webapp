@@ -1,142 +1,248 @@
-<s-dataNotFound *ngIf="!listaInspeccionList || listaInspeccionList.length <= 0" icon="fa-list-ol" message="Aún no se han elaborado listas de inspección">
-    <div *sTienePermiso="'INP_POST_LISTINP'">
-        Comienza la elaboración de una nueva lista
-        <a (click)="navegar()">aqui</a>
-    </div>
+<s-dataNotFound
+  *ngIf="!listaInspeccionList || listaInspeccionList.length <= 0"
+  icon="fa-list-ol"
+  message="Aún no se han elaborado listas de inspección"
+>
+  <div *sTienePermiso="'INP_POST_LISTINP'">
+    Comienza la elaboración de una nueva lista
+    <a (click)="navegar()">aqui</a>
+  </div>
 </s-dataNotFound>
 
 <div class="shadow">
-    <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
-    <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+  <div
+    *ngIf="testing"
+    style="width: 100%; display: flex; flex-direction: column-reverse"
+  >
+    <div class="image">
+      <img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" />
     </div>
-    <p-panel header="Listas de inspección">
-        <p-table #dt [value]="listaInspeccionList" autoLayout="true" selectionMode="single" [(selection)]="listaInpSelect" [rows]="10" [paginator]="true" dataKey="hash" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
-           
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="codigo">Código
-                        <p-sortIcon field="codigo"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="listaInspeccionPK.version">Versión
-                        <p-sortIcon field="listaInspeccionPK.version"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="nombre">Nombre
-                        <p-sortIcon field="nombre"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="tipoLista">Tipo de lista
-                        <p-sortIcon field="tipoLista"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="descripcion">Descripción
-                        <p-sortIcon field="descripcion"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="estado">Estado
-                        <p-sortIcon field="estado"></p-sortIcon>
-                    </th>
-                </tr>
-                <tr>
-                    <td class="text-center bg-light">
-                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'codigo', 'contains')">
-                    </td>
-                    <td class="text-center bg-light">
-                        <input pInputText type="number" (input)="dt.filter($event.target.value, 'listaInspeccionPK.version', 'equals')">
-                    </td>
-                    <td class="text-center bg-light">
-                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'nombre', 'contains')">
-                    </td>
-                    <td class="text-center bg-light">
-                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipoLista', 'contains')">
-                    </td>
-                    <td class="text-center bg-light">
-                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'descripcion', 'contains')">
-                    </td>
-                    <td class="text-center bg-light">
-                        <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-listInp>
-                <tr [pSelectableRow]="listInp">
-                    <td>{{listInp.codigo}}</td>
-                    <td>{{listInp.listaInspeccionPK.version}}</td>
-                    <td>{{listInp.nombre}}</td>
-                    <td>{{listInp.tipoLista}}</td>
-                    <td>{{listInp.descripcion}}</td>
-                    <td>{{listInp.estado}}</td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="summary" let-rowData>
-            
-                <div class="d-flex justify-content-center">
-                    <div class="btn-group" role="group">
-                        
-                        <button *sTienePermiso="'INP_PUT_LISTINP'" 
-                            class="p-button-raised p-button-success margin-right margin-left" 
-                            pButton type="button" 
-                            icon="bi bi-pencil" 
-                            label="Modificar"
-                            (click)="modificar()" 
-                            [disabled]="listaInpSelect?.estado == 'inactivo'"></button>
+  </div>
+  <p-panel header="Listas de inspección">
+    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+      <span>
+        Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+        {{ totalRecords || 0 }} registros
+      </span>
+    </div>
+    <p-table
+      #dt
+      [value]="listaInspeccionList"
+      autoLayout="true"
+      selectionMode="single"
+      [(selection)]="listaInpSelect"
+      [rows]="10"
+      [paginator]="true"
+      dataKey="hash"
+      [lazy]="true"
+      (onLazyLoad)="lazyLoad($event)"
+      [totalRecords]="totalRecords"
+      [loading]="loading"
+      [rowsPerPageOptions]="[10, 20, 50, 100]" 
+      scrollable="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="codigo">
+            Código
+            <p-sortIcon field="codigo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="listaInspeccionPK.version">
+            Versión
+            <p-sortIcon field="listaInspeccionPK.version"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre">
+            Nombre
+            <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="tipoLista">
+            Tipo de lista
+            <p-sortIcon field="tipoLista"></p-sortIcon>
+          </th>
+          <th pSortableColumn="descripcion">
+            Descripción
+            <p-sortIcon field="descripcion"></p-sortIcon>
+          </th>
+          <th pSortableColumn="estado">
+            Estado
+            <p-sortIcon field="estado"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'codigo', 'contains')"
+            />
+          </td>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="number"
+              (input)="
+                dt.filter(
+                  $event.target.value,
+                  'listaInspeccionPK.version',
+                  'equals'
+                )
+              "
+            />
+          </td>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'nombre', 'contains')"
+            />
+          </td>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'tipoLista', 'contains')"
+            />
+          </td>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter($event.target.value, 'descripcion', 'contains')
+              "
+            />
+          </td>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'estado', 'contains')"
+            />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-listInp>
+        <tr [pSelectableRow]="listInp">
+          <td>{{ listInp.codigo }}</td>
+          <td>{{ listInp.listaInspeccionPK.version }}</td>
+          <td>{{ listInp.nombre }}</td>
+          <td>{{ listInp.tipoLista }}</td>
+          <td>{{ listInp.descripcion }}</td>
+          <td>{{ listInp.estado }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" let-rowData>
+        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+          <span>
+            Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+            {{ totalRecords || 0 }} registros
+          </span>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="btn-group" role="group">
+            <button
+              *sTienePermiso="'INP_PUT_LISTINP'"
+              class="p-button-raised p-button-success margin-right margin-left"
+              pButton
+              type="button"
+              icon="bi bi-pencil"
+              label="Modificar"
+              (click)="modificar()"
+              [disabled]="listaInpSelect?.estado == 'inactivo'"
+            ></button>
 
-                        <button *sTienePermiso="'INP_DELETE_LISTINP'"
-                            pButton type="button" 
-                            icon="bi bi-trash" 
-                            label="Eliminar" 
-                            class="p-button-raised p-button-danger margin-right margin-left"
-                            (click)="eliminar()" 
-                            [disabled]="!listaInpSelect"></button>
-                        
-                        <button *sTienePermiso="'INP_GET_LISTINP'" 
-                            class="p-button-raised p-button-warning margin-right" 
-                            pButton type="button" 
-                            icon="bi bi-search" 
-                            style="color: var(--white)"
-                            label="Consultar" (click)="consultar()"></button> 
+            <button
+              *sTienePermiso="'INP_DELETE_LISTINP'"
+              pButton
+              type="button"
+              icon="bi bi-trash"
+              label="Eliminar"
+              class="p-button-raised p-button-danger margin-right margin-left"
+              (click)="eliminar()"
+              [disabled]="!listaInpSelect"
+            ></button>
 
-                        <button *sTienePermiso="'INP_GET_CONSINP'" 
-                            pButton type="button" 
-                            icon="bi bi-download" 
-                            label="Inspecciones" 
-                            title="Descarga consolidado de inspecciones de la lista seleccionada" 
-                            (click)="abrirDlg()" 
-                            [disabled]="!listaInpSelect"
-                            class="p-button-raised p-button-secondary margin-left"></button>
-                    </div>
-                </div>
-            </ng-template>
-        </p-table>
-    </p-panel>
+            <button
+              *sTienePermiso="'INP_GET_LISTINP'"
+              class="p-button-raised p-button-warning margin-right"
+              pButton
+              type="button"
+              icon="bi bi-search"
+              style="color: var(--white)"
+              label="Consultar"
+              (click)="consultar()"
+            ></button>
+
+            <button
+              *sTienePermiso="'INP_GET_CONSINP'"
+              pButton
+              type="button"
+              icon="bi bi-download"
+              label="Inspecciones"
+              title="Descarga consolidado de inspecciones de la lista seleccionada"
+              (click)="abrirDlg()"
+              [disabled]="!listaInpSelect"
+              class="p-button-raised p-button-secondary margin-left"
+            ></button>
+          </div>
+        </div>
+      </ng-template>
+    </p-table>
+  </p-panel>
 </div>
 
-<p-dialog [(visible)]="visibleDlg" modal="true" header="Descarga de inspecciones">
-    <div class="row">
-        <div class="col">
-            <div>
-                <label >Desde</label>
-                <p-calendar dateFormat="dd/mm/yy" [ngModel]="desde" (ngModelChange)="desde=$event" appendTo="body"></p-calendar>                
-            </div>
-        </div>
-        <div class="col">
-            <div>
-                <label >Hasta</label>
-                <p-calendar dateFormat="dd/mm/yy" [ngModel]="hasta" (ngModelChange)="hasta=$event" appendTo="body"></p-calendar>
-            </div>            
-        </div>
+<p-dialog
+  [(visible)]="visibleDlg"
+  modal="true"
+  header="Descarga de inspecciones"
+>
+  <div class="row">
+    <div class="col">
+      <div>
+        <label>Desde</label>
+        <p-calendar
+          dateFormat="dd/mm/yy"
+          [ngModel]="desde"
+          (ngModelChange)="desde = $event"
+          appendTo="body"
+        ></p-calendar>
+      </div>
     </div>
-    <div *ngIf="downloading == true">
-        <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
-        <label style="position: relative;top: -7px;left:7px;">Descargando...</label>
+    <div class="col">
+      <div>
+        <label>Hasta</label>
+        <p-calendar
+          dateFormat="dd/mm/yy"
+          [ngModel]="hasta"
+          (ngModelChange)="hasta = $event"
+          appendTo="body"
+        ></p-calendar>
+      </div>
     </div>
+  </div>
+  <div *ngIf="downloading == true">
+    <p-progressSpinner
+      strokeWidth="8"
+      [style]="{ width: '25px', height: '25px' }"
+    ></p-progressSpinner>
+    <label style="position: relative; top: -7px; left: 7px"
+      >Descargando...</label
+    >
+  </div>
 
-    <ng-container *ngIf="downloading != true">
-        <button *sTienePermiso="'INP_GET_CONSINP'" 
-                pButton type="button" 
-                icon="bi bi-download" 
-                label="Descargar" 
-                class="p-button-raised p-button-secondary margin-left"
-                title="Descarga consolidado de inspecciones de la lista seleccionada" 
-                (click)="descargarInspecciones()" 
-                [disabled]="desde == null || hasta == null"></button>
-    </ng-container>
+  <ng-container *ngIf="downloading != true">
+    <button
+      *sTienePermiso="'INP_GET_CONSINP'"
+      pButton
+      type="button"
+      icon="bi bi-download"
+      label="Descargar"
+      class="p-button-raised p-button-secondary margin-left"
+      title="Descarga consolidado de inspecciones de la lista seleccionada"
+      (click)="descargarInspecciones()"
+      [disabled]="desde == null || hasta == null"
+    ></button>
+  </ng-container>
 </p-dialog>
 
 <p-confirmDialog appendTo="body"></p-confirmDialog>

@@ -3,8 +3,14 @@
         <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
     </div>
     <p-panel header="Perfiles">
+        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+            <span>
+                Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+            </span>
+        </div>
         <p-table #dt [tableStyle]="{'min-width': '50rem'}" [value]="perfilList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
-            dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+            dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading"
+            [rowsPerPageOptions]="[10, 20, 50, 100]">
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="nombre" style="width:30%" class="text-center">Nombre
@@ -31,6 +37,11 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="summary" let-rowData>
+                <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+                    <span>
+                        Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+                    </span>
+                </div>
                 <div class="d-flex justify-content-center">
                     <button *sTienePermiso="'ADM_POST_PERF'" 
                         pButton type="button" 

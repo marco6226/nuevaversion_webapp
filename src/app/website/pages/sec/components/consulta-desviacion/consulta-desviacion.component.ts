@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DesviacionService } from 'src/app/website/pages/core/services/desviacion.service';
 import { Desviacion } from 'src/app/website/pages/comun/entities/desviacion';
@@ -25,6 +25,10 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
   desviacionesList?: Desviacion[];
   desviacionesListOnFilter?: Desviacion[];
   desviacionesListSelect?: Desviacion[];
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
+
   opcionesModulos = [ 
     { label: 'Inspecciones', value: 'Inspecciones' },
     { label: 'Observaciones', value: 'Observaciones' },
@@ -110,7 +114,39 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.table);
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`;
+    }
   }
 
   async exportexcel(event: any): Promise<void> 
@@ -273,5 +309,29 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
   changeModulos(eve:any){
     if(eve.value=='Inspecciones CC')this.flagArea=false
     else this.flagArea=true
+  }
+
+  scrollLeft() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft -= 10000;
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
+  
+  scrollRight() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft += 10000;
+      this.isScrollRigth = false;
+      this.isScrollLeft = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
   }
 }

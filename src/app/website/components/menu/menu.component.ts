@@ -4,6 +4,7 @@ import { SesionService } from '../../pages/core/services/session.service';
 import { EmpresaService } from '../../pages/empresa/services/empresa.service';
 import { AliadoInformacion } from '../../pages/ctr/entities/aliados';
 import { Empresa } from '../../pages/empresa/entities/empresa';
+import { HideAndShowMenuService } from '../shared-services/hide-and-show-menu.service';
 
 @Component({
   selector: 'app-menu',
@@ -12,8 +13,6 @@ import { Empresa } from '../../pages/empresa/entities/empresa';
   providers: [SesionService]
 })
 export class MenuComponent implements OnInit, AfterContentInit {
-
-//   @Output() statusMenu = new EventEmitter<boolean>();
   @Input('statusMenuIn') set sStatusMenu(statusMenu: boolean) {
     if(this.statusMenu)
     setTimeout(() => {
@@ -22,8 +21,6 @@ export class MenuComponent implements OnInit, AfterContentInit {
     this.statusMenu=true
   }
   statusMenu: boolean = false;
-  menuToggle: boolean = false;
-
   items: any[] = [];
   nombreAUC: string="Observaciones";
   nombreSEC: string="sec";
@@ -37,16 +34,17 @@ export class MenuComponent implements OnInit, AfterContentInit {
   constructor(
     private router: Router,
     private sesionService: SesionService,
-    private empresaService: EmpresaService
-  ) { }
+    private empresaService: EmpresaService,
+    private _hideAndShowMenuService: HideAndShowMenuService
+  ) { 
+
+  }
 
   async ngOnInit() {
-        // this.toogleMenu();
         this.version = this.sesionService.getAppVersion();
   }
 
   async ngAfterContentInit() {
-    // this.toogleMenu();
   }
 
   getEmpresaId(){
@@ -334,63 +332,20 @@ export class MenuComponent implements OnInit, AfterContentInit {
   }
 
   toogleMenu(){
-    this.menuToggle = !this.menuToggle;
-    const childLabels = document.querySelectorAll("[id='text-toggle']");
-    const arrow = document.getElementById('arrow');
-    const container = document.getElementById('container');
-    const data = document.querySelectorAll("[id='data']"); 
-    
-
-    if(this.menuToggle){
-        arrow?.classList.add('bi-caret-left-fill')
-        arrow?.classList.remove('bi-caret-right-fill')
-
-        container?.classList.add('container-show')
-        container?.classList.remove('container-hide')
-
-        data.forEach(element => {
-            element.classList.add('data-show');
-            element.classList.remove('data-hide'); 
-        });
-
-        setTimeout(() => {
-            childLabels.forEach(element => {
-                element.classList.add('text-show');
-                element.classList.remove('text-hide') 
-            });
-    
-        }, 100);
-        
-    }
-    else{
-        childLabels.forEach(element => {
-            element.classList.add('text-hide')
-            element.classList.remove('text-show') 
-        });
-        
-        setTimeout(() => {
-            arrow?.classList.add('bi-caret-right-fill')
-            arrow?.classList.remove('bi-caret-left-fill')
-            container?.classList.remove('container-show')
-            container?.classList.add('container-hide')
-            data.forEach(element => {
-                element.classList.remove('data-show');
-                element.classList.add('data-hide'); 
-            });
-            
-        }, 80);
-                
+    if(this._hideAndShowMenuService.getMenuToggle()){
+        this._hideAndShowMenuService.showMenu();
+        this._hideAndShowMenuService.setMenuToggle(!this._hideAndShowMenuService.getMenuToggle());
+    }else{
+        this._hideAndShowMenuService.hideMenu();
+        this._hideAndShowMenuService.setMenuToggle(!this._hideAndShowMenuService.getMenuToggle());
     }
   }
 
   tieneItems2(item: any): boolean{
-    // console.log(item);
     return item.items2 ? true : false;
   }
 
   routerLinkIsValid(routerLink: string[]): boolean{
-
-    // console.log(routerLink);
     return routerLink.length > 0 ? true : false;
   }
 
