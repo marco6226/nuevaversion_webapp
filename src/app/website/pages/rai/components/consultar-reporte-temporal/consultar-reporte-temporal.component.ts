@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Reporte } from '../../../comun/entities/reporte';
 import { Criteria } from "../../../core/entities/filter";
 import { FilterQuery } from '../../../core/entities/filter-query';
@@ -6,19 +6,25 @@ import { ConsuModReporteService } from '../../../core/services/consu-mod-reporte
 import { ParametroNavegacionService } from '../../../core/services/parametro-navegacion.service';
 import { ReporteService } from '../../../core/services/reporte.service';
 import { SesionService } from '../../../core/services/session.service';
+import { Table } from 'primeng/table';
 @Component({
   selector: 'app-consultar-reporte-temporal',
   templateUrl: './consultar-reporte-temporal.component.html',
   styleUrls: ['./consultar-reporte-temporal.component.scss']
 })
-export class ConsultarReporteTemporalComponent implements OnInit {
+export class ConsultarReporteTemporalComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('dt', { static: false }) table!: Table;
 
   idEmpresa: string | null = this.sesionService.getEmpresa()?.id!;
   reporteSelect!: Reporte;
   reportesList!: Reporte[];
   loading: boolean=true;
   totalRecords!: number;
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
+
   fields: string[] = [
     'fechaReporte',
     'fechaAccidente',
@@ -43,6 +49,42 @@ export class ConsultarReporteTemporalComponent implements OnInit {
 
   async ngOnInit() {
     // this.idEmpresa = await this.sesionService.getEmpresa().id;
+  }
+
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 60}px`;
+    }
   }
 
   lazyLoad(event: any) {
@@ -103,6 +145,30 @@ export class ConsultarReporteTemporalComponent implements OnInit {
 
   navegar() {
     this.paramNav.redirect('app/rai/registroReporteTemporal');
+  }
+
+  scrollLeft() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft -= 10000;
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
+  
+  scrollRight() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft += 10000;
+      this.isScrollRigth = false;
+      this.isScrollLeft = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
   }
 
 }

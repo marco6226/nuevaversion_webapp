@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DesviacionAliados } from '../../../comun/entities/desviacion-aliados';
 import { Incapacidad } from '../../../comun/entities/factor-causal';
@@ -6,6 +6,7 @@ import { Criteria } from '../../../core/entities/filter';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { DesviacionAliadosService } from '../../../core/services/desviacion-aliados.service';
 import { SesionService } from '../../../core/services/session.service';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-consulta-reportes-aliado',
@@ -13,7 +14,9 @@ import { SesionService } from '../../../core/services/session.service';
   styleUrls: ['./consulta-reportes-aliado.component.scss'],
   providers: [DesviacionAliadosService]
 })
-export class ConsultaReportesAliadoComponent implements OnInit {
+export class ConsultaReportesAliadoComponent implements OnInit,AfterViewInit {
+
+  @ViewChild('dt', { static: false }) table!: Table;
 
   idEmpresa: string | null = (this.sesionService.getEmpresa()?.id) ?? null;
   reporteSelect: ReporteAux | null = null;
@@ -24,6 +27,9 @@ export class ConsultaReportesAliadoComponent implements OnInit {
   sortedTable: string = 'id';
   areasPermiso: string | null = null;
   reporte_analisis_desviacion: {hashId: string, analisisId: number, empresaId: number}[] = [];
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
 
   constructor(
     private sesionService: SesionService,
@@ -32,6 +38,42 @@ export class ConsultaReportesAliadoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 60}px`;
+    }
   }
 
   lazyLoad(event: any){
@@ -110,6 +152,30 @@ export class ConsultaReportesAliadoComponent implements OnInit {
   consultarReporte(){
     sessionStorage.setItem('reporteCtr', 'true');
     this.router.navigate(['/app/rai/consultarReporteCtr/'+this.reporteSelect?.id]);
+  }
+
+  scrollLeft() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft -= 10000;
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
+  
+  scrollRight() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft += 10000;
+      this.isScrollRigth = false;
+      this.isScrollLeft = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
   }
 
 }

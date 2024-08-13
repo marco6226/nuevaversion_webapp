@@ -1,3 +1,10 @@
+<div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+  <span>
+    Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+    {{ totalRecords || 0 }} registros
+  </span>
+</div>
+
 <p-table #dt [columns]="selectedColumns" [value]="desvInpList" autoLayout="false" [rows]="numRows" [paginator]="true" dataKey="hashId"
   [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading" [reorderableColumns]="true"
   [resizableColumns]="true" columnResizeMode="expand" [scrollable]="true" scrollHeight="400px" paginatorPosition="top">
@@ -33,6 +40,7 @@
       </td>
     </tr>
   </ng-template>
+  
   <ng-template pTemplate="caption">
     <table style="width: 100%;">
       <tr>

@@ -1,117 +1,252 @@
 <div class="shadow">
-  <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
-    <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+  <div
+    *ngIf="testing"
+    style="width: 100%; display: flex; flex-direction: column-reverse"
+  >
+    <div class="image">
+      <img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" />
+    </div>
   </div>
-  <p-panel header="Reportes A/I" >
-    <p-table #dt sortField={{sortedTable}} sortOrder="1" [value]="reportesList" autoLayout="true" selectionMode="single" [(selection)]="reporteSelect"
-      [rows]="10" [paginator]="true" dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords"
-      [loading]="loading">
+  <p-panel header="Reportes A/I">
+    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+      <span>
+        Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+        {{ totalRecords || 0 }} registros
+      </span>
+    </div>
+    <div class="floating-buttons-scroll">
+      <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()"><span class="pi pi-angle-left"></span></button>
+      <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()"><span class="pi pi-angle-right"></span></button>
+  </div>
+    <p-table
+      #dt
+      sortField="{{ sortedTable }}"
+      sortOrder="1"
+      [value]="reportesList"
+      autoLayout="true"
+      selectionMode="single"
+      [(selection)]="reporteSelect"
+      [rows]="10"
+      [paginator]="true"
+      dataKey="id"
+      [lazy]="true"
+      (onLazyLoad)="lazyLoad($event)"
+      [totalRecords]="totalRecords"
+      [loading]="loading"
+      [rowsPerPageOptions]="[10, 20, 50, 100]"
+      scrollable="true"
+    >
       <ng-template pTemplate="header">
         <tr>
-          <th *ngIf="idEmpresa!='22'">Fecha registro
+          <th *ngIf="idEmpresa != '22'">
+            Fecha registro
             <p-sortIcon field="fechaReporte"></p-sortIcon>
           </th>
-          <th pSortableColumn="fechaAccidente">Fecha accidente
+          <th pSortableColumn="fechaAccidente">
+            Fecha accidente
             <p-sortIcon field="fechaAccidente"></p-sortIcon>
           </th>
-          <th pSortableColumn="numerofurat" *ngIf="idEmpresa=='22'">No. FURAT
+          <th pSortableColumn="numerofurat" *ngIf="idEmpresa == '22'">
+            No. FURAT
             <p-sortIcon field="numerofurat"></p-sortIcon>
           </th>
-          <th pSortableColumn="id">Codigo
+          <th pSortableColumn="id">
+            Codigo
             <p-sortIcon field="id"></p-sortIcon>
           </th>
-          <th pSortableColumn="primerNombreEmpleado">Nombres
+          <th pSortableColumn="primerNombreEmpleado">
+            Nombres
             <p-sortIcon field="primerNombreEmpleado"></p-sortIcon>
           </th>
-          <th pSortableColumn="primerApellidoEmpleado">Apellidos
+          <th pSortableColumn="primerApellidoEmpleado">
+            Apellidos
             <p-sortIcon field="primerApellidoEmpleado"></p-sortIcon>
           </th>
-          <th pSortableColumn="numeroIdentificacionEmpleado">Identificación
+          <th pSortableColumn="numeroIdentificacionEmpleado">
+            Identificación
             <p-sortIcon field="numeroIdentificacionEmpleado"></p-sortIcon>
           </th>
-          <th pSortableColumn="tipo">Tipo reporte
+          <th pSortableColumn="tipo">
+            Tipo reporte
             <p-sortIcon field="tipo"></p-sortIcon>
           </th>
-          <th pSortableColumn="areaAccidente.padreNombre" *ngIf="idEmpresa=='22'">División/Unidad
+          <th
+            pSortableColumn="areaAccidente.padreNombre"
+            *ngIf="idEmpresa == '22'"
+          >
+            División/Unidad
             <p-sortIcon field="areaAccidente.padreNombre"></p-sortIcon>
           </th>
-          <th pSortableColumn="areaAccidente.padreNombre" *ngIf="idEmpresa=='22'">Ubicación
+          <th
+            pSortableColumn="areaAccidente.padreNombre"
+            *ngIf="idEmpresa == '22'"
+          >
+            Ubicación
             <p-sortIcon field="areaAccidente.nombre"></p-sortIcon>
           </th>
         </tr>
         <tr>
-          <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
-            <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaReporte', 'bt')"></s-rangoFechaSelector>
+          <td *ngIf="idEmpresa != '22'" class="text-center bg-light">
+            <s-rangoFechaSelector
+              (onSelect)="dt.filter($event, 'fechaReporte', 'bt')"
+            ></s-rangoFechaSelector>
           </td>
           <td class="text-center bg-light">
-            <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaAccidente', 'bt')"></s-rangoFechaSelector>
+            <s-rangoFechaSelector
+              (onSelect)="dt.filter($event, 'fechaAccidente', 'bt')"
+            ></s-rangoFechaSelector>
           </td>
-          <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
-            <input pInputText type="number" min="0" (input)="dt.filter($event.target.value, 'numerofurat', 'contains')">
-          </td>
-          <td class="text-center bg-light">
-            <input pInputText type="number" min="0" (input)="dt.filter($event.target.value, 'id', 'equals')">
-          </td>
-          <td class="text-center bg-light">
-            <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerNombreEmpleado', 'contains')">
-          </td>
-          <td class="text-center bg-light">
-            <input pInputText type="text" (input)="dt.filter($event.target.value, 'primerApellidoEmpleado', 'contains')">
-          </td>
-          <td class="text-center bg-light">
-            <input pInputText type="text" (input)="dt.filter($event.target.value, 'numeroIdentificacionEmpleado', 'contains')">
+          <td *ngIf="idEmpresa == '22'" class="text-center bg-light">
+            <input
+              pInputText
+              type="number"
+              min="0"
+              (input)="
+                dt.filter($event.target.value, 'numerofurat', 'contains')
+              "
+            />
           </td>
           <td class="text-center bg-light">
-            <input pInputText type="text" (input)="dt.filter($event.target.value, 'tipo', 'contains')">
+            <input
+              pInputText
+              type="number"
+              min="0"
+              (input)="dt.filter($event.target.value, 'id', 'equals')"
+            />
           </td>
-          <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
-            <input pInputText type="text" (input)="dt.filter($event.target.value, 'areaAccidente.padreNombre', 'contains')">
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter(
+                  $event.target.value,
+                  'primerNombreEmpleado',
+                  'contains'
+                )
+              "
+            />
           </td>
-          <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
-            <input pInputText type="text" (input)="dt.filter($event.target.value, 'areaAccidente.nombre', 'contains')">
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter(
+                  $event.target.value,
+                  'primerApellidoEmpleado',
+                  'contains'
+                )
+              "
+            />
+          </td>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter(
+                  $event.target.value,
+                  'numeroIdentificacionEmpleado',
+                  'contains'
+                )
+              "
+            />
+          </td>
+          <td class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="dt.filter($event.target.value, 'tipo', 'contains')"
+            />
+          </td>
+          <td *ngIf="idEmpresa == '22'" class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter(
+                  $event.target.value,
+                  'areaAccidente.padreNombre',
+                  'contains'
+                )
+              "
+            />
+          </td>
+          <td *ngIf="idEmpresa == '22'" class="text-center bg-light">
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter(
+                  $event.target.value,
+                  'areaAccidente.nombre',
+                  'contains'
+                )
+              "
+            />
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-reporte>
         <tr [pSelectableRow]="reporte">
-          <td *ngIf="idEmpresa!='22'">{{reporte.fechaReporte | date:'dd/MM/yyyy'}}</td>
-          <td>{{reporte.fechaAccidente | date:'dd/MM/yyyy'}}</td>
-          <td *ngIf="idEmpresa=='22'">{{reporte.numerofurat}}</td>
-          <td>RAI-{{reporte.id}}</td>
-          <td>{{reporte.primerNombreEmpleado}}</td>
-          <td>{{reporte.primerApellidoEmpleado}}</td>
-          <td>{{reporte.numeroIdentificacionEmpleado}}</td>
-          <td>{{reporte.tipo}}</td>
-          <td *ngIf="idEmpresa=='22'">{{reporte.areaAccidente.padreNombre}}</td>
-          <td *ngIf="idEmpresa=='22'">{{reporte.areaAccidente.nombre}}</td>
+          <td *ngIf="idEmpresa != '22'">
+            {{ reporte.fechaReporte | date : "dd/MM/yyyy" }}
+          </td>
+          <td>{{ reporte.fechaAccidente | date : "dd/MM/yyyy" }}</td>
+          <td *ngIf="idEmpresa == '22'">{{ reporte.numerofurat }}</td>
+          <td>RAI-{{ reporte.id }}</td>
+          <td>{{ reporte.primerNombreEmpleado }}</td>
+          <td>{{ reporte.primerApellidoEmpleado }}</td>
+          <td>{{ reporte.numeroIdentificacionEmpleado }}</td>
+          <td>{{ reporte.tipo }}</td>
+          <td *ngIf="idEmpresa == '22'">
+            {{ reporte.areaAccidente.padreNombre }}
+          </td>
+          <td *ngIf="idEmpresa == '22'">{{ reporte.areaAccidente.nombre }}</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="summary" let-rowData>
-        
-          <div class="d-flex justify-content-center">
-            <div class="btn-group" role="group">                
-              <button *sTienePermiso="'RAI_PUT_REP'" 
-                class="p-button-raised p-button-success margin-right margin-left" 
-                pButton type="button" 
-                icon="bi bi-pencil" 
-                label="Modificar"
-                (click)="modificar()" 
-                [disabled]="!reporteSelect"></button>
-              <button *sTienePermiso="'RAI_GET_REP'" 
-                pButton type="button" 
-                icon="bi bi-search" 
-                label="Consultar" 
-                style="color: var(--white)"
-                class="p-button-raised p-button-warning margin-right margin-left"
-                (click)="consultarDetalle()" 
-                [disabled]="!reporteSelect"></button>
-            </div>
-          </div>            
+        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+          <span>
+            Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+            {{ totalRecords || 0 }} registros
+          </span>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="btn-group" role="group">
+            <button
+              *sTienePermiso="'RAI_PUT_REP'"
+              class="p-button-raised p-button-success margin-right margin-left"
+              pButton
+              type="button"
+              icon="bi bi-pencil"
+              label="Modificar"
+              (click)="modificar()"
+              [disabled]="!reporteSelect"
+            ></button>
+            <button
+              *sTienePermiso="'RAI_GET_REP'"
+              pButton
+              type="button"
+              icon="bi bi-search"
+              label="Consultar"
+              style="color: var(--white)"
+              class="p-button-raised p-button-warning margin-right margin-left"
+              (click)="consultarDetalle()"
+              [disabled]="!reporteSelect"
+            ></button>
+          </div>
+        </div>
       </ng-template>
       <ng-template pTemplate="emptymessage">
         <tr>
           <td colspan="6">
-            <s-dataNotFound *ngIf="!reportesList || reportesList.length <= 0" icon="fa-list-ul" message="No se encontraron reportes de accidentes y/o incidentes">
+            <s-dataNotFound
+              *ngIf="!reportesList || reportesList.length <= 0"
+              icon="fa-list-ul"
+              message="No se encontraron reportes de accidentes y/o incidentes"
+            >
               <div *sTienePermiso="'RAI_POST_REP'">
                 Reporta un nuevo evento
                 <a (click)="navegar()">aqui</a>

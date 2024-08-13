@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 
 import { DesviacionService } from '../../../core/services/desviacion.service';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { FileUtils } from '../../../comun/entities/file-utils';
 import { SesionService } from '../../../core/services/session.service';
 import { Criteria } from '../../../core/entities/filter';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 's-consultaDesviacionInspeccion',
@@ -12,8 +13,9 @@ import { Criteria } from '../../../core/entities/filter';
   styleUrls: ['./consulta-desviacion-inspeccion.component.scss'],
   providers: [DesviacionService]
 })
-export class ConsultaDesviacionInspeccionComponent implements OnInit {
+export class ConsultaDesviacionInspeccionComponent implements OnInit,AfterViewInit {
 
+  @ViewChild('dt', { static: false }) table!: Table;
 
   areasPermiso!: string;
   loading!: boolean;
@@ -23,6 +25,10 @@ export class ConsultaDesviacionInspeccionComponent implements OnInit {
   cols!: any[];
   selectedColumns!: any[];
   lastFilterEvent: any;
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
+
   constructor(
     private desviacionService: DesviacionService,
     private sesionService: SesionService,
@@ -65,6 +71,42 @@ export class ConsultaDesviacionInspeccionComponent implements OnInit {
     ];
     this.numRows = 10;
     this.selectedColumns = this.cols;
+  }
+
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`;
+    }
   }
 
   lazyLoad(event: any) {
@@ -118,5 +160,27 @@ export class ConsultaDesviacionInspeccionComponent implements OnInit {
     );
   }
 
-
+  scrollLeft() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft -= 10000;
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
+  
+  scrollRight() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft += 10000;
+      this.isScrollRigth = false;
+      this.isScrollLeft = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
 }

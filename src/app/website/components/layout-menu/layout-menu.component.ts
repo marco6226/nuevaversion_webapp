@@ -29,7 +29,8 @@ export class LayoutMenuComponent implements OnInit {
 
     if (event) {
       cont?.classList.add('showMenu')
-      cont?.classList.remove('hiddenMenu')      
+      cont?.classList.remove('hiddenMenu')    
+      console.log("Esconder menu")  
     } else {
       cont?.classList.add('hiddenMenu')
       cont?.classList.remove('showMenu')

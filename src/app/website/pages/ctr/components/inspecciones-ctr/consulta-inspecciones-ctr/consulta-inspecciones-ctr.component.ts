@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { PerfilService } from 'src/app/website/pages/admin/services/perfil.service';
 import { UsuarioService } from 'src/app/website/pages/admin/services/usuario.service';
 import { ViewResumenInpAliados } from 'src/app/website/pages/comun/entities/view-resumen-aliados';
@@ -21,7 +22,9 @@ import { ListaInspeccion } from 'src/app/website/pages/inspecciones/entities/lis
   styleUrls: ['./consulta-inspecciones-ctr.component.scss'],
   providers: [ViewInspeccionCtrService, ViewResumenInpAliadosService,UsuarioService]
 })
-export class ConsultaInspeccionesCtrComponent implements OnInit {
+export class ConsultaInspeccionesCtrComponent implements OnInit,AfterViewInit {
+
+  @ViewChild('dt', { static: false }) table!: Table;
 
   inspeccionesList: any[] = [];
   inspeccionSelect!: Inspeccion;
@@ -35,6 +38,10 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
   dataResumen: ViewResumenInpAliados[] = [];
   resumenSelected!: ViewResumenInpAliados;
   loadingResumen: boolean = false;
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
+
   fieldsResumen: string[] = [
     'id',
     'aliado',
@@ -86,6 +93,42 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
       return areasPermiso2.indexOf(ele) == pos;
     })
     this.areasPermiso = '{' + filteredArea.toString() + '}';
+  }
+
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.table.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`;
+    }
   }
 
   async loadAliados() {
@@ -304,6 +347,30 @@ export class ConsultaInspeccionesCtrComponent implements OnInit {
     // this.usuarioService.emailAliadoCicloCorto('juanbernal@lerprevencion.com', this.inpID.toString());
     // this.formEmail?.reset();
     this.visibleDlgCorreo = false;
+  }
+
+  scrollLeft() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft -= 10000;
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
+  }
+  
+  scrollRight() {
+    if (this.tableScroll) {
+      this.tableScroll.scrollLeft += 10000;
+      this.isScrollRigth = false;
+      this.isScrollLeft = true;
+      this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+      setTimeout(() => {
+        this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+      }, 50);
+    }
   }
 
 }

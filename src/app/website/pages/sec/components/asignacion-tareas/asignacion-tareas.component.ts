@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import { TareaService } from 'src/app/website/pages/core/services/tarea.service'
 import { ParametroNavegacionService } from 'src/app/website/pages/core/services/parametro-navegacion.service';
 import { Tarea } from 'src/app/website/pages/comun/entities/tarea'
@@ -21,7 +21,7 @@ import { Calendar } from 'primeng/calendar';
   providers: [FilterService]
 })
 export class AsignacionTareasComponent implements OnInit, AfterViewInit {
-  @ViewChild("dt") dataTableComponent: Table | null = null;
+  @ViewChild("dt") dataTableComponent!: Table;
   @ViewChild("calendarExcel") calendarExcel: Calendar | null = null;
   loading: boolean = true;
   testing :boolean = false;
@@ -33,6 +33,10 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   observacionesRealizacion?: string;
   arrayIdsareas:any  = [];
   idEmpresa: string = '';
+  totalRecords!: number;
+  tableScroll!:any;
+  isScrollRigth: boolean = true;
+  isScrollLeft: boolean = false;
    
   modalExcel = false;
   fileName= 'ListadoSeguimiento.xlsx';
@@ -125,8 +129,40 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     this.testing = false;
   }
 
-  ngAfterViewInit(): void {
-    
+  ngAfterViewInit() {
+    this.tableWrapper();
+    this.addScrollEventListener();
+  }
+
+  private tableWrapper() {
+    this.tableScroll = this.dataTableComponent.el.nativeElement.querySelector(".p-datatable-wrapper");
+  }
+
+  private addScrollEventListener() {
+    if (this.tableScroll) {
+      this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+    }
+  }
+
+  private onManualScroll() {
+
+    if(this.tableScroll.scrollLeft === 0){
+      this.isScrollLeft = false;
+      this.isScrollRigth = true;
+    }else{
+      this.isScrollLeft = true;
+      this.isScrollRigth = false;
+    }
+
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event) {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const buttons = document.querySelector('.floating-buttons-scroll') as HTMLElement;
+    if (buttons) {
+      buttons.style.top = `${scrollTop + 50}px`;
+    }
   }
 
   async getTareas() {
@@ -155,7 +191,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     await this.tareaService.findByDetails(this.arrayIdsareas).then(
         async (resp: any) => { 
             this.tareasList = resp;
-
+            this.totalRecords = this.tareasList.length;
             if(this.esAliado){
               let nit_aliado = this.sesionService.getEmpresa()?.nit;
 
@@ -357,5 +393,29 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
 
     test(event: any){
       console.log(event);
+    }
+
+    scrollLeft() {
+      if (this.tableScroll) {
+        this.tableScroll.scrollLeft -= 10000;
+        this.isScrollLeft = false;
+        this.isScrollRigth = true;
+        this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+        setTimeout(() => {
+          this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+        }, 50);
+      }
+    }
+    
+    scrollRight() {
+      if (this.tableScroll) {
+        this.tableScroll.scrollLeft += 10000;
+        this.isScrollRigth = false;
+        this.isScrollLeft = true;
+        this.tableScroll.removeEventListener('scroll', this.onManualScroll.bind(this));
+        setTimeout(() => {
+          this.tableScroll.addEventListener('scroll', this.onManualScroll.bind(this));
+        }, 50);
+      }
     }
 }

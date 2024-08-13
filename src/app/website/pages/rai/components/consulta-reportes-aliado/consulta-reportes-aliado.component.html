@@ -1,7 +1,17 @@
 <p-panel header="Reportes A/I">
+  <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+    <span>
+        Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+    </span>
+  </div>  
+  <div class="floating-buttons-scroll">
+    <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()"><span class="pi pi-angle-left"></span></button>
+    <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()"><span class="pi pi-angle-right"></span></button>
+  </div>
   <p-table #dt sortField={{sortedTable}} sortOrder="1" [value]="reportesList" autoLayout="true"
   selectionMode="single" [(selection)]="reporteSelect" [rows]="10" [paginator]="true" dataKey="id"
-  [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading">
+  [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading"
+  [rowsPerPageOptions]="[10, 20, 50, 100]" scrollable="true">
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="hashId">Id
@@ -85,6 +95,11 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
+      <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+        <span>
+            Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
+        </span>
+      </div>
       <button pButton icon="pi pi-plus" label="Consultar" (click)="consultarReporte()" 
       [ngStyle]="{'margin-right': '10px'}" [disabled]="!reporteSelect"></button>
       <button *sTienePermiso="'RAI_PUT_REPCTR'" pButton icon="pi pi-pencil" class="p-button-success"
@@ -102,9 +117,5 @@
         </td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="paginatorleft" let-state style="margin-top: 50%;">
-      <span style="margin-left: 10px;">Mostrando {{ reportesList.length || 0 }} de {{state.totalRecords}}</span>
-    </ng-template>
-    <ng-template pTemplate="paginatorright"></ng-template>
   </p-table>
 </p-panel>

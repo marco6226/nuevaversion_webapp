@@ -1,239 +1,477 @@
 <div class="shadow">
-    <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
-        <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
+  <div
+    *ngIf="testing"
+    style="width: 100%; display: flex; flex-direction: column-reverse"
+  >
+    <div class="image">
+      <img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" />
     </div>
-    <p-panel header="Investigación">
-        <!-- <div><strong>  Investigación</strong> -->
-        <!-- </div> -->
-        <button pButton type="button" (click)="exportexcel($event)" title="Exportar a archivo Excel"
-            icon="bi bi-file-earmark-excel" class="p-button-success" *sTienePermiso="'SEC_GET_XLSXINV'"></button>
+  </div>
+  <p-panel header="Investigación">
+    <!-- <div><strong>  Investigación</strong> -->
+    <!-- </div> -->
+    <button
+      pButton
+      type="button"
+      (click)="exportexcel($event)"
+      title="Exportar a archivo Excel"
+      icon="bi bi-file-earmark-excel"
+      class="p-button-success"
+      *sTienePermiso="'SEC_GET_XLSXINV'"
+    ></button>
 
-        <p-tabView>
-
-            <p-tabPanel header="Consolidado desviaciones">
-                <div>
-                    <!-- <p-table (onFilter)="onFilter($event)" id="excel-table" #dt [value]="desviacionesList" [rows]="10" [paginator]="true" -->
-
-                    <p-table id="excel-table" #dt [value]="desviacionesList" [rows]="10" [paginator]="true"
-                        [(selection)]="desviacionesListSelect" [autoLayout]="false" [paginator]="true"
-                        dataKey="hashId" [lazy]="true" (onLazyLoad)="lazyLoad($event)"
-                        [totalRecords]="totalRecords" [loading]="loading" [responsive]="true">
-                        <!-- paginatorPosition="both" [rowsPerPageOptions]="[5,10,15,20]"-->
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="analisisId" title="Investigado">Investigado
-                                    <p-sortIcon field="analisisId"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="modulo">Módulo
-                                    <p-sortIcon field="modulo"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="modulo" *ngIf="empresaId=='22' && flagArea">No. FURAT
-                                    <p-sortIcon field="modulo"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="hashId">Código
-                                    <p-sortIcon field="hashId"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="fechaReporte">Fecha Reporte
-                                    <p-sortIcon field="fechaReporte.date:'yyyy-MM-dd HH:mm'"
-                                        ariaLabel="Activate to sort"
-                                        ariaLabelDesc="Activate to sort in descending order"
-                                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="area.nombre" *ngIf="empresaId!='22' && flagArea">Área
-                                    origen
-                                    <p-sortIcon field="area.nombre"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="area.padreNombre" *ngIf="empresaId=='22' && flagArea">
-                                    División/Unidad
-                                    <p-sortIcon field="area.padreNombre"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="area.nombre" *ngIf="empresaId=='22' && flagArea">Ubicación
-                                    <p-sortIcon field="area.nombre"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="aliado" *ngIf="!flagArea">Aliado
-                                    <p-sortIcon field="aliado"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="division" *ngIf="!flagArea">
-                                    Division / Unidad
-                                    <p-sortIcon field="division"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="localidad" *ngIf="!flagArea">Localidad
-                                    <p-sortIcon field="localidad"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="concepto">Concepto
-                                    <p-sortIcon field="concepto"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="aspectoCausante">Aspecto causante
-                                    <p-sortIcon field="aspectoCausante"></p-sortIcon>
-                                </th>
-                                <th *ngIf="empresaCriticidadPermiso==empresaId" pSortableColumn="aspectoCausante">Criticidad
-                                    <p-sortIcon field="aspectoCausante"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="email" *ngIf="empresaId=='8'">email encargado
-                                    <p-sortIcon field="email"></p-sortIcon>
-                                </th>
-                            </tr>
-                            <tr>
-                                <td class="text-center bg-light">
-                                    <p-dropdown appendTo="body"
-                                        [options]="[{label:'', value:null},{label:'Si', value:true},{label:'No', value:false}]"
-                                        (onChange)="dt.filter($event.value, 'analisisId', 'is_not_null')"></p-dropdown>
-                                </td>
-                                <td class="text-center bg-light">
-                                    <p-dropdown appendTo="body" [options]="opcionesModulos" [(ngModel)]="moduloSelected"
-                                        (onChange)="dt.filter($event.value, 'modulo', 'equals');changeModulos($event)"></p-dropdown>
-                                </td>
-                                <td *ngIf="empresaId=='22' && flagArea" class="text-center bg-light">
-                                    <input pInputText type="text"
-                                        (input)="dt.filter($event.target.value.toUpperCase(), 'furat', 'contains')">
-                                </td>
-                                <td class="text-center bg-light">
-                                    <input pInputText type="text"
-                                        (input)="dt.filter($event.target.value.toUpperCase(), 'hashId', 'contains')">
-                                </td>
-                                <td class="text-center bg-light">
-                                    <s-rangoFechaSelector
-                                        (onSelect)="dt.filter($event, 'fechaReporte', 'bt')"></s-rangoFechaSelector>
-                                </td>
-                                <td *ngIf="empresaId=='22' && flagArea" class="text-center bg-light">
-                                    <input pInputText type="text"
-                                        (input)="dt.filter($event.target.value.toUpperCase(), 'area.padreNombre', 'contains')">
-                                </td>
-                                <td class="text-center bg-light" *ngIf="flagArea">
-                                    <input pInputText type="text"
-                                        (input)="dt.filter($event.target.value.toUpperCase(), 'area.nombre', 'contains')">
-                                </td>
-                                <td class="text-center bg-light" *ngIf="!flagArea">
-                                    <input type="text" pInputText (input)="dt.filter($event.target.value, 'aliado', 'contains')">
-                                </td>
-                                <td class="text-center bg-light" *ngIf="!flagArea">
-                                    <input pInputText type="text" (input)="dt.filter($evet.target.value, 'division', 'contains')">
-                                </td>
-                                <td class="text-center bg-light" *ngIf="!flagArea">
-                                    <input pInputText type="text" (input)="dt.filter($event.target.value, 'localidad', 'contains')">
-                                </td>
-                                <td class="text-center bg-light">
-                                    <input pInputText type="text"
-                                        (input)="dt.filter($event.target.value, 'concepto', 'contains')">
-                                </td>
-                                <td class="text-center bg-light">
-                                    <input pInputText type="text"
-                                        (input)="dt.filter($event.target.value, 'aspectoCausante', 'contains')">
-                                </td>
-                                <td *ngIf="empresaCriticidadPermiso==empresaId" class="text-center bg-light">
-                                    <p-dropdown [options]="opcionesCritididad" [style]="{'min-width':'0em'}"
-                                        (onChange)="dt.filter($event.value, 'criticidad', 'equals')"></p-dropdown>
-                                </td>
-                                <td class="text-center bg-light" *ngIf="empresaId=='8'">
-                                    <input pInputText type="text"
-                                        (input)="dt.filter($event.target.value, 'email', 'contains')">
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-desviacion>
-                            <tr [pSelectableRow]="desviacion">
-                                <td style="text-align: center;">
-                                    <ng-container *ngIf="desviacion.analisisId">
-                                        <div class="icons-table ">
-                                            <button pButton type="button" icon="bi bi-search" class="soft-icon p-button-warning"
-                                            *sTienePermiso="'SEC_GET_ANADESV'" (click)="consultarAnalisis(desviacion)"
-                                            style="margin-bottom:5px;"></button>
-                                            <button pButton type="button" icon="bi bi-pencil" class="soft-icon p-button-success"
-                                            *sTienePermiso="'SEC_PUT_ANADESV'"
-                                            (click)="modificarAnalisis(desviacion)"></button>
-                                        </div>                                        
-                                    </ng-container>
-                                    <p-tableCheckbox [value]="desviacion"
-                                        *ngIf="!desviacion.analisisId"></p-tableCheckbox>
-                                </td>
-                                <td>{{desviacion.modulo}}</td>
-                                <td *ngIf="empresaId=='22' && flagArea">{{desviacion.furat}}</td>
-                                <td>{{desviacion.hashId}}</td>
-                                <td>{{desviacion.fechaReporte | date:'dd/MM/yyyy'}}</td>
-                                <td *ngIf="empresaId=='22' && flagArea">{{desviacion?.area?.padreNombre}}</td>
-                                <td *ngIf="flagArea">{{desviacion?.area?.nombre}}</td>
-                                <td *ngIf="!flagArea">{{desviacion?.aliado}}</td>
-                                <td *ngIf="!flagArea">{{desviacion?.division}}</td>
-                                <td *ngIf="!flagArea">{{desviacion?.localidad}}</td>
-                                <td>{{desviacion.concepto}}</td>
-                                <td [pTooltip]="desviacion.aspectoCausante" tooltipPosition="top">
-                                    {{desviacion.aspectoCausante | slice:0:100}}...</td>
-                                <td *ngIf="empresaCriticidadPermiso==empresaId">{{desviacion.criticidad}}</td>
-                                <td *ngIf="empresaId=='8'">{{desviacion.email}}</td>
-                            </tr>
-                        </ng-template>
-                        <!-- <ng-template pTemplate="caption">
+    <p-tabView>
+      <p-tabPanel header="Consolidado desviaciones">
+        <div>
+          <!-- <p-table (onFilter)="onFilter($event)" id="excel-table" #dt [value]="desviacionesList" [rows]="10" [paginator]="true" -->
+          <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+            <span>
+              Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+              {{ totalRecords || 0 }} registros
+            </span>
+          </div>
+          <div class="floating-buttons-scroll">
+            <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()">
+              <span class="pi pi-angle-left"></span>
+            </button>
+            <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()">
+              <span class="pi pi-angle-right"></span>
+            </button>
+          </div>
+          <p-table
+            id="excel-table"
+            #dt
+            [value]="desviacionesList"
+            [rows]="10"
+            [paginator]="true"
+            [(selection)]="desviacionesListSelect"
+            [autoLayout]="false"
+            [paginator]="true"
+            dataKey="hashId"
+            [lazy]="true"
+            (onLazyLoad)="lazyLoad($event)"
+            [totalRecords]="totalRecords"
+            [loading]="loading"
+            [responsive]="true"
+            [rowsPerPageOptions]="[10, 20, 50, 100]"
+            scrollable="true"
+          >
+            <!-- paginatorPosition="both" [rowsPerPageOptions]="[5,10,15,20]"-->
+            <ng-template pTemplate="header">
+              <tr>
+                <th pSortableColumn="analisisId" title="Investigado">
+                  Investigado
+                  <p-sortIcon field="analisisId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="modulo">
+                  Módulo
+                  <p-sortIcon field="modulo"></p-sortIcon>
+                </th>
+                <th
+                  pSortableColumn="modulo"
+                  *ngIf="empresaId == '22' && flagArea"
+                >
+                  No. FURAT
+                  <p-sortIcon field="modulo"></p-sortIcon>
+                </th>
+                <th pSortableColumn="hashId">
+                  Código
+                  <p-sortIcon field="hashId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="fechaReporte">
+                  Fecha Reporte
+                  <p-sortIcon
+                    field="fechaReporte.date:'yyyy-MM-dd HH:mm'"
+                    ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"
+                  ></p-sortIcon>
+                </th>
+                <th
+                  pSortableColumn="area.nombre"
+                  *ngIf="empresaId != '22' && flagArea"
+                >
+                  Área origen
+                  <p-sortIcon field="area.nombre"></p-sortIcon>
+                </th>
+                <th
+                  pSortableColumn="area.padreNombre"
+                  *ngIf="empresaId == '22' && flagArea"
+                >
+                  División/Unidad
+                  <p-sortIcon field="area.padreNombre"></p-sortIcon>
+                </th>
+                <th
+                  pSortableColumn="area.nombre"
+                  *ngIf="empresaId == '22' && flagArea"
+                >
+                  Ubicación
+                  <p-sortIcon field="area.nombre"></p-sortIcon>
+                </th>
+                <th pSortableColumn="aliado" *ngIf="!flagArea">
+                  Aliado
+                  <p-sortIcon field="aliado"></p-sortIcon>
+                </th>
+                <th pSortableColumn="division" *ngIf="!flagArea">
+                  Division / Unidad
+                  <p-sortIcon field="division"></p-sortIcon>
+                </th>
+                <th pSortableColumn="localidad" *ngIf="!flagArea">
+                  Localidad
+                  <p-sortIcon field="localidad"></p-sortIcon>
+                </th>
+                <th pSortableColumn="concepto">
+                  Concepto
+                  <p-sortIcon field="concepto"></p-sortIcon>
+                </th>
+                <th pSortableColumn="aspectoCausante">
+                  Aspecto causante
+                  <p-sortIcon field="aspectoCausante"></p-sortIcon>
+                </th>
+                <th
+                  *ngIf="empresaCriticidadPermiso == empresaId"
+                  pSortableColumn="aspectoCausante"
+                >
+                  Criticidad
+                  <p-sortIcon field="aspectoCausante"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email" *ngIf="empresaId == '8'">
+                  email encargado
+                  <p-sortIcon field="email"></p-sortIcon>
+                </th>
+              </tr>
+              <tr>
+                <td class="text-center bg-light">
+                  <p-dropdown
+                    appendTo="body"
+                    [options]="[
+                      { label: '', value: null },
+                      { label: 'Si', value: true },
+                      { label: 'No', value: false }
+                    ]"
+                    (onChange)="
+                      dt.filter($event.value, 'analisisId', 'is_not_null')
+                    "
+                  ></p-dropdown>
+                </td>
+                <td class="text-center bg-light">
+                  <p-dropdown
+                    appendTo="body"
+                    [options]="opcionesModulos"
+                    [(ngModel)]="moduloSelected"
+                    (onChange)="
+                      dt.filter($event.value, 'modulo', 'equals');
+                      changeModulos($event)
+                    "
+                  ></p-dropdown>
+                </td>
+                <td
+                  *ngIf="empresaId == '22' && flagArea"
+                  class="text-center bg-light"
+                >
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter(
+                        $event.target.value.toUpperCase(),
+                        'furat',
+                        'contains'
+                      )
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter(
+                        $event.target.value.toUpperCase(),
+                        'hashId',
+                        'contains'
+                      )
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light">
+                  <s-rangoFechaSelector
+                    (onSelect)="dt.filter($event, 'fechaReporte', 'bt')"
+                  ></s-rangoFechaSelector>
+                </td>
+                <td
+                  *ngIf="empresaId == '22' && flagArea"
+                  class="text-center bg-light"
+                >
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter(
+                        $event.target.value.toUpperCase(),
+                        'area.padreNombre',
+                        'contains'
+                      )
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light" *ngIf="flagArea">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter(
+                        $event.target.value.toUpperCase(),
+                        'area.nombre',
+                        'contains'
+                      )
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light" *ngIf="!flagArea">
+                  <input
+                    type="text"
+                    pInputText
+                    (input)="
+                      dt.filter($event.target.value, 'aliado', 'contains')
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light" *ngIf="!flagArea">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter($evet.target.value, 'division', 'contains')
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light" *ngIf="!flagArea">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter($event.target.value, 'localidad', 'contains')
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter($event.target.value, 'concepto', 'contains')
+                    "
+                  />
+                </td>
+                <td class="text-center bg-light">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter(
+                        $event.target.value,
+                        'aspectoCausante',
+                        'contains'
+                      )
+                    "
+                  />
+                </td>
+                <td
+                  *ngIf="empresaCriticidadPermiso == empresaId"
+                  class="text-center bg-light"
+                >
+                  <p-dropdown
+                    [options]="opcionesCritididad"
+                    [style]="{ 'min-width': '0em' }"
+                    (onChange)="dt.filter($event.value, 'criticidad', 'equals')"
+                  ></p-dropdown>
+                </td>
+                <td class="text-center bg-light" *ngIf="empresaId == '8'">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dt.filter($event.target.value, 'email', 'contains')
+                    "
+                  />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-desviacion>
+              <tr [pSelectableRow]="desviacion">
+                <td style="text-align: center">
+                  <ng-container *ngIf="desviacion.analisisId">
+                    <div class="icons-table">
+                      <button
+                        pButton
+                        type="button"
+                        icon="bi bi-search"
+                        class="soft-icon p-button-warning"
+                        *sTienePermiso="'SEC_GET_ANADESV'"
+                        (click)="consultarAnalisis(desviacion)"
+                        style="margin-bottom: 5px"
+                      ></button>
+                      <button
+                        pButton
+                        type="button"
+                        icon="bi bi-pencil"
+                        class="soft-icon p-button-success"
+                        *sTienePermiso="'SEC_PUT_ANADESV'"
+                        (click)="modificarAnalisis(desviacion)"
+                      ></button>
+                    </div>
+                  </ng-container>
+                  <p-tableCheckbox
+                    [value]="desviacion"
+                    *ngIf="!desviacion.analisisId"
+                  ></p-tableCheckbox>
+                </td>
+                <td>{{ desviacion.modulo }}</td>
+                <td *ngIf="empresaId == '22' && flagArea">
+                  {{ desviacion.furat }}
+                </td>
+                <td>{{ desviacion.hashId }}</td>
+                <td>{{ desviacion.fechaReporte | date : "dd/MM/yyyy" }}</td>
+                <td *ngIf="empresaId == '22' && flagArea">
+                  {{ desviacion?.area?.padreNombre }}
+                </td>
+                <td *ngIf="flagArea">{{ desviacion?.area?.nombre }}</td>
+                <td *ngIf="!flagArea">{{ desviacion?.aliado }}</td>
+                <td *ngIf="!flagArea">{{ desviacion?.division }}</td>
+                <td *ngIf="!flagArea">{{ desviacion?.localidad }}</td>
+                <td>{{ desviacion.concepto }}</td>
+                <td
+                  [pTooltip]="desviacion.aspectoCausante"
+                  tooltipPosition="top"
+                >
+                  {{ desviacion.aspectoCausante | slice : 0 : 100 }}...
+                </td>
+                <td *ngIf="empresaCriticidadPermiso == empresaId">
+                  {{ desviacion.criticidad }}
+                </td>
+                <td *ngIf="empresaId == '8'">{{ desviacion.email }}</td>
+              </tr>
+            </ng-template>
+            <!-- <ng-template pTemplate="caption">
                   Showing {{dt.totalRecords}}/{{dt.rows}}/{{dt.first}}/{{dt.dataToRender?.length}}
                 </ng-template> -->
-                        <ng-template pTemplate="emptymessage">
-                            <tr>
-                                <td colspan="6">
-                                    <s-dataNotFound icon="fa-exclamation"
-                                        message="No se encontraron registros de desviaciones">
-                                        <div>
-                                            Las desviaciones son generadas mediante el uso de otros módulos, y
-                                            corresponden a no conformidades que pueden provenir de una calificación de
-                                            una inspección por debajo del estándar, una observación por gestionar, o una
-                                            evaluación.
-                                        </div>
-                                    </s-dataNotFound>
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="summary" let-rowData>
-
-                            <div class="d-flex justify-content-center">
-                                <div class="btn-group" role="group">
-                                    <td>
-                                    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="bi bi-search"
-                                        [label]="desviacionesListSelect && desviacionesListSelect[0]?.modulo == 'Reporte A/I' ? 'Iniciar investigación' : 'Plan de trabajo'"
-                                        class="p-button-raised p-button-warning margin-right margin-left"
-                                        style="color: var(--white)" (click)="analizarDesviacion()"
-                                        [disabled]="desviacionesListSelect == null || desviacionesListSelect.length <= 0"></button>
-                                    </td>
-                                    <button *sTienePermiso="'SEC_GET_CONSINV'"
-                                        class="p-button-raised p-button-secondary margin-right" pButton type="button"
-                                        icon="bi bi-download" 
-                                        label="Investigaciones"
-                                        (click)="visibleDlg = true"></button>                                    
-                                </div>
-                            </div>
-                        </ng-template>
-                    </p-table>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6">
+                  <s-dataNotFound
+                    icon="fa-exclamation"
+                    message="No se encontraron registros de desviaciones"
+                  >
+                    <div>
+                      Las desviaciones son generadas mediante el uso de otros
+                      módulos, y corresponden a no conformidades que pueden
+                      provenir de una calificación de una inspección por debajo
+                      del estándar, una observación por gestionar, o una
+                      evaluación.
+                    </div>
+                  </s-dataNotFound>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+              <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+                <span>
+                  Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+                  {{ totalRecords || 0 }} registros
+                </span>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="btn-group" role="group">
+                  <td>
+                    <button
+                      *sTienePermiso="'SEC_POST_ANADESV'"
+                      pButton
+                      type="button"
+                      icon="bi bi-search"
+                      [label]="
+                        desviacionesListSelect &&
+                        desviacionesListSelect[0]?.modulo == 'Reporte A/I'
+                          ? 'Iniciar investigación'
+                          : 'Plan de trabajo'
+                      "
+                      class="p-button-raised p-button-warning margin-right margin-left"
+                      style="color: var(--white)"
+                      (click)="analizarDesviacion()"
+                      [disabled]="
+                        desviacionesListSelect == null ||
+                        desviacionesListSelect.length <= 0
+                      "
+                    ></button>
+                  </td>
+                  <button
+                    *sTienePermiso="'SEC_GET_CONSINV'"
+                    class="p-button-raised p-button-secondary margin-right"
+                    pButton
+                    type="button"
+                    icon="bi bi-download"
+                    label="Investigaciones"
+                    (click)="visibleDlg = true"
+                  ></button>
                 </div>
-            </p-tabPanel>
-            <p-tabPanel header="Desviaciones inspecciones" *sTienePermiso="'SEC_GET_DESVINP'">
-                <s-consultaDesviacionInspeccion></s-consultaDesviacionInspeccion>
-            </p-tabPanel>
-        </p-tabView>
-    </p-panel>
+              </div>
+            </ng-template>
+          </p-table>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel
+        header="Desviaciones inspecciones"
+        *sTienePermiso="'SEC_GET_DESVINP'"
+      >
+        <s-consultaDesviacionInspeccion></s-consultaDesviacionInspeccion>
+      </p-tabPanel>
+    </p-tabView>
+  </p-panel>
 </div>
 
-
-
 <p-dialog [(visible)]="visibleDlg" modal="true">
-    <div class="grid">
-        <div class="col-6">
-            <label class="s-float-label">Desde</label>
-            <p-calendar dateFormat="dd/mm/yy" [ngModel]="desde" (ngModelChange)="desde=$event"
-                appendTo="body"></p-calendar>
-        </div>
-        <div class="col-6">
-            <label class="s-float-label">Hasta</label>
-            <p-calendar dateFormat="dd/mm/yy" [ngModel]="hasta" (ngModelChange)="hasta=$event"
-                appendTo="body"></p-calendar>
-        </div>
+  <div class="grid">
+    <div class="col-6">
+      <label class="s-float-label">Desde</label>
+      <p-calendar
+        dateFormat="dd/mm/yy"
+        [ngModel]="desde"
+        (ngModelChange)="desde = $event"
+        appendTo="body"
+      ></p-calendar>
     </div>
-    <div *ngIf="downloading == true">
-        <p-progressSpinner strokeWidth="8" [style]="{width: '25px', height: '25px'}"></p-progressSpinner>
-        <label style="position: relative;top: -7px;left:7px;">Descargando...</label>
+    <div class="col-6">
+      <label class="s-float-label">Hasta</label>
+      <p-calendar
+        dateFormat="dd/mm/yy"
+        [ngModel]="hasta"
+        (ngModelChange)="hasta = $event"
+        appendTo="body"
+      ></p-calendar>
     </div>
+  </div>
+  <div *ngIf="downloading == true">
+    <p-progressSpinner
+      strokeWidth="8"
+      [style]="{ width: '25px', height: '25px' }"
+    ></p-progressSpinner>
+    <label style="position: relative; top: -7px; left: 7px"
+      >Descargando...</label
+    >
+  </div>
 
-    <ng-container *ngIf="downloading != true">
-        <button *sTienePermiso="'SEC_GET_CONSINV'" pButton type="button" icon="bi bi-download" label="Descargar"
-            title="Descarga consolidado de investigaciones" (click)="descargarInvs()"
-            [disabled]="desde == null || hasta == null"></button>
-    </ng-container>
+  <ng-container *ngIf="downloading != true">
+    <button
+      *sTienePermiso="'SEC_GET_CONSINV'"
+      pButton
+      type="button"
+      icon="bi bi-download"
+      label="Descargar"
+      title="Descarga consolidado de investigaciones"
+      (click)="descargarInvs()"
+      [disabled]="desde == null || hasta == null"
+    ></button>
+  </ng-container>
 </p-dialog>
 
 <a style="visibility: hidden" id="dwldLink"></a>

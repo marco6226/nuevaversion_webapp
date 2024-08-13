@@ -9,8 +9,8 @@
         <app-layout-menu [statusMenuIn]="statusMenu"></app-layout-menu>
 
         <ng-content select="app-menu"></ng-content>
-        <div style="width: 96%; padding: 10px; ">   
-            <router-outlet></router-outlet>
+        <div style="width: 96%; padding: 10px; ">
+            <router-outlet (activate)="hideHorizontalMenu($event)"></router-outlet>
         </div>
 
     </div>
