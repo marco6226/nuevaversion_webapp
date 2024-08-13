@@ -57,5 +57,19 @@ export class ProcesoMatrizService extends CRUDService<ProcesoMatriz>{
       );
     });
   }
+  getForEmpresaCorPros(): Promise<ProcesoMatriz[]>{
+    return new Promise((resolve, reject) => {
+      this.httpInt.get(endPoints.ProcesoMatrizService + "empresaCorPros")
+      .subscribe(
+        (res: any) => {
+          resolve(res);
+        },
+        err => {
+          this.manageError(err);
+          reject(err);
+        }
+      )
+    })
+  }
 
 }

@@ -32,6 +32,9 @@ export class ListaInspeccionService extends CRUDService<ListaInspeccion>{
   public getInspeccionImagen(lista_id: any, version_id: any) {
     return this.http.get(`${this.end_point}images/${lista_id}/${version_id}`, this.getRequestHeaders(this.headers)).toPromise();
   }
+  public getInspeccionbyProcess(proceso: number) {
+    return this.http.get(`${this.end_point}InspeccionSv/${proceso}`, this.getRequestHeaders(this.headers)).toPromise();
+  }
   
   getRequestHeaders(headers?: HttpHeaders): any {
     if (headers == null)

@@ -15,7 +15,7 @@
   
   <s-programacion-evento [esNueva]="adicionar" [loading]="loading" [(visible)]="visibleDlg" style="width: 50%;"
   [listasInspeccion]="listasInspeccionList" [esNueva]="adicionar" [fechaSelected]="fechaSelected" modulo="ISV"
-  [(value)]="value" [deshabilitar]="deshabilitarEvento" (onChange)="onChangeProgramacionEvento($event)"></s-programacion-evento>
+  [(value)]="value" [deshabilitar]="deshabilitarEvento" (onChangeProceso)="rechargeProceso($event)" (onChange)="onChangeProgramacionEvento($event)"></s-programacion-evento>
   
   <p-dialog [style]="{'width':'60%'}" [(visible)]="visibleDlgFiltros" [responsive]="true" [modal]="true" appendTo="body">
     <ng-template pTemplate="header">
@@ -38,7 +38,11 @@
           </div>
           <div class="col-6 md:col-6 sm:col-12">
             <label for="area">area</label>
-            <p-multiSelect id="area" [options]="areasOption" formControlName="areaSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+            <p-multiSelect id="area" [options]="areasOptionAreaMatriz" formControlName="areaSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+          </div>
+          <div class="col-6 md:col-6 sm:col-12">
+            <label for="area">Proceso</label>
+            <p-multiSelect id="area" [options]="ProcesosOption" formControlName="procesoSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
           </div>
           
           <div class="col-6 md:col-6 sm:col-12">

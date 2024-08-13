@@ -26,6 +26,9 @@ import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 import { Area } from '../../../empresa/entities/area';
 import { division } from '../../../comun/entities/datosGraf4';
 import { area } from 'd3-shape';
+import { AreaMatriz } from '../../../comun/entities/Area-matriz';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
+import { ProcesoMatriz } from '../../../comun/entities/Proceso-matriz';
 @Component({
   selector: 'app-programacion-signos-vitales',
   templateUrl: './programacion-signos-vitales.component.html',
@@ -49,15 +52,17 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   visibleProgMasiva!: boolean;
   fechaMaxima!: Date;
   semanaLaboral = ['1', '2', '3', '4', '5',];
-  localidadesOption: {label: string; value: Localidades}[] = [];
-  areasOption:{label: string, value: Area}[]=[];
+  localidadesOption: { label: string; value: Localidades }[] = [];
+  areasOption: { label: string, value: Area }[] = [];
+  areasOptionAreaMatriz: { label: string, value: AreaMatriz }[] = [];
+  ProcesosOption: { label: string, value: ProcesoMatriz }[] = [];
   listaInspeccionList!: ListaInspeccion[];
   areasPerm!: string;
   loading: boolean = false;
   progLoading: boolean = false;
   permiso: boolean = false;;
   totalRecords!: number;
-  empresasAliadasOption: {label: string; value: Empresa}[] = [];
+  empresasAliadasOption: { label: string; value: Empresa }[] = [];
 
 
   calendarOptions!: CalendarOptions;
@@ -80,7 +85,30 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   value: string | null = null;
   deshabilitarEvento: boolean = false;
   @ViewChild(FullCalendarComponent) calendarComponent: FullCalendarComponent | undefined;
+  rechargeProceso(proces: number) {
+    console.log('recharge', proces
 
+    );
+    
+    try {
+      this.loadListasInspeccion(proces).then(() => {
+        try {this.listasInspeccionList=[]
+
+          this.actualizarEventos();
+        } catch (error) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Error al cargar eventos.'
+          });
+        }
+      }).catch((e) => {
+        throw new Error(e)
+      });
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar listas de inspección.' });
+    }
+  }
   constructor(
     private sesionService: SesionService,
     private userService: PerfilService,
@@ -92,6 +120,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     private messageService: MessageService,
     private areaMatrizService: AreaMatrizService,
     private config: PrimeNGConfig,
+    private procesoMatrizService:ProcesoMatrizService, 
     private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
@@ -109,16 +138,16 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       empresasAliadas: [null],
       empleado: [null],
       division: [null],
-      localidadSv:[null],
-      areaSv:[null],
-      procesoSv:[null],
+      localidadSv: [null],
+      areaSv: [null],
+      procesoSv: [null],
     });
   }
 
   async ngOnInit() {
     this.config.setTranslation(this.localeES);
     this.calendarOptions = {
-      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, ],
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin,],
       initialDate: new Date(),
       locale: esLocale,
       dateClick: this.openDlg.bind(this),
@@ -140,8 +169,10 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     this.areasPerm = this.sesionService.getPermisosMap()['INP_GET_PROG'].areas;
     await this.loadLocalidades();
     await this.loadDiv();
+    await this.loadAreasMatriz();
+    await this.loadProcesos();
     await this.applyFilter();
-    
+
     try {
       this.loadListasInspeccion().then(() => {
         try {
@@ -157,28 +188,28 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
         throw new Error(e)
       });
     } catch (e) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Error al cargar listas de inspección.'});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al cargar listas de inspección.' });
     }
   }
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
-    
+
     // console.log(this.calendarComponent);
     this.calendarComponent?.getApi().on('datesSet', () => {
       // console.log('upev');
       this.actualizarEventos();
     });
   }
-  
+
   localidades: Localidades[] = [];
-  async loadLocalidades(){
+  async loadLocalidades() {
     this.empresaService.getLocalidades().then(
       (res: Localidades[]) => {
         this.localidades = Array.from(res);
         this.localidadesOption = [];
         this.localidades.forEach(localidad => {
-          this.localidadesOption.push({label: localidad.localidad, value: localidad});
+          this.localidadesOption.push({ label: localidad.localidad, value: localidad });
         })
       },
       (reason: any) => {
@@ -187,22 +218,70 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     )
   }
   divisiones: Area[] = [];
-  async loadDiv(){
+  async loadDiv() {
     this.empresaService.getArea().then(
       (res: Area[]) => {
         this.divisiones = Array.from(res);
         this.areasOption = [];
         this.divisiones.forEach(divi => {
-          this.areasOption.push({label: divi.nombre, value: divi});
+          this.areasOption.push({ label: divi.nombre, value: divi });
         })
         console.log(this.areasOption), 'area';
-        
+
       },
       (reason: any) => {
         console.error('Error al obtener localidades', reason);
       }
     )
   }
+  async loadAreas() {
+    this.empresaService.getArea().then(
+      (res: Area[]) => {
+        this.divisiones = Array.from(res);
+        this.areasOption = [];
+        this.divisiones.forEach(divi => {
+          this.areasOption.push({ label: divi.nombre, value: divi });
+        })
+        console.log(this.areasOption), 'area';
+
+      },
+      (reason: any) => {
+        console.error('Error al obtener localidades', reason);
+      }
+    )
+  }
+  divisionesArea: AreaMatriz[] = [];
+
+  async loadAreasMatriz() {
+    this.areaMatrizService.getForEmpresaCor().then(
+      (res: AreaMatriz[]) => {
+        this.divisionesArea = Array.from(res);
+        this.areasOptionAreaMatriz = [];
+        this.divisionesArea.forEach(divi => {
+          this.areasOptionAreaMatriz.push({ label: divi.nombre ?? '', value: divi });
+        })        
+      },
+      (reason: any) => {
+        console.error('Error al obtener localidades', reason);
+      }
+    )
+  }
+  procesos: ProcesoMatriz[] = [];
+  async loadProcesos() {
+    this.procesoMatrizService.getForEmpresaCorPros().then(
+      (res: ProcesoMatriz[]) => {
+        this.procesos = Array.from(res);
+        this.ProcesosOption = [];
+        this.procesos.forEach(divi => {
+          this.ProcesosOption.push({ label: divi.nombre ?? '', value: divi });
+        })        
+      },
+      (reason: any) => {
+        console.error('Error al obtener localidades', reason);
+      }
+    )
+  }
+  
 
   areaList: any[] = []
   areaListActual: any[] = []
@@ -236,49 +315,52 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       console.log(this.areaListActual)
     }
   }
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void { }
 
   ngOnDestroy(): void {
     sessionStorage.removeItem('userP');
   }
 
   visibleDlgFiltros: boolean = false;
-  openDlgFiltros(){
+  openDlgFiltros() {
     this.visibleDlgFiltros = true;
   }
-  getIdsForFilter(event: any[]): string{
+  getIdsForFilter(event: any[]): string {
     let ids = <number[]>event.map(item => {
       return item.id;
     });
     return '{' + ids.join(',') + '}';
   }
-  async applyFilter(){
+  async applyFilter() {
     let localidades: any[] = this.formFilters.value.localidades;
     let empresas: any[] = this.formFilters.value.empresasAliadas;
     let empleado: any = this.formFilters.value.empleado;
     let divisiones: any[] = this.formFilters.value.division;
     let localidadesSv: any[] = this.formFilters.value.localidadSv;
     let areaSv: any[] = this.formFilters.value.areaSv;
+    let procesoSv: any[] = this.formFilters.value.procesoSv;
 
     let filterList: Filter[] = [];
-    if(localidades && localidades.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'localidad.id', value1: this.getIdsForFilter(localidades)});
-    if(divisiones && divisiones.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'area.id', value1: this.getIdsForFilter(divisiones)});
-    if(areaSv && areaSv.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'areaSv', value1: this.getIdsForFilter(areaSv)});
-    if(localidadesSv && localidadesSv.length>0 )filterList.push({criteria: Criteria.CONTAINS, field: 'localidadSv', value1: this.getIdsForFilter(localidadesSv)})
-    if(empresas && empresas.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'empresaAliada.id', value1: this.getIdsForFilter(empresas)});
-    if(empleado) filterList.push({criteria: Criteria.LIKE, field: 'empleadoBasic', value1: '%' + empleado.usuarioBasic.email + '%'});
-    if(divisiones && divisiones.length > 0 && localidadesSv && localidadesSv.length>0 )filterList.push({criteria: Criteria.CONTAINS, field: 'area.id' && 'localidadSv', value1: this.getIdsForFilter(divisiones && localidadesSv)})
+    if (localidades && localidades.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'localidad.id', value1: this.getIdsForFilter(localidades) });
+    if (divisiones && divisiones.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: this.getIdsForFilter(divisiones) });
+    if (areaSv && areaSv.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'areaSv', value1: this.getIdsForFilter(areaSv) });
+    if(procesoSv && procesoSv.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'procesoSv', value1: this.getIdsForFilter(procesoSv)})
+    if (localidadesSv && localidadesSv.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'localidadSv', value1: this.getIdsForFilter(localidadesSv) })
+    if (empresas && empresas.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'empresaAliada.id', value1: this.getIdsForFilter(empresas) });
+    if (empleado) filterList.push({ criteria: Criteria.LIKE, field: 'empleadoBasic', value1: '%' + empleado.usuarioBasic.email + '%' });
+    if (divisiones && divisiones.length > 0 && localidadesSv && localidadesSv.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id' && 'localidadSv', value1: this.getIdsForFilter(divisiones && localidadesSv) })
 
     this.actualizarEventosSV(filterList);
     this.visibleDlgFiltros = false;
   }
   actualizarEventosSV(filters?: Filter[]): Promise<EventInput[]> {
 
-    return new Promise((resolve, reject) => {let filterQuery = new FilterQuery();
+    return new Promise((resolve, reject) => {
+      let filterQuery = new FilterQuery();
 
       filterQuery.filterList = [
         { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm },
-        {criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales'}
+        { criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales' }
       ];
 
       filterQuery.fieldList = [
@@ -294,9 +376,9 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
         'areaSv',
         'procesoSv'
       ];
-      if(filters) filterQuery.filterList.push(...filters);
-  
-      if(this.calendarComponent && this.calendarComponent.getApi().getCurrentData()) {
+      if (filters) filterQuery.filterList.push(...filters);
+
+      if (this.calendarComponent && this.calendarComponent.getApi().getCurrentData()) {
         let calendarData = this.calendarComponent.getApi().getCurrentData();
         let filters: Filter[] = [];
         filters.push({
@@ -315,19 +397,19 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       try {
         this.programacionService.findByFilter(filterQuery)
           .then((data: any) => {
-  
+
             let array = <any[]>data['data'];
             let objArray: any[] = [];
-  
+
             array.forEach(dto => {
               objArray.push(FilterQuery.dtoToObject(dto));
             });
-  
+
             this.matriz = [];
             this.events = [];
-  
+
             this.programacionList = objArray;
-  
+
             objArray.forEach(element => {
               let matrizData: MatrizList = {
                 dia: new Date,
@@ -336,21 +418,21 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
               // debugger
               let perfilesLista: number[] = JSON.parse(element?.listaInspeccion?.fkPerfilId ?? '[]') ?? [];
               let tienePermiso: boolean = false;
-              for(let pr of userP){
-                if(perfilesLista.includes(pr.id)){
+              for (let pr of userP) {
+                if (perfilesLista.includes(pr.id)) {
                   tienePermiso = true;
                   break;
                 }
               }
-              if(!tienePermiso) return;
+              if (!tienePermiso) return;
 
               this.matriz?.push(matrizData);
-  
+
               var _color = '#007AD9';
               if (element.numeroRealizadas == element.numeroInspecciones) {
                 _color = 'green';
               }
-  
+
               this.event = {
                 id: element.id,
                 title: element.numeroRealizadas + '/' + element.numeroInspecciones + ' Insp. en ' + element.area.nombre,
@@ -359,7 +441,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
                 color: _color,
               }
               console.log(element, 'element');
-              
+
               this.events.push(this.event)
             });
 
@@ -375,14 +457,14 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       }
     });
   }
-  cleanFilters(){
+  cleanFilters() {
     this.formFilters.reset();
   }
-  async loadListasInspeccion(){
+  async loadListasInspeccion(procesoSv?: number) { // Recibe el valor de procesoSv
     let user: any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();
 
-
+    // Filtro para usuario
     filterQuery.filterList = [{
       field: 'usuarioEmpresaList.usuario.id',
       criteria: Criteria.EQUALS,
@@ -391,46 +473,62 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     }];
 
     const userP = await this.userService.findByFilter(filterQuery);
-
     let userParray: any = userP;
     sessionStorage.setItem('userP', JSON.stringify(userParray.data));
+
+    // Filtro para estado activo y tipoLista 'Signos Vitales'
     filterQuery = new FilterQuery();
-    filterQuery.filterList = [{
-      field: 'estado',
-      criteria: Criteria.EQUALS,
-      value1: 'activo',
-      value2: null
-    }];
+    filterQuery.filterList = [
+      {
+        field: 'estado',
+        criteria: Criteria.EQUALS,
+        value1: 'activo',
+        value2: null
+      },
+      {
+        field: 'tipoLista',
+        criteria: Criteria.EQUALS,
+        value1: 'Signos Vitales',
+        value2: null
+      },
+
+
+    ];
+    if (procesoSv) {
+      filterQuery.filterList.push({
+        field: 'procesoSv', // Añadir filtro para procesoSv
+        criteria: Criteria.EQUALS,
+        value1: procesoSv.toString(),
+        value2: null
+      })
+    }
 
     this.listaInspeccionService.findByFilter(filterQuery).then((resp: any) => {
       this.listaInspeccionList = [];
       resp.data.forEach((dto: any) => {
         let obj = FilterQuery.dtoToObject(dto);
         obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
-    
-        // Verificar si el campo 'tipoLista' es 'Signos Vitales'
-        if (obj.tipoLista === 'Signos Vitales') {
-          try {
-            userParray.data.forEach((profile: any) => {
-              let perfilArray = JSON.parse(obj.fkPerfilId);
-              if (perfilArray.find((x: any) => x == profile.id) != undefined) {
-                if (!this.listaInspeccionList.find(element => element == obj)) {
-                  this.listaInspeccionList.push(obj);
-                  this.listasInspeccionList.push({
-                    label: obj.codigo + ' - ' + obj.nombre + ' v' + obj.listaInspeccionPK.version,
-                    value: obj.listaInspeccionPK
-                  });
-                }
+
+        try {
+          userParray.data.forEach((profile: any) => {
+            let perfilArray = JSON.parse(obj.fkPerfilId);
+            if (perfilArray.find((x: any) => x == profile.id) != undefined) {
+              if (!this.listaInspeccionList.find(element => element == obj)) {
+                this.listaInspeccionList.push(obj);
+                this.listasInspeccionList.push({
+                  label: obj.codigo + ' - ' + obj.nombre + ' v' + obj.listaInspeccionPK.version,
+                  value: obj.listaInspeccionPK
+                });
               }
-            });
-          } catch (error) {
-            console.error("Error processing profile array:", error);
-          }
+            }
+          });
+        } catch (error) {
+          console.error("Error processing profile array:", error);
         }
       });
     });
-    
   }
+
 
   actualizarEventos() {
     return new Promise((resolve, reject) => {
@@ -438,7 +536,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
 
       filterQuery.filterList = [
         { criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPerm },
-        {criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales'}
+        { criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales' }
       ];
 
       filterQuery.fieldList = [
@@ -452,8 +550,8 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
         'numeroRealizadas'
       ];
 
-      if(this.calendarComponent) {
-        let calendarData =  this.calendarComponent.getApi().getCurrentData();
+      if (this.calendarComponent) {
+        let calendarData = this.calendarComponent.getApi().getCurrentData();
         filterQuery.filterList.push({
           criteria: Criteria.BETWEEN,
           field: 'fecha',
@@ -465,63 +563,63 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       this.progLoading = true;
       try {
         this.programacionService.findByFilter(filterQuery)
-        .then((data: any) => {
+          .then((data: any) => {
 
-          let array = <any[]>data['data'];
-          let objArray: any[] = [];
+            let array = <any[]>data['data'];
+            let objArray: any[] = [];
 
-          array.forEach(dto => {
-            objArray.push(FilterQuery.dtoToObject(dto));
-          });
+            array.forEach(dto => {
+              objArray.push(FilterQuery.dtoToObject(dto));
+            });
 
-          this.matriz = [];
-          this.events = [];
+            this.matriz = [];
+            this.events = [];
 
-          this.programacionList = objArray;
-          // console.log(this.programacionList);
+            this.programacionList = objArray;
+            // console.log(this.programacionList);
 
-          let userP: any[] = JSON.parse(sessionStorage.getItem('userP') ?? '[]');
-          objArray.forEach(element => {
-            let matrizData: MatrizList = {
-              dia: new Date,
-              programacionList: []
-            }
-
-            let perfilLista: number[] = JSON.parse(element?.listaInspeccion?.fkPerfilId ?? '[]') ?? [];
-            // console.log(userP);
-            let tienePermiso: boolean = false;
-            for(let pr of userP){
-              if(perfilLista.includes(pr.id)){
-                tienePermiso = true;
-                break;
+            let userP: any[] = JSON.parse(sessionStorage.getItem('userP') ?? '[]');
+            objArray.forEach(element => {
+              let matrizData: MatrizList = {
+                dia: new Date,
+                programacionList: []
               }
-            }
-            if(!tienePermiso) return;
-            // debugger
-            this.matriz?.push(matrizData);
 
-            var _color = '#007AD9';
-            if (element.numeroRealizadas == element.numeroInspecciones) {
-              _color = 'green';
-            }
+              let perfilLista: number[] = JSON.parse(element?.listaInspeccion?.fkPerfilId ?? '[]') ?? [];
+              // console.log(userP);
+              let tienePermiso: boolean = false;
+              for (let pr of userP) {
+                if (perfilLista.includes(pr.id)) {
+                  tienePermiso = true;
+                  break;
+                }
+              }
+              if (!tienePermiso) return;
+              // debugger
+              this.matriz?.push(matrizData);
 
-            this.event = {
-              id: element.id,
-              title: element.numeroRealizadas + '/' + element.numeroInspecciones + 'Insp. en ' + element.area.nombre,
-              start: new Date(element.fecha),
-              end: new Date(element.fecha + 3600000),
-              color: _color,
-            }
-            this.events.push(this.event)
+              var _color = '#007AD9';
+              if (element.numeroRealizadas == element.numeroInspecciones) {
+                _color = 'green';
+              }
+
+              this.event = {
+                id: element.id,
+                title: element.numeroRealizadas + '/' + element.numeroInspecciones + 'Insp. en ' + element.area.nombre,
+                start: new Date(element.fecha),
+                end: new Date(element.fecha + 3600000),
+                color: _color,
+              }
+              this.events.push(this.event)
+            });
+
+            this.progLoading = false;
+            resolve(this.events);
+          })
+          .catch(err => {
+            this.progLoading = false;
+            reject(err);
           });
-
-          this.progLoading = false;
-          resolve(this.events);
-        })
-        .catch(err => {
-          this.progLoading = false;
-          reject(err);
-        });
       } catch (error) {
         reject(error);
       }
@@ -759,12 +857,12 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   }
 
   onChangeProgramacionEvento(event: boolean) {
-    if(event) {
+    if (event) {
       this.actualizarEventos()
-      .then(() => {})
-      .catch(() => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: 'No fue posible cargar los eventos.'});
-      });
+        .then(() => { })
+        .catch(() => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No fue posible cargar los eventos.' });
+        });
     }
   }
 }

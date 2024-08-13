@@ -98,7 +98,10 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter();
   @Output() valueChange: EventEmitter<string | null> = new EventEmitter();
   @Output() onChange: EventEmitter<boolean> = new EventEmitter();
-
+  @Output() onChangeProceso: EventEmitter<number> = new EventEmitter();
+  updateValueProcesos(value:any){
+    this.onChangeProceso.emit(value['id']);
+  }
   constructor(
     private fb: FormBuilder,
     private programacionService: ProgramacionService,
@@ -341,7 +344,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
            this.cargarArea(this.form?.controls['localidadSv'].value, 'Origen');
            this.form?.controls['areaSv'].setValue(this.areaList.find(value => value.id == parseInt(programacion['areaSv'])));
            this.cargarProceso(this.form?.controls['areaSv'].value, 'Origen')
-          this.form?.controls['procesoSv'].setValue(this.procesoList.find(value => value.id == parseInt(programacion['procesoSv'])));
+          this.form?.controls['procesoSv'].setValue(this.procesoList.find(value => value.id == parseInt(programacion['procesoSv'])));          
         } else {
           this.form?.get('area')?.setValue(programacion.area ? programacion.area : null);
           // Puedes agregar más campos específicos para otros módulos aquí
