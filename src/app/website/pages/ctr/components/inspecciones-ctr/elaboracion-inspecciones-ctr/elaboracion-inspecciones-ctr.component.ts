@@ -306,6 +306,13 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                     respuesta.campoId = campo.id;
                     this.respuestaCampos.push(respuesta);
                     break;
+                case 'división de negocio':
+                    if(!this.respuestaCampos) this.respuestaCampos = [];
+                    let respuesta1: RespuestaCampo = {} as RespuestaCampo;
+                    respuesta1.valor = programacion.localidad.plantas.area?.nombre;
+                    respuesta1.campoId = campo.id;
+                    this.respuestaCampos.push(respuesta1);
+                    break;
                 case 'nombre del aliado con nit':
                     if(!this.respuestaCampos) this.respuestaCampos = [];
                     let respuesta2: RespuestaCampo = {} as RespuestaCampo;
