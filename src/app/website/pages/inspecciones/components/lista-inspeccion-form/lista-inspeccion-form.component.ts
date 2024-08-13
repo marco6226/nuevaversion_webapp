@@ -91,7 +91,7 @@ export class ListaInspeccionFormComponent implements OnInit {
 
     crearOpcionesPlan(){
         return [
-        {id: '1',nombre: 'Tarjeta amarilla',descripcion: 'Tarjeta amarilla',valor: 5,},
+        {id: '1',nombre: 'Tarjeta de seguridad',descripcion: 'Tarjeta de seguridad',valor: 5,},
         {id: '2',nombre: 'Reporte mantenimiento',descripcion: 'Reporte mantenimiento',valor: 5,},
         ];
     }

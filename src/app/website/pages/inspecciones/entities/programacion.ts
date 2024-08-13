@@ -1,3 +1,4 @@
+import { AreaMatriz } from "../../comun/entities/Area-matriz";
 import { Serie } from "../../comun/entities/serie";
 import { Localidades } from "../../ctr/entities/aliados";
 import { Area } from "../../empresa/entities/area";
@@ -14,8 +15,8 @@ export interface Programacion {
     empresaAliada: Empresa;
     empleadoBasic: any;
     listaInspeccion: ListaInspeccion;
-    localidadSv: any | null;
-    areaSv: any | null;
+    localidadSv: any  | null;
+    areaSv:any  | null;
     procesoSv: any  | null;
-    // serie: Serie | null;
+   
 }

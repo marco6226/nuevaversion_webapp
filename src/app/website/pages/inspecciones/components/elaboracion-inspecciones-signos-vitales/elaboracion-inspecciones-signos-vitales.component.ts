@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, SelectItem } from 'primeng/api';
 import { DirectorioService } from '../../../ado/services/directorio.service';
-import { Criteria, Filter } from '../../../core/entities/filter';
+import { Criteria, Filter, SortOrder } from '../../../core/entities/filter';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { SistemaNivelRiesgo } from '../../../core/entities/sistema-nivel-riesgo';
 import { AuthService } from '../../../core/services/auth.service';
@@ -22,13 +22,17 @@ import { Calificacion } from '../../entities/calificacion';
 import { ElementoInspeccion } from '../../entities/elemento-inspeccion';
 import { Inspeccion } from '../../entities/inspeccion';
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
-import { Programacion } from '../../entities/programacion';
+import { Programacion } from 'src/app/website/pages/inspecciones/entities/programacion';
 import { InspeccionService } from '../../services/inspeccion.service';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 import { ListaInspeccionFormComponent } from '../lista-inspeccion-form/lista-inspeccion-form.component';
 import { Formulario } from 'src/app/website/pages/comun/entities/formulario';
 import { Campo } from 'src/app/website/pages/comun/entities/campo';
 import { RespuestaCampo } from 'src/app/website/pages/comun/entities/respuesta-campo';
+import { AreaService } from '../../../empresa/services/area.service';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 
 @Component({
   selector: 'app-elaboracion-inspecciones-signos-vitales',
@@ -90,11 +94,17 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
   isEmpleadoValid!: boolean;
   equipo!: string;
   observacion!: string;
+  
   observacion1!: string;
   observacion2!: string;
   flagImprimir!: boolean;
   x: ElementoInspeccion[] = [];
   y = new Array();
+  areaList: any = [];
+  nombreDiv: any;
+  nombreLoc: any;
+  nombreArea: any;
+  nombreProc:any;
 
   EstadoOptionList = [
       { label: "Disponible", value: "Disponible" },
@@ -144,10 +154,14 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
       private fb: FormBuilder,
       private domSanitizer: DomSanitizer,
       private messageService: MessageService,
+      private areasService: AreaService,
+      private empresaService: EmpresaService,
+      private areaMatrizService: AreaMatrizService,
+      private procesoMatrizService: ProcesoMatrizService,
 
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
       this.empleado = this.sesionService.getEmpleado()!;
       let filterQuery = new FilterQuery();
       let filter = new Filter();
@@ -196,7 +210,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
               .catch(err => {
                   this.initLoading = false;
               }).finally(() => {
-                  this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
+                 this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
               });
           this.getTareaEvidences(parseInt(this.listaInspeccion.listaInspeccionPK.id), this.listaInspeccion.listaInspeccionPK.version);
 
@@ -303,17 +317,103 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
       this.paramNav.reset();
   }
 
-  async precargarDatos(formulario: Formulario, programacion: Programacion) {
-      formulario.campoList.forEach((campo:Campo, index: number) => {
-          switch(campo.nombre.trim().toLowerCase()) {
-            
-              case 'localidad':
-                  if(!this.respuestaCampos) this.respuestaCampos = [];
-                  let respuesta: RespuestaCampo = {} as RespuestaCampo;
-                  respuesta.valor = programacion.localidad;
-                  respuesta.campoId = campo.id;
-                  this.respuestaCampos.push(respuesta);
-                  break;
+  async getDivision(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+
+    try {
+        const res: any = await this.areasService.findByFilter(filterQuery);
+        const areas: { id: string; nombre: string }[] = res['data']; 
+        if (areas.length > 0) {
+            const nombre = areas[0].nombre;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener las áreas:', error);
+        return null; 
+    }
+}
+
+async getLocalidad(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'localidad';
+    filterQuery.fieldList = ['id', 'localidad'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+
+    try {
+        const res: any = await this.empresaService.getLocalidadesRWithFilter(filterQuery);
+        const localidad: { id: string; localidad: string }[] = res['data']; 
+        if (localidad.length > 0) {
+            const nombre = localidad[0].localidad;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la localidad:', error);
+        return null; 
+    }
+}
+
+async getArea(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+
+    try {
+        const res: any = await this.areaMatrizService.findByFilter(filterQuery);
+        const area: { id: string; nombre: string }[] = res['data']; 
+        if (area.length > 0) {
+            const nombre = area[0].nombre;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la área:', error);
+        return null; 
+    }
+}
+
+async getProceso(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+
+    try {
+        const res: any = await this.procesoMatrizService.findByFilter(filterQuery);
+        const proceso: { id: string; nombre: string }[] = res['data']; 
+        if (proceso.length > 0) {
+            const nombre = proceso[0].nombre;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener el proceso:', error);
+        return null; 
+    }
+}
+
+async precargarDatos(formulario: Formulario, programacion: Programacion) {
+        const promesas = formulario.campoList.map(async (campo:Campo, index: number) => {
+        const campoNuevo =  campo.nombre.trim().toLowerCase()
+    
+        switch(campoNuevo) {
               case 'fecha':
                   if(!this.respuestaCampos) this.respuestaCampos = [];
                   let fecha = new Date(); // Obtiene la fecha y hora actuales
@@ -327,9 +427,22 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
                   this.respuestaCampos.push(respuesta3);
                   break;
               default:
-                  break;
+                let division = await this.getDivision(String(programacion.area));
+                this.nombreDiv = division;
+
+                let localidad = await this.getLocalidad(String(programacion.localidadSv));
+                this.nombreLoc = localidad
+
+                let area = await this.getArea(String(programacion.areaSv));
+                this.nombreArea = area;
+
+                let proceso = await this.getProceso(String(programacion.procesoSv));
+                this.nombreProc = proceso;
+
+                break;
           }
-      })
+      });
+      await Promise.all(promesas);
   }
 
   findMatrizValue(fecha: Date) {

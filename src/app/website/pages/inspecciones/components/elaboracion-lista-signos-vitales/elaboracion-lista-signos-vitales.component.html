@@ -27,8 +27,32 @@
                             <input type="number" pInputText formControlName="version" required />
 
                             <label class="s-float-label">Tipo lista</label>
-                            <p-dropdown [filter]="true" [options]="tipoListaOpts" formControlName="tipoLista" editable="true" styleClass="custom-dropdown"
+                            <p-dropdown [filter]="true" [options]="tipoListaOpts" formControlName="tipoLista"  styleClass="custom-dropdown"
                                 placeholder="--Seleccione--" required></p-dropdown>
+
+                            
+                            <label class="s-float-label">División</label>
+                            <p-dropdown formControlName="divisionSv" [filter]="true" placeholder="--Seleccione--"
+                                [options]="listDivision" appendTo="body" styleClass="custom-dropdown" required
+                                (onChange)="cargarPlantaLocalidad($event.value, 'Origen')"> 
+                            </p-dropdown>
+
+                            <label class="s-float-label">Localidad</label>
+                            <p-dropdown formControlName="localidadSv" [filter]="true" placeholder="--Seleccione--"
+                                [options]="localidadesList" class="select-material" styleClass="select-material" required
+                                (onChange)="cargarArea($event.value, 'Origen')"> 
+                            </p-dropdown>
+
+                            <label class="s-float-label">Área</label>
+                            <p-dropdown formControlName="areaSv" [filter]="true" placeholder="--Seleccione--"
+                                [options]="areaList" required
+                                (onChange)="cargarProceso($event.value, 'Origen')"> 
+                            </p-dropdown>
+
+                            <label class="s-float-label">Proceso</label>
+                            <p-dropdown formControlName="procesoSv" [filter]="true" placeholder="--Seleccione--"
+                                [options]="procesoList"  appendTo="body" required> 
+                            </p-dropdown>
 
                             <label class="s-float-label">Perfiles</label>
                             <p-multiSelect [options]="perfilList" formControlName="perfilesId"

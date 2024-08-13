@@ -9,16 +9,34 @@
     <p-panel>
       <p-header class="container">
         <div class="row">
-          <div class="col-md-9 col-sm-12 mb-3">
+          <div class="col-md-5 mb-3">
             <button *ngIf="!adicionar" pButton class="p-button-raised p-button-success margin-right margin-left"
               icon="bi bi-printer" (click)="imprimirImagen()"></button>
-            {{listaInspeccion?.nombre}}
+            <p><b>Nombre:</b> {{listaInspeccion?.nombre}}</p>
           </div>
-          <div class="col-md-3 col-sm-12">
+          <div class="col-md-4">
             <p *ngIf="inspeccion?.id">INP{{'-'+inspeccion?.id}}</p>
-            <p>{{listaInspeccion?.codigo}}</p>
-            <p>Versión: {{listaInspeccion?.listaInspeccionPK.version}}</p>
-            <p> Ubicacion: {{area?.nombre}}</p>
+            <p><b>Código:</b> {{listaInspeccion?.codigo}}</p>
+          </div>
+          <div class="col-md-3">
+            <p><b>Versión:</b> {{listaInspeccion?.listaInspeccionPK.version}}</p>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-5">
+            <p><b>División:</b> {{nombreDiv}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Localidad:</b> {{nombreLoc}}</p>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-5">
+            <p><b>Área:</b> {{nombreArea}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Proceso:</b> {{nombreProc}}</p>
           </div>
         </div>
       </p-header>
@@ -37,7 +55,7 @@
   
     
     <s-formulario *ngIf="listaInspeccion?.formulario" [formularioModel]="listaInspeccion?.formulario"
-      (onValidChange)="actualizarValidacion($event)"></s-formulario>
+      (onValidChange)="actualizarValidacion($event)" [respuestaCampos]="respuestaCampos"></s-formulario>
     <br />
   
     <app-lista-inspeccion-form [value]="listaInspeccion?.elementoInspeccionList"

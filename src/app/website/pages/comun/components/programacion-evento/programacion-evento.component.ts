@@ -280,6 +280,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     filterAreaQuery.fieldList = ["id", "nombre"];
     filterAreaQuery.filterList = [
       { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+      { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
     ];
 
     await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
