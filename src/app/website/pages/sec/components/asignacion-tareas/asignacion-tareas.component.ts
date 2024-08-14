@@ -33,8 +33,8 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
   observacionesRealizacion?: string;
   arrayIdsareas:any  = [];
   idEmpresa: string = '';
-  totalRecords!: number;
-  tableScroll!:any;
+  totalRecords: number = 0;
+  tableScroll:any;
   isScrollRigth: boolean = true;
   isScrollLeft: boolean = false;
    
@@ -191,7 +191,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     await this.tareaService.findByDetails(this.arrayIdsareas).then(
         async (resp: any) => { 
             this.tareasList = resp;
-            this.totalRecords = this.tareasList.length;
+            //this.totalRecords = this.tareasList.length;
             if(this.esAliado){
               let nit_aliado = this.sesionService.getEmpresa()?.nit;
 
@@ -371,6 +371,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
 
     onFilter(event:any){
         this.tareaListFilter=event.filteredValue
+        this.totalRecords = event.filteredValue.length
     }
 
     // Esta función valida en el objeto json columnasPorModulo, en ese objeto están detalladas las columnas que quiere ver cada empresa 
