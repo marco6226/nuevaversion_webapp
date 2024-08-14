@@ -21,6 +21,18 @@ export class FormularioComponent implements OnInit {
 
   @Input("respuestaCampos") respuestaCampos: RespuestaCampo[] | null = null;
 
+  disableControl(controlName: string) {
+    let control = this.form.get(controlName);
+    control?.disable();
+
+  }
+
+  enableControl(controlName: string) {
+    const control = this.form.get(controlName);
+    if (control) {
+      control.enable();
+    }
+  }
   constructor(
     private fb: FormBuilder,
     private opcionesFormularioService: OpcionesFormularioService
@@ -94,6 +106,8 @@ export class FormularioComponent implements OnInit {
     this.form = new FormGroup(group);
     this.onValidChange.emit(this.form.valid);
   }
+
+  
   onChange(event: any, campoNombre: string) {
     if (campoNombre === 'DIVISION' || campoNombre === 'DIVISIÓN DE NEGOCIO') {
       const selectedId = event.value;

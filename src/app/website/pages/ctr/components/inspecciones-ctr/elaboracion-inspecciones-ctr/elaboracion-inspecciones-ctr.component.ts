@@ -30,6 +30,7 @@ import { Programacion } from 'src/app/website/pages/inspecciones/entities/progra
 import { InspeccionService } from 'src/app/website/pages/inspecciones/services/inspeccion.service';
 import { ListaInspeccionService } from 'src/app/website/pages/inspecciones/services/lista-inspeccion.service';
 import { ListaInspeccionFormCtrComponent } from '../lista-inspeccion-form-ctr/lista-inspeccion-form-ctr.component';
+import { FormularioComponent } from 'src/app/website/pages/comun/components/formulario/formulario.component';
 
 @Component({
     selector: 'app-elaboracion-inspecciones-ctr',
@@ -41,6 +42,7 @@ import { ListaInspeccionFormCtrComponent } from '../lista-inspeccion-form-ctr/li
 export class ElaboracionInspeccionesCtrComponent implements OnInit {
 
     @ViewChild('listaInspeccionForm', { static: false }) listaInspeccionForm!: ListaInspeccionFormCtrComponent;
+    @ViewChild('sFormulario', { static: false }) formularioComponent!: FormularioComponent;
 
     editable: boolean = false;
     pdfGenerado!: boolean;
@@ -132,6 +134,8 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+
+        
         this.empresa = this.sesionService.getEmpresa() ?? {} as Empresa;
         this.empleado = this.sesionService.getEmpleado()!;
         let filterQuery = new FilterQuery();
@@ -181,6 +185,7 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 .catch(err => {
                     this.initLoading = false;
                 }).finally(() => {
+                    
                     this.cargarPorcentajesDeCumplimiento();
                     this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
                 });
@@ -296,6 +301,31 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
         this.paramNav.reset();
     }
 
+    actualizarValidacion(valido: boolean) {
+        this.formValid = valido;
+        if (this.formularioComponent) {
+            const controlName = this.obtenerControlNombreDivisionDeNegocio();
+            const controlNameL = this.obtenerControlNombreLocalidad();
+        if (controlName) {
+            this.formularioComponent.disableControl(controlName);
+            
+        }
+        }
+    }
+
+  obtenerControlNombreDivisionDeNegocio(): string | null {
+    const campoDivision = this.listaInspeccion.formulario.campoList.find(
+      campo => campo.nombre.toLowerCase() === 'división de negocio'
+    );
+    return campoDivision ? campoDivision.nombre + campoDivision.id : null;
+  }
+
+  obtenerControlNombreLocalidad(): string | null {
+    const campoLocalidad = this.listaInspeccion.formulario.campoList.find(
+      campo => campo.nombre.toLowerCase() === 'localidad'
+    );
+    return campoLocalidad ? campoLocalidad.nombre + campoLocalidad.id : null;
+  }
     async precargarDatos(formulario: Formulario, programacion: Programacion) {
         formulario.campoList.forEach((campo:Campo, index: number) => {
             switch(campo.nombre.trim().toLowerCase()) {
@@ -887,11 +917,6 @@ export class ElaboracionInspeccionesCtrComponent implements OnInit {
                 }
             }
         }
-    }
-
-
-    actualizarValidacion(valido: boolean) {
-        this.formValid = valido;
     }
 
     volver() {

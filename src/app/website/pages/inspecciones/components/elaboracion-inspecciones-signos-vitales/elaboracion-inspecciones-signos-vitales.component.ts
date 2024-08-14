@@ -105,6 +105,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
   nombreLoc: any;
   nombreArea: any;
   nombreProc:any;
+  responsableM:any;
 
   EstadoOptionList = [
       { label: "Disponible", value: "Disponible" },
@@ -438,6 +439,11 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
                 let proceso = await this.getProceso(String(programacion.procesoSv));
                 this.nombreProc = proceso;
+
+                let responsable = JSON.parse(programacion.empleadoBasic);
+                this.responsableM = responsable;
+                console.log(this.responsableM);
+                
 
                 break;
           }
