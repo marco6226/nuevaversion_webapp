@@ -60,13 +60,13 @@ export class OpcionesFormularioService {
           await empresaService.getArea()
           .then(
             (res: Area[]) => {
-              divisionesTemp = res.map(area => ({
-                label: area.nombre,
-                value: area.id  
-              }));
+              let nombreDivision: string[] = res.map(area => area.nombre);
+              divisionesTemp = nombreDivision.map(are => {
+                return {label: are, value: are}
+              })
             }
           ).catch((err: any) => {
-            console.error('Error al obtener las divisiones', err);
+            console.error('Error al obtener divisiones', err);
           });
           return divisionesTemp;
         }
@@ -84,6 +84,18 @@ export class OpcionesFormularioService {
                   label: localidad.localidad,
                   value: localidad.id  
                 }));
+              }
+            ).catch((err: any) => {
+              console.error('Error al obtener localidades', err);
+            });
+          }else{
+            await empresaService.getLocalidades()
+            .then(
+              (res: Localidades[]) => {
+                let nombreLocalidades: string[] = res.map(localidad => localidad.localidad);
+                localidadesTemp = nombreLocalidades.map(loc => {
+                  return {label: loc, value: loc}
+                })
               }
             ).catch((err: any) => {
               console.error('Error al obtener localidades', err);
@@ -184,8 +196,12 @@ export class OpcionesFormularioService {
 
  
   async getOpciones(campo: Campo, padre?: string) {
-    if (campo.nombre === 'DIVISION' || campo.nombre === 'DIVISIÓN DE NEGOCIO') {
+    if (campo.nombre === 'DIVISION' ) {
       this.divisionId = padre;
+    }
+    if(campo.nombre === 'DIVISIÓN DE NEGOCIO'){
+      let campos = await this.getServicio(campo.nombre);
+    if(padre) return await campos(padre);
     }
 
     const campos = await this.getServicio(campo.nombre);
