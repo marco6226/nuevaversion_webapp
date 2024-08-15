@@ -140,7 +140,7 @@ export class ListaInspeccionSignosComponent implements OnInit {
     this.paramNav.setParametro<ListaInspeccion>(this.listaInpSelect);
     this.paramNav.setAccion<string>('GET');
     this.router.navigate(
-      ['/app/inspecciones/elaboracionLista']
+      ['/app/signos/elaboracionListaSv']
     );
   }
 

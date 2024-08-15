@@ -165,6 +165,7 @@ const routes: Routes = [
           {path: 'elaboracionListaSv', component: ElaboracionListaSignosVitalesComponent},
           {path: 'programacionSv', component: ProgramacionSignosVitalesComponent},
           {path: 'consultarInspeccionesSv', component: ConsultaInspeccionesSignosVitalesComponent},
+          { path: 'elaboracionInspeccionesSv', component: ElaboracionInspeccionesSignosVitalesComponent },
           { path: 'elaboracionInspeccionesSv/:id/:version', component: ElaboracionInspeccionesSignosVitalesComponent},
 
         ]

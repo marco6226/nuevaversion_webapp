@@ -264,8 +264,10 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
                           }
                       }
                   });
+                  this.precargarDatos(this.listaInspeccion.formulario, this.programacion);
                   this.cargarCalificaciones(this.listaInspeccion.elementoInspeccionList, this.inspeccion.calificacionList);
                   this.initLoading = false;
+                  
               })
               .catch(err => {
                   this.initLoading = false;
@@ -428,23 +430,31 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                   this.respuestaCampos.push(respuesta3);
                   break;
               default:
-                let division = await this.getDivision(String(programacion.area));
-                this.nombreDiv = division;
-
-                let localidad = await this.getLocalidad(String(programacion.localidadSv));
-                this.nombreLoc = localidad
-
-                let area = await this.getArea(String(programacion.areaSv));
-                this.nombreArea = area;
-
-                let proceso = await this.getProceso(String(programacion.procesoSv));
-                this.nombreProc = proceso;
-
-                let responsable = JSON.parse(programacion.empleadoBasic);
-                this.responsableM = responsable;
-                console.log(this.responsableM);
-                
-
+                let nombreD = programacion.area.id;
+                if(typeof programacion.area === 'number'){
+                    let division = await this.getDivision(String(programacion.area));
+                    this.nombreDiv = division;
+                }else if(nombreD){
+                    let divisionR = await this.getDivision(String(programacion.area.id));
+                    this.nombreDiv = divisionR;
+                }
+                 
+                if(programacion.localidadSv){
+                    let localidad = await this.getLocalidad(String(programacion.localidadSv));
+                    this.nombreLoc = localidad
+                }
+                if(programacion.areaSv){
+                    let area = await this.getArea(String(programacion.areaSv));
+                    this.nombreArea = area;
+                }
+                if(programacion.procesoSv){
+                    let proceso = await this.getProceso(String(programacion.procesoSv));
+                    this.nombreProc = proceso;
+                }
+                if(programacion.empleadoBasic){
+                    let responsable = JSON.parse(programacion.empleadoBasic);
+                    this.responsableM = responsable.primerNombre + ' '+ responsable.primerApellido; 
+                }
                 break;
           }
       });

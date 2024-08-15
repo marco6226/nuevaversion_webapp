@@ -187,12 +187,13 @@ async getArea() {
       { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
       { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
     ];
-
-    await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
-      resp.data.forEach((resp2: any) => {
-        this.listDivision.push({ label: resp2.nombre, value: resp2.id })
-      });
-    })
+    try{
+        const resp: any =  await this.areaService.findByFilter(filterAreaQuery);
+        const divisionList = resp.data.map((element:any)=>({ label: element.nombre, value: element.id}));
+        this.listDivision = divisionList
+    }catch (error) {
+        console.error("Error al cargar las divisiones:", error);
+    }
 
   }
 

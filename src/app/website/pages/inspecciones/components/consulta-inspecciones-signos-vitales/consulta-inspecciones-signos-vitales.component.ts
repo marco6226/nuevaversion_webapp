@@ -217,7 +217,7 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
     } else {
       this.paramNav.setAccion<string>(+ consultar ? 'GET' : 'PUT');
       this.paramNav.setParametro<Inspeccion>(this.inspeccionSelect);
-      this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones');
+      this.paramNav.redirect('/app/signos/elaboracionInspeccionesSv');
     }
   }
 
@@ -227,7 +227,7 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
     } else {
       this.paramNav.setAccion<string>(+ consultar ? 'GET' : 'PUT');
       this.paramNav.setParametro<Inspeccion>(this.inspeccionNoProgSelect);
-      this.paramNav.redirect('/app/inspecciones/elaboracionInspecciones');
+      this.paramNav.redirect('/app/signos/elaboracionInspeccionesSv');
     }
   }
 
