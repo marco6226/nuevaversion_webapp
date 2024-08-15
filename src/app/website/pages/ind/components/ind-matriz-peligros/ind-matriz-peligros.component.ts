@@ -5696,7 +5696,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
     if(this.selectPais23 || this.selecteDivision23 == 'Total' || this.selecteLocalidad23){
       let dataAnalisisRiesgo23: any[] = JSON.parse(localStorage.getItem('dataMP')!);
-      console.log(dataAnalisisRiesgo23)
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let ejeY:any
@@ -5807,9 +5806,12 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         let gpi: number = dataAnalisisRiesgo23.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, ini) => {
           return (count + Number(ini.nrInicial));
         }, 0);
+        
         let gpf: number = dataAnalisisRiesgo23.filter(mp => mp[variableText] === y.label && mp.nrInicial != null).reduce((count, fin) => {
-          return (count + (fin.estado == 'Riesgo eliminado')?0:((fin.nrResidual)?Number(fin.nrResidual):Number(fin.nrInicial)));
+          return count + ((fin.estado == 'Riesgo eliminado') ? 0 : ((fin.nrResidual != null) ? Number(fin.nrResidual) : Number(fin.nrInicial)));
         }, 0);
+        
+        
                 
         gpiTotal +=gpi
         gpfTotal +=gpf
@@ -6033,7 +6035,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
     if(this.selectePeligro24 && this.selectePeligro24.length > 0){
       let peligroList24 = [...this.meta24]
-      console.log(this.selectePeligro24)
       let selectePeligro24 = this.selectePeligro24.map((p:any) => p.nombre).sort();
       dataEventos24.labels = selectePeligro24;
       dataEventos24.datasets[1].data = dataEventos24.datasets[1].data.filter((data:any, index:any) => selectePeligro24.includes(peligroList24[index]));
@@ -8476,7 +8477,6 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
       Object.assign(this, {dataEventos16_2}); 
     }
     grafData17_2(){
-      console.log('aqui')
       let flagZero:boolean=false
 
       if(this.selectPais17_2){
