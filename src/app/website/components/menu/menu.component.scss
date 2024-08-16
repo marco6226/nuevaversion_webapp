@@ -11,7 +11,7 @@
     //max-height: 90vh;
    // overflow-y: auto;
     scrollbar-width: 50px;
-    -ms-overflow-style: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
     &::-webkit-scrollbar {
         display: auto;
     }
@@ -19,12 +19,12 @@
 
 .container-show{
     width: 255px;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .container-hide{
-    width: 65px;
-    transition: 0.3s;
+    width: 72px;
+    transition: 0.2s;
     
 }
 

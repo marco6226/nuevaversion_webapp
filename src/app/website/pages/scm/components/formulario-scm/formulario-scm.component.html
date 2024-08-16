@@ -623,7 +623,7 @@
                 </p-panel>
                 <div *ngIf="!consultar2" style="text-align: center; width: 100%;">
                     <button pButton *ngIf="solicitando == false" (click)="submitEmp()" type="submit"
-                        icon="pi pi-save" class="float-btn" style="bottom: 100px;"
+                        icon="pi pi-save" class="float-btn" style="bottom: 70px;margin-right: 24px;"
                         title="Guardar datos de Empleado" [disabled]="!this.empleadoForm.valid"></button>
                 
                     <p-progressSpinner *ngIf="solicitando == true" class="float-btn" strokeWidth="8"
