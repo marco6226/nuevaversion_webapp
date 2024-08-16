@@ -8,7 +8,7 @@
                 Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
             </span>
         </div>
-        <p-table #dt [tableStyle]="{'min-width': '50rem'}" [value]="perfilList" styleClass="p-datatable-gridlines" autoLayout="true" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
+        <p-table #dt [tableStyle]="{'min-width': '50rem'}" [value]="perfilList" styleClass="p-datatable-striped" selectionMode="single" [(selection)]="perfil" [rows]="10" [paginator]="true"
             dataKey="id" [lazy]="true" (onLazyLoad)="lazyLoad($event)" [totalRecords]="totalRecords" [loading]="loading"
             [rowsPerPageOptions]="[10, 20, 50, 100]">
             <ng-template pTemplate="header">

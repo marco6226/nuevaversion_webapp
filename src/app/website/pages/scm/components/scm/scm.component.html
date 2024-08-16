@@ -21,7 +21,7 @@
             <button *sTienePermiso="'SCM_GET_INFO'" pButton type="button" (click)="visibleDlgInforme=true"
                 title="Exportar informe" icon="pi pi-file-excel" class="p-button-success"></button>
 
-            <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [loading]="loading"
+            <p-table #dt styleClass="p-datatable-striped" autoLayout="true" selectionMode="single" [loading]="loading"
                 [(selection)]="caseSelect" [value]="casosList" [paginator]="true" [rows]="10" dataKey="id" [lazy]="true"
                 (onLazyLoad)="lazyLoad($event)" sortField="fechaCreacion" sortOrder="1" [totalRecords]="totalRecords"
                 (onFilter)="onFilter($event)" [rowsPerPageOptions]="[10, 20, 50, 100]" scrollable="true">
