@@ -20,6 +20,7 @@ import { ManualesComponent } from './pages/ayuda/components/manuales/manuales.co
 import { CambioPasswdComponent } from './pages/comun/components/cambio-passwd/cambio-passwd.component';
 import { ConsultactasComponent } from './pages/cop/components/consultactas/consultactas.component';
 import { DashboardCoronaComponent } from './pages/core/components/dashboard-corona/dashboard-corona.component';
+import { DasboardComercialComponent } from './pages/core/components/dasboard-comercial/dasboard-comercial.component';
 import { TerminosCondicionesComponent } from './pages/core/components/terminos-condiciones/terminos-condiciones.component';
 import { InicioComponent } from './pages/core/components/inicio/inicio.component';
 import { ActividadesContratadasComponent } from './pages/ctr/components/actividades-contratadas/actividades-contratadas.component';
@@ -254,6 +255,7 @@ import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspeccio
     CambioPasswdComponent,
     ConsultactasComponent,
     DashboardCoronaComponent,
+    DasboardComercialComponent,
     TerminosCondicionesComponent,
     InicioComponent,
     ActividadesContratadasComponent,  

@@ -130,12 +130,12 @@
                                                     [yearRange]="yearRange" [maxDate]="fechaActual" 
                                                     dateFormat="dd/mm/yy" formControlName="fechaIngreso" appendTo="body"></p-calendar> -->
 
-                                                <p-calendar appendTo="body" *ngIf="empresaId!=22" [disabled]="consultar2"
+                                                <p-calendar appendTo="body" *ngIf="empresaId!=22 || empresaId!=508" [disabled]="consultar2"
                                                     [attr.disabled]="true" [monthNavigator]="true"
                                                     [yearNavigator]="true" [yearRange]="yearRange"
                                                     [maxDate]="fechaActual" dateFormat="dd/mm/yy"
                                                     formControlName="fechaIngreso"></p-calendar>
-                                                <p-calendar appendTo="body" *ngIf="empresaId==22" required [disabled]="consultar2"
+                                                <p-calendar appendTo="body" *ngIf="empresaId==22 || empresaId==508" required [disabled]="consultar2"
                                                     [attr.disabled]="true" [monthNavigator]="true"
                                                     [yearNavigator]="true" [yearRange]="yearRange"
                                                     [maxDate]="fechaActual" dateFormat="dd/mm/yy"
@@ -238,11 +238,11 @@
                                             <label for="" class="active">Fecha de nacimiento</label>
                                         </div>
                                         <div>
-                                            <p-calendar appendTo="body" *ngIf="empresaId==22" required [disabled]="consultar2"
+                                            <p-calendar appendTo="body" *ngIf="empresaId==22 || empresaId==508" required [disabled]="consultar2"
                                                 [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                                 [yearRange]="yearRange" [maxDate]="fechaActual"
                                                 dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
-                                            <p-calendar appendTo="body" *ngIf="empresaId!=22" [disabled]="consultar2"
+                                            <p-calendar appendTo="body" *ngIf="empresaId!=22 || empresaId!=508" [disabled]="consultar2"
                                                 [attr.disabled]="true" [monthNavigator]="true" [yearNavigator]="true"
                                                 [yearRange]="yearRange" [maxDate]="fechaActual"
                                                 dateFormat="dd/mm/yy" formControlName="fechaNacimiento"></p-calendar>
@@ -336,10 +336,10 @@
                                         <div>
                                             <!-- <p-dropdown [readonly]="consultar2" [filter]="true" [options]="epsList" formControlName="eps"
                                                 class="select-material" styleClass="select-material"></p-dropdown> -->
-                                            <p-dropdown *ngIf="empresaId==22" required [readonly]="consultar2"
+                                            <p-dropdown *ngIf="empresaId==22 || empresaId==508" required [readonly]="consultar2"
                                                 [filter]="true" [options]="epsList" formControlName="eps"
                                                 class="select-material" styleClass="select-material"></p-dropdown>
-                                            <p-dropdown *ngIf="empresaId!=22" [readonly]="consultar2" [filter]="true"
+                                            <p-dropdown *ngIf="empresaId!=22 || empresaId!=508" [readonly]="consultar2" [filter]="true"
                                                 [options]="epsList" formControlName="eps" class="select-material"
                                                 styleClass="select-material"></p-dropdown>
                                         </div>
@@ -356,7 +356,7 @@
                                             <p-dropdown *ngIf="empresaId==22" required [readonly]="consultar2"
                                                 [filter]="true" [options]="afpList" formControlName="afp"
                                                 class="select-material" styleClass="select-material"></p-dropdown>
-                                            <p-dropdown *ngIf="empresaId!=22" [readonly]="consultar2" [filter]="true"
+                                            <p-dropdown *ngIf="empresaId!=22 || empresaId!=508" [readonly]="consultar2" [filter]="true"
                                                 [options]="afpList" formControlName="afp" class="select-material"
                                                 styleClass="select-material"></p-dropdown>
                                         </div>
@@ -370,10 +370,10 @@
                                         <!-- <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText [value]="arl || ''" placeholder="Arl"
                                             class="form-control" id="arl" /> -->
                                         <div>
-                                            <input *ngIf="empresaId==22" required [readonly]="consultar2"
+                                            <input *ngIf="empresaId==22 || empresaId==508" required [readonly]="consultar2"
                                                 [attr.disabled]="true" type="text" pInputText [value]="arl || ''"
                                                 placeholder="Arl" class="form-material" id="ARL" />
-                                            <input *ngIf="empresaId!=22" [readonly]="consultar2" [attr.disabled]="true"
+                                            <input *ngIf="empresaId!=22 || empresaId!=508" [readonly]="consultar2" [attr.disabled]="true"
                                                 type="text" pInputText [value]="arl || ''" placeholder="Arl"
                                                 class="form-material" id="ARL" />
                                         </div>

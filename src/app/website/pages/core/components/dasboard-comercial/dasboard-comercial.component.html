@@ -1,0 +1,502 @@
+
+<div style="width: 100%;">
+    <p-panel header="RESUMEN ACCIDENTALIDAD" style="text-align:center;">
+        <div class="grid colorsitos colorfondo">
+            <div class="col-12 ">
+                <div class="grid ">
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="card l-bg-blue1-dark">
+                          <div style="text-align:left;">
+                              <h3>Número de ATs</h3>
+                          </div>
+                          <div style="text-align:right;">
+                              <span class="tamañotexto">{{this.NoEventos || 0}}</span>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="card l-bg-blue2-dark">
+                          <div style="text-align:left;">
+                              <h3>Dias perdidos</h3>
+                          </div>
+                          <div  style="text-align:right;">
+                              <span class="tamañotexto">{{this.diasPerdidos || 0}}</span>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class={{colorIli}}>
+                          <div style="text-align:left;">
+                              <h3>ILI</h3>
+                          </div>
+                          <div  style="text-align:right;">
+                              <span class="tamañotexto">{{ili || 0}}</span>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <div class="card l-bg-blue3-dark">
+                            <div style="text-align:left;">
+                                <ng-container *ngIf="!this.selectedDivisionResumen1"><h3>Meta ILI</h3></ng-container>
+                                <!-- <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI {{(this.selectPais1=='Comercial Total')?'':' pais'}}</h3></ng-container> -->
+                                <ng-container *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"><h3>Meta ILI división</h3></ng-container>
+                                <ng-container *ngIf="this.PlantaSelect1"><h3>Meta ILI localidad</h3></ng-container>
+                            </div>
+                            <div style="text-align:right;">
+                                <span class="tamañotexto">{{((!this.selectedDivisionResumen1)?0:metaIli) || 0}}</span>
+                                <!-- <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">{{(this.selectPais1=='Comercial Total')?'Comercial total':' pais'}}: {{metaPais || 0}}</span></ng-container> -->
+                                <ng-container *ngIf="this.PlantaSelect1"><br><span class="tamañotexto2">División: {{metaDivision || 0}}</span></ng-container>
+                            </div>                                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10 grid mid-border p-justify-center" style="margin: auto;">
+              <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">País:</p> 
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" [(ngModel)]="selectPais1" placeholder="Seleccionar país" [showClear]="true" (onChange)="funcSelectPais($event,'resumen')">
+                </p-dropdown>
+              </div>
+              <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">División:</p> 
+              
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione division" [options]="divisionList1"
+                [(ngModel)]="selectedDivisionResumen1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="funcSelectDivision($event,'resumen')"></p-dropdown>
+
+              </div>
+              <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">Localidad:</p> 
+                <p-dropdown [style]="{'width':'100%'}" appendTo="body" placeholder="Seleccione la localidad" [options]="plantasList1"
+                [(ngModel)]="PlantaSelect1" [style]="{'margin-bottom':'10px', 'margin-top':'-5px'}" (onChange)="loadResumen()"></p-dropdown>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3"  style="display: flex;">
+                <p style="margin: 10px!important;">Año:</p>
+                <p-dropdown [style]="{'width':'100%'}" [options]="yearRange"
+                placeholder="Seleccione un año"
+                [(ngModel)]="anioActualResumen"
+                (onChange)="loadResumen()">
+                </p-dropdown>
+              </div>
+              <div class="col-12 md:col-5 lg:col-4"  style="display: flex;">
+                <p style="margin-right: 10px!important;">Desde:</p>
+                <p-calendar [showIcon]="true" appendTo="body"  view="month"
+                dateFormat="MM" placeholder="Seleccione"  
+                [(ngModel)]="fechaInicioResumen" showButtonBar="true" 
+                (onSelect)="loadResumen()" (onClearClick)="loadResumen()"
+                (onTodayClick)="loadResumen()" >
+                </p-calendar>
+              </div>
+              <div class="col-12 md:col-5 lg:col-4" style="display: flex;">
+                <p style="margin-right: 10px!important;">Hasta:</p>
+                  <p-calendar [showIcon]="true" appendTo="body"  view="month" dateFormat="MM" 
+                  placeholder="Seleccione"  showButtonBar="true" 
+                  [(ngModel)]="fechaFinalResumen" (onSelect)="loadResumen()"
+                  (onClearClick)="loadResumen()" (onTodayClick)="loadResumen()">
+                  </p-calendar>
+              </div>
+              <div class="col-12 md:col-2 lg:col-1" style="display: flex;">
+                <button pButton type="button" icon="pi pi-external-link" title="Indicadores Accidentalidad"
+                (click)="IndicadoresAccidentalidad()"></button>
+              </div>
+            </div>
+        </div>
+    </p-panel>
+  <br>
+  <p-panel header="RESUMEN CARACTERIZACIÓN">
+    <div class="grid colorsitos colorfondo">
+        <div class="col-12" >
+            <p-radioButton name="group1" [value]="0" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+            <label for="">Total</label>
+            <p-radioButton name="group1" [value]="1" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+            <label for="">Temporales</label>
+            <p-radioButton name="group1" [value]="2" [style]="{'margin-left':'15px'}" [(ngModel)]="radioGra0" (onClick)="CardsClasificacion()"></p-radioButton>
+            <label for="">Directos</label>
+        </div>
+        <div class="col-12 ">
+            <div class="grid ">
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue1-dark">
+                        <div  style="text-align:left;">
+                            <h3>Leve</h3>
+                        </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContLeve}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue2-dark">
+                        <div  style="text-align:left;">
+                            <h3>Grave</h3>
+                        </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContGrave}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue3-dark">
+                        <div  style="text-align:left;">
+                            <h3>Severo</h3>
+                        </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContSevero}}</span>
+                        </div>                                     
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3">
+                    <div class="card l-bg-blue4-dark">
+                        <div  style="text-align:left;">
+                            <h3>Mortal</h3>
+                        </div>
+                        <div  style="text-align:right;">
+                            <span class="tamañotexto">{{this.ContMortal}}</span>
+                        </div>                                     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-10 grid mid-border p-justify-center" style="margin: auto; display: flex; justify-content: space-evenly;">
+            <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">
+                <p>Pais: </p>&nbsp;<p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="paisesList" placeholder="Seleccionar pais" (onChange)="funcSelectPais($event,'resumen2');" [(ngModel)]="selectPais2"></p-dropdown>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4"  style="display: flex;"><p style="margin-right: 10px!important;">
+                <p>División: </p>&nbsp;<p-multiSelect [style]="{'width':'100%','max-width': '200px'}" appendTo="body" [options]="divisionList2" placeholder="Seleccionar división" (onChange)="funcSelectDivision2($event,'resumen2')" [(ngModel)]="selectedDivisionResumen2"></p-multiSelect>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
+                <p>Localidad: </p>&nbsp;<p-multiSelect [style]="{'width':'100%','max-width': '200px'}" appendTo="body" [options]="localidadesList1" placeholder="Seleccionar localidad" [(ngModel)]="LocalidadSelect1" defaultLabel="Seleccione localidad" (ngModelChange)="CardsClasificacion()"></p-multiSelect>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4"  style="display: flex;">
+                <p style="margin-right: 10px!important;">Desde:</p>
+                <p-calendar  [showIcon]="true" view="month" dateFormat="mm/yy" placeholder="Desde" appendTo="body" [(ngModel)]="date1" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar> 
+            </div>
+            <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
+                <p style="margin-right: 10px!important;">Hasta:</p>
+                <p-calendar  [showIcon]="true" view="month" dateFormat="mm/yy" placeholder="Hasta" appendTo="body" [(ngModel)]="date2" (ngModelChange)="CardsClasificacion()" [showButtonBar]="true"> </p-calendar>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4" style="display: flex;">
+                <button pButton type="button" icon="pi pi-external-link" title="Indicadores Caracterización"
+                (click)="IndicadoresCaracterizacion()"></button>
+            </div>
+        </div>
+    </div>
+    </p-panel>
+  <br>
+  <p-panel header="RESUMEN CASOS MEDICOS" style="text-align:center;">
+    <div class="grid colorfondo" style="margin:0px auto;">
+      <!-- <div class="col-md-1">&nbsp;</div> -->
+        <div class="col-12" >
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-4">
+                    <div class="card l-bg-blue1-dark">
+                          <div style="text-align:left;">
+                              <h1 >Número de casos</h1>
+                          </div>
+                          <div style="text-align:right;">
+                              <span class="tamañotexto" >{{this.numCasos}}</span>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                    <div class="card l-bg-blue2-dark">
+                          <div style="text-align:left;">
+                              <h1 >Casos abiertos</h1>
+                          </div>
+                          <div style="text-align:right;">
+                              <span class="tamañotexto">{{this.casosAbiertos}}</span>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                    <div class="card l-bg-blue3-dark">
+                          <div style="text-align:left;">
+                              <h1>Casos cerrados</h1>
+                          </div>
+                          <div style="text-align:right;">
+                              <span class="tamañotexto">{{this.casosCerrados}}</span>
+                          </div>                                     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 grid">
+            <div class="col-12 md:col-12 lg:col-2">&nbsp;</div>
+            <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
+                <p>Area:</p><p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones" placeholder="Seleccionar división" (onChange)="numeroCasos()" [(ngModel)]="selecDiv0"></p-dropdown>
+            </div>
+            &nbsp;
+            <div class="col-12 md:col-6 lg:col-3" style="display: flex;"> 
+                <div><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="event"></mat-icon></div>
+                <p-calendar [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Desde" [(ngModel)]="fechaDesde0" (ngModelChange)="numeroCasos()"> </p-calendar> 
+            </div>
+            &nbsp;
+            <div class="col-12 md:col-6 lg:col-3" style="display: flex;">
+                <div><mat-icon aria-hidden="false" aria-label="event" fontIcon="event"></mat-icon></div>
+                <p-calendar [showButtonBar]="true"  view="month" dateFormat="mm/yy" placeholder="Hasta" [(ngModel)]="fechaHasta0" (ngModelChange)="numeroCasos()"> </p-calendar>
+                <div style="padding-left: 10px;">
+                    <button pButton type="button" icon="pi pi-external-link" title="Indicadores Casos Medicos"
+                    (click)="IndicadoresCasosMedicos()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-panel>
+<br>
+<p-panel header="RESUMEN MATRIZ DE PELIGROS (MAPA DE CALOR)" style="text-align:center;">
+    <div class="grid colorfondo" *ngIf="flagResumen">           
+        <div class="col-12 " style="padding-bottom: 0%;">
+            <div class="grid " style="padding-bottom: 0%;">
+                <div class="col-12 grid" style="padding-bottom: 0%; padding-top: 10px;">
+                    <div class="col-5"><h1 style="color:black !important">Riesgo inicial / Riesgo residual</h1>
+                    </div>
+                    <div class="col-5">&nbsp;</div>
+                    <div class="col-1" style="padding-left: 10px;">
+                        <button pButton type="button" icon="pi pi-external-link" title="Indicadores Matriz de peligros"
+                        (click)="IndicadoresMatrizPeligros()"></button>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                    <div  
+                    *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                    [ngStyle]="{ '--muyAlto': (resumenInicial['Almacenes Comercial'][0]+'%'),'--alto': (resumenInicial['Almacenes Comercial'][1]+'%'),'--medio': (resumenInicial['Almacenes Comercial'][2]+'%')}" class="cardmp colorResiduo">
+                        <div  style="text-align:left;" class="tamañotextomp">
+                            <span>Almacenes Comercial</span>
+                        </div>
+                        <div style="text-align:right;" class="tamañotexto2">
+                            <span>Bajo: {{resumenInicialText['Almacenes Comercial'][3]}}%</span><br>
+                            <span>Medio: {{resumenInicialText['Almacenes Comercial'][2]}}%</span><br>
+                            <span>Alto: {{resumenInicialText['Almacenes Comercial'][1]}}%</span><br>
+                            <span>Muy alto: {{resumenInicialText['Almacenes Comercial'][0]}}%</span>
+                        </div>  
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  
+                  *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                  [ngStyle]="{ '--muyAlto': (resumenResidual['Almacenes Comercial'][0]+'%'),'--alto': (resumenResidual['Almacenes Comercial'][1]+'%'),'--medio': (resumenResidual['Almacenes Comercial'][2]+'%')}" class="cardmp colorResiduo">
+                    <div  style="text-align:left;" class="tamañotextomp">
+                        <span>Almacenes Comercial</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenResidualText['Almacenes Comercial'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Almacenes Comercial'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Almacenes Comercial'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Almacenes Comercial'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  
+                  *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                  [ngStyle]="{ '--muyAlto': (resumenInicial['Bathrooms and Kitchen'][0]+'%'),'--alto': (resumenInicial['Bathrooms and Kitchen'][1]+'%'),'--medio': (resumenInicial['Bathrooms and Kitchen'][2]+'%')}" class="cardmp colorResiduo">
+                    <div  style="text-align:left;" class="tamañotextomp">
+                        <span>Bathrooms and Kitchen</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenInicialText['Bathrooms and Kitchen'][3]}}%</span><br>
+                        <span>Medio: {{resumenInicialText['Bathrooms and Kitchen'][2]}}%</span><br>
+                        <span>Alto: {{resumenInicialText['Bathrooms and Kitchen'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenInicialText['Bathrooms and Kitchen'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  
+                  *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                  [ngStyle]="{ '--muyAlto': (resumenResidual['Bathrooms and Kitchen'][0]+'%'),'--alto': (resumenResidual['Bathrooms and Kitchen'][1]+'%'),'--medio': (resumenResidual['Bathrooms and Kitchen'][2]+'%')}" class="cardmp colorResiduo">
+                    <div  style="text-align:left;" class="tamañotextomp">
+                        <span>Bathrooms and Kitchen</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenResidualText['Bathrooms and Kitchen'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Bathrooms and Kitchen'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Bathrooms and Kitchen'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Bathrooms and Kitchen'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  
+                  *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                  [ngStyle]="{ '--muyAlto': (resumenInicial['Comercial Comercial Colombia'][0]+'%'),'--alto': (resumenInicial['Comercial Comercial Colombia'][1]+'%'),'--medio': (resumenInicial['Comercial Comercial Colombia'][2]+'%')}" class="cardmp colorResiduo">
+                    <div  style="text-align:left;" class="tamañotextomp">
+                        <span>Comercial Comercial Colombia</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenInicialText['Comercial Comercial Colombia'][3]}}%</span><br>
+                        <span>Medio: {{resumenInicialText['Comercial Comercial Colombia'][2]}}%</span><br>
+                        <span>Alto: {{resumenInicialText['Comercial Comercial Colombia'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenInicialText['Comercial Comercial Colombia'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  
+                  *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                  [ngStyle]="{ '--muyAlto': (resumenResidual['Comercial Comercial Colombia'][0]+'%'),'--alto': (resumenResidual['Comercial Comercial Colombia'][1]+'%'),'--medio': (resumenResidual['Comercial Comercial Colombia'][2]+'%')}" class="cardmp colorResiduo">
+                    <div  style="text-align:left;" class="tamañotextomp">
+                        <span>Comercial Comercial Colombia</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenResidualText['Comercial Comercial Colombia'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Comercial Comercial Colombia'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Comercial Comercial Colombia'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Comercial Comercial Colombia'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  
+                  *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                  [ngStyle]="{ '--muyAlto': (resumenInicial['Funciones Transversales'][0]+'%'),'--alto': (resumenInicial['Funciones Transversales'][1]+'%'),'--medio': (resumenInicial['Funciones Transversales'][2]+'%')}" class="cardmp colorResiduo">
+                    <div  style="text-align:left;" class="tamañotextomp">
+                        <span>Funciones Transversales</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenInicialText['Funciones Transversales'][3]}}%</span><br>
+                        <span>Medio: {{resumenInicialText['Funciones Transversales'][2]}}%</span><br>
+                        <span>Alto: {{resumenInicialText['Funciones Transversales'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenInicialText['Funciones Transversales'][0]}}%</span>
+                    </div>  
+                  </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                  <div  
+                  *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                  [ngStyle]="{ '--muyAlto': (resumenResidual['Funciones Transversales'][0]+'%'),'--alto': (resumenResidual['Funciones Transversales'][1]+'%'),'--medio': (resumenResidual['Funciones Transversales'][2]+'%')}" class="cardmp colorResiduo">
+                    <div  style="text-align:left;" class="tamañotextomp">
+                        <span>Funciones Transversales</span>
+                    </div>
+                    <div style="text-align:right;" class="tamañotexto2">
+                        <span>Bajo: {{resumenResidualText['Funciones Transversales'][3]}}%</span><br>
+                        <span>Medio: {{resumenResidualText['Funciones Transversales'][2]}}%</span><br>
+                        <span>Alto: {{resumenResidualText['Funciones Transversales'][1]}}%</span><br>
+                        <span>Muy alto: {{resumenResidualText['Funciones Transversales'][0]}}%</span>
+                    </div>  
+                  </div>
+              </div>
+
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenInicial['Insumos Industriales y Energias'][0]+'%'),'--alto': (resumenInicial['Insumos Industriales y Energias'][1]+'%'),'--medio': (resumenInicial['Insumos Industriales y Energias'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Insumos Industriales y Energias</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Insumos Industriales y Energias'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Insumos Industriales y Energias'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Insumos Industriales y Energias'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Insumos Industriales y Energias'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenResidual['Insumos Industriales y Energias'][0]+'%'),'--alto': (resumenResidual['Insumos Industriales y Energias'][1]+'%'),'--medio': (resumenResidual['Insumos Industriales y Energias'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Insumos Industriales y Energias</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Insumos Industriales y Energias'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Insumos Industriales y Energias'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Insumos Industriales y Energias'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Insumos Industriales y Energias'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenInicial['Mesa Servida'][0]+'%'),'--alto': (resumenInicial['Mesa Servida'][1]+'%'),'--medio': (resumenInicial['Mesa Servida'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Mesa Servida</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Mesa Servida'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Mesa Servida'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Mesa Servida'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Mesa Servida'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenResidual['Mesa Servida'][0]+'%'),'--alto': (resumenResidual['Mesa Servida'][1]+'%'),'--medio': (resumenResidual['Mesa Servida'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Mesa Servida</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Mesa Servida'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Mesa Servida'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Mesa Servida'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Mesa Servida'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenInicial['Superficies, materiales y pinturas'][0]+'%'),'--alto': (resumenInicial['Superficies, materiales y pinturas'][1]+'%'),'--medio': (resumenInicial['Superficies, materiales y pinturas'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Superficies, materiales y pinturas</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Superficies, materiales y pinturas'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Superficies, materiales y pinturas'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Superficies, materiales y pinturas'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Superficies, materiales y pinturas'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenResidual['Superficies, materiales y pinturas'][0]+'%'),'--alto': (resumenResidual['Superficies, materiales y pinturas'][1]+'%'),'--medio': (resumenResidual['Superficies, materiales y pinturas'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Superficies, materiales y pinturas</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Superficies, materiales y pinturas'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Superficies, materiales y pinturas'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Superficies, materiales y pinturas'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Superficies, materiales y pinturas'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenInicial['Almacenes Comercial'] && resumenInicial['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenInicial['Comercial Total'][0]+'%'),'--alto': (resumenInicial['Comercial Total'][1]+'%'),'--medio': (resumenInicial['Comercial Total'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Comercial Total</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenInicialText['Comercial Total'][3]}}%</span><br>
+                      <span>Medio: {{resumenInicialText['Comercial Total'][2]}}%</span><br>
+                      <span>Alto: {{resumenInicialText['Comercial Total'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenInicialText['Comercial Total'][0]}}%</span>
+                  </div>  
+                </div>
+              </div>
+              <div class="col-12 md:col-6 lg:col-3 cardGrid2">
+                <div  
+                *ngIf="resumenResidual['Almacenes Comercial'] && resumenResidual['Almacenes Comercial'].length >= 3"
+                [ngStyle]="{ '--muyAlto': (resumenResidual['Comercial Total'][0]+'%'),'--alto': (resumenResidual['Comercial Total'][1]+'%'),'--medio': (resumenResidual['Comercial Total'][2]+'%')}" class="cardmp colorResiduo">
+                  <div  style="text-align:left;" class="tamañotextomp">
+                      <span>Comercial Total</span>
+                  </div>
+                  <div style="text-align:right;" class="tamañotexto2">
+                      <span>Bajo: {{resumenResidualText['Comercial Total'][3]}}%</span><br>
+                      <span>Medio: {{resumenResidualText['Comercial Total'][2]}}%</span><br>
+                      <span>Alto: {{resumenResidualText['Comercial Total'][1]}}%</span><br>
+                      <span>Muy alto: {{resumenResidualText['Comercial Total'][0]}}%</span>
+                  </div>  
+                </div>
+            </div>
+          </div>
+      </div>
+      
+    </div>
+</p-panel>
+</div>

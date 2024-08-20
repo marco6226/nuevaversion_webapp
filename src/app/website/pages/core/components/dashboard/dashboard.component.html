@@ -1,5 +1,5 @@
 <!-- <sg-charts></sg-charts> -->
-<ng-container *ngIf="idEmpresa!='22'" class="grid">
+<ng-container *ngIf="idEmpresa!='22' && idEmpresa!='508'" class="grid">
 <!-- <ng-container class="grid"> -->
     <p-card *ngIf="testing">
        
@@ -224,4 +224,7 @@
 </ng-container>
 <ng-container *ngIf="idEmpresa=='22'">
     <app-dashboard-corona></app-dashboard-corona>
+</ng-container>
+<ng-container *ngIf="idEmpresa == '508'">
+    <app-dasboard-comercial></app-dasboard-comercial>
 </ng-container>
