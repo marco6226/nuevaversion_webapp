@@ -127,7 +127,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
 
   emitirEventoSelecElemento2(elem: ElementoInspeccion) {
     const opcionSeleccionada = this.opciones.find(op => op.id === elem.calificacion?.opcionCalificacion?.id);
-    if (opcionSeleccionada && opcionSeleccionada.nombre === 'Ausente') {
+    if (opcionSeleccionada && opcionSeleccionada.nombre.toLowerCase() === 'ausente') {
       this.onElementoClick.emit(elem);
     }
   }

@@ -98,7 +98,7 @@ export class ListaInspeccionFormComponent implements OnInit {
 
     AusenteSelected(): boolean {
         const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
-        return opcionSeleccionada ? opcionSeleccionada.nombre === 'Ausente' : false;
+        return opcionSeleccionada ? opcionSeleccionada.nombre.toLowerCase() === 'ausente' : false;
     }
 
     PlanASelected(): boolean{

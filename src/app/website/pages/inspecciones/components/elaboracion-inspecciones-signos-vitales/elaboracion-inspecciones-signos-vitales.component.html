@@ -12,17 +12,23 @@
           <div class="col-md-5 mb-3">
             <button *ngIf="!adicionar" pButton class="p-button-raised p-button-success margin-right margin-left"
               icon="bi bi-printer" (click)="imprimirImagen()"></button>
+          </div>
+          <div class="col-md-4">
+            <p *ngIf="inspeccion?.id">INPSV{{'-'+inspeccion?.id}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 mb-3">
             <p><b>Nombre:</b> {{listaInspeccion?.nombre}}</p>
           </div>
           <div class="col-md-4">
-            <p *ngIf="inspeccion?.id">INP{{'-'+inspeccion?.id}}</p>
-            <p><b>Código:</b> {{listaInspeccion?.codigo}}</p>
+            <p><b>Código Lista:</b> {{listaInspeccion?.codigo}}</p>
           </div>
           <div class="col-md-3">
             <p><b>Versión:</b> {{listaInspeccion?.listaInspeccionPK.version}}</p>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="nombreProc">
           <div class="col-md-5">
             <p><b>División:</b> {{nombreDiv}}</p>
           </div>
@@ -30,7 +36,7 @@
             <p><b>Localidad:</b> {{nombreLoc}}</p>
           </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3" *ngIf="nombreArea">
           <div class="col-md-5">
             <p><b>Área:</b> {{nombreArea}}</p>
           </div>
@@ -39,7 +45,8 @@
           </div>
         </div>
         <div class="row mt-3">
-          <p><b>Responsable de la medición:</b> {{responsableM.primerNombre +' '+ responsableM.primerApellido }} </p>
+          <p *ngIf="responsableM"><b>Responsable de la medición:</b> {{responsableM}} </p>
+         
         </div>
       </p-header>
       

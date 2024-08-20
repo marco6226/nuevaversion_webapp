@@ -106,6 +106,9 @@
             },
             "development": {
               "buildTarget": "sigess:build:development"
+            },
+            "qa": {
+              "browserTarget": "sigess:build:qa"
             }
           },
           "defaultConfiguration": "development"

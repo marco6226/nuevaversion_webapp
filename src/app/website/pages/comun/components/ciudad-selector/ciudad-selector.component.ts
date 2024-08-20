@@ -210,9 +210,6 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   loadCiudadesItems(ciudades: Ciudad[]) {
     this.ciudadesItems.splice(2, this.ciudadesItems.length);
     ciudades.forEach((ciudad) => {
-      if (this.valueIn != null && ciudad.id == this.valueIn.id) {
-        this._value = ciudad;
-      }
       this.ciudadesItems.push({ label: ciudad.nombre, value: ciudad });
     });
   }
