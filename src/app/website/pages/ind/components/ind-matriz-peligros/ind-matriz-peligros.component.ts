@@ -1507,6 +1507,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
 
     switch (filter) {
       case 'graf1':
+        this.areasList1=[];//revisa esto para limpiar areas cuando se selecionan divisiones fredy
         this.localidadesList1=[]
         this.selecteLocalidad1=null
         if(localidadesList)
