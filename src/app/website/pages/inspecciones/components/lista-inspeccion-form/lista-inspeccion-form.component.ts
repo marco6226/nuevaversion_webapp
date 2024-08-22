@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Message, SelectItem } from 'primeng/api';
+import { ConfirmationService, MessageService, SelectItem, TreeNode, Message } from 'primeng/api';
 import { DirectorioService } from '../../../ado/services/directorio.service';
 import { NivelRiesgo } from '../../../core/entities/nivel-riesgo';
 import { SesionService } from '../../../core/services/session.service';
@@ -13,6 +13,7 @@ import { ElementoInspeccion } from '../../entities/elemento-inspeccion';
 import { OpcionCalificacion } from '../../entities/opcion-calificacion';
 import { TipoHallazgo } from '../../entities/tipo-hallazgo';
 import { TipoHallazgoService } from '../../services/tipo-hallazgo.service';
+import { locale_es } from '../../../comun/entities/reporte-enumeraciones';
 
 @Component({
     selector: 'app-lista-inspeccion-form',
@@ -55,6 +56,8 @@ export class ListaInspeccionFormComponent implements OnInit {
     opciones2: any[] = [];
     opciones3: any[] = [];
     opcionSeleccionada: string | null = null;
+    anioActual: number = new Date().getFullYear();
+    locale: any = locale_es;
 
     constructor(
         private sessionService: SesionService,
@@ -92,7 +95,7 @@ export class ListaInspeccionFormComponent implements OnInit {
     crearOpcionesPlan(){
         return [
         {id: '1',nombre: 'Tarjeta de seguridad',descripcion: 'Tarjeta de seguridad',valor: 5,},
-        {id: '2',nombre: 'Reporte mantenimiento',descripcion: 'Reporte mantenimiento',valor: 5,},
+
         ];
     }
 
@@ -102,26 +105,29 @@ export class ListaInspeccionFormComponent implements OnInit {
     }
 
     PlanASelected(): boolean{
-        const opcionSeleccionada = this.opciones2.find(op => op.id === this.opcionSeleccionada);
+        const opcionSeleccionada = this.opciones2.find(op => op.id === this.elementoSelect?.calificacion.accion);
         return opcionSeleccionada ? opcionSeleccionada.nombre === 'Sin corregir - Plan de acción' : false;
     }
 
     CorrecionSelect(): boolean {
-        const opcionSeleccionada = this.opciones2.find(op => op.id === this.opcionSeleccionada);
+        const opcionSeleccionada = this.opciones2.find(op => op.id === this.elementoSelect?.calificacion.accion);
         return opcionSeleccionada ? opcionSeleccionada.nombre === 'Corrección inmediata' : false;
     }
 
     MitigacionSelect(): boolean {
-        const opcionSeleccionada = this.opciones2.find(op => op.id === this.opcionSeleccionada);
+        const opcionSeleccionada = this.opciones2.find(op => op.id === this.elementoSelect?.calificacion.accion);
         return opcionSeleccionada ? opcionSeleccionada.nombre === 'Medida de mitigación' : false;
+    }
+
+    TarjetaSelected():boolean{
+        const opcionSeleccionada = this.opciones3.find(op => op.id === this.elementoSelect?.calificacion.planAccion);
+        return opcionSeleccionada ? opcionSeleccionada.nombre === 'Tarjeta de seguridad' : false;
     }
 
     buscarEmpleado(event: any) {
         this.empleadoService
             .buscar(event.query)
             .then((data) => (this.empleadosList = <Empleado[]>data));
-
-
     }
 
     adicionarElementoInp() {

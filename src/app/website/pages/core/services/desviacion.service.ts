@@ -32,6 +32,19 @@ export class DesviacionService extends CRUDService<Desviacion>{
     });
   }
 
+  findDesviacion(filterQuery?: FilterQuery){
+    return new Promise(resolve => {
+      this.httpInt.get(this.end_point + 'findDesviacion/?' + this.buildUrlParams(filterQuery!))
+        .subscribe(
+          res => {
+            resolve(res);
+          }
+          ,
+          err => this.manageError(err)
+        )
+    });
+  }
+
   findInpByFilter(filterQuery?: FilterQuery) {
     return new Promise(resolve => {
       this.httpInt.get(this.end_point + 'inspecciones/?' + this.buildUrlParams(filterQuery!))

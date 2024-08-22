@@ -33,6 +33,13 @@ import { AreaService } from '../../../empresa/services/area.service';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { AreaMatrizService } from '../../../core/services/area-matriz.service';
 import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
+import { EmpleadoBasic } from '../../../empresa/entities/empleado-basic';
+import { Tarea } from '../../../comun/entities/tarea';
+import { TareaService } from '../../../core/services/tarea.service';
+import { AnalisisDesviacion } from '../../../comun/entities/analisis-desviacion';
+import { AnalisisDesviacionService } from '../../../core/services/analisis-desviacion.service';
+import { DesviacionService } from '../../../core/services/desviacion.service';
+import { Desviacion } from '../../../comun/entities/desviacion';
 
 @Component({
   selector: 'app-elaboracion-inspecciones-signos-vitales',
@@ -106,6 +113,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
   nombreArea: any;
   nombreProc:any;
   responsableM:any;
+  analisis : AnalisisDesviacion[] =[]
 
   EstadoOptionList = [
       { label: "Disponible", value: "Disponible" },
@@ -159,6 +167,9 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
       private empresaService: EmpresaService,
       private areaMatrizService: AreaMatrizService,
       private procesoMatrizService: ProcesoMatrizService,
+      private tareaService: TareaService,
+      private analisisDesviacionService: AnalisisDesviacionService,
+      private desviacionService: DesviacionService,
 
   ) { }
 
@@ -504,6 +515,14 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           inspeccion.programacion = this.programacion;
           inspeccion.calificacionList = calificacionList;
           inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0].opcionCalificacion;
+          inspeccion.calificacionList[0].accion = calificacionList[0].accion;
+          inspeccion.calificacionList[0].descripcionAccion = calificacionList[0].descripcionAccion;
+          inspeccion.calificacionList[0].descripcionMiti = calificacionList[0].descripcionMiti;
+          inspeccion.calificacionList[0].planAccion = calificacionList[0].planAccion;
+          inspeccion.calificacionList[0].responsable = calificacionList[0].responsable;
+          inspeccion.calificacionList[0].descripcionAccTarjeta = calificacionList[0].descripcionAccTarjeta;
+          inspeccion.calificacionList[0].fechaProyectada = calificacionList[0].fechaProyectada;
+          
           inspeccion.respuestasCampoList = [];
           inspeccion.equipo = this.equipo;
           if(this.listaInspeccion?.tipoLista=='Ergonomía'){inspeccion.observacion =  JSON.stringify([this.observacion1,this.observacion2])}
@@ -525,12 +544,44 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               campo.respuestaCampo.campoId = campo.id;
               inspeccion.respuestasCampoList.push(campo.respuestaCampo);
           });
+        //   let responsable = JSON.parse(calificacionList[0].responsable)
+
+          
 
           this.solicitando = true;
+
           if (this.adicionar) {
               this.inspeccionService.create(inspeccion)
                   .then(data => {
                       this.manageResponse(<Inspeccion>data);
+                    //   let desviacionList = this.cargarDesviacion('INP-'+this.inspeccion.id+'-'+calificacionList[0].elementoInspeccion.id+'-'+calificacionList[0].opcionCalificacion.id) 
+                    //     const desviacion = desviacionList as Desviacion;
+                    //   let analisisDesviacion : AnalisisDesviacion = new AnalisisDesviacion();
+                    // analisisDesviacion.desviacionesList?.push(desviacion)
+                    // this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
+                    //     console.log("analisis creado:", data);
+                    //     const analisisDesviacionCreado = data as AnalisisDesviacion;
+                    //     let tarea : Tarea = new Tarea();
+                    //     tarea.id= '2678';
+                    //     tarea.nombre = calificacionList[0].descripcionAccTarjeta;
+                    //     tarea.fechaProyectada = new Date(calificacionList[0].fechaProyectada);
+                    //     tarea.empResponsable = responsable;
+                    //     tarea.tipoAccion = 'Plan de acción'
+                    //     tarea.analisisDesviacionList?.push(analisisDesviacionCreado);
+                    //     tarea.modulo= 'Inspecciones';
+                    //     tarea.codigo='INPSV-'+this.inspeccion.id+'-'+calificacionList[0].opcionCalificacion.id
+                    //     tarea.envioCorreo= true;
+    
+                    //     this.tareaService.create(tarea).then(data=>{
+                    //         console.log("Tarea creada:", data);
+                            
+                    //   }).catch(err => {
+                    //     console.log(err);
+                    //  });
+                    // }).catch(err => {
+                    //    console.log(err);
+                    // });
+                    //   console.log(inspeccion);
                       this.solicitando = false;
                   })
                   .catch(err => {
@@ -701,6 +752,49 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
   }
 
+// desviacionList: Desviacion[] = [];
+
+// async cargarDesviacion(hash_id: string) {
+//     try {
+//         let filterDesviacion = new FilterQuery();
+//         filterDesviacion.filterList = [
+//             { field: 'hash_id', criteria: Criteria.EQUALS, value1: hash_id },
+//         ];
+
+//         // Esperar la respuesta del servicio
+//         const resp: any = await this.desviacionService.findDesviacion(filterDesviacion);
+
+//         // Verificar si la respuesta contiene datos
+//         if (resp && resp.data && resp.data.length > 0) {
+//             // Si hay más de un resultado, puedes decidir cómo manejarlo
+//             this.desviacionList = resp.data.map((element: any) => ({
+//                 hashId: element.hashId,
+//                 modulo: element.modulo,
+//                 concepto: element.concepto,
+//                 fechaReporte: element.fechaReporte,
+//                 aspectoCausante: element.aspectoCausante,
+//                 nivelRiesgo: element.nivelRiesgo,
+//                 areaNombre: element.areaNombre,
+//                 analisisId: element.analisisId,
+//                 criticidad: element.criticidad,
+//                 empresaId: element.empresaId,
+//                 nombre: element.nombre,
+//                 hora: element.hora,
+//                 severidad: element.severidad,
+//                 furat: element.furat,
+//                 empresa: element.empresa,
+//                 nit: element.nit,
+//                 area: element.area,
+//                 email: element.email
+//             }));
+//         } else {
+//             console.log("No se encontró ninguna desviación con el hash_id proporcionado.");
+//         }
+//     } catch (error) {
+//         console.error("Error al cargar la desviación:", error);
+//     }
+// }
+
   private manageResponse(insp: Inspeccion) {
       this.inspeccion.id = insp.id;
       insp.calificacionList.
@@ -710,7 +804,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               if (arrayFile != null) {
                   arrayFile.forEach((objFile: any) => {
                       if (objFile != null && objFile.change == true)
-                          this.directorioService.uploadv5(objFile.file, null, 'INP', calificacion.id, null, "PUBLICO",null);
+                          this.directorioService.uploadv5(objFile.file, null, 'INPSV', calificacion.id, null, "PUBLICO",null);
                   });
               }
           });
@@ -718,7 +812,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       this.messageService.add({
           severity: 'success',
           summary: 'Inspección ' + (this.adicionar ? 'creada' : 'modificada'),
-          detail: 'Se ha ' + (this.adicionar ? 'creado' : 'modificado') + ' correctamente la inspección' + ' INP-' + insp.id
+          detail: 'Se ha ' + (this.adicionar ? 'creado' : 'modificado') + ' correctamente la inspección' + ' INPSV-' + insp.id
       });
       this.finalizado = true;
 
@@ -836,8 +930,17 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                   calif.elementoInspeccion = {} as ElementoInspeccion;
                   calif.elementoInspeccion.id = elemList[i].id;
                   calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
+                  calif.accion = elemList[i].calificacion.accion;
+                  calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
+                  calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
+                  calif.planAccion = elemList[i].calificacion.planAccion;
+                  calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
+                  calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
+                  calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
                   calif.tipoHallazgo = null;
                   calificacionList.push(calif);
+                  console.log(calif);
+                  
               }
           } else {
 
@@ -851,7 +954,15 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                       calif.elementoInspeccion = {} as ElementoInspeccion;
                       calif.elementoInspeccion.id = elemList[i].id;
                       calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
+                      calif.accion = elemList[i].calificacion.accion;
+                      calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
+                      calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
+                      calif.planAccion = elemList[i].calificacion.planAccion;
+                      calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
+                      calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
+                      calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
                       calificacionList.push(calif);
+                      console.log(calif);
                       if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                   }
               }

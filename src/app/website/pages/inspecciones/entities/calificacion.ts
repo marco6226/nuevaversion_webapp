@@ -13,4 +13,11 @@ export interface Calificacion {
     documentosList: Documento[];
     tipoHallazgo:TipoHallazgo | null;
     calcularCumplimiento: boolean;
+    accion: string;
+    descripcionAccion: string;
+    descripcionMiti:string;
+    planAccion: string;
+    responsable: any;
+    descripcionAccTarjeta: string;
+    fechaProyectada: Date;
 }
