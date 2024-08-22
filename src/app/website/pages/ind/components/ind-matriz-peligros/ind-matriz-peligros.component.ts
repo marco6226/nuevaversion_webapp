@@ -1517,6 +1517,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData1()
         break;
       case 'graf2':
+        this.areasList2=[];
         this.localidadesList2=[]
         this.selecteLocalidad2=null
         if(localidadesList)
@@ -1526,6 +1527,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData2()
         break;
       case 'graf3':
+        this.areasList3=[];
         this.localidadesList3=[]
         this.selecteLocalidad3=null
         if(localidadesList)
@@ -1535,6 +1537,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData3()
         break;
       case 'graf4':
+        this.areasList4=[];
         this.localidadesList4=[]
         this.selecteLocalidad4=null
         if(localidadesList)
@@ -1544,6 +1547,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData4()
         break;
       case 'graf5':
+        this.areasList5=[];
         this.localidadesList5=[]
         this.selecteLocalidad5=null
         if(localidadesList)
@@ -1553,6 +1557,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData5()
         break;
       case 'graf6':
+        this.areasList6=[];
         this.localidadesList6=[]
         this.selecteLocalidad6=null
         if(localidadesList)
@@ -1562,6 +1567,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData6()
         break;
       case 'graf7':
+        this.areasList7=[];
         this.localidadesList7=[]
         this.selecteLocalidad7=null
         if(localidadesList)
@@ -1571,6 +1577,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData7()
         break;
       case 'graf8':
+        this.areasList8=[];
         this.localidadesList8=[]
         this.selecteLocalidad8=null
         if(localidadesList)
@@ -1580,6 +1587,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData8()
         break;
       case 'graf9':
+        this.areasList9=[];
         this.localidadesList9=[]
         this.selecteLocalidad9=null
         if(localidadesList)
@@ -1589,6 +1597,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData9()
         break;
       case 'graf10':
+        this.areasList10=[];
         this.localidadesList10=[]
         this.selecteLocalidad10=null
         if(localidadesList)
@@ -1598,6 +1607,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData10()
         break;
       case 'graf11':
+        this.areasList11=[];
         this.localidadesList11=[]
         this.selecteLocalidad11=null
         if(localidadesList)
@@ -1607,6 +1617,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData11()
         break;
       case 'graf12':
+        this.areasList12=[];
         this.localidadesList12=[]
         this.selecteLocalidad12=null
         if(localidadesList)
@@ -1616,6 +1627,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData12()
         break;
       case 'graf13':
+        this.areasList13=[];
         this.localidadesList13=[]
         this.selecteLocalidad13=null
         if(localidadesList)
@@ -1625,6 +1637,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData13()
         break;
       case 'graf14':
+        this.areasList14=[];
         this.localidadesList14=[]
         this.selecteLocalidad14=null
         if(localidadesList)
@@ -1634,6 +1647,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData14()
         break;
       case 'graf15':
+        this.areasList15=[];
         this.localidadesList15=[]
         this.selecteLocalidad15=null
         if(localidadesList)
@@ -1643,6 +1657,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData15()
         break;
       case 'graf16':
+        this.areasList16=[];
         this.localidadesList16=[]
         this.selecteLocalidad16=null
         if(localidadesList)
@@ -1652,6 +1667,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData16()
         break;
       case 'graf17':
+        this.areasList17=[];
         this.localidadesList17=[]
         this.selecteLocalidad17=null
         if(localidadesList)
@@ -1661,6 +1677,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData17()
         break;
       case 'graf18':
+        this.areasList18=[];
         this.localidadesList18=[]
         this.selecteLocalidad18=null
         if(localidadesList)
@@ -1670,6 +1687,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData18()
         break;
       case 'graf19':
+        this.areasList19=[];
         this.localidadesList19=[]
         this.selecteLocalidad19=null
         if(localidadesList)
@@ -1679,6 +1697,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData19()
         break;
       case 'graf20':
+        this.areasList20=[];
         this.localidadesList20=[]
         this.selecteLocalidad20=null
         if(localidadesList)
@@ -1688,6 +1707,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData20()
         break;
       case 'graf21':
+        this.areasList21=[];
         this.localidadesList21=[]
         this.selecteLocalidad21=null
         if(localidadesList)
@@ -1697,6 +1717,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData21()
         break;
       case 'graf22':
+        this.areasList22=[];
         this.localidadesList22=[]
         this.selecteLocalidad22=null
         if(localidadesList)
@@ -1706,6 +1727,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData22()
         break;
       case 'graf23':
+        this.areasList23=[];
         this.localidadesList23=[]
         this.selecteLocalidad23=null
         if(localidadesList)
@@ -1715,6 +1737,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData23()
         break;
       case 'graf24':
+        this.areasList24=[];
         this.localidadesList24=[]
         this.selecteLocalidad24=null
         if(localidadesList)
@@ -1724,6 +1747,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData24()
         break;
       case 'graf25':
+        this.areasList25=[];
         this.localidadesList25=[]
         this.selecteLocalidad25=null
         if(localidadesList)
@@ -1733,6 +1757,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData25()
         break;
       case 'graf1_2':
+        this.areasList1_2 = []
         this.localidadesList1_2=[]
         this.selecteLocalidad1_2=null
         if(localidadesList)
@@ -1742,6 +1767,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData1_2()
         break;
       case 'graf2_2':
+        this.areasList2_2=[];
         this.localidadesList2_2=[]
         this.selecteLocalidad2_2=null
         if(localidadesList)
@@ -1751,6 +1777,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData2_2()
         break;
       case 'graf3_2':
+        this.areasList3_2=[];
         this.localidadesList3_2=[]
         this.selecteLocalidad3_2=null
         if(localidadesList)
@@ -1760,6 +1787,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData3_2()
         break;
       case 'graf4_2':
+        this.areasList4_2=[];
         this.localidadesList4_2=[]
         this.selecteLocalidad4_2=null
         if(localidadesList)
@@ -1769,6 +1797,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData4_2()
         break;
       case 'graf5_2':
+        this.areasList5_2=[];
         this.localidadesList5_2=[]
         this.selecteLocalidad5_2=null
         if(localidadesList)
@@ -1778,6 +1807,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData5_2()
         break;
       case 'graf6_2':
+        this.areasList6_2=[];
         this.localidadesList6_2=[]
         this.selecteLocalidad6_2=null
         if(localidadesList)
@@ -1787,6 +1817,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData6_2()
         break;
       case 'graf7_2':
+        this.areasList7_2=[];
         this.localidadesList7_2=[]
         this.selecteLocalidad7_2=null
         if(localidadesList)
@@ -1796,6 +1827,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData7_2()
         break;
       case 'graf8_2':
+        this.areasList8_2=[];
         this.localidadesList8_2=[]
         this.selecteLocalidad8_2=null
         if(localidadesList)
@@ -1805,6 +1837,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData8_2()
         break;
       case 'graf9_2':
+        this.areasList9_2=[];
         this.localidadesList9_2=[]
         this.selecteLocalidad9_2=null
         if(localidadesList)
@@ -1814,6 +1847,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData9_2()
         break;
       case 'graf10_2':
+        this.areasList10_2=[];
         this.localidadesList10_2=[]
         this.selecteLocalidad10_2=null
         if(localidadesList)
@@ -1823,6 +1857,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData10_2()
         break;
       case 'graf11_2':
+        this.areasList11_2=[];
         this.localidadesList11_2=[]
         this.selecteLocalidad11_2=null
         if(localidadesList)
@@ -1832,6 +1867,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData11_2()
         break;
       case 'graf12_2':
+        this.areasList12_2=[];
         this.localidadesList12_2=[]
         this.selecteLocalidad12_2=null
         if(localidadesList)
@@ -1841,6 +1877,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData12_2()
         break;
       case 'graf13_2':
+        this.areasList13_2=[];
         this.localidadesList13_2=[]
         this.selecteLocalidad13_2=null
         if(localidadesList)
@@ -1850,6 +1887,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData13_2()
         break;
       case 'graf14_2':
+        this.areasList14_2=[];
         this.localidadesList14_2=[]
         this.selecteLocalidad14_2=null
         if(localidadesList)
@@ -1859,6 +1897,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData14()
         break;
       case 'graf15_2':
+        this.areasList15_2=[];
         this.localidadesList15_2=[]
         this.selecteLocalidad15_2=null
         if(localidadesList)
@@ -1868,6 +1907,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData15_2()
         break;
       case 'graf16_2':
+        this.areasList16_2=[];
         this.localidadesList16_2=[]
         this.selecteLocalidad16_2=null
         if(localidadesList)
@@ -1877,6 +1917,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData16_2()
         break;
       case 'graf17_2':
+        this.areasList17_2=[];
         this.localidadesList17_2=[]
         this.selecteLocalidad17_2=null
         if(localidadesList)
@@ -1886,6 +1927,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData17_2()
         break;
       case 'graf18_2':
+        this.areasList18_2=[];
         this.localidadesList18_2=[]
         this.selecteLocalidad18_2=null
         if(localidadesList)
@@ -1895,6 +1937,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData18_2()
         break;
       case 'graf19_2':
+        this.areasList19_2=[];
         this.localidadesList19_2=[]
         this.selecteLocalidad19_2=null
         if(localidadesList)
@@ -1904,6 +1947,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData19_2()
         break;
       case 'graf20_2':
+        this.areasList20_2=[];
         this.localidadesList20_2=[]
         this.selecteLocalidad20_2=null
         if(localidadesList)
@@ -1913,6 +1957,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData20_2()
         break;
       case 'graf21_2':
+        this.areasList21_2=[];
         this.localidadesList21_2=[]
         this.selecteLocalidad21_2=null
         if(localidadesList)
@@ -1922,6 +1967,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData21_2()
         break;
       case 'graf22_2':
+        this.areasList22_2=[];
         this.localidadesList22_2=[]
         this.selecteLocalidad22_2=null
         if(localidadesList)
@@ -1931,6 +1977,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData22_2()
         break;
       case 'graf23_2':
+        this.areasList23_2=[];
         this.localidadesList23_2=[]
         this.selecteLocalidad23_2=null
         if(localidadesList)
@@ -1940,6 +1987,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData23_2()
         break;
       case 'graf24_2':
+        this.areasList24_2=[];
         this.localidadesList24_2=[]
         this.selecteLocalidad24_2=null
         if(localidadesList)
@@ -1949,6 +1997,7 @@ export class IndMatrizPeligrosComponent implements OnInit,OnDestroy{
         this.grafData24_2()
         break;
       case 'graf25_2':
+        this.areasList25_2=[];
         this.localidadesList25_2=[]
         this.selecteLocalidad25_2=null
         if(localidadesList)
