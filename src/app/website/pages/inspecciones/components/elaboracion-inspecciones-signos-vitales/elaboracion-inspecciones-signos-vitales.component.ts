@@ -811,7 +811,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               if (arrayFile != null) {
                   arrayFile.forEach((objFile: any) => {
                       if (objFile != null && objFile.change == true)
-                          this.directorioService.uploadv5(objFile.file, null, 'INPSV', calificacion.id, null, "PUBLICO",null);
+                          this.directorioService.uploadv5(objFile.file, null, 'INP', calificacion.id, null, "PUBLICO",null);
                   });
               }
           });
