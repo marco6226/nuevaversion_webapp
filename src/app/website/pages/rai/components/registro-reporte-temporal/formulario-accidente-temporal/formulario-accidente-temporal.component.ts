@@ -397,7 +397,7 @@ export class FormularioAccidenteTemporalComponent implements OnInit, AfterViewIn
         });
 
         setTimeout(async () => {
-          if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
+          if(this.idEmpresa=='22' || this.idEmpresa=='508')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
           this.form?.patchValue({
             localidad:(this.reporte?.localidad)?this.reporte?.localidad?.id:null,
             ciudadEmpleado: this.reporte?.ciudadEmpleado,

@@ -35,8 +35,8 @@
             <div class="col-12 md:col-6 lg:col-4">
                 <div class="input-field">
                     <textarea pInputTextarea rows="3" readonly="true">{{ tarea?.concepto }}</textarea>
-                    <label for="" class="active" *ngIf="idEmpresa=='22'">Nombre del evento</label>
-                    <label for="" class="active" *ngIf="idEmpresa!='22'">Concepto</label>
+                    <label for="" class="active" *ngIf="idEmpresa=='22' || idEmpresa=='508'">Nombre del evento</label>
+                    <label for="" class="active" *ngIf="idEmpresa!='22' && idEmpresa!='508'">Concepto</label>
                 </div>
             </div>
 
@@ -59,7 +59,7 @@
                 <h5 class="title-header p-mb-2">Tarea asignada</h5>
             </div>
 
-            <div class="col-12 md:col-6 lg:col-4" *ngIf="idEmpresa!='22'">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="idEmpresa!='22' && idEmpresa!='508'">
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Tipo de Accion" class="form-material"
                         [value]="tarea?.tipo_accion" readonly="true" />
@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <div class="col-12 md:col-6 lg:col-4" *ngIf="idEmpresa!='22'">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="idEmpresa!='22' && idEmpresa!='508'">
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Jerarquia de control" class="form-material"
                         [value]="tarea?.jerarquia" readonly="true" />
@@ -100,12 +100,12 @@
 
             <div class="col-12 md:col-6 lg:col-4">
                 <div class="input-field">
-                    <input *ngIf="idEmpresa!='22'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.regional"
+                    <input *ngIf="idEmpresa!='22' && idEmpresa!='508'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.regional"
                         readonly="true" />
-                    <input *ngIf="idEmpresa=='22'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.division"
+                    <input *ngIf="idEmpresa=='22' || idEmpresa=='508'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.division"
                         readonly="true" />
-                    <label for="" class="active" *ngIf="idEmpresa!='22'">Regional</label>
-                    <label for="" class="active" *ngIf="idEmpresa=='22'">División / Unidad</label>
+                    <label for="" class="active" *ngIf="idEmpresa!='22' && idEmpresa!='508'">Regional</label>
+                    <label for="" class="active" *ngIf="idEmpresa=='22' || idEmpresa=='508'">División / Unidad</label>
                 </div>
             </div>
 
@@ -113,8 +113,8 @@
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Area" class="form-material" [value]="tarea?.area"
                         readonly="true" />
-                    <label for="" class="active" *ngIf="idEmpresa!='22'">Sede</label>
-                    <label for="" class="active" *ngIf="idEmpresa=='22'">Ubicación</label>
+                    <label for="" class="active" *ngIf="idEmpresa!='22' && idEmpresa!='508'">Sede</label>
+                    <label for="" class="active" *ngIf="idEmpresa=='22' || idEmpresa=='508'">Ubicación</label>
                 </div>
             </div>
 

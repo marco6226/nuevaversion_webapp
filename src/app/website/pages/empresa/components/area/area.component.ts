@@ -1,6 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService, SelectItem, TreeNode,Message, ConfirmationService } from 'primeng/api';
+import {
+  MessageService,
+  SelectItem,
+  TreeNode,
+  Message,
+  ConfirmationService,
+} from 'primeng/api';
 import { Criteria } from '../../../core/entities/filter';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { SesionService } from '../../../core/services/session.service';
@@ -11,16 +17,14 @@ import { AreaService } from '../../services/area.service';
 import { TipoAreaService } from '../../services/tipo-area.service';
 // import { SelectItem, Message, ConfirmationService, TreeNode } from 'primeng/primeng';
 
-
-
 @ViewChild('diagram')
-
 @Component({
   selector: 'app-area',
   templateUrl: './area.component.html',
-  styleUrls: ['./area.component.scss']
+  styleUrls: ['./area.component.scss'],
 })
 export class AreaComponent implements OnInit {
+  @ViewChild('btnStorageArea') btnStorageArea!: ElementRef;
 
   visibleTree: boolean = false;
   areasNodes: TreeNode[] = [];
@@ -45,13 +49,13 @@ export class AreaComponent implements OnInit {
     private tipoAreaService: TipoAreaService,
     private areaService: AreaService,
     private sesionService: SesionService,
-    private fb: FormBuilder,
-  ) { 
+    private fb: FormBuilder
+  ) {
     this.form = fb.group({
-      'id': [null],
-      'nombre': ['', Validators.required],
-      'descripcion': [null],
-      'tipoAreaId': [null, Validators.required]
+      id: [null],
+      nombre: ['', Validators.required],
+      descripcion: [null],
+      tipoAreaId: [null, Validators.required],
     });
   }
 
@@ -60,49 +64,68 @@ export class AreaComponent implements OnInit {
   }
 
   async loadAreas() {
-    
-    this.tipoAreaService.findAll().then(
-      (data: any) => (<TipoArea[]>data['data']).forEach(ta => this.tiposAreaList.push({ label: ta.nombre, value: ta.id }))
-    );
+    this.tipoAreaService
+      .findAll()
+      .then((data: any) =>
+        (<TipoArea[]>data['data']).forEach((ta) =>
+          this.tiposAreaList.push({ label: ta.nombre, value: ta.id })
+        )
+      );
     let filterAreaQuery = new FilterQuery();
     filterAreaQuery.filterList = [
-      { field: 'areaPadre', criteria: Criteria.IS_NULL, value1: null, value2: null },
-      { field: 'estructura', criteria: Criteria.EQUALS, value1: Estructura.ORGANIZACIONAL.toString(), value2: null }
+      {
+        field: 'areaPadre',
+        criteria: Criteria.IS_NULL,
+        value1: null,
+        value2: null,
+      },
+      {
+        field: 'estructura',
+        criteria: Criteria.EQUALS,
+        value1: Estructura.ORGANIZACIONAL.toString(),
+        value2: null,
+      },
     ];
-    this.areaService.findByFilter(filterAreaQuery).then(
-      (data: any) => {
-        let root: TreeNode = {
-          label: this.sesionService.getEmpresa()!.razonSocial,
-          selectable: true,
-          expanded: true,
-          key: this.sesionService.getEmpresa()!.razonSocial
-        };
+    this.areaService.findByFilter(filterAreaQuery).then((data: any) => {
+      let root: TreeNode = {
+        label: this.sesionService.getEmpresa()!.razonSocial,
+        selectable: true,
+        expanded: true,
+        key: this.sesionService.getEmpresa()!.razonSocial,
+      };
 
-        let nodos = this.createTreeNode(<Area[]>data['data'], null);
-        root.children = nodos;
-        this.areasNodes.push(root);
-        this.visibleTree = true;
-      }
-    );
+      let nodos = this.createTreeNode(<Area[]>data['data'], null);
+      root.children = nodos;
+      this.areasNodes.push(root);
+      this.visibleTree = true;
+    });
     let filterSedesQuery = new FilterQuery();
     filterSedesQuery.filterList = [
-      { field: 'areaPadre', criteria: Criteria.IS_NULL, value1: null, value2: null },
-      { field: 'estructura', criteria: Criteria.EQUALS, value1: Estructura.FISICA.toString(), value2: null }
+      {
+        field: 'areaPadre',
+        criteria: Criteria.IS_NULL,
+        value1: null,
+        value2: null,
+      },
+      {
+        field: 'estructura',
+        criteria: Criteria.EQUALS,
+        value1: Estructura.FISICA.toString(),
+        value2: null,
+      },
     ];
-    this.areaService.findByFilter(filterSedesQuery).then(
-      (data: any) => {
-        let root: TreeNode = {
-          label: this.sesionService.getEmpresa()!.razonSocial,
-          selectable: false,
-          expanded: true,
-        };
+    this.areaService.findByFilter(filterSedesQuery).then((data: any) => {
+      let root: TreeNode = {
+        label: this.sesionService.getEmpresa()!.razonSocial,
+        selectable: false,
+        expanded: true,
+      };
 
-        let nodos = this.createTreeNode(<Area[]>data['data'], null);
-        root.children = nodos;
-        this.sedesNodes.push(root);
-        this.visibleTree = true;
-      }
-    );
+      let nodos = this.createTreeNode(<Area[]>data['data'], null);
+      root.children = nodos;
+      this.sedesNodes.push(root);
+      this.visibleTree = true;
+    });
   }
 
   createTreeNode(areas: Area[], nodoPadre: TreeNode | null): TreeNode[] {
@@ -119,9 +142,10 @@ export class AreaComponent implements OnInit {
         nodoPadre: nodoPadre,
         children: [],
         selected: true,
-        key: area.nombre
+        key: area.nombre,
       };
-      n.children = (area.areaList != null ? this.createTreeNode(area.areaList, n) : []);
+      n.children =
+        area.areaList != null ? this.createTreeNode(area.areaList, n) : [];
       nodes.push(n);
     }
     return nodes;
@@ -149,9 +173,10 @@ export class AreaComponent implements OnInit {
 
   async showUpdateForm(estructSelected: string) {
     this.estructuraSelected = estructSelected;
+    this.msgs = [];
     switch (estructSelected) {
       case Estructura.ORGANIZACIONAL.toString():
-        this.estruct = this['areaSelected']
+        this.estruct = this['areaSelected'];
         this.varNodes = 'areasNodes';
         break;
       case Estructura.FISICA.toString():
@@ -165,26 +190,26 @@ export class AreaComponent implements OnInit {
       this.adicionar = false;
       this.modificar = true;
       this.form.patchValue({
-        'id': this.estruct.id,
-        'nombre': this.estruct.label,
-        'descripcion': this.estruct.descripcion,
-        'tipoAreaId': this.estruct.tipoAreaId
+        id: this.estruct.id,
+        nombre: this.estruct.label,
+        descripcion: this.estruct.descripcion,
+        tipoAreaId: this.estruct.tipoAreaId,
       });
     } else {
-      // this.messageService.add({
-        this.msgs.push({
+      this.msgs.push({
         severity: 'warn',
-        summary: 'Debe seleccionar un nodo',
-        detail: 'para realizar la actualización del mismo'
+        summary: '¡¡Advertencia!!.',
+        detail: 'Se Debe Seleccionar un Nodo Para realizar la Actualización.',
       });
     }
   }
 
   onAreaDelete(estructura: string) {
-    var estruct:any;
+    var estruct: any;
+    this.msgs = [];
     switch (estructura) {
       case Estructura.ORGANIZACIONAL.toString():
-        estruct = this['areaSelected']
+        estruct = this['areaSelected'];
         this.varNodes = 'areasNodes';
         break;
       case Estructura.FISICA.toString():
@@ -193,27 +218,50 @@ export class AreaComponent implements OnInit {
         break;
     }
     //-------
-
-    if (estruct != null) {
-      this.areaService.delete(estruct.id).then(
-        data => this.manageDelete(estruct)
-      );
-    } else {
-      // this.messageService.add({
+    if (estruct.children) {
+      if (estruct.children.length === 0) {
+        this.invokeDeleteService(estruct);
+      } else {
         this.msgs.push({
+          severity: 'warn',
+          summary: '¡¡Advertencia!!.',
+          detail:
+            'Se Tiene Información Asociada, por lo Tanto, no es Posible eliminar el Nodo.',
+        });
+      }
+    } else {
+      this.invokeDeleteService(estruct);
+    }
+  }
+
+  invokeDeleteService(estruct: any) {
+    if (estruct != null || estruct != undefined) {
+      this.areaService
+        .delete(estruct.id)
+        .then(
+          (data) => {
+            console.log("Data eliminar: ", data);
+            this.manageDelete(estruct);
+          }
+        );
+    } else {
+      this.msgs.push({
         severity: 'warn',
-        summary: 'Debe seleccionar un nodo',
-        detail: 'para realizar la eliminación del mismo'
+        summary: '¡¡Advertencia!!.',
+        detail: 'Se Debe Seleccionar un Nodo Para realizar la Eliminación.',
       });
     }
   }
 
-  manageDelete(estruct:any) {
+  manageDelete(estruct: any) {
     let nodoPadre = estruct.nodoPadre;
-    for (let i = 0; i < nodoPadre.children.length; i++) {
-      if (nodoPadre.children[i].id == estruct.id) {
-        nodoPadre.children.splice(i, 1);
-        break;
+    this.msgs = [];
+    if (nodoPadre != null) {
+      for (let i = 0; i < nodoPadre.children.length; i++) {
+        if (nodoPadre.children[i].id == estruct.id) {
+          nodoPadre.children.splice(i, 1);
+          break;
+        }
       }
     }
     if (estruct.children != null) {
@@ -222,19 +270,22 @@ export class AreaComponent implements OnInit {
         nodoPadre.children.push(ar);
       });
     }
-    nodoPadre.children = nodoPadre.children.slice();
-    // this.messageService.add({ 
-      this.msgs.push({
-      severity: 'success', summary: 'Nodo eliminado', detail: 'se ha realizado la eliminación del nodo ' + estruct.label });
-    estruct=null
-    this.estruct = null;
+    if (nodoPadre.children) {
+      nodoPadre.children = nodoPadre.children.slice();
+    }
 
-    // this.varNodes = null;
-    // this.varSelected = null;
+    this.msgs.push({
+      severity: 'success',
+      summary: '¡¡Exitoso!!.',
+      detail: 'Se ha Realizado la Eliminación del Nodo ' + estruct.label,
+    });
+    estruct = null;
+    this.estruct = null;
   }
-  
+
   onSubmit() {
     if (this.form.valid && this.estructuraSelected != null) {
+      this.btnStorageArea.nativeElement.disabled = true;
       let area: Area = new Area();
       area.nombre = this.form.value.nombre;
       area.descripcion = this.form.value.descripcion;
@@ -244,24 +295,25 @@ export class AreaComponent implements OnInit {
 
       if (this.modificar) {
         area.id = this.estruct.id;
-        this.areaService.update(area).then(
-          resp => this.manageCreateResponse(<Area>resp)
-        );
+        this.areaService.update(area).then((resp) => {
+          this.manageCreateResponse(<Area>resp);
+        });
       } else if (this.adicionar) {
         if (this.estruct != null) {
-          area.areaPadre = new Area();
-          area.areaPadre.id = this.estruct.id;
+          if (this.estruct.id != undefined) {
+            area.areaPadre = new Area();
+            area.areaPadre.id = this.estruct.id;
+          }
         }
-        this.areaService.create(area).then(
-          resp => this.manageCreateResponse(<Area>resp)
-        );
+        this.areaService
+          .create(area)
+          .then((resp) => this.manageCreateResponse(<Area>resp));
       }
     }
   }
 
   manageCreateResponse(area: Area) {
-    console.log(this.estruct)
-    this.msgs=[]
+    this.msgs = [];
     if (this.adicionar) {
       if (this.estruct != null && this.estruct.children == null) {
         this.estruct.children = [];
@@ -274,50 +326,44 @@ export class AreaComponent implements OnInit {
         expanded: true,
         nodoPadre: null,
       };
-      if (this.estruct != null) {
+      if (this.estruct != null || this.estruct != undefined) {
         node.nodoPadre = this.estruct;
         this.estruct.children.push(node);
         this.estruct.children = this.estruct.children.slice();
-      } else {
-        node.nodoPadre = this.estruct[0];
-        this.estruct[0].children.push(node);
-        this.estruct[0].children = this.estruct[0].children.slice();
       }
-
-      // this.messageService.add({
       this.msgs.push({
         severity: 'success',
-        summary: 'Adición realizada!',
-        detail: 'Se ha creado correctamente el nodo ' + area.nombre
+        summary: 'Exitoso!!.',
+        detail: 'Se ha creado correctamente el nodo ' + area.nombre,
       });
     } else if (this.modificar) {
       this.estruct.label = area.nombre;
       // this.messageService.add({
       this.msgs.push({
         severity: 'success',
-        summary: 'Actualización realizada!',
-        detail: 'Se ha actualizado correctamente el nodo ' + area.nombre
+        summary: '¡¡Exitoso!!.',
+        detail: 'Se ha Actualizado Correctamente el Nodo ' + area.nombre,
       });
     }
     // this.varNodes = null;
     // this.varSelected = null;
     this.closeForm();
+    this.btnStorageArea.nativeElement.disabled = false;
   }
-  
+
   closeForm() {
     this.visibleForm = false;
     this.adicionar = false;
     this.modificar = false;
   }
 
-  showDialog(){
+  showDialog() {
     this.visibleFilterArea = true;
   }
 
-  nodeSelect(event: any){
-    if(event.node.children.length>0){
+  nodeSelect(event: any) {
+    if (event.node.children && event.node.children.length > 0) {
       event.node.expanded = true;
     }
   }
-  
 }

@@ -78,7 +78,7 @@ export class ConsultaReportesAliadoComponent implements OnInit,AfterViewInit {
 
   lazyLoad(event: any){
 
-    if(this.idEmpresa=='22'){
+    if(this.idEmpresa=='22' || this.idEmpresa =='508'){
       this.loading = true;
       let filterQuery = new FilterQuery();
       filterQuery.sortField = event.sortField;
@@ -96,7 +96,7 @@ export class ConsultaReportesAliadoComponent implements OnInit,AfterViewInit {
         this.loadDesviaciones();
         this.loading = false;
       }).finally(() => this.loading = false);
-    }else if(this.idEmpresa!='22'){
+    }else if(this.idEmpresa!='22' && this.idEmpresa !='508'){
       this.loading = true;
       let filterQuery = new FilterQuery();
       filterQuery.sortField = event.sortField;

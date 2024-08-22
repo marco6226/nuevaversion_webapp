@@ -180,7 +180,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
       this.onAreaSelect.emit(area);
       this.closeDialog();
 
-      if(this.empresaId=='22'){
+      if(this.empresaId=='22' || this.empresaId =='508'){
       await this.padreArea(area.id)
       this.onDivision.emit(this.division)
     }}
@@ -300,7 +300,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor{
     this.value = area;
     this.onAreaSelect.emit(area);
 
-    if(this.empresaId=='22'){
+    if(this.empresaId=='22' || this.empresaId =='508'){
     await this.padreArea(area.id)
     console.log(this.division)
     this.onDivision.emit(this.division)

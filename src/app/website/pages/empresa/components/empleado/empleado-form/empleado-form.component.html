@@ -298,7 +298,7 @@
         <s-documentosEmpleadoForm *ngIf="loaded" [value]="empleadoSelect"></s-documentosEmpleadoForm>
     </p-tabPanel>
 
-    <p-tabPanel header="Empresa" *ngIf="empresaId=='22' || empresaId=='3' ">
+    <p-tabPanel header="Empresa" *ngIf="empresaId=='22' || empresaId=='3' || empresaId=='508'">
         
         <p-panel header="Datos de la empresa">
             <div class="row g-2 mb-3" [formGroup]="empresaForm" >
@@ -373,7 +373,7 @@
             </div>
         </p-panel>
         <br>
-        <p-panel header="Business Partner" *ngIf="empresaId!='22'">
+        <p-panel header="Business Partner" *ngIf="empresaId!='22' && empresaId!='508'">
             <div [formGroup]="businessForm">
                 <div class="row g-2 mb-3">
                     <div class="col-lg">

@@ -290,7 +290,7 @@ export class FormularioAccidenteCtrComponent implements OnInit {
         this.infPersonaAccidentada.get('ubicacion')?.setValue(this.reporte.areaAccidente);
 
         setTimeout(async () => {
-          if(this.idEmpresa=='22')await this.listadoLocalidades(this.reporte.areaAccidente!.padreNombre)
+          if(this.idEmpresa=='22' || this.idEmpresa =='508')await this.listadoLocalidades(this.reporte.areaAccidente!.padreNombre)
           this.infPersonaAccidentada.get('localidad')?.setValue(this.reporte.localidad?((typeof this.reporte.localidad)=="string")?this.reporte.localidad:this.reporte.localidad!.id:null);
         }, 2000);
 
