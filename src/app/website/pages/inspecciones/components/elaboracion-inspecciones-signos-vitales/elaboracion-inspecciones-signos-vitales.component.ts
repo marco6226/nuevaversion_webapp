@@ -998,7 +998,9 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           tr.childNodes[1].textContent = el.nombre;
 
           tr.childNodes[3].textContent = el.calificable ? "" : "Descripción del hallazgo";
+          tr.childNodes[4].textContent = el.calificacion.accion ? "" :"Acción realizada";
           let count = 3;
+          let countA = 5;
           this.listaInspeccion.opcionCalificacionList.forEach(opc => {
               let tdCalf = tr.childNodes[2].cloneNode();
               if (el.calificable) {
@@ -1006,6 +1008,14 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                       if (el.id == cal.elementoInspeccion.id && cal.opcionCalificacion.id === opc.id) {
                           tdCalf.textContent = 'X';
                           tr.childNodes[count].textContent = cal.recomendacion;
+                
+                          if(cal.accion == '1'){
+                            tr.childNodes[countA].textContent = "Corrección inmediata";
+                          }else if(cal.accion == '2'){
+                            tr.childNodes[countA].textContent = "Medida de mitigación";
+                          }else if(cal.accion == '3'){
+                            tr.childNodes[countA].textContent = "Plan de acción";
+                          }
                       }
                   });
               } else {
