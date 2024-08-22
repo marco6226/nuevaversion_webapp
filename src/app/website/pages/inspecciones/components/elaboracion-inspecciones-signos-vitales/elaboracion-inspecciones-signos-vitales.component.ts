@@ -486,10 +486,17 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       for (let i = 0; i < elemList.length; i++) {
           if (elemList[i].elementoInspeccionList != null && elemList[i].elementoInspeccionList.length > 0) {
               let calif = this.buscarCalificacion(elemList[i], calificacionList);
-              if(calif !== null) elemList[i].calificacion = calif;
+              
+              if(calif !== null) {
+                calif.responsable = JSON.parse(calif.responsable)
+                calif.fechaProyectada = new Date(calif.fechaProyectada)
+                elemList[i].calificacion = calif;
+              }
               this.cargarCalificaciones(elemList[i].elementoInspeccionList, calificacionList);
           } else {
               let calif = this.buscarCalificacion(elemList[i], calificacionList)!;
+              calif.responsable = JSON.parse(calif.responsable)
+              calif.fechaProyectada = new Date(calif.fechaProyectada)
               elemList[i].calificacion = calif;
           }
       }
