@@ -297,7 +297,7 @@
         <div class="col-12 md:col-4 lg:col-4 filter">
             <h3>{{nameX}}</h3>
 
-            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" [(ngModel)]="selectDivisiones4" placeholder="{{idEmpresa=='22'?'Seleccionar división':'Seleccionar región'}}" (onChange)="cargarArea4()"></p-dropdown>
+            <p-dropdown [style]="{'width':'100%'}" appendTo="body" [options]="divisiones0" [(ngModel)]="selectDivisiones4" placeholder="{{idEmpresa=='22' || idEmpresa=='508'?'Seleccionar división':'Seleccionar región'}}" (onChange)="cargarArea4()"></p-dropdown>
    
             <ng-container *ngIf="selectDivisiones4.length>0">
                 &nbsp;

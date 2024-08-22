@@ -34,10 +34,10 @@
                             <p-sortIcon field="fechaCreacion"></p-sortIcon>
                         </th>
 
-                        <th pSortableColumn="nombrePadre" *ngIf="idEmpresa=='22'">División/Unidad
+                        <th pSortableColumn="nombrePadre" *ngIf="idEmpresa=='22' || idEmpresa=='508'">División/Unidad
                             <p-sortIcon field="nombrePadre"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="region" *ngIf="idEmpresa=='22'">Ubicación
+                        <th pSortableColumn="region" *ngIf="idEmpresa=='22' || idEmpresa=='508'">Ubicación
                             <p-sortIcon field="region"></p-sortIcon>
                         </th>
                         <th pSortableColumn="pkUser">Apellido
@@ -55,26 +55,26 @@
                         <th pSortableColumn="proximoseguimiento">Proximo seguimiento
                             <p-sortIcon field="proximoseguimiento"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="casoMedicoLaboral" *ngIf="idEmpresa!='22'">Caso de mesa laboral
+                        <th pSortableColumn="casoMedicoLaboral" *ngIf="idEmpresa!='22' && idEmpresa!='508'">Caso de mesa laboral
                             <p-sortIcon field="casoMedicoLaboral"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="diagnostico" *ngIf="idEmpresa=='22'">Diagnostico
+                        <th pSortableColumn="diagnostico" *ngIf="idEmpresa=='22' || idEmpresa=='508'">Diagnostico
                             <p-sortIcon field="diagnostico"></p-sortIcon>
                         </th>
                         <th pSortableColumn="prioridadCaso">Prioridad
                             <p-sortIcon field="prioridadCaso"></p-sortIcon>
                         </th>
 
-                        <th pSortableColumn="tipoReporte" *ngIf="idEmpresa=='22'">Tipo de retorno
+                        <th pSortableColumn="tipoReporte" *ngIf="idEmpresa=='22' || idEmpresa=='508'">Tipo de retorno
                             <p-sortIcon field="tipoReporte"></p-sortIcon>
                         </th>
                         <th pSortableColumn="tipoCaso">Tipo de caso
                             <p-sortIcon field="tipoCaso"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="region" *ngIf="idEmpresa!='22'">Regional
+                        <th pSortableColumn="region" *ngIf="idEmpresa!='22' && idEmpresa!='508'">Regional
                             <p-sortIcon field="region"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="ciudad" *ngIf="idEmpresa!='22'">Ciudad
+                        <th pSortableColumn="ciudad" *ngIf="idEmpresa!='22' && idEmpresa!='508'">Ciudad
                             <p-sortIcon field="ciudad"></p-sortIcon>
                         </th>
                     </tr>
@@ -93,14 +93,14 @@
 
                             </div>
                         </td>
-                        <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
+                        <td *ngIf="idEmpresa=='22' || idEmpresa=='508'" class="text-center bg-light">
                             <div class="ui-inputgroup">
 
                                 <input class="filter-input" pInputText type="text"
                                     (input)="dt.filter($event.target.value,'pkUser.area.padreNombre')">
                             </div>
                         </td>
-                        <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
+                        <td *ngIf="idEmpresa=='22' || idEmpresa=='508'" class="text-center bg-light">
                             <div class="ui-inputgroup">
                                 <input class="filter-input" pInputText type="text"
                                     (input)="dt.filter($event.target.value,'region', 'contains')">
@@ -142,7 +142,7 @@
                                 </s-rangoFechaSelector>
                             </div>
                         </td>
-                        <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
+                        <td *ngIf="idEmpresa!='22' && idEmpresa!='508'" class="text-center bg-light">
                             <div class="ui-inputgroup">
 
                                 <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
@@ -150,7 +150,7 @@
                                     (input)="dt.filter(DecodificacionSiNo($event.target.value), 'casoMedicoLaboral', 'contains')">
                             </div>
                         </td>
-                        <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
+                        <td *ngIf="idEmpresa=='22' || idEmpresa=='508'" class="text-center bg-light">
                             <div class="ui-inputgroup">
 
                                 <!-- <input pInputText type="text" (input)="dt.filter( $event.target.value=='Si'?'1':'0', 'casoMedicoLaboral', 'contains')"> -->
@@ -167,7 +167,7 @@
                         </td>
 
 
-                        <td *ngIf="idEmpresa=='22'" class="text-center bg-light">
+                        <td *ngIf="idEmpresa=='22' || idEmpresa=='508'" class="text-center bg-light">
                             <div class="ui-inputgroup">
 
                                 <input class="filter-input" pInputText type="text"
@@ -181,7 +181,7 @@
                                     (input)="dt.filter($event.target.value, 'tipoCaso','contains')">
                             </div>
                         </td>
-                        <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
+                        <td *ngIf="idEmpresa!='22' && idEmpresa!='508'" class="text-center bg-light">
                             <div class="ui-inputgroup">
 
                                 <input class="filter-input" pInputText type="text"
@@ -189,7 +189,7 @@
                             </div>
                         </td>
 
-                        <td *ngIf="idEmpresa!='22'" class="text-center bg-light">
+                        <td *ngIf="idEmpresa!='22' && idEmpresa!='508'" class="text-center bg-light">
                             <div class="ui-inputgroup">
 
                                 <input class="filter-input" pInputText type="text"
@@ -204,20 +204,20 @@
                         <td class="p-text-center">{{case.id}}</td>
                         <td class="p-text-center">{{case.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
 
-                        <td class="p-text-center" *ngIf="idEmpresa=='22'">{{case.pkUser.area.padreNombre}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa=='22' || idEmpresa=='508'">{{case.pkUser.area.padreNombre}}</td>
 
-                        <td class="p-text-center" *ngIf="idEmpresa=='22'">{{case.region}}</td>
-                        <td class="p-text-center" *ngIf="idEmpresa=='22'">{{case.pkUser.primerApellido}}</td>
-                        <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.pkUser.primerApellido}}</td>
-                        <td class="p-text-center" *ngIf="idEmpresa=='22'">{{case.pkUser.primerNombre}} </td>
-                        <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.pkUser.primerNombre}} </td>
+                        <td class="p-text-center" *ngIf="idEmpresa=='22' || idEmpresa=='508'">{{case.region}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa=='22' || idEmpresa=='508'">{{case.pkUser.primerApellido}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa!='22' && idEmpresa!='508'">{{case.pkUser.primerApellido}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa=='22' || idEmpresa=='508'">{{case.pkUser.primerNombre}} </td>
+                        <td class="p-text-center" *ngIf="idEmpresa!='22' && idEmpresa!='508'">{{case.pkUser.primerNombre}} </td>
                         <td class="p-text-center">{{case.documento}}</td>
                         <td class="p-text-center">{{case.statusCaso == 1 ? 'Abierto' : 'Cerrado'}}</td>
                         <td class="p-text-center">{{case.proximoseguimiento | date: 'dd/MM/yyyy'}}</td>
-                        <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.casoMedicoLaboral == 1 ? 'Si'
+                        <td class="p-text-center" *ngIf="idEmpresa!='22' && idEmpresa!='508'">{{case.casoMedicoLaboral == 1 ? 'Si'
                             :case.casoMedicoLaboral == 2 ? 'En seguimiento':case.casoMedicoLaboral == 3 ?'No
                             aplica':case.casoMedicoLaboral == 0 ?'No':''}}</td>
-                        <td class="p-text-center" *ngIf="idEmpresa=='22'">{{case.diagnostico}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa=='22' || idEmpresa=='508'">{{case.diagnostico}}</td>
                         <!-- <td class="p-text-center">{{case.casoMedicoLaboral == 1 ? 'Si' : 'No'}}</td> -->
                         <td class="p-text-center status" [ngClass]="{
                         'status--danger': case.prioridadCaso === 'Alta' , 
@@ -225,11 +225,11 @@
                         'status--info': case.prioridadCaso === 'Media'
                     }">{{case.prioridadCaso}}</td>
 
-                        <td class="p-text-center" *ngIf="idEmpresa=='22'">{{case.tipoReporte}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa=='22' || idEmpresa=='508'">{{case.tipoReporte}}</td>
 
                         <td class="p-text-center">{{case.tipoCaso}}</td>
-                        <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.region}}</td>
-                        <td class="p-text-center" *ngIf="idEmpresa!='22'">{{case.ciudad}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa!='22' && idEmpresa!='508'">{{case.region}}</td>
+                        <td class="p-text-center" *ngIf="idEmpresa!='22' && idEmpresa!='508'">{{case.ciudad}}</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary" let-rowData>

@@ -28,7 +28,8 @@
                   class="p-button-raised p-button-primary margin-right" 
                   pButton type="button" 
                   icon="bi bi-plus" 
-                  label="Adicionar" (click)="showAddForm('ORGANIZACIONAL')"></button>
+                  label="Adicionar" (click)="showAddForm('ORGANIZACIONAL')"
+                  [disabled]="!areaSelected"></button>
                 <button *sTienePermiso="'EMP_PUT_AREA'" 
                   class="p-button-raised p-button-success margin-right margin-left" 
                   pButton type="button" 
@@ -113,7 +114,7 @@
   
       </div>
       <footer>
-        <button pButton type="submit" icon="bi bi-save
+        <button #btnStorageArea pButton type="submit" icon="bi bi-save
 " [disabled]="!form.valid" label="Guardar"></button>
         <button pButton type="button" icon="fa fa-ban" class="ui-button-secondary" label="Cancelar" (click)="closeForm()"></button>
       </footer>

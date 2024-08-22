@@ -248,7 +248,7 @@ export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
                 ciudadAccidente: this.reporte?.ciudadAccidente,
             })
 
-            if(this.idEmpresa=='22')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
+            if(this.idEmpresa=='22' || this.idEmpresa == '508')await this.listadoLocalidades(this.form?.value.areaAccidente.padreNombre)
 
         }, 2000);
         

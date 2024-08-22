@@ -101,7 +101,7 @@ export class ConsultarReporteTemporalComponent implements OnInit, AfterViewInit 
     filterQuery.filterList.push({ criteria: Criteria.IS_NOT_NULL, field: "temporal"});
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'istemporal', value1: 'true'});
 
-    if(this.idEmpresa=='22'){
+    if(this.idEmpresa=='22' || this.idEmpresa == '508'){
 
     this.reporteService.getRepWithFilter(filterQuery).then((resp: any) => {
       console.log(resp)
@@ -115,7 +115,7 @@ export class ConsultarReporteTemporalComponent implements OnInit, AfterViewInit 
   }
 
 
-    if(this.idEmpresa!='22')
+    if(this.idEmpresa!='22' && this.idEmpresa !='508')
     this.reporteService.findByFilter(filterQuery).then(
       (resp: any) => {
         this.totalRecords = resp['count'];

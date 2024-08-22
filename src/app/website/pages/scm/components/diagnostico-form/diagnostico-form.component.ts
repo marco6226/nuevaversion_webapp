@@ -41,7 +41,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     ];
 
     createOrigenList(){
-        if(this.idEmpresa=='22'){
+        if(this.idEmpresa=='22' || this.idEmpresa=='508'){
             this.origenList = [
                 { label: 'Seleccione', value: null },
                 { label: 'Común', value: 'Común' },
