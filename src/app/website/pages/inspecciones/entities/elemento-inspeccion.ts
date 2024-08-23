@@ -17,4 +17,5 @@ export interface ElementoInspeccion {
   calificacion: Calificacion;
   data2?:any[];
   peso: number | null;
+  tipoPeligro?: any;
 }

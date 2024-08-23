@@ -240,8 +240,8 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="2"><b>TOTAL</b></td>
-            <td class="table-info">{{calcularTotalCumplimiento(listaInspeccion)}}</td>
+            <td colspan="2"><b>CONFIABILIDAD</b></td>
+            <td>{{calcularTotalCumplimiento(listaInspeccion)}} <span class="badge " [ngStyle]="{'font-size': '1em'}" [style]="asignarColorCumplimiento(calcularTotalCumplimiento(listaInspeccion))">{{confiabilidad}}</span></td>
           </tr>
         </tfoot>
       </table>

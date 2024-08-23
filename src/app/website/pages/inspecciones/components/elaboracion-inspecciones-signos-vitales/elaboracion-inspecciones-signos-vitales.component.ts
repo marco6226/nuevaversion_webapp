@@ -114,6 +114,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
   nombreProc:any;
   responsableM:any;
   analisis : AnalisisDesviacion[] =[]
+  confiabilidad!:string;
 
   EstadoOptionList = [
       { label: "Disponible", value: "Disponible" },
@@ -945,9 +946,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                   calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
                   calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
                   calif.tipoHallazgo = null;
-                  calificacionList.push(calif);
-                  console.log(calif);
-                  
+                  calificacionList.push(calif);               
               }
           } else {
 
@@ -969,7 +968,6 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                       calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
                       calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
                       calificacionList.push(calif);
-                      console.log(calif);
                       if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                   }
               }
@@ -1238,6 +1236,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       return !isNaN(cumplimiento) && cumplimiento !== Infinity ? cumplimiento.toFixed(2) : 'NA';
   }
 
+  
+
   calcularTotalCumplimiento(listaInspeccion: ListaInspeccion): string | number {
       let total: number = 0;
       let porcAcum = 0;
@@ -1251,5 +1251,33 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       }
       total = porcAcum / contElementos;
       return !isNaN(total) && total !== Infinity ? total.toFixed(2) : 'NA';
+  }
+
+
+  asignarColorCumplimiento(porcentaje: string | number): string {
+    if (porcentaje === 'NA') {
+      return 'background-color: white; color: black;'; 
+    }
+  
+    const valorNumerico = typeof porcentaje === 'string' ? parseFloat(porcentaje) : porcentaje;
+  
+    if (!isNaN(valorNumerico)) {
+      if (valorNumerico >= 95 && valorNumerico <= 100) {
+        this.confiabilidad = 'Muy Alto';
+        return 'background-color: #4cc85c; color: white;';
+      } else if (valorNumerico >= 90 && valorNumerico < 95) {
+        this.confiabilidad = 'Alto';
+        return 'background-color: #adebb5; color: white;';
+      } else if (valorNumerico >= 80 && valorNumerico < 90) {
+        this.confiabilidad = 'Medio';
+        return 'background-color: #ffef00; color: black;';
+      } else if (valorNumerico >= 60 && valorNumerico < 80) {
+        this.confiabilidad = 'Bajo';
+        return 'background-color: #ef2100; color: white;';
+      } else {
+        return 'background-color: white; color: black;';
+      }
+    }
+    return 'background-color: white; color: black;';
   }
 }
