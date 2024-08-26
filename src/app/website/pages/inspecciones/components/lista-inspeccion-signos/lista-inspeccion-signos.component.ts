@@ -13,6 +13,10 @@ import { locale_es, tipo_identificacion, tipo_vinculacion } from 'src/app/websit
 import { PrimeNGConfig } from 'primeng/api';
 import { ViewListaInspeccionService } from '../../services/viewlista-inspeccion.service';
 import * as xlsx from 'xlsx';
+import { AreaService } from '../../../empresa/services/area.service';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-lista-inspeccion-signos',
@@ -21,6 +25,7 @@ import * as xlsx from 'xlsx';
 })
 export class ListaInspeccionSignosComponent implements OnInit {
 
+  @ViewChild('dt') dt: Table | undefined;
   localeES: any = locale_es;
   listaInspeccionList!: ListaInspeccion[];
   listaInpSelect!: ListaInspeccion;
@@ -33,6 +38,8 @@ export class ListaInspeccionSignosComponent implements OnInit {
     'nombre',
     'tipoLista',
     'descripcion',
+    'divisionSv',
+    'localidadSv',
     'estado',
     'fkPerfilId'
   ];
@@ -41,6 +48,8 @@ export class ListaInspeccionSignosComponent implements OnInit {
   desde!: Date;
   hasta!: Date;
   downloading!: boolean;
+  divisionNamesMap: { [id: string]: string } = {};
+  localidadNamesMap: { [id: string]: string } = {};
 
   constructor(
     private listaInspeccionService: ListaInspeccionService,
@@ -51,14 +60,64 @@ export class ListaInspeccionSignosComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private inspeccionService: InspeccionService,
     private config: PrimeNGConfig,
+    private areasService: AreaService,
+    private empresaService: EmpresaService,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void{
     this.config.setTranslation(this.localeES);
     this.loading = true;
   }
 
-  async lazyLoad(event?: any) {
+ 
+
+async getDivision(id: string): Promise<string | null> {
+  let filterQuery = new FilterQuery();
+  filterQuery.sortField = 'nombre';
+  filterQuery.fieldList = ['id', 'nombre'];
+  filterQuery.filterList = [
+      { criteria: Criteria.EQUALS, field: 'id', value1: id }
+  ];
+
+  try {
+      const res: any = await this.areasService.findByFilter(filterQuery);
+      const areas: { id: string; nombre: string }[] = res['data']; 
+      if (areas.length > 0) {
+          const nombre = areas[0].nombre;
+          return nombre;
+      } else {
+          return null;
+      }
+  } catch (error) {
+      console.error('Error al obtener las áreas:', error);
+      return null; 
+  }
+}
+
+async getLocalidad(id: string): Promise<string | null> {
+  let filterQuery = new FilterQuery();
+  filterQuery.sortField = 'localidad';
+  filterQuery.fieldList = ['id', 'localidad'];
+  filterQuery.filterList = [
+      { criteria: Criteria.EQUALS, field: 'id', value1: id }
+  ];
+
+  try {
+      const res: any = await this.empresaService.getLocalidadesRWithFilter(filterQuery);
+      const localidad: { id: string; localidad: string }[] = res['data']; 
+      if (localidad.length > 0) {
+          const nombre = localidad[0].localidad;
+          return nombre;
+      } else {
+          return null;
+      }
+  } catch (error) {
+      console.error('Error al obtener la localidad:', error);
+      return null; 
+  }
+}
+
+  async lazyLoad(event?: any, divisionFilter?: any, localidadFilter?: any) {
     let user:any = JSON.parse(localStorage.getItem('session')!);
     let filterQuery = new FilterQuery();
 
@@ -113,7 +172,7 @@ export class ListaInspeccionSignosComponent implements OnInit {
     filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'pkUsuarioId', value1: user.usuario.id.toString()});
     filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'empresa.id', value1: user.empresa.id.toString()});
     filterQuery.filterList.push({criteria: Criteria.EQUALS, field: 'tipoLista', value1: 'Signos Vitales'});
-    await this.viewListaInspeccionService.getFilterListInspeccionToPerfilToUsuario(filterQuery).then((resp:any)=>{
+    await this.viewListaInspeccionService.getFilterListInspeccionToPerfilToUsuario(filterQuery).then(async (resp:any)=>{
         this.totalRecords = resp['count'];
         this.loading = false;
         this.listaInspeccionList = [];
@@ -122,9 +181,53 @@ export class ListaInspeccionSignosComponent implements OnInit {
           (<any[]>resp['data']).forEach(dto => {
             let obj = FilterQuery.dtoToObject(dto)
             obj['hash'] = obj.listaInspeccionPK.id + '.' + obj.listaInspeccionPK.version;
-            this.listaInspeccionList.push(obj);
+            this.listaInspeccionList.push(obj);       
           });
+
+        for (let item of this.listaInspeccionList) {
+          const divisionId = item.divisionSv;
+          const localidadId = item.localidadSv;
+
+          if (divisionId && !this.divisionNamesMap[divisionId]) {
+            const divisionName = await this.getDivision(divisionId);
+            if (divisionName) {
+                this.divisionNamesMap[divisionId] = divisionName;
+              }
+          }
+
+          if (localidadId && !this.localidadNamesMap[localidadId]) {
+            const localidadName = await this.getLocalidad(localidadId);
+            if (localidadName) {
+                this.localidadNamesMap[localidadId] = localidadName;
+              }
+          }
+
+          if (divisionFilter) {
+            this.listaInspeccionList = this.listaInspeccionList.filter(item => {
+                const divisionId = item.divisionSv;
+                const divisionName = this.divisionNamesMap[divisionId];
+                return divisionName ? divisionName.toLowerCase().includes(divisionFilter.toLowerCase()) : false;
+            });
+          }
+
+
+          if (localidadFilter) {
+            this.listaInspeccionList = this.listaInspeccionList.filter(item => {
+                const localidadId = item.localidadSv;
+                const localidadName = this.localidadNamesMap[localidadId];
+                return localidadName ? localidadName.toLowerCase().includes(localidadFilter.toLowerCase()) : false;
+            });
+          }
+        }
     }).catch(er=>console.log(er))
+  }
+
+  applyDivisionFilter(filterValue: string) {
+    this.lazyLoad(null, filterValue);
+  }
+
+  applyLocalidadFilter(filterValue: string) {
+    this.lazyLoad(null,null, filterValue);
   }
 
   modificar() {
