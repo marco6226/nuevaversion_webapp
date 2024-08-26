@@ -99,7 +99,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   async cargarTiposPeligro() {
     await this.tipoPeligroService.getForEmpresa().then((resp:any)=>{
       let tipoPeligroItemList: any[] = []
-      this.tipoPeligroItemList = [{ label: '', value: null }];
+      this.tipoPeligroItemList = [{ label: '-- Peligro --', value: null }];
       resp.forEach(
         (data: any) => tipoPeligroItemList.push({ label: data[2], value: data[0] })
       )

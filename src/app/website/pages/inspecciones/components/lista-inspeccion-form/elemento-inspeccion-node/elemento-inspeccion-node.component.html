@@ -111,13 +111,13 @@
                 [disabled]="router.url !== '/app/signos/elaboracionListaSv' && router.url !== '/app/inspecciones/elaboracionLista'">
             </ng-template>
           </td>
-          <td width="8%">
+          <td width="10%" *ngIf="router.url === '/app/signos/elaboracionListaSv' || router.url === '/app/inspecciones/elaboracionLista'" >
             <div *ngIf="conPeso; then peligro"></div>
-            <ng-template #peligro>
-              <p-dropdown [(ngModel)]="elem.tipoPeligro" [filter]="true" placeholder="--Peligro--"
+            <ng-template #peligro >
+              <p-dropdown placeholder="--Peligro--" [(ngModel)]="elem.tipoPeligro" [filter]="true" 
               [options]="tipoPeligroItemList" appendTo="body" styleClass="custom-dropdown" required
               [disabled]="router.url !== '/app/signos/elaboracionListaSv' && router.url !== '/app/inspecciones/elaboracionLista'"> 
-          </p-dropdown>
+            </p-dropdown>
             </ng-template>
           </td>
           <td width="50px" *ngIf="editable" style="max-width: 50px;">
