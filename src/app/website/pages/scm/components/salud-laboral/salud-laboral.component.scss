@@ -110,7 +110,17 @@
   h5 {
     margin-top: 20px;
   }
-  
+  ::ng-deep .p-dropdown-panel .p-dropdown-item {
+    max-width: 100%; /* Ajusta el valor según sea necesario */
+    white-space: normal; /* Permite que el texto envuelva a la siguiente línea */
+    overflow: hidden; /* Opcional: oculta cualquier contenido que desborde */
+    word-wrap: break-word; /* Permite que las palabras largas se dividan */
+}
+
+/* Opcional: Para el ancho del contenedor del dropdown */
+::ng-deep .p-dropdown {
+    max-width: 100%; /* Ajusta este valor según sea necesario */
+}
   .saved-item {
     margin-bottom: 20px;
     padding: 10px;
@@ -146,6 +156,4 @@
   font-weight: bold; /* Texto en negrita para mayor énfasis */
 }
 
-
-  
   

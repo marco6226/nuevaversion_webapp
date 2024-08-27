@@ -5,6 +5,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { Directorio } from 'src/app/website/pages/ado/entities/directorio';
 import { Documento } from 'src/app/website/pages/ado/entities/documento';
 import { DirectorioService } from 'src/app/website/pages/ado/services/directorio.service';
+import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
+import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { CasosMedicosService } from 'src/app/website/pages/core/services/casos-medicos.service';
 
 @Component({
@@ -23,6 +25,30 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
   motivoRechazoSolicitante: string = '';
   fechaLimite: Date = new Date();
   dialogRechazoFlag: boolean = false;
+  loading: boolean = false;
+  totalRecords!: number;
+  fields: string[] = [
+    'id',
+    'fechaEnvio',
+    'fechaLimite',
+    'docSolicitado',
+    'usuarioSolicitante',
+    'usuarioSolicitado',
+    'estadoCorreo',
+    'fechaSolicitud',
+    'pkCase',
+    'soliictanteNombres',
+    'solicitanteCedula',
+    'pkUser',
+    'asignacionTarea',
+    'solicitadoNombres',
+    'solicitadoCedula',
+    'solicitadoNombresMail',
+    'razonRechazoSolicitado',
+    'documentos',
+    'razonRechazoSolicitante',
+    'correoEnviado',
+  ];
 
   usuarioId = JSON.parse(localStorage.getItem('session') || '{}');
   pkuser = this.usuarioId.usuario.email;
@@ -30,6 +56,38 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
   ngOnInit(): void {
     this.loadMailData(this.pkuser);
     console.log(this.pkuser);
+  }
+  testing: boolean = false;
+  async lazyLoad(event: any) {
+    this.testing = false; 
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = event.sortField;
+    filterQuery.sortOrder = event.sortOrder;
+    filterQuery.offset = event.first;
+    filterQuery.rows = event.rows;
+    filterQuery.count = true;
+
+
+    filterQuery.fieldList = this.fields;
+    filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+
+    try {
+      let res: any = await this.scmService.findWithFilterMail(filterQuery);
+      this.documentacionList = res?.data?.map((dto: any) => {
+        return FilterQuery.dtoToObject(dto);
+      });
+      console.log("res",res);
+      this.totalRecords = res.count;
+      console.log("Total records:", this.totalRecords);
+      console.log("Documentación List:", this.documentacionList);
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  casosListFilter: any;
+  onFilter(event: any) {
+    this.casosListFilter = event.filteredValue
   }
 
   constructor(

@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import * as moment from 'moment';
 import { Message, MessageService, PrimeNGConfig, SelectItem } from 'primeng/api';
 import { PerfilService } from 'src/app/website/pages/admin/services/perfil.service';
@@ -46,7 +46,11 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   nameAndLastName = "";
   selectedItem: string = '';
   status: any;
-
+  @Output() updateFilterTotable = new EventEmitter<string>();
+  @Output() researchFilter=new EventEmitter<string>();
+  onfocusChange(){
+    this.researchFilter.emit();
+  }
   cargoActualList!: SelectItem[];
   listDivision: any = []
   epsList!: SelectItem[];
@@ -54,6 +58,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   arlList!: SelectItem[];
   arl: any;
   iddt?: number
+  fechaCreacion: Date | undefined;
   consultar2: boolean = false;
   msgs?: Message[];
   empleadosList!: Empleado[];
@@ -61,9 +66,12 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   caseStatus: SelectItem[] = [
     { label: "Abierto", value: "false" },
     { label: "Cerrado", value: "true" },
-];
+  ];
 
   flagDialogCargoActual: boolean = false
+  saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
+  fechaCreacion2 = this.saludL.fechaCreacion;
+
 
   fechaActual: Date = new Date();
   yearRange: string = "1900:" + this.fechaActual.getFullYear();
@@ -82,10 +90,26 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     { label: "Mayor a 20", range: "21,22,23,24,25,26,27,28,29" },
   ]
 
+  empresaList2: empresaNit[] = [
+    { label: "--Seleccione--", empresa: null, nit: null },
+    { label: "Agromil S.A.S", empresa: "Agromil S.A.S", nit: "830511745" },
+    { label: "Almacenes Corona", empresa: "Almacenes Corona", nit: "860500480-8" },
+    { label: "Compañía Colombiana de Ceramica S.A.S", empresa: "Compañía Colombiana de Ceramica S.A.S", nit: "860002536-5" },
+    { label: "Corlanc S.A.S", empresa: "Corlanc S.A.S", nit: "900481586-1" },
+    { label: "Corona Industrial", empresa: "Corona Industrial", nit: "900696296-4" },
+    { label: "Despachadora internacional de Colombia S.A.S", empresa: "Despachadora internacional de Colombia S.A.S", nit: "860068121-6" },
+    { label: "Electroporcelana Gamma", empresa: "Electroporcelana Gamma", nit: "890900121-4" },
+    { label: "Locería Colombiana S.A.S", empresa: "Locería Colombiana S.A.S", nit: "890900085-7" },
+    { label: "Minerales Industriales S.A", empresa: "Minerales Industriales S.A", nit: "890917398-1" },
+    { label: "Nexentia S.A.S", empresa: "Nexentia S.A.S", nit: "900596618-3" },
+    { label: "Suministros de Colombia S.A.S", empresa: "Suministros de Colombia S.A.S", nit: "890900120-7" },
+    { label: "Organización corona", empresa: "Organización corona", nit: "860002688-6" }
+  ]
+
 
   async ngOnInit() {
     this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
-    console.log("estatus",this.status);
+    console.log("estatus", this.status);
     this.chargueValue();
     await this.comunService.findAllEps().then((data) => {
       this.epsList = [];
@@ -191,12 +215,12 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       fechaMaximaEnvDocs: [null],
       fechaCierreCaso: [null],
       statusCaso: [null],
-      epsDictamen:[null]
+      epsDictamen: [null]
     });
-    
+
     this.status = this.caseStatus.find(sta => sta.value == this.empleadoForm.get("statusCaso")?.value)?.label
-    
-    
+
+
 
     this.empresaForm = fb.group({
       empresa: [null, Validators.required],
@@ -226,6 +250,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       direccionGerencia: [{ value: "", disabled: true }]
 
     });
+
   }
 
   async getCargoActual() {
@@ -252,10 +277,11 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     this.empleadoSelect = null;
     let emp = <Empleado>this.value;
     this.saludlaboralCHANGETest = await this.scmService.getCaseListSL(emp.id!);
-
+   
     this.empleadoSelect = emp;
     this.empresaForm!.reset()
     if (this.empleadoSelect) {
+      this.updateFilterTotable.emit( this.empleadoSelect.numeroIdentificacion);
       this.empresaForm!.value.nit = this.empleadoSelect.nit
       this.empresaForm!.value.empresa = { label: this.empleadoSelect.empresa, empresa: this.empleadoSelect.empresa, nit: this.empleadoSelect.nit }
       this.empresaSelect2 = this.empresaForm!.value.empresa
@@ -353,9 +379,14 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       'detalleCalificacion': [''],
       'fechaMaximaEnvDocs': [''],
       'fechaCierreCaso': [''],
-      'statusCaso':[''],
-      'epsDictamen':['']
+      'statusCaso': [''],
+      'epsDictamen': ['']
     });
+    setTimeout(() => {
+      this.empleadoForm.patchValue({
+        'ciudad': this.empleadoSelect!.ciudad,
+      })
+    }, 2000);
 
     const dataToSend = {
       'iddt': null,
@@ -381,8 +412,8 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       'detalleCalificacion': [null],
       'fechaMaximaEnvDocs': [''],
       'fechaCierreCaso': [''],
-      'statusCaso':[''],
-      'epsDictamen':[''],
+      'statusCaso': [''],
+      'epsDictamen': [''],
     };
     const cleanDataToSend = this.prepareFormData(dataToSend);
     this.empleadoForm.patchValue(cleanDataToSend);
@@ -391,11 +422,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
 
 
-    setTimeout(() => {
-      this.empleadoForm.patchValue({
-        'ciudad': this.empleadoSelect!.ciudad,
-      })
-    }, 2000);
 
 
 
@@ -416,7 +442,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   suggestions: string[] = [];
   filteredSuggestions: string[] = [];
-  
+
   onInput(value: string) {
     // Lógica para filtrar sugerencias
     let cargoActualfiltQuery2 = new FilterQuery();
@@ -425,31 +451,31 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     cargoActualfiltQuery2.fieldList = ["id", "nombre"];
     cargoActualfiltQuery2.filterList = [];
     cargoActualfiltQuery2.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: this.empresa?.id?.toString() });
-  
+
     this.cargoActualService.getcargoRWithFilter(cargoActualfiltQuery2).then((resp: any) => {
       this.suggestions = resp.data.map((ele: any) => ele.nombre);
       this.filteredSuggestions = this.suggestions
         .filter(suggestion => suggestion.toLowerCase().includes(value.toLowerCase()))
         .slice(0, 10);
     });
-  
+
     this.selectedItem = value;
   }
-  
+
   closeDialog() {
     this.flagDialogCargoActual = false;
     this.selectedItem = '';
     this.suggestions = [];
     this.filteredSuggestions = [];
   }
-  
-  
+
+
   onSelect(item: string) {
     this.selectedItem = item;
 
     this.filteredSuggestions = [];
   }
-  
+
   usuarioP: any;
   async usuarioPermisos() {
     this.usuarioP = [];
@@ -580,20 +606,20 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   async cargarProceso(eve: any, tipo: string) {
     try {
       console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
-      
+
       // Verifica que eve tenga el ID correcto
       const areaId = eve?.id;
       console.log("ID del área:", areaId);
-  
+
       let filterProceso = new FilterQuery();
       filterProceso.fieldList = ['id', 'nombre'];
       filterProceso.filterList = [
         { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: areaId },
         { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
       ];
-  
+
       console.log("Consulta de procesos con filtro:", filterProceso);
-  
+
       let procesoList: any = [];
       await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
         console.log("Respuesta de procesos:", resp);
@@ -602,7 +628,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
         console.error("Error al cargar los procesos:", error);
         throw error;
       });
-  
+
       if (tipo === 'Origen') {
         this.procesoList = [...procesoList];
       } else {
@@ -612,8 +638,8 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       console.error("Error en cargarProceso:", error);
     }
   }
-  
-  
+
+
   prepareFormData(formValue: any) {
     const processedFormValue = { ...formValue };
 
@@ -640,49 +666,95 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmitSL() {
     console.log('Formulario antes de validación:', this.empleadoForm.controls);
 
+    // Excluir cargoId del formulario
+    const { cargoId, ...formValues } = this.empleadoForm.value;
+
     if (this.empleadoForm.valid) {
-      let body = { ...this.empleadoForm.value };
+      let body = { ...formValues };  // Utiliza los valores excluyendo cargoId
 
-      // Aquí asegúrate de no hacer modificaciones que puedan afectar a entidadEmiteCalificacion
-      console.log('Valor de entidadEmiteCalificacion antes de enviar:', body.entidadEmiteCalificacion);
-
-      // Actualizar los campos según sea necesario
+      // Continuar con el procesamiento de los campos
       body.procesoActual = body.procesoActual?.id || body.procesoActual;
       body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
       body.areaActual = body.areaActual?.id || body.areaActual;
       body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
-      body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
+      body.nombreCompletoSL =
+        `${body.primerApellido ? body.primerApellido : ''} ` +
+        `${body.segundoApellido ? body.segundoApellido : ''} ` +
+        `${body.primerNombre ? body.primerNombre : ''} ` +
+        `${body.segundoNombre ? body.segundoNombre : ''}`.trim();
+
 
       if (Array.isArray(body.pkUser)) {
         body.pkUser = body.pkUser[0];
       }
 
-      // Limpia el formulario según sea necesario
       body = this.prepareFormData(body);
 
       console.log('Cuerpo a enviar antes de enviar:', body);
+      console.log('Valor de iddt:', this.iddt);
 
-      // Decide si actualizar o crear basado en la presencia de this.iddt
-      (this.iddt !== undefined ? this.casoMedico.putCaseSL(this.iddt, body) : this.casoMedico.createDT(body))
-        .then((response) => {
-          if (response) {
-            this.showSuccessToast();
-            console.log('Empleado enviado correctamente', response);
-          }
-        })
-        .catch((error) => {
-          console.error('Error al enviar el empleado:', error);
-          this.msgs = [];
-          this.messageService.add({
-            key: 'formScmSL',
-            severity: "error",
-            summary: "Error al enviar empleado",
-            detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
+      // Verificar si es una creación o actualización
+      if (this.iddt === undefined) {
+        console.log('Creando nuevo caso');
+        this.casoMedico.createDT(body)
+          .then((response) => {
+            if (response) {
+              this.showSuccessToast();
+              console.log('Empleado creado correctamente 2', response);
+              setTimeout(() => {
+                this.route.navigate(['/app/scm/saludlaborallist'])
+
+              }, 3000);
+              this.msgs = [];
+              this.messageService.add({
+                key: 'formScmSL',
+                severity: "warn",
+                summary: "Caso creado",
+                detail: `Caso creado con numero ${response} revisar el listado`,
+
+              });
+            }
+          })
+          .catch((error) => {
+            console.error('Error al crear el empleado:', error);
+            this.msgs = [];
+            this.messageService.add({
+              key: 'formScmSL',
+              severity: "error",
+              summary: "Error al crear empleado",
+              detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
+
+            });
           });
-        });
+      } else {
+        console.log('Actualizando caso');
+        this.casoMedico.putCaseSL(this.iddt, body)
+          .then((response) => {
+            if (response) {
+              this.msgs = []
+              this.messageService.add({
+                key: 'formScmSL',
+                severity: "success",
+                summary: "Usuario actualizado",
+                detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} fue actualizado con el caso ${response}`,
+              });
+              console.log('Empleado actualizado correctamente', response);
+            }
+          })
+          .catch((error) => {
+            console.error('Error al actualizar el empleado:', error);
+            this.msgs = [];
+            this.messageService.add({
+              key: 'formScmSL',
+              severity: "error",
+              summary: "Error al actualizar empleado",
+              detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue actualizado`,
+            });
+          });
+      }
     } else {
       this.msgs = [];
       this.messageService.add({
@@ -693,6 +765,10 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       });
     }
   }
+
+
+
+
   nombreSesion?: string
   nombreSesionSeg?: string
   cedula?: string
@@ -829,8 +905,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
       await this.buscarEmpleado({ query: data['usuarioAsignado'] });
       const empleado = this.empleadosList[0];
-      console.log("cargo act", JSON.stringify(data));
-
       if (empleado && typeof empleado === 'object') {
         this.setEmpleadoFormValues(empleado);
         this.setFechaValues(data);
@@ -868,20 +942,16 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     }
   }
 
-  setEmpleadoFormValues(empleado: any) {
-    let empresaNitpivot: empresaNit = {
-      empresa: empleado['empresa'],
-      nit: empleado['nit'],
-      label: empleado['empresa']
-    };
-    this.empresaForm?.controls['empresa'].setValue(empresaNitpivot);
+  async setEmpleadoFormValues(empleado: any) {
+
+
 
     const empleadoFields = [
       'numeroIdentificacion', 'area', 'cargoId', 'perfilesId', 'tipoIdentificacion',
       'primerNombre', 'segundoNombre', 'primerApellido', 'segundoApellido',
       'genero', 'fechaNacimiento', 'fechaIngreso', 'corporativePhone', 'direccion',
       'zonaResidencia', 'telefono1', 'telefono2', 'correoPersonal', 'emailEmergencyContact',
-      'phoneEmergencyContact', 'emergencyContact'
+      'phoneEmergencyContact', 'emergencyContact', 'ciudad', 'email',
     ];
 
     empleadoFields.forEach(field => {
@@ -897,7 +967,30 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     this.empleadoForm.controls['fechaIngreso'].setValue(new Date(empleado['fechaIngreso']));
     this.empleadoForm.controls['cargoId'].setValue(empleado['cargo'])
     this.empleadoForm.controls['perfilesId'].setValue(empleado['id'])
+
+
+    let empresaNitpivot: empresaNit = {
+      empresa: empleado['empresa'],
+      nit: empleado['nit'],
+      label: empleado['empresa']
+    };
+    const empresaSeleccionada = this.empresaList2.find(e => e.label === empresaNitpivot.label);
+    console.log(empresaSeleccionada);
+
+    if (empresaSeleccionada) {
+      this.empresaForm?.controls['empresa'].setValue(empresaSeleccionada);
+      this.empresaForm?.controls['nit'].setValue(empresaNitpivot.nit);
+      console.log("aaaaaa", empresaSeleccionada.empresa, empresaSeleccionada.label);
+
+
+    } else {
+      // Manejar el caso cuando la empresa no se encuentra en la lista
+      console.error('Empresa no encontrada en la lista');
+    }
+
+
   }
+
 
   setFechaValues(data: any) {
     const fechaFields = ['fechaCierreCaso', 'fechaRecepcionDocs', 'fechaMaximaEnvDocs'];
@@ -909,10 +1002,21 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   }
 
   setJefeInmediatoValues(jefeInmediato: any, usuario: any) {
+    console.log("que entra aca", jefeInmediato);
+
     this.jefeInmediato.controls['numeroIdentificacion'].setValue(jefeInmediato['numeroIdentificacion'] ?? 'SIN INFORMACIÓN');
     this.jefeNames = `${jefeInmediato['primerNombre']} ${jefeInmediato['primerApellido']}` ?? 'sin informacion';
     this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION');
-    this.empleadoForm.controls['email'].setValue(usuario['email']);
+    if (jefeInmediato && jefeInmediato.usuario) {
+      console.log(this.jefeInmediato.controls['email']);
+
+      this.jefeInmediato.controls['email'].setValue(jefeInmediato.usuario.email);
+    } else {
+      console.error("El control 'email' no existe en el formulario jefeInmediato");
+    }
+
+
+
   }
 
   setEmpleadoEdadYAntiguedad(empleado: any) {
@@ -936,12 +1040,12 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   async setDataRelatedValues(data: any) {
     const origenActualFields = ['divisionOrigen', 'divisionActual', 'localidadOrigen', 'localidadActual', 'procesoOrigen', 'procesoActual'];
-  
+
     // Establecer valores iniciales del formulario
     origenActualFields.forEach(field => {
       this.empleadoForm.controls[field].setValue(parseInt(data[field]));
     });
-  
+
     // Cargar datos necesarios
     await Promise.all([
       this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionOrigen'].value, 'Origen'),
@@ -949,28 +1053,28 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       this.cargarArea(this.empleadoForm.controls['localidadOrigen'].value, 'Origen'),
       this.cargarArea(this.empleadoForm.controls['localidadActual'].value, 'Actual')
     ]);
-  
+
     // Establecer valores para áreas
     const areaOrigen = this.areaList.find(value => value.id === parseInt(data['areaOrigen']));
     const areaActual = this.areaListActual.find(value => value.id === parseInt(data['areaActual']));
-  
+
     this.empleadoForm.controls['areaOrigen'].setValue(areaOrigen);
     this.empleadoForm.controls['areaActual'].setValue(areaActual);
-  
+
     // Esperar a que se carguen los procesos
     await Promise.all([
       this.cargarProceso(areaOrigen?.id, 'Origen'),
       this.cargarProceso(areaActual?.id, 'Actual')
-     
-      
-    ]);  
+
+
+    ]);
     // Establecer valores para procesos
     this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id === parseInt(data['procesoOrigen'])));
     this.empleadoForm.controls['procesoActual'].setValue(this.procesoListActual.find(value => value.id === parseInt(data['procesoActual'])));
   }
-  
-  
-  
+
+
+
 
 
   isDetalleEnabled: boolean = false;
@@ -1143,9 +1247,9 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   openCase() {
     // Obtener el valor de statusCaso desde localStorage
     const statusCaso = localStorage.getItem('statusCaso') === 'true';
-    console.log("status",statusCaso);
-    
-  
+    console.log("status", statusCaso);
+
+
     if (statusCaso) {
       // Si statusCaso es true, abrir el caso en modo consulta
       this.openCaseConsultar();
@@ -1161,12 +1265,12 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       console.log('case select', this.saludLaboralSelect.idSl);
     }
   }
-  
+
   openCaseConsultar() {
     localStorage.setItem('scmShowCase', 'true');
     this.route.navigate(['/app/scm/saludlaboral/', this.saludLaboralSelect.idSl]);
   }
-  
+
   cambiarEstado(iddt: number): void {
     this.scmService.changeEstadoSL(iddt).then(
       response => {
@@ -1191,3 +1295,4 @@ interface empresaNit {
   empresa: string | null;
   nit: string | null;
 }
+

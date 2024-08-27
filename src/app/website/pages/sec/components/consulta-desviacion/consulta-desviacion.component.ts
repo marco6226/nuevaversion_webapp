@@ -219,6 +219,8 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
     await this.desviacionService.findByFilter(filterQuery).then(
       (resp:any) => {
         console.log(resp['data'])
+        console.log(resp, "que trae");
+        
         this.totalRecords = resp['count'];
         this.loading = false;
         this.testing = false;

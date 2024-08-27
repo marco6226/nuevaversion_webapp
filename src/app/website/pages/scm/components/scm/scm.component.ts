@@ -184,16 +184,23 @@ export class ScmComponent implements OnInit, AfterViewInit {
         filterEliminado.criteria = Criteria.EQUALS;
         filterEliminado.field = 'eliminado';
         filterEliminado.value1 = 'false';
+        // let filter2 = new Filter();
+        // filter2.criteria = Criteria.EQUALS;
+        // filter2.field = 'documento'
+        // filter2.value1 = '1010020759';
 
         filterQuery.fieldList = this.fields;
         filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-        filterQuery.filterList.push(filterEliminado);      
+        filterQuery.filterList.push(filterEliminado); 
+
         try {
             let res: any = await this.scmService.findByFilter(filterQuery);
             this.casosList = [];
             console.log(this.casosList)
             res?.data?.forEach((dto: any) => {
                 this.casosList.push(FilterQuery.dtoToObject(dto));
+                console.log(dto, "hah");
+                
                 
             });
             console.log(res)

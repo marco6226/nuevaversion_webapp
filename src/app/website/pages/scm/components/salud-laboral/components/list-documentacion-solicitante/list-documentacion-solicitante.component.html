@@ -1,7 +1,4 @@
-<p-toast key="formScmSL"></p-toast>
-<p-confirmDialog ></p-confirmDialog>
-<div class="shadow">
-    <p-panel styleClass="material-panel">
+<!-- <p-panel styleClass="material-panel">
         <p-header> Documentación enviada del trabajador </p-header>
 <p-table
 *sTienePermiso="'SCM_GET_DSR'"
@@ -43,13 +40,7 @@ dataKey="id"
     <td>{{ case.fechaEnvio | date : "dd/MM/yyyy" }}</td>
     <td>{{ convertirEstadoCorreoUser(case.estadoCorreo) }}</td>
     <td>
-      <!-- <button
-        pButton
-        type="button"
-        icon="pi pi-download"
-        title="Descargar documento"
-        class="p-button-info margin-left margin-right"
-      ></button> -->
+
       <div class="ui-g" style="margin-top: 10px;">
         <div class="ui-g-12 ui-sm-12 ui-md-10">
           <div *ngFor="let doc of directorios">
@@ -104,7 +95,316 @@ dataKey="id"
   </tr>
 </ng-template>
 </p-table>
-</p-panel>
+</p-panel> -->
+<p-toast key="formScmSL"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="shadow">
+  <p-panel styleClass="material-panel">
+    <p-header> Documentación enviada del trabajador</p-header>
+    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+      <span>
+        Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+        {{ totalRecords || 0 }} registros
+      </span>
+    </div>
+    <p-table
+      #dt
+      styleClass="p-datatable-striped"
+      autoLayout="true"
+      selectionMode="single"
+      [loading]="loading"
+      [(selection)]="documentacionSelectSolicitado"
+      [value]="documentacionList"
+      [paginator]="true"
+      [rows]="5"
+      dataKey="id"
+      [lazy]="true"
+      (onLazyLoad)="lazyLoad($event)"
+      sortField="fechaSolicitud"
+      sortOrder="1"
+      [totalRecords]="totalRecords"
+      (onFilter)="onFilter($event)"
+      [rowsPerPageOptions]="[10, 20, 50, 100]"
+      scrollable="true"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th pSortableColumn="fechaSolicitud">
+            Fecha de solicitud
+            <p-sortIcon field="fechaSolicitud"></p-sortIcon>
+          </th>
+          <th pSortableColumn="pkCase">
+            Caso asociado
+            <p-sortIcon field="pkCase"></p-sortIcon>
+          </th>
+          <th pSortableColumn="asignacionTarea">
+            Asignacion de tareas
+            <p-sortIcon field="asignacionTarea"></p-sortIcon>
+          </th>
+          <th pSortableColumn="docSolicitado">
+            Listado de documentos solicitados
+            <p-sortIcon field="docSolicitado"></p-sortIcon>
+          </th>
+          <th pSortableColumn="usuarioSolicitado">
+            Trabajador Solicitado
+            <p-sortIcon field="usuarioSolicitado"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fechaLimite">
+            Fecha Limite
+            <p-sortIcon field="fechaLimite"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fechaEnvio">
+            Fecha envio documentacion
+            <p-sortIcon field="fechaEnvio"></p-sortIcon>
+          </th>
+          <th pSortableColumn="estadoCorreo">
+            Estado
+            <p-sortIcon field="estadoCorreo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="razonRechazoSolicitado">
+            Motivo rechazo del usuario solicitante
+            <p-sortIcon field="razonRechazoSolicitado"></p-sortIcon>
+          </th>
+          <th pSortableColumn="razonRechazoSolicitante">
+            Motivo rechazo del usuario solicitado
+            <p-sortIcon field="razonRechazoSolicitante"></p-sortIcon>
+          </th>
+          <th pSortableColumn="documentos">
+            Documentos
+            <p-sortIcon field="documentos"></p-sortIcon>
+          </th>
+        </tr>
+        <tr class="filters">
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <s-rangoFechaSelector
+                (onSelect)="dt.filter($event, 'fechaSolicitud', 'bt')"
+              ></s-rangoFechaSelector>
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="number"
+                (input)="dt.filter($event.target.value, 'pkCase', 'equals')"
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'asignacionTarea', 'contains')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'docSolicitado', 'contains')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter(
+                    $event.target.value,
+                    'razonRechazoSolicitado',
+                    'contains'
+                  )
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <s-rangoFechaSelector
+                (onSelect)="dt.filter($event, 'fechaLimite', 'bt')"
+              ></s-rangoFechaSelector>
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <s-rangoFechaSelector
+                (onSelect)="dt.filter($event, 'fechaEnvio', 'bt')"
+              ></s-rangoFechaSelector>
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="number"
+                (input)="
+                  dt.filter($event.target.value, 'estadoCorreo', 'equals')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter(
+                    $event.target.value,
+                    'razonRechazoSolicitado',
+                    'contains'
+                  )
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter(
+                    $event.target.value,
+                    'razonRechazoSolicitante',
+                    'contains'
+                  )
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                [disabled]="true"
+                (input)="
+                  dt.filter($event.target.value, 'documentos', 'contains')
+                "
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-case>
+        <tr [pSelectableRow]="case" class="table-row table-row-selectable">
+          <td class="p-text-center">
+            {{ case.fechaSolicitud | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="p-text-center">{{ case.pkCase }}</td>
+          <td class="p-text-center">{{ case.asignacionTarea }}</td>
+          <td class="p-text-center">{{ case.docSolicitado }}</td>
+          <td class="p-text-center">{{ case.usuarioSolicitado }}</td>
+          <td class="p-text-center">
+            {{ case.fechaLimite | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="p-text-center">
+            {{ case.fechaEnvio | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="p-text-center">
+            {{ convertirEstadoCorreoUser(case.estadoCorreo) }}
+          </td>
+          <td class="p-text-center">{{ case.razonRechazoSolicitado }}</td>
+          <td class="p-text-center">{{ case.razonRechazoSolicitante }}</td>
+          <td>
+            <div class="ui-g" style="margin-top: 10px">
+              <div class="ui-g-12 ui-sm-12 ui-md-10">
+                <div *ngFor="let doc of directorios">
+                  <table
+                    class="caption-top"
+                    *ngIf="
+                      doc.documento.proceso === 'cargaDocumentosSL' + case.id
+                    "
+                  >
+                    <p>Soportes para Descargar:</p>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a
+                            type="button"
+                            class="btn btn-outline-primary"
+                            (click)="descargarDocumento(doc.documento)"
+                            >{{ doc.documento.descripcion }}</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+          <span>
+            Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+            {{ totalRecords || 0 }} registros
+          </span>
+        </div>
+        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+          <button
+            *sTienePermiso="'SCM_POST_ADS'"
+            pButton
+            type="button"
+            icon="bi bi-check"
+            label="Aprobar"
+            class="p-button-info margin-left margin-right"
+            [disabled]="
+              !documentacionSelectSolicitado?.documentos ||
+              documentacionSelectSolicitado.documentos.length === 0
+            "
+            (click)="onEditState(documentacionSelectSolicitado.id)"
+          ></button>
+
+          <button
+            pButton
+            *sTienePermiso="'SCM_POST_RDS'"
+            type="button"
+            icon="bi bi-x"
+            label="Rechazar"
+            class="p-button-danger margin-left margin-right"
+            [disabled]="
+              !documentacionSelectSolicitado ||
+              !documentacionSelectSolicitado.documentos ||
+              documentacionSelectSolicitado.documentos.length === 0
+            "
+            (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
+          ></button>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="9" class="p-text-center">
+            No hay documentación solicitada.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
 </div>
 <p-dialog
   [header]="'Rechazo documentación'"
@@ -160,4 +460,5 @@ dataKey="id"
     </div>
   </div>
 </p-dialog>
+
 <a style="visibility: hidden" id="dwldLink"></a>

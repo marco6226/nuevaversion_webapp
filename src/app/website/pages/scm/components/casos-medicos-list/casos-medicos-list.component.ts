@@ -72,6 +72,7 @@ export class CasosMedicosListComponent implements OnInit {
     'fechaDictamenJn',
       'documentosJn'
   ];
+  
   consultar: boolean = false;
   async ngOnInit() {
     this.testing = true;

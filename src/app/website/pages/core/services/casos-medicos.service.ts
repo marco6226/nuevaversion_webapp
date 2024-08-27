@@ -434,6 +434,11 @@ export class CasosMedicosService {
         
         return this.http.get(`${endPoints.scm}salud/` + '?' + this.buildUrlParams(filterQuery), this.getRequestHeaders(this.headers)).toPromise();
     }
+    findWithFilterMail(filterQuery: FilterQuery | null = null) {
+        console.log("filtro para vainas locas:" ,filterQuery);
+        
+        return this.http.get(`${endPoints.scm}saludMail/` + '?' + this.buildUrlParams(filterQuery), this.getRequestHeaders(this.headers)).toPromise();
+    }
 
     //aon
     getTokenAon() {
