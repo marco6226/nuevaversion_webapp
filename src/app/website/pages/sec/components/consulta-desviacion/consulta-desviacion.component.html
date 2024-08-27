@@ -69,7 +69,7 @@
                 </th>
                 <th
                   pSortableColumn="modulo"
-                  *ngIf="empresaId == '22' && flagArea"
+                  *ngIf="empresaId == '22' && flagArea && moduloSv"
                 >
                   No. FURAT
                   <p-sortIcon field="modulo"></p-sortIcon>
@@ -166,7 +166,7 @@
                   ></p-dropdown>
                 </td>
                 <td
-                  *ngIf="empresaId == '22' && flagArea"
+                  *ngIf="empresaId == '22' && flagArea && moduloSv"
                   class="text-center bg-light"
                 >
                   <input
@@ -328,7 +328,7 @@
                   ></p-tableCheckbox>
                 </td>
                 <td>{{ desviacion.modulo }}</td>
-                <td *ngIf="empresaId == '22' && flagArea">
+                <td *ngIf="empresaId == '22' && flagArea && moduloSv">
                   {{ desviacion.furat }}
                 </td>
                 <td>{{ desviacion.hashId }}</td>

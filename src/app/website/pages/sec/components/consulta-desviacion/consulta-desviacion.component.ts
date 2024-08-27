@@ -220,8 +220,6 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
     await this.desviacionService.findByFilter(filterQuery).then(
       (resp:any) => {
         console.log(resp['data'])
-        console.log(resp, "que trae");
-        
         this.totalRecords = resp['count'];
         this.loading = false;
         this.testing = false;
@@ -309,9 +307,12 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
   }
   
   flagArea:boolean=true
+  moduloSv:boolean=true
   changeModulos(eve:any){
     if(eve.value=='Inspecciones CC')this.flagArea=false
     else this.flagArea=true
+    if(eve.value=='Inspecciones SV')this.moduloSv=false
+    else this.moduloSv=true
   }
 
   scrollLeft() {

@@ -16,32 +16,35 @@
                 required></textarea>
         </div>
 
-        <div class="col-12 md:col-2 lg:col-2">
+        <div class="col-12 md:col-2 lg:col-2" *ngIf="tipoLista != 'Inspecciones SV'">
             <label for="tipoAccion">Tipo Acción</label>
         </div>
-        <div class="col-12 md:col-10 lg:col-10">
+        <div class="col-12 md:col-10 lg:col-10" *ngIf="tipoLista != 'Inspecciones SV'">
             <p-radioButton required name="tipoAccion" value="Mejoramiento" label="Mejoramiento"
-                formControlName="tipoAccion"></p-radioButton><br>
+                    formControlName="tipoAccion"></p-radioButton><br>
             <p-radioButton required name="tipoAccion" value="Preventiva" label="Preventiva"
-                formControlName="tipoAccion"></p-radioButton><br>
-            <p-radioButton required name="tipoAccion" value="Correctiva" label="Correctiva"
-                formControlName="tipoAccion"></p-radioButton><br>
+                    formControlName="tipoAccion"></p-radioButton><br>
+             <p-radioButton required name="tipoAccion" value="Correctiva" label="Correctiva"
+                    formControlName="tipoAccion"></p-radioButton><br>
         </div>
-        <div class="col-12 md:col-2 lg:col-2">
+
+        <div class="col-12 md:col-2 lg:col-2" *ngIf="tipoLista != 'Inspecciones SV'">
             <label for="jerarquia">Jerarquía de control</label>
         </div>
-        <div class="col-12 md:col-10 lg:col-10">
+        <div class="col-12 md:col-10 lg:col-10" *ngIf="tipoLista != 'Inspecciones SV'">
             <p-radioButton required name="jerarquia" value="Eliminación" label="Eliminación"
                 formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Sustitución" label="Sustitución"
-                formControlName="jerarquia"></p-radioButton><br>
+                 formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Control de ingeniería" label="Control de ingeniería"
-                formControlName="jerarquia"></p-radioButton><br>
+                 formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Controles administrativos" label="Controles administrativos"
                 formControlName="jerarquia"></p-radioButton><br>
             <p-radioButton required name="jerarquia" value="Elementos de protección personal"
                 label="Elementos de protección personal" formControlName="jerarquia"></p-radioButton>
         </div>
+        
+       
         <div class="col-12 md:col-2 lg:col-2">
             <label for="fechaProyectada">Fecha Proyectada</label>
         </div>
@@ -57,7 +60,7 @@
             <area-selector formControlName="areaResponsable" required></area-selector>
         </div>
 
-        <div class="col-12 md:col-2 lg:col-2">
+        <div class="col-12 md:col-2 lg:col-2" >
             <label for="empResponsable">Empleado Responsable</label>
         </div>
         <div class="col-12 md:col-10 lg:col-10" *ngIf="!esAliado && tipoLista != 'Inspecciones CC';else empResponsableTemplate">
@@ -72,7 +75,7 @@
     <p-footer>
         <div>
             <ng-container *ngIf="adicionar">
-                <button *sTienePermiso="'SEC_POST_TAR'" pButton type="submit" icon="bi bi-plus" [disabled]="!form.valid"
+                    <button *sTienePermiso="'SEC_POST_TAR'" pButton type="submit" icon="bi bi-plus" [disabled]="!form.valid"
                     label="Adicionar actividad"></button>
             </ng-container>
             <ng-container *ngIf="modificar">
@@ -92,7 +95,7 @@
             <th>Actividad</th>
             <th>Descripción</th>
             <th>Tipo acción</th>
-            <th>Jerarquía de control</th>
+            <th *ngIf="tipoLista != 'Inspecciones SV'">Jerarquía de control</th>
             <th>Estado</th>
             <th>Fecha proyectada</th>
             <th *ngIf="tipoLista != 'Inspecciones CC'">Area responsable</th>
@@ -105,7 +108,7 @@
             <td>{{tarea.nombre}}</td>
             <td>{{tarea.descripcion}}</td>
             <td>{{tarea.tipoAccion}}</td>
-            <td>{{tarea.jerarquia}}</td>
+            <td *ngIf="tipoLista != 'Inspecciones SV'">{{tarea.jerarquia}}</td>
             <td>{{tarea.estado}}</td>
             <td>{{tarea.fechaProyectada | date:'yyyy-MM-dd'}}</td>
             <td *ngIf="tipoLista != 'Inspecciones CC'">{{tarea?.areaResponsable?.nombre}}</td>
