@@ -17,7 +17,7 @@ export interface Calificacion {
     descripcionAccion: string;
     descripcionMiti:string;
     planAccion: string;
-    responsable: any;
+    responsable: any | null;
     descripcionAccTarjeta: string;
-    fechaProyectada: Date;
+    fechaProyectada: Date | null;
 }

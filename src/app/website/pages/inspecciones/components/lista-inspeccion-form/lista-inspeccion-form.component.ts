@@ -145,7 +145,8 @@ export class ListaInspeccionFormComponent implements OnInit {
             criticidad: '',
             numero: 0,
             calificacion: {} as Calificacion,
-            peso: null
+            peso: null,
+            tipoPeligro: null
         };
         elemento.numero = ++this.contadorElem;
         elemento.codigo = JSON.stringify(this.value.length + 1);

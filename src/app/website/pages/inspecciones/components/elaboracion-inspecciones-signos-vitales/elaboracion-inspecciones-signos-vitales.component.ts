@@ -114,6 +114,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
   nombreProc:any;
   responsableM:any;
   analisis : AnalisisDesviacion[] =[]
+  confiabilidad!:string;
 
   EstadoOptionList = [
       { label: "Disponible", value: "Disponible" },
@@ -486,11 +487,22 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       for (let i = 0; i < elemList.length; i++) {
           if (elemList[i].elementoInspeccionList != null && elemList[i].elementoInspeccionList.length > 0) {
               let calif = this.buscarCalificacion(elemList[i], calificacionList);
-              if(calif !== null) elemList[i].calificacion = calif;
+              
+              if(calif !== null) {
+                calif.responsable = JSON.parse(calif.responsable)
+                if(calif.fechaProyectada !== null){
+                    calif.fechaProyectada = new Date(calif.fechaProyectada)
+                }
+                elemList[i].calificacion = calif;
+              }
               this.cargarCalificaciones(elemList[i].elementoInspeccionList, calificacionList);
           } else {
-              let calif = this.buscarCalificacion(elemList[i], calificacionList)!;
-              elemList[i].calificacion = calif;
+                let calif = this.buscarCalificacion(elemList[i], calificacionList)!;
+                calif.responsable = JSON.parse(calif.responsable)
+                if(calif.fechaProyectada !== null){
+                    calif.fechaProyectada = new Date(calif.fechaProyectada)
+                }
+                elemList[i].calificacion = calif;
           }
       }
   }
@@ -507,21 +519,28 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
   async onSubmit() {
       let calificacionList: Calificacion[] = [];
       try {
-          this.extraerCalificaciones(this.listaInspeccion.elementoInspeccionList, calificacionList);
 
+          this.extraerCalificaciones(this.listaInspeccion.elementoInspeccionList, calificacionList);
+            
           let inspeccion: Inspeccion = new Inspeccion();
           inspeccion.area = this.area;
           inspeccion.listaInspeccion = this.listaInspeccion;
+
           inspeccion.programacion = this.programacion;
           inspeccion.calificacionList = calificacionList;
           inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0].opcionCalificacion;
-          inspeccion.calificacionList[0].accion = calificacionList[0].accion;
-          inspeccion.calificacionList[0].descripcionAccion = calificacionList[0].descripcionAccion;
-          inspeccion.calificacionList[0].descripcionMiti = calificacionList[0].descripcionMiti;
-          inspeccion.calificacionList[0].planAccion = calificacionList[0].planAccion;
-          inspeccion.calificacionList[0].responsable = calificacionList[0].responsable;
-          inspeccion.calificacionList[0].descripcionAccTarjeta = calificacionList[0].descripcionAccTarjeta;
-          inspeccion.calificacionList[0].fechaProyectada = calificacionList[0].fechaProyectada;
+
+          if(calificacionList[0].accion){
+            inspeccion.calificacionList[0].accion = calificacionList[0]?.accion;
+            inspeccion.calificacionList[0].descripcionAccion = calificacionList[0]?.descripcionAccion;
+            inspeccion.calificacionList[0].descripcionMiti = calificacionList[0]?.descripcionMiti;
+            if(calificacionList[0].planAccion){
+                inspeccion.calificacionList[0].planAccion = calificacionList[0]?.planAccion;
+                inspeccion.calificacionList[0].responsable = calificacionList[0]?.responsable;
+                inspeccion.calificacionList[0].descripcionAccTarjeta = calificacionList[0]?.descripcionAccTarjeta;
+                inspeccion.calificacionList[0].fechaProyectada = calificacionList[0]?.fechaProyectada;
+            } 
+          }               
           
           inspeccion.respuestasCampoList = [];
           inspeccion.equipo = this.equipo;
@@ -544,48 +563,75 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               campo.respuestaCampo.campoId = campo.id;
               inspeccion.respuestasCampoList.push(campo.respuestaCampo);
           });
-        //   let responsable = JSON.parse(calificacionList[0].responsable)
-
           
-
           this.solicitando = true;
 
           if (this.adicionar) {
               this.inspeccionService.create(inspeccion)
                   .then(data => {
-                      this.manageResponse(<Inspeccion>data);
-                    //   let desviacionList = this.cargarDesviacion('INP-'+this.inspeccion.id+'-'+calificacionList[0].elementoInspeccion.id+'-'+calificacionList[0].opcionCalificacion.id) 
-                    //     const desviacion = desviacionList as Desviacion;
-                    //   let analisisDesviacion : AnalisisDesviacion = new AnalisisDesviacion();
-                    // analisisDesviacion.desviacionesList?.push(desviacion)
-                    // this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
-                    //     console.log("analisis creado:", data);
-                    //     const analisisDesviacionCreado = data as AnalisisDesviacion;
-                    //     let tarea : Tarea = new Tarea();
-                    //     tarea.id= '2678';
-                    //     tarea.nombre = calificacionList[0].descripcionAccTarjeta;
-                    //     tarea.fechaProyectada = new Date(calificacionList[0].fechaProyectada);
-                    //     tarea.empResponsable = responsable;
-                    //     tarea.tipoAccion = 'Plan de acción'
-                    //     tarea.analisisDesviacionList?.push(analisisDesviacionCreado);
-                    //     tarea.modulo= 'Inspecciones';
-                    //     tarea.codigo='INPSV-'+this.inspeccion.id+'-'+calificacionList[0].opcionCalificacion.id
-                    //     tarea.envioCorreo= true;
-    
-                    //     this.tareaService.create(tarea).then(data=>{
-                    //         console.log("Tarea creada:", data);
-                            
-                    //   }).catch(err => {
-                    //     console.log(err);
-                    //  });
-                    // }).catch(err => {
-                    //    console.log(err);
-                    // });
-                    //   console.log(inspeccion);
-                      this.solicitando = false;
+                        this.manageResponse(<Inspeccion>data); 
+                        this.solicitando = false;
                   })
                   .catch(err => {
-                      this.solicitando = false;
+                        console.error(err);
+                        this.solicitando = false;
+                  }).finally(async ()=>{
+                    if(calificacionList[0].accion === '3'){
+                        let result = await this.cargarDesviacion('INPSV-' + this.inspeccion.id + '-' + calificacionList[0].elementoInspeccion.id + '-' + calificacionList[0].opcionCalificacion.id) 
+                    
+                        if(result !== null){
+                            let analisisDesviacion : AnalisisDesviacion = new AnalisisDesviacion();
+                            let desviacion = this.desviacionList
+
+                            if (!analisisDesviacion.desviacionesList) {
+                                analisisDesviacion.desviacionesList = [];
+                            }
+                            
+                            analisisDesviacion.desviacionesList.push(desviacion)
+
+                            let tarea  = new Tarea();
+                            tarea.nombre = "Tarjeta de Seguridad";
+                            tarea.descripcion = calificacionList[0].descripcionAccTarjeta
+                            if(calificacionList[0].fechaProyectada){
+                                tarea.fechaProyectada = new Date(calificacionList[0].fechaProyectada);
+                            }
+                            
+                            if (desviacion.area != null) {
+                                tarea.areaResponsable = new Area();
+                                tarea.areaResponsable.id = desviacion.area.id
+                                tarea.areaResponsable.nombre = desviacion.area.nombre;
+                            }
+                        
+                            let responsableA = JSON.parse(calificacionList[0].responsable) as EmpleadoBasic
+                            if (responsableA != null) {
+                                tarea.empResponsable = new Empleado();
+                                tarea.empResponsable.id = responsableA.id;
+                                tarea.empResponsable.primerNombre = responsableA.primerNombre;
+                                tarea.empResponsable.primerApellido = responsableA.primerApellido;
+                                tarea.empResponsable.usuarioBasic= responsableA.usuarioBasic;
+                            }
+
+                            tarea.tipoAccion = 'Plan de acción'
+                            tarea.modulo= 'Inspecciones SV';
+                            tarea.codigo= desviacion.hashId
+                            tarea.estado = 'NUEVO';
+                            tarea.envioCorreo = true;
+
+                            if (!analisisDesviacion.tareaDesviacionList) {
+                                analisisDesviacion.tareaDesviacionList = [];
+                            }
+                            
+                            analisisDesviacion.tareaDesviacionList.push(tarea)
+
+                            this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
+                            }).catch(err => {
+                               console.log(err);
+                            });
+                        }
+                     
+                    }
+                    
+                   
                   });
           } else {
 
@@ -637,8 +683,6 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       } catch (error: any) {
           this.messageService.add({ severity: 'warn', detail: error });
       }
-
-
 
       let nocumple = <Calificacion[]><unknown>this.inspeccion.calificacionList;
 
@@ -752,48 +796,48 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
   }
 
-// desviacionList: Desviacion[] = [];
+    desviacionList: Desviacion  = new Desviacion;
 
-// async cargarDesviacion(hash_id: string) {
-//     try {
-//         let filterDesviacion = new FilterQuery();
-//         filterDesviacion.filterList = [
-//             { field: 'hash_id', criteria: Criteria.EQUALS, value1: hash_id },
-//         ];
-
-//         // Esperar la respuesta del servicio
-//         const resp: any = await this.desviacionService.findDesviacion(filterDesviacion);
-
-//         // Verificar si la respuesta contiene datos
-//         if (resp && resp.data && resp.data.length > 0) {
-//             // Si hay más de un resultado, puedes decidir cómo manejarlo
-//             this.desviacionList = resp.data.map((element: any) => ({
-//                 hashId: element.hashId,
-//                 modulo: element.modulo,
-//                 concepto: element.concepto,
-//                 fechaReporte: element.fechaReporte,
-//                 aspectoCausante: element.aspectoCausante,
-//                 nivelRiesgo: element.nivelRiesgo,
-//                 areaNombre: element.areaNombre,
-//                 analisisId: element.analisisId,
-//                 criticidad: element.criticidad,
-//                 empresaId: element.empresaId,
-//                 nombre: element.nombre,
-//                 hora: element.hora,
-//                 severidad: element.severidad,
-//                 furat: element.furat,
-//                 empresa: element.empresa,
-//                 nit: element.nit,
-//                 area: element.area,
-//                 email: element.email
-//             }));
-//         } else {
-//             console.log("No se encontró ninguna desviación con el hash_id proporcionado.");
-//         }
-//     } catch (error) {
-//         console.error("Error al cargar la desviación:", error);
-//     }
-// }
+    async cargarDesviacion(hash_id: string) {
+        try {
+            let filterDesviacion = new FilterQuery();
+            filterDesviacion.filterList = [
+                { field: 'hashId', criteria: Criteria.EQUALS, value1: hash_id },
+            ];
+    
+            const resp: any = await this.desviacionService.findDesviacion(filterDesviacion);
+    
+            if (resp && resp.length > 0) {
+                const desviacion = resp[0];
+    
+                this.desviacionList = {
+                    hashId: desviacion.hashId,
+                    modulo: desviacion.modulo,
+                    concepto: desviacion.concepto,
+                    fechaReporte: desviacion.fechaReporte,
+                    aspectoCausante: desviacion.aspectoCausante,
+                    nivelRiesgo: desviacion.nivelRiesgo,
+                    areaNombre: desviacion.areaNombre,
+                    analisisId: desviacion.analisisId,
+                    criticidad: desviacion.criticidad,
+                    empresaId: desviacion.empresaId,
+                    nombre: desviacion.nombre,
+                    hora: desviacion.hora,
+                    severidad: desviacion.severidad,
+                    furat: desviacion.furat,
+                    empresa: desviacion.empresa,
+                    nit: desviacion.nit,
+                    area: desviacion.area,
+                    email: desviacion.email
+                };
+    
+            } else {
+                console.log("No se encontró ninguna desviación con el hash_id proporcionado.", hash_id);
+            }
+        } catch (error) {
+            console.error("Error al cargar la desviación:", error);
+        }
+    }
 
   private manageResponse(insp: Inspeccion) {
       this.inspeccion.id = insp.id;
@@ -804,7 +848,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               if (arrayFile != null) {
                   arrayFile.forEach((objFile: any) => {
                       if (objFile != null && objFile.change == true)
-                          this.directorioService.uploadv5(objFile.file, null, 'INPSV', calificacion.id, null, "PUBLICO",null);
+                          this.directorioService.uploadv5(objFile.file, null, 'INP', calificacion.id, null, "PUBLICO",null);
                   });
               }
           });
@@ -874,6 +918,44 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
   }
 
 
+    validarResponsable(elementoSelect: ElementoInspeccion) {
+
+        if (elementoSelect.calificacion.responsable == null || elementoSelect.calificacion.responsable === '')
+        {
+            throw new Error("Debe seleccionar un responsable de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
+        }
+        return true;
+    }
+
+    validarTarjeta(elementoSelect: ElementoInspeccion) {
+
+        if (elementoSelect.calificacion.planAccion == null || elementoSelect.calificacion.planAccion === '')
+         {
+            throw new Error("Debe seleccionar el plan de acción de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
+        }
+        return true;
+    }
+
+    validarDescAccion(elementoSelect: ElementoInspeccion) {
+
+        if (elementoSelect.calificacion.descripcionAccTarjeta == null || elementoSelect.calificacion.descripcionAccTarjeta === '')
+        {
+            throw new Error("Debe agregar una descripción de la acción de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
+        }
+        return true;
+    }
+
+    validarFecha(elementoSelect: ElementoInspeccion) {
+
+        if (elementoSelect.calificacion.fechaProyectada == null)
+        {
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
+            throw new Error("Debe seleccionar una fecha proyectada de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
+        }
+        return true;
+    }
+
+
   imprimirImagen() {
       let cont1 = 0;
       let cont2 = 0;
@@ -930,17 +1012,38 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                   calif.elementoInspeccion = {} as ElementoInspeccion;
                   calif.elementoInspeccion.id = elemList[i].id;
                   calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
-                  calif.accion = elemList[i].calificacion.accion;
-                  calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
-                  calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
-                  calif.planAccion = elemList[i].calificacion.planAccion;
-                  calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
-                  calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
-                  calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
-                  calif.tipoHallazgo = null;
-                  calificacionList.push(calif);
-                  console.log(calif);
                   
+                if(elemList[i].calificacion.accion){
+                    calif.accion = elemList[i].calificacion.accion;
+                    if(elemList[i].calificacion.descripcionAccion){
+                        calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
+                        calif.responsable =  null;
+                        calif.fechaProyectada = null;
+                    }else if(elemList[i].calificacion.descripcionMiti){
+                        calif.responsable =  null;
+                        calif.fechaProyectada = null;
+                        calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
+                    }else if(elemList[i].calificacion.planAccion){
+                        calif.planAccion = elemList[i].calificacion.planAccion;
+                        calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
+                        calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
+                        calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
+                    }else{
+                        calif.responsable =  null;
+                        calif.fechaProyectada = null;
+                    }
+                  }else{
+                    calif.accion = "";
+                    calif.descripcionAccion = "";
+                    calif.descripcionMiti = "";
+                    calif.planAccion = "";
+                    calif.responsable =  null;
+                    calif.descripcionAccTarjeta = "";
+                    calif.fechaProyectada = null;
+                   
+                  }
+                  calif.tipoHallazgo = null;
+                  calificacionList.push(calif);               
               }
           } else {
 
@@ -954,15 +1057,39 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                       calif.elementoInspeccion = {} as ElementoInspeccion;
                       calif.elementoInspeccion.id = elemList[i].id;
                       calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
-                      calif.accion = elemList[i].calificacion.accion;
-                      calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
-                      calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
-                      calif.planAccion = elemList[i].calificacion.planAccion;
-                      calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
-                      calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
-                      calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
+
+                      if(elemList[i].calificacion.accion){
+                        calif.accion = elemList[i].calificacion.accion;
+                        if(elemList[i].calificacion.descripcionAccion){
+                            calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
+                            calif.responsable =  null;
+                            calif.fechaProyectada = null;
+                        }else if(elemList[i].calificacion.descripcionMiti){
+                            calif.responsable =  null;
+                            calif.fechaProyectada = null;
+                            calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
+                        }else if(elemList[i].calificacion.planAccion){
+                            calif.planAccion = elemList[i].calificacion.planAccion;
+                            calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
+                            calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
+                            calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
+                        }else{
+                            calif.responsable =  null;
+                            calif.fechaProyectada = null;
+                        }
+                      }else{
+                        calif.accion = "";
+                        calif.descripcionAccion = "";
+                        calif.descripcionMiti = "";
+                        calif.planAccion = "";
+                        calif.responsable =  null;
+                        calif.descripcionAccTarjeta = "";
+                        calif.fechaProyectada = null;
+                       
+                      }
                       calificacionList.push(calif);
-                      console.log(calif);
+                      if(elemList[0].calificacion.accion === '3' && this.validarTarjeta(elemList[0]) && this.validarResponsable(elemList[0]) && this.validarDescAccion(elemList[0]) && this.validarFecha(elemList[0])){
+                      }
                       if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                   }
               }
@@ -991,7 +1118,9 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           tr.childNodes[1].textContent = el.nombre;
 
           tr.childNodes[3].textContent = el.calificable ? "" : "Descripción del hallazgo";
+          tr.childNodes[4].textContent = el.calificacion.accion ? "" :"Acción realizada";
           let count = 3;
+          let countA = 5;
           this.listaInspeccion.opcionCalificacionList.forEach(opc => {
               let tdCalf = tr.childNodes[2].cloneNode();
               if (el.calificable) {
@@ -999,6 +1128,14 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                       if (el.id == cal.elementoInspeccion.id && cal.opcionCalificacion.id === opc.id) {
                           tdCalf.textContent = 'X';
                           tr.childNodes[count].textContent = cal.recomendacion;
+                
+                          if(cal.accion == '1'){
+                            tr.childNodes[countA].textContent = "Corrección inmediata";
+                          }else if(cal.accion == '2'){
+                            tr.childNodes[countA].textContent = "Medida de mitigación";
+                          }else if(cal.accion == '3'){
+                            tr.childNodes[countA].textContent = "Plan de acción";
+                          }
                       }
                   });
               } else {
@@ -1221,6 +1358,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       return !isNaN(cumplimiento) && cumplimiento !== Infinity ? cumplimiento.toFixed(2) : 'NA';
   }
 
+  
+
   calcularTotalCumplimiento(listaInspeccion: ListaInspeccion): string | number {
       let total: number = 0;
       let porcAcum = 0;
@@ -1234,5 +1373,35 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       }
       total = porcAcum / contElementos;
       return !isNaN(total) && total !== Infinity ? total.toFixed(2) : 'NA';
+  }
+
+
+  asignarColorCumplimiento(porcentaje: string | number): string {
+    if (porcentaje === 'NA') {
+    this.confiabilidad = '';
+      return 'background-color: white; color: black;'; 
+    }
+  
+    const valorNumerico = typeof porcentaje === 'string' ? parseFloat(porcentaje) : porcentaje;
+  
+    if (!isNaN(valorNumerico)) {
+      if (valorNumerico >= 95 && valorNumerico <= 100) {
+        this.confiabilidad = 'Muy Alto';
+        return 'background-color: #4cc85c; color: white;';
+      } else if (valorNumerico >= 90 && valorNumerico < 95) {
+        this.confiabilidad = 'Alto';
+        return 'background-color: #adebb5; color: white;';
+      } else if (valorNumerico >= 80 && valorNumerico < 90) {
+        this.confiabilidad = 'Medio';
+        return 'background-color: #ffef00; color: black;';
+      } else if (valorNumerico >= 60 && valorNumerico < 80) {
+        this.confiabilidad = 'Bajo';
+        return 'background-color: #ef2100; color: white;';
+      } else {
+        this.confiabilidad = '';
+        return 'background-color: white; color: black;';
+      }
+    }
+    return 'background-color: white; color: black;';
   }
 }

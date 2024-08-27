@@ -7,46 +7,46 @@
                     <div class="col-12 md:col-2 lg:col-2">
                         EPS
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="nombreEps" />
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="nombreEps" required />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código EPS
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoEps" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         ARL
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="nombreArl" required />
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="nombreArl" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código ARL
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoArl" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         AFP
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="nombreAfp" required/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="nombreAfp" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código AFP
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoAfp" />
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                 </p-accordionTab>
             </ng-template>
             <p-accordionTab header="I. IDENTIFICACIÓN GENERAL DEL EMPLEADOR, CONTRATANTE O COOPERATIVA"
-                *ngIf="visibleCamposAccidente  && idEmpresa !='22';else icorona">
+                *ngIf="visibleCamposAccidente  && idEmpresa !='22' && idEmpresa !='508';else icorona">
                 <div class="grid">
                     <div class="col-12 md:col-2 lg:col-2">
                         Tipo vinculador
@@ -90,10 +90,10 @@
                     <div class="col-12 md:col-4 lg:col-4">
                         <input style="width: 100%;" pInputText formControlName="nombreCiiu" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoCiiu" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
@@ -154,10 +154,10 @@
                     <div class="col-12 md:col-4 lg:col-4">
                         <s-ciudadSelector formControlName="ciudadEmpresa" [_value]="this.form.value!.ciudadEmpresa"></s-ciudadSelector>
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
 
                     </div>
 
@@ -181,10 +181,10 @@
                     <div class="col-12 md:col-4 lg:col-4">
                         <input style="width: 100%;" pInputText formControlName="nombreCentroTrabajo" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoCentroTrabajo" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
@@ -193,10 +193,10 @@
                     <div class="col-12 md:col-4 lg:col-4">
                         <input style="width: 100%;" pInputText formControlName="nombreCiiuCentroTrabajo" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="ciiuCentroTrabajo" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
@@ -240,95 +240,95 @@
                     <div class="col-12 md:col-2 lg:col-2">
                         Primer apellido
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="primerApellidoEmpleado" required/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="primerApellidoEmpleado"/>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Segundo apellido
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="segundoApellidoEmpleado" required/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="segundoApellidoEmpleado" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Primer nombre
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="primerNombreEmpleado" required/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="primerNombreEmpleado" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Segundo nombre
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="segundoNombreEmpleado"/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="segundoNombreEmpleado" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Tipo identificación
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoIdentificacion" formControlName="tipoIdentificacionEmpleado" required>
                         </p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoIdentificacion" formControlName="tipoIdentificacionEmpleado">
                         </p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Número identificación
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="numeroIdentificacionEmpleado" required/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="numeroIdentificacionEmpleado" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Fecha nacimiento
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <p-calendar  appendTo="body" dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado" required>
                         </p-calendar>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <p-calendar   appendTo="body" dateFormat="dd/mm/yy" [monthNavigator]="true"  [yearNavigator]="true" [yearRange]="yearRange" formControlName="fechaNacimientoEmpleado">
                         </p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Género
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <p-radioButton name="generoEmpleado" label="M" value="M" formControlName="generoEmpleado" required>
                         </p-radioButton>
                         <p-radioButton name="generoEmpleado" label="F" value="F" formControlName="generoEmpleado">
                         </p-radioButton>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <p-radioButton name="generoEmpleado" label="M" value="M" formControlName="generoEmpleado">
                         </p-radioButton>
                         <p-radioButton name="generoEmpleado" label="F" value="F" formControlName="generoEmpleado">
                         </p-radioButton>
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         Dirección
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="direccionEmpleado" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         Correo
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" pInputText formControlName="emailEmpleado" readonly required/>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
@@ -346,11 +346,11 @@
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Fecha ingreso
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <p-calendar  appendTo="body"  dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" required>
                         </p-calendar>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <p-calendar   appendTo="body" dateFormat="dd/mm/yy" formControlName="fechaIngresoEmpleado" (ngModelChange)="changeCalendar()" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange">
                         </p-calendar>
                     </div>
@@ -358,50 +358,50 @@
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Pais - Ciudad
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <s-ciudadSelector id="ciudadSelector" formControlName="ciudadEmpleado" [_value]="this.form.value!.ciudadEmpleado" required></s-ciudadSelector>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <s-ciudadSelector formControlName="ciudadEmpleado" [_value]="this.form.value!.ciudadEmpleado"></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Cargo
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <input [readOnly]="true" style="width: 100%;" pInputText formControlName="cargoEmpleado" required/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;" pInputText formControlName="cargoEmpleado" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Tipo vinculación
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoVinculacionList" formControlName="tipoVinculacion"></p-dropdown>
                     </div>
-                    <div  class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco2">
+                    <div  class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoTipoVinculacion" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Ocupación habitual
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="ocupacionHabitual" />
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoOcupacionHabitual" />
                     </div>
                     
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Zona residencia
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <p-radioButton name="zonaEmpleado" label="Urbana" value="U" formControlName="zonaEmpleado">
                         </p-radioButton>
                         <p-radioButton name="zonaEmpleado" label="Rural" value="R" formControlName="zonaEmpleado">
@@ -417,19 +417,19 @@
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Salario u honorarios
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <input style="width: 100%;" type="number"  pInputText formControlName="salario" required/>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <input style="width: 100%;"  type="number" pInputText formControlName="salario" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Jornada trabajo habitual
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="jornadaTrabajoList" formControlName="jornadaHabitual" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="jornadaTrabajoList" formControlName="jornadaHabitual"></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
@@ -440,10 +440,10 @@
                             [name]="this.reporte?.areaAccidente ?this.reporte?.areaAccidente.nombre:''"  (onDivision)="listadoLocalidades($event)" required>
                         </area-selector>
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa=='22'">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa=='22' || idEmpresa=='508'">
                         Localidad
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa=='22' && flagLocalidades">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa=='22' || idEmpresa=='508' && flagLocalidades">
                         <p-dropdown  required [filter]="true" placeholder="Seleccione una localidad" appendTo="body" [options]="localidadesList"  formControlName="localidad"></p-dropdown>
                     </div>
                 </div>
@@ -515,72 +515,72 @@
                         <input style="width: 100%;" pInputText formControlName="nombreLaborHabitual" />
                     </div>
 
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco2">
                         Código labor habitual
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508';else blanco4">
                         <input style="width: 100%;" pInputText formControlName="codigoLaborHabitual" />
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Hora de inicio de labores
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf=" idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf=" idEmpresa =='22' || idEmpresa=='508'">
                     <p-calendar   appendTo="body" dateFormat="dd/mm/yy" [timeOnly]="true"
                             formControlName="horaInicioLabor" required></p-calendar>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <p-calendar  appendTo="body"  dateFormat="dd/mm/yy" [timeOnly]="true"
                                 formControlName="horaInicioLabor"></p-calendar>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Tipo {{visibleCamposAccidente ? 'accidente':'incidente'}}
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf=" idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf=" idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoAccidenteList" formControlName="tipoAccidente" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf=" idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf=" idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoAccidenteList" formControlName="tipoAccidente"></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Pais - Ciudad 
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <s-ciudadSelector formControlName="ciudadAccidente" [_value]="this.form.value!.ciudadAccidente" required></s-ciudadSelector>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <s-ciudadSelector formControlName="ciudadAccidente" [_value]="this.form.value!.ciudadAccidente"></s-ciudadSelector>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Zona
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <p-radioButton name="zonaAccidente" label="Urbana" value="U" formControlName="zonaAccidente" required>
                         </p-radioButton>
                         <p-radioButton name="zonaAccidente" label="Rural" value="R" formControlName="zonaAccidente">
                         </p-radioButton>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <p-radioButton name="zonaAccidente" label="Urbana" value="U" formControlName="zonaAccidente">
                         </p-radioButton>
                         <p-radioButton name="zonaAccidente" label="Rural" value="R" formControlName="zonaAccidente">
                         </p-radioButton>
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa =='22';else blanco2">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508';else blanco2">
                         Clasificación del evento
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22';else blanco4">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508';else blanco4">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="severidadList" formControlName="severidad" required></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         ¿Causó muerte?
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <p-radioButton name="causoMuerte" label="Si" [value]="true" formControlName="causoMuerte" required>
                         </p-radioButton>
                         <p-radioButton name="causoMuerte" label="No" [value]="false" formControlName="causoMuerte">
                         </p-radioButton>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <p-radioButton name="causoMuerte" label="Si" [value]="true" formControlName="causoMuerte">
                         </p-radioButton>
                         <p-radioButton name="causoMuerte" label="No" [value]="false" formControlName="causoMuerte">
@@ -590,19 +590,19 @@
                     <div class="col-12 md:col-2 lg:col-2">
                         Lugar {{visibleCamposAccidente ? 'accidente':'incidente'}}
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="lugarList" formControlName="lugarAccidente" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="lugarList" formControlName="lugarAccidente"></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2">
                         Sitio {{visibleCamposAccidente ? 'accidente':'incidente'}}
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="sitioList" formControlName="sitio" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="sitioList" formControlName="sitio"></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && (form?.value.sitio=='OTRO');else blanco2">
@@ -615,10 +615,10 @@
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente">
                         Tipo lesión
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoLesionList" formControlName="tipoLesion" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="tipoLesionList" formControlName="tipoLesion" required></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && (form?.value.tipoLesion=='OTRO');else blanco2">
@@ -630,10 +630,10 @@
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente ">
                         Agente del accidente
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="agenteList" formControlName="agente" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="visibleCamposAccidente && idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="agenteList" formControlName="agente"></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2" *ngIf="visibleCamposAccidente && (form?.value.agente=='NO_CLASIFICADOS');else blanco2">
@@ -646,10 +646,10 @@
                     <div class="col-12 md:col-2 lg:col-2">
                         Mecanismo
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="mecanismoList" formControlName="mecanismo" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="mecanismoList" formControlName="mecanismo"></p-dropdown>
                     </div>
                     <div class="col-12 md:col-2 lg:col-2 " *ngIf="(form?.value.mecanismo=='OTRO');else blanco2">
@@ -662,10 +662,10 @@
                     <div class="col-12 md:col-2 lg:col-2">
                         Parte del cuerpo afectada
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="parteCuerpoList" formControlName="parteCuerpo" required></p-dropdown>
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22'">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <p-dropdown  [style]="{'width':'100%'}" [options]="parteCuerpoList" formControlName="parteCuerpo"></p-dropdown>
                     </div>
                 </div>
@@ -680,11 +680,11 @@
                         'accidente':'incidente'}}, que lo originó
                         o causó y los demas aspectos relacionados
                     </div>
-                    <div class="col-12" *ngIf="idEmpresa =='22'">
+                    <div class="col-12" *ngIf="idEmpresa =='22' || idEmpresa=='508'">
                         <textarea type="text" pInputText style="width:100%;height: 100px;"
                             formControlName="descripcion" required></textarea>
                     </div>
-                    <div class="col-12" *ngIf="idEmpresa !='22'">
+                    <div class="col-12" *ngIf="idEmpresa !='22' && idEmpresa !='508'">
                         <textarea type="text" pInputText style="width:100%;height: 100px;"
                             formControlName="descripcion"></textarea>
                     </div>

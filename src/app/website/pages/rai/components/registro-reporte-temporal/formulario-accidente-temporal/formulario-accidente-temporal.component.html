@@ -91,7 +91,7 @@
                             required (onDivision)="listadoLocalidades($event)">
                             </area-selector>
                         </div>
-                        <div class="col-md-6 col-sm-12" *ngIf="idEmpresa=='22' && flagLocalidades">
+                        <div class="col-md-6 col-sm-12" *ngIf="idEmpresa=='22' || idEmpresa=='508' && flagLocalidades">
                             <label for="">Localidades</label>
                             <p-dropdown  required [filter]="true" placeholder="Seleccione una localidad" appendTo="body" [options]="localidadesList"  formControlName="localidad"></p-dropdown>
                         </div>

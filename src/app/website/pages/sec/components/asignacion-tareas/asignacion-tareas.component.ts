@@ -46,6 +46,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
     { label: 'Reporte A/I', value: 'Reporte A/I' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Inspecciones', value: 'Inspecciones' },
+    { label: 'Inspecciones SV', value: 'Inspecciones SV' },
     { label: 'Inspecciones CC', value: 'Inspecciones CC'}
   ];
   moduloSelected: string = 'Reporte A/I';

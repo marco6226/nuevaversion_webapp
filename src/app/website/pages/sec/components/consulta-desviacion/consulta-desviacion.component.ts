@@ -31,6 +31,7 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
 
   opcionesModulos = [ 
     { label: 'Inspecciones', value: 'Inspecciones' },
+    { label: 'Inspecciones SV', value: 'Inspecciones SV' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Reporte A/I', value: 'Reporte A/I' },
     { label: 'Inspecciones CC', value: 'Inspecciones CC'},

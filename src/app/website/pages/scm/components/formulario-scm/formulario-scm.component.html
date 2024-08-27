@@ -85,7 +85,7 @@
                                                 id="nameAndLastName" [attr.disabled]="true" />
                                         </div>
                                     </div>
-                                    <div class="col" *ngIf="empresaId!='22'">
+                                    <div class="col" *ngIf="empresaId!='22' && empresaId != '508'">
                                         <div>
                                             <label for="" class="active">Dirección / Gerencia</label>
                                             <input type="text" [readonly]="consultar2" pInputText
@@ -93,7 +93,7 @@
                                                 class="form-control" id="direccionGerencia1" />
                                         </div>
                                     </div>
-                                    <div class="col" *ngIf="empresaId=='22'">
+                                    <div class="col" *ngIf="empresaId=='22' || empresaId=='508'">
                                         <div>
                                             <label for="" class="active">División/Unidad</label>
                                             <input readonly type="text" pInputText formControlName="division"
@@ -201,7 +201,7 @@
                             </div>
                             <!-- div -->
                             <div class="row  mt-3">
-                                <div class="col" *ngIf="empresaId!='22'">
+                                <div class="col" *ngIf="empresaId!='22' && empresaId != '508'">
                                     <div>
                                         <label for="" class="active">Ubicación</label>
                                         <area-selector [disabled]="consultar2" formControlName="area"
@@ -209,7 +209,7 @@
                                         </area-selector>
                                     </div>
                                 </div>
-                                <div class="col" *ngIf="empresaId=='22'">
+                                <div class="col" *ngIf="empresaId=='22' || empresaId=='508'">
                                     <div>
                                         <label for="" class="active">Ubicación</label>
                                         <area-selector [disabled]="consultar2" (onDivision)="areaChange($event)"
@@ -263,7 +263,7 @@
                                             placeholder="Edad" class="form-control" id="Edad" />
                                     </div>
                                 </div>
-                                <div class="col" *ngIf="empresaId!='22'">
+                                <div class="col" *ngIf="empresaId!='22' && empresaId != '508'">
                                     <div>
                                         <label for="" class="active">Regional</label>
                                         <input [readonly]="consultar2" [attr.disabled]="true" type="text" pInputText
@@ -480,7 +480,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col" *ngIf="empresaId!='22'">
+                                <div class="col" *ngIf="empresaId!='22' && empresaId != '508'">
                                     <div>
                                         <label for="" class="active">Dirección / Gerencia</label>
                                         <input type="text" pInputText formControlName="direccionGerencia"
@@ -714,11 +714,11 @@
                                             <label for="" class="active">Caso de mesa laboral</label>
                                         </div>
                                         <div>
-                                            <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2"
+                                            <p-dropdown *ngIf="empresaId=='22' || empresaId=='508'" required [readonly]="consultar2"
                                                 [options]="caseOptionList" formControlName="casoMedicoLaboral"
                                                 class="select-material" styleClass="select-material">
                                             </p-dropdown>
-                                            <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2"
+                                            <p-dropdown *ngIf="empresaId!='22' && empresaId != '508'" [readonly]="consultar2"
                                                 [options]="caseOptionList" formControlName="casoMedicoLaboral"
                                                 class="select-material" styleClass="select-material">
                                             </p-dropdown>
@@ -733,11 +733,11 @@
                                             <!-- <p-dropdown [readonly]="consultar2" [options]="prioridadOptionList" formControlName="prioridadCaso"
                                                 style="width: 100%;">
                                             </p-dropdown> -->
-                                            <p-dropdown *ngIf="empresaId=='22' || empresaId =='8'" required [readonly]="consultar2"
+                                            <p-dropdown *ngIf="empresaId=='22' || empresaId =='8' || empresaId=='508'" required [readonly]="consultar2"
                                                 [options]="prioridadOptionList" formControlName="prioridadCaso"
                                                 class="select-material" styleClass="select-material">
                                             </p-dropdown>
-                                            <p-dropdown *ngIf="empresaId!='22' && empresaId!='8'" [readonly]="consultar2"
+                                            <p-dropdown *ngIf="empresaId!='22' && empresaId!='8' && empresaId != '508'" [readonly]="consultar2"
                                                 [options]="prioridadOptionList" formControlName="prioridadCaso"
                                                 class="select-material" styleClass="select-material">
                                             </p-dropdown>
@@ -750,11 +750,11 @@
                                         </div>
                                         <div>
 
-                                            <p-dropdown *ngIf="empresaId=='22'" required [readonly]="consultar2"
+                                            <p-dropdown *ngIf="empresaId=='22' || empresaId=='508'" required [readonly]="consultar2"
                                                 [options]="tipoOptionList" formControlName="tipoCaso"
                                                 class="select-material" styleClass="select-material">
                                             </p-dropdown>
-                                            <p-dropdown *ngIf="empresaId!='22'" [readonly]="consultar2"
+                                            <p-dropdown *ngIf="empresaId!='22' && empresaId != '508'" [readonly]="consultar2"
                                                 [options]="tipoOptionList" formControlName="tipoCaso"
                                                 class="select-material" styleClass="select-material">
                                             </p-dropdown>
@@ -1341,7 +1341,7 @@
                 </div>
                 <br>
                 <ng-container *ngIf="recomendationList.length>0">
-                    <app-remision *ngIf="empresaId=='22'" [empleadoSelect]="empleadoSelect" [idCase]="idCase" [anexo]="'1'" [recomendationList]="recomendationList" [jefeInmediatoName]="jefeInmediatoName"></app-remision>
+                    <app-remision *ngIf="empresaId=='22' || empresaId=='508'" [empleadoSelect]="empleadoSelect" [idCase]="idCase" [anexo]="'1'" [recomendationList]="recomendationList" [jefeInmediatoName]="jefeInmediatoName"></app-remision>
                 </ng-container>
             </p-tabPanel>
         </ng-container>
@@ -1488,7 +1488,7 @@
                                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
                                             icon="pi pi-times" (click)="onRowEditCancel(seguimiento, ri)"
                                             class="p-button-rounded p-button-text p-button-danger"></button>
-                                        <ng-container *ngIf="empresaId=='22'">
+                                        <ng-container *ngIf="empresaId=='22' || empresaId=='508'">
                                             <button pButton pRipple type="button" pCancelEditableRow
                                                 icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
                                                 title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
@@ -2018,7 +2018,7 @@
             </p-tabPanel>
         </ng-container>
         <ng-container>
-            <p-tabPanel header="Remisión" *ngIf="empresaId=='22' && caseSelect">
+            <p-tabPanel header="Remisión" *ngIf="empresaId=='22' || empresaId=='508' && caseSelect">
                 <app-remision [empleadoSelect]="empleadoSelect" [idCase]="idCase" [anexo]="'5'"></app-remision>
             </p-tabPanel>
         </ng-container>

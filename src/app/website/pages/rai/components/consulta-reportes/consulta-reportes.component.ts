@@ -54,7 +54,7 @@ export class ConsultaReportesComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
     this.testing = true;
     this.idEmpresa = await this.sesionService.getEmpresa()?.id;
-    this.sortedTable=(this.idEmpresa=='22')?"fechaAccidente":"fechaReporte";
+    this.sortedTable=(this.idEmpresa=='22' || this.idEmpresa =='508')?"fechaAccidente":"fechaReporte";
   }
 
   ngAfterViewInit() {
