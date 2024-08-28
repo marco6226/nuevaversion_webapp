@@ -494,4 +494,10 @@ export class CasosMedicosService {
             .set('Authorization', this.sesionService.getBearerAuthToken());
         return { 'headers': headers };
     }
+
+    saveAnnexDocumentMediumTracking(formData: any){
+        this.http.post("http://localhost:8080/sigess/api/upload/document", formData).subscribe(response => {
+            console.log('File uploaded successfully Gama');
+        });
+    }
 }

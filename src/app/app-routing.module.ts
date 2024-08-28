@@ -5,6 +5,7 @@ import { FirmaComponent } from './website/pages/comun/components/firma/firma.com
 import { ResetPasswordComponent } from './website/pages/core/components/reset-password/reset-password.component';
 import { TerminosCondicionesComponent } from './website/pages/core/components/terminos-condiciones/terminos-condiciones.component';
 import { AuthGuardService } from './website/pages/core/services/auth-guard.service';
+import { PlantillaAnexo6ConsentimientoComponent } from './website/pages/scm/components/formulario-scm/plantilla-anexo6-consentimiento/plantilla-anexo6-consentimiento.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -23,7 +24,8 @@ const routes: Routes = [
     },
     canActivate: [AuthGuardService]
   },
-  { path: 'firma/:id', component: FirmaComponent,}
+  { path: 'firma/:id', component: FirmaComponent,},
+  { path: 'plantillaAnexo6', component: PlantillaAnexo6ConsentimientoComponent}
 ];
 
 @NgModule({
