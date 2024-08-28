@@ -878,8 +878,11 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               elementoSelect.calificacion.opcionCalificacion.requerirDoc == true &&
               (this.listaInspeccionForm.imgMap[elementoSelect.id] == null || this.listaInspeccionForm.imgMap[elementoSelect.id].length === 0)
           ) {
-              throw new Error("Debe especificar al menos una fotografía para la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
-          }
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
+            
+              throw new Error("Debe especificar al menos una fotografía para la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ")
+              
+        }
           return true;
       }
       else {
@@ -891,6 +894,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               elementoSelect.calificacion.documentosList.length < 1 &&
               (this.listaInspeccionForm.imgMap[elementoSelect.id] == null || this.listaInspeccionForm.imgMap[elementoSelect.id].length === 0)
           ) {
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
               throw new Error("Debe especificar al menos una fotografía para la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
           }
           return true;
@@ -912,6 +916,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           elementoSelect.calificacion.opcionCalificacion.requerirDesc === true &&
           (elementoSelect.calificacion.recomendacion == null || elementoSelect.calificacion.recomendacion === '')
       ) {
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
           throw new Error("Debe agregar una descripción al adjuntar evidencia de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
       }
       return true;
@@ -922,6 +927,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
         if (elementoSelect.calificacion.responsable == null || elementoSelect.calificacion.responsable === '')
         {
+
             throw new Error("Debe seleccionar un responsable de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
         }
         return true;
@@ -931,6 +937,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
         if (elementoSelect.calificacion.planAccion == null || elementoSelect.calificacion.planAccion === '')
          {
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
             throw new Error("Debe seleccionar el plan de acción de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
         }
         return true;
@@ -940,6 +947,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
         if (elementoSelect.calificacion.descripcionAccTarjeta == null || elementoSelect.calificacion.descripcionAccTarjeta === '')
         {
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
             throw new Error("Debe agregar una descripción de la acción de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
         }
         return true;
