@@ -7,8 +7,9 @@ import { Documento } from 'src/app/website/pages/ado/entities/documento';
 import { DirectorioService } from 'src/app/website/pages/ado/services/directorio.service';
 import { Modulo } from 'src/app/website/pages/core/enums/enumeraciones';
 import { CasosMedicosService } from 'src/app/website/pages/core/services/casos-medicos.service';
-import { Empleado } from 'src/app/website/pages/empresa/entities/empleado';
-import { EmpleadoService } from 'src/app/website/pages/empresa/services/empleado.service';
+import { Criteria, Filter } from 'src/app/website/pages/core/entities/filter';
+import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
+import { SesionService } from 'src/app/website/pages/core/services/session.service';
 
 @Component({
   selector: 'app-documentacion-salud-laboral',
@@ -35,6 +36,8 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
     documentacionList: any;
     selectedDocId: number = 0;
     flagDoc: boolean = false
+    totalRecords!: number;
+    loading: boolean = false;
     @Input('documentos') directorios: Directorio[] = [];
     documentos!: Documento[];
     documentoId: any[] = [];
@@ -49,6 +52,28 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
     usuarioId = JSON.parse(localStorage.getItem('session') || '{}');
     pkuser = this.usuarioId.usuario.id;
     idSl = this.saludL.idSl;
+    fields: string[] = [
+      'id',
+      'fechaEnvio',
+      'fechaLimite',
+      'docSolicitado',
+      'usuarioSolicitante',
+      'usuarioSolicitado',
+      'estadoCorreo',
+      'fechaSolicitud',
+      'pkCase',
+      'soliictanteNombres',
+      'solicitanteCedula',
+      'pkUser',
+      'asignacionTarea',
+      'solicitadoNombres',
+      'solicitadoCedula',
+      'solicitadoNombresMail',
+      'razonRechazoSolicitado',
+      'documentos',
+      'razonRechazoSolicitante',
+      'correoEnviado',
+    ];
     
 
     constructor(
@@ -60,6 +85,7 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         private messageService: MessageService,
         private directorioService: DirectorioService,
         private renderer: Renderer2,
+        private sessionService: SesionService,
         private el: ElementRef,
         fb: FormBuilder,
         
@@ -74,6 +100,7 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             asignacionTarea: new FormControl(),
             razonRechazoSolicitado: new FormControl(''),
             razonRechazoSolicitante: new FormControl(''),
+
           });
 
     }
@@ -88,13 +115,53 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
           console.error('Error loading mail data', error);
         }
       }
+      testing: boolean = false;
+      async lazyLoad(event: any) {
+        this.testing = false; 
+        let usuario = await this.sessionService.getUsuario();
+        
+        let filterQuery = new FilterQuery();
+        filterQuery.sortField = event.sortField;
+        filterQuery.sortOrder = event.sortOrder;
+        filterQuery.offset = event.first;
+        filterQuery.rows = event.rows;
+        filterQuery.count = true;
+        let filterUser = new Filter();
+        filterUser.criteria = Criteria.EQUALS;
+        filterUser.field = 'usuarioSolicitado';
+        filterUser.value1 = usuario?.email;
+
+    
+    
+        filterQuery.fieldList = this.fields;
+        filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+        filterQuery.filterList.push(filterUser);
+    
+        try {
+          let res: any = await this.scmService.findWithFilterMail(filterQuery);
+          this.documentacionListUser = res?.data?.map((dto: any) => {
+            return FilterQuery.dtoToObject(dto);
+          });
+          console.log("res",res);
+          this.totalRecords = res.count;
+          console.log("Total records:", this.totalRecords);
+          console.log("Documentación List:", this.documentacionListUser);
+    
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+      casosListFilter: any;
+      onFilter(event: any) {
+        this.casosListFilter = event.filteredValue
+      }
       isFechaLimiteProxima(fechaLimite: string): boolean {
         const fechaLimiteDate = new Date(fechaLimite);
         const dosDiasEnMS = 2 * 24 * 60 * 60 * 1000; // Dos días en milisegundos
         const dosDiasAntes = new Date().getTime() + dosDiasEnMS; // Fecha actual más dos días
         return fechaLimiteDate.getTime() < dosDiasAntes;
       }
-      convertirEstadoCorreo(estado: number): string {
+      convertirEstadoCorreoUser(estado: number): string {
         switch (estado) {
           case 1:
             return 'Pendiente';
@@ -108,6 +175,7 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             return 'Desconocido';
         }
       }
+   
       getSelectedId() {
         if (this.documentacionSelectUser) {
           const selectedId = this.documentacionSelectUser.id;
