@@ -26,6 +26,19 @@ export let columnasPorModulo: any = {
             'estado'
         ]
     },
+    'Inspecciones SV':  {
+        "22": [
+            'module',
+            'fecha_reporte',
+            'division',
+            'areaUb',
+            'hash_id',
+            'nombre',
+            'empResponsable',
+            'fecha_proyectada',
+            'estado'
+        ]
+    },
     'Observaciones': {
         "22": [
             'module',

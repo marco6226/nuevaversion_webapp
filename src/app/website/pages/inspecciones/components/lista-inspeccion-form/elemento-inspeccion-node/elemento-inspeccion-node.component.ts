@@ -7,6 +7,7 @@ import { TipoHallazgo } from '../../../entities/tipo-hallazgo';
 import { Calificacion } from '../../../entities/calificacion';
 import { NivelRiesgo } from 'src/app/website/pages/core/entities/nivel-riesgo';
 import { InputSwitchOnChangeEvent } from 'primeng/inputswitch';
+import { TipoPeligroService } from 'src/app/website/pages/core/services/tipo-peligro.service';
 
 @Component({
   selector: 'app-elemento-inspeccion-node',
@@ -63,12 +64,14 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     { label: "Medio", value: "Medio" },
     { label: "Alto", value: "Alto" },
     { label: "Muy Alto", value: "Muy Alto" }];
-  constructor(public router: Router) {
+  
+  tipoPeligroItemList: SelectItem[] = [];
+  constructor(
+    public router: Router,
+    private tipoPeligroService: TipoPeligroService,
+  ) {}
 
-   }
-
-
-  ngOnInit(): void {
+  async ngOnInit() {
     if(this.nivel == null){
       this.nivel = 0;
     }
@@ -76,6 +79,35 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     if (this.value != null) {
       this.inicializarCalificacion(this.value);
     }
+    await this.cargarTiposPeligro();
+  }
+  
+  order(ele: any){
+    ele.sort(function (a: any, b: any) {
+      if (a.label > b.label) {
+        return 1;
+      }
+      if (a.label < b.label) {
+        return -1;
+      }
+      return 0;
+    });
+    return ele
+  }
+
+
+  async cargarTiposPeligro() {
+    await this.tipoPeligroService.getForEmpresa().then((resp:any)=>{
+      let tipoPeligroItemList: any[] = []
+      this.tipoPeligroItemList = [{ label: '-- Peligro --', value: null }];
+      resp.forEach(
+        (data: any) => tipoPeligroItemList.push({ label: data[2], value: data[0] })
+      )
+      tipoPeligroItemList=this.order(tipoPeligroItemList)
+      tipoPeligroItemList.forEach(resp=>{
+        this.tipoPeligroItemList.push(resp)
+      })
+    })
   }
 
   inicializarCalificacion(elemList: ElementoInspeccion[]) {

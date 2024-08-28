@@ -31,6 +31,7 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
 
   opcionesModulos = [ 
     { label: 'Inspecciones', value: 'Inspecciones' },
+    { label: 'Inspecciones SV', value: 'Inspecciones SV' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Reporte A/I', value: 'Reporte A/I' },
     { label: 'Inspecciones CC', value: 'Inspecciones CC'},
@@ -306,9 +307,12 @@ export class ConsultaDesviacionComponent implements OnInit, AfterViewInit {
   }
   
   flagArea:boolean=true
+  moduloSv:boolean=true
   changeModulos(eve:any){
     if(eve.value=='Inspecciones CC')this.flagArea=false
     else this.flagArea=true
+    if(eve.value=='Inspecciones SV')this.moduloSv=false
+    else this.moduloSv=true
   }
 
   scrollLeft() {

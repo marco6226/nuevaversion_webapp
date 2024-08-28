@@ -33,18 +33,35 @@ export class GestionTareasComponent implements OnInit {
     private config: PrimeNGConfig,
     private sessionService: SesionService,
   ) { 
-    this.form = fb.group({
-      'id': [null],
-      'nombre': [null, Validators.required],
-      'descripcion': [null, Validators.required],
-      'tipoAccion': [null, Validators.required],
-      'jerarquia': [null, Validators.required],
-      'fechaProyectada': [null, Validators.required],
-      'areaResponsable': [null],
-      'empResponsable': [null],
-      'responsableAliado': [null],
-      'modulo': [null],
-  });
+    if (this.tipoLista != 'Inspecciones SV') {
+        this.form = fb.group({
+          'id': [null],
+          'nombre': [null, Validators.required],
+          'descripcion': [null, Validators.required],
+          'tipoAccion': [null],
+          'jerarquia': [null],
+          'fechaProyectada': [null, Validators.required],
+          'areaResponsable': [null],
+          'empResponsable': [null],
+          'responsableAliado': [null],
+          'modulo': [null],
+      });
+    }else{
+      this.form = fb.group({
+        'id': [null],
+        'nombre': [null, Validators.required],
+        'descripcion': [null, Validators.required],
+        'tipoAccion': [null, Validators.required],
+        'jerarquia': [null, Validators.required],
+        'fechaProyectada': [null, Validators.required],
+        'areaResponsable': [null],
+        'empResponsable': [null],
+        'responsableAliado': [null],
+        'modulo': [null],
+    });
+    }
+    
+ 
   this.es = {
       firstDayOfWeek: 1,
       dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
@@ -70,7 +87,7 @@ export class GestionTareasComponent implements OnInit {
     let tarea = new Tarea();
     tarea.nombre = this.form.value.nombre;
     tarea.descripcion = this.form.value.descripcion;
-    tarea.tipoAccion = this.form.value.tipoAccion;
+  
     tarea.jerarquia = this.form.value.jerarquia;
     tarea.fechaProyectada = this.form.value.fechaProyectada;
     tarea.estado = this.form.value.estado;
@@ -79,6 +96,15 @@ export class GestionTareasComponent implements OnInit {
         tarea.areaResponsable = new Area();
         tarea.areaResponsable.id = this.form.value.areaResponsable.id;
         tarea.areaResponsable.nombre = this.form.value.areaResponsable.nombre;
+    }
+    if( this.form.value.tipoAccion == null){
+      tarea.tipoAccion = "Plan de acción";
+      if (this.modificar) {
+        tarea.envioCorreo = false;
+      }
+      tarea.envioCorreo = true;
+    }else{
+      tarea.tipoAccion = this.form.value.tipoAccion;
     }
 
     if (this.form.value.empResponsable != null && !this.esAliado) {

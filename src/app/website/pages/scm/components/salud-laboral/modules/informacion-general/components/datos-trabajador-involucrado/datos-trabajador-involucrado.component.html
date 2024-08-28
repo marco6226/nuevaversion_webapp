@@ -2,6 +2,17 @@
 <p-toast key="formScmSL"></p-toast>
 <!-- <p-messages [(value)]="msgs" ></p-messages> -->
 <p-confirmDialog ></p-confirmDialog>
+<div class="info-container">
+  <div class="info-item">
+    <span class="label">Caso: No </span>{{this.iddt}}
+  </div>
+  <div class="info-item">
+    <span class="label">Fecha de creación: </span>{{this.fechaCreacion2 | date : "dd/MM/yyyy"}}
+  </div>
+</div>
+
+
+
 
 <p-panel header="Datos del trabajador involucrado">
 
@@ -17,6 +28,7 @@
                   #autocomplete
                   placeholder="Digite"
                   [style]="{ width: '100%' }"
+                  (onShow)="onfocusChange()"
                   (onSelect)="onSelection($event)"
                   [suggestions]="empleadosList"
                   (completeMethod)="buscarEmpleado($event)"
@@ -120,8 +132,8 @@
                 <div>
                   <label for="" class="active">Cargo Actual</label>
                 </div>
-                <div class="grid">
-                  <div class="col-8">
+                <div class="d-flex align-items-center">
+                  <div class="flex-grow-1">
                     <p-dropdown
                       [filter]="true"
                       [options]="cargoActualList"
@@ -133,12 +145,12 @@
                     >
                     </p-dropdown>
                   </div>
-                  <div class="col-4">
+                  <div class="ml-2">
                     <button
                       pButton
                       type="button"
                       icon="bi bi-plus"
-                      class="p-button-raised p-button-primary margin-right"
+                      class="p-button-raised p-button-primary"
                       title="Crear oficio actual"
                       (click)="flagDialogCargoActual = true"
                     ></button>
@@ -150,6 +162,7 @@
             <div class="col"></div>
           </div>
         </div>
+        
         <div class="row mt-3">
           <div class="col">
             <div>
@@ -448,15 +461,16 @@
               />
             </div>
           </div>
-          <!-- <div class="col">
+          <div class="col">
                           <div>
-                              <label for="" class="active">Ciudad de residencia</label>
+                              <label for="" class="active">País y ciudad de residencia</label>
                               <s-ciudadSelector formControlName="ciudad"
                                   [id]="departamento" class="select-material" styleClass="select-material" [_value]="this.empleadoForm.value!.ciudad"
+                                  required
                                   >
                               </s-ciudadSelector>
                           </div>
-                      </div> -->
+                      </div>
           <div class="col">
             <div>
               <label for="" class="active">Dirección de residencia</label>
@@ -639,16 +653,17 @@
 
       <div *ngIf="!consultar2" style="text-align: center; width: 100%">
         <button
-          pButton
-          *sTienePermiso="'SCM_POST_CSL'"
-          (click)="onSubmit(); submitEmp()"
-          type="submit"
-          icon="pi pi-save"
-          class="float-btn"
-          style="bottom: 100px"
-          title="Guardar datos de Empleado"
-         
-        ></button>
+  pButton
+  *sTienePermiso="'SCM_POST_CSL'"
+  (click)="onSubmitSL(); submitEmp()"
+  type="submit"
+  icon="pi pi-save"
+  class="float-btn"
+  style="bottom: 100px"
+  title="Guardar datos de Empleado"
+  [disabled]="!empleadoForm.valid" 
+></button>
+
       </div>
     </form>
   </p-panel>
@@ -735,6 +750,156 @@
         </ng-template>
       </p-table>
     </p-tabPanel>
+    <p-panel header="Datos del jefe inmediato">
+      <form [formGroup]="jefeInmediato">
+        <div class="container-fluid cew-9">
+          <!-- <div class="row">
+                        <div>
+                            <h5 class="title-header p-mb-2">Datos del jefe inmediato</h5>
+                        </div>
+                    </div> -->
+          <!-- div -->
+          <div class="row">
+            <div class="col">
+              <div>
+                <div>
+                  <label for="" class="active">Número de identificación</label>
+                </div>
+                <div>
+                  <p-autoComplete
+                    [readonly]="consultar2"
+                    styleClass="form-control-autocomplete"
+                    placeholder="Digite"
+                    [style]="{ width: '100%' }"
+                    (onSelect)="onSelectionJefeInmediato($event)"
+                    [suggestions]="empleadosList"
+                    (completeMethod)="buscarEmpleado($event)"
+                    formControlName="numeroIdentificacion"
+                    *ngIf="empleado?.id == null"
+                  >
+                    <ng-template let-empleado pTemplate="item">
+                      <div class="ui-helper-clearfix">
+                        <div class="wrapper">
+                          <i
+                            *ngIf="!empleado.usuario?.icon"
+                            class="fa fa-user-circle"
+                            style="font-size: 48px"
+                            aria-hidden="true"
+                          ></i>
+                          <img
+                            *ngIf="empleado.usuario?.icon"
+                            [src]="empleado.usuario?.icon"
+                            style="border-radius: 50%"
+                            #imgAvatar
+                          />
+                          <div style="margin-left: 20px">
+                            <br />{{ empleado?.primerApellido }}
+                            {{ empleado?.primerNombre }}
+                            {{ empleado?.segundoNombre }}
+
+                            <br />
+                            {{ empleado?.numeroIdentificacion }} <br />
+                            {{ empleado?.usuario.email }}
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div>
+                <label for="" class="active">Apellidos y nombres</label>
+                <input
+                  type="text"
+                  pInputText
+                  [value]="jefeNames"
+                  placeholder="Apellidos y nombres"
+                  [attr.disabled]="true"
+                  class="form-control"
+                  id="jefeNames"
+                />
+              </div>
+            </div>
+<!-- 
+            <div class="col">
+              <div>
+                <div>
+                  <label for="" class="active">Cargo / Categoría</label>
+                </div>
+                <div>
+                  <p-dropdown
+                    [filter]="true"
+                    [options]="cargoList"
+                    formControlName="cargoId"
+                    class="select-material"
+                    styleClass="select-material"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+            </div> -->
+            <div class="col">
+              <div>
+                <label for="" class="active">Número móvil corporativo</label>
+                <input
+                  type="text"
+                  pInputText
+                  formControlName="corporativePhone"
+                  class="form-control"
+                  styleClass="form-control"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div>
+            <label for="" class="active">Correo corporativo</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="email"
+              placeholder="Correo corporativo"
+              class="form-control"
+              id="emailjefe"
+            />
+          </div>
+        </div>
+      </form>
+    </p-panel>
+    <p-panel header="Datos de la empresa">
+      <form [formGroup]="empresaForm">
+        <div class="row">
+          <div class="col">
+            <label for="" class="active">Nombre Comercial</label>
+            <p-dropdown
+              appendTo="body"
+              [options]="empresaList2"
+              optionLabel="label"
+              formControlName="empresa"
+              class="select-material"
+              styleClass="select-material"
+            >
+            </p-dropdown>
+          </div>
+          <div class="col">
+            <label for="nit" class="active">Nit</label>
+            <input
+              type="text"
+              id="nit"
+              class="form-control"
+              pInputText
+              optionLabel="nit"
+              formControlName="nit"
+              [value]="empresaSelect2?.nit"
+              readonly="true"
+            />
+          </div>
+        </div>
+      </form>
+    </p-panel>
 
  
 

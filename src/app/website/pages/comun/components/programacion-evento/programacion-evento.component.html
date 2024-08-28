@@ -105,8 +105,7 @@
         <label for="areaResponsable">Ubicación responsable de la medicion</label>
       </div>
       <div class="col-12 md:col-8 lg:col-8">
-        <!-- <area-selector formControlName="area" required></area-selector> -->
-        <!-- <p-multiSelect id="Division" [options]="areasOption" formControlName="area" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect> -->
+       
         <div class="row mt-3">
           <div class="col">
             <div>
@@ -118,13 +117,13 @@
                 [options]="listDivision"
                 appendTo="body"
                 required
-                (onChange)="cargarPlantaLocalidad($event.value, 'Origen')"
+                (onChange)="onChangeC($event.value, 'area')"
               ></p-dropdown>
             </div>
           </div>
           <div class="col">
             <div>
-              <label for="" class="active">Localidad</label>
+              <label class="active">Localidad</label>
               <p-dropdown
                 formControlName="localidadSv"
                 [filter]="true"
@@ -133,7 +132,7 @@
                 styleClass="select-material"
                 placeholder="Seleccione localidad"
                 required
-                (onChange)="cargarArea($event.value, 'Origen')"
+                (onChange)="onChangeC($event.value, 'localidadSv')"
               >
               </p-dropdown>
             </div>
@@ -148,10 +147,8 @@
                 [filter]="true"
                 placeholder="Seleccione una área"
                 [options]="areaList"
-                optionLabel="name"
-                appendTo="body"
                 required
-                (onChange)="cargarProceso($event.value, 'Origen')"
+                (onChange)="onChangeC($event.value, 'areaSv')"
               ></p-dropdown>
             </div>
           </div>
@@ -166,7 +163,6 @@
                   [filter]="true"
                   placeholder="Seleccione una proceso"
                   [options]="procesoList"
-                  optionLabel="label"
                   (onChange)="updateValueProcesos($event.value)"
                   required
                   appendTo="body"

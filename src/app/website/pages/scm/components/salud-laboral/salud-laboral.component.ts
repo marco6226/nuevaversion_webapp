@@ -60,10 +60,12 @@ export class SaludLaboralComponent implements OnInit {
   documentosDT!: Documento[];
   documentosEmp!: Documento[];
   documentosMin!: Documento[];
+  documentosSl!: Documento[];
   @Input('documentos') directorios: Directorio[] = [];
   @Input('documentos') directoriosArl: Directorio[] = [];
   @Input('documentos') directoriosJr: Directorio[] = [];
   @Input('documentos') directoriosJn: Directorio[] = [];
+  @Input('documentos') directoriosSl: Directorio[] = [];
   documentosList!: any[];
   @Input() Directorio: any[] = [];
 
@@ -126,10 +128,8 @@ export class SaludLaboralComponent implements OnInit {
   getSelectedId() {
     if (this.documentacionSelectUser) {
       const selectedId = this.documentacionSelectUser.id;
-      console.log('ID seleccionado:', selectedId);
       return selectedId;
     } else {
-      console.log('No hay elementos seleccionados.');
       return null;
     }
   }
@@ -137,10 +137,8 @@ export class SaludLaboralComponent implements OnInit {
   getSelectedSoli() {
     if (this.documentacionSelectSolicitado) {
       const selectedIdSoli = this.documentacionSelectSolicitado.id;
-      console.log('ID seleccionado:', selectedIdSoli);
       return selectedIdSoli;
     } else {
-      console.log('No hay elementos seleccionados.');
       return null;
     }
   }
@@ -178,7 +176,7 @@ export class SaludLaboralComponent implements OnInit {
     'jrDictamen',
     'documentosJr',
     'fechaDictamenJn',
-      'documentosJn'
+    'documentosJn'
   ];
 
   rangoAntiguedad = [
@@ -439,7 +437,6 @@ export class SaludLaboralComponent implements OnInit {
 
 
       });
-      console.log(this.JuntaRegionalList)
       this.entity.Junta_Regional = this.JuntaRegionalList;
     });
 
@@ -481,7 +478,6 @@ export class SaludLaboralComponent implements OnInit {
     try {
       await this.getCargoActual()
     } catch (error) {
-      console.log(error, 'error cargo');
 
     }
 
@@ -491,10 +487,8 @@ export class SaludLaboralComponent implements OnInit {
         this.chargueEditForm();
 
         await this.scmService.getDiagnosticosSl(this.iddt!).then(value2 => {
-          console.log('fredy aqui es', value2);
           const reposunte: any = value2;
           this.diagnosticoList = reposunte;
-          console.log("cuantos diags hay", this.diagnosticoList);
 
         })
 
@@ -504,7 +498,6 @@ export class SaludLaboralComponent implements OnInit {
     setTimeout(() => {
       this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
       this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
-      console.log('LACONSULTA', this.saludLaboralSelect);
     }, 2000);
 
   }
@@ -531,8 +524,7 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
       documentos: JSON.stringify(docs),
     }
-    console.log(formData);
-    console.log("id", this.pkUser, "case", this.idSl);
+
 
 
     this.ghAdmonPersonal.push(formData)
@@ -588,7 +580,6 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
     }
 
-    console.log('formData:', formData);
 
     if (!formData.docSolicitado) {
       console.error('El documento no está seleccionado correctamente');
@@ -597,7 +588,6 @@ export class SaludLaboralComponent implements OnInit {
 
     this.seguridad.push(formData);
     this.resetFormSeg();
-    console.log('seguridad:', this.seguridad);
   }
   saludLaboralMail: any[] = []
   tipoSalLab = "Salud";
@@ -619,7 +609,6 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
     }
 
-    console.log('formData:', formData);
 
     if (!formData.docSolicitado) {
       console.error('El documento no está seleccionado correctamente');
@@ -628,7 +617,6 @@ export class SaludLaboralComponent implements OnInit {
 
     this.saludLaboralMail.push(formData);
     this.resetFormSaludL();
-    console.log('salud:', this.saludLaboralMail);
   }
   psicosocial: any[] = []
   tipoPiscosocial = "Psicosocial";
@@ -650,7 +638,6 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
     }
 
-    console.log('formData:', formData);
     this.resetFormPsico();
 
     if (!formData.docSolicitado) {
@@ -659,7 +646,6 @@ export class SaludLaboralComponent implements OnInit {
     }
 
     this.psicosocial.push(formData);
-    console.log('salud:', this.saludLaboralMail);
   }
 
   saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
@@ -672,13 +658,11 @@ export class SaludLaboralComponent implements OnInit {
 
   async ngOnInit() {
     this.updateButtonState();
-    console.log("data de user", this.usuarioId, this.pkuser);
 
     this.chargueValue();
 
     this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
 
-    console.log("esto me trae salud", this.idSl);
 
     this.doc = [
       'Certificado de cargos y labores desempeñados con sus respectivas fechas de inicio y finalización'
@@ -719,179 +703,19 @@ export class SaludLaboralComponent implements OnInit {
     try {
       this.flagSaludLaboralRegistro = true;
       const data: any = await this.scmService.getCaseSL(this.iddt!.toString());
-
       await this.buscarEmpleado({ query: data['usuarioAsignado'] })
       const empleado = this.empleadosList[0];
-      console.log("cargo act", JSON.stringify(data));
       if (typeof empleado === 'object' && empleado !== null) {
-        let empresaNitpivot: empresaNit = { empresa: empleado['empresa'], nit: empleado['nit'], label: empleado['empresa'] }
-        this.empresaForm?.controls['empresa'].setValue(empresaNitpivot);
-
-        let cedula = this.empleadoForm.controls['numeroIdentificacion'].setValue(empleado['numeroIdentificacion'])
-        this.empleadoForm.controls['area'].setValue(empleado['area'])
-
-        this.empleadoForm.controls['cargoId'].setValue(empleado['cargo'])
-        this.empleadoForm.controls['perfilesId'].setValue(empleado['id'])
-        this.empleadoForm.controls['tipoIdentificacion'].setValue(empleado['tipoIdentificacion']?.id)
-        this.empleadoForm.controls['primerNombre'].setValue(empleado['primerNombre'])
-        this.empleadoForm.controls['segundoNombre'].setValue(empleado['segundoNombre'])
-        this.empleadoForm.controls['primerApellido'].setValue(empleado['primerApellido'])
-        this.empleadoForm.controls['segundoApellido'].setValue(empleado['segundoApellido'])
-        //this.empleadoForm.controls['division'].setValue(empleado['division'])
-        //this.empleadoForm.controls['division'].setValue(parseInt(data['divisionOrigen']));
-        this.nameAndLastName = empleado['primerNombre'] + ' ' + empleado['primerApellido']
-        this.empleadoForm.controls['genero'].setValue(empleado['genero']);
-        this.empleadoForm.controls['fechaNacimiento'].setValue(new Date(empleado['fechaNacimiento']));
-        this.empleadoForm.controls['fechaIngreso'].setValue(new Date(empleado['fechaIngreso']));
-        this.empleadoForm.controls['corporativePhone'].setValue(empleado['corporativePhone']);
-        this.empleadoForm.controls['direccion'].setValue(empleado['direccion']);
-        this.empleadoForm.controls['zonaResidencia'].setValue(empleado['zonaResidencia']);
-        this.empleadoForm.controls['telefono1'].setValue(empleado['telefono1']);
-        this.empleadoForm.controls['telefono2'].setValue(empleado['telefono2']);
-        this.empleadoForm.controls['correoPersonal'].setValue(empleado['correoPersonal']);
-        this.empleadoForm.controls['eps'].setValue(empleado['eps']['id']);
-        this.empleadoForm.controls['afp'].setValue(empleado['afp']['id']);
-        this.arl = this.empresa?.arl == null ? null : this.empresa.arl.nombre;
-        this.empleadoForm.controls['emailEmergencyContact'].setValue(empleado['emailEmergencyContact']);
-        this.empleadoForm.controls['phoneEmergencyContact'].setValue(empleado['phoneEmergencyContact']);
-        this.empleadoForm.controls['emergencyContact'].setValue(empleado['emergencyContact']);
-
-        console.log("aca va el jefe");
-
-        const jefeInmediato = empleado['jefeInmediato'] ?? {};
-        const jefe = empleado['usuario'];
-        console.log(jefeInmediato);
-
-        this.jefeInmediato.controls['numeroIdentificacion'].setValue(jefeInmediato['numeroIdentificacion'] ?? 'SIN INFORMACIÓN');
-        this.jefeNames = jefeInmediato['primerNombre'] + ' ' + jefeInmediato['primerApellido'] ?? 'sin informacion';
-        //this.jefeInmediato.controls['cargoId'].setValue(jefeInmediato['cargo']['id'])
-        this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION')
-        this.empleadoForm.controls['email'].setValue(jefe['email']);
-        await this.onEntidadChange({ value: data['entidadEmiteCalificacion'] })
-        console.log(this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] }), 'dettallecalificacion');
-
-        this.empleadoForm.controls['entidadEmiteCalificacion'].setValue(data['entidadEmiteCalificacion']);
-        var a = this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] })
-        console.log(a?.value, "a");
-
-
-        this.empleadoForm.controls['epsDictamen'].setValue(a?.value);
-
-        this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value);
-        console.log("calif", this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value));
-        this.empleadoForm.controls['otroDetalle'].setValue(data['otroDetalle']);
-
-
-
-        console.log(this.empleadoForm.controls['detalleCalificacion']);
-
-
-        if (data['fechaCierreCaso'] != null && data['fechaCierreCaso'] != undefined) {
-          const formattedDate = new Date(data['fechaCierreCaso']);
-          this.empleadoForm.controls['fechaCierreCaso'].setValue(formattedDate);
-        } else {
-          this.empleadoForm.controls['fechaCierreCaso'].setValue(null);
-        }
-        console.log("fecha cierre", this.empleadoForm.controls['fechaCierreCaso']);
-
-        if (data['fechaRecepcionDocs'] != null && data['fechaRecepcionDocs'] != undefined) {
-          const formattedDate = new Date(data['fechaRecepcionDocs']);
-          this.empleadoForm.controls['fechaRecepcionDocs'].setValue(formattedDate);
-        } else {
-          this.empleadoForm.controls['fechaRecepcionDocs'].setValue(null);
-        }
-        console.log("fecha recept", this.empleadoForm.controls['fechaRecepcionDocs']);
-
-        if (data['fechaMaximaEnvDocs'] != null && data['fechaMaximaEnvDocs'] != undefined) {
-          const formattedDate = new Date(data['fechaMaximaEnvDocs']);
-          this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(formattedDate);
-        } else {
-          this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(null);
-        }
-        console.log("fecha max", this.empleadoForm.controls['fechaMaximaEnvDocs']);
-
-        if (data['fechaNotificacionEmp'] != null && data['fechaNotificacionEmp'] != undefined) {
-          const formattedDate = new Date(data['fechaNotificacionEmp']);
-          this.empleadoForm.controls['fechaNotificacionEmp'].setValue(formattedDate);
-        } else {
-          this.empleadoForm.controls['fechaNotificacionEmp'].setValue(null);
-        }
-        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionEmp']);
-        if (data['fechaNotificacionMin'] != null && data['fechaNotificacionMin'] != undefined) {
-          const formattedDate = new Date(data['fechaNotificacionMin']);
-          this.empleadoForm.controls['fechaNotificacionMin'].setValue(formattedDate);
-        } else {
-          this.empleadoForm.controls['fechaNotificacionMin'].setValue(null);
-        }
-        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionMin']);
-
-
-
-
-        //console.log("empresa que me trae;:",this.empleadoForm.controls['empresa'].setValue(empleado['empresa']));
-
-
-        const usuario = empleado['usuario'];
-        this.empleadoForm.controls['email'].setValue(usuario['email']);
-
-
-        let fecha = moment(empleado.fechaIngreso);
-        let fechaNacimiento = moment(empleado.fechaNacimiento);
-        let antigueMoment = fecha.diff(moment.now(), "years") * -1;
-        this.edad = `${fechaNacimiento.diff(moment.now(), "year") * -1} Años`;
-
-        this.antiguedad = ` ${antigueMoment} Años`;
-        if (antigueMoment === 0) {
-          this.range = 'Menor a 1 año'
-        }
-        for (let j = 0; j < this.rangoAntiguedad.length; j++) {
-          let subArray = this.rangoAntiguedad[j].range.split(',')
-          let a = subArray.find(range => range === antigueMoment.toString())
-
-          if (a) {
-            this.range = this.rangoAntiguedad[j].label;
-          }
-        }
-
-
-
-      }
-
-      if (typeof data === 'object' && data !== null) {
-        this.empleadoForm.controls['cargoOriginal'].setValue(parseInt(data['cargoOriginal']));
-        this.empleadoForm.controls['cargoActual'].setValue(parseInt(data['cargoActual']));
-        this.empleadoForm.controls['divisionOrigen'].setValue(parseInt(data['divisionOrigen']));
-        this.empleadoForm.controls['divisionActual'].setValue(parseInt(data['divisionActual']));
-        this.empleadoForm.controls['localidadOrigen'].setValue(parseInt(data['localidadOrigen']));
-        this.empleadoForm.controls['localidadActual'].setValue(parseInt(data['localidadActual']));
-        this.empleadoForm.controls['procesoOrigen'].setValue(parseInt(data['procesoOrigen']));
-        this.empleadoForm.controls['procesoActual'].setValue(parseInt(data['procesoActual']));
-
-        // Llamar a cargarPlantaLocalidad para actualizar las localidades
-        await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionOrigen'].value, 'Origen');
-        await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionActual'].value, 'Actual');
-        await this.cargarArea(this.empleadoForm.controls['localidadOrigen'].value, 'Origen')
-        this.empleadoForm.controls['areaOrigen'].setValue(this.areaList.find(value => value.id == parseInt(data['areaOrigen'])));
-        await this.cargarArea(this.empleadoForm.controls['localidadActual'].value, 'Actual')
-        this.empleadoForm.controls['areaActual'].setValue(this.areaListActual.find(value => value.id == parseInt(data['areaActual'])));
-        await this.cargarProceso(this.empleadoForm.controls['areaOrigen'].value, 'Origen')
-        this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoOrigen'])));
-        await this.cargarProceso(this.empleadoForm.controls['areaActual'].value, 'Actual')
-        this.empleadoForm.controls['procesoActual'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoActual'])));
-
-
-
-
       } setTimeout(() => {
         this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
         this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
-        console.log('LACONSULTA', this.saludLaboralSelect);
         this.loadDocumentosCaseDT();
         this.loadDocumentosEmp();
         this.loadDocumentosArl();
         this.loadDocumentosMin();
         this.loadDocumentosJn();
         this.loadDocumentosJr();
+
       }, 2000);
 
 
@@ -971,7 +795,7 @@ export class SaludLaboralComponent implements OnInit {
       'zonaResidencia': [null],
       'area': [null, Validators.required],
       'localidad': [null],
-      'cargoId': [null, Validators.required],
+      'cargoId': [null],
       'perfilesId': [null, Validators.required],
       'email': [{ value: "", disabled: true }, Validators.required],
       direccionGerencia: [null],
@@ -1007,14 +831,14 @@ export class SaludLaboralComponent implements OnInit {
       fechaNotificacionEmp: [null],
       fechaNotificacionMin: [null],
       epsDictamen: [null],
-      fechaDictamenArl:[null],
-    arlDictamen:[null],
-    documentosArl:[null],
-    fechaDictamenJr:[''],
-    jrDictamen:[''],
-    documentosJr:[''],
-    fechaDictamenJn:[''],
-      documentosJn:[''],
+      fechaDictamenArl: [null],
+      arlDictamen: [null],
+      documentosArl: [null],
+      fechaDictamenJr: [''],
+      jrDictamen: [''],
+      documentosJr: [''],
+      fechaDictamenJn: [''],
+      documentosJn: [''],
 
     });
 
@@ -1037,7 +861,7 @@ export class SaludLaboralComponent implements OnInit {
       segundoNombre: { value: "", disabled: true },
       email: { value: "", disabled: true },
       corporativePhone: [{ value: "", disabled: true }],
-      cargoId: [{ value: "", disabled: true }, Validators.required],
+      cargoId: [{ value: "", disabled: true }],
       direccionGerencia: [{ value: " ", disabled: true }]
 
     });
@@ -1050,7 +874,7 @@ export class SaludLaboralComponent implements OnInit {
       segundoApellido: [null],
       email: { value: "", disabled: true },
       corporativePhone: [{ value: "", disabled: true }],
-      cargoId: [{ value: "", disabled: true }, Validators.required],
+      cargoId: [{ value: "", disabled: true }],
       direccionGerencia: [{ value: "", disabled: true }]
 
     });
@@ -1066,7 +890,6 @@ export class SaludLaboralComponent implements OnInit {
       razonRechazoSolicitado: new FormControl(''),
       razonRechazoSolicitante: new FormControl(''),
     });
-    console.log("iddt", this.iddt);
 
   }
   listDivision: any = []
@@ -1091,7 +914,6 @@ export class SaludLaboralComponent implements OnInit {
   localidadesList: any = [];
   localidadesListActual: any = [];
   async cargarPlantaLocalidad(eve: any, tipo: string) {
-    console.log("cargarPlantaLocalidad - Evento:", eve, "Tipo:", tipo);
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
@@ -1115,7 +937,6 @@ export class SaludLaboralComponent implements OnInit {
   areaList: any[] = []
   areaListActual: any[] = []
   async cargarArea(eve: any, tipo: string) {
-    console.log(eve);
 
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
@@ -1138,10 +959,8 @@ export class SaludLaboralComponent implements OnInit {
 
     if (tipo === 'Origen') {
       this.areaList = [...areaList];
-      console.log(areaList)
     } else {
       this.areaListActual = [...areaList];
-      console.log(this.areaListActual)
     }
   }
 
@@ -1231,7 +1050,6 @@ export class SaludLaboralComponent implements OnInit {
     this.empleadoSelect = null;
     let emp = <Empleado>this.value;
     this.saludlaboralCHANGETest = await this.scmService.getCaseListSL(emp.id!);
-    console.log("vaina loca list aca", this.saludLaboralList);
 
     this.empleadoSelect = emp;
     this.empresaForm!.reset()
@@ -1336,14 +1154,14 @@ export class SaludLaboralComponent implements OnInit {
       'fechaNotificacionEmp': [''],
       'fechaNotificacionMin': [''],
       'epsDictamen': [''],
-      'fechaDictamenArl':[''],
-    'arlDictamen':[''],
-    'documentosArl':[''],
-    'fechaDictamenJr':[''],
-    'jrDictamen':[''],
-    'documentosJr':[''],
-    'fechaDictamenJn':[''],
-      'documentosJn':[''],
+      'fechaDictamenArl': [''],
+      'arlDictamen': [''],
+      'documentosArl': [''],
+      'fechaDictamenJr': [''],
+      'jrDictamen': [''],
+      'documentosJr': [''],
+      'fechaDictamenJn': [''],
+      'documentosJn': [''],
     });
     const dataToSend = {
       'iddt': null,
@@ -1372,14 +1190,14 @@ export class SaludLaboralComponent implements OnInit {
       'fechaNotificacionEmp': [''],
       'fechaNotificacionMin': [''],
       'epsDictamen': [''],
-      'fechaDictamenArl':[''],
-    'arlDictamen':[''],
-    'documentosArl':[''],
-    'fechaDictamenJr':[''],
-    'jrDictamen':[''],
-    'documentosJr':[''],
-    'fechaDictamenJn':[''],
-      'documentosJn':[''],
+      'fechaDictamenArl': [''],
+      'arlDictamen': [''],
+      'documentosArl': [''],
+      'fechaDictamenJr': [''],
+      'jrDictamen': [''],
+      'documentosJr': [''],
+      'fechaDictamenJn': [''],
+      'documentosJn': [''],
     };
     const cleanDataToSend = this.prepareFormData(dataToSend);
     this.empleadoForm.patchValue(cleanDataToSend);
@@ -1417,68 +1235,64 @@ export class SaludLaboralComponent implements OnInit {
 
   envioExitoso = false;
 
-  onSubmit() {
-    console.log('Formulario antes de validación:', this.empleadoForm.controls);
+  //   async onSubmit() {
+  //     if (this.empleadoForm.valid) {
+  //         let body = { ...this.empleadoForm.value };
 
-    if (this.empleadoForm.valid) {
-      let body = { ...this.empleadoForm.value };
+  //         // Actualizar los campos según sea necesario
+  //         body.procesoActual = body.procesoActual?.id || body.procesoActual;
+  //         body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
+  //         body.areaActual = body.areaActual?.id || body.areaActual;
+  //         body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
+  //         body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
 
-      // Aquí asegúrate de no hacer modificaciones que puedan afectar a entidadEmiteCalificacion
-      console.log('Valor de entidadEmiteCalificacion antes de enviar:', body.entidadEmiteCalificacion);
+  //         if (Array.isArray(body.pkUser)) {
+  //             body.pkUser = body.pkUser[0];
+  //         }
+  //         if (body.epsDictamen && body.epsDictamen.value) {
+  //             body.epsDictamen = body.epsDictamen.value;
+  //         }
+  //         if (body.arlDictamen && body.arlDictamen.value) {
+  //             body.arlDictamen = body.arlDictamen.value;
+  //         }
+  //         if (body.jrDictamen && body.jrDictamen.value) {
+  //             body.jrDictamen = body.jrDictamen.value;
+  //         }
 
-      // Actualizar los campos según sea necesario
-      body.procesoActual = body.procesoActual?.id || body.procesoActual;
-      body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
-      body.areaActual = body.areaActual?.id || body.areaActual;
-      body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
-      body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
+  //         // Limpia el formulario según sea necesario
+  //         body = this.prepareFormData(body);
 
-      if (Array.isArray(body.pkUser)) {
-        body.pkUser = body.pkUser[0];
-      }
-      if (body.epsDictamen && body.epsDictamen.value) {
-        body.epsDictamen = body.epsDictamen.value;
-      }
-      if (body.arlDictamen && body.arlDictamen.value) {
-        body.arlDictamen = body.arlDictamen.value;
-      }
-      if (body.jrDictamen && body.jrDictamen.value) {
-        body.jrDictamen = body.jrDictamen.value;
-      }
+  //         try {
+  //             const response = await (this.iddt !== undefined 
+  //                 ? this.casoMedico.putCaseSL(this.iddt, body) 
+  //                 : this.casoMedico.createDT(body));
 
-      // Limpia el formulario según sea necesario
-      body = this.prepareFormData(body);
+  //             if (response) {
+  //                 this.showSuccessToast();
+  //                 // Recargar los datos después de crear/actualizar el caso
+  //                 this.lazyLoad({ sortField: 'fechaCreacion', sortOrder: -1, first: 0, rows: 10, filters: {} });
+  //             }
+  //         } catch (error) {
+  //             console.error('Error al enviar el empleado:', error);
+  //             this.msgs = [];
+  //             this.messageService.add({
+  //                 key: 'formScmSL',
+  //                 severity: "error",
+  //                 summary: "Error al enviar empleado",
+  //                 detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
+  //             });
+  //         }
+  //     } else {
+  //         this.msgs = [];
+  //         this.messageService.add({
+  //             key: 'formScmSL',
+  //             severity: "error",
+  //             summary: "Usuario no creado",
+  //             detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
+  //         });
+  //     }
+  // }
 
-      console.log('Cuerpo a enviar antes de enviar:', body);
-
-      // Decide si actualizar o crear basado en la presencia de this.iddt
-      (this.iddt !== undefined ? this.casoMedico.putCaseSL(this.iddt, body) : this.casoMedico.createDT(body))
-        .then((response) => {
-          if (response) {
-            this.showSuccessToast();
-            console.log('Empleado enviado correctamente', response);
-          }
-        })
-        .catch((error) => {
-          console.error('Error al enviar el empleado:', error);
-          this.msgs = [];
-          this.messageService.add({
-            key: 'formScmSL',
-            severity: "error",
-            summary: "Error al enviar empleado",
-            detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
-          });
-        });
-    } else {
-      this.msgs = [];
-      this.messageService.add({
-        key: 'formScmSL',
-        severity: "error",
-        summary: "Usuario no creado",
-        detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
-      });
-    }
-  }
 
 
 
@@ -1528,18 +1342,14 @@ export class SaludLaboralComponent implements OnInit {
       if (this.empleadoForm.value.afp != null) {
         body.afp = { id: this.empleadoForm.value.afp };
       }
-      console.log("empresa", this.empresaForm?.value.empresa.label);
 
       try {
         const response = await this.casoMedico.putUserDataSL(pkUserCase, body);
         if (response) {
           this.showSuccessToast();
-          console.log('Fecha de nacimiento actualizada correctamente', response);
         } else {
-          console.log("Algo salió mal");
         }
       } catch (error) {
-        console.log("Error en submitEmp", error);
       }
     }
   }
@@ -1679,7 +1489,6 @@ export class SaludLaboralComponent implements OnInit {
     if (selectedIdSoli) {
       this.casoMedico.putCaseMaildocsEnviados(selectedIdSoli, body).then((response) => {
         if (response) {
-          console.log("Actualización exitosa");
           this.dialogRechazoFlag = false;
         } else {
           console.error("Error en la actualización");
@@ -1703,7 +1512,6 @@ export class SaludLaboralComponent implements OnInit {
     try {
       const data = await this.scmService.findAllByIdMail(param);
       this.documentacionList = data; // Asigna los datos a documentacionList
-      console.log("que me trae esto ?", data);
       this.cd.detectChanges();
     } catch (error) {
       console.error('Error loading mail data', error);
@@ -1719,8 +1527,10 @@ export class SaludLaboralComponent implements OnInit {
     try {
       const data = await this.scmService.findAllByIdMailUser(param, user);
       this.documentacionListUser = data;
-      this.loadDocumentos(); // Asigna los datos a documentacionList
-      console.log("que me trae esto ?", data);
+      this.loadDocumentosSL(); // Asigna los datos a documentacionList
+
+      console.log("datos", data);
+
       this.cd.detectChanges();
     } catch (error) {
       console.error('Error loading mail data', error);
@@ -1730,25 +1540,22 @@ export class SaludLaboralComponent implements OnInit {
   documentoId: any[] = [];
 
   async onUpload(event: Directorio) {
-    console.log("esta entrando en elue no es por alguna extraña razon");
 
-    if (this.documentos == null) {
-      this.documentos = [];
+    if (this.documentosSl == null) {
+      this.documentosSl = [];
     }
-    if (this.directorios == null) {
-      this.directorios = [];
+    if (this.directoriosSl == null) {
+      this.directoriosSl = [];
     }
 
     try {
-      this.directorios.push(event);
-      this.documentos.push(event.documento!);
+      this.directoriosSl.push(event);
+      this.documentosSl.push(event.documento!);
       let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
-      console.log("INDEXXXXX", index);
 
       this.documentoId.push(event.documento!.id);
-      this.documentacionListUser[index].documentos = this.documentoId;
+      this.documentacionListUser[index].documentosSl = this.documentoId;
 
-      console.log('el directorio', this.directorios);
 
       // Llamada para actualizar la tabla mail_saludlaboral
       await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
@@ -1792,12 +1599,10 @@ export class SaludLaboralComponent implements OnInit {
       this.directorios.push(event);
       this.documentos.push(event.documento!);
       let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
-      console.log("INDEXXXXX", index);
 
       this.documentoId.push(event.documento!.id);
       // this.documentacionListUser[index].documentos = this.documentoId;
 
-      console.log('el directorio', this.directorios);
 
       // Llamada para actualizar la tabla mail_saludlaboral
       await this.updateCaseDT(this.idSl, this.documentoId.toString());
@@ -1833,34 +1638,34 @@ export class SaludLaboralComponent implements OnInit {
   //   if (!this.directorios) {
   //     this.directorios = [];
   //   }
-  
+
   //   try {
   //     this.directorios.push(event);
   //     this.documentos.push(event.documento!);
-  
+
   //     console.log(this.saludLaboralSelect);
-  
+
   //     let ids: string[] = [];
-  
+
   //     // Verificar si saludLaboralSelect y documentosEmpresa están definidos y no están vacíos
   //     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosEmpresa) {
   //       ids = this.saludLaboralSelect.documentosEmpresa.split(',');
   //     }
-  
+
   //     let index = ids.findIndex((c: any) => c === this.selectedDocId);
   //     console.log("INDEXXXXXemp", index);
-  
+
   //     // Agregar el nuevo ID del documento
   //     this.documentoId.push(event.documento!.id);
-      
+
   //     // Concatenar los nuevos IDs con los existentes
   //     ids.push(event.documento!.id);
-  
+
   //     console.log('el directorio emp', this.directorios);
-  
+
   //     // Llamada para actualizar la tabla mail_saludlaboral
   //     await this.updateCaseEmp(this.idSl, ids.join(','));
-  
+
   //     // Mostrar mensaje de éxito
   //     this.messageService.add({
   //       key: 'formScmSL',
@@ -1870,7 +1675,7 @@ export class SaludLaboralComponent implements OnInit {
   //     });
   //   } catch (error) {
   //     console.error(error);
-  
+
   //     // Mostrar mensaje de error
   //     this.messageService.add({
   //       key: 'formScmSL',
@@ -1880,7 +1685,7 @@ export class SaludLaboralComponent implements OnInit {
   //     });
   //   }
   // }
-  
+
 
 
   documentoMin: any[] = [];
@@ -1897,12 +1702,10 @@ export class SaludLaboralComponent implements OnInit {
       this.directorios.push(event);
       this.documentos.push(event.documento!);
       let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
-      console.log("INDEXXXXX", index);
 
       this.documentoId.push(event.documento!.id);
       // this.documentacionListUser[index].documentos = this.documentoId;
 
-      console.log('el directorio', this.directorios);
 
       // Llamada para actualizar la tabla mail_saludlaboral
       await this.updateCaseMin(this.idSl, this.documentoId.toString());
@@ -1934,7 +1737,6 @@ export class SaludLaboralComponent implements OnInit {
     try {
       await this.scmService.updateMailSaludLaboral(docId, documentoId);
 
-      console.log('Mail salud laboral actualizado correctamente');
     } catch (error) {
       console.error('Error actualizando mail salud laboral', error);
     }
@@ -1943,7 +1745,6 @@ export class SaludLaboralComponent implements OnInit {
   async updateCaseDT(docId: number, documentoId: string) {
     try {
       await this.scmService.updateDatosTrabajadorDocs(docId, documentoId);
-      console.log('Mail salud laboral actualizado correctamente');
     } catch (error) {
       console.error('Error actualizando mail salud laboral', error);
     }
@@ -1951,7 +1752,6 @@ export class SaludLaboralComponent implements OnInit {
   async updateCaseEmp(docId: number, documentoId: string) {
     try {
       await this.scmService.updateDatosTrabajadorEmp(docId, documentoId);
-      console.log('Mail salud laboral actualizado correctamente');
     } catch (error) {
       console.error('Error actualizando mail salud laboral', error);
     }
@@ -1959,7 +1759,6 @@ export class SaludLaboralComponent implements OnInit {
   async updateCaseMin(docId: number, documentoId: string) {
     try {
       await this.scmService.updateDatosTrabajadorMin(docId, documentoId);
-      console.log('Mail salud laboral actualizado correctamente');
     } catch (error) {
       console.error('Error actualizando mail salud laboral', error);
     }
@@ -1973,7 +1772,6 @@ export class SaludLaboralComponent implements OnInit {
     } else {
       this.documentoId = [];
     }
-    console.log("openUploadDIalof", docId, documentsID);
 
 
   }
@@ -1986,7 +1784,6 @@ export class SaludLaboralComponent implements OnInit {
     } else {
       this.documentotoIDT = [];
     }
-    console.log("openUploadDialogCaseDT", docId, documentsID);
   }
 
   // openUploadDialogCaseEmpresa(docId: number, documentsID: any) {
@@ -2007,7 +1804,6 @@ export class SaludLaboralComponent implements OnInit {
     } else {
       this.documentoMin = [];
     }
-    console.log("openUploadDialogCaseDT", docId, documentsID);
   }
 
 
@@ -2073,7 +1869,6 @@ export class SaludLaboralComponent implements OnInit {
             this.directorios.forEach(el => {
               docIds.push(el.id!);
             });
-            console.log("que trae dosid", docIds);
           });
       }
     });
@@ -2121,7 +1916,6 @@ export class SaludLaboralComponent implements OnInit {
             this.directorios.forEach(el => {
               docIds.push(el.id!);
             });
-            console.log("que trae dosid", docIds);
           });
       }
     });
@@ -2201,7 +1995,7 @@ export class SaludLaboralComponent implements OnInit {
   //         ).catch(err => {
   //           if (err) {
   //            console.log("error");
-             
+
   //           }
 
   //           // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
@@ -2259,7 +2053,6 @@ export class SaludLaboralComponent implements OnInit {
             this.directorios.forEach(el => {
               docIds.push(el.id!);
             });
-            console.log("que trae dosid", docIds);
           });
       }
     });
@@ -2355,7 +2148,6 @@ export class SaludLaboralComponent implements OnInit {
             this.directorios.forEach(el => {
               docIds.push(el.id!);
             });
-            console.log("que trae dosid", docIds);
           });
       }
     });
@@ -2378,6 +2170,31 @@ export class SaludLaboralComponent implements OnInit {
           docum.forEach((algo: string) => {
             this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
               this.directorios.push(elem[0]);
+              console.log("directorios", this.directorios);
+
+            })
+          });
+
+        }
+
+      });
+    }
+
+  }
+  async loadDocumentosSL() {
+    if (this.documentacionListUser) {
+      (this.documentacionListUser).forEach(async (element: any) => {
+        if (element.documentos) {
+          let docum = element.documentos.split(",");
+          docum.forEach((algo: string) => {
+            this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+              this.directoriosSl.push(elem[0]);
+              console.log("directoriosSL", this.directoriosSl);
+              console.log("doclist", this.documentacionListUser);
+              console.log("algo", algo);
+
+
+
             })
           });
 
@@ -2391,15 +2208,12 @@ export class SaludLaboralComponent implements OnInit {
 
   loadDocumentosCaseDT() {
     if (this.saludLaboralSelect && this.saludLaboralSelect.documentos) {
-      console.log("doclistuser", this.saludLaboralSelect);
 
 
       let docum = this.saludLaboralSelect.documentos.split(",");
-      console.log("vardocum", docum);
 
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
-          console.log("algo", algo);
 
           this.directorios.push(elem[0]);
         })
@@ -2409,45 +2223,37 @@ export class SaludLaboralComponent implements OnInit {
 
 
   }
-   timestampToDate(timestamp: number): Date {
+  timestampToDate(timestamp: number): Date {
     return new Date(timestamp);
   }
   loadDocumentosEmp() {
     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosEmpresa) {
-      console.log("doclistuseremp", this.saludLaboralSelect);
 
 
       let docum = this.saludLaboralSelect.documentosEmpresa.split(",");
-      console.log("vardocumemp", docum);
 
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
-          console.log("algoemp", algo);
-          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          elem[0].fechaCreacion = this.timestampToDate(elem[0].fechaCreacion as number);
           this.directorios.push(elem[0]);
-          console.log("load direct", this.directorios.find);
-          
+
         })
       });
 
     }
   }
-  
+
   loadDocumentosArl() {
     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosArl) {
-      console.log("doclistuseremp", this.saludLaboralSelect);
 
 
       let docum = this.saludLaboralSelect.documentosArl.split(",");
-      console.log("vardocumemp", docum);
 
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
-          console.log("algoemp", algo);
-          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          elem[0].fechaCreacion = this.timestampToDate(elem[0].fechaCreacion as number);
           this.directoriosArl.push(elem[0]);
-          console.log("load direct", this.directoriosArl.find);
-          
+
         })
       });
 
@@ -2455,19 +2261,15 @@ export class SaludLaboralComponent implements OnInit {
   }
   loadDocumentosJr() {
     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosJr) {
-      console.log("doclistuseremp", this.saludLaboralSelect);
 
 
       let docum = this.saludLaboralSelect.documentosJr.split(",");
-      console.log("vardocumemp", docum);
 
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
-          console.log("algoemp", algo);
-          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          elem[0].fechaCreacion = this.timestampToDate(elem[0].fechaCreacion as number);
           this.directoriosJr.push(elem[0]);
-          console.log("load direct", this.directoriosJr.find);
-          
+
         })
       });
 
@@ -2475,19 +2277,15 @@ export class SaludLaboralComponent implements OnInit {
   }
   loadDocumentosJn() {
     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosJn) {
-      console.log("doclistuseremp", this.saludLaboralSelect);
 
 
       let docum = this.saludLaboralSelect.documentosJn.split(",");
-      console.log("vardocumemp", docum);
 
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
-          console.log("algoemp", algo);
-          elem[0].fechaCreacion=this.timestampToDate( elem[0].fechaCreacion as number);
+          elem[0].fechaCreacion = this.timestampToDate(elem[0].fechaCreacion as number);
           this.directoriosJn.push(elem[0]);
-          console.log("load direct", this.directoriosJn.find);
-          
+
         })
       });
 
@@ -2495,15 +2293,12 @@ export class SaludLaboralComponent implements OnInit {
   }
   loadDocumentosMin() {
     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosMinisterio) {
-      console.log("doclistuseremp", this.saludLaboralSelect);
 
 
       let docum = this.saludLaboralSelect.documentosMinisterio.split(",");
-      console.log("vardocumemp", docum);
 
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
-          console.log("algoemp", algo);
 
           this.directorios.push(elem[0]);
         })
@@ -2821,19 +2616,16 @@ export class SaludLaboralComponent implements OnInit {
   selectResonsableSelected(eve: any, key: string, item: any) {
     item.usuarioSolicitado = eve.usuario.email;
     item.pkUser = eve.usuario.id
-    console.log("usuario ID que esta aca", eve.usuario.id);
 
   }
   selectResonsableSelectedSeg(eve: any, key: string, item: any) {
     item.usuarioSolicitadoSeg = eve.usuario.email;
     item.pkuser2 = eve.usuario.id;
-    console.log("algo seleccionado aca", item.usuarioSolicitadoSeg);
 
   }
   selectResonsableSelectedSalud(eve: any, key: string, item: any) {
     item.iduarioSolicitadoSalud = eve.usuario.email;
     item.pkuserSalud = eve.usuario.id;
-    console.log("algo seleccionado aca", item.usuarioSolicitadoSeg);
 
   }
   selectResonsableSelectedPsicosocial(eve: any, key: string, item: any) {
@@ -2848,8 +2640,7 @@ export class SaludLaboralComponent implements OnInit {
         this.usuarioSolicitado = eve.usuario.email
         this.pkUser = eve.usuario.id
         this.nombreCompletoSalud = `${eve.primerApellido} ${eve.segundoApellido} ${eve.primerNombre} ${eve.segundoNombre}`;
-        console.log(this.usuarioSolicitado);
-        console.log(this.pkUser)
+
 
         break;
       case 'res2':
@@ -2857,7 +2648,6 @@ export class SaludLaboralComponent implements OnInit {
         this.pkuser2 = eve.usuario.id;
         this.nombreCompletoSeg = `${eve.primerApellido} ${eve.segundoApellido} ${eve.primerNombre} ${eve.segundoNombre}`;
         this.userSoliCedula = eve.numeroIdentificacion
-        console.log("user 2", this.usuarioSolicitadoSeg, this.nombreCompletoSeg)
         break;
       case 'res3':
         this.iduarioSolicitadoSalud = eve.usuario.email
@@ -2893,7 +2683,6 @@ export class SaludLaboralComponent implements OnInit {
           summary: "Mensaje del sistema",
           detail: "Correos enviados correctamente"
         });
-        console.log('se mando bien esa mierda ?')
       } else {
         console.warn('No se enviaron correos porque la lista de correos está vacía');
       }
@@ -2912,7 +2701,7 @@ export class SaludLaboralComponent implements OnInit {
     cargo.nombre = this.selectedItem.toUpperCase();
     this.cargoActualService.create(cargo).then((resp: any) => {
       this.getCargoActual()
-    }).catch(er => console.log(er))
+    }).catch(er => (er))
     this.flagDialogCargoActual = false
     this.selectedItem = ''
   }
@@ -2931,49 +2720,58 @@ export class SaludLaboralComponent implements OnInit {
       });
     })
   }
-  async lazyLoad(event: any) {
+  cedulaFilter: string | null | undefined;
+  updateFilter(value: any) {
+    console.log(value, 'er valor freddy esta aqui ');
+
+    this.cedulaFilter = value;
+  }
+  updateFilterEmpty() {
+    this.cedulaFilter = undefined
+      ;
+  }
+  async lazyLoad(event: any = { sortField: 'fechaCreacion', sortOrder: -1, first: 0, rows: 10, filters: {} }) {
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
     filterQuery.sortOrder = event.sortOrder;
     filterQuery.offset = event.first;
     filterQuery.rows = event.rows;
     filterQuery.count = true;
+
     let filterEliminado = new Filter();
     filterEliminado.criteria = Criteria.EQUALS;
-    //filterEliminado.field = 'eliminado';
-    //filterEliminado.value1 = 'false';
+
+    let filterCedula = new Filter();
+    filterCedula.criteria = Criteria.EQUALS;
+    filterCedula.field = 'usuarioAsignado';
+    filterCedula.value1 = this.cedulaFilter;
 
     filterQuery.fieldList = this.fields;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    filterQuery.filterList.push(filterEliminado);
+    filterQuery.filterList.push(filterEliminado, filterCedula);
+
     try {
       let res: any = await this.scmService.findWithFilterSL(filterQuery);
       this.saludLaboralList = [];
       this.saludlaboralCHANGETest = [];
       res?.data?.forEach((dto: any) => {
         this.saludLaboralList.push(FilterQuery.dtoToObject(dto));
-        console.log('saludlaborallist', this.saludlaboralCHANGETest);
-
       });
-      console.log(res)
       this.totalRecords = res.count;
-
     } catch (error) {
-
+      console.error('Error al cargar los datos:', error);
     }
   }
+
   openCase() {
 
 
 
-    console.log('case select', this.saludLaboralSelect.idSl);
     localStorage.setItem('scmShowCase', 'false');
     this.flagSaludLaboralRegistro = true;
     localStorage.setItem('slShowCase', 'true');
     localStorage.setItem('saludL', JSON.stringify(this.saludLaboralSelect));
     this.route.navigate(['/app/scm/saludlaboral/', this.saludLaboralSelect.idSl])
-    console.log(this.caseSelect);
-    console.log('case select', this.saludLaboralSelect.idSl);
 
 
   }
@@ -3001,35 +2799,49 @@ export class SaludLaboralComponent implements OnInit {
     this.filteredSuggestions = [];
   }
   async onSubmiSLt() {
-    await this.ghAdmonPersonal.forEach(async value => {
-      await this.scmService.createMail(value).then(
-        response => {
-          this.modalConfirmacionVisible = false
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "success",
-            summary: "Correo Enviado",
-            detail: `El correo electronico fue enviado`,
-          });
-          this.loadMailData(this.idSl);
-        },
-        error => {
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "warn",
-            summary: "Correo no Enviado",
-            detail: `El correo electronico no fue enviado, verifica la información`,
-          });
-        }
-      );
-    })
+    for (const value of this.ghAdmonPersonal) {
+      if (!value.usuarioSolicitado) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "El correo electrónico del usuario solicitado no está presente, verifica la información.",
+        });
+        continue;
+      }
 
+      if (!value.fechaLimite) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "La fecha límite no está presente, verifica la información.",
+        });
+        continue;
+      }
 
+      try {
+        const response = await this.scmService.createMail(value);
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "success",
+          summary: "Correo Enviado",
+          detail: `El correo electrónico fue enviado`,
+        });
+      } catch (error) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Correo no Enviado",
+          detail: `El correo electrónico no fue enviado, verifica la información`,
+        });
+      }
+    }
+
+    this.modalConfirmacionVisible = false;
+    this.loadMailData(this.idSl);
   }
+
   isFechaLimiteProxima(fechaLimite: string): boolean {
     const fechaLimiteDate = new Date(fechaLimite);
     const dosDiasEnMS = 2 * 24 * 60 * 60 * 1000; // Dos días en milisegundos
@@ -3038,7 +2850,7 @@ export class SaludLaboralComponent implements OnInit {
   }
 
   async onSubmiSLtSeg() {
-    for(const value  of this.seguridad){
+    for (const value of this.seguridad) {
       await this.scmService.createMail(value).then(
         response => {
           this.modalConfirmacionVisible = false

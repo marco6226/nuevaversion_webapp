@@ -4,160 +4,11 @@
 
 <p-tabView>
   <p-tabPanel header="Información General" *sTienePermiso="'SCM_GET_ICSL'">
-    <app-datos-trabajador-involucrado></app-datos-trabajador-involucrado>
-    <br />
-    <p-panel header="Datos del jefe inmediato">
-      <form [formGroup]="jefeInmediato">
-        <div class="container-fluid cew-9">
-          <!-- <div class="row">
-                        <div>
-                            <h5 class="title-header p-mb-2">Datos del jefe inmediato</h5>
-                        </div>
-                    </div> -->
-          <!-- div -->
-          <div class="row">
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">Número de identificación</label>
-                </div>
-                <div>
-                  <p-autoComplete
-                    [readonly]="consultar2"
-                    styleClass="form-control-autocomplete"
-                    placeholder="Digite"
-                    [style]="{ width: '100%' }"
-                    (onSelect)="onSelectionJefeInmediato($event)"
-                    [suggestions]="empleadosList"
-                    (completeMethod)="buscarEmpleado($event)"
-                    formControlName="numeroIdentificacion"
-                    *ngIf="empleado?.id == null"
-                  >
-                    <ng-template let-empleado pTemplate="item">
-                      <div class="ui-helper-clearfix">
-                        <div class="wrapper">
-                          <i
-                            *ngIf="!empleado.usuario?.icon"
-                            class="fa fa-user-circle"
-                            style="font-size: 48px"
-                            aria-hidden="true"
-                          ></i>
-                          <img
-                            *ngIf="empleado.usuario?.icon"
-                            [src]="empleado.usuario?.icon"
-                            style="border-radius: 50%"
-                            #imgAvatar
-                          />
-                          <div style="margin-left: 20px">
-                            <br />{{ empleado?.primerApellido }}
-                            {{ empleado?.primerNombre }}
-                            {{ empleado?.segundoNombre }}
+    <app-datos-trabajador-involucrado (updateFilterTotable)="updateFilter($event)" (researchFilter)="updateFilterEmpty()"></app-datos-trabajador-involucrado>
 
-                            <br />
-                            {{ empleado?.numeroIdentificacion }} <br />
-                            {{ empleado?.usuario.email }}
-                          </div>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-autoComplete>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Apellidos y nombres</label>
-                <input
-                  type="text"
-                  pInputText
-                  [value]="jefeNames"
-                  placeholder="Apellidos y nombres"
-                  [attr.disabled]="true"
-                  class="form-control"
-                  id="jefeNames"
-                />
-              </div>
-            </div>
-
-            <div class="col">
-              <div>
-                <div>
-                  <label for="" class="active">Cargo / Categoría</label>
-                </div>
-                <div>
-                  <p-dropdown
-                    [filter]="true"
-                    [options]="cargoList"
-                    formControlName="cargoId"
-                    class="select-material"
-                    styleClass="select-material"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div>
-                <label for="" class="active">Número móvil corporativo</label>
-                <input
-                  type="text"
-                  pInputText
-                  formControlName="corporativePhone"
-                  class="form-control"
-                  styleClass="form-control"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-3">
-          <div>
-            <label for="" class="active">Correo corporativo</label>
-            <input
-              type="text"
-              pInputText
-              formControlName="email"
-              placeholder="Correo corporativo"
-              class="form-control"
-              id="emailjefe"
-            />
-          </div>
-        </div>
-      </form>
-    </p-panel>
     <br />
-    <p-panel header="Datos de la empresa">
-      <form [formGroup]="empresaForm">
-        <div class="row">
-          <div class="col">
-            <label for="" class="active">Nombre Comercial</label>
-            <p-dropdown
-              appendTo="body"
-              [options]="empresaList2"
-              optionLabel="label"
-              formControlName="empresa"
-              [(ngModel)]="empresaSelect2"
-              class="select-material"
-              styleClass="select-material"
-            >
-            </p-dropdown>
-          </div>
-          <div class="col">
-            <label for="nit" class="active">Nit</label>
-            <input
-              type="text"
-              id="nit"
-              class="form-control"
-              pInputText
-              optionLabel="nit"
-              formControlName="nit"
-              [value]="empresaSelect2?.nit"
-              readonly="true"
-            />
-          </div>
-        </div>
-      </form>
-    </p-panel>
+
+    <br />
   </p-tabPanel>
   <ng-container *ngIf="empleadoSelect || consultar">
     <p-tabPanel
@@ -165,10 +16,10 @@
       *ngIf="!flagSaludLaboralRegistro"
     >
       <p-table
-        *ngIf="!caseSelect && !createCase"
+        *ngIf="!caseSelect && !createCase && cedulaFilter!=null && cedulaFilter!=undefined"
         #dt
         styleClass="material-table"
-        [value]="saludlaboralCHANGETest"
+        [value]="saludLaboralList"
         autoLayout="true"
         selectionMode="single"
         [loading]="loading"
@@ -201,16 +52,6 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="summary" let-rowData>
-          <button
-            pButton
-            *sTienePermiso="'SCM_POST_CSL'"
-            type="button"
-            (click)="createCaso()"
-            icon="bi bi-plus"
-            class="p-button-raised p-button-primary margin-right"
-            label="Crear Caso"
-          ></button>
-
           <button
             pButton
             *sTienePermiso="'SCM_PUT_CSL'"
@@ -465,6 +306,7 @@
                     (completeMethod)="buscarEmpleado($event)"
                     (onSelect)="selectResonsable($event, 'res1')"
                     [(ngModel)]="usuarioSolicitado"
+                    required
                   >
                     <ng-template let-empleado pTemplate="item">
                       <div class="ui-helper-clearfix">
@@ -513,6 +355,7 @@
                     [maxDate]="fechaActual"
                     [formControl]="formulario.get('fechaLimite')"
                     dateFormat="dd/mm/yy"
+                    required
                   ></p-calendar>
                 </div>
               </div>
@@ -783,11 +626,11 @@
                       >Tipo de documento a solicitar:</label
                     >
                     <p-dropdown
+                    [style]="{'width':'100%'}"
                       id="tipoDocumentoSaludLaboral"
                       [options]="docSaludLaboral"
                       [(ngModel)]="selectedDocSaludLaboral"
                       required
-                      styleClass="select-material"
                     ></p-dropdown>
                   </div>
                 </div>
@@ -1579,9 +1422,6 @@
                 [directoriosJn]="this.directoriosJn"
                 [empleadoForm]="empleadoForm"
                 (deleteDoc)="eliminarDocumentEmp($event)"
-                
-                
-                
               ></app-cargue-documentos-empresa>
             </p-accordionTab>
           </form>
@@ -1784,10 +1624,13 @@
           ></button> -->
                 <div class="ui-g" style="margin-top: 10px">
                   <div class="ui-g-12 ui-sm-12 ui-md-10">
-                    <div *ngFor="let doc of directorios">
+                    <div *ngFor="let doc of directoriosSl">
                       <table
                         class="caption-top"
-                        *ngIf="doc?.documento?.proceso === 'cargaDocumentosSL' + case.id"
+                        *ngIf="
+                          doc?.documento?.proceso ===
+                          'cargaDocumentosSL' + case.id
+                        "
                       >
                         <p>Soportes para Descargar:</p>
 
@@ -1821,7 +1664,7 @@
               class="p-button-info margin-left margin-right"
               [disabled]="
                 !documentacionSelectSolicitado ||
-                documentacionSelectSolicitado.documentos.length === 0
+                documentacionSelectSolicitado.documentos === 0
               "
               (click)="onEditState(documentacionSelectSolicitado.id)"
             ></button>
@@ -1934,9 +1777,10 @@
                     icon="bi bi-upload"
                     title="Subir documento"
                     class="p-button-info margin-left margin-right"
-                    (click)="openUploadDialog(docsub.id, docsub.documentos)"
+                    (click)="openUploadDialog(docsub.id, docsub.documentosSl)"
                     [disabled]="
-                      (docsub.documentos && docsub.documentos.length >= 3) ||
+                      (docsub.documentosSl &&
+                        docsub.documentosSl.length >= 3) ||
                       docsub.fechaLimite > fechaActual
                     "
                   ></button>
@@ -1952,10 +1796,13 @@
                 </s-documentoUpload>
                 <div class="ui-g" style="margin-top: 10px">
                   <div class="ui-g-12 ui-sm-12 ui-md-10">
-                    <div *ngFor="let doc of directorios">
+                    <div *ngFor="let doc of directoriosSl">
                       <table
                         class="caption-top"
-                        *ngIf="doc?.documento?.proceso === 'cargaDocumentosSL' + docsub.id"
+                        *ngIf="
+                          doc?.documento?.proceso ===
+                          'cargaDocumentosSL' + docsub.id
+                        "
                       >
                         <p>Soportes:</p>
                         <thead>
