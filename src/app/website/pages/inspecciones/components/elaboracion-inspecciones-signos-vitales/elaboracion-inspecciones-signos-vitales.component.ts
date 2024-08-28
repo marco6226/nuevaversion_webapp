@@ -925,6 +925,14 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       return true;
   }
 
+  validarAccion(elementoSelect: ElementoInspeccion){
+    if (elementoSelect.calificacion.accion == null || elementoSelect.calificacion.accion === '')
+        {
+
+            throw new Error("Debe seleccionar una acción realizada de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
+        }
+        return true;
+  }
 
     validarResponsable(elementoSelect: ElementoInspeccion) {
 
@@ -1098,7 +1106,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                        
                       }
                       calificacionList.push(calif);
-                      if(elemList[0].calificacion.accion === '3' && this.validarTarjeta(elemList[0]) && this.validarResponsable(elemList[0]) && this.validarDescAccion(elemList[0]) && this.validarFecha(elemList[0])){
+                      if(elemList[0].calificacion.opcionCalificacion.valor === 0 && this.validarAccion(elemList[0]))
+                      if(Number(elemList[0].calificacion.accion) === 3 && this.validarTarjeta(elemList[0]) && this.validarResponsable(elemList[0]) && this.validarDescAccion(elemList[0]) && this.validarFecha(elemList[0])){
                       }
                       if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                   }

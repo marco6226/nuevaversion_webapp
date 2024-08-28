@@ -60,6 +60,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   radioBSelected: string | null = null;
   inputDia: number | null = null;
   esListaInactiva: boolean = false;
+  btnInspDisable: boolean = true;
 
   @Input('visible') visible: boolean = false;
   @Input('modulo') modulo: string = 'INP';
@@ -336,7 +337,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         // console.log(programacion);
         if (programacion.listaInspeccion.estado === 'inactivo') {
           if (!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
-          this.deshabilitar = true;
+          this.deshabilitar = false;
           // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
           let listaInp = {
             label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
@@ -350,6 +351,16 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
         this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
         if (this.modulo === 'ISV') {
+          let user = JSON.parse(localStorage.getItem('session')!).usuario.email
+          
+          let responsable = JSON.parse(programacion.empleadoBasic);
+        
+          if(user === responsable.usuarioBasic.email){
+            this.btnInspDisable = false;
+          }else{
+            this.btnInspDisable = true;
+          }
+  
           this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
           this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
           this.form?.get('areaSv')?.setValue(programacion.areaSv);
@@ -366,12 +377,6 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         this.form?.get('empleadoBasic')?.setValue(JSON.parse(programacion.empleadoBasic));
         this.form?.get('fechaInicio')?.setValue(new Date(programacion.fecha));
 
-
-
-
-
-
-        
         
       }).catch((e) => {
         throw new Error(e);
@@ -439,7 +444,26 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), programacion);
         } else {
+          let user = JSON.parse(localStorage.getItem('session')!).usuario.email
+          let responsable = JSON.parse(programacion.empleadoBasic);
+          if(user === responsable.usuarioBasic.email){
+            this.btnInspDisable = false;
+          }else{
+            this.btnInspDisable = true;
+          }
           await this.createOrUpdate(this.programacionService.update.bind(this.programacionService), programacion);
+          try {
+            this.loading = true;
+            this.loadDataEvento()
+              .then(() => {
+                this.loading = false;;
+              }).catch((e) => {
+                throw new Error(e);
+              });
+          } catch (e) {
+            this.loading = false;
+            this.messageService.add({ key: 'progEvento', severity: 'error', summary: 'Error', detail: 'Error al buscar inspección' });
+          }
         }
       } else if (this.modulo === 'INPCC') {
         if (this.esNueva) {
@@ -456,7 +480,16 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   private async createOrUpdate(method: Function, programacion: Programacion) {
     try {
       await method(programacion);
+      
       this.procesarRespuesta(true, this.esNueva ? 'guardar' : 'actualizar');
+      this.loading = true;
+    this.loadDataEvento()
+              .then(() => {
+                this.loading = false;;
+              }).catch((e) => {
+                throw new Error(e);
+              });
+      
     } catch (error) {
       this.procesarRespuesta(false, this.esNueva ? 'guardar' : 'actualizar');
     }

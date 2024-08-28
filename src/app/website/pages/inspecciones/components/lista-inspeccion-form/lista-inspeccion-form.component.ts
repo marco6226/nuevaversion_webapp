@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConfirmationService, MessageService, SelectItem, TreeNode, Message } from 'primeng/api';
 import { DirectorioService } from '../../../ado/services/directorio.service';
@@ -65,6 +65,7 @@ export class ListaInspeccionFormComponent implements OnInit {
         private directorioService: DirectorioService,
         private tipoHallazgoService: TipoHallazgoService,
         private empleadoService: EmpleadoService,
+      
     ) {
         this.empresa = this.sessionService.getEmpresa()!;
         this.idempresa = this.empresa.id!;
@@ -83,18 +84,17 @@ export class ListaInspeccionFormComponent implements OnInit {
         this.opciones3 = this.crearOpcionesPlan();
     }
 
-
     crearOpciones(){
         return [
-        {id: '1',nombre: 'Corrección inmediata',descripcion: 'Corrección inmediata',valor: 5,},
-        {id: '2',nombre: 'Medida de mitigación',descripcion: 'Medida de mitigación',valor: 5,},
-        {id: '3', nombre: 'Sin corregir - Plan de acción', descripcion: 'Sin corregir - Plan de acción',valor: 5,},
+        {id: 1,nombre: 'Corrección inmediata',descripcion: 'Corrección inmediata',valor: 5,},
+        {id: 2,nombre: 'Medida de mitigación',descripcion: 'Medida de mitigación',valor: 5,},
+        {id: 3, nombre: 'Sin corregir - Plan de acción', descripcion: 'Sin corregir - Plan de acción',valor: 5,},
         ];
     }
 
     crearOpcionesPlan(){
         return [
-        {id: '1',nombre: 'Tarjeta de seguridad',descripcion: 'Tarjeta de seguridad',valor: 5,},
+        {id: 1,nombre: 'Tarjeta de seguridad',descripcion: 'Tarjeta de seguridad',valor: 5,},
 
         ];
     }
@@ -103,24 +103,28 @@ export class ListaInspeccionFormComponent implements OnInit {
         const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
         return opcionSeleccionada ? opcionSeleccionada.nombre.toLowerCase() === 'ausente' : false;
     }
-
+    
+    
     PlanASelected(): boolean{
         const opcionSeleccionada = this.opciones2.find(op => op.id === this.elementoSelect?.calificacion.accion);
         return opcionSeleccionada ? opcionSeleccionada.nombre === 'Sin corregir - Plan de acción' : false;
+        
+        
     }
 
     CorrecionSelect(): boolean {
-        const opcionSeleccionada = this.opciones2.find(op => op.id === this.elementoSelect?.calificacion.accion);
+        
+        const opcionSeleccionada = this.opciones2.find(op => op.id === Number(this.elementoSelect?.calificacion.accion));
         return opcionSeleccionada ? opcionSeleccionada.nombre === 'Corrección inmediata' : false;
     }
 
     MitigacionSelect(): boolean {
-        const opcionSeleccionada = this.opciones2.find(op => op.id === this.elementoSelect?.calificacion.accion);
+        const opcionSeleccionada = this.opciones2.find(op => op.id === Number(this.elementoSelect?.calificacion.accion));
         return opcionSeleccionada ? opcionSeleccionada.nombre === 'Medida de mitigación' : false;
     }
 
     TarjetaSelected():boolean{
-        const opcionSeleccionada = this.opciones3.find(op => op.id === this.elementoSelect?.calificacion.planAccion);
+        const opcionSeleccionada = this.opciones3.find(op => op.id === Number(this.elementoSelect?.calificacion.planAccion));
         return opcionSeleccionada ? opcionSeleccionada.nombre === 'Tarjeta de seguridad' : false;
     }
 

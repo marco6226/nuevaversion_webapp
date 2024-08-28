@@ -263,7 +263,7 @@
         <button *sTienePermiso="'INP_POST_PROG'" type="submit" pButton icon="pi pi-save" label="Guardar" 
         [disabled]="!form.valid" (click)="onSubmit()"></button>
       </ng-container>
-      <ng-container *ngIf="!esNueva && loading == false && !(form.value.numeroRealizadas && form.value.numeroRealizadas > 0)">
+      <ng-container *ngIf="!esNueva && loading == false  && esListaInactiva ">
         <button *sTienePermiso="'INP_PUT_PROG'" type="submit" pButton icon="pi pi-pencil"
            label="Modificar" (click)="onSubmit()" [disabled]="!form.valid"></button>
       </ng-container>
