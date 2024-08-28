@@ -916,7 +916,10 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           elementoSelect.calificacion.opcionCalificacion.requerirDesc === true &&
           (elementoSelect.calificacion.recomendacion == null || elementoSelect.calificacion.recomendacion === '')
       ) {
+        if(elementoSelect.calificacion.responsable != null){
             elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
+        }
+            
           throw new Error("Debe agregar una descripción al adjuntar evidencia de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
       }
       return true;
@@ -937,7 +940,6 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
         if (elementoSelect.calificacion.planAccion == null || elementoSelect.calificacion.planAccion === '')
          {
-            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
             throw new Error("Debe seleccionar el plan de acción de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
         }
         return true;
