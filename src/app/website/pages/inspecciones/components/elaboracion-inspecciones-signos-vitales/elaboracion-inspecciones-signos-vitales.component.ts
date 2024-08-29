@@ -1413,7 +1413,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       } else if (valorNumerico >= 80 && valorNumerico < 90) {
         this.confiabilidad = 'Medio';
         return 'background-color: #ffef00; color: black;';
-      } else if (valorNumerico >= 60 && valorNumerico < 80) {
+      } else if (valorNumerico >= 1 && valorNumerico < 80) {
         this.confiabilidad = 'Bajo';
         return 'background-color: #ef2100; color: white;';
       } else {
