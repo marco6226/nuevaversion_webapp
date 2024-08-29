@@ -194,7 +194,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
 
       this.accion = this.paramNav.getAccion<string>();
       if (this.accion == 'POST') {
-          this.redireccion = '/app/inspecciones/programacion';
+          this.redireccion = '/app/signos/programacionSv';
           this.adicionar = true;
           this.programacion = this.paramNav.getParametro<Programacion>();
           this.listaInspeccion = this.programacion == null ? this.inspeccion.listaInspeccion : this.programacion.listaInspeccion;
@@ -229,7 +229,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
 
 
       } else if (this.accion == 'GET' || this.accion == 'PUT') {
-          this.redireccion = '/app/inspecciones/consultaInspecciones';
+          this.redireccion = '/app/signos/consultarInspeccionesSv';
           this.consultar = this.accion == 'GET';
           this.modificar = this.accion == 'PUT';
           this.inspeccion = this.paramNav.getParametro<Inspeccion>();

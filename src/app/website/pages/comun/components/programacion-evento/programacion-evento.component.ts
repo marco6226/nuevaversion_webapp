@@ -20,6 +20,7 @@ import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { AreaService } from '../../../empresa/services/area.service';
 import { JuntaRegional } from '../../entities/juntaregional';
 import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ListaInspeccionService } from 'src/app/website/pages/inspecciones/services/lista-inspeccion.service';
 import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 
 @Component({
@@ -101,7 +102,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   @Output() onChange: EventEmitter<boolean> = new EventEmitter();
   @Output() onChangeProceso: EventEmitter<number> = new EventEmitter();
   updateValueProcesos(value:any){
-    this.onChangeProceso.emit(value['id']);
+    this.onChangeProceso.emit(value);
   }
   constructor(
     private fb: FormBuilder,
@@ -115,7 +116,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     private areaMatrizService: AreaMatrizService,
     private areaService: AreaService,
     private procesoMatrizService: ProcesoMatrizService,
-
+    private listaInspeccionService: ListaInspeccionService,
 
 
   ) {
@@ -151,6 +152,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     } else {
       this.form?.get('empleadoBasic')?.clearValidators();
     }
+ 
   }
 
   
@@ -211,7 +213,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   }
 
   localidadesList: any[] = [];
-  localidadesListActual: any = [];
+
   
   async cargarPlantaLocalidad(eve: any) {
     let filterPlantaQuery = new FilterQuery();
@@ -234,7 +236,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
 
 
   areaList: any[] = []
-  areaListActual: any[] = []
+
   async cargarArea(eve: any) {
     
     let filterArea = new FilterQuery();
@@ -256,7 +258,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   }
 
   procesoList: any[] = []
-  procesoListActual: any[] = []
+ 
   async cargarProceso(eve: any) {
     try {
       let filterProceso = new FilterQuery();
@@ -274,6 +276,29 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       this.procesoList = [...procesoList];
     } catch (error) {
       console.error("Error en cargarProceso:", error);
+    }
+  }
+
+  async cargarLista(eve:any){
+    try {
+      let filterLista = new FilterQuery();
+      filterLista.sortField = "codigo";
+      filterLista.sortOrder = -1;
+      filterLista.fieldList = ['codigo', 'nombre', 'listaInspeccionPK'];
+      filterLista.filterList = [
+        { field: 'procesoSv', criteria: Criteria.EQUALS, value1: eve },
+        {field: 'estado',criteria: Criteria.EQUALS, value1: 'activo'}
+      ];
+
+      const resp: any = await this.listaInspeccionService.findByFilter(filterLista);
+      const listaInspList = resp.data.map((element: any) => ({
+         label:` ${element.codigo} - ${element.nombre} v${element.listaInspeccionPK.version}`, 
+         value: { id: element.listaInspeccionPK.id, version: element.listaInspeccionPK.version },
+        }))
+      
+      this.listasInspeccionList = [...listaInspList];
+    } catch (error) {
+      console.error("Error en cargarLista:", error);
     }
   }
 
@@ -318,6 +343,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   }
 
   async loadDataEvento() {
+   
     let filterQuery: FilterQuery = new FilterQuery();
     filterQuery.filterList = [{ criteria: Criteria.EQUALS, field: 'id', value1: this.idProgramacion }]
 
@@ -331,6 +357,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     findProgramacion(filterQuery)
       .then((res: any) => {
         let programacion: Programacion = res?.data && res?.data?.length > 0 ? res.data[0] : {} as Programacion;
+       
         console.log('Datos cargados:', programacion);
 
         // console.log(this.listasInspeccionList);
@@ -346,9 +373,13 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
           } as SelectItem;
           this.listasInspeccionList.push(listaInp);
         }
+        if(programacion.numeroRealizadas === programacion.numeroInspecciones){
+          this.deshabilitar = true;
+        }
         this.form?.get('id')?.setValue(programacion.id);
         this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
         this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
+      
         this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
         if (this.modulo === 'ISV') {
           let user = JSON.parse(localStorage.getItem('session')!).usuario.email
@@ -359,8 +390,8 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
             this.btnInspDisable = false;
           }else{
             this.btnInspDisable = true;
-          }
-  
+          }  
+   
           this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
           this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
           this.form?.get('areaSv')?.setValue(programacion.areaSv);
@@ -368,7 +399,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
            this.cargarPlantaLocalidad(this.form?.controls['area'].value);         
            this.cargarArea(this.form?.controls['localidadSv'].value);
            this.cargarProceso(this.form?.controls['areaSv'].value)
+           this.cargarLista(this.form?.controls['procesoSv'].value)
         } else {
+          this.btnInspDisable = false;
           this.form?.get('area')?.setValue(programacion.area ? programacion.area : null);
           // Puedes agregar más campos específicos para otros módulos aquí
         }
@@ -438,6 +471,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), programacion);
         } else {
+          this.btnInspDisable = false;
           await this.createOrUpdate(this.programacionService.update.bind(this.programacionService), programacion);
         }
       } else if (this.modulo === 'ISV') {
@@ -469,6 +503,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.createAuditoria.bind(this.programacionService), programacion);
         } else {
+          this.btnInspDisable = false;
           await this.createOrUpdate(this.programacionService.updateAuditoria.bind(this.programacionService), programacion);
         }
       }
