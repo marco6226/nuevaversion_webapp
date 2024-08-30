@@ -392,20 +392,20 @@ export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
     filterArea.filterList = [
       { field: 'nombre', criteria: Criteria.EQUALS, value1: event },
     ];
-    if (this.idEmpresa == '22' {
-    filterArea.filterList.push({
-      field: 'tipoArea.id',
-      criteria: Criteria.EQUALS,
-      value1: '59'      
-    });
-    };
-    if (this.idEmpresa == '508' {
-        filterArea.filterList.push({
-          field: 'tipoArea.id',
-          criteria: Criteria.EQUALS,
-          value1: '88'      
-        });
-        }
+    if (this.idEmpresa == '22') {
+      filterArea.filterList.push({
+        field: 'tipoArea.id',
+        criteria: Criteria.EQUALS,
+        value1: '59',
+      });
+    }
+    if (this.idEmpresa == '508') {
+      filterArea.filterList.push({
+        field: 'tipoArea.id',
+        criteria: Criteria.EQUALS,
+        value1: '88',
+      });
+    }
     let idDivision: any;
     await this.areaService.getAreaRWithFilter(filterArea).then((resp: any) => {
       idDivision = resp.data[0].id;
