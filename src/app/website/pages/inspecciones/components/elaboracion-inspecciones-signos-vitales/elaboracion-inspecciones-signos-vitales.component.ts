@@ -194,7 +194,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
 
       this.accion = this.paramNav.getAccion<string>();
       if (this.accion == 'POST') {
-          this.redireccion = '/app/inspecciones/programacion';
+          this.redireccion = '/app/signos/programacionSv';
           this.adicionar = true;
           this.programacion = this.paramNav.getParametro<Programacion>();
           this.listaInspeccion = this.programacion == null ? this.inspeccion.listaInspeccion : this.programacion.listaInspeccion;
@@ -229,7 +229,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
 
 
       } else if (this.accion == 'GET' || this.accion == 'PUT') {
-          this.redireccion = '/app/inspecciones/consultaInspecciones';
+          this.redireccion = '/app/signos/consultarInspeccionesSv';
           this.consultar = this.accion == 'GET';
           this.modificar = this.accion == 'PUT';
           this.inspeccion = this.paramNav.getParametro<Inspeccion>();
@@ -878,8 +878,11 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               elementoSelect.calificacion.opcionCalificacion.requerirDoc == true &&
               (this.listaInspeccionForm.imgMap[elementoSelect.id] == null || this.listaInspeccionForm.imgMap[elementoSelect.id].length === 0)
           ) {
-              throw new Error("Debe especificar al menos una fotografía para la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
-          }
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
+            
+              throw new Error("Debe especificar al menos una fotografía para la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ")
+              
+        }
           return true;
       }
       else {
@@ -891,6 +894,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
               elementoSelect.calificacion.documentosList.length < 1 &&
               (this.listaInspeccionForm.imgMap[elementoSelect.id] == null || this.listaInspeccionForm.imgMap[elementoSelect.id].length === 0)
           ) {
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
               throw new Error("Debe especificar al menos una fotografía para la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
           }
           return true;
@@ -912,16 +916,29 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           elementoSelect.calificacion.opcionCalificacion.requerirDesc === true &&
           (elementoSelect.calificacion.recomendacion == null || elementoSelect.calificacion.recomendacion === '')
       ) {
+        if(elementoSelect.calificacion.responsable != null){
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
+        }
+            
           throw new Error("Debe agregar una descripción al adjuntar evidencia de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
       }
       return true;
   }
 
+  validarAccion(elementoSelect: ElementoInspeccion){
+    if (elementoSelect.calificacion.accion == null || elementoSelect.calificacion.accion === '')
+        {
+
+            throw new Error("Debe seleccionar una acción realizada de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
+        }
+        return true;
+  }
 
     validarResponsable(elementoSelect: ElementoInspeccion) {
 
         if (elementoSelect.calificacion.responsable == null || elementoSelect.calificacion.responsable === '')
         {
+
             throw new Error("Debe seleccionar un responsable de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
         }
         return true;
@@ -940,6 +957,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
         if (elementoSelect.calificacion.descripcionAccTarjeta == null || elementoSelect.calificacion.descripcionAccTarjeta === '')
         {
+            elementoSelect.calificacion.responsable = JSON.parse(elementoSelect.calificacion.responsable)
             throw new Error("Debe agregar una descripción de la acción de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
         }
         return true;
@@ -1088,7 +1106,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                        
                       }
                       calificacionList.push(calif);
-                      if(elemList[0].calificacion.accion === '3' && this.validarTarjeta(elemList[0]) && this.validarResponsable(elemList[0]) && this.validarDescAccion(elemList[0]) && this.validarFecha(elemList[0])){
+                      if(elemList[0].calificacion.opcionCalificacion.valor === 0 && this.validarAccion(elemList[0]))
+                      if(Number(elemList[0].calificacion.accion) === 3 && this.validarTarjeta(elemList[0]) && this.validarResponsable(elemList[0]) && this.validarDescAccion(elemList[0]) && this.validarFecha(elemList[0])){
                       }
                       if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                   }
@@ -1394,7 +1413,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       } else if (valorNumerico >= 80 && valorNumerico < 90) {
         this.confiabilidad = 'Medio';
         return 'background-color: #ffef00; color: black;';
-      } else if (valorNumerico >= 60 && valorNumerico < 80) {
+      } else if (valorNumerico >= 1 && valorNumerico < 80) {
         this.confiabilidad = 'Bajo';
         return 'background-color: #ef2100; color: white;';
       } else {

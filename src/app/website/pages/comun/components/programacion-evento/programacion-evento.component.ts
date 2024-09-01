@@ -20,6 +20,7 @@ import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { AreaService } from '../../../empresa/services/area.service';
 import { JuntaRegional } from '../../entities/juntaregional';
 import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ListaInspeccionService } from 'src/app/website/pages/inspecciones/services/lista-inspeccion.service';
 import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 
 @Component({
@@ -60,6 +61,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   radioBSelected: string | null = null;
   inputDia: number | null = null;
   esListaInactiva: boolean = false;
+  btnInspDisable: boolean = true;
 
   @Input('visible') visible: boolean = false;
   @Input('modulo') modulo: string = 'INP';
@@ -100,7 +102,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   @Output() onChange: EventEmitter<boolean> = new EventEmitter();
   @Output() onChangeProceso: EventEmitter<number> = new EventEmitter();
   updateValueProcesos(value:any){
-    this.onChangeProceso.emit(value['id']);
+    this.onChangeProceso.emit(value);
   }
   constructor(
     private fb: FormBuilder,
@@ -114,7 +116,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     private areaMatrizService: AreaMatrizService,
     private areaService: AreaService,
     private procesoMatrizService: ProcesoMatrizService,
-
+    private listaInspeccionService: ListaInspeccionService,
 
 
   ) {
@@ -150,12 +152,93 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     } else {
       this.form?.get('empleadoBasic')?.clearValidators();
     }
+ 
   }
-  areaList: any[] = []
-  areaListActual: any[] = []
-  async cargarArea(eve: any, tipo: string) {
-    console.log(eve);
 
+  
+  onChangeC(event: any, campoNombre: string) {
+    if (campoNombre === 'area') {
+      this.resetLocalidades();
+      this.resetAreas();
+      this.resetProcesos();
+      this.cargarPlantaLocalidad(event);
+    }
+
+    if (campoNombre === 'localidadSv') {
+      this.resetAreas();
+      this.resetProcesos();
+      this.cargarArea(event);
+    }
+
+    if (campoNombre === 'areaSv') {
+      this.resetProcesos();
+      this.cargarProceso(event);
+    }
+  }
+
+  
+  resetLocalidades() {
+    this.form?.get('localidadSv')?.setValue(null);
+    this.localidadesList = []
+  }
+
+  resetAreas() {
+    this.form?.get('areaSv')?.setValue(null);
+    this.areaList = []
+  }
+
+  resetProcesos() {
+    this.form?.get('procesoSv')?.setValue(null);
+    this.procesoList =[]
+  }
+
+  async getArea() {
+    let filterAreaQuery = new FilterQuery();
+    filterAreaQuery.sortField = "id";
+    filterAreaQuery.sortOrder = -1;
+    filterAreaQuery.fieldList = ["id", "nombre"];
+    filterAreaQuery.filterList = [
+      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+      { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
+    ];
+
+    try{
+      const resp: any =  await this.areaService.findByFilter(filterAreaQuery);
+      const divisionList = resp.data.map((element:any)=>({ label: element.nombre, value: element.id}));
+      this.listDivision = divisionList
+    }catch (error) {
+      console.error("Error al cargar las divisiones:", error);
+    }
+
+  }
+
+  localidadesList: any[] = [];
+
+  
+  async cargarPlantaLocalidad(eve: any) {
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id", "localidad"];
+    filterPlantaQuery.filterList = [
+      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
+    ];
+  
+    try {
+      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
+      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+  
+      this.localidadesList = localidadesList;
+    } catch (error) {
+      console.error("Error al cargar las localidades:", error);
+    }
+  }
+
+
+  areaList: any[] = []
+
+  async cargarArea(eve: any) {
+    
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
     filterArea.sortOrder = -1;
@@ -164,60 +247,58 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       'nombre'
     ];
     filterArea.filterList = [
-      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve },
+      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve.toString() },
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
     ];
 
-    let areaList: any = [];
-    await this.areaMatrizService.findByFilter(filterArea).then(async (resp: any) => {
-      resp.data.forEach((element: any) => {
-        areaList.push({ 'name': element.nombre, 'id': element.id }); // Solo agregar el nombre del área
-      });
-    });
+    const resp: any = await this.areaMatrizService.findByFilter(filterArea);
+    const areaList = resp.data.map((element: any) => ({ label: element.nombre, value: element.id }));
 
-    if (tipo === 'Origen') {
-      this.areaList = [...areaList];
-      console.log(areaList)
-    } else {
-      this.areaListActual = [...areaList];
-      console.log(this.areaListActual)
-    }
+    this.areaList = [...areaList];
   }
+
   procesoList: any[] = []
-  procesoListActual: any[] = []
-  async cargarProceso(eve: any, tipo: string) {
+ 
+  async cargarProceso(eve: any) {
     try {
-      console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
-      
-      // Verifica que eve tenga el ID correcto
-      const areaId = eve?.id;
-      console.log("ID del área:", areaId);
-  
       let filterProceso = new FilterQuery();
+      filterProceso.sortField = "id";
+      filterProceso.sortOrder = -1;
       filterProceso.fieldList = ['id', 'nombre'];
       filterProceso.filterList = [
-        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: areaId },
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve },
         { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
       ];
-  
-      console.log("Consulta de procesos con filtro:", filterProceso);
-  
-      let procesoList: any = [];
-      await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
-        console.log("Respuesta de procesos:", resp);
-        procesoList = resp.data.map((element: any) => ({ label: element.nombre, id: element.id }));
-      }).catch(error => {
-        console.error("Error al cargar los procesos:", error);
-        throw error;
-      });
-  
-      if (tipo === 'Origen') {
-        this.procesoList = [...procesoList];
-      } else {
-        this.procesoListActual = [...procesoList];
-      }
+
+      const resp: any = await this.procesoMatrizService.findByFilter(filterProceso);
+      const procesoList = resp.data.map((element: any) => ({ label: element.nombre, value: element.id }))
+      
+      this.procesoList = [...procesoList];
     } catch (error) {
       console.error("Error en cargarProceso:", error);
+    }
+  }
+
+  async cargarLista(eve:any){
+    try {
+      let filterLista = new FilterQuery();
+      filterLista.sortField = "codigo";
+      filterLista.sortOrder = -1;
+      filterLista.fieldList = ['codigo', 'nombre', 'listaInspeccionPK'];
+      filterLista.filterList = [
+        { field: 'procesoSv', criteria: Criteria.EQUALS, value1: eve },
+        {field: 'estado',criteria: Criteria.EQUALS, value1: 'activo'}
+      ];
+
+      const resp: any = await this.listaInspeccionService.findByFilter(filterLista);
+      const listaInspList = resp.data.map((element: any) => ({
+         label:` ${element.codigo} - ${element.nombre} v${element.listaInspeccionPK.version}`, 
+         value: { id: element.listaInspeccionPK.id, version: element.listaInspeccionPK.version },
+        }))
+      
+      this.listasInspeccionList = [...listaInspList];
+    } catch (error) {
+      console.error("Error en cargarLista:", error);
     }
   }
 
@@ -226,6 +307,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     // console.log(changes);
     // }
   }
+
   divisiones: Area[] = [];
   areasOption: {label: string, value: number}[] = [];  // value debe ser number
   
@@ -248,51 +330,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       }
     )
   }
-  localidadesList: any[] = [];
-  localidadesListActual: any = [];
   
-  async cargarPlantaLocalidad(eve: any, tipo: string) {
-    console.log("cargarPlantaLocalidad - Evento:", eve, "Tipo:", tipo);
-    let filterPlantaQuery = new FilterQuery();
-    filterPlantaQuery.sortField = "id";
-    filterPlantaQuery.sortOrder = -1;
-    filterPlantaQuery.fieldList = ["id", "localidad"];
-    filterPlantaQuery.filterList = [
-      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
-    ];
-  
-    try {
-      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
-      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
-      
-      // Almacenar los objetos completos de Localidades
-      if (tipo === 'Origen') {
-        this.localidadesList = localidadesList;
-      } else {
-        this.localidadesListActual = localidadesList;
-      }
-    } catch (error) {
-      console.error("Error al cargar las localidades:", error);
-    }
-  }
   JuntaRegionalList!: SelectItem[];
-  async getArea() {
-    let filterAreaQuery = new FilterQuery();
-    filterAreaQuery.sortField = "id";
-    filterAreaQuery.sortOrder = -1;
-    filterAreaQuery.fieldList = ["id", "nombre"];
-    filterAreaQuery.filterList = [
-      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
-      { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
-    ];
-
-    await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
-      resp.data.forEach((resp2: any) => {
-        this.listDivision.push({ label: resp2.nombre, value: resp2.id })
-      });
-    })
-
-  }
+  
   
 
   onChangeListaInspeccion(event: DropdownChangeEvent) {
@@ -303,6 +343,7 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   }
 
   async loadDataEvento() {
+   
     let filterQuery: FilterQuery = new FilterQuery();
     filterQuery.filterList = [{ criteria: Criteria.EQUALS, field: 'id', value1: this.idProgramacion }]
 
@@ -316,13 +357,14 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     findProgramacion(filterQuery)
       .then((res: any) => {
         let programacion: Programacion = res?.data && res?.data?.length > 0 ? res.data[0] : {} as Programacion;
+       
         console.log('Datos cargados:', programacion);
 
         // console.log(this.listasInspeccionList);
         // console.log(programacion);
         if (programacion.listaInspeccion.estado === 'inactivo') {
           if (!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
-          this.deshabilitar = true;
+          this.deshabilitar = false;
           // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
           let listaInp = {
             label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
@@ -331,21 +373,35 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
           } as SelectItem;
           this.listasInspeccionList.push(listaInp);
         }
+        if(programacion.numeroRealizadas === programacion.numeroInspecciones){
+          this.deshabilitar = true;
+        }
         this.form?.get('id')?.setValue(programacion.id);
         this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
         this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
+      
         this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
         if (this.modulo === 'ISV') {
+          let user = JSON.parse(localStorage.getItem('session')!).usuario.email
+          
+          let responsable = JSON.parse(programacion.empleadoBasic);
+        
+          if(user === responsable.usuarioBasic.email){
+            this.btnInspDisable = false;
+          }else{
+            this.btnInspDisable = true;
+          }  
+   
           this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
           this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
           this.form?.get('areaSv')?.setValue(programacion.areaSv);
           this.form?.get('procesoSv')?.setValue(programacion.procesoSv);
-           this.cargarPlantaLocalidad(this.form?.controls['area'].value, 'Origen');         
-           this.cargarArea(this.form?.controls['localidadSv'].value, 'Origen');
-           this.form?.controls['areaSv'].setValue(this.areaList.find(value => value.id == parseInt(programacion['areaSv'])));
-           this.cargarProceso(this.form?.controls['areaSv'].value, 'Origen')
-          this.form?.controls['procesoSv'].setValue(this.procesoList.find(value => value.id == parseInt(programacion['procesoSv'])));          
+           this.cargarPlantaLocalidad(this.form?.controls['area'].value);         
+           this.cargarArea(this.form?.controls['localidadSv'].value);
+           this.cargarProceso(this.form?.controls['areaSv'].value)
+           this.cargarLista(this.form?.controls['procesoSv'].value)
         } else {
+          this.btnInspDisable = false;
           this.form?.get('area')?.setValue(programacion.area ? programacion.area : null);
           // Puedes agregar más campos específicos para otros módulos aquí
         }
@@ -354,12 +410,6 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         this.form?.get('empleadoBasic')?.setValue(JSON.parse(programacion.empleadoBasic));
         this.form?.get('fechaInicio')?.setValue(new Date(programacion.fecha));
 
-
-
-
-
-
-        
         
       }).catch((e) => {
         throw new Error(e);
@@ -421,18 +471,39 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), programacion);
         } else {
+          this.btnInspDisable = false;
           await this.createOrUpdate(this.programacionService.update.bind(this.programacionService), programacion);
         }
       } else if (this.modulo === 'ISV') {
         if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.create.bind(this.programacionService), programacion);
         } else {
+          let user = JSON.parse(localStorage.getItem('session')!).usuario.email
+          let responsable = JSON.parse(programacion.empleadoBasic);
+          if(user === responsable.usuarioBasic.email){
+            this.btnInspDisable = false;
+          }else{
+            this.btnInspDisable = true;
+          }
           await this.createOrUpdate(this.programacionService.update.bind(this.programacionService), programacion);
+          try {
+            this.loading = true;
+            this.loadDataEvento()
+              .then(() => {
+                this.loading = false;;
+              }).catch((e) => {
+                throw new Error(e);
+              });
+          } catch (e) {
+            this.loading = false;
+            this.messageService.add({ key: 'progEvento', severity: 'error', summary: 'Error', detail: 'Error al buscar inspección' });
+          }
         }
       } else if (this.modulo === 'INPCC') {
         if (this.esNueva) {
           await this.createOrUpdate(this.programacionService.createAuditoria.bind(this.programacionService), programacion);
         } else {
+          this.btnInspDisable = false;
           await this.createOrUpdate(this.programacionService.updateAuditoria.bind(this.programacionService), programacion);
         }
       }
@@ -444,7 +515,16 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   private async createOrUpdate(method: Function, programacion: Programacion) {
     try {
       await method(programacion);
+      
       this.procesarRespuesta(true, this.esNueva ? 'guardar' : 'actualizar');
+      this.loading = true;
+    this.loadDataEvento()
+              .then(() => {
+                this.loading = false;;
+              }).catch((e) => {
+                throw new Error(e);
+              });
+      
     } catch (error) {
       this.procesarRespuesta(false, this.esNueva ? 'guardar' : 'actualizar');
     }
@@ -467,9 +547,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     programacion.area = this.form?.get('area')?.value;
     programacion.empresaAliada = this.form?.get('empresaAliada')?.value;
     programacion.localidad = this.form?.get('localidad')?.value;
-    programacion.localidadSv = this.form?.get('localidadSv')?.value;
-    programacion.areaSv =  this.form?.get('areaSv')?.value?.id;
-    programacion.procesoSv = this.form.get('procesoSv')?.value?.id;
+    programacion.localidadSv = this.form.value.localidadSv;
+    programacion.areaSv =  this.form?.get('areaSv')?.value;
+    programacion.procesoSv = this.form.get('procesoSv')?.value
     programacion.empleadoBasic = JSON.stringify(this.form?.get('empleadoBasic')?.value);
 
     if (!programacion.listaInspeccion.listaInspeccionPK) throw 'Error al procesar programación única'
@@ -581,9 +661,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         localidad: this.form?.get('localidad')?.value,
         numeroInspecciones: this.form?.get('numeroInspecciones')?.value,
         numeroRealizadas: this.form?.get('numeroRealizadas')?.value,
-        localidadSv: this.form?.get('localidadSv')?.value,
-        areaSv: this.form?.get('areaSv')?.value.id,
-        procesoSv: this.form?.get('procesoSv')?.value.id,
+        localidadSv: this.form?.value.localidadSv,
+        areaSv: this.form?.get('areaSv')?.value,
+        procesoSv: this.form?.get('procesoSv')?.value,
         // serie: this.form?.get('serie')?.value
       }
     })
@@ -622,9 +702,9 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
       localidad: this.form?.get('localidad')?.value,
       numeroInspecciones: this.form?.get('numeroInspecciones')?.value,
       numeroRealizadas: this.form?.get('numeroRealizadas')?.value,
-      localidadSv: this.modulo === 'ISV' ? this.form?.get('localidadSv')?.value : 0, // Valor predeterminado
-      areaSv: this.modulo === 'ISV' ? this.form?.get('areaSv')?.value.id : 0, // Valor predeterminado
-      procesoSv: this.modulo === 'ISV' ? this.form?.get('procesoSv')?.value.id : 0 // Valor predeterminado
+      localidadSv: this.modulo === 'ISV' ? this.form?.get('localidadSv')?.value : null,  // Valor predeterminado
+      areaSv: this.modulo === 'ISV' ? this.form?.get('areaSv')?.value : null, // Valor predeterminado
+      procesoSv: this.modulo === 'ISV' ? this.form?.get('procesoSv')?.value : null// Valor predeterminado
     }
 
     this.paramNav.setParametro<Programacion>(programacion);
