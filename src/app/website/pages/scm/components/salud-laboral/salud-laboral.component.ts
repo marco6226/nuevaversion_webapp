@@ -579,6 +579,7 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoNombres: this.saludLaboralSelect.nombreCompletoSL,
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
     }
+    
 
 
     if (!formData.docSolicitado) {
@@ -587,6 +588,7 @@ export class SaludLaboralComponent implements OnInit {
     }
 
     this.seguridad.push(formData);
+    console.log(this.usuarioSolicitado, 'user', this.usuarioSolicitadoSeg);
     this.resetFormSeg();
   }
   saludLaboralMail: any[] = []
@@ -703,19 +705,179 @@ export class SaludLaboralComponent implements OnInit {
     try {
       this.flagSaludLaboralRegistro = true;
       const data: any = await this.scmService.getCaseSL(this.iddt!.toString());
+
       await this.buscarEmpleado({ query: data['usuarioAsignado'] })
       const empleado = this.empleadosList[0];
+      console.log("cargo act", JSON.stringify(data));
       if (typeof empleado === 'object' && empleado !== null) {
+        let empresaNitpivot: empresaNit = { empresa: empleado['empresa'], nit: empleado['nit'], label: empleado['empresa'] }
+        this.empresaForm?.controls['empresa'].setValue(empresaNitpivot);
+
+        let cedula = this.empleadoForm.controls['numeroIdentificacion'].setValue(empleado['numeroIdentificacion'])
+        this.empleadoForm.controls['area'].setValue(empleado['area'])
+
+        this.empleadoForm.controls['cargoId'].setValue(empleado['cargo'])
+        this.empleadoForm.controls['perfilesId'].setValue(empleado['id'])
+        this.empleadoForm.controls['tipoIdentificacion'].setValue(empleado['tipoIdentificacion']?.id)
+        this.empleadoForm.controls['primerNombre'].setValue(empleado['primerNombre'])
+        this.empleadoForm.controls['segundoNombre'].setValue(empleado['segundoNombre'])
+        this.empleadoForm.controls['primerApellido'].setValue(empleado['primerApellido'])
+        this.empleadoForm.controls['segundoApellido'].setValue(empleado['segundoApellido'])
+        //this.empleadoForm.controls['division'].setValue(empleado['division'])
+        //this.empleadoForm.controls['division'].setValue(parseInt(data['divisionOrigen']));
+        this.nameAndLastName = empleado['primerNombre'] + ' ' + empleado['primerApellido']
+        this.empleadoForm.controls['genero'].setValue(empleado['genero']);
+        this.empleadoForm.controls['fechaNacimiento'].setValue(new Date(empleado['fechaNacimiento']));
+        this.empleadoForm.controls['fechaIngreso'].setValue(new Date(empleado['fechaIngreso']));
+        this.empleadoForm.controls['corporativePhone'].setValue(empleado['corporativePhone']);
+        this.empleadoForm.controls['direccion'].setValue(empleado['direccion']);
+        this.empleadoForm.controls['zonaResidencia'].setValue(empleado['zonaResidencia']);
+        this.empleadoForm.controls['telefono1'].setValue(empleado['telefono1']);
+        this.empleadoForm.controls['telefono2'].setValue(empleado['telefono2']);
+        this.empleadoForm.controls['correoPersonal'].setValue(empleado['correoPersonal']);
+        this.empleadoForm.controls['eps'].setValue(empleado['eps']['id']);
+        this.empleadoForm.controls['afp'].setValue(empleado['afp']['id']);
+        this.arl = this.empresa?.arl == null ? null : this.empresa.arl.nombre;
+        this.empleadoForm.controls['emailEmergencyContact'].setValue(empleado['emailEmergencyContact']);
+        this.empleadoForm.controls['phoneEmergencyContact'].setValue(empleado['phoneEmergencyContact']);
+        this.empleadoForm.controls['emergencyContact'].setValue(empleado['emergencyContact']);
+
+        console.log("aca va el jefe");
+
+        const jefeInmediato = empleado['jefeInmediato'] ?? {};
+        const jefe = empleado['usuario'];
+        console.log(jefeInmediato);
+
+        this.jefeInmediato.controls['numeroIdentificacion'].setValue(jefeInmediato['numeroIdentificacion'] ?? 'SIN INFORMACIÓN');
+        this.jefeNames = jefeInmediato['primerNombre'] + ' ' + jefeInmediato['primerApellido'] ?? 'sin informacion';
+        //this.jefeInmediato.controls['cargoId'].setValue(jefeInmediato['cargo']['id'])
+        this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION')
+        this.empleadoForm.controls['email'].setValue(jefe['email']);
+        await this.onEntidadChange({ value: data['entidadEmiteCalificacion'] })
+        console.log(this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] }), 'dettallecalificacion');
+
+        this.empleadoForm.controls['entidadEmiteCalificacion'].setValue(data['entidadEmiteCalificacion']);
+        var a = this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] })
+        console.log(a?.value, "a");
+
+
+        this.empleadoForm.controls['epsDictamen'].setValue(a?.value);
+
+        this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value);
+        console.log("calif", this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value));
+        this.empleadoForm.controls['otroDetalle'].setValue(data['otroDetalle']);
+
+
+
+        console.log(this.empleadoForm.controls['detalleCalificacion']);
+
+
+        if (data['fechaCierreCaso'] != null && data['fechaCierreCaso'] != undefined) {
+          const formattedDate = new Date(data['fechaCierreCaso']);
+          this.empleadoForm.controls['fechaCierreCaso'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaCierreCaso'].setValue(null);
+        }
+        console.log("fecha cierre", this.empleadoForm.controls['fechaCierreCaso']);
+
+        if (data['fechaRecepcionDocs'] != null && data['fechaRecepcionDocs'] != undefined) {
+          const formattedDate = new Date(data['fechaRecepcionDocs']);
+          this.empleadoForm.controls['fechaRecepcionDocs'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaRecepcionDocs'].setValue(null);
+        }
+        console.log("fecha recept", this.empleadoForm.controls['fechaRecepcionDocs']);
+
+        if (data['fechaMaximaEnvDocs'] != null && data['fechaMaximaEnvDocs'] != undefined) {
+          const formattedDate = new Date(data['fechaMaximaEnvDocs']);
+          this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(null);
+        }
+        console.log("fecha max", this.empleadoForm.controls['fechaMaximaEnvDocs']);
+
+        if (data['fechaNotificacionEmp'] != null && data['fechaNotificacionEmp'] != undefined) {
+          const formattedDate = new Date(data['fechaNotificacionEmp']);
+          this.empleadoForm.controls['fechaNotificacionEmp'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaNotificacionEmp'].setValue(null);
+        }
+        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionEmp']);
+        if (data['fechaNotificacionMin'] != null && data['fechaNotificacionMin'] != undefined) {
+          const formattedDate = new Date(data['fechaNotificacionMin']);
+          this.empleadoForm.controls['fechaNotificacionMin'].setValue(formattedDate);
+        } else {
+          this.empleadoForm.controls['fechaNotificacionMin'].setValue(null);
+        }
+        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionMin']);
+
+
+
+
+        //console.log("empresa que me trae;:",this.empleadoForm.controls['empresa'].setValue(empleado['empresa']));
+
+
+        const usuario = empleado['usuario'];
+        this.empleadoForm.controls['email'].setValue(usuario['email']);
+
+
+        let fecha = moment(empleado.fechaIngreso);
+        let fechaNacimiento = moment(empleado.fechaNacimiento);
+        let antigueMoment = fecha.diff(moment.now(), "years") * -1;
+        this.edad = `${fechaNacimiento.diff(moment.now(), "year") * -1} Años`;
+
+        this.antiguedad = ` ${antigueMoment} Años`;
+        if (antigueMoment === 0) {
+          this.range = 'Menor a 1 año'
+        }
+        for (let j = 0; j < this.rangoAntiguedad.length; j++) {
+          let subArray = this.rangoAntiguedad[j].range.split(',')
+          let a = subArray.find(range => range === antigueMoment.toString())
+
+          if (a) {
+            this.range = this.rangoAntiguedad[j].label;
+          }
+        }
+
+
+
+      }
+
+      if (typeof data === 'object' && data !== null) {
+        this.empleadoForm.controls['cargoOriginal'].setValue(parseInt(data['cargoOriginal']));
+        this.empleadoForm.controls['cargoActual'].setValue(parseInt(data['cargoActual']));
+        this.empleadoForm.controls['divisionOrigen'].setValue(parseInt(data['divisionOrigen']));
+        this.empleadoForm.controls['divisionActual'].setValue(parseInt(data['divisionActual']));
+        this.empleadoForm.controls['localidadOrigen'].setValue(parseInt(data['localidadOrigen']));
+        this.empleadoForm.controls['localidadActual'].setValue(parseInt(data['localidadActual']));
+        this.empleadoForm.controls['procesoOrigen'].setValue(parseInt(data['procesoOrigen']));
+        this.empleadoForm.controls['procesoActual'].setValue(parseInt(data['procesoActual']));
+
+        // Llamar a cargarPlantaLocalidad para actualizar las localidades
+        await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionOrigen'].value, 'Origen');
+        await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionActual'].value, 'Actual');
+        await this.cargarArea(this.empleadoForm.controls['localidadOrigen'].value, 'Origen')
+        this.empleadoForm.controls['areaOrigen'].setValue(this.areaList.find(value => value.id == parseInt(data['areaOrigen'])));
+        await this.cargarArea(this.empleadoForm.controls['localidadActual'].value, 'Actual')
+        this.empleadoForm.controls['areaActual'].setValue(this.areaListActual.find(value => value.id == parseInt(data['areaActual'])));
+        await this.cargarProceso(this.empleadoForm.controls['areaOrigen'].value, 'Origen')
+        this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoOrigen'])));
+        await this.cargarProceso(this.empleadoForm.controls['areaActual'].value, 'Actual')
+        this.empleadoForm.controls['procesoActual'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoActual'])));
+
+
+
+
       } setTimeout(() => {
         this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
         this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
+        console.log('LACONSULTA', this.saludLaboralSelect);
         this.loadDocumentosCaseDT();
         this.loadDocumentosEmp();
         this.loadDocumentosArl();
         this.loadDocumentosMin();
         this.loadDocumentosJn();
         this.loadDocumentosJr();
-
       }, 2000);
 
 
@@ -1235,63 +1397,63 @@ export class SaludLaboralComponent implements OnInit {
 
   envioExitoso = false;
 
-  //   async onSubmit() {
-  //     if (this.empleadoForm.valid) {
-  //         let body = { ...this.empleadoForm.value };
+    async onSubmit() {
+      if (this.empleadoForm.valid) {
+          let body = { ...this.empleadoForm.value };
 
-  //         // Actualizar los campos según sea necesario
-  //         body.procesoActual = body.procesoActual?.id || body.procesoActual;
-  //         body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
-  //         body.areaActual = body.areaActual?.id || body.areaActual;
-  //         body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
-  //         body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
+          // Actualizar los campos según sea necesario
+          body.procesoActual = body.procesoActual?.id || body.procesoActual;
+          body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
+          body.areaActual = body.areaActual?.id || body.areaActual;
+          body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
+          body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
 
-  //         if (Array.isArray(body.pkUser)) {
-  //             body.pkUser = body.pkUser[0];
-  //         }
-  //         if (body.epsDictamen && body.epsDictamen.value) {
-  //             body.epsDictamen = body.epsDictamen.value;
-  //         }
-  //         if (body.arlDictamen && body.arlDictamen.value) {
-  //             body.arlDictamen = body.arlDictamen.value;
-  //         }
-  //         if (body.jrDictamen && body.jrDictamen.value) {
-  //             body.jrDictamen = body.jrDictamen.value;
-  //         }
+          if (Array.isArray(body.pkUser)) {
+              body.pkUser = body.pkUser[0];
+          }
+          if (body.epsDictamen && body.epsDictamen.value) {
+              body.epsDictamen = body.epsDictamen.value;
+          }
+          if (body.arlDictamen && body.arlDictamen.value) {
+              body.arlDictamen = body.arlDictamen.value;
+          }
+          if (body.jrDictamen && body.jrDictamen.value) {
+              body.jrDictamen = body.jrDictamen.value;
+          }
 
-  //         // Limpia el formulario según sea necesario
-  //         body = this.prepareFormData(body);
+          // Limpia el formulario según sea necesario
+          body = this.prepareFormData(body);
 
-  //         try {
-  //             const response = await (this.iddt !== undefined 
-  //                 ? this.casoMedico.putCaseSL(this.iddt, body) 
-  //                 : this.casoMedico.createDT(body));
+          try {
+              const response = await (this.iddt !== undefined 
+                  ? this.casoMedico.putCaseSL(this.iddt, body) 
+                  : this.casoMedico.createDT(body));
 
-  //             if (response) {
-  //                 this.showSuccessToast();
-  //                 // Recargar los datos después de crear/actualizar el caso
-  //                 this.lazyLoad({ sortField: 'fechaCreacion', sortOrder: -1, first: 0, rows: 10, filters: {} });
-  //             }
-  //         } catch (error) {
-  //             console.error('Error al enviar el empleado:', error);
-  //             this.msgs = [];
-  //             this.messageService.add({
-  //                 key: 'formScmSL',
-  //                 severity: "error",
-  //                 summary: "Error al enviar empleado",
-  //                 detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
-  //             });
-  //         }
-  //     } else {
-  //         this.msgs = [];
-  //         this.messageService.add({
-  //             key: 'formScmSL',
-  //             severity: "error",
-  //             summary: "Usuario no creado",
-  //             detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
-  //         });
-  //     }
-  // }
+              if (response) {
+                  this.showSuccessToast();
+                  // Recargar los datos después de crear/actualizar el caso
+                  this.lazyLoad({ sortField: 'fechaCreacion', sortOrder: -1, first: 0, rows: 10, filters: {} });
+              }
+          } catch (error) {
+              console.error('Error al enviar el empleado:', error);
+              this.msgs = [];
+              this.messageService.add({
+                  key: 'formScmSL',
+                  severity: "error",
+                  summary: "Error al enviar empleado",
+                  detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
+              });
+          }
+      } else {
+          this.msgs = [];
+          this.messageService.add({
+              key: 'formScmSL',
+              severity: "error",
+              summary: "Usuario no creado",
+              detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
+          });
+      }
+  }
 
 
 
@@ -1527,7 +1689,8 @@ export class SaludLaboralComponent implements OnInit {
     try {
       const data = await this.scmService.findAllByIdMailUser(param, user);
       this.documentacionListUser = data;
-      this.loadDocumentosSL(); // Asigna los datos a documentacionList
+      this.loadDocumentosSL();
+      this.loadDocumentos(); // Asigna los datos a documentacionList
 
       console.log("datos", data);
 
@@ -1539,23 +1702,69 @@ export class SaludLaboralComponent implements OnInit {
 
   documentoId: any[] = [];
 
-  async onUpload(event: Directorio) {
+  // async onUpload(event: Directorio) {
 
-    if (this.documentosSl == null) {
-      this.documentosSl = [];
+  //   if (this.documentosSl == null) {
+  //     this.documentosSl = [];
+  //   }
+  //   if (this.directoriosSl == null) {
+  //     this.directoriosSl = [];
+  //   }
+
+  //   try {
+  //     this.directoriosSl.push(event);
+  //     this.documentosSl.push(event.documento!);
+  //     let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+
+  //     this.documentoId.push(event.documento!.id);
+  //     this.documentacionListUser[index].documentosSl = this.documentoId;
+
+
+  //     // Llamada para actualizar la tabla mail_saludlaboral
+  //     await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
+  //     this.putmaildocsEnviados();
+  //     this.loadMailData(this.idSl);
+
+  //     // Mostrar mensaje de éxito
+  //     this.messageService.add({
+  //       // this.msgs.push({
+  //       key: 'formScmSL',
+  //       severity: "success",
+  //       summary: "Usuario actualizado",
+  //       detail: `Documentacion Adjuntada`,
+  //     });
+
+  //   } catch (error) {
+  //     console.error(error);
+
+  //     // Mostrar mensaje de error
+  //     this.messageService.add({
+  //       // this.msgs.push({
+  //       key: 'formScmSL',
+  //       severity: "warn",
+  //       summary: "Usuario actualizado",
+  //       detail: `Documentacion no Adjuntada revisa`,
+  //     });
+  //   }
+  // }
+  async onUpload(event: Directorio) {
+    if (this.documentos == null) {
+      this.documentos = [];
     }
-    if (this.directoriosSl == null) {
-      this.directoriosSl = [];
+    if (this.directorios == null) {
+      this.directorios = [];
     }
 
     try {
-      this.directoriosSl.push(event);
-      this.documentosSl.push(event.documento!);
+      this.directorios.push(event);
+      this.documentos.push(event.documento!);
       let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+      console.log("INDEXXXXX", index);
 
       this.documentoId.push(event.documento!.id);
-      this.documentacionListUser[index].documentosSl = this.documentoId;
+      this.documentacionListUser[index].documentos = this.documentoId;
 
+      console.log('el directorio', this.directorios);
 
       // Llamada para actualizar la tabla mail_saludlaboral
       await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
@@ -1584,7 +1793,6 @@ export class SaludLaboralComponent implements OnInit {
       });
     }
   }
-
   documentotoIDT: any[] = [];
   async onUploadCaseDT(event: Directorio) {
 
@@ -1827,52 +2035,44 @@ export class SaludLaboralComponent implements OnInit {
   }
 
   eliminarDocument(doc: Documento) {
+    // Verifica si el estado del caso es 'Aprobado' (estadoCorreo === 4)
+    if (this.documentacionSelectUser.estadoCorreo === 4) {
+        this.messageService.add({
+            key: 'formScmSL',
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'No se puede eliminar un documento de un caso aprobado.'
+        });
+        return; // Salir de la función sin hacer nada más
+    }
+
     this.confirmationService.confirm({
-      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
-      header: 'Confirmar',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.deleteDocument(this.documentacionSelectUser.id, doc.id),
-          this.directorioService.eliminarDocumento(doc.id).then(
-            data => {
-              this.directorios = this.directorios.filter(val => val.id !== doc.id);
-              let docIds: string[] = [];
+        message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+        header: 'Confirmar',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this.deleteDocument(this.documentacionSelectUser.id, doc.id),
+            this.directorioService.eliminarDocumento(doc.id).then(
+                data => {
+                    this.directorios = this.directorios.filter(val => val.id !== doc.id);
+                    let docIds: string[] = [];
 
-              this.directorios.forEach(el => {
-                docIds.push(el.id!);
-              });
-              this.messageService.add({
-                // this.msgs.push({
-                key: 'formScmSL',
-                severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
-              });
-            }
-
-          ).catch(err => {
-            if (err.status !== 404) {
-              // Si el error no es 404, maneja otros posibles errores.
-              this.messageService.add({
-                // this.msgs.push({
-                key: 'formScmSL',
-                severity: "warn",
-                summary: "Usuario actualizado",
-                detail: `No se pudo eliminar el documento`,
-              });
-            }
-
-            // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
-            this.directorios = this.directorios.filter(val => val.id !== doc.id);
-            let docIds: string[] = [];
-
-            this.directorios.forEach(el => {
-              docIds.push(el.id!);
-            });
-          });
-      }
+                    this.directorios.forEach(el => {
+                        docIds.push(el.id!);
+                    });
+                    this.messageService.add({
+                        key: 'formScmSL',
+                        severity: 'success',
+                        summary: 'Documento eliminado',
+                        detail: `El documento ha sido retirado exitosamente.`,
+                    });
+                    this.loadMailData(this.pkuser);
+                }
+            )
+        }
     });
-  }
+}
+
   eliminarDocumentCaseDT(doc: Documento) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',

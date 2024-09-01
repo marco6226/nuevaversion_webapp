@@ -135,10 +135,11 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
           docum.forEach((algo: string) => {
             const promise = this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
               this.directorios.push(elem[0]);
+              console.log("que llega en el promise:",elem[0]);
               this.cd.detectChanges(); // Forzar la detección de cambios aquí
             });
             promises.push(promise);
-            console.log("que llega en el promise:",element);
+           
           });
         }
       });
@@ -185,9 +186,35 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
   }
 
   onEditState(iddt: string | number, body: any): void {
+    if (this.documentacionSelectSolicitado.estadoCorreo === 4) {
+      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
+      
+        this.messageService.add({
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'El documento ya se encuentra aprobado.'
+        });
+        this.dialogRechazoFlag = false;
+        return; // Salir de la función sin hacer nada más
+    }
+    if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
+      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
+      
+        this.messageService.add({
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'El documento no puede ser aprobado hasta ser recibido.'
+        });
+        this.dialogRechazoFlag = false;
+        return; // Salir de la función sin hacer nada más
+    }
     this.scmService.putStateApr(iddt, body).then(
       response => {
-        console.log('Respuesta del servidor:', response);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Documento Aprobado',
+          detail: 'El documento ha sido aprobado.'
+      });
         this.loadMailData(this.pkuser);
       },
       error => {
@@ -197,6 +224,17 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
   }
 
   putmailSoliictante() {
+    if (this.documentacionSelectSolicitado.estadoCorreo === 4) {
+      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
+      
+        this.messageService.add({
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'No se puede rechazar un documento ya aprobado.'
+        });
+        this.dialogRechazoFlagSolicitante = false;
+        return; // Salir de la función sin hacer nada más
+    }
     if (!this.motivoRechazoSolicitante.trim()) {
       console.error("El motivo de rechazo no puede estar vacío");
       return;
@@ -218,7 +256,7 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
       this.casoMedico.putCaseMailSolicitante(selectedIdSoli, body).then((response) => {
         if (response) {
           console.log("Actualización exitosa");
-          this.dialogRechazoFlag = false;
+          this.dialogRechazoFlagSolicitante = false;
           this.loadMailData(this.pkuser);
         } else {
           console.error("Error en la actualización");

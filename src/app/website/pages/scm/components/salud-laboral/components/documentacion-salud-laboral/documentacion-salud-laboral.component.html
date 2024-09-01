@@ -436,7 +436,6 @@
                 title="Subir documento"
                 class="p-button-info margin-left margin-right"
                 (click)="openUploadDialog(case.id, case.documentos)"
-               
               ></button>
             </ng-container>
             <s-documentoUpload
@@ -454,7 +453,6 @@
                   <table
                     class="caption-top"
                     *ngIf="doc?.documento?.proceso == 'cargaDocumentosSL' + case.id"
-
                   >
                     <p>Soportes:</p>
                     <thead>
@@ -466,20 +464,19 @@
                     <tbody>
                       <tr>
                         <td>
-                          <span class="document-name">{{
-                            doc.documento.descripcion
-                          }}</span>
+                          <span class="document-name">{{ doc.documento.descripcion }}</span>
                         </td>
                         <td>
                           <a>&nbsp;</a>
                           <a
                             type="button"
-                            [ariaDisabled]="true"
+                            [disabled]="case.estadoCorreo === 4"
                             class="btn btn-outline-danger"
                             title="Eliminar documento"
                             (click)="eliminarDocument(doc)"
-                            ><span class="pi pi-trash"></span
-                          ></a>
+                          >
+                            <span class="pi pi-trash"></span>
+                          </a>
                         </td>
                       </tr>
                     </tbody>
@@ -488,6 +485,8 @@
               </div>
             </div>
           </td>
+          
+          
         </tr>
       </ng-template>
 
@@ -499,7 +498,7 @@
           label="Rechazar"
           class="p-button-danger margin-left margin-right"
           [disabled]="!documentacionSelectUser"
-          (click)="dialogRechazoFlag = true; getSelectedId(); setStylePDialog()"
+          (click)="dialogRechazoFlag = true; getSelectedId();"
         ></button>
       </ng-template>
       <ng-template pTemplate="emptymessage">

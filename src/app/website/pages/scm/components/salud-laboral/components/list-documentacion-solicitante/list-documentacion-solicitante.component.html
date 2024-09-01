@@ -340,11 +340,12 @@ dataKey="id"
                     <tbody>
                       <tr>
                         <td>
+                          {{doc}}
                           <a
                             type="button"
                             class="btn btn-outline-primary"
-                            (click)="descargarDocumento(doc.documento)"
-                            >{{ doc.documento.descripcion }}</a
+                            (click)="descargarDocumento(doc?.documento??'')"
+                            >{{ doc?.documento?.descripcion??'No exito freddy uwu' }}</a
                           >
                         </td>
                       </tr>
@@ -391,7 +392,7 @@ dataKey="id"
               !documentacionSelectSolicitado.documentos ||
               documentacionSelectSolicitado.documentos.length === 0
             "
-            (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
+            (click)="dialogRechazoFlagSolicitante = true;"
           ></button>
         </div>
       </ng-template>

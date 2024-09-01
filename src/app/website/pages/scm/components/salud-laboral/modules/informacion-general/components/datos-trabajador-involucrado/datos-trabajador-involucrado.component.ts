@@ -666,7 +666,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     });
   }
 
-  onSubmitSL() {
+  onSubmit() {
     console.log('Formulario antes de validación:', this.empleadoForm.controls);
 
     // Excluir cargoId del formulario

@@ -171,10 +171,15 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             return 'Enviado';
           case 4:
             return 'Aprobado';
+          case 5:
+            return 'Eliminado';
           default:
             return 'Desconocido';
         }
       }
+      
+
+      
    
       getSelectedId() {
         if (this.documentacionSelectUser) {
@@ -198,7 +203,45 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
     
     
       }
+      // async onUpload(event: Directorio) {
+      //   if (this.documentos == null) {
+      //     this.documentos = [];
+      //   }
+      //   if (this.directorios == null) {
+      //     this.directorios = [];
+      //   }
+    
+      //   this.directorios.push(event);
+    
+    
+      //   this.documentos.push(event.documento!);
+      //   let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+      //   console.log("INDEXXXXX", index);
+    
+      //   this.documentoId.push(event.documento!.id);
+      //   this.documentacionListUser[index].documentos = this.documentoId;
+    
+    
+      //   console.log('el directorio', this.directorios);
+    
+      //   // Llamada para actualizar la tabla mail_saludlaboral
+      //   await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
+      //   this.putmaildocsEnviados();
+      //   //this.loadMailData(this.idSl);
+    
+      // }
       async onUpload(event: Directorio) {
+        if (this.documentacionSelectUser.estadoCorreo === 2) {
+          console.log(this.documentacionSelectUser.estadoCorreo, "state");
+          
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Acción no permitida',
+                detail: 'No se puede adjuntar un documento a un caso rechazado.'
+            });
+            this.dialogRechazoFlag = false;
+            return; // Salir de la función sin hacer nada más
+        }
         if (this.documentos == null) {
           this.documentos = [];
         }
@@ -206,29 +249,45 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
           this.directorios = [];
         }
     
-        this.directorios.push(event);
+        try {
+          this.directorios.push(event);
+          this.documentos.push(event.documento!);
+          let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+          console.log("INDEXXXXX", index);
     
+          this.documentoId.push(event.documento!.id);
+          this.documentacionListUser[index].documentos = this.documentoId;
     
-        this.documentos.push(event.documento!);
-        let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
-        console.log("INDEXXXXX", index);
+          console.log('el directorio', this.directorios);
     
-        this.documentoId.push(event.documento!.id);
-        this.documentacionListUser[index].documentos = this.documentoId;
+          // Llamada para actualizar la tabla mail_saludlaboral
+          await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
+          this.putmaildocsEnviados();
+          this.lazyLoad(event);
     
+          // Mostrar mensaje de éxito
+          this.messageService.add({
+            // this.msgs.push({
+            key: 'formScmSL',
+            severity: "success",
+            summary: "Usuario actualizado",
+            detail: `Documentacion Adjuntada`,
+          });
     
-        console.log('el directorio', this.directorios);
+        } catch (error) {
+          console.error(error);
     
-        // Llamada para actualizar la tabla mail_saludlaboral
-        await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
-        this.putmaildocsEnviados();
-        //this.loadMailData(this.idSl);
-    
+          // Mostrar mensaje de error
+          this.messageService.add({
+            // this.msgs.push({
+            key: 'formScmSL',
+            severity: "warn",
+            summary: "Usuario actualizado",
+            detail: `Documentacion no Adjuntada revisa`,
+          });
+        }
       }
-      setStylePDialog(){
-        const elemento = this.el.nativeElement.querySelector('.p-dialog');
-        this.renderer.setStyle(elemento, 'margin-top', '400px');
-      }
+      
       async updateMailSaludLaboral(docId: number, documentoId: String) {
         try {
           await this.scmService.updateMailSaludLaboral(docId, documentoId);
@@ -258,7 +317,30 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
           console.error("No hay un caso seleccionado");
         }
       }
+      
       putmail() {
+        if (this.documentacionSelectUser.estadoCorreo === 2) {
+          console.log(this.documentacionSelectUser.estadoCorreo, "state");
+          
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Acción no permitida',
+                detail: 'No se puede rechazar un documento que ya ha sido rechazado.'
+            });
+            this.dialogRechazoFlag = false;
+            return; // Salir de la función sin hacer nada más
+        }
+        if (this.documentacionSelectUser.estadoCorreo === 4) {
+          console.log(this.documentacionSelectUser.estadoCorreo, "state");
+          
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Acción no permitida',
+                detail: 'No se puede rechazar un documento de un caso aprobado.'
+            });
+            this.dialogRechazoFlag = false;
+            return; // Salir de la función sin hacer nada más
+        }
         if (!this.motivoRechazo.trim()) {
           console.error("El motivo de rechazo no puede estar vacío");
           return;
@@ -275,6 +357,8 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             if (response) {
               console.log("Actualización exitosa");
               this.dialogRechazoFlag = false;
+              this.lazyLoad(event);
+              //this.loadMailData(this.pkuser)
             } else {
               console.error("Error en la actualización");
             }
@@ -286,43 +370,70 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         }
       }
       eliminarDocument(doc: Documento) {
+        // Verifica si el estado del caso es 'Aprobado' (estadoCorreo === 4)
+        if (this.documentacionSelectUser.estadoCorreo === 4) {
+            console.log(this.documentacionSelectUser.estadoCorreo, "state");
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Acción no permitida',
+                detail: 'No se puede eliminar un documento de un caso aprobado.'
+            });
+            return; // Salir de la función sin hacer nada más
+        }
+    
         console.log(doc.nombre);
-        
+    
+        if (!doc || !doc.id) {
+            console.error('El documento no tiene un ID válido:', doc);
+            return;
+        }
+    
         this.confirmationService.confirm({
-          message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
-          header: 'Confirmar',
-          icon: 'pi pi-exclamation-triangle',
-          accept: () => {
-            this.deleteDocument(this.documentacionSelectUser.id, doc.id),
-              this.directorioService.eliminarDocumento(doc.id).then(
-                data => {
-                  this.directorios = this.directorios.filter(val => val.id !== doc.id);
-                  let docIds: string[] = [];
+            message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+            header: 'Confirmar',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.deleteDocument(this.documentacionSelectUser.id, doc.id);
+                this.directorioService.eliminarDocumento(doc.id).then(
+                    data => {
+                        // Filtrar solo si val tiene un id válido
+                        this.directorios = this.directorios.filter(val => val.id && val?.id! !== doc?.id!);
+                        let docIds: string[] = [];
     
-                  this.directorios.forEach(el => {
-                    docIds.push(el.id!);
-                  });
-                  console.log("que trae dosid", docIds);
-                }
+                        this.directorios.forEach(el => {
+                            if (el.id) {
+                                docIds.push(el.id!);
+                            }
+                        });
+                        this.messageService.add({
+                severity: 'success',
+                summary: 'Documento Eliminado',
+                detail: 'El documento ha sido retirado.'
+            });
+            this.lazyLoad(event);
+                       
+                    }
+                ).catch(err => {
+                    if (err.status !== 404) {
+                        console.error('Error al eliminar el documento:', err);
+                    }
     
-              ).catch(err => {
-                if (err.status !== 404) {
-                  // Si el error no es 404, maneja otros posibles errores.
-                  console.error('Error al eliminar el documento:', err);
-                }
+                    // Elimina el documento localmente en caso de error
+                    // this.directorios = this.directorios.filter(val => val.id && val.id !== doc.id);
+                    // let docIds: string[] = [];
     
-                // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
-                this.directorios = this.directorios.filter(val => val.id !== doc.id);
-                let docIds: string[] = [];
-    
-                this.directorios.forEach(el => {
-                  docIds.push(el.id!);
+                    // this.directorios.forEach(el => {
+                    //     if (el.id) {
+                    //         docIds.push(el.id);
+                    //     }
+                    // });
+                    // console.log("que trae docIds", docIds);
                 });
-                console.log("que trae dosid", docIds);
-              });
-          }
+            }
         });
-      }
+    }
+    
+    
       deleteDocument(diagId: string | number, docId: string | number) {
         console.log(diagId, docId);
         

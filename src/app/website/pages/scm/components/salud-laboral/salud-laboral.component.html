@@ -4,7 +4,10 @@
 
 <p-tabView>
   <p-tabPanel header="Información General" *sTienePermiso="'SCM_GET_ICSL'">
-    <app-datos-trabajador-involucrado (updateFilterTotable)="updateFilter($event)" (researchFilter)="updateFilterEmpty()"></app-datos-trabajador-involucrado>
+    <app-datos-trabajador-involucrado
+      (updateFilterTotable)="updateFilter($event)"
+      (researchFilter)="updateFilterEmpty()"
+    ></app-datos-trabajador-involucrado>
 
     <br />
 
@@ -16,7 +19,12 @@
       *ngIf="!flagSaludLaboralRegistro"
     >
       <p-table
-        *ngIf="!caseSelect && !createCase && cedulaFilter!=null && cedulaFilter!=undefined"
+        *ngIf="
+          !caseSelect &&
+          !createCase &&
+          cedulaFilter != null &&
+          cedulaFilter != undefined
+        "
         #dt
         styleClass="material-table"
         [value]="saludLaboralList"
@@ -202,96 +210,6 @@
     <ng-container *sTienePermiso="'SCM_POST_SDCSL'">
       <p-tabPanel *ngIf="flagSaludLaboralRegistro" header="Documentación">
         <p-accordion [multiple]="true">
-          <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
-            <!-- Otros campos del formulario -->
-
-            <p-accordionTab
-              header="Fecha recepción de solicitud de documentación"
-            >
-              <div class="form-row mt-3">
-                <div class="col-12">
-                  <label for="fechaLimite"
-                    >Fecha recepción de solicitud de documentación:</label
-                  >
-                  <p-calendar
-                    id="fechaLimite"
-                    appendTo="body"
-                    [monthNavigator]="true"
-                    [yearNavigator]="true"
-                    [yearRange]="yearRange"
-                    [maxDate]="fechaActual"
-                    formControlName="fechaRecepcionDocs"
-                    dateFormat="dd/mm/yy"
-                  ></p-calendar>
-                </div>
-                <div class="col">
-                  <div class="input-field">
-                    <label for="" class="active"
-                      >Entidad que solicita la documentación</label
-                    >
-                    <p-dropdown
-                      appendTo="body"
-                      [filter]="true"
-                      [options]="emitPclentity"
-                      formControlName="entidadEmiteCalificacion"
-                      class="select-material"
-                      styleClass="select-material"
-                      [readonly]="action"
-                      (onChange)="onEntidadChange($event)"
-                    >
-                    </p-dropdown>
-                  </div>
-                </div>
-
-                <!-- Campo de texto para "Otros" -->
-                <div class="col" *ngIf="selectedEntidad === 'otros'">
-                  <div class="input-field">
-                    <label for="" class="active"
-                      >Escriba la entidad que solicito la documentación</label
-                    >
-                    <input
-                      type="text"
-                      formControlName="otroDetalle"
-                      class="form-control"
-                    />
-                  </div>
-                </div>
-
-                <!-- Dropdown para detalles -->
-                <div class="col" *ngIf="isDetalleEnabled">
-                  <div class="input-field">
-                    <label for="" class="active">Entidad</label>
-                    <p-dropdown
-                      appendTo="body"
-                      [filter]="true"
-                      [options]="detalleOptions"
-                      formControlName="detalleCalificacion"
-                      class="select-material"
-                      styleClass="select-material"
-                    >
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <label for="fechaLimite"
-                    >Fecha maxima de envio para solicitud de
-                    documentación:</label
-                  >
-                  <p-calendar
-                    id="fechaLimite"
-                    appendTo="body"
-                    [monthNavigator]="true"
-                    [yearNavigator]="true"
-                    [yearRange]="yearRange"
-                    [maxDate]="fechaActual"
-                    formControlName="fechaMaximaEnvDocs"
-                    dateFormat="dd/mm/yy"
-                  ></p-calendar>
-                </div>
-              </div>
-            </p-accordionTab>
-          </form>
-
           <p-accordionTab header="GH Admon personal">
             <div *ngIf="flag1" class="container-fluid">
               <div class="form-row">
@@ -388,6 +306,7 @@
                         "
                         (completeMethod)="buscarEmpleado($event)"
                         [(ngModel)]="item.usuarioSolicitado"
+                        [disabled]="true"
                       >
                         <ng-template let-empleado pTemplate="item">
                           <div class="ui-helper-clearfix">
@@ -519,7 +438,7 @@
                   <div class="col-12">
                     <h5>Correos para enviar:</h5>
                     <div
-                      *ngFor="let item of seguridad"
+                      *ngFor="let item of seguridad; let i = index"
                       class="form-group saved-item"
                     >
                       <div class="saved-item-content">
@@ -530,10 +449,11 @@
                           [style]="{ width: '100%' }"
                           [suggestions]="empleadoListSegu"
                           (onSelect)="
-                            selectResonsableSelectedSeg($event, 'res2', item)
+                            selectResonsableSelected($event, 'res2', item)
                           "
                           (completeMethod)="buscarEmpleado2($event)"
                           [(ngModel)]="item.usuarioSolicitado"
+                          [disabled]="true"
                         >
                           <ng-template let-empleado pTemplate="item">
                             <div class="ui-helper-clearfix">
@@ -626,7 +546,7 @@
                       >Tipo de documento a solicitar:</label
                     >
                     <p-dropdown
-                    [style]="{'width':'100%'}"
+                      [style]="{ width: '100%' }"
                       id="tipoDocumentoSaludLaboral"
                       [options]="docSaludLaboral"
                       [(ngModel)]="selectedDocSaludLaboral"
@@ -673,10 +593,11 @@
                           [style]="{ width: '100%' }"
                           [suggestions]="empleadoListSalud"
                           (onSelect)="
-                            selectResonsableSelectedSalud($event, 'res3', item)
+                            selectResonsableSelected($event, 'res3', item)
                           "
                           (completeMethod)="buscarEmpleadoSalud($event)"
                           [(ngModel)]="item.usuarioSolicitado"
+                          [disabled]="true"
                         >
                           <ng-template let-empleado pTemplate="item">
                             <div class="ui-helper-clearfix">
@@ -820,14 +741,11 @@
                           [style]="{ width: '100%' }"
                           [suggestions]="empeladoListPsicosocial"
                           (onSelect)="
-                            selectResonsableSelectedPsicosocial(
-                              $event,
-                              'res4',
-                              item
-                            )
+                            selectResonsableSelected($event, 'res4', item)
                           "
                           (completeMethod)="buscarEmpleadoPsicosocial($event)"
                           [(ngModel)]="item.usuarioSolicitado"
+                          [disabled]="true"
                         >
                           <ng-template let-empleado pTemplate="item">
                             <div class="ui-helper-clearfix">
@@ -879,6 +797,145 @@
               </div>
             </div>
           </p-accordionTab>
+        </p-accordion>
+
+        <!-- Botón para enviar -->
+        <button
+          pButton
+          (click)="abrirModalConfirmacion()"
+          type="submit"
+          icon="pi pi-envelope"
+          class="float-btn"
+          style="bottom: 100px"
+          title="Enviar Correos"
+        ></button>
+
+        <!-- Modal de confirmación -->
+        <p-dialog
+          header="Confirmación de Envío"
+          [(visible)]="modalConfirmacionVisible"
+          [modal]="true"
+          [closable]="false"
+          [responsive]="true"
+          [style]="{ width: '40vw', 'min-width': '300px' }"
+        >
+          <ng-template pTemplate="content">
+            <p>¿Está seguro de enviar los correos electrónicos?</p>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <button
+              type="button"
+              pButton
+              (click)="
+                onSubmiSLt(); onSubmiSLtSeg(); onSubmiSLl(); onSubmitPsico()
+              "
+              label="Enviar"
+              class="p-button-success"
+            ></button>
+            <button
+              type="button"
+              pButton
+              (click)="modalConfirmacionVisible = false"
+              label="Cancelar"
+              class="p-button-danger"
+            ></button>
+          </ng-template>
+        </p-dialog>
+      </p-tabPanel>
+      <p-tabPanel
+        *ngIf="flagSaludLaboralRegistro"
+        header="Información de la solicitud"
+      >
+        <p-accordion [multiple]="true">
+          <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
+            <!-- Otros campos del formulario -->
+
+            <p-accordionTab
+              header="Información de recepción de solicitud de documentación"
+            >
+              <div class="form-row mt-3">
+                <div class="col-12">
+                  <label for="fechaLimite"
+                    >Fecha recepción de solicitud de documentación:</label
+                  >
+                  <p-calendar
+                    id="fechaLimite"
+                    appendTo="body"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="yearRange"
+                    [maxDate]="fechaActual"
+                    formControlName="fechaRecepcionDocs"
+                    dateFormat="dd/mm/yy"
+                  ></p-calendar>
+                </div>
+                <div class="col">
+                  <div class="input-field">
+                    <label for="" class="active"
+                      >Entidad que solicita la documentación</label
+                    >
+                    <p-dropdown
+                      appendTo="body"
+                      [filter]="true"
+                      [options]="emitPclentity"
+                      formControlName="entidadEmiteCalificacion"
+                      class="select-material"
+                      styleClass="select-material"
+                      [readonly]="action"
+                      (onChange)="onEntidadChange($event)"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+
+                <!-- Campo de texto para "Otros" -->
+                <div class="col" *ngIf="selectedEntidad === 'otros'">
+                  <div class="input-field">
+                    <label for="" class="active"
+                      >Escriba la entidad que solicito la documentación</label
+                    >
+                    <input
+                      type="text"
+                      formControlName="otroDetalle"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+
+                <!-- Dropdown para detalles -->
+                <div class="col" *ngIf="isDetalleEnabled">
+                  <div class="input-field">
+                    <label for="" class="active">Entidad</label>
+                    <p-dropdown
+                      appendTo="body"
+                      [filter]="true"
+                      [options]="detalleOptions"
+                      formControlName="detalleCalificacion"
+                      class="select-material"
+                      styleClass="select-material"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label for="fechaLimite"
+                    >Fecha maxima de envio para solicitud de
+                    documentación:</label
+                  >
+                  <p-calendar
+                    id="fechaLimite"
+                    appendTo="body"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="yearRange"
+                    [maxDate]="fechaActual"
+                    formControlName="fechaMaximaEnvDocs"
+                    dateFormat="dd/mm/yy"
+                  ></p-calendar>
+                </div>
+              </div>
+            </p-accordionTab>
+          </form>
           <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
             <p-accordionTab header="Fecha de envio documentación">
               <div class="col-12">
@@ -1510,61 +1567,18 @@
                 </div>
               </div>
             </p-accordionTab>
+            <button
+              pButton
+              *sTienePermiso="'SCM_POST_CSL'"
+              (click)="onSubmit(); submitEmp()"
+              type="submit"
+              icon="pi pi-save"
+              class="float-btn"
+              style="bottom: 200px"
+              title="Guardar datos info nueva"
+            ></button>
           </form>
         </p-accordion>
-        <button
-          pButton
-          *sTienePermiso="'SCM_POST_CSL'"
-          (click)="onSubmit(); submitEmp()"
-          type="submit"
-          icon="pi pi-save"
-          class="float-btn"
-          style="bottom: 200px"
-          title="Guardar datos de Empleado"
-          [disabled]="!this.empleadoForm.valid"
-        ></button>
-        <!-- Botón para enviar -->
-        <button
-          pButton
-          (click)="abrirModalConfirmacion()"
-          type="submit"
-          icon="pi pi-envelope"
-          class="float-btn"
-          style="bottom: 100px"
-          title="Enviar Correos"
-        ></button>
-
-        <!-- Modal de confirmación -->
-        <p-dialog
-          header="Confirmación de Envío"
-          [(visible)]="modalConfirmacionVisible"
-          [modal]="true"
-          [closable]="false"
-          [responsive]="true"
-          [style]="{ width: '40vw', 'min-width': '300px' }"
-        >
-          <ng-template pTemplate="content">
-            <p>¿Está seguro de enviar los correos electrónicos?</p>
-          </ng-template>
-          <ng-template pTemplate="footer">
-            <button
-              type="button"
-              pButton
-              (click)="
-                onSubmiSLt(); onSubmiSLtSeg(); onSubmiSLl(); onSubmitPsico()
-              "
-              label="Enviar"
-              class="p-button-success"
-            ></button>
-            <button
-              type="button"
-              pButton
-              (click)="modalConfirmacionVisible = false"
-              label="Cancelar"
-              class="p-button-danger"
-            ></button>
-          </ng-template>
-        </p-dialog>
       </p-tabPanel>
     </ng-container>
 
@@ -1707,7 +1721,7 @@
           autoLayout="true"
           selectionMode="single"
           [(selection)]="documentacionSelectUser"
-          [rows]="10"
+          [rows]="100"
           [paginator]="true"
           dataKey="id"
           [lazy]="true"
@@ -1777,12 +1791,7 @@
                     icon="bi bi-upload"
                     title="Subir documento"
                     class="p-button-info margin-left margin-right"
-                    (click)="openUploadDialog(docsub.id, docsub.documentosSl)"
-                    [disabled]="
-                      (docsub.documentosSl &&
-                        docsub.documentosSl.length >= 3) ||
-                      docsub.fechaLimite > fechaActual
-                    "
+                    (click)="openUploadDialog(docsub.id, docsub.documentos)"
                   ></button>
                 </ng-container>
                 <s-documentoUpload
@@ -1796,7 +1805,7 @@
                 </s-documentoUpload>
                 <div class="ui-g" style="margin-top: 10px">
                   <div class="ui-g-12 ui-sm-12 ui-md-10">
-                    <div *ngFor="let doc of directoriosSl">
+                    <div *ngFor="let doc of directorios">
                       <table
                         class="caption-top"
                         *ngIf="
