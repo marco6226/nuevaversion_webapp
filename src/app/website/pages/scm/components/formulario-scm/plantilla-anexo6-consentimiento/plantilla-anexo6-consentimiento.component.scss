@@ -1,0 +1,13 @@
+canvas {
+    display: block;
+    border: 1px solid rgb(187, 178, 178);
+    background-color: var(--ion-color-success);
+    margin: auto;
+    // width:100%;
+    // height:100%;
+}
+.contenedorcanvas{
+    box-sizing:border-box;
+    width:95%;
+    margin: auto;
+  }

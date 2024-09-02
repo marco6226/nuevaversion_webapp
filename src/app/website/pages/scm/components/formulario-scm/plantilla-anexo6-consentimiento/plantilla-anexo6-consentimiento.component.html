@@ -1,0 +1,192 @@
+<div id="plantillaAnexo6">
+  <table width="90%" style="border-collapse: collapse; margin: auto">
+    <tr>
+      <th
+        rowspan="4"
+        style="border: 1px solid #c8c8c8; text-align: center; width: 20%"
+      >
+        <img style="width: 80%" id="P_empresa_logo" />
+      </th>
+      <th style="border-top: 1px solid #c8c8c8; text-align: center">ANEXO 6</th>
+      <td style="border: 1px solid #c8c8c8; text-align: left">Código</td>
+      <td style="border: 1px solid #c8c8c8; text-align: left">SST-PR-03-A6</td>
+    </tr>
+    <tr>
+      <th style="text-align: center">FORMATO SEGUIMIENTO MEDICO</th>
+      <td style="border: 1px solid #c8c8c8">Vigente desde</td>
+      <td style="border: 1px solid #c8c8c8">Junio de 2016</td>
+    </tr>
+    <tr>
+      <th style="text-align: center">HISTORIA CLINICA OCUPACIONAL</th>
+      <td style="border: 1px solid #c8c8c8">Versión</td>
+      <td style="border: 1px solid #c8c8c8">0</td>
+    </tr>
+    <tr>
+      <th style="border-bottom: 1px solid #c8c8c8; text-align: center">
+        SEGURIDAD Y SALUD EN EL TRABAJO
+      </th>
+      <td style="border: 1px solid #c8c8c8">Página</td>
+      <td style="border: 1px solid #c8c8c8">1 de 1</td>
+    </tr>
+  </table>
+  <br />
+  <div style="margin: auto; width: 85%">
+    <h3 style="text-align: center">Consentimiento Informado</h3>
+    <div style="text-align: justify">
+      Con la presente me permito autorizar al área de Seguridad y Salud en el
+      Trabajo de la Empresa, para que custodie el resultado de mi evaluación
+      médica para su conocimiento y continuidad de los Sistemas de Vigilancia
+      Epidemiológica en mi vida laboral, guardando su debida reserva y
+      confidencialidad. Lo anterior da cumplimiento a la Resolución 1995 de
+      Julio 8 de 1999 y la Resolución 2346 de julio 16 de 2007. La decisión que
+      aquí manifiesto la he tomado de manera autónoma, libre y voluntaria, por
+      lo cual no se constituye en injerencias indebidas e inconsultas sobre mis
+      derechos a la intimidad y al libre desarrollo de mi personalidad.
+    </div>
+  </div>
+  <br />
+  <table width="85%" style="border-collapse: collapse; margin: auto">
+    <br />
+
+    <tr>
+      <td>
+        Fecha del seguimiento:&nbsp; <label id="P_fechaseguiminto"></label>
+      </td>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="3">Nombre:&nbsp; <label id="P_nombreApellidos"></label></td>
+      <td colspan="1">Cédula:&nbsp; <label id="P_cedula"></label></td>
+    </tr>
+    <tr>
+      <td colspan="4">&nbsp;</td>
+    </tr>
+
+    <tr>
+      <td colspan="2">Sección:&nbsp; <label id="P_ubicacion"></label></td>
+      <td colspan="2">Oficio:&nbsp; <label id="P_cargo"></label></td>
+    </tr>
+    <tr>
+      <td colspan="4">&nbsp;</td>
+    </tr>
+  </table>
+  <div style="margin: auto; width: 85%">
+    <div style="text-align: justify">
+      <label id="P_textseguimiento"></label>
+    </div>
+  </div>
+  <table width="85%" style="border-collapse: collapse; margin: auto">
+    <tr>
+      <td>
+        <div class="contenedorcanvas">
+          <canvas
+            id="canvasAprobador"
+            #canvasAprobador
+            width="300"
+            height="150"
+            (mousedown)="startDrawingAprobador($event)"
+            (mouseup)="stopDrawingAprobador()"
+            (mousemove)="draw($event, ctxAprobador)"
+            (touchstart)="startDrawingAprobador($event)"
+            (touchend)="stopDrawingAprobador()"
+            (touchmove)="draw($event, ctxAprobador)"
+            [style.pointer-events]="whoSignature === 'medico' ? 'none' : 'auto'"
+          ></canvas>
+        </div>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+          "
+        >
+          <button
+            class="p-button-danger"
+            label="Borrar"
+            pButton
+            type="button"
+            (click)="clearApprove()"
+            [disabled]="whoSignature === 'medico'"
+          ></button>
+          <button
+            class="p-button-success"
+            label="Guardar"
+            pButton
+            type="button"
+            (click)="savePad()"
+            *ngIf="whoSignature === 'aprueba'"
+          ></button>
+        </div>
+      </td>
+      <td>&nbsp;</td>
+      <td>
+        <div class="contenedorcanvas">
+          <canvas
+            id="canvasMedico"
+            #canvasMedico
+            width="300"
+            height="150"
+            (mousedown)="startDrawingMedico($event)"
+            (mouseup)="stopDrawingMedico()"
+            (mousemove)="draw($event, ctxMedico)"
+            (touchstart)="startDrawingMedico($event)"
+            (touchend)="stopDrawingMedico()"
+            (touchmove)="draw($event, ctxMedico)"
+            [style.pointer-events]="whoSignature === 'aprueba' ? 'none' : 'auto'"
+          ></canvas>
+        </div>
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+          "
+        >
+          <button
+            class="p-button-danger"
+            label="Borrar"
+            pButton
+            type="button"
+            (click)="clearPadDoctor()"
+            [disabled]="whoSignature === 'aprueba'"
+          ></button>
+          <button
+            class="p-button-success"
+            label="Guardar"
+            pButton
+            type="button"
+            (click)="savePad()"
+            *ngIf="whoSignature === 'medico'"
+          ></button>
+        </div>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+    <br />
+    <tr>
+      <td colspan="2">Firma usuario que aprueba el seguimiento:</td>
+      <td colspan="2">Firma medico:</td>
+    </tr>
+    <tr>
+      <td colspan="2">Nombre:&nbsp; <label id="P_nombre_aprueba"></label></td>
+      <td colspan="2">Nombre:&nbsp; <label id="P_nombre_medico"></label></td>
+    </tr>
+    <tr>
+      <td colspan="2">Cédula:&nbsp; <label id="P_cedula_aprueba"></label></td>
+      <td colspan="2">Cédula:&nbsp; <label id="P_cedula_medico"></label></td>
+    </tr>
+    <tr>
+      <td colspan="4">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        Usuario que imprime: &nbsp;<label id="P_usuariosesion"></label>
+      </td>
+    </tr>
+  </table>
+</div>
