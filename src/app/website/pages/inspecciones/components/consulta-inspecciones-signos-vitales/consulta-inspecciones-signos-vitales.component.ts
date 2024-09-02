@@ -11,6 +11,10 @@ import { InspeccionService } from '../../services/inspeccion.service';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 import { ViewListaInspeccionService } from '../../services/viewlista-inspeccion.service';
 import { ViewInspeccionService } from '../../services/view-inspeccion.service';
+import { AreaService } from '../../../empresa/services/area.service';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 @Component({
   selector: 'app-consulta-inspecciones-signos-vitales',
   templateUrl: './consulta-inspecciones-signos-vitales.component.html',
@@ -29,8 +33,10 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
     'fechaRealizada',
     'usuarioRegistra_email',
     'programacion_listaInspeccion_nombre',
-    'programacion_area_id',
-    'programacion_area_nombre',
+    'programacion_area',
+    'programacion_localidadSv',
+    'programacion_areaSv',
+    'programacion_procesoSv',
     'fechaModificacion',
     'usuarioModifica_email',
     'listaInspeccion',
@@ -54,13 +60,22 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
     'listaInspeccion',
   ];
 
+  divisionNamesMap: { [id: string]: string } = {};
+  localidadNamesMap: { [id: string]: string } = {};
+  areaNamesMap: { [id: string]: string } = {};
+  procesoNamesMap: { [id: string]: string } = {};
+
   constructor(
     private paramNav: ParametroNavegacionService,
     private inspeccionService: InspeccionService,
     private sesionService: SesionService,
     private userService: PerfilService,
     private messageService: MessageService,
-    private viewInspeccionService: ViewInspeccionService
+    private viewInspeccionService: ViewInspeccionService,
+    private areasService: AreaService,
+    private empresaService: EmpresaService,
+    private areaMatrizService: AreaMatrizService,
+    private procesoMatrizService: ProcesoMatrizService,
   ) { }
 
   ngOnInit(): void {
@@ -162,7 +177,105 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
     // );
   }
 
-  async lazyLoad(event: LazyLoadEvent | null) {
+  async getDivision(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+  
+    try {
+        const res: any = await this.areasService.findByFilter(filterQuery);
+        const areas: { id: string; nombre: string }[] = res['data']; 
+        if (areas.length > 0) {
+            const nombre = areas[0].nombre;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener las áreas:', error);
+        return null; 
+    }
+  }
+  
+  async getLocalidad(id: string): Promise<string | null> {
+    console.log(id);
+    
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'localidad';
+    filterQuery.fieldList = ['id', 'localidad'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+  
+    try {
+        const res: any = await this.empresaService.getLocalidadesRWithFilter(filterQuery);
+        const localidad: { id: string; localidad: string }[] = res['data']; 
+        if (localidad.length > 0) {
+            const nombre = localidad[0].localidad;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la localidad:', error);
+        return null; 
+    }
+  }
+  
+  async getArea(id: string): Promise<string | null>{
+      
+    let filterArea = new FilterQuery();
+    filterArea.sortField = 'nombre';
+    filterArea.fieldList = [
+      'id',
+      'nombre'
+    ];
+    filterArea.filterList = [
+      { field: 'id', criteria: Criteria.EQUALS, value1: id }
+    ];
+  
+    try {
+      const res: any = await this.areaMatrizService.findByFilter(filterArea);
+      const areaList: { id: string; nombre: string }[] = res['data']; 
+      if (areaList.length > 0) {
+          const nombre = areaList[0].nombre;
+          return nombre;
+      } else {
+          return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener el área:', error);
+      return null; 
+    }
+  }
+  
+  async getProceso(id:string): Promise<string | null> {
+  
+    let filterProceso = new FilterQuery();
+    filterProceso.sortField = "nombre";
+    filterProceso.fieldList = ['id', 'nombre'];
+    filterProceso.filterList = [{ field: 'id', criteria: Criteria.EQUALS, value1: id }];
+  
+    try{
+      const res: any = await this.procesoMatrizService.findByFilter(filterProceso);
+      const procesoList: {id:string; nombre:string}[] = res['data'];
+  
+      if(procesoList.length > 0){
+        const nombre = procesoList[0].nombre
+        return nombre
+      }else{
+        return null
+      }
+    }catch(error){
+      console.log('Error al cargar el proceso', error);
+      return null
+    }
+  }
+
+  async lazyLoad(event: LazyLoadEvent | null, divisionFilter?: any, localidadFilter?: any, areaFilter?:any, procesoFilter?:any) {
     let user: any = JSON.parse(localStorage.getItem('session')!);
     let filterQueryu = new FilterQuery();
     filterQueryu.filterList = [{
@@ -192,9 +305,11 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
     // Filtrar por tipoLista dentro de listaInspeccion
     filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: 'listaInspeccion.tipoLista', value1: 'Signos Vitales' });
   
-    await this.viewInspeccionService.getFilterInspeccionToPerfilToUsuario(filterQuery).then((resp: any) => {
+    await this.viewInspeccionService.getFilterInspeccionToPerfilToUsuario(filterQuery).then(async (resp: any) => {
       this.totalRecords = resp['count'];
+      this.loading = false;
       this.inspeccionesList = [];
+
       if ((<any[]>resp['data']).length > 0) {
         (<any[]>resp['data']).forEach(dto => {
           let obj = FilterQuery.dtoToObject(dto);
@@ -202,10 +317,98 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
           this.inspeccionesList.push(obj);
         });
       }
+
+      for (let item of this.inspeccionesList) {
+        const divisionId = item.listaInspeccion.divisionSv;
+        const localidadId = item.listaInspeccion.localidadSv;
+        const areaId = item.listaInspeccion.areaSv;
+        const procesoId = item.listaInspeccion.procesoSv;
+
+        if (divisionId && !this.divisionNamesMap[divisionId]) {
+          const divisionName = await this.getDivision(divisionId);
+          if (divisionName) {
+              this.divisionNamesMap[divisionId] = divisionName;
+            }
+        }
+
+        if (localidadId && !this.localidadNamesMap[localidadId]) {
+          const localidadName = await this.getLocalidad(localidadId);
+          console.log(localidadName);
+          if (localidadName) {
+              this.localidadNamesMap[localidadId] = localidadName;
+            }
+        }
+
+        if (areaId && !this.areaNamesMap[areaId]) {
+          const areaName = await this.getArea(areaId);
+          console.log(areaName);
+          
+          if (areaName) {
+              this.areaNamesMap[areaId] = areaName;
+            }
+        }
+
+        if (procesoId && !this.procesoNamesMap[procesoId]) {
+          const procesoName = await this.getProceso(procesoId);
+          console.log(procesoName);
+          if (procesoName) {
+              this.procesoNamesMap[procesoId] = procesoName;
+            }
+        }
+
+        if (divisionFilter) {
+          this.inspeccionesList = this.inspeccionesList.filter(item => {
+              const divisionId = item.listaInspeccion.divisionSv;
+              const divisionName = this.divisionNamesMap[divisionId];
+              return divisionName ? divisionName.toLowerCase().includes(divisionFilter.toLowerCase()) : false;
+          });
+        }
+
+
+        if (localidadFilter) {
+          this.inspeccionesList = this.inspeccionesList.filter(item => {
+              const localidadId = item.listaInspeccion.localidadSv;
+              const localidadName = this.localidadNamesMap[localidadId];
+              return localidadName ? localidadName.toLowerCase().includes(localidadFilter.toLowerCase()) : false;
+          });
+        }
+
+        if (areaFilter) {
+          this.inspeccionesList = this.inspeccionesList.filter(item => {
+              const areaId = item.listaInspeccion.areaSv;
+              const areaName = this.areaNamesMap[areaId];
+              return areaName ? areaName.toLowerCase().includes(areaFilter.toLowerCase()) : false;
+          });
+        }
+
+        if (procesoFilter) {
+          this.inspeccionesList = this.inspeccionesList.filter(item => {
+              const procesoId = item.listaInspeccion.procesoSv;
+              const procesoName = this.procesoNamesMap[procesoId];
+              return procesoName ? procesoName.toLowerCase().includes(procesoFilter.toLowerCase()) : false;
+          });
+        }
+      }
     }).catch(er => console.log(er)).finally(() => {
       this.loading = false;
       this.testing = false;
     });
+  }
+
+  applyDivisionFilter(filterValue: string) {
+    this.lazyLoad(null, filterValue);
+  }
+
+  applyLocalidadFilter(filterValue: string) {
+    this.lazyLoad(null,null, filterValue);
+  }
+
+  applyAreaFilter(filterValue: string) {
+    this.lazyLoad(null,null, null,filterValue);
+  }
+
+  applyProcesoFilter(filterValue: string) {
+    this.lazyLoad(null,null, null, null, filterValue);
   }
   
 

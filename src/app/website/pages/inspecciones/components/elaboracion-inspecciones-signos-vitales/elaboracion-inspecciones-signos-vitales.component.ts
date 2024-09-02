@@ -576,7 +576,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                         console.error(err);
                         this.solicitando = false;
                   }).finally(async ()=>{
-                    if(calificacionList[0].accion === '3'){
+                    if(Number(calificacionList[0].accion) === 3){
                         let result = await this.cargarDesviacion('INPSV-' + this.inspeccion.id + '-' + calificacionList[0].elementoInspeccion.id + '-' + calificacionList[0].opcionCalificacion.id) 
                     
                         if(result !== null){
