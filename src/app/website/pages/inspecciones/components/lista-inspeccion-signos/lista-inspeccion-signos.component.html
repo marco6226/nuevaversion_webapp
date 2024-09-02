@@ -32,6 +32,12 @@
                     <th pSortableColumn="localidadSv">Localidad
                         <p-sortIcon field="localidadSv"></p-sortIcon>
                     </th>
+                    <th pSortableColumn="areaSv">Area
+                        <p-sortIcon field="areaSv"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="procesoSv">Proceso
+                        <p-sortIcon field="procesoSv"></p-sortIcon>
+                    </th>
                     <th pSortableColumn="estado">Estado
                         <p-sortIcon field="estado"></p-sortIcon>
                     </th>
@@ -59,6 +65,12 @@
                         <input pInputText type="text" (input)="applyLocalidadFilter($event.target.value)">
                     </td>
                     <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="applyAreaFilter($event.target.value)">
+                    </td>
+                    <td class="text-center bg-light">
+                        <input pInputText type="text" (input)="applyProcesoFilter($event.target.value)">
+                    </td>
+                    <td class="text-center bg-light">
                         <input pInputText type="text" (input)="dt.filter($event.target.value, 'estado', 'contains')">
                     </td>
                 </tr>
@@ -72,6 +84,8 @@
                     <td>{{listInp.descripcion}}</td>
                     <td>{{ divisionNamesMap[listInp.divisionSv] || '' }}</td>
                     <td>{{ localidadNamesMap[listInp.localidadSv] || '' }}</td>
+                    <td>{{ areaNamesMap[listInp.areaSv] || '' }}</td>
+                    <td>{{ procesoNamesMap[listInp.procesoSv] || '' }}</td>
                     <td>{{listInp.estado}}</td>
                 </tr>
             </ng-template>
