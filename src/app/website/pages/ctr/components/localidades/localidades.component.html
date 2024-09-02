@@ -94,7 +94,7 @@
         <label for="">Divisiones</label>
     </div>
 
-    <div class="grid" style="width:250px;margin-bottom:10px" *ngFor="let data of divisionList">
+    <div class="grid" style="width:250px;margin-bottom:10px" *ngFor="let data of listDivision">
         <div class="col-12">
             <p-checkbox name="group1" [value]="data.label" [label]="data.label" [(ngModel)]="selectActividad"></p-checkbox>
         </div>
@@ -125,7 +125,7 @@
             <p-checkbox name="group1" [value]="selectAllLocalidades.value" [label]="selectAllLocalidades.label" (onChange)="onSelectAllLocalidades($event)" [(ngModel)]="selectedAllLocalidades"></p-checkbox>
         </div>
     </div>
-    <ng-container *ngFor="let data of locadidadList">
+    <ng-container *ngFor="let data of localidadesList">
         <div class="grid" style="width:350px;margin-bottom:10px" *ngIf="filtrarLocalidad(data)">
             <div class="col-12">
                 <p-checkbox name="group1" [value]="data.label" [label]="data.label" [(ngModel)]="selectLocalidades" (onChange)="onSelectLocalidad($event)"></p-checkbox>

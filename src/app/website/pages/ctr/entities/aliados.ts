@@ -95,7 +95,6 @@ export const _divisionList= [
     { label: 'Superficies, materiales y pinturas', value: 'Superficies, materiales y pinturas' },
 ]
 
-
 export interface ActividadesContratadas{
     id: number;
     empresa_id: number;

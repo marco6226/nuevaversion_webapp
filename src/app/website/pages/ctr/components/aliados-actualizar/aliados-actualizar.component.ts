@@ -21,6 +21,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
 
   id: number = -1;
   idEmpresaAliada!: number | null;
+  empresaId:any;
   aliado: Empresa = {
     id: '',
     nombreComercial: '',
@@ -100,6 +101,8 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
 
   async loadData(){
     let empresa = this.sessionService.getEmpresa();
+    console.log("Empresa empresa: ", empresa);
+    this.empresaId = empresa;
     this.idEmpresaAliada = empresa?.idEmpresaAliada ? empresa.idEmpresaAliada : null;
     let filterQuery = new FilterQuery();
     filterQuery.filterList = [];
@@ -123,6 +126,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
 
   async loadInformacionAliado(){
     this.aliadoInformacion.id_empresa = this.id;
+    console.log("this.aliadoInformacion.id_empresa", this.aliadoInformacion.id_empresa);
     await this.empresaService.getAliadoInformacion(this.id).then((ele: AliadoInformacion[])=>{
       if(ele[0] != undefined){
         this.aliadoInformacion = ele[0];
@@ -170,7 +174,7 @@ export class AliadosActualizarComponent implements OnInit, OnDestroy {
         break;
         
       case 'division':
-        this.aliadoInformacion.division = event        
+        this.aliadoInformacion.division = event     
         break;
 
       case 'localidad':
