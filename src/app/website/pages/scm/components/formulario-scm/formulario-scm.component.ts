@@ -58,6 +58,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     @ViewChild('general', {static:false}) generalPanel!:ElementRef;
     @ViewChild('medico', {static:false}) medicoPanel!:ElementRef;
 
+    showTemplate6:boolean = false;
     tabIndex:any
     msgs?: Message[];
     listaPCL: any;
@@ -1099,6 +1100,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async copiarLinkSeguimiento(idSeguimiento:number, usuario:string){
+        localStorage.setItem('whoSignature', usuario);
+        localStorage.setItem('empleado', JSON.stringify(this.empleadoSelect ?? {}));
+        localStorage.setItem('seguimiento', idSeguimiento.toString());
         let filterQuery = new FilterQuery();
         filterQuery.filterList = []
         filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: idSeguimiento.toString() });
@@ -1147,8 +1151,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             // this.msgs.push({ 
                 key: 'formScm',
                 severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
-          }
-        navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
+        }
+        // navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
+        navigator.clipboard.writeText(endPoints.plantillaAnexo6)
     }
 
     async onCloseModalDianostico() {
@@ -1500,8 +1505,18 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         } catch (error) {
         }
     }
+    displayDialog: boolean = false;
+    onFileUpload(event: any) {
+        const file = event.target.files[0];
+        if (file) {
+          const formData = new FormData();
+          formData.append('file', file);
+          console.log('Archivo seleccionado:', file);
+          this.scmService.saveAnnexDocumentMediumTracking(formData);
+        }
+      }
     
-    async anexo6seguimiento(seguimiento:any){
+    async anexo6seguimiento(seguimiento:any){ 
 
         let ele:any
         let filterQuery = new FilterQuery();

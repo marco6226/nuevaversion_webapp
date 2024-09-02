@@ -235,6 +235,7 @@ import { ProgramacionSignosVitalesComponent } from './pages/inspecciones/compone
 import { ConsultaInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/consulta-inspecciones-signos-vitales/consulta-inspecciones-signos-vitales.component';
 import { ListTableComponent } from './components/list-table/list-table.component';
 import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-inspecciones-signos-vitales/elaboracion-inspecciones-signos-vitales.component';
+import { PlantillaAnexo6ConsentimientoComponent } from './pages/scm/components/formulario-scm/plantilla-anexo6-consentimiento/plantilla-anexo6-consentimiento.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -429,7 +430,8 @@ import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspeccio
     DatosTrabajadorInvolucradoComponent,
     ListTableComponent,
     DatosTrabajadorInvolucradoComponent,
-    ElaboracionInspeccionesSignosVitalesComponent
+    ElaboracionInspeccionesSignosVitalesComponent,
+    PlantillaAnexo6ConsentimientoComponent
   ],
   imports: [
     GridModule,

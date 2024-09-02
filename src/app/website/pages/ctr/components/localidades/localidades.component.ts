@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { SelectItem } from 'primeng/api';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
+import { FilterQuery } from '../../../core/entities/filter-query';
+import { AreaService } from '../../../empresa/services/area.service';
+import { Criteria } from '../../../core/entities/filter';
 
 @Component({
   selector: 'app-localidades',
@@ -32,6 +35,7 @@ export class LocalidadesComponent implements OnInit {
   }
   @Output() data =new EventEmitter();
   @Output() dataLocalidad = new EventEmitter<string>();
+  @Input() empresaId: any;
   divisionList= _divisionList;
   selectActividad: string[] = [];
   selectLocalidades: string[] = [];
@@ -50,17 +54,22 @@ export class LocalidadesComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private empresaService: EmpresaService,
+    private _areaService:AreaService
   ) { }
 
   ngOnInit(): void {
     this.edit = this.activatedRoute.snapshot.params['onEdit'];
-    this.loadLocalidades()
+
+    //this.loadDiv();
+    this.getArea(this.empresaId.id);
+    //this.loadLocalidades()
+    this.loadingTemplateLocalities(this.empresaId.id)
   }
   
   agregarActividad(){
     this.actividadesList = this.selectActividad;
     this.cerrarDialogo();
-    this.data.emit(JSON.stringify(this.actividadesList));
+    // this.data.emit(JSON.stringify(this.actividadesList));
 
   }
 
@@ -112,8 +121,9 @@ export class LocalidadesComponent implements OnInit {
 
   agregarLocalidad(){
     this.locadidadesList = this.selectLocalidades;
-    this.onAddLocalidad()
+    //this.onAddLocalidad()
     this.cerrarLocalidad()
+    
   }
 
   cerrarLocalidad(){
@@ -145,4 +155,57 @@ export class LocalidadesComponent implements OnInit {
       this.selectedAllLocalidades = [];
     }
   }
+
+  async getArea(empresId:number) {
+    let filterAreaQuery = new FilterQuery();
+    filterAreaQuery.sortField = "id";
+    filterAreaQuery.sortOrder = -1;
+    filterAreaQuery.fieldList = ["id", "nombre"];
+    if(empresId === 508){
+      filterAreaQuery.filterList = [
+        { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+        { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '88' }
+      ];
+    }else{
+      filterAreaQuery.filterList = [
+        { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+        { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
+      ];
+    }
+
+
+
+    try{
+      const resp: any =  await this._areaService.findByFilter(filterAreaQuery);
+      const divisionList = resp.data.map((element:any)=>({ label: element.nombre, value: element.id}));
+      this.listDivision = divisionList
+    }catch (error) {  
+      console.error("Error al cargar las divisiones:", error);
+    }
+
+  }
+
+  listDivision: any = []
+
+  async loadingTemplateLocalities(empresId:number) {
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id", "localidad"];
+    filterPlantaQuery.filterList = [
+      { field: 'empresa_id', criteria: Criteria.EQUALS, value1: empresId.toString() },
+    ];
+  
+    try {
+      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
+      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+  
+      this.localidadesList = localidadesList;
+      console.log("me trajo localidadesList: ",localidadesList);
+    } catch (error) {
+      console.error("Error al cargar las localidades:", error);
+    }
+  }
+
+  localidadesList: any[] = [];
 }

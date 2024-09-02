@@ -71,7 +71,7 @@
       </p-tabPanel>
       <p-tabPanel header="División/Localidad" *ngIf="this.aliado.tipo_persona!='Natural'" 
       headerStyleClass="header-gestor">
-        <app-localidades [flagConsult]="flagConsult" [selectDivision]="this.aliadoInformacion.division" [selectLocalidad]="this.aliadoInformacion.localidad" (data)="onReciveData($event, 'division')" (dataLocalidad)="onReciveData($event, 'localidad')"></app-localidades>
+        <app-localidades [flagConsult]="flagConsult" [empresaId]="empresaId" [selectDivision]="this.aliadoInformacion.division" [selectLocalidad]="this.aliadoInformacion.localidad" (data)="onReciveData($event, 'division')" (dataLocalidad)="onReciveData($event, 'localidad')"></app-localidades>
       </p-tabPanel>
       <p-tabPanel header="Gestión del contrato" 
       headerStyleClass="header-gestor">

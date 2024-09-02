@@ -27,8 +27,17 @@
                             <th pSortableColumn="programacion.listaInspeccion.nombre">Lista inspección
                                 <p-sortIcon field="programacion.listaInspeccion.nombre"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="programacion.area.nombre">Ubicación
-                                <p-sortIcon field="programacion.area.nombre"></p-sortIcon>
+                            <th pSortableColumn="programacion.area">División
+                                <p-sortIcon field="programacion.area"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="programacion.locaidadSv">Localidad
+                                <p-sortIcon field="programacion.locaidadSv"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="programacion.areaSv">Area
+                                <p-sortIcon field="programacion.areaSv"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="programacion.procesoSv">Proceso
+                                <p-sortIcon field="programacion.procesoSv"></p-sortIcon>
                             </th>
                             <th pSortableColumn="fechaModificacion">Última modificación
                                 <p-sortIcon field="fechaModificacion"></p-sortIcon>
@@ -62,6 +71,15 @@
                                     (input)="dt.filter($event.target.value, 'programacion.area.nombre', 'contains')">
                             </td>
                             <td class="text-center bg-light">
+                                <input pInputText type="text" (input)="applyLocalidadFilter($event.target.value)">
+                            </td>
+                            <td class="text-center bg-light">
+                                <input pInputText type="text" (input)="applyAreaFilter($event.target.value)">
+                            </td>
+                            <td class="text-center bg-light">
+                                <input pInputText type="text" (input)="applyProcesoFilter($event.target.value)">
+                            </td>
+                            <td class="text-center bg-light">
                                 <s-rangoFechaSelector (onSelect)="dt.filter($event, 'fechaModificacion', 'bt')">
                                 </s-rangoFechaSelector>
                             </td>
@@ -78,7 +96,10 @@
                             <td>INPSV-{{inspeccion.id}}</td>
                             <td>{{inspeccion.usuarioRegistra?.email}}</td>
                             <td>{{inspeccion.programacion?.listaInspeccion?.nombre}}</td>
-                            <td>{{inspeccion.programacion?.area?.nombre}}</td>
+                            <td>{{ inspeccion.programacion?.area.nombre }}</td>
+                            <td>{{ localidadNamesMap[inspeccion.programacion.localidadSv] || '' }}</td>
+                            <td>{{ areaNamesMap[inspeccion.programacion.areaSv] || '' }}</td>
+                            <td>{{ procesoNamesMap[inspeccion.programacion.procesoSv] || '' }}</td>
                             <td>{{inspeccion?.fechaModificacion | date:'dd/MM/yyyy HH:mm'}}</td>
                             <td>{{inspeccion.usuarioModifica?.email}}</td>
                         </tr>
