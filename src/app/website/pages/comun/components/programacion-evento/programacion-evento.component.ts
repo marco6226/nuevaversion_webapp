@@ -117,8 +117,6 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
     private areaService: AreaService,
     private procesoMatrizService: ProcesoMatrizService,
     private listaInspeccionService: ListaInspeccionService,
-
-
   ) {
     this.form = this.fb.group({
       id: null,
@@ -282,8 +280,6 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
   async cargarLista(eve:any){
     try {
       let filterLista = new FilterQuery();
-      filterLista.sortField = "codigo";
-      filterLista.sortOrder = -1;
       filterLista.fieldList = ['codigo', 'nombre', 'listaInspeccionPK'];
       filterLista.filterList = [
         { field: 'procesoSv', criteria: Criteria.EQUALS, value1: eve },
@@ -295,6 +291,30 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
          label:` ${element.codigo} - ${element.nombre} v${element.listaInspeccionPK.version}`, 
          value: { id: element.listaInspeccionPK.id, version: element.listaInspeccionPK.version },
         }))
+      
+      this.listasInspeccionList = [...listaInspList];
+    } catch (error) {
+      console.error("Error en cargarLista:", error);
+    }
+  }
+
+  async cargarLis(eve:any, procesoSv:any){
+    try {
+      let filterLista = new FilterQuery();
+      filterLista.fieldList = ['codigo', 'nombre', 'listaInspeccionPK'];
+      filterLista.filterList = [
+        { field: 'id', criteria: Criteria.EQUALS, value1: eve.toString() },
+        { field: 'tipoLista', criteria: Criteria.EQUALS, value1: 'Signos Vitales' },
+        { field: 'procesoSv', criteria: Criteria.EQUALS, value1: procesoSv },
+      ];
+
+      const resp: any = await this.listaInspeccionService.findByFilter(filterLista);
+      const listaInspList = resp.data.map((element: any) => ({
+         label:` ${element.codigo} - ${element.nombre} v${element.listaInspeccionPK.version}`, 
+         value: { id: element.listaInspeccionPK.id, version: element.listaInspeccionPK.version },
+        }))
+      
+      console.log("lista1:",listaInspList);
       
       this.listasInspeccionList = [...listaInspList];
     } catch (error) {
@@ -360,28 +380,21 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
        
         console.log('Datos cargados:', programacion);
 
-        // console.log(this.listasInspeccionList);
+        
         // console.log(programacion);
-        if (programacion.listaInspeccion.estado === 'inactivo') {
-          if (!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
-          this.deshabilitar = false;
-          // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
-          let listaInp = {
-            label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
-            value: { id: programacion.listaInspeccion.listaInspeccionPK.id, version: programacion.listaInspeccion.listaInspeccionPK.version },
-            disabled: true
-          } as SelectItem;
-          this.listasInspeccionList.push(listaInp);
-        }
+       
         if(programacion.numeroRealizadas === programacion.numeroInspecciones){
           this.deshabilitar = true;
         }
         this.form?.get('id')?.setValue(programacion.id);
         this.form?.get('numeroInspecciones')?.setValue(programacion.numeroInspecciones);
         this.form?.get('numeroRealizadas')?.setValue(programacion.numeroRealizadas);
+        
+          
       
-        this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
+        // this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
         if (this.modulo === 'ISV') {
+
           let user = JSON.parse(localStorage.getItem('session')!).usuario.email
           
           let responsable = JSON.parse(programacion.empleadoBasic);
@@ -391,15 +404,42 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
           }else{
             this.btnInspDisable = true;
           }  
-   
-          this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
-          this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
-          this.form?.get('areaSv')?.setValue(programacion.areaSv);
-          this.form?.get('procesoSv')?.setValue(programacion.procesoSv);
-           this.cargarPlantaLocalidad(this.form?.controls['area'].value);         
-           this.cargarArea(this.form?.controls['localidadSv'].value);
-           this.cargarProceso(this.form?.controls['areaSv'].value)
-           this.cargarLista(this.form?.controls['procesoSv'].value)
+
+          if (programacion.listaInspeccion.estado === 'inactivo') {
+            if (!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
+            if(programacion.numeroRealizadas === programacion.numeroInspecciones){
+              this.deshabilitar = true;
+            }else{
+              this.deshabilitar = false;
+            }
+            this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
+            this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
+            this.form?.get('areaSv')?.setValue(programacion.areaSv);
+            this.form?.get('procesoSv')?.setValue(programacion.procesoSv);
+            this.cargarPlantaLocalidad(programacion.area.id);         
+            this.cargarArea(programacion.localidadSv);
+            this.cargarProceso(programacion.areaSv)
+         
+            
+            // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
+            let listaInp = {
+              label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
+              value: { id: programacion.listaInspeccion.listaInspeccionPK.id, version: programacion.listaInspeccion.listaInspeccionPK.version },
+              disabled: true
+            } as SelectItem;
+            this.listasInspeccionList.push(listaInp);
+            this.cargarLis(programacion.listaInspeccion.id, programacion.procesoSv)
+          }else{
+            this.form?.get('area')?.setValue(programacion.area ? programacion.area.id : null);
+            this.form?.get('localidadSv')?.setValue(programacion.localidadSv);
+            this.form?.get('areaSv')?.setValue(programacion.areaSv);
+            this.form?.get('procesoSv')?.setValue(programacion.procesoSv);
+            this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK)
+             this.cargarPlantaLocalidad(programacion.area.id);         
+             this.cargarArea(programacion.localidadSv);
+             this.cargarProceso(programacion.areaSv)
+             this.cargarLista(programacion.procesoSv)
+          }
         } else {
           this.btnInspDisable = false;
           this.form?.get('area')?.setValue(programacion.area ? programacion.area : null);
@@ -409,7 +449,29 @@ export class ProgramacionEventoComponent implements OnInit, OnChanges {
         this.form?.get('localidad')?.setValue(programacion.localidad);
         this.form?.get('empleadoBasic')?.setValue(JSON.parse(programacion.empleadoBasic));
         this.form?.get('fechaInicio')?.setValue(new Date(programacion.fecha));
+        this.form?.get('listaInspeccionPK')?.setValue(programacion.listaInspeccion.listaInspeccionPK);
 
+        if (programacion.listaInspeccion.estado === 'inactivo' && this.modulo !== 'ISV') {
+         
+          if (!programacion.numeroRealizadas || programacion.numeroRealizadas < programacion.numeroInspecciones) this.esListaInactiva = true;
+         
+          if(programacion.numeroRealizadas === programacion.numeroInspecciones){
+            this.deshabilitar = true;
+          }else{
+            this.deshabilitar = false;
+          }
+          // if(programacion.numeroRealizadas && programacion.numeroRealizadas > 0) 
+          let listaInp = {
+            label: `${programacion.listaInspeccion.codigo} - ${programacion.listaInspeccion.nombre} v${programacion.listaInspeccion.listaInspeccionPK.version}`,
+            value: { id: programacion.listaInspeccion.listaInspeccionPK.id, version: programacion.listaInspeccion.listaInspeccionPK.version },
+            disabled: true
+          } as SelectItem;
+          this.listasInspeccionList.push(listaInp);
+          
+        }
+      
+
+        
         
       }).catch((e) => {
         throw new Error(e);
