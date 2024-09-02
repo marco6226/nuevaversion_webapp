@@ -435,10 +435,15 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   }
   async buscarEmpleado(event: any) {
+    if (!event?.query == undefined) {
+      return; // Si event.query es undefined, no hacer nada
+    }
+    
     await this.empleadoService
       .buscar(event.query)
       .then((data) => (this.empleadosList = <Empleado[]>data));
   }
+  
 
   suggestions: string[] = [];
   filteredSuggestions: string[] = [];
