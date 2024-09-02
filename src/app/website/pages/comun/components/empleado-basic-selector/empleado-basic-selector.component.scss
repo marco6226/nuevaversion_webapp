@@ -1,6 +1,9 @@
 .disabled{
   color: #555;
-  background-color: #efefef;
+}
+
+.disabled:hover{
+  cursor:default;
 }
 
 .wrapper{
