@@ -126,6 +126,9 @@ export class SaludLaboralComponent implements OnInit {
 
   documentacionSelectUser: any;
   getSelectedId() {
+    this.loadMailData(this.idSl);
+    this.loadMailDataUser(this.idSl, this.pkuser);
+    
     if (this.documentacionSelectUser) {
       const selectedId = this.documentacionSelectUser.id;
       return selectedId;
@@ -579,7 +582,7 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoNombres: this.saludLaboralSelect.nombreCompletoSL,
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
     }
-    
+
 
 
     if (!formData.docSolicitado) {
@@ -1179,6 +1182,8 @@ export class SaludLaboralComponent implements OnInit {
         return 'Recibido';
       case 4:
         return 'Aprobado';
+      case 5:
+        return 'Eliminado';
       default:
         return 'Desconocido';
     }
@@ -1202,6 +1207,8 @@ export class SaludLaboralComponent implements OnInit {
         return 'enviado';
       case 4:
         return 'Aprobado';
+      case 5:
+        return 'Eliminado';
       default:
         return 'Desconocido';
     }
@@ -1397,62 +1404,62 @@ export class SaludLaboralComponent implements OnInit {
 
   envioExitoso = false;
 
-    async onSubmit() {
-      if (this.empleadoForm.valid) {
-          let body = { ...this.empleadoForm.value };
+  async onSubmit() {
+    if (this.empleadoForm.valid) {
+      let body = { ...this.empleadoForm.value };
 
-          // Actualizar los campos según sea necesario
-          body.procesoActual = body.procesoActual?.id || body.procesoActual;
-          body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
-          body.areaActual = body.areaActual?.id || body.areaActual;
-          body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
-          body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
+      // Actualizar los campos según sea necesario
+      body.procesoActual = body.procesoActual?.id || body.procesoActual;
+      body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
+      body.areaActual = body.areaActual?.id || body.areaActual;
+      body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
+      body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
 
-          if (Array.isArray(body.pkUser)) {
-              body.pkUser = body.pkUser[0];
-          }
-          if (body.epsDictamen && body.epsDictamen.value) {
-              body.epsDictamen = body.epsDictamen.value;
-          }
-          if (body.arlDictamen && body.arlDictamen.value) {
-              body.arlDictamen = body.arlDictamen.value;
-          }
-          if (body.jrDictamen && body.jrDictamen.value) {
-              body.jrDictamen = body.jrDictamen.value;
-          }
-
-          // Limpia el formulario según sea necesario
-          body = this.prepareFormData(body);
-
-          try {
-              const response = await (this.iddt !== undefined 
-                  ? this.casoMedico.putCaseSL(this.iddt, body) 
-                  : this.casoMedico.createDT(body));
-
-              if (response) {
-                  this.showSuccessToast();
-                  // Recargar los datos después de crear/actualizar el caso
-                  this.lazyLoad({ sortField: 'fechaCreacion', sortOrder: -1, first: 0, rows: 10, filters: {} });
-              }
-          } catch (error) {
-              console.error('Error al enviar el empleado:', error);
-              this.msgs = [];
-              this.messageService.add({
-                  key: 'formScmSL',
-                  severity: "error",
-                  summary: "Error al enviar empleado",
-                  detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
-              });
-          }
-      } else {
-          this.msgs = [];
-          this.messageService.add({
-              key: 'formScmSL',
-              severity: "error",
-              summary: "Usuario no creado",
-              detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
-          });
+      if (Array.isArray(body.pkUser)) {
+        body.pkUser = body.pkUser[0];
       }
+      if (body.epsDictamen && body.epsDictamen.value) {
+        body.epsDictamen = body.epsDictamen.value;
+      }
+      if (body.arlDictamen && body.arlDictamen.value) {
+        body.arlDictamen = body.arlDictamen.value;
+      }
+      if (body.jrDictamen && body.jrDictamen.value) {
+        body.jrDictamen = body.jrDictamen.value;
+      }
+
+      // Limpia el formulario según sea necesario
+      body = this.prepareFormData(body);
+
+      try {
+        const response = await (this.iddt !== undefined
+          ? this.casoMedico.putCaseSL(this.iddt, body)
+          : this.casoMedico.createDT(body));
+
+        if (response) {
+          this.showSuccessToast();
+          // Recargar los datos después de crear/actualizar el caso
+          this.lazyLoad({ sortField: 'fechaCreacion', sortOrder: -1, first: 0, rows: 10, filters: {} });
+        }
+      } catch (error) {
+        console.error('Error al enviar el empleado:', error);
+        this.msgs = [];
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "error",
+          summary: "Error al enviar empleado",
+          detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
+        });
+      }
+    } else {
+      this.msgs = [];
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: "error",
+        summary: "Usuario no creado",
+        detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
+      });
+    }
   }
 
 
@@ -1520,6 +1527,30 @@ export class SaludLaboralComponent implements OnInit {
 
 
   onEditState(iddt: string | number, body: any): void {
+    if (this.documentacionSelectSolicitado.estadoCorreo === 4) {
+      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
+      
+        this.messageService.add({
+          key: 'formScmSL',
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'El documento ya se encuentra aprobado.'
+        });
+        this.dialogRechazoFlag = false;
+        return; // Salir de la función sin hacer nada más
+    }
+    if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
+      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
+      
+        this.messageService.add({
+          key: 'formScmSL',
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'El documento no puede ser aprobado hasta ser recibido.'
+        });
+        this.dialogRechazoFlag = false;
+        return; // Salir de la función sin hacer nada más
+    }
     this.scmService.putStateApr(iddt, body).then(
       response => {
         this.messageService.add({
@@ -1537,6 +1568,42 @@ export class SaludLaboralComponent implements OnInit {
   }
 
   putmail() {
+    if (this.documentacionSelectUser.estadoCorreo === 3) {
+      console.log(this.documentacionSelectUser.estadoCorreo, "state");
+
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'No se puede rechazar un documento que ya ha sido enviado.'
+      });
+      this.dialogRechazoFlag = false;
+      return; // Salir de la función sin hacer nada más
+    }
+    if (this.documentacionSelectUser.estadoCorreo === 2) {
+      console.log(this.documentacionSelectUser.estadoCorreo, "state");
+
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'No se puede rechazar un documento que ya ha sido rechazado.'
+      });
+      this.dialogRechazoFlag = false;
+      return; // Salir de la función sin hacer nada más
+    }
+    if (this.documentacionSelectUser.estadoCorreo === 4) {
+      console.log(this.documentacionSelectUser.estadoCorreo, "state");
+
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'No se puede rechazar un documento de un caso aprobado.'
+      });
+      this.dialogRechazoFlag = false;
+      return; // Salir de la función sin hacer nada más
+    }
     if (!this.motivoRechazo.trim()) {
       this.messageService.add({
         // this.msgs.push({
@@ -1567,6 +1634,7 @@ export class SaludLaboralComponent implements OnInit {
           this.dialogRechazoFlag = false;
           this.loadMailDataUser(this.idSl, this.pkuser);
           this.loadMailData(this.idSl)
+          this.documentacionSelectUser = [];
         } else {
           this.messageService.add({
             // this.msgs.push({
@@ -1584,6 +1652,19 @@ export class SaludLaboralComponent implements OnInit {
     }
   }
   putmailSoliictante() {
+    if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
+      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
+      
+        this.messageService.add({
+          key: 'formScmSL',
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'El documento solo puede ser rechazado cuando su estado es RECIBIDO.'
+        });
+        this.dialogRechazoFlagSolicitante = false;
+        return; // Salir de la función sin hacer nada más
+    }
+    
     if (!this.motivoRechazoSolicitante.trim()) {
       this.messageService.add({
         // this.msgs.push({
@@ -1748,51 +1829,89 @@ export class SaludLaboralComponent implements OnInit {
   //   }
   // }
   async onUpload(event: Directorio) {
-    if (this.documentos == null) {
+    if (this.documentacionSelectUser.estadoCorreo === 2) {
+      console.log(this.documentacionSelectUser.estadoCorreo, "state");
+
+      this.messageService.add({
+        key: 'formScmSL',
+
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'No se puede adjuntar un documento a un caso rechazado.'
+      });
+      this.dialogRechazoFlag = false;
+      return; // Salir de la función sin hacer nada más
+    }
+    if (this.documentacionSelectUser.estadoCorreo === 4) {
+      console.log(this.documentacionSelectUser.estadoCorreo, "state");
+
+      this.messageService.add({
+        key: 'formScmSL',
+
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'No se puede adjuntar un documento a un caso aprobado.'
+      });
+      this.dialogRechazoFlag = false;
+      return; // Salir de la función sin hacer nada más
+    }
+    if (!this.documentos) {
       this.documentos = [];
     }
-    if (this.directorios == null) {
+    if (!this.directorios) {
       this.directorios = [];
     }
 
     try {
-      this.directorios.push(event);
-      this.documentos.push(event.documento!);
-      let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
-      console.log("INDEXXXXX", index);
+      // Verificar si el documento ya está en la lista
+      if (!this.documentoId.includes(event.documento!.id)) {
+        this.directorios.push(event);
+        this.documentos.push(event.documento!);
+        this.documentoId.push(event.documento!.id);
 
-      this.documentoId.push(event.documento!.id);
-      this.documentacionListUser[index].documentos = this.documentoId;
+        let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+        this.documentacionListUser[index].documentos = this.documentoId;
+      }
 
       console.log('el directorio', this.directorios);
 
       // Llamada para actualizar la tabla mail_saludlaboral
       await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
-      this.putmaildocsEnviados();
-      this.loadMailData(this.idSl);
+      await this.putmaildocsEnviados();
+
+      // Limpiar las listas antes de recargar los datos
+      this.documentos = [];
+      this.directorios = [];
+      this.documentoId = [];
+
+      // Recargar los datos después de la carga
+       setTimeout(() => {
+         this.loadMailData(this.idSl);
+       this.loadMailDataUser(this.idSl, this.pkuser);
+      }, 3000);
 
       // Mostrar mensaje de éxito
       this.messageService.add({
-        // this.msgs.push({
         key: 'formScmSL',
         severity: "success",
         summary: "Usuario actualizado",
-        detail: `Documentacion Adjuntada`,
+        detail: `Documentación adjuntada exitosamente.`,
       });
+      this.documentacionSelectUser = [];
 
     } catch (error) {
       console.error(error);
 
       // Mostrar mensaje de error
       this.messageService.add({
-        // this.msgs.push({
         key: 'formScmSL',
         severity: "warn",
-        summary: "Usuario actualizado",
-        detail: `Documentacion no Adjuntada revisa`,
+        summary: "Error",
+        detail: `La documentación no se pudo adjuntar. Por favor, revisa e inténtalo de nuevo.`,
       });
     }
   }
+
   documentotoIDT: any[] = [];
   async onUploadCaseDT(event: Directorio) {
 
@@ -2037,8 +2156,9 @@ export class SaludLaboralComponent implements OnInit {
   eliminarDocument(doc: Documento) {
     // Verifica si el estado del caso es 'Aprobado' (estadoCorreo === 4)
     if (this.documentacionSelectUser.estadoCorreo === 4) {
+        console.log(this.documentacionSelectUser.estadoCorreo, "state");
         this.messageService.add({
-            key: 'formScmSL',
+          key: 'formScmSL',
             severity: 'warn',
             summary: 'Acción no permitida',
             detail: 'No se puede eliminar un documento de un caso aprobado.'
@@ -2046,31 +2166,66 @@ export class SaludLaboralComponent implements OnInit {
         return; // Salir de la función sin hacer nada más
     }
 
+    console.log(doc.nombre);
+
+    if (!doc || !doc.id) {
+        console.error('El documento no tiene un ID válido:', doc);
+        return;
+    }
+
     this.confirmationService.confirm({
         message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
         header: 'Confirmar',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.deleteDocument(this.documentacionSelectUser.id, doc.id),
+            this.deleteDocument(this.documentacionSelectUser.id, doc.id);
             this.directorioService.eliminarDocumento(doc.id).then(
                 data => {
-                    this.directorios = this.directorios.filter(val => val.id !== doc.id);
+                    // Filtrar solo si val tiene un id válido
+                    this.directorios = this.directorios.filter(val => val.id && val?.id! !== doc?.id!);
                     let docIds: string[] = [];
 
                     this.directorios.forEach(el => {
-                        docIds.push(el.id!);
+                        if (el.id) {
+                            docIds.push(el.id!);
+                        }
                     });
                     this.messageService.add({
-                        key: 'formScmSL',
-                        severity: 'success',
-                        summary: 'Documento eliminado',
-                        detail: `El documento ha sido retirado exitosamente.`,
-                    });
-                    this.loadMailData(this.pkuser);
+                      key: 'formScmSL',
+            severity: 'success',
+            summary: 'Documento Eliminado',
+            detail: 'El documento ha sido retirado.'
+        });
+        setTimeout(() => {
+          this.loadMailData(this.idSl);
+          this.loadMailDataUser(this.idSl, this.pkuser);
+          this.loadDocumentosSL();
+      }, 3000);
+      this.documentacionSelectUser = [];
+                   
                 }
-            )
+            ).catch(err => {
+                if (err.status !== 404) {
+                    console.error('Error al eliminar el documento:', err);
+                }
+
+                // Elimina el documento localmente en caso de error
+                // this.directorios = this.directorios.filter(val => val.id && val.id !== doc.id);
+                // let docIds: string[] = [];
+
+                // this.directorios.forEach(el => {
+                //     if (el.id) {
+                //         docIds.push(el.id);
+                //     }
+                // });
+                // console.log("que trae docIds", docIds);
+            });
+            this.loadMailData(this.idSl);
+            this.loadMailDataUser(this.idSl, this.pkuser)
+            this.loadDocumentosSL();
         }
     });
+
 }
 
   eliminarDocumentCaseDT(doc: Documento) {
@@ -2079,7 +2234,7 @@ export class SaludLaboralComponent implements OnInit {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.deleteDocumentCaseDT(this.idSl, doc.id),
+        this.scmService.deleteIdDocsCaseDT(this.idSl, doc.id),
           this.directorioService.eliminarDocumento(doc.id).then(
             data => {
               this.directorios = this.directorios.filter(val => val.id !== doc.id);
@@ -2120,13 +2275,19 @@ export class SaludLaboralComponent implements OnInit {
       }
     });
   }
+
+  async refresh(){
+    this.loadDocumentos();
+    this.loadMailData(this.idSl);
+    this.loadMailDataUser(this.idSl, this.pkuser)
+  }
   eliminarDocumentEmp(doc: Documento) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.deleteDocumentEmp(this.idSl, doc.id),
+        this.scmService.deleteIdDocsEmp(this.idSl, doc.id),
           this.directorioService.eliminarDocumento(doc.id).then(
             data => {
               this.directorios = this.directorios.filter(val => val.id !== doc.id);
@@ -2216,7 +2377,7 @@ export class SaludLaboralComponent implements OnInit {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.deleteDocumentJr(this.idSl, doc.id),
+        this.scmService.deleteIdDocsJr(this.idSl, doc.id),
           this.directorioService.eliminarDocumento(doc.id).then(
             data => {
               this.directorios = this.directorios.filter(val => val.id !== doc.id);
@@ -2311,7 +2472,7 @@ export class SaludLaboralComponent implements OnInit {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.deleteDocumentMin(this.idSl, doc.id),
+        this.scmService.deleteIdDocsMin(this.idSl, doc.id),
           this.directorioService.eliminarDocumento(doc.id).then(
             data => {
               this.directorios = this.directorios.filter(val => val.id !== doc.id);
@@ -2363,6 +2524,9 @@ export class SaludLaboralComponent implements OnInit {
 
 
   loadDocumentos() {
+    this.documentos = [];
+    this.directorios = [];
+    this.documentoId = [];
     if (this.documentacionListUser) {
       (this.documentacionListUser).forEach(async (element: any) => {
         if (element.documentos) {
@@ -2382,6 +2546,9 @@ export class SaludLaboralComponent implements OnInit {
 
   }
   async loadDocumentosSL() {
+    this.documentos = [];
+    this.directorios = [];
+    this.documentoId = [];
     if (this.documentacionListUser) {
       (this.documentacionListUser).forEach(async (element: any) => {
         if (element.documentos) {
@@ -2715,29 +2882,29 @@ export class SaludLaboralComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
       });
   }
-  deleteDocumentCaseDT(diagId: string | number, docId: string | number) {
-    this.scmService.deleteIdDocsCaseDT(diagId, docId)
-      .then((response: any) => {
-        // Actualizar la lista de documentos o manejar la respuesta
-        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
-      })
-      .catch((error: any) => {
-        // Manejar errores
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
-      });
-  }
-  deleteDocumentEmp(diagId: string | number, docId: string | number) {
-    this.scmService.deleteIdDocsEmp(diagId, docId)
-      .then((response: any) => {
-        // Actualizar la lista de documentos o manejar la respuesta
-        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
-      })
-      .catch((error: any) => {
-        // Manejar errores
-      });
-  }
+  // deleteDocumentCaseDT(diagId: string | number, docId: string | number) {
+  //   this.scmService.deleteIdDocsCaseDT(diagId, docId)
+  //     .then((response: any) => {
+  //       // Actualizar la lista de documentos o manejar la respuesta
+  //       this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+  //     })
+  //     .catch((error: any) => {
+  //       // Manejar errores
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
+  //     });
+  // }
+  // deleteDocumentEmp(diagId: string | number, docId: string | number) {
+  //   this.scmService.deleteIdDocsEmp(diagId, docId)
+  //     .then((response: any) => {
+  //       // Actualizar la lista de documentos o manejar la respuesta
+  //       this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+  //     })
+  //     .catch((error: any) => {
+  //       // Manejar errores
+  //     });
+  // }
   // deleteDocumentArl(diagId: string | number, docId: string | number) {
   //   this.scmService.deleteIdDocsArl(diagId, docId)
   //     .then((response: any) => {
@@ -2750,17 +2917,17 @@ export class SaludLaboralComponent implements OnInit {
   //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar el documento' });
   //     });
   // }
-  deleteDocumentJr(diagId: string | number, docId: string | number) {
-    this.scmService.deleteIdDocsJr(diagId, docId)
-      .then((response: any) => {
-        // Actualizar la lista de documentos o manejar la respuesta
-        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
-      })
-      .catch((error: any) => {
-        // Manejar errores
-      });
-  }
+  // deleteDocumentJr(diagId: string | number, docId: string | number) {
+  //   this.scmService.deleteIdDocsJr(diagId, docId)
+  //     .then((response: any) => {
+  //       // Actualizar la lista de documentos o manejar la respuesta
+  //       this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+  //     })
+  //     .catch((error: any) => {
+  //       // Manejar errores
+  //     });
+  // }
   // deleteDocumentJn(diagId: string | number, docId: string | number) {
   //   this.scmService.deleteIdDocsJn(diagId, docId)
   //     .then((response: any) => {
@@ -2772,17 +2939,17 @@ export class SaludLaboralComponent implements OnInit {
   //       // Manejar errores
   //     });
   // }
-  deleteDocumentMin(diagId: string | number, docId: string | number) {
-    this.scmService.deleteIdDocsMin(diagId, docId)
-      .then((response: any) => {
-        // Actualizar la lista de documentos o manejar la respuesta
-        this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
-        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
-      })
-      .catch((error: any) => {
-        // Manejar errores
-      });
-  }
+  // deleteDocumentMin(diagId: string | number, docId: string | number) {
+  //   this.scmService.deleteIdDocsMin(diagId, docId)
+  //     .then((response: any) => {
+  //       // Actualizar la lista de documentos o manejar la respuesta
+  //       this.documentacionList = this.documentacionList.filter((doc: { id: string | number; }) => doc.id !== docId);
+  //       this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Documento eliminado correctamente' });
+  //     })
+  //     .catch((error: any) => {
+  //       // Manejar errores
+  //     });
+  // }
   closeModalDiagnostico() {
     this.modalDianostico = false;
     this.diagSelect = null;
@@ -3005,9 +3172,9 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "El correo electrónico del usuario solicitado no está presente, verifica la información.",
+          detail: "El correo electrónico del usuario solicitado en los documentos de Gh Admon Personal no está presente. Verifica la información.",
         });
-        continue;
+        continue; // Salta a la siguiente iteración si falta usuarioSolicitado
       }
 
       if (!value.fechaLimite) {
@@ -3015,9 +3182,9 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "La fecha límite no está presente, verifica la información.",
+          detail: "La fecha límite en los documentos de Gh Admon Personal no está presente. Verifica la información.",
         });
-        continue;
+        continue; // Salta a la siguiente iteración si falta fechaLimite
       }
 
       try {
@@ -3026,21 +3193,24 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "success",
           summary: "Correo Enviado",
-          detail: `El correo electrónico fue enviado`,
+          detail: "El correo electrónico fue enviado exitosamente.",
         });
       } catch (error) {
         this.messageService.add({
           key: 'formScmSL',
           severity: "warn",
           summary: "Correo no Enviado",
-          detail: `El correo electrónico no fue enviado, verifica la información`,
+          detail: "El correo electrónico no fue enviado. Verifica la información.",
         });
       }
     }
 
+    // Cierra el modal de confirmación y recarga los datos de correo
     this.modalConfirmacionVisible = false;
     this.loadMailData(this.idSl);
+    this.loadMailDataUser(this.idSl, this.pkUser);
   }
+
 
   isFechaLimiteProxima(fechaLimite: string): boolean {
     const fechaLimiteDate = new Date(fechaLimite);
@@ -3051,87 +3221,168 @@ export class SaludLaboralComponent implements OnInit {
 
   async onSubmiSLtSeg() {
     for (const value of this.seguridad) {
-      await this.scmService.createMail(value).then(
-        response => {
-          this.modalConfirmacionVisible = false
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "success",
-            summary: "Correo Enviado",
-            detail: `El correo electronico fue enviado`,
-          });
-          this.loadMailData(this.idSl);
-        },
-        error => {
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "warn",
-            summary: "Correo no Enviado",
-            detail: `El correo electronico fue no enviado, verifica la información`,
-          });
-        }
-      );
-    };
+      // Validación de campos antes de intentar enviar el correo
+      if (!value.usuarioSolicitado) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "El correo electrónico del usuario solicitado en los documentos de seguridad no está presente. Verifica la información.",
+        });
+        continue; // Salta a la siguiente iteración si falta usuarioSolicitado
+      }
 
-  };
+      if (!value.fechaLimite) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "La fecha límite no está presente en los documentos de seguridad. Verifica la información.",
+        });
+        continue; // Salta a la siguiente iteración si falta fechaLimite
+      }
+
+      try {
+        // Intentar enviar el correo electrónico
+        const response = await this.scmService.createMail(value);
+
+        // Mostrar mensaje de éxito si el correo se envía correctamente
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "success",
+          summary: "Correo Enviado",
+          detail: "El correo electrónico fue enviado exitosamente.",
+        });
+
+        // Actualizar los datos de correo después del envío exitoso
+      } catch (error) {
+        // Mostrar mensaje de advertencia si hay un error en el envío
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Correo no Enviado",
+          detail: "El correo electrónico no fue enviado. Verifica la información.",
+        });
+      }
+
+      // Cargar los datos de correo de usuario independientemente del éxito o fallo
+      this.loadMailData(this.idSl);
+      this.loadMailDataUser(this.idSl, this.pkUser);
+      console.log("user", this.pkUser, "id", this.idSl);
+    }
+
+    // Cerrar el modal de confirmación después de procesar todos los correos
+    this.modalConfirmacionVisible = false;
+  }
+
   async onSubmiSLl() {
-    await this.saludLaboralMail.forEach(async value => {
-      await this.scmService.createMail(value).then(
-        response => {
-          this.modalConfirmacionVisible = false
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "success",
-            summary: "Correo Enviado",
-            detail: `El correo electronico fue enviado`,
-          });
-        },
-        error => {
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "warn",
-            summary: "Correo no Enviado",
-            detail: `El correo electronico fue no enviado, verifica la información`,
-          });
-        }
-      );
-    })
+    for (const value of this.saludLaboralMail) {
+      // Validación de campos antes de intentar enviar el correo
+      if (!value.usuarioSolicitado) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "El correo electrónico del usuario solicitado en los documentos de salud no está presente. Verifica la información.",
+        });
+        continue; // Salta a la siguiente iteración si falta usuarioSolicitado
+      }
+
+      if (!value.fechaLimite) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "La fecha límite no está presente en loos documentos de salud. Verifica la información.",
+        });
+        continue; // Salta a la siguiente iteración si falta fechaLimite
+      }
+
+      try {
+        // Intentar enviar el correo electrónico
+        const response = await this.scmService.createMail(value);
+
+        // Mostrar mensaje de éxito si el correo se envía correctamente
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "success",
+          summary: "Correo Enviado",
+          detail: "El correo electrónico fue enviado exitosamente.",
+        });
+
+      } catch (error) {
+        // Mostrar mensaje de advertencia si hay un error en el envío
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Correo no Enviado",
+          detail: "El correo electrónico no fue enviado. Verifica la información.",
+        });
+      }
+    }
+
+    // Cerrar el modal de confirmación después de procesar todos los correos
+    this.modalConfirmacionVisible = false;
+
+    // Cargar los datos de correo después de procesar todos los elementos
+    this.loadMailData(this.idSl);
+    this.loadMailDataUser(this.idSl, this.pkuser);
   }
+
   async onSubmitPsico() {
-    await this.psicosocial.forEach(async value => {
-      await this.scmService.createMail(value).then(
-        response => {
-          this.modalConfirmacionVisible = false
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "success",
-            summary: "Correo Enviado",
-            detail: `El correo electronico fue enviado`,
-          });
-        },
-        error => {
-          this.msgs = []
-          this.messageService.add({
-            // this.msgs.push({
-            key: 'formScmSL',
-            severity: "warn",
-            summary: "Correo no Enviado",
-            detail: `El correo electronico fue no enviado, verifica la información`,
-          });
-        }
-      );
-    })
+    for (const value of this.psicosocial) {
+      // Validación de campos antes de intentar enviar el correo
+      if (!value.usuarioSolicitado) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "El correo electrónico del usuario solicitado no está presente en los documentos de Psicosocial. Verifica la información.",
+        });
+        continue; // Salta a la siguiente iteración si falta usuarioSolicitado
+      }
+
+      if (!value.fechaLimite) {
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Falta Información",
+          detail: "La fecha límite no está presente en los documentos de Psicosocial. Verifica la información.",
+        });
+        continue; // Salta a la siguiente iteración si falta fechaLimite
+      }
+
+      try {
+        // Intentar enviar el correo electrónico
+        const response = await this.scmService.createMail(value);
+
+        // Mostrar mensaje de éxito si el correo se envía correctamente
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "success",
+          summary: "Correo Enviado",
+          detail: "El correo electrónico fue enviado exitosamente.",
+        });
+
+      } catch (error) {
+        // Mostrar mensaje de advertencia si hay un error en el envío
+        this.messageService.add({
+          key: 'formScmSL',
+          severity: "warn",
+          summary: "Correo no Enviado",
+          detail: "El correo electrónico no fue enviado. Verifica la información.",
+        });
+      }
+    }
+
+    // Cerrar el modal de confirmación después de procesar todos los correos
+    this.modalConfirmacionVisible = false;
+
+    // Cargar los datos de correo después de procesar todos los elementos
+    this.loadMailData(this.idSl);
+    this.loadMailDataUser(this.idSl, this.pkuser);
   }
+
 
 
 

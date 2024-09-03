@@ -740,12 +740,12 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
           .then((response) => {
             if (response) {
               this.msgs = []
-              this.messageService.add({
-                key: 'formScmSL',
-                severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} fue actualizado con el caso ${response}`,
-              });
+              // this.messageService.add({
+              //   key: 'formScmSL',
+              //   severity: "success",
+              //   summary: "Usuario actualizado",
+              //   detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} fue actualizado con el caso ${response}`,
+              // });
               console.log('Empleado actualizado correctamente', response);
             }
           })

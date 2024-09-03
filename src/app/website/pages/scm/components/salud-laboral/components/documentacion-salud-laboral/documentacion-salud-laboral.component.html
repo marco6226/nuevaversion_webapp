@@ -220,7 +220,7 @@
       [value]="documentacionListUser"
       [(selection)]="documentacionSelectUser"
       [paginator]="true"
-      [rows]="5"
+      [rows]="10"
       dataKey="id"
       [lazy]="true"
       (onLazyLoad)="lazyLoad($event)"
@@ -470,7 +470,6 @@
                           <a>&nbsp;</a>
                           <a
                             type="button"
-                            [disabled]="case.estadoCorreo === 4"
                             class="btn btn-outline-danger"
                             title="Eliminar documento"
                             (click)="eliminarDocument(doc)"

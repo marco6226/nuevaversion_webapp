@@ -116,7 +116,7 @@ dataKey="id"
       [(selection)]="documentacionSelectSolicitado"
       [value]="documentacionList"
       [paginator]="true"
-      [rows]="5"
+      [rows]="10"
       dataKey="id"
       [lazy]="true"
       (onLazyLoad)="lazyLoad($event)"
@@ -340,12 +340,12 @@ dataKey="id"
                     <tbody>
                       <tr>
                         <td>
-                          {{doc}}
+                        
                           <a
                             type="button"
                             class="btn btn-outline-primary"
                             (click)="descargarDocumento(doc?.documento??'')"
-                            >{{ doc?.documento?.descripcion??'No exito freddy uwu' }}</a
+                            >{{ doc?.documento?.descripcion}}</a
                           >
                         </td>
                       </tr>
@@ -373,10 +373,7 @@ dataKey="id"
             icon="bi bi-check"
             label="Aprobar"
             class="p-button-info margin-left margin-right"
-            [disabled]="
-              !documentacionSelectSolicitado?.documentos ||
-              documentacionSelectSolicitado.documentos.length === 0
-            "
+           
             (click)="onEditState(documentacionSelectSolicitado.id)"
           ></button>
 
@@ -387,11 +384,7 @@ dataKey="id"
             icon="bi bi-x"
             label="Rechazar"
             class="p-button-danger margin-left margin-right"
-            [disabled]="
-              !documentacionSelectSolicitado ||
-              !documentacionSelectSolicitado.documentos ||
-              documentacionSelectSolicitado.documentos.length === 0
-            "
+           
             (click)="dialogRechazoFlagSolicitante = true;"
           ></button>
         </div>

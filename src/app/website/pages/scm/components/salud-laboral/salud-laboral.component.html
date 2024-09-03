@@ -373,6 +373,7 @@
                       (completeMethod)="buscarEmpleado2($event)"
                       (onSelect)="selectResonsable($event, 'res2')"
                       [(ngModel)]="usuarioSolicitadoSeg"
+                      required
                     >
                       <ng-template let-empleado pTemplate="item">
                         <div class="ui-helper-clearfix">
@@ -421,6 +422,7 @@
                       [maxDate]="fechaActual"
                       [formControl]="formulario.get('fechaLimite')"
                       dateFormat="dd/mm/yy"
+                      required
                     ></p-calendar>
                   </div>
                 </div>
@@ -520,6 +522,7 @@
                       (completeMethod)="buscarEmpleadoSalud($event)"
                       (onSelect)="selectResonsable($event, 'res3')"
                       [(ngModel)]="iduarioSolicitadoSalud"
+                      required
                     >
                       <ng-template let-empleado pTemplate="item">
                         <div class="ui-helper-clearfix">
@@ -568,6 +571,7 @@
                       [maxDate]="fechaActual"
                       [formControl]="formulario.get('fechaLimite')"
                       dateFormat="dd/mm/yy"
+                      required
                     ></p-calendar>
                   </div>
                 </div>
@@ -665,6 +669,7 @@
                       (completeMethod)="buscarEmpleadoPsicosocial($event)"
                       (onSelect)="selectResonsable($event, 'res4')"
                       [(ngModel)]="usuarioSolicitadoPsicosocial"
+                      required
                     >
                       <ng-template let-empleado pTemplate="item">
                         <div class="ui-helper-clearfix">
@@ -713,6 +718,7 @@
                       [maxDate]="fechaActual"
                       [formControl]="formulario.get('fechaLimite')"
                       dateFormat="dd/mm/yy"
+                      required
                     ></p-calendar>
                   </div>
                 </div>
@@ -1638,7 +1644,7 @@
           ></button> -->
                 <div class="ui-g" style="margin-top: 10px">
                   <div class="ui-g-12 ui-sm-12 ui-md-10">
-                    <div *ngFor="let doc of directoriosSl">
+                    <div *ngFor="let doc of directorios">
                       <table
                         class="caption-top"
                         *ngIf="
@@ -1676,10 +1682,7 @@
               icon="bi bi-check"
               label="Aprobar"
               class="p-button-info margin-left margin-right"
-              [disabled]="
-                !documentacionSelectSolicitado ||
-                documentacionSelectSolicitado.documentos === 0
-              "
+             
               (click)="onEditState(documentacionSelectSolicitado.id)"
             ></button>
             <button
@@ -1689,11 +1692,6 @@
               icon="bi bi-x"
               label="Rechazar"
               class="p-button-danger margin-left margin-right"
-              [disabled]="
-                !documentacionSelectSolicitado ||
-                !documentacionSelectSolicitado.documentos ||
-                documentacionSelectSolicitado.documentos.length === 0
-              "
               (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
             ></button>
           </ng-template>
@@ -1866,6 +1864,7 @@
               [disabled]="!documentacionSelectUser"
               (click)="dialogRechazoFlag = true; getSelectedId()"
             ></button>
+           
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>

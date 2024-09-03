@@ -242,6 +242,17 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             this.dialogRechazoFlag = false;
             return; // Salir de la función sin hacer nada más
         }
+        if (this.documentacionSelectUser.estadoCorreo === 4) {
+          console.log(this.documentacionSelectUser.estadoCorreo, "state");
+          
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Acción no permitida',
+                detail: 'No se puede adjuntar un documento a un caso aprobado.'
+            });
+            this.dialogRechazoFlag = false;
+            return; // Salir de la función sin hacer nada más
+        }
         if (this.documentos == null) {
           this.documentos = [];
         }
@@ -263,7 +274,10 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
           // Llamada para actualizar la tabla mail_saludlaboral
           await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
           this.putmaildocsEnviados();
-          this.lazyLoad(event);
+          setTimeout(() => {
+            this.lazyLoad(event);
+          }, 2000);
+          this.documentacionSelectUser= [];
     
           // Mostrar mensaje de éxito
           this.messageService.add({
@@ -319,6 +333,17 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       }
       
       putmail() {
+        if (this.documentacionSelectUser.estadoCorreo === 3) {
+          console.log(this.documentacionSelectUser.estadoCorreo, "state");
+          
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Acción no permitida',
+                detail: 'No se puede rechazar un documento que ya ha sido enviado.'
+            });
+            this.dialogRechazoFlag = false;
+            return; // Salir de la función sin hacer nada más
+        }
         if (this.documentacionSelectUser.estadoCorreo === 2) {
           console.log(this.documentacionSelectUser.estadoCorreo, "state");
           
@@ -410,7 +435,8 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
                 summary: 'Documento Eliminado',
                 detail: 'El documento ha sido retirado.'
             });
-            this.lazyLoad(event);
+            this.lazyLoad(doc);
+            this.documentacionSelectUser= [];
                        
                     }
                 ).catch(err => {

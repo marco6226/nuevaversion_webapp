@@ -162,6 +162,8 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
         return 'Recibido';
       case 4:
         return 'Aprobado';
+      case 5:
+        return 'Eliminado';
       default:
         return 'Desconocido';
     }
@@ -216,6 +218,7 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
           detail: 'El documento ha sido aprobado.'
       });
         this.loadMailData(this.pkuser);
+        this.documentacionSelectSolicitado = [];
       },
       error => {
         console.error('Error al enviar datos:', error);
@@ -258,6 +261,7 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
           console.log("Actualización exitosa");
           this.dialogRechazoFlagSolicitante = false;
           this.loadMailData(this.pkuser);
+          this.documentacionSelectSolicitado = [];
         } else {
           console.error("Error en la actualización");
         }
