@@ -395,8 +395,9 @@ export class SaludLaboralComponent implements OnInit {
     let segundoApellido = (this.sesionService.getEmpleado()) ? (this.sesionService.getEmpleado()!.segundoApellido ? this.sesionService.getEmpleado()!.segundoApellido : '') : ''
     let cedula = (this.sesionService.getEmpleado()) ? (this.sesionService.getEmpleado()!.numeroIdentificacion ? this.sesionService.getEmpleado()!.numeroIdentificacion : '') : ''
     this.cedula = cedula;
-    this.nombreSesion = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
-    this.nombreSesionSeg = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
+    this.nombreSesion = (primerNombre || '') + ' ' + (segundoNombre || '') + ' ' + (primerApellido || '') + ' ' + (segundoApellido || '');
+    this.nombreSesionSeg = (primerNombre || '') + ' ' + (segundoNombre || '') + ' ' + (primerApellido || '') + ' ' + (segundoApellido || '');
+
 
     this.config.setTranslation(this.localeES);
     this.colsActionList = [
@@ -1416,7 +1417,7 @@ export class SaludLaboralComponent implements OnInit {
       body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
       body.areaActual = body.areaActual?.id || body.areaActual;
       body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
-      body.nombreCompletoSL = `${body.primerApellido} ${body.segundoApellido} ${body.primerNombre} ${body.segundoNombre}`;
+      body.nombreCompletoSL = `${body.primerApellido || ''} ${body.segundoApellido || ''} ${body.primerNombre || ''} ${body.segundoNombre || ''}`;
 
       if (Array.isArray(body.pkUser)) {
         body.pkUser = body.pkUser[0];
@@ -3009,26 +3010,25 @@ export class SaludLaboralComponent implements OnInit {
       case 'res1':
         this.usuarioSolicitado = eve.usuario.email
         this.pkUser = eve.usuario.id
-        this.nombreCompletoSalud = `${eve.primerApellido} ${eve.segundoApellido} ${eve.primerNombre} ${eve.segundoNombre}`;
-
+        this.nombreCompletoSalud =`${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
 
         break;
       case 'res2':
         this.usuarioSolicitadoSeg = eve.usuario.email
         this.pkuser2 = eve.usuario.id;
-        this.nombreCompletoSeg = `${eve.primerApellido} ${eve.segundoApellido} ${eve.primerNombre} ${eve.segundoNombre}`;
+        this.nombreCompletoSeg = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
         this.userSoliCedula = eve.numeroIdentificacion
         break;
       case 'res3':
         this.iduarioSolicitadoSalud = eve.usuario.email
         this.pkuserSalud = eve.usuario.id;
-        this.nombreCompletoSaludLaboral = `${eve.primerApellido} ${eve.segundoApellido} ${eve.primerNombre} ${eve.segundoNombre}`;
+        this.nombreCompletoSaludLaboral = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
         this.userSoliCedula = eve.numeroIdentificacion
         break;
       case 'res4':
         this.usuarioSolicitadoPsicosocial = eve.usuario.email
         this.pkuserPsico = eve.usuario.id;
-        this.nombreCompletoPsicosocial = `${eve.primerApellido} ${eve.segundoApellido} ${eve.primerNombre} ${eve.segundoNombre}`;
+        this.nombreCompletoPsicosocial = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
         this.userSoliCedula = eve.numeroIdentificacion
         break;
 
