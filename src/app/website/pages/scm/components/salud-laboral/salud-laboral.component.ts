@@ -81,6 +81,8 @@ export class SaludLaboralComponent implements OnInit {
   casosListFilter: any;
 
 
+
+
   empleadoForm: FormGroup;
 
   empleadosList!: Empleado[];
@@ -659,6 +661,7 @@ export class SaludLaboralComponent implements OnInit {
   pkuser2 = this.usuarioId.usuario.id;
   pkuserSalud = this.usuarioId.usuario.id;
   pkuserPsico = this.usuarioId.usuario.id;
+  fechaCreacion2 = this.saludL.fechaCreacion;
   idSl = this.saludL.idSl;
 
   async ngOnInit() {
