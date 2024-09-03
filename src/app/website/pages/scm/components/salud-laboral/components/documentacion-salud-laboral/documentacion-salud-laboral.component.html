@@ -220,7 +220,7 @@
       [value]="documentacionListUser"
       [(selection)]="documentacionSelectUser"
       [paginator]="true"
-      [rows]="10"
+      [rows]="5"
       dataKey="id"
       [lazy]="true"
       (onLazyLoad)="lazyLoad($event)"
@@ -228,7 +228,7 @@
       sortOrder="1"
       [totalRecords]="totalRecords"
       (onFilter)="onFilter($event)"
-      [rowsPerPageOptions]="[10, 20, 50, 100]"
+      [rowsPerPageOptions]="[5, 10, 20, 50, 100]"
       scrollable="true"
     >
       <ng-template pTemplate="header" let-columns>

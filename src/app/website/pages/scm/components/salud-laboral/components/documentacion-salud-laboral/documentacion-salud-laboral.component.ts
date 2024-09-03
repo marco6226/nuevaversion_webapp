@@ -383,6 +383,7 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
               console.log("Actualización exitosa");
               this.dialogRechazoFlag = false;
               this.lazyLoad(event);
+              this.documentacionSelectUser = [];
               //this.loadMailData(this.pkuser)
             } else {
               console.error("Error en la actualización");
