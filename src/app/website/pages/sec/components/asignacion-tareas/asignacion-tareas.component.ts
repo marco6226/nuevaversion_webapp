@@ -218,7 +218,7 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
                 tarea.fecha_reporte = new Date(tarea.fecha_reporte).toISOString();
                 tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
                 return tarea;
-            }));
+            }));        
             this.loading = false;       
         }
 
@@ -369,10 +369,10 @@ export class AsignacionTareasComponent implements OnInit, AfterViewInit {
        /* save to file */
        XLSX.writeFile(wb, this.fileName);
     }
-
-    onFilter(event:any){
-        this.tareaListFilter=event.filteredValue
-        this.totalRecords = event.filteredValue.length
+  
+    onFilter(event:any){  
+      this.tareaListFilter=event.filteredValue
+      this.totalRecords = event.filteredValue.length
     }
 
     // Esta función valida en el objeto json columnasPorModulo, en ese objeto están detalladas las columnas que quiere ver cada empresa 

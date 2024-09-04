@@ -356,7 +356,10 @@ export class AnalisisDesviacionComponent implements OnInit {
             analisisDesviacionList: [],
             modulo: '',
             codigo: '',
-            envioCorreo: false
+            envioCorreo: false,
+            localidadSv: '',
+            areaSv: '',
+            procesoSv:'',
         }
         setTimeout(() => {
             if (this.desviacionesList)
@@ -1345,6 +1348,10 @@ export class AnalisisDesviacionComponent implements OnInit {
                             modulo: '',
                             codigo: '',
                             envioCorreo: false,
+                            localidadSv: '',
+                            areaSv: '',
+                            procesoSv:'',
+
                         };
                         this.tareasList?.push(tarea)
                     } else if (index == 1 && element2.medible.isComplete && y == undefined && element2.medible.id == null) {
@@ -1368,6 +1375,9 @@ export class AnalisisDesviacionComponent implements OnInit {
                             modulo: '',
                             codigo: '',
                             envioCorreo: false,
+                            localidadSv: '',
+                            areaSv: '',
+                            procesoSv:'',
                         };
                         this.tareasList?.push(tarea)
                     } else if (index == 2 && element2.eficaz.isComplete && z == undefined && element2.eficaz.id == null) {
@@ -1391,6 +1401,9 @@ export class AnalisisDesviacionComponent implements OnInit {
                             modulo: '',
                             codigo: '',
                             envioCorreo: false,
+                            localidadSv: '',
+                            areaSv: '',
+                            procesoSv:'',
                         };
                         this.tareasList?.push(tarea)
                     }

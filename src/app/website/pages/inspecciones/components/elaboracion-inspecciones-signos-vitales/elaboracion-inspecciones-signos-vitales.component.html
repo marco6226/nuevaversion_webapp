@@ -234,7 +234,7 @@
             <tr *ngIf="!elemInp?.calificacion?.calcularCumplimiento">
               <td> {{elemInp?.nombre}} </td>
               <td> {{elemInp?.descripcion}} </td>
-              <td> {{calcularCalificacion(elemInp.elementoInspeccionList)}} </td>
+              <td> {{calcularCalificacion(elemInp.elementoInspeccionList)}}<span *ngIf="calcularCalificacion(elemInp.elementoInspeccionList) !== 'NA'">%</span>  </td>
             </tr>
           </ng-container>
         </tbody>

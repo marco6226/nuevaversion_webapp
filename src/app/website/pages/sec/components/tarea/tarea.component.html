@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <div class="col-12 md:col-6 lg:col-4">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="!esInspeccionSV; else division">
                 <div class="input-field">
                     <input *ngIf="idEmpresa!='22' && idEmpresa!='508'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.regional"
                         readonly="true" />
@@ -108,8 +108,20 @@
                     <label for="" class="active" *ngIf="idEmpresa=='22' || idEmpresa=='508'">División / Unidad</label>
                 </div>
             </div>
+            <ng-template #division>
+                <div class="col-12 md:col-6 lg:col-4" >
+                    <div class="input-field">
+                        <input *ngIf="idEmpresa!='22' && idEmpresa!='508'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.regional"
+                            readonly="true" />
+                        <input *ngIf="idEmpresa=='22' || idEmpresa=='508'" type="text" pInputText placeholder="Regional" class="form-material" [value]="tarea?.area"
+                            readonly="true" />
+                        <label for="" class="active" *ngIf="idEmpresa!='22' && idEmpresa!='508'">Regional</label>
+                        <label for="" class="active" *ngIf="idEmpresa=='22' || idEmpresa=='508'">División / Unidad</label>
+                    </div>
+                </div>  
+            </ng-template>
 
-            <div class="col-12 md:col-6 lg:col-4" *ngIf="!esInspeccionCC; else localidad">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="!esInspeccionCC && !esInspeccionSV">
                 <div class="input-field">
                     <input type="text" pInputText placeholder="Area" class="form-material" [value]="tarea?.area"
                         readonly="true" />
@@ -118,15 +130,37 @@
                 </div>
             </div>
 
-            <ng-template #localidad>
-                <div class="col-12 md:col-6 lg:col-4">
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="esInspeccionCC">
                     <div class="input-field">
                         <input type="text" pInputText placeholder="Localidad" class="form-material" [value]="tarea?.localidad"
                             readonly="true" />
                         <label for="" class="active">Localidad</label>
                     </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="esInspeccionSV">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Localidad" class="form-material" [value]="tarea?.localidadSv"
+                        readonly="true" />
+                    <label for="" class="active">Localidad</label>
                 </div>
-            </ng-template>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="esInspeccionSV">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Area" class="form-material" [value]="tarea?.areaSv"
+                        readonly="true" />
+                    <label for="" class="active">Area</label>
+                </div>
+            </div>
+    
+            <div class="col-12 md:col-6 lg:col-4" *ngIf="esInspeccionSV">
+                <div class="input-field">
+                    <input type="text" pInputText placeholder="Proceso" class="form-material" [value]="tarea?.procesoSv"
+                        readonly="true" />
+                    <label for="" class="active">Proceso</label>
+                </div>
+            </div>
 
             <div class="col-12 md:col-6 lg:col-4">
                 <div class="input-field">
@@ -306,10 +340,10 @@
                 <ng-template [sTienePermiso]="'RAI_GET_TAREAEVI'" (flagTienePermiso)="TienePermiso($event)">
                 </ng-template>
                 <button pButton *ngIf="cargando == false && !tareaClose" type="submit" icon="pi pi-save"
-                    class="float-btn" style="right: 10px;" title="Guardar tarea"></button>
-
-                <p-progressSpinner *ngIf="cargando == true" class="float-btn" strokeWidth="8"
-                    [style]="{width: '35px', height: '35px'}"></p-progressSpinner>
+                    class="float-btn" style="right: 10px;" title="Guardar tarea" [disabled]="disabled"></button>
+                <div *ngIf="cargando" class="loader-container">
+                    <div class="loader2 float-btn" style="position:absolute; top:340px; left:53%; "></div>
+                </div>
                 <!-- End send button -->
 
             </div>
