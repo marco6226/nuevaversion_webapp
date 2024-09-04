@@ -96,7 +96,6 @@ export class CasosMedicosListComponent implements OnInit {
     this.idEmpresa = this.sesionService.getEmpresa()?.id!;
     setTimeout(() => {
       this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
-      console.log('LACONSULTA', this.consultar);
     }, 2000);
     
 
@@ -153,7 +152,6 @@ export class CasosMedicosListComponent implements OnInit {
       this.casosList = res?.data?.map((dto: any) => {
         return FilterQuery.dtoToObject(dto);
       });
-      console.log("res",res);
       this.totalRecords = res.count;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -188,14 +186,12 @@ export class CasosMedicosListComponent implements OnInit {
 
   openCase() {
     
-    console.log('case select', this.caseSelect.idSl);
     localStorage.setItem('scmShowCase', 'false');
     this.flagSaludLaboralRegistro = true;
     localStorage.setItem('slShowCase', 'true');
     localStorage.setItem('saludL', JSON.stringify(this.caseSelect));
     this.route.navigate(['/app/scm/saludlaboral/', this.caseSelect.idSl])
-    console.log(this.caseSelect);
-    console.log('case select', this.caseSelect.idSl);
+
 
 
   }
@@ -215,7 +211,6 @@ export class CasosMedicosListComponent implements OnInit {
         return { label: ele.nombre, value: ele.id };
         
       });
-      console.log("cargo actual", this.cargoActualList);
 
     } catch (error) {
       console.error("Error fetching cargos:", error);
@@ -230,7 +225,6 @@ export class CasosMedicosListComponent implements OnInit {
   areaList: any[] = []
   areaListActual: any[] = []
   async cargarArea(eve: any, tipo: string) {
-    console.log(eve);
 
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
@@ -253,17 +247,14 @@ export class CasosMedicosListComponent implements OnInit {
 
     if (tipo === 'Origen') {
       this.areaList = [...areaList];
-      console.log(areaList)
     } else {
       this.areaListActual = [...areaList];
-      console.log(this.areaListActual)
     }
   }
   localidadesList: any = [];
   localidadesListActual: any = [];
   async cargarPlantaLocalidad(eve: any, tipo: string) {
     this.mapData = new Map<any, String>();
-    console.log("cargarPlantaLocalidad - Evento:", eve, "Tipo:", tipo);
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
@@ -275,7 +266,6 @@ export class CasosMedicosListComponent implements OnInit {
     await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then(async(resp: any) => {
       const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
       this.mapData.set(localidadesList, this.caseSelect)
-      console.log(this.mapData);
       
       if (tipo === 'Origen') {
         this.localidadesList = localidadesList;

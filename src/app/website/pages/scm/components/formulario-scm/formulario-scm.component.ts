@@ -596,7 +596,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.cargoList.push({ label: '--Seleccione--', value: null });
             (<Cargo[]>resp['data']).forEach((cargo) => {
                 this.cargoList.push({ label: cargo.nombre, value: cargo.id });
-                console.log(resp,"cargos para creacion");
                 
             });
         });
@@ -618,7 +617,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
             this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
             (<JuntaRegional[]>data).forEach((JuntaRegional) => {
                 this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
-                console.log(this.JuntaRegionalList);
                 
                 
 
@@ -866,7 +864,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         let emp = <Empleado>this.value;
         this.casosList = await this.scmService.getCaseList(emp.id!);
         this.empleadoSelect = emp;
-        console.log("emp",emp);
         
         this.empresaForm!.reset()
         if(this.empleadoSelect){
@@ -951,7 +948,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 'ciudad': this.empleadoSelect!.ciudad,
             })
         }, 2000);
-        console.log("wea",this.empleadoSelect!.ciudad.id);
         
 
         this.empresaForm?.patchValue({
@@ -1511,7 +1507,6 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         if (file) {
           const formData = new FormData();
           formData.append('file', file);
-          console.log('Archivo seleccionado:', file);
           this.scmService.saveAnnexDocumentMediumTracking(formData);
         }
       }

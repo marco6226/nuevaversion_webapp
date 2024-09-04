@@ -20,11 +20,9 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
     ngOnInit(): void {
         this.pkUser = 13318;
         this.loadMailData(this.pkuser);
-        console.log("pk:case", this.pkuser);
         setTimeout(() => {
           this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
           this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
-          console.log('LACONSULTA', this.saludLaboralSelect);
         }, 2000);
         
     }
@@ -108,11 +106,9 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         try {
           const data = await this.scmService.findAllByIdMailUserOnlyUser(param);
           this.documentacionListUser = data; // Asigna los datos a documentacionListUser
-          console.log("Datos cargados:", data);
           this.cd.detectChanges();
           this.loadDocumentos();
         } catch (error) {
-          console.error('Error loading mail data', error);
         }
       }
       testing: boolean = false;
@@ -142,13 +138,10 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
           this.documentacionListUser = res?.data?.map((dto: any) => {
             return FilterQuery.dtoToObject(dto);
           });
-          console.log("res",res);
           this.totalRecords = res.count;
-          console.log("Total records:", this.totalRecords);
-          console.log("Documentación List:", this.documentacionListUser);
+
     
         } catch (error) {
-          console.error("Error fetching data:", error);
         }
       }
       casosListFilter: any;
@@ -184,10 +177,8 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       getSelectedId() {
         if (this.documentacionSelectUser) {
           const selectedId = this.documentacionSelectUser.id;
-          console.log('ID seleccionado:', selectedId);
           return selectedId;
         } else {
-          console.log('No hay elementos seleccionados.');
           return null;
         }
       }
@@ -199,7 +190,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         } else {
           this.documentoId = [];
         }
-        console.log("openUploadDIalof", docId, documentsID);
     
     
       }
@@ -232,7 +222,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       // }
       async onUpload(event: Directorio) {
         if (this.documentacionSelectUser.estadoCorreo === 2) {
-          console.log(this.documentacionSelectUser.estadoCorreo, "state");
           
             this.messageService.add({
                 severity: 'warn',
@@ -243,7 +232,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             return; // Salir de la función sin hacer nada más
         }
         if (this.documentacionSelectUser.estadoCorreo === 4) {
-          console.log(this.documentacionSelectUser.estadoCorreo, "state");
           
             this.messageService.add({
                 severity: 'warn',
@@ -264,12 +252,10 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
           this.directorios.push(event);
           this.documentos.push(event.documento!);
           let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
-          console.log("INDEXXXXX", index);
     
           this.documentoId.push(event.documento!.id);
           this.documentacionListUser[index].documentos = this.documentoId;
     
-          console.log('el directorio', this.directorios);
     
           // Llamada para actualizar la tabla mail_saludlaboral
           await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
@@ -305,9 +291,7 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       async updateMailSaludLaboral(docId: number, documentoId: String) {
         try {
           await this.scmService.updateMailSaludLaboral(docId, documentoId);
-          console.log('Mail salud laboral actualizado correctamente');
         } catch (error) {
-          console.error('Error actualizando mail salud laboral', error);
         }
       }
       putmaildocsEnviados() {
@@ -319,22 +303,17 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         if (selectedIdSoli) {
           this.casoMedico.putCaseMaildocsEnviados(selectedIdSoli, body).then((response) => {
             if (response) {
-              console.log("Actualización exitosa");
               this.dialogRechazoFlag = false;
             } else {
-              console.error("Error en la actualización");
             }
           }).catch((error) => {
-            console.error("Error en la actualización", error);
           });
         } else {
-          console.error("No hay un caso seleccionado");
         }
       }
       
       putmail() {
         if (this.documentacionSelectUser.estadoCorreo === 3) {
-          console.log(this.documentacionSelectUser.estadoCorreo, "state");
           
             this.messageService.add({
                 severity: 'warn',
@@ -345,7 +324,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             return; // Salir de la función sin hacer nada más
         }
         if (this.documentacionSelectUser.estadoCorreo === 2) {
-          console.log(this.documentacionSelectUser.estadoCorreo, "state");
           
             this.messageService.add({
                 severity: 'warn',
@@ -356,7 +334,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             return; // Salir de la función sin hacer nada más
         }
         if (this.documentacionSelectUser.estadoCorreo === 4) {
-          console.log(this.documentacionSelectUser.estadoCorreo, "state");
           
             this.messageService.add({
                 severity: 'warn',
@@ -380,8 +357,11 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         if (selectedId) {
           this.casoMedico.putCaseMail(selectedId, body).then((response) => {
             if (response) {
-              console.log("Actualización exitosa");
-              this.dialogRechazoFlag = false;
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Rechazo',
+                detail: 'Se rechazo el documento correctamente.'
+            });              this.dialogRechazoFlag = false;
               this.lazyLoad(event);
               this.documentacionSelectUser = [];
               //this.loadMailData(this.pkuser)
@@ -398,7 +378,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       eliminarDocument(doc: Documento) {
         // Verifica si el estado del caso es 'Aprobado' (estadoCorreo === 4)
         if (this.documentacionSelectUser.estadoCorreo === 4) {
-            console.log(this.documentacionSelectUser.estadoCorreo, "state");
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Acción no permitida',
@@ -407,7 +386,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             return; // Salir de la función sin hacer nada más
         }
     
-        console.log(doc.nombre);
     
         if (!doc || !doc.id) {
             console.error('El documento no tiene un ID válido:', doc);
@@ -462,7 +440,6 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
     
     
       deleteDocument(diagId: string | number, docId: string | number) {
-        console.log(diagId, docId);
         
         this.scmService.deleteIdDocs(diagId, docId)
           .then((response: any) => {

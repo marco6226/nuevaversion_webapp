@@ -428,8 +428,10 @@ export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
           this.localidadesList.push({ label: loc.localidad, value: loc.id });
         }
       })
-      .catch((er: any) => console.log(er))
-      .finally(() => (this.flagLocalidades = true));
+      .catch((er: any) => console.log("Error getLocalidades: ",er))
+      .finally(() => {
+        this.flagLocalidades = true
+      });
   }
   localidadesList: any;
 }

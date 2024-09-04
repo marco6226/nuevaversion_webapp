@@ -19,12 +19,10 @@ export class CasosMedicosService {
     }
 
     createDT(datosUsuario: any) {
-        console.log('Datos a enviar en POST:', datosUsuario);
         return this.http.post(`${endPoints.scm}createDT`, datosUsuario, this.getRequestHeaders(this.headers)).toPromise();
     }
 
     createMail(data: any) {
-        console.log('Datos a enviar en POST esto crea el mail:', data);
         return this.http.post(`${endPoints.scm}createMail`, data, this.getRequestHeaders(this.headers)).toPromise();
     }
 
@@ -44,86 +42,70 @@ export class CasosMedicosService {
         // Convertir promesa a observable
     }
     findAllByIdMailUserOnlyUser(mail:  number) {
-        console.log("que esta trayendo para el nuevo", mail);
         
         return this.http.get(`${endPoints.scm}mailsReceptByUser/${mail}`, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     findAllByIdMailUserOnlySolicitado(mail:  String) {
-        console.log("que esta trayendo para el nuevo", mail);
         
         return this.http.get(`${endPoints.scm}mailsReceptBySolicitado/${mail}`, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     findAllByIdMailUser(mail:  number, pkUser: number) {
-        console.log("datos usuario", mail, pkUser);
         
         return this.http.get(`${endPoints.scm}mailsRecept/${mail}/${pkUser}`, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseSL(iddt: string | number, body: any) {
-        console.log('Datos a enviar en PUT:', body);
         return this.http.put(`${endPoints.scm}caseESL/${iddt}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putUserDataSL(pkUser: string | number, body: any) {
-        console.log('Datos a enviar en PUT del usuario:', body);
         return this.http.put(`${endPoints.scm}userUpdate/${pkUser}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putStateApr(iddt: string | number, body: any) {
-        console.log('Datos a enviar en PUT edit:', body);
         return this.http.put(`${endPoints.scm}stateAprobed/${iddt}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
 
     putCaseMail(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para mails:', body);
         return this.http.put(`${endPoints.scm}email/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseMailSolicitante(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para soliictante:', body);
         return this.http.put(`${endPoints.scm}emailSolicitante/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseMaildocsEnviados(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs respondidos:', body);
         return this.http.put(`${endPoints.scm}emailEnviado/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseDOcs(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs:', body);
         return this.http.put(`${endPoints.scm}documents/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseDatosTrabajadorDocs(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs:', body);
         return this.http.put(`${endPoints.scm}documentsDT/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseDatosTrabajadorEmp(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs emp:', body);
         return this.http.put(`${endPoints.scm}documentsEmp/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseDatosTrabajadorJn(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs emp:', body);
         return this.http.put(`${endPoints.scm}documentsJn/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseDatosTrabajadorArl(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs emp:', body);
         return this.http.put(`${endPoints.scm}documentsArl/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseDatosTrabajadorJr(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs emp:', body);
         return this.http.put(`${endPoints.scm}documentsJr/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
     putCaseDatosTrabajadorMin(id: string | number, body: any) {
-        console.log('Datos a enviar en PUT para docs min:', body);
         return this.http.put(`${endPoints.scm}documentsMin/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
@@ -156,7 +138,6 @@ export class CasosMedicosService {
         return this.putCaseDatosTrabajadorMin(docId, body);
       }
     getCaseList(document: string | number): any {
-        console.log("document", document);
         return this.http.get<any[]>(`${endPoints.scm}validate/${document}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 
@@ -238,48 +219,39 @@ export class CasosMedicosService {
     }
 
     createDiagnosticos(diagnosticos: any) {
-        console.log('que ptas esta llegando',diagnosticos)
         return this.http.post(`${endPoints.scm}diagnosticos`, diagnosticos, this.getRequestHeaders(this.headers)).toPromise();
     }
     createDiagnosticosSL(diagnosticosSl: any) {
-        console.log('que ptas esta llegando diag2',diagnosticosSl)
         return this.http.post(`${endPoints.scm}diagnosticosSl`, diagnosticosSl, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDiagPartes(diag: string | number, part: string | number): any {
         return this.http.delete<any[]>(`${endPoints.scm}deletePartDiag/${diag}/${part}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDocs(id: string | number, docID: string | number): any {
-        console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocument/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDocsCaseDT(id: string | number, docID: string | number): any {
-        console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentDT/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDocsEmp(id: string | number, docID: string | number): any {
-        console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentEmp/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDocsArl(id: string | number, docID: string | number): any {
-        console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentArl/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDocsJr(id: string | number, docID: string | number): any {
-        console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentJr/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDocsJn(id: string | number, docID: string | number): any {
-        console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentJn/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     deleteIdDocsMin(id: string | number, docID: string | number): any {
-        console.log("que se esta enviando en eliminar", id, docID);
         
         return this.http.delete<any[]>(`${endPoints.scm}deleteDocumentMin/${id}/${docID}`, this.getRequestHeaders(this.headers)).toPromise();
     }
@@ -347,7 +319,6 @@ export class CasosMedicosService {
     //PCL
 
     createPcl(pcl: any, diags: any[]): any {
-        console.log('que se esta enviando', pcl);
         
         return this.http.post<[]>(`${endPoints.scm}pcl/`, { pcl, diags }, this.getRequestHeaders(this.headers)).toPromise();
     }
@@ -361,7 +332,6 @@ export class CasosMedicosService {
     
 
     listPclSL(pkcase: string | number): any {
-        console.log("entro a la que si es", pkcase);
         
         return this.http.get<[]>(`${endPoints.scm}pclSalud/${pkcase}`, this.getRequestHeaders(this.headers)).toPromise();
     }
@@ -375,12 +345,10 @@ export class CasosMedicosService {
     }
 
     enviarCorreos(emails: string[]) {
-        console.log("que se esta enviando en el post correos: ",emails );
         
         return this.http.get<any[]>(`${endPoints.scm}sendmail/${emails}`, this.getRequestHeaders(this.headers)).toPromise();
     }
     enviarCorreosRechazo(emails: string[]) {
-        console.log("que se esta enviando en el post correos pa rechazo: ",emails );
         
         return this.http.get<any[]>(`${endPoints.scm}sendmailReject/${emails}`, this.getRequestHeaders(this.headers)).toPromise();
     }
@@ -430,12 +398,10 @@ export class CasosMedicosService {
 
     }
     findWithFilterSL(filterQuery: FilterQuery | null = null) {
-        console.log("filtro para vainas locas:" ,filterQuery);
         
         return this.http.get(`${endPoints.scm}salud/` + '?' + this.buildUrlParams(filterQuery), this.getRequestHeaders(this.headers)).toPromise();
     }
     findWithFilterMail(filterQuery: FilterQuery | null = null) {
-        console.log("filtro para vainas locas:" ,filterQuery);
         
         return this.http.get(`${endPoints.scm}saludMail/` + '?' + this.buildUrlParams(filterQuery), this.getRequestHeaders(this.headers)).toPromise();
     }

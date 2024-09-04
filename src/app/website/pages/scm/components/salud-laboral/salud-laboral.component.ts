@@ -478,7 +478,6 @@ export class SaludLaboralComponent implements OnInit {
     try {
       await this.getArea()
     } catch (error) {
-      console.log('error area');
 
     }
     try {
@@ -594,7 +593,6 @@ export class SaludLaboralComponent implements OnInit {
     }
 
     this.seguridad.push(formData);
-    console.log(this.usuarioSolicitado, 'user', this.usuarioSolicitadoSeg);
     this.resetFormSeg();
   }
   saludLaboralMail: any[] = []
@@ -715,7 +713,6 @@ export class SaludLaboralComponent implements OnInit {
 
       await this.buscarEmpleado({ query: data['usuarioAsignado'] })
       const empleado = this.empleadosList[0];
-      console.log("cargo act", JSON.stringify(data));
       if (typeof empleado === 'object' && empleado !== null) {
         let empresaNitpivot: empresaNit = { empresa: empleado['empresa'], nit: empleado['nit'], label: empleado['empresa'] }
         this.empresaForm?.controls['empresa'].setValue(empresaNitpivot);
@@ -749,11 +746,9 @@ export class SaludLaboralComponent implements OnInit {
         this.empleadoForm.controls['phoneEmergencyContact'].setValue(empleado['phoneEmergencyContact']);
         this.empleadoForm.controls['emergencyContact'].setValue(empleado['emergencyContact']);
 
-        console.log("aca va el jefe");
 
         const jefeInmediato = empleado['jefeInmediato'] ?? {};
         const jefe = empleado['usuario'];
-        console.log(jefeInmediato);
 
         this.jefeInmediato.controls['numeroIdentificacion'].setValue(jefeInmediato['numeroIdentificacion'] ?? 'SIN INFORMACIÓN');
         this.jefeNames = jefeInmediato['primerNombre'] + ' ' + jefeInmediato['primerApellido'] ?? 'sin informacion';
@@ -761,22 +756,18 @@ export class SaludLaboralComponent implements OnInit {
         this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION')
         this.empleadoForm.controls['email'].setValue(jefe['email']);
         await this.onEntidadChange({ value: data['entidadEmiteCalificacion'] })
-        console.log(this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] }), 'dettallecalificacion');
 
         this.empleadoForm.controls['entidadEmiteCalificacion'].setValue(data['entidadEmiteCalificacion']);
         var a = this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] })
-        console.log(a?.value, "a");
 
 
         this.empleadoForm.controls['epsDictamen'].setValue(a?.value);
 
         this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value);
-        console.log("calif", this.empleadoForm.controls['detalleCalificacion'].setValue(a?.value));
         this.empleadoForm.controls['otroDetalle'].setValue(data['otroDetalle']);
 
 
 
-        console.log(this.empleadoForm.controls['detalleCalificacion']);
 
 
         if (data['fechaCierreCaso'] != null && data['fechaCierreCaso'] != undefined) {
@@ -785,7 +776,6 @@ export class SaludLaboralComponent implements OnInit {
         } else {
           this.empleadoForm.controls['fechaCierreCaso'].setValue(null);
         }
-        console.log("fecha cierre", this.empleadoForm.controls['fechaCierreCaso']);
 
         if (data['fechaRecepcionDocs'] != null && data['fechaRecepcionDocs'] != undefined) {
           const formattedDate = new Date(data['fechaRecepcionDocs']);
@@ -793,7 +783,6 @@ export class SaludLaboralComponent implements OnInit {
         } else {
           this.empleadoForm.controls['fechaRecepcionDocs'].setValue(null);
         }
-        console.log("fecha recept", this.empleadoForm.controls['fechaRecepcionDocs']);
 
         if (data['fechaMaximaEnvDocs'] != null && data['fechaMaximaEnvDocs'] != undefined) {
           const formattedDate = new Date(data['fechaMaximaEnvDocs']);
@@ -801,7 +790,6 @@ export class SaludLaboralComponent implements OnInit {
         } else {
           this.empleadoForm.controls['fechaMaximaEnvDocs'].setValue(null);
         }
-        console.log("fecha max", this.empleadoForm.controls['fechaMaximaEnvDocs']);
 
         if (data['fechaNotificacionEmp'] != null && data['fechaNotificacionEmp'] != undefined) {
           const formattedDate = new Date(data['fechaNotificacionEmp']);
@@ -809,14 +797,12 @@ export class SaludLaboralComponent implements OnInit {
         } else {
           this.empleadoForm.controls['fechaNotificacionEmp'].setValue(null);
         }
-        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionEmp']);
         if (data['fechaNotificacionMin'] != null && data['fechaNotificacionMin'] != undefined) {
           const formattedDate = new Date(data['fechaNotificacionMin']);
           this.empleadoForm.controls['fechaNotificacionMin'].setValue(formattedDate);
         } else {
           this.empleadoForm.controls['fechaNotificacionMin'].setValue(null);
         }
-        console.log("fecha max", this.empleadoForm.controls['fechaNotificacionMin']);
 
 
 
@@ -878,7 +864,6 @@ export class SaludLaboralComponent implements OnInit {
       } setTimeout(() => {
         this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
         this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
-        console.log('LACONSULTA', this.saludLaboralSelect);
         this.loadDocumentosCaseDT();
         this.loadDocumentosEmp();
         this.loadDocumentosArl();
@@ -1532,7 +1517,6 @@ export class SaludLaboralComponent implements OnInit {
 
   onEditState(iddt: string | number, body: any): void {
     if (this.documentacionSelectSolicitado.estadoCorreo === 4) {
-      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
       
         this.messageService.add({
           key: 'formScmSL',
@@ -1544,7 +1528,6 @@ export class SaludLaboralComponent implements OnInit {
         return; // Salir de la función sin hacer nada más
     }
     if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
-      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
       
         this.messageService.add({
           key: 'formScmSL',
@@ -1573,7 +1556,6 @@ export class SaludLaboralComponent implements OnInit {
 
   putmail() {
     if (this.documentacionSelectUser.estadoCorreo === 3) {
-      console.log(this.documentacionSelectUser.estadoCorreo, "state");
 
       this.messageService.add({
         key: 'formScmSL',
@@ -1585,7 +1567,6 @@ export class SaludLaboralComponent implements OnInit {
       return; // Salir de la función sin hacer nada más
     }
     if (this.documentacionSelectUser.estadoCorreo === 2) {
-      console.log(this.documentacionSelectUser.estadoCorreo, "state");
 
       this.messageService.add({
         key: 'formScmSL',
@@ -1597,7 +1578,6 @@ export class SaludLaboralComponent implements OnInit {
       return; // Salir de la función sin hacer nada más
     }
     if (this.documentacionSelectUser.estadoCorreo === 4) {
-      console.log(this.documentacionSelectUser.estadoCorreo, "state");
 
       this.messageService.add({
         key: 'formScmSL',
@@ -1657,7 +1637,6 @@ export class SaludLaboralComponent implements OnInit {
   }
   putmailSoliictante() {
     if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
-      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
       
         this.messageService.add({
           key: 'formScmSL',
@@ -1777,7 +1756,6 @@ export class SaludLaboralComponent implements OnInit {
       this.loadDocumentosSL();
       this.loadDocumentos(); // Asigna los datos a documentacionList
 
-      console.log("datos", data);
 
       this.cd.detectChanges();
     } catch (error) {
@@ -1834,7 +1812,6 @@ export class SaludLaboralComponent implements OnInit {
   // }
   async onUpload(event: Directorio) {
     if (this.documentacionSelectUser.estadoCorreo === 2) {
-      console.log(this.documentacionSelectUser.estadoCorreo, "state");
 
       this.messageService.add({
         key: 'formScmSL',
@@ -1847,7 +1824,6 @@ export class SaludLaboralComponent implements OnInit {
       return; // Salir de la función sin hacer nada más
     }
     if (this.documentacionSelectUser.estadoCorreo === 4) {
-      console.log(this.documentacionSelectUser.estadoCorreo, "state");
 
       this.messageService.add({
         key: 'formScmSL',
@@ -1877,7 +1853,6 @@ export class SaludLaboralComponent implements OnInit {
         this.documentacionListUser[index].documentos = this.documentoId;
       }
 
-      console.log('el directorio', this.directorios);
 
       // Llamada para actualizar la tabla mail_saludlaboral
       await this.updateMailSaludLaboral(this.selectedDocId, this.documentoId.toString());
@@ -2160,7 +2135,6 @@ export class SaludLaboralComponent implements OnInit {
   eliminarDocument(doc: Documento) {
     // Verifica si el estado del caso es 'Aprobado' (estadoCorreo === 4)
     if (this.documentacionSelectUser.estadoCorreo === 4) {
-        console.log(this.documentacionSelectUser.estadoCorreo, "state");
         this.messageService.add({
           key: 'formScmSL',
             severity: 'warn',
@@ -2170,7 +2144,6 @@ export class SaludLaboralComponent implements OnInit {
         return; // Salir de la función sin hacer nada más
     }
 
-    console.log(doc.nombre);
 
     if (!doc || !doc.id) {
         console.error('El documento no tiene un ID válido:', doc);
@@ -2328,7 +2301,6 @@ export class SaludLaboralComponent implements OnInit {
             this.directorios.forEach(el => {
               docIds.push(el.id!);
             });
-            console.log("que trae dosid", docIds);
           });
       }
     });
@@ -2538,7 +2510,6 @@ export class SaludLaboralComponent implements OnInit {
           docum.forEach((algo: string) => {
             this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
               this.directorios.push(elem[0]);
-              console.log("directorios", this.directorios);
 
             })
           });
@@ -2560,9 +2531,6 @@ export class SaludLaboralComponent implements OnInit {
           docum.forEach((algo: string) => {
             this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
               this.directoriosSl.push(elem[0]);
-              console.log("directoriosSL", this.directoriosSl);
-              console.log("doclist", this.documentacionListUser);
-              console.log("algo", algo);
 
 
 
@@ -3092,7 +3060,6 @@ export class SaludLaboralComponent implements OnInit {
   }
   cedulaFilter: string | null | undefined;
   updateFilter(value: any) {
-    console.log(value, 'er valor freddy esta aqui ');
 
     this.cedulaFilter = value;
   }
@@ -3271,7 +3238,6 @@ export class SaludLaboralComponent implements OnInit {
       // Cargar los datos de correo de usuario independientemente del éxito o fallo
       this.loadMailData(this.idSl);
       this.loadMailDataUser(this.idSl, this.pkUser);
-      console.log("user", this.pkUser, "id", this.idSl);
     }
 
     // Cerrar el modal de confirmación después de procesar todos los correos

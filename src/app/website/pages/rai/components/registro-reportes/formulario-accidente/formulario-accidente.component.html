@@ -440,11 +440,12 @@
                             [name]="this.reporte?.areaAccidente ?this.reporte?.areaAccidente.nombre:''"  (onDivision)="listadoLocalidades($event)" required>
                         </area-selector>
                     </div>
-                    <div class="col-12 md:col-2 lg:col-2" *ngIf="idEmpresa=='22' || idEmpresa=='508'">
+                    <div class="col-12 md:col-2 lg:col-2" *ngIf="(idEmpresa=='22' && flagLocalidades) || (idEmpresa=='508' && flagLocalidades)">
                         Localidad
                     </div>
-                    <div class="col-12 md:col-4 lg:col-4" *ngIf="idEmpresa=='22' || idEmpresa=='508' && flagLocalidades">
+                    <div class="col-12 md:col-4 lg:col-4" *ngIf="(idEmpresa=='22' && flagLocalidades) || (idEmpresa=='508' && flagLocalidades)">
                         <p-dropdown  required [filter]="true" placeholder="Seleccione una localidad" appendTo="body" [options]="localidadesList"  formControlName="localidad"></p-dropdown>
+
                     </div>
                 </div>
             </p-accordionTab>
