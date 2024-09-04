@@ -99,13 +99,14 @@ export class GestionTareasComponent implements OnInit {
     }
     if( this.form.value.tipoAccion == null){
       tarea.tipoAccion = "Plan de acción";
-      if (this.modificar) {
-        tarea.envioCorreo = false;
-      }
-      tarea.envioCorreo = true;
+      
     }else{
       tarea.tipoAccion = this.form.value.tipoAccion;
     }
+    if (this.modificar) {
+      tarea.envioCorreo = false;
+    }
+    tarea.envioCorreo = true;
 
     if (this.form.value.empResponsable != null && !this.esAliado) {
         tarea.empResponsable = new Empleado();

@@ -4,7 +4,8 @@ export let modulos: SelectItem[] = [
     { label: 'Inspecciones', value: 'Inspecciones' },
     { label: 'Observaciones', value: 'Observaciones' },
     { label: 'Reporte A/I', value: 'Reporte A/I' },
-    { label: 'Inspecciones CC', value: 'Inspecciones CC'}
+    { label: 'Inspecciones CC', value: 'Inspecciones CC'},
+    { label: 'Inspecciones SV', value: 'Inspecciones SV'}
 ]
 
 /**
@@ -31,7 +32,7 @@ export let columnasPorModulo: any = {
             'module',
             'fecha_reporte',
             'division',
-            'areaUb',
+            'localidad_sv',
             'hash_id',
             'nombre',
             'empResponsable',

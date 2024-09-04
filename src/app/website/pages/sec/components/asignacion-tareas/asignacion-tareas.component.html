@@ -110,6 +110,13 @@
                 <p-sortIcon field="localidad"></p-sortIcon>
               </th>
               <th
+              pSortableColumn="localidad_sv"
+              *ngIf="mostrarColumna('localidad_sv')"
+              >
+                Localidad
+                <p-sortIcon field="localidad_sv"></p-sortIcon>
+              </th>
+              <th
                 pSortableColumn="tipo_lista"
                 *ngIf="mostrarColumna('tipo_lista')"
               >
@@ -240,6 +247,17 @@
                   />
                 </div>
               </td>
+              <td *ngIf="mostrarColumna('localidad_sv')">
+                <div class="ui-inputgroup">
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                       dt.filter($event.target.value, 'localidad_sv', 'contains')
+                    "
+                  />
+                </div>
+              </td>
               <td *ngIf="mostrarColumna('tipo_lista')">
                 <div class="ui-inputgroup">
                   <input
@@ -341,6 +359,7 @@
                 {{ tarea.area }}
               </td>
               <td *ngIf="mostrarColumna('localidad')">{{ tarea.localidad }}</td>
+              <td *ngIf="mostrarColumna('localidad_sv')">{{ tarea.localidad_sv}}</td>
               <td *ngIf="mostrarColumna('tipo_lista')">
                 {{ tarea.tipo_lista }}
               </td>

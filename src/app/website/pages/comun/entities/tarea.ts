@@ -24,5 +24,8 @@ export class Tarea {
     codigo?: string | null;
     envioCorreo?: boolean;
     responsableAliado?: string;
+    localidadSv: any | null;
+    areaSv:any|null;
+    procesoSv: any | null;
     // plandeAccion
 }

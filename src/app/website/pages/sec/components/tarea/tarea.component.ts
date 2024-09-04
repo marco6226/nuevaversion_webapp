@@ -52,6 +52,8 @@ export class TareaComponent implements OnInit {
   permisoFlag:boolean=false
   localeES=locale_es;
   esInspeccionCC: boolean = false;
+  esInspeccionSV: boolean = false;
+  disabled: boolean = false;
 
   constructor(
     fb: FormBuilder,
@@ -83,6 +85,7 @@ export class TareaComponent implements OnInit {
     this.tareaId = this.route.snapshot.paramMap.get("id");
     this.getTarea().then(() => {
         this.esInspeccionCC = this.tarea?.hash_id?.includes('INPCC') ?? false;
+        this.esInspeccionSV = this.tarea?.hash_id?.includes('INPSV') ?? false;
         // console.log(this.esInspeccionCC);
     });
 
@@ -296,6 +299,7 @@ export class TareaComponent implements OnInit {
     }, 100);
 }
 async onSubmit() {
+    this.disabled = true;
     this.submitted = true;
     this.cargando = true;
     this.msgs = [];
@@ -304,6 +308,7 @@ async onSubmit() {
     if(!this.permisoFlag){
         if (!this.tareaForm!.valid || this.evidences.length==0) {
             this.cargando = false;
+            this.disabled = false;
             this.msgs.push({
                 severity: "info",
                 summary: "Mensaje del sistema",
@@ -314,6 +319,7 @@ async onSubmit() {
     }else{
         if (!this.tareaForm!.valid) {
             this.cargando = false;
+            this.disabled = false;
             this.msgs.push({
                 severity: "info",
                 summary: "Mensaje del sistema",
@@ -324,31 +330,44 @@ async onSubmit() {
     }
 
     try {
-        let res = await this.seguimientoService.closeTarea(
+        await this.seguimientoService.closeTarea(
             this.tareaForm!.value
-        );
-
-        if (res) {
-            this.tareaForm!.reset();
-            this.submitted = false;
-            this.cargando = false;
-            this.getTarea();
-            this.msgs.push({
-                severity: "success",
-                summary: "Mensaje del sistema",
-                detail: "¡Se ha cerrado exitosamente esta tarea!",
-            });
-        }
+        ).then((data)=>{
+            if (data){
+                this.tareaForm!.reset();
+                this.submitted = false;
+                this.getTarea();
+                this.msgs = [];
+                this.msgs.push({
+                    severity: "success",
+                    summary: "Mensaje del sistema",
+                    detail: "¡Se ha cerrado exitosamente esta tarea!",
+                });
+                this.cargando = false;
+            }else{
+                this.submitted = false;
+                this.cargando = false;
+                this.disabled = false;
+                this.msgs.push({
+                    severity: "error",
+                    summary: "Mensaje del sistema",
+                    detail: "Ocurrió un inconveniente al cerrar la tarea",
+                });
+                return;
+            }
+        })
     } catch (e) {
         this.submitted = false;
         this.cargando = false;
+        this.disabled = false;
         this.msgs.push({
             severity: "error",
             summary: "Mensaje del sistema",
             detail: "Ocurrió un inconveniente al cerrar la tarea",
         });
+        return;
     }
-    this.cargando = false;
+ 
   }
 
   buscarEmpleado(event:any) {

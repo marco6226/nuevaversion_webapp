@@ -614,6 +614,12 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                             tarea.tipoAccion = 'Plan de acción'
                             tarea.modulo= 'Inspecciones SV';
                             tarea.codigo= desviacion.hashId
+                            const localidadName = await this.getLocalidad(inspeccion.programacion.localidadSv);
+                            const areaName = await this.getArea(inspeccion.programacion.areaSv);
+                            const procesoName = await this.getProceso(inspeccion.programacion.procesoSv);
+                            tarea.localidadSv = localidadName;
+                            tarea.areaSv = areaName;
+                            tarea.procesoSv = procesoName;
                             tarea.estado = 'NUEVO';
                             tarea.envioCorreo = true;
 
@@ -624,6 +630,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                             analisisDesviacion.tareaDesviacionList.push(tarea)
 
                             this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
+                                 this.manageResponseA(<AnalisisDesviacion>data)  
                             }).catch(err => {
                                console.log(err);
                             });
@@ -838,6 +845,49 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
             console.error("Error al cargar la desviación:", error);
         }
     }
+
+    manageResponseA(ad: AnalisisDesviacion) {
+        if (ad.tareaDesviacionList) {
+            for (let i = 0; i < ad.tareaDesviacionList.length; i++) {
+                if (ad.tareaDesviacionList[i].empResponsable != null) {
+                    let email1 = ad?.tareaDesviacionList[i]?.empResponsable?.usuarioBasic?.email;
+                    let email2 = ad?.tareaDesviacionList[i]?.empResponsable?.usuario?.email;
+                    let email :any=""
+                    if ((email1 == null || email1 == "") && (email2 == null || email2 == "")) {
+                        this.messageService.add({
+                            severity: "warn",
+                            summary: "Correo electrónico requerido",
+                            detail: "Debe especificar el correo electrónico de la cuenta de usuario",
+                        });
+                        return;
+                    }
+
+                    email=(email1 == null || email1 == "")?email2:email1;
+                    
+                    this.authService
+                        .sendNotification(email, ad.tareaDesviacionList[i])
+                        .then((resp: any) => {
+                            if (resp["mensaje"] != "Enviado") {
+                                this.messageService.add({
+                                    severity: resp["tipoMensaje"],
+                                    detail: resp["detalle"],
+                                    summary: resp["mensaje"],
+                                })
+                            }
+                        })
+                        .catch((err: any) => {
+                            this.messageService.add({
+                                severity: err.error["tipoMensaje"],
+                                detail: err.error["detalle"],
+                                summary: err.error["mensaje"],
+                            });
+                           
+                        });
+                
+                }
+            }
+        }
+    }       
 
   private manageResponse(insp: Inspeccion) {
       this.inspeccion.id = insp.id;
@@ -1391,7 +1441,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           }
       }
       total = porcAcum / contElementos;
-      return !isNaN(total) && total !== Infinity ? total.toFixed(2) : 'NA';
+      return !isNaN(total) && total !== Infinity ? (total.toFixed(2)+'%') : 'NA';
   }
 
 
