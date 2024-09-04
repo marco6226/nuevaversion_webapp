@@ -132,6 +132,7 @@ export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
       ciudadEmpleado: this.reporte?.ciudadEmpleado,
       ciudadAccidente: this.reporte?.ciudadAccidente,
     });
+    console.log("IdEmpresa ngAfter: ",this.idEmpresa);
   }
 
   ngOnInit(): void {
@@ -428,8 +429,11 @@ export class FormularioAccidenteComponent implements OnInit, AfterViewInit {
           this.localidadesList.push({ label: loc.localidad, value: loc.id });
         }
       })
-      .catch((er: any) => console.log(er))
-      .finally(() => (this.flagLocalidades = true));
+      .catch((er: any) => console.log("Error getLocalidades: ",er))
+      .finally(() => {
+        this.flagLocalidades = true
+        console.log("Entro al flag, ", this.flagLocalidades = true)
+      });
   }
   localidadesList: any;
 }
