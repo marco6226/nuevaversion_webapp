@@ -621,7 +621,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                             tarea.areaSv = areaName;
                             tarea.procesoSv = procesoName;
                             tarea.estado = 'NUEVO';
-                            tarea.envioCorreo = true;
+                            tarea.envioCorreo = false;
 
                             if (!analisisDesviacion.tareaDesviacionList) {
                                 analisisDesviacion.tareaDesviacionList = [];

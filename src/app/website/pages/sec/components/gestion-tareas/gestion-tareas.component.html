@@ -1,6 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!readOnly">
     <div class="grid">
-
         <div class="col-12 md:col-2 lg:col-2">
             <label for="nombre">Actividad</label>
         </div>
@@ -53,10 +52,10 @@
                 dateFormat="dd/mm/yy" id="fechaProyectada" formControlName="fechaProyectada" required></p-calendar>
         </div>
 
-        <div class="col-12 md:col-2 lg:col-2" *ngIf="!esAliado && tipoLista != 'Inspecciones CC'">
+        <div class="col-12 md:col-2 lg:col-2" *ngIf="!esAliado && tipoLista != 'Inspecciones CC' && tipoLista != 'Inspecciones SV'">
             <label for="areaResponsable">Area Responsable</label>
         </div>
-        <div class="col-12 md:col-10 lg:col-10" *ngIf="!esAliado && tipoLista != 'Inspecciones CC'">
+        <div class="col-12 md:col-10 lg:col-10" *ngIf="!esAliado && tipoLista != 'Inspecciones CC' && tipoLista != 'Inspecciones SV'">
             <area-selector formControlName="areaResponsable" required></area-selector>
         </div>
 
