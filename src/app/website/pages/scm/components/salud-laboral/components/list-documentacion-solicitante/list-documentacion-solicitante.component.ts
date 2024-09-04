@@ -55,7 +55,6 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMailData(this.pkuser);
-    console.log(this.pkuser);
   }
   testing: boolean = false;
   async lazyLoad(event: any) {
@@ -76,13 +75,10 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
       this.documentacionList = res?.data?.map((dto: any) => {
         return FilterQuery.dtoToObject(dto);
       });
-      console.log("res",res);
       this.totalRecords = res.count;
-      console.log("Total records:", this.totalRecords);
-      console.log("Documentación List:", this.documentacionList);
+
 
     } catch (error) {
-      console.error("Error fetching data:", error);
     }
   }
   casosListFilter: any;
@@ -117,10 +113,8 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
     try {
       const data = await this.scmService.findAllByIdMailUserOnlySolicitado(param);
       this.documentacionList = data; // Asigna los datos a documentacionListUser
-      console.log("Datos cargados:", data);
       this.loadDocumentos();
     } catch (error) {
-      console.error('Error loading mail data', error);
     }
   }
 
@@ -135,7 +129,6 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
           docum.forEach((algo: string) => {
             const promise = this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
               this.directorios.push(elem[0]);
-              console.log("que llega en el promise:",elem[0]);
               this.cd.detectChanges(); // Forzar la detección de cambios aquí
             });
             promises.push(promise);
@@ -189,7 +182,6 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
 
   onEditState(iddt: string | number, body: any): void {
     if (this.documentacionSelectSolicitado.estadoCorreo === 4) {
-      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
       
         this.messageService.add({
             severity: 'warn',
@@ -200,7 +192,6 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
         return; // Salir de la función sin hacer nada más
     }
     if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
-      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
       
         this.messageService.add({
             severity: 'warn',
@@ -228,12 +219,21 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
 
   putmailSoliictante() {
     if (this.documentacionSelectSolicitado.estadoCorreo === 4) {
-      console.log(this.documentacionSelectSolicitado.estadoCorreo, "state");
       
         this.messageService.add({
             severity: 'warn',
             summary: 'Acción no permitida',
             detail: 'No se puede rechazar un documento ya aprobado.'
+        });
+        this.dialogRechazoFlagSolicitante = false;
+        return; // Salir de la función sin hacer nada más
+    }
+    if (this.documentacionSelectSolicitado.estadoCorreo === 1) {
+      
+        this.messageService.add({
+            severity: 'warn',
+            summary: 'Acción no permitida',
+            detail: 'No se puede rechazar un que esta en proceso.'
         });
         this.dialogRechazoFlagSolicitante = false;
         return; // Salir de la función sin hacer nada más
@@ -258,7 +258,11 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
     if (selectedIdSoli) {
       this.casoMedico.putCaseMailSolicitante(selectedIdSoli, body).then((response) => {
         if (response) {
-          console.log("Actualización exitosa");
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Rechazado',
+            detail: 'El documento ha sido rechazado.'
+        });
           this.dialogRechazoFlagSolicitante = false;
           this.loadMailData(this.pkuser);
           this.documentacionSelectSolicitado = [];

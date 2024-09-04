@@ -115,13 +115,11 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
 
     async ngOnChanges(changes: SimpleChanges) {
         this.patchFormValues();
-        console.log(this.diagnosticoForm);
-        console.log('shi sheñolll', this.diagSelect);
+
     
         if (this.diagSelect && this.diagSelect['id'] != undefined && this.diagSelect['id'].toString().length > 0) {
             try {
                 const value = await this.scmService.findAllByIdDiagPartes(this.diagSelect['id']);
-                console.log('son las partes bebe', value);
                 const response: any = value;
                 const listNewPivot: any[] = response;
                 let valueFor: any[] = [];
@@ -192,20 +190,15 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
                 body.id = this.diagSelect.id;
                 body['saludLaboral'] = this.saludLaboralFlag;
                 res = await this.scmService.updateDiagnosticos(body);
-                console.log(this.saludLaboralFlag, 'esta es la flag mi so');
-                console.log(this.idPivotbase, 'esta es la la base mi so');
-                console.log((this.diagnosticoForm.controls['parteAfectada'].value) as any[], 'esta es el cambio mi so');
                 if (this.saludLaboralFlag) {
                     let idSelected = ((this.diagnosticoForm.controls['parteAfectada'].value) as any[]);
                     let deleteItems = this.idPivotbase.filter(value => {
                         return !idSelected.includes(value)
                     })
-                    console.log('deleteame esta ', deleteItems);
                     
                     let createItems = idSelected.filter(value => {
                         return !this.idPivotbase.includes(value)
                     })
-                    console.log('creame esta ', createItems);
                     await this.scmService.createDiagnosticosSL({
                         idDiagnostico: res.id,
                         idPartes: createItems.map(value => value['id'])

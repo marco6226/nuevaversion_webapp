@@ -144,7 +144,6 @@ export class ScmComponent implements OnInit, AfterViewInit {
             (<Cargo[]>resp['data']).forEach((cargo) => {
                 this.cargoList.push({ label: cargo.nombre, value: cargo.id });
             });
-            console.log('eNTRO POR ACA EN CARGOS');
         });
         this.idEmpresa = this.sesionService.getEmpresa()?.id!;
     }
@@ -196,14 +195,11 @@ export class ScmComponent implements OnInit, AfterViewInit {
         try {
             let res: any = await this.scmService.findByFilter(filterQuery);
             this.casosList = [];
-            console.log(this.casosList)
             res?.data?.forEach((dto: any) => {
                 this.casosList.push(FilterQuery.dtoToObject(dto));
-                console.log(dto, "hah");
                 
                 
             });
-            console.log(res)
             this.totalRecords = res.count;
             this.testing = false;
             
@@ -315,7 +311,6 @@ export class ScmComponent implements OnInit, AfterViewInit {
                 });
         
                 this.excel=[...dataExcel]
-                console.log(this.excel)
 
                 this.excel.map((resp1:any)=>{return resp1.Fecha_apertura=new Date(resp1.Fecha_apertura)})
             })

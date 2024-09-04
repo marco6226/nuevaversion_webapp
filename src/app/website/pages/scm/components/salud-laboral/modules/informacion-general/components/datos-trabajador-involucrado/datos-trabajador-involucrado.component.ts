@@ -109,7 +109,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   async ngOnInit() {
     this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
-    console.log("estatus", this.status);
     this.chargueValue();
     await this.comunService.findAllEps().then((data) => {
       this.epsList = [];
@@ -553,7 +552,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   localidadesList: any = [];
   localidadesListActual: any = [];
   async cargarPlantaLocalidad(eve: any, tipo: string) {
-    console.log("cargarPlantaLocalidad - Evento:", eve, "Tipo:", tipo);
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
@@ -570,14 +568,12 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
         this.localidadesListActual = localidadesList;
       }
     }).catch(error => {
-      console.error("Error al cargar las localidades:", error);
     });
   }
 
   areaList: any[] = []
   areaListActual: any[] = []
   async cargarArea(eve: any, tipo: string) {
-    console.log(eve);
 
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
@@ -600,21 +596,17 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
     if (tipo === 'Origen') {
       this.areaList = [...areaList];
-      console.log(areaList)
     } else {
       this.areaListActual = [...areaList];
-      console.log(this.areaListActual)
     }
   }
   procesoList: any[] = []
   procesoListActual: any[] = []
   async cargarProceso(eve: any, tipo: string) {
     try {
-      console.log("cargarProceso - Evento:", eve, "Tipo:", tipo);
 
       // Verifica que eve tenga el ID correcto
       const areaId = eve?.id;
-      console.log("ID del área:", areaId);
 
       let filterProceso = new FilterQuery();
       filterProceso.fieldList = ['id', 'nombre'];
@@ -623,14 +615,11 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
         { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
       ];
 
-      console.log("Consulta de procesos con filtro:", filterProceso);
 
       let procesoList: any = [];
       await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
-        console.log("Respuesta de procesos:", resp);
         procesoList = resp.data.map((element: any) => ({ label: element.nombre, id: element.id }));
       }).catch(error => {
-        console.error("Error al cargar los procesos:", error);
         throw error;
       });
 
@@ -672,7 +661,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Formulario antes de validación:', this.empleadoForm.controls);
 
     // Excluir cargoId del formulario
     const { cargoId, ...formValues } = this.empleadoForm.value;
@@ -698,17 +686,13 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
       body = this.prepareFormData(body);
 
-      console.log('Cuerpo a enviar antes de enviar:', body);
-      console.log('Valor de iddt:', this.iddt);
 
       // Verificar si es una creación o actualización
       if (this.iddt === undefined) {
-        console.log('Creando nuevo caso');
         this.casoMedico.createDT(body)
           .then((response) => {
             if (response) {
               this.showSuccessToast();
-              console.log('Empleado creado correctamente 2', response);
               setTimeout(() => {
                 this.route.navigate(['/app/scm/saludlaborallist'])
 
@@ -735,7 +719,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
             });
           });
       } else {
-        console.log('Actualizando caso');
         this.casoMedico.putCaseSL(this.iddt, body)
           .then((response) => {
             if (response) {
@@ -746,7 +729,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
               //   summary: "Usuario actualizado",
               //   detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} fue actualizado con el caso ${response}`,
               // });
-              console.log('Empleado actualizado correctamente', response);
             }
           })
           .catch((error) => {
@@ -869,13 +851,11 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     try {
       await this.getArea()
     } catch (error) {
-      console.log('error area');
 
     }
     try {
       await this.getCargoActual()
     } catch (error) {
-      console.log(error, 'error cargo');
 
     }
 
@@ -885,10 +865,8 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
         this.chargueEditForm();
 
         await this.scmService.getDiagnosticosSl(this.iddt!).then(value2 => {
-          console.log('fredy aqui es', value2);
           const reposunte: any = value2;
           this.diagnosticoList = reposunte;
-          console.log("cuantos diags hay", this.diagnosticoList);
 
         })
 
@@ -898,7 +876,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     setTimeout(() => {
       this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
       this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
-      console.log('LACONSULTA', this.saludLaboralSelect);
     }, 2000);
 
   }
@@ -939,11 +916,9 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
         setTimeout(() => {
           this.consultar = localStorage.getItem('slShowCase') === 'true';
           this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!);
-          console.log('LACONSULTA', this.saludLaboralSelect);
         }, 2000);
       }
     } catch (error) {
-      console.error('Error al obtener los datos del trabajador', error);
     }
   }
 
@@ -980,12 +955,10 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       label: empleado['empresa']
     };
     const empresaSeleccionada = this.empresaList2.find(e => e.label === empresaNitpivot.label);
-    console.log(empresaSeleccionada);
 
     if (empresaSeleccionada) {
       this.empresaForm?.controls['empresa'].setValue(empresaSeleccionada);
       this.empresaForm?.controls['nit'].setValue(empresaNitpivot.nit);
-      console.log("aaaaaa", empresaSeleccionada.empresa, empresaSeleccionada.label);
 
 
     } else {
@@ -1007,13 +980,11 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   }
 
   setJefeInmediatoValues(jefeInmediato: any, usuario: any) {
-    console.log("que entra aca", jefeInmediato);
 
     this.jefeInmediato.controls['numeroIdentificacion'].setValue(jefeInmediato['numeroIdentificacion'] ?? 'SIN INFORMACIÓN');
     this.jefeNames = `${jefeInmediato['primerNombre']} ${jefeInmediato['primerApellido']}` ?? 'sin informacion';
     this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION');
     if (jefeInmediato && jefeInmediato.usuario) {
-      console.log(this.jefeInmediato.controls['email']);
 
       this.jefeInmediato.controls['email'].setValue(jefeInmediato.usuario.email);
     } else {
@@ -1127,7 +1098,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
 
       });
-      console.log(this.JuntaRegionalList)
       this.entity.Junta_Regional = this.JuntaRegionalList;
     });
   }
@@ -1174,18 +1144,14 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       if (this.empleadoForm.value.afp != null) {
         body.afp = { id: this.empleadoForm.value.afp };
       }
-      console.log("empresa", this.empresaForm?.value.empresa.label);
 
       try {
         const response = await this.casoMedico.putUserDataSL(pkUserCase, body);
         if (response) {
           this.showSuccessToast();
-          console.log('Fecha de nacimiento actualizada correctamente', response);
         } else {
-          console.log("Algo salió mal");
         }
       } catch (error) {
-        console.log("Error en submitEmp", error);
       }
     }
   }
@@ -1239,10 +1205,8 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       this.saludlaboralCHANGETest = [];
       res?.data?.forEach((dto: any) => {
         this.saludLaboralList.push(FilterQuery.dtoToObject(dto));
-        console.log('saludlaborallist2', this.saludlaboralCHANGETest);
 
       });
-      console.log(res)
       this.totalRecords = res.count;
 
     } catch (error) {
@@ -1252,7 +1216,6 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   openCase() {
     // Obtener el valor de statusCaso desde localStorage
     const statusCaso = localStorage.getItem('statusCaso') === 'true';
-    console.log("status", statusCaso);
 
 
     if (statusCaso) {
@@ -1260,14 +1223,11 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       this.openCaseConsultar();
     } else {
       // Si no, abrir el caso normalmente
-      console.log('case select', this.saludLaboralSelect.idSl);
       localStorage.setItem('scmShowCase', 'false');
       this.flagSaludLaboralRegistro = true;
       localStorage.setItem('slShowCase', 'true');
       localStorage.setItem('saludL', JSON.stringify(this.saludLaboralSelect));
       this.route.navigate(['/app/scm/saludlaboral/', this.saludLaboralSelect.idSl]);
-      console.log(this.caseSelect);
-      console.log('case select', this.saludLaboralSelect.idSl);
     }
   }
 

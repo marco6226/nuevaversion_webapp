@@ -162,7 +162,6 @@ export class PclComponent implements OnInit {
             const parsedSaludL = JSON.parse(saludL);
             if (parsedSaludL.fechaRecepcionDocs) {
                 fechaRecepcionDocs = new Date(parsedSaludL.fechaRecepcionDocs);
-                console.log("fechaRecepcionDocs", fechaRecepcionDocs);
             }
         }
     
@@ -301,11 +300,9 @@ export class PclComponent implements OnInit {
         try {
             const response: pclDiagnostico[] = await this.scmService.listPclAllDiags(this.pkCase, this.pclSelect.id);
             this.pclListDiag = response;
-            console.log(response)
             
             this.listOneDiag=[this.pclListDiag[0]]
             this.pclSeleccionada=response[0]
-            console.log( this.pclSeleccionada);
             
             
             this.modalVisible = true;
@@ -313,7 +310,6 @@ export class PclComponent implements OnInit {
             this.loading = false;
             this.cd.markForCheck();
         } catch (error) {
-            console.log(error);
             
             this.messageService.add({
                 key: 'pcl',
@@ -415,7 +411,6 @@ export class PclComponent implements OnInit {
         this.modalDianostico = !this.editing; // Solo abre el modal si no estás editando
         if (!this.editing) {
             this.pclForm.patchValue(this.pclSelect);
-            console.log(this.pclSelect)
         }
     }
     cambiarEstado(iddt: number): void {
@@ -459,7 +454,6 @@ export class PclComponent implements OnInit {
         this.action = true;
         this.modalDianostico = true;
         this.pclForm.patchValue(this.pclSelect);
-        console.log(this.pclForm.patchValue(this.pclSelect))
     }
 
 
@@ -486,8 +480,7 @@ export class PclComponent implements OnInit {
                     pcl.saludLaboral = true;
                 }
                 res = await this.scmService.updatePcl(this.pclForm.value);
-                console.log(upd)
-                console.log(res)
+
             } else {
                 let pcl = this.pclForm.value;
                 let diags: any[] = pcl.diag.slice(); // Haciendo una copia de pcl.diag
@@ -499,7 +492,6 @@ export class PclComponent implements OnInit {
                 res = await this.scmService.createPcl(this.pclForm.value, diags);
                 
             }
-            console.log('Respuesta del servidor:', res); // Agregar este console.log
             if (res) {
                 this.messageService.add({
                     key: 'pcl',
@@ -514,10 +506,8 @@ export class PclComponent implements OnInit {
                 this.eventClose.emit();
                 this.resetDiags();
                 this.cd.markForCheck();
-                console.log(res)
             }
         } catch (error) {
-            console.log(error)
             this.messageService.add({
                 key: 'pcl',
                 severity: "error",
