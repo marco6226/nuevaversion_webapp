@@ -33,7 +33,7 @@
         <br/>
         <ng-template ngFor let-opc [ngForOf]="opciones">
           <p-radioButton #radiobutton name="radioselect" [value]="opc.id" [label]="opc.nombre" [(ngModel)]="elementoSelect?.calificacion.opcionCalificacion.id" 
-            [pTooltip]="opc.descripcion" tooltipPosition="left" [disabled]="disabled"></p-radioButton>
+            [pTooltip]="opc.descripcion" tooltipPosition="left" [disabled]="disabled" (ngModelChange)="onOpcionCalificacionChange($event)"></p-radioButton>
           <br/>
         </ng-template>
         <div class="col-12">
