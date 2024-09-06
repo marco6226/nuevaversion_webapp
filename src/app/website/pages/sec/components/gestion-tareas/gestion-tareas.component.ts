@@ -6,6 +6,14 @@ import { ConfirmationService } from 'primeng/api';
 import { Empleado } from 'src/app/website/pages/empresa/entities/empleado';
 import { PrimeNGConfig } from 'primeng/api';
 import { SesionService } from '../../../core/services/session.service';
+import { InspeccionService } from '../../../inspecciones/services/inspeccion.service';
+import { Inspeccion } from '../../../inspecciones/entities/inspeccion';
+import { Programacion } from '../../../inspecciones/entities/programacion';
+import { FilterQuery } from '../../../core/entities/filter-query';
+import { Criteria } from '../../../core/entities/filter';
+import { EmpresaService } from '../../../empresa/services/empresa.service';
+import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 
 @Component({
   selector: 's-gestionTareas',
@@ -18,7 +26,13 @@ export class GestionTareasComponent implements OnInit {
   @Input('tareasList') tareasList?: Tarea[];
   @Input('readOnly') readOnly?: boolean;
   @Input('tipoLista') tipoLista: string | null = null;
-  
+  @Input('hash') hashId: string | null = null;
+  @Input('idArea') idArea: string |null = null;
+  @Input('areaResp') areaResp: string |null = null;
+
+  localidadSV: string | null = null;
+  areaSV: string | null = null;
+  procesoSV: string | null = null;
   modificar?: boolean;
   adicionar?: boolean;
   form: FormGroup;
@@ -26,12 +40,19 @@ export class GestionTareasComponent implements OnInit {
   fechaActual = new Date();
   yearRange: string = this.fechaActual.getFullYear() + ":" + (this.fechaActual.getFullYear() + 1);
   esAliado: boolean = false;
+  idInspeccion: string | null = null;
+  inspeccion!: Inspeccion;
+  programacion!: Programacion;
 
   constructor(
     private confirmationService: ConfirmationService,
     public fb: FormBuilder,
     private config: PrimeNGConfig,
     private sessionService: SesionService,
+    private inspeccionService: InspeccionService,
+    private empresaService: EmpresaService,
+    private areaMatrizService: AreaMatrizService,
+    private procesoMatrizService: ProcesoMatrizService,
   ) { 
     if (this.tipoLista != 'Inspecciones SV') {
         this.form = fb.group({
@@ -76,14 +97,107 @@ export class GestionTareasComponent implements OnInit {
     this.config.setTranslation(this.es);
     this.adicionar = !this.readOnly;
     this.modificar = false;
+    
+    if(this.hashId){
+      const partes = this.hashId.split('-');
+      if (partes.length > 1){
+        this.idInspeccion = partes[1];
+      }
+    }
+    if(this.idInspeccion){
+      this.inspeccionService.findInspeccion(this.idInspeccion)
+      .then((data: any) => {
+          this.inspeccion = data;
 
+          this.programacion = this.inspeccion.programacion;
+          if(this.programacion.localidadSv){
+            this.localidadSV = this.programacion.localidadSv;
+            this.areaSV = this.programacion.areaSv;
+            this.procesoSV = this.programacion.procesoSv;
+          }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    }
+
+    
     let empresaUsuario = this.sessionService.getEmpresa();
     if (empresaUsuario?.idEmpresaAliada !== null) this.esAliado = true;
     console.log(this.tareasList);
     
   }
+  async getLocalidad(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'localidad';
+    filterQuery.fieldList = ['id', 'localidad'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
 
-  onSubmit() {
+    try {
+        const res: any = await this.empresaService.getLocalidadesRWithFilter(filterQuery);
+        const localidad: { id: string; localidad: string }[] = res['data']; 
+        if (localidad.length > 0) {
+            const nombre = localidad[0].localidad;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la localidad:', error);
+        return null; 
+    }
+}
+
+async getArea(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+
+    try {
+        const res: any = await this.areaMatrizService.findByFilter(filterQuery);
+        const area: { id: string; nombre: string }[] = res['data']; 
+        if (area.length > 0) {
+            const nombre = area[0].nombre;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la área:', error);
+        return null; 
+    }
+}
+
+async getProceso(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+
+    try {
+        const res: any = await this.procesoMatrizService.findByFilter(filterQuery);
+        const proceso: { id: string; nombre: string }[] = res['data']; 
+        if (proceso.length > 0) {
+            const nombre = proceso[0].nombre;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener el proceso:', error);
+        return null; 
+    }
+}
+
+
+  async onSubmit() {
     let tarea = new Tarea();
     tarea.nombre = this.form.value.nombre;
     tarea.descripcion = this.form.value.descripcion;
@@ -99,14 +213,24 @@ export class GestionTareasComponent implements OnInit {
     }
     if( this.form.value.tipoAccion == null){
       tarea.tipoAccion = "Plan de acción";
-      
+      tarea.areaResponsable = new Area();
+      if(this.areaResp && this.idArea){
+        tarea.areaResponsable.nombre = this.areaResp;
+        tarea.areaResponsable.id = this.idArea
+      }
+      if(this.localidadSV &&this.areaSV && this.procesoSV ){
+        const localidadName = await this.getLocalidad(this.localidadSV);
+        const areaName = await this.getArea(this.areaSV);
+        const procesoName = await this.getProceso(this.procesoSV);
+        tarea.localidadSv = localidadName;
+        tarea.areaSv = areaName;
+        tarea.procesoSv = procesoName;
+      }
+      tarea.envioCorreo = false;
     }else{
       tarea.tipoAccion = this.form.value.tipoAccion;
     }
-    if (this.modificar) {
-      tarea.envioCorreo = false;
-    }
-    tarea.envioCorreo = true;
+    
 
     if (this.form.value.empResponsable != null && !this.esAliado) {
         tarea.empResponsable = new Empleado();

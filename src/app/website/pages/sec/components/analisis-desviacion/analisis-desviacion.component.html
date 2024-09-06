@@ -5,6 +5,7 @@
             <tr>
                 <th>Módulo</th>
                 <th>Código</th>
+
                 <th *ngIf="(idEmpresa != '22' && !esAliado) || (idEmpresa != '508' && !esAliado)">Área origen</th>
                 <th *ngIf="(idEmpresa == '22' || esAliado) || (idEmpresa == '508' || esAliado)">Ubicación</th>
                 <th>Concepto</th>
@@ -51,7 +52,7 @@
         <div class="grid">
             <div class="col-12">
                 <p-tabView [(activeIndex)]="tabIndex" (onChange)="indexTab($event)" [scrollable]="true">
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508'" header="Descripción">
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Descripción">
                         <!-- <button (click)="test2()">test2</button> -->
                         <div class="grid">
                             <div *ngIf="desviacionesList" class="col-12 lg:col-4">
@@ -119,9 +120,9 @@
                         </p-table>
 
                     </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508'" header="Información complementaria">
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Información complementaria">
                         <p-tabView>
-                            <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '508'" header="Complementaria">
+                            <p-tabPanel *ngIf="idEmpresa == '22'" header="Complementaria">
                                 <p-table [value]="desviacionesList" autoLayout="true" [formGroup]="analisisPeligros">
                                     <ng-template  pTemplate="body" let-aus let-rowIndex="rowIndex">
                                         <ng-container *ngIf="rowIndex==0">
@@ -255,7 +256,7 @@
 
 
                             </p-tabPanel>
-                            <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508'" header="Dias perdidos">
+                            <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Dias perdidos">
 
                                 <app-incapacidades-complementaria (listIncapacidades)="getListIncapacidades($event)"
                                     [incapacidades]="incapacidadesList"></app-incapacidades-complementaria>
@@ -415,16 +416,16 @@
                         </p-tabView>
 
                     </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508'" header="Miembros del equipo">
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Miembros del equipo">
                         <app-miembros-equipo [miembrosList]="miembros"
                             (disable)="guardadModificar($event)"></app-miembros-equipo>
                         <!-- <app-miembros-equipo [miembrosList]="miembros" (miembrosOut)="miembrosIn($event)" (selectedProductsOUT)="selectedProductsIn($event)"></app-miembros-equipo> -->
                     </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508'" header="Evidencias"
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Evidencias"
                         [disabled]="adicionar">
                         <app-evidencias [analisisId]="analisisId" [documentos]="documentos"></app-evidencias>
                     </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508'" header="Diagrama de flujo">
+                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Diagrama de flujo">
                         <app-flow-chart (datosFC)="setFactorCausal($event)" (diagramSave)="dataDiagram($event)"
                             [dataFlowChart]="flowChart"></app-flow-chart>
                     </p-tabPanel>
@@ -434,18 +435,18 @@
                             [factorCausal]="data"></app-factor-causal>
                     </p-tabPanel>
                     <p-tabPanel
-                        *ngIf="(idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508') && dataListFactor.length>0 && !validators"
+                        *ngIf="(idEmpresa == '22' || idEmpresa == '3') && dataListFactor.length>0 && !validators"
                         header="Listado de causas">
                         <app-listado-causas [factores]="dataListFactor" (tabIndex)="changeTab()"
                             (validacionPA)="habilitarInforme()" [planAccionList]="listPlanAccion"></app-listado-causas>
                     </p-tabPanel>
-                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508') && listPlanAccion.length>0"
+                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && listPlanAccion.length>0"
                         header="Plan de accion">
                         <app-plan-accion-list (actualizar)="setListDataFactor()" (validacionPA)="habilitarInforme()"
                             (flagPlanAccionlist)="eliminarPlandeAccion($event)"
                             [planAccionList]="listPlanAccion"></app-plan-accion-list>
                     </p-tabPanel>
-                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3' || idEmpresa == '508') && displayInforme" header="Informe">
+                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && displayInforme" header="Informe">
                         <button pButton icon="pi pi-print" (click)="imprimir()" class="soft-icon"
                             [disabled]="buttonPrint"></button>
                         <!-- <button  (click)="test2()" >test</button>  -->
@@ -583,7 +584,7 @@
                         </div>
 
                     </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa != '22' || idEmpresa != '508'" header="Establecimiento de causas">
+                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Establecimiento de causas">
                         <div class="grid">
                             <div class="col-12 lg:col-4">
                                 <h4 style="margin-bottom: 20px;">Causas inmediatas</h4>
@@ -653,13 +654,13 @@
                             label="Adicionar participante" (click)="adicionarParticipante()"></button>
                     </p-tabPanel>
 
-                    <p-tabPanel *ngIf="idEmpresa != '22' || idEmpresa != '508'" header="Documentación" [disabled]="adicionar">
+                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Documentación" [disabled]="adicionar">
                         <s-documentosAnalisisDesviacion *ngIf="documentos" [analisisId]="analisisId"
                             [documentos]="documentos" (onUpdate)="confirmarActualizacion($event)"
                             [readOnly]="consultar"></s-documentosAnalisisDesviacion>
                     </p-tabPanel>
 
-                    <p-tabPanel *ngIf="idEmpresa != '22' || idEmpresa != '508'" header="Observaciones">
+                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Observaciones">
                         <textarea maxlength="510" *ngIf="!consultar" pInputTextarea rows="7"
                             placeholder="Observaciones de análisis" [(ngModel)]="observacion"></textarea>
                         <div *ngIf="consultar">
@@ -672,8 +673,8 @@
         </div>
     </p-tabPanel>
     </ng-container>
-    <p-tabPanel *ngIf="idEmpresa != '22' && idEmpresa != '508' || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones CC' ) || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones SV')" header="PLAN DE TRABAJO">
-        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar" [tipoLista]="desviacionesList[0]?.modulo"></s-gestionTareas>
+    <p-tabPanel *ngIf="idEmpresa != '22' || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones CC' ) || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones SV')" header="PLAN DE TRABAJO">
+        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar" [tipoLista]="desviacionesList[0]?.modulo" [hash]="desviacionesList[0]?.hashId" [idArea]="desviacionesList[0].area.id" [areaResp]="desviacionesList[0].area.nombre"></s-gestionTareas>
     </p-tabPanel>
 
 </p-tabView>

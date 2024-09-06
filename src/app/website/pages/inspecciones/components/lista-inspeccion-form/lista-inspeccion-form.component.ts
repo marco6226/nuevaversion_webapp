@@ -101,8 +101,26 @@ export class ListaInspeccionFormComponent implements OnInit {
 
     AusenteSelected(): boolean {
         const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
-        return opcionSeleccionada ? opcionSeleccionada.nombre.toLowerCase() === 'ausente' : false;
+        if(opcionSeleccionada?.nombre.toLowerCase() === 'ausente'){
+            return true;
+        }else{
+            return false
+        }
+    
     }
+
+    onOpcionCalificacionChange(newValue: any) {
+        const opcionSeleccionada = this.opciones.find(op => op.id === newValue);
+        if (!opcionSeleccionada || opcionSeleccionada.nombre.toLowerCase() !== 'ausente') {
+          this.elementoSelect.calificacion.accion = '0';
+          this.elementoSelect.calificacion.descripcionMiti = '';
+          this.elementoSelect.calificacion.descripcionAccion = '';
+          this.elementoSelect.calificacion.planAccion = '0';
+          this.elementoSelect.calificacion.descripcionAccTarjeta = '';
+          this.elementoSelect.calificacion.responsable = '';
+          this.elementoSelect.calificacion.fechaProyectada = null;
+        }
+      }
     
     
     PlanASelected(): boolean{
