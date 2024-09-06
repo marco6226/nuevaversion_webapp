@@ -1035,7 +1035,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                     detail: "Debe adicionar actividad.",
                 });
             }
-            else if(Number(this.idEmpresa) == 22){
+            else if(Number(this.idEmpresa) == 22 || Number(this.idEmpresa) == 508){
                 this.msgs.push({
                     severity: "error",
                     detail: "Debe diligenciar información complementaria para guardar.",
@@ -1056,7 +1056,7 @@ export class AnalisisDesviacionComponent implements OnInit {
         // this.flagModificar=true;
 
         if (this.validarData()) {
-            if (this.idEmpresa == '22'&& this.desviacionesList && this.desviacionesList[0].modulo !== 'Inspecciones CC' && this.desviacionesList[0].modulo !== 'Inspecciones SV') { await this.tareaList2(); }
+            if (this.idEmpresa == '22' || this.idEmpresa == '508' && this.desviacionesList && this.desviacionesList[0].modulo !== 'Inspecciones CC' && this.desviacionesList[0].modulo !== 'Inspecciones SV') { await this.tareaList2(); }
             this.buttonPrint = true;
             this.informacionComplementaria = this.analisisPeligros.value;
             this.informeJson = this.infoIn.value;
@@ -1181,7 +1181,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                     detail: "Debe adicionar actividad.",
                 });
             }
-            else if(Number(this.idEmpresa) == 22){
+            else if(Number(this.idEmpresa) == 22 || Number(this.idEmpresa) == 508){
                 this.msgs.push({
                     severity: "error",
                     detail: "Debe diligenciar información complementaria para guardar.",
@@ -1212,7 +1212,7 @@ export class AnalisisDesviacionComponent implements OnInit {
         return (flagTareas && this.causaInmediataListSelect.length > 0 && this.causaRaizListSelect.length > 0)
         || (this.desviacionesList && this.desviacionesList[0].modulo === 'Inspecciones CC' && this.tareasList && this.tareasList.length > 0)
         || (this.desviacionesList && this.desviacionesList[0].modulo === 'Inspecciones SV' && this.tareasList && this.tareasList.length > 0)
-        || (Number(this.idEmpresa) == 22 && !this.analisisPeligros.invalid && flagIncapacidades)
+        || (Number(this.idEmpresa) == 22 || Number(this.idEmpresa) == 508 && !this.analisisPeligros.invalid && flagIncapacidades)
         || (Number(this.idEmpresa) == 8 && flagTareas);
     }
 
