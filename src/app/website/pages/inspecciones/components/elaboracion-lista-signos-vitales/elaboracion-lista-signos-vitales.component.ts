@@ -18,6 +18,7 @@ import { AreaService } from '../../../empresa/services/area.service';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { ProcesoMatrizService } from '../../../core/services/proceso-matriz.service';
 import { AreaMatrizService } from '../../../core/services/area-matriz.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-elaboracion-lista-signos-vitales',
@@ -40,6 +41,7 @@ export class ElaboracionListaSignosVitalesComponent implements OnInit {
   imagenesList!: any[];
   numMaxImg = 2;
   listDivision: any = []
+  disabled: boolean = false;
 
   cambiarImagenAnterior: boolean = true;
 
@@ -62,6 +64,7 @@ export class ElaboracionListaSignosVitalesComponent implements OnInit {
     private empresaService: EmpresaService,
     private areaMatrizService: AreaMatrizService,
     private procesoMatrizService: ProcesoMatrizService,
+    private route: Router,
   ) { 
     this.canvas = document.createElement('canvas');
     this.canvas.width = 256;
@@ -378,8 +381,18 @@ actualizar(actualizarVersion: boolean) {
             });
         } else if (this.listaEvidence.length > 0) {
         }
-        let detalle = actualizarVersion ? 'Se ha generado correctamente una nueva versión de la lista de inspección ' : 'Se ha actualizado correctamente la lista de inspección ';
-        this.messageService.add({ key: 'elaboracionLista', severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre});
+        if(actualizarVersion == true){
+            this.modificar = false;
+            let detalle = 'Se ha generado correctamente una nueva versión de la lista de inspección ';
+            this.messageService.add({ key: 'elaboracionLista', severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre});
+            setTimeout(() => {
+                this.route.navigate(['/app/signos/listaInspeccionSignos'])
+            }, 3000);
+        }else{
+            let detalle =  'Se ha actualizado correctamente la lista de inspección ';
+            this.messageService.add({ key: 'elaboracionLista', severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre});
+        }
+       
     });
 }
 
