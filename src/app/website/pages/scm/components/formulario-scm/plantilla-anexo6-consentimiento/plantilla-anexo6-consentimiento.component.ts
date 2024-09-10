@@ -8,6 +8,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Criteria } from 'src/app/website/pages/core/entities/filter';
 import { FilterQuery } from 'src/app/website/pages/core/entities/filter-query';
 import { firmaservice } from 'src/app/website/pages/core/services/firmas.service';
@@ -35,13 +36,17 @@ export class PlantillaAnexo6ConsentimientoComponent
   nombreSesion?: string;
   empleadoStorage?: any;
   seguimientoId?: string;
+  seguimiento: any;
 
   constructor(
     private _firmaservice: firmaservice,
     private _sesionService: SesionService,
+    private route: ActivatedRoute,
     @Inject(LOCALE_ID) private locale: string
   ) {}
   ngOnInit(): void {
+    this.seguimiento = this.route.snapshot.params["id"];
+    console.log("Seguimiento:", this.seguimiento);
     const storedSignature = localStorage.getItem('whoSignature');
     this.whoSignature = storedSignature ? storedSignature : '';
     const empleadoStorage: string | null = localStorage.getItem('empleado');

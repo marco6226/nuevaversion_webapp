@@ -1492,7 +1492,7 @@
                                             <button pButton pRipple type="button" pCancelEditableRow
                                                 icon="pi pi-book" (click)="anexo6seguimiento(seguimiento)"
                                                 title="Anexo de seguimiento" class="p-button-rounded p-button-text p-mr-2"></button>
-                                            <button 
+                                            <!-- <button 
                                                 pButton 
                                                 pRipple 
                                                 type="button" 
@@ -1500,12 +1500,12 @@
                                                 icon="pi pi-upload" title="Cargar plantilla anexo 6" 
                                                 class="p-button-rounded p-button-text p-mr-2"
                                                 (click)="showTemplate6 = true">
-                                            </button>
+                                            </button> -->
                                             <button *ngIf="seguimiento.id>seguimientoid" pButton pRipple type="button" pCancelEditableRow
-                                                icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'aprueba')"
+                                                icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'aprueba', seguimiento)"
                                                 title="Copiar link usuario que aprueba" class="p-button-rounded p-button-text p-mr-2"></button>
                                             <button *ngIf="seguimiento.id>seguimientoid" pButton pRipple type="button" pCancelEditableRow
-                                                icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'medico')"
+                                                icon="bi bi-link-45deg" (click)="copiarLinkSeguimiento(seguimiento.id,'medico',seguimiento)"
                                                 title="Copiar link medico" class="p-button-rounded p-button-text p-mr-2"></button>
                                         </ng-container>
                                         <ng-container *ngIf="idUltimoSeguimiento==seguimiento.id">
@@ -2092,9 +2092,9 @@
         <button type="button" pButton icon="pi pi-times" label="Cancelar" (click)="displayDialog = false"></button>
     </p-footer>
 </p-dialog>
-<p-dialog header="Anexo 6" [(visible)]="showTemplate6" modal="modal" [style]="{width: '50vw'}" [baseZIndex]="10000">
+<!-- <p-dialog header="Anexo 6" [(visible)]="showTemplate6" modal="modal" [style]="{width: '50vw'}" [baseZIndex]="10000">
     <app-plantilla-anexo6-consentimiento></app-plantilla-anexo6-consentimiento>
-</p-dialog>
+</p-dialog> -->
 
 
 <!-- Boton de retorno al listado -->

@@ -25,7 +25,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   { path: 'firma/:id', component: FirmaComponent,},
-  { path: 'plantillaAnexo6', component: PlantillaAnexo6ConsentimientoComponent}
+  { path: 'plantillaAnexo6/:id', component: PlantillaAnexo6ConsentimientoComponent}
 ];
 
 @NgModule({
