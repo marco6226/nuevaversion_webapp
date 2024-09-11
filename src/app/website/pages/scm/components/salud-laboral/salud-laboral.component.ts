@@ -257,7 +257,7 @@ export class SaludLaboralComponent implements OnInit {
   ]
   tipoIdentificacionList: SelectItem[];
   fechaActual: Date = new Date();
-  yearRange: string = "1900:" + this.fechaActual.getFullYear();
+  yearRange: string = `${this.fechaActual.getFullYear()}:${this.fechaActual.getFullYear() + 10}`; // Para navegación entre años (opcional)
   division: string | null = null;
 
   saludLaboralList: any[] = [];
@@ -932,7 +932,7 @@ export class SaludLaboralComponent implements OnInit {
     this.empresa = this.sesionService.getEmpresa();
     let defaultItem = <SelectItem[]>[{ label: "--seleccione--", value: null }];
     this.tipoIdentificacionList = defaultItem.concat(<SelectItem[]>tipo_identificacion);
-    this.fechaActual.setFullYear(this.fechaActual.getFullYear() + 1);
+    //this.fechaActual.setFullYear(this.fechaActual.getFullYear() + 1);
 
     this.empleadoForm = fb.group({
       'id': [null],
@@ -3167,7 +3167,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "El correo electrónico del usuario solicitado en los documentos de Gh Admon Personal no está presente. Verifica la información.",
+          detail: "El correo electrónico del usuario solicitado en los documentos de Gh Admon Personal no está diligenciada. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta usuarioSolicitado
       }
@@ -3177,7 +3177,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "La fecha límite en los documentos de Gh Admon Personal no está presente. Verifica la información.",
+          detail: "La fecha límite en los documentos de Gh Admon Personal no está diligenciada. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta fechaLimite
       }
@@ -3222,7 +3222,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "El correo electrónico del usuario solicitado en los documentos de seguridad no está presente. Verifica la información.",
+          detail: "El correo electrónico del usuario solicitado en los documentos de seguridad no está diligenciada. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta usuarioSolicitado
       }
@@ -3232,7 +3232,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "La fecha límite no está presente en los documentos de seguridad. Verifica la información.",
+          detail: "La fecha límite no está diligenciada en los documentos de seguridad. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta fechaLimite
       }
@@ -3277,7 +3277,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "El correo electrónico del usuario solicitado en los documentos de salud no está presente. Verifica la información.",
+          detail: "El correo electrónico del usuario solicitado en los documentos de salud no está diligenciada. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta usuarioSolicitado
       }
@@ -3287,7 +3287,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "La fecha límite no está presente en loos documentos de salud. Verifica la información.",
+          detail: "La fecha límite no está diligenciada en los documentos de salud. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta fechaLimite
       }
@@ -3331,7 +3331,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "El correo electrónico del usuario solicitado no está presente en los documentos de Psicosocial. Verifica la información.",
+          detail: "El correo electrónico del usuario solicitado no está diligenciada en los documentos de Psicosocial. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta usuarioSolicitado
       }
@@ -3341,7 +3341,7 @@ export class SaludLaboralComponent implements OnInit {
           key: 'formScmSL',
           severity: "warn",
           summary: "Falta Información",
-          detail: "La fecha límite no está presente en los documentos de Psicosocial. Verifica la información.",
+          detail: "La fecha límite no está diligenciada en los documentos de Psicosocial. Verifica la información.",
         });
         continue; // Salta a la siguiente iteración si falta fechaLimite
       }
