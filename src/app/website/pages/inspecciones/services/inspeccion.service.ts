@@ -47,6 +47,21 @@ export class InspeccionService extends CRUDService<Inspeccion>{
     })
   }
 
+  findInspeccion(id: string): Promise<Inspeccion[]>{       
+    return new Promise((resolve, reject) =>{
+      this.httpInt.get(this.end_point + "find/"+id)
+        .subscribe(
+          (res: any) => {
+            resolve(res);
+          },
+          err => {
+            this.manageError(err);
+            reject(err);
+          }
+        );
+    });
+  }
+
   saveInspeccionAliado(inspeccion: Inspeccion) {
     return new Promise((resolve, reject) => {
       this.httpInt.post(this.end_point + 'inspeccionAliado', inspeccion)

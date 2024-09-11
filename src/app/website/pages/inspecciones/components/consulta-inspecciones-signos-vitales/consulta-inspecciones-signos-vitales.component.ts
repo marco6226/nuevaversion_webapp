@@ -201,7 +201,6 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
   }
   
   async getLocalidad(id: string): Promise<string | null> {
-    console.log(id);
     
     let filterQuery = new FilterQuery();
     filterQuery.sortField = 'localidad';
@@ -333,7 +332,6 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
 
         if (localidadId && !this.localidadNamesMap[localidadId]) {
           const localidadName = await this.getLocalidad(localidadId);
-          console.log(localidadName);
           if (localidadName) {
               this.localidadNamesMap[localidadId] = localidadName;
             }
@@ -341,8 +339,6 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
 
         if (areaId && !this.areaNamesMap[areaId]) {
           const areaName = await this.getArea(areaId);
-          console.log(areaName);
-          
           if (areaName) {
               this.areaNamesMap[areaId] = areaName;
             }
@@ -350,7 +346,6 @@ export class ConsultaInspeccionesSignosVitalesComponent implements OnInit {
 
         if (procesoId && !this.procesoNamesMap[procesoId]) {
           const procesoName = await this.getProceso(procesoId);
-          console.log(procesoName);
           if (procesoName) {
               this.procesoNamesMap[procesoId] = procesoName;
             }

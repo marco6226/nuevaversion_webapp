@@ -498,8 +498,14 @@ export class FormularioAccidenteCtrComponent implements OnInit {
     filterArea.fieldList = [
         'id',
     ];
-    filterArea.filterList = [{ field: 'nombre', criteria: Criteria.EQUALS, value1: event}];
-    filterArea.filterList.push({ field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59'})
+    if(this.idEmpresa == '22'){
+      filterArea.filterList = [{ field: 'nombre', criteria: Criteria.EQUALS, value1: event}];
+      filterArea.filterList.push({ field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59'})
+    }else if (this.idEmpresa == '508'){
+      filterArea.filterList = [{ field: 'nombre', criteria: Criteria.EQUALS, value1: event}];
+      filterArea.filterList.push({ field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '88'})
+    }
+
     let idDivision:any
     await this.areaService.getAreaRWithFilter(filterArea).then((resp:any)=>{
         idDivision=resp.data[0].id
@@ -517,8 +523,6 @@ export class FormularioAccidenteCtrComponent implements OnInit {
             this.localidadesList.push({label:loc.localidad,value:loc.id})
         }
     }).catch((er:any)=>console.log(er)).finally(()=>this.flagLocalidades=true)
-    console.log(this.idEmpresa)
-    console.log(this.flagLocalidades)
   }
   localidadesList:any
 

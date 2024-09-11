@@ -493,6 +493,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        
         let primerNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerNombre?this.sesionService.getEmpleado()!.primerNombre:''):''
         let segundoNombre=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.segundoNombre?this.sesionService.getEmpleado()!.segundoNombre:''):''
         let primerApellido=(this.sesionService.getEmpleado())?(this.sesionService.getEmpleado()!.primerApellido?this.sesionService.getEmpleado()!.primerApellido:''):''
@@ -1095,10 +1096,11 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         if(this.sesionService.getPermisosMap()["SCM_GET_CASE_LOG"]) this.logsList = await this.scmService.getLogs(this.caseSelect.id);
     }
 
-    async copiarLinkSeguimiento(idSeguimiento:number, usuario:string){
+    async copiarLinkSeguimiento(idSeguimiento:number, usuario:string,seguimiento:any){
         localStorage.setItem('whoSignature', usuario);
         localStorage.setItem('empleado', JSON.stringify(this.empleadoSelect ?? {}));
         localStorage.setItem('seguimiento', idSeguimiento.toString());
+        console.log("Seguimiento desde copia link: ", seguimiento);
         let filterQuery = new FilterQuery();
         filterQuery.filterList = []
         filterQuery.filterList.push({ criteria: Criteria.EQUALS, field: "idrelacionado", value1: idSeguimiento.toString() });
@@ -1148,8 +1150,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 key: 'formScm',
                 severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
         }
-        // navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
-        navigator.clipboard.writeText(endPoints.plantillaAnexo6)
+        navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
+        //navigator.clipboard.writeText(endPoints.plantillaAnexo6+btoa(firm.id))
+        //navigator.clipboard.writeText(endPoints.plantillaAnexo6+btoa(seguimiento));
     }
 
     async onCloseModalDianostico() {

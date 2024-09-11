@@ -2,3 +2,8 @@
     .p-toast{
         margin-top: 50px;
     }
+    ::ng-deep .custom-dropdown .p-dropdown-panel {
+        width: 20vw;
+       // overflow-x: auto;
+       // display:flex;
+    }

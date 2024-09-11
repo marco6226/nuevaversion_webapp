@@ -15,6 +15,7 @@ import { ListaInspeccionPK } from 'src/app/website/pages/inspecciones/entities/l
 import { OpcionCalificacion } from 'src/app/website/pages/inspecciones/entities/opcion-calificacion';
 import { ListaInspeccionService } from 'src/app/website/pages/inspecciones/services/lista-inspeccion.service';
 import { tipoListaEnum } from '../enums/tipoListas';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-elaboracion-lista-ctr',
@@ -51,7 +52,8 @@ export class ElaboracionListaCtrComponent implements OnInit {
     private perfilService: PerfilService,
     private directorioService: DirectorioService,
     private messageService: MessageService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private route: Router,
   ) { 
     this.canvas = document.createElement('canvas');
     this.canvas.width = 256;
@@ -252,8 +254,18 @@ actualizar(actualizarVersion: boolean) {
             });
         } else if (this.listaEvidence.length > 0) {
         }
-        let detalle = actualizarVersion ? 'Se ha generado correctamente una nueva versión de la lista de inspección ' : 'Se ha actualizado correctamente la lista de inspección ';
-        this.messageService.add({ severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre, key: 'elaboracionLista' });
+        if(actualizarVersion == true){
+            this.modificar = false;
+            let detalle = 'Se ha generado correctamente una nueva versión de la lista de inspección ';
+            this.messageService.add({ key: 'elaboracionLista', severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre});
+            setTimeout(() => {
+                this.route.navigate(['/app/ctr/listasAuditoriaCicloCorto'])
+            }, 3000);
+        }else{
+            let detalle =  'Se ha actualizado correctamente la lista de inspección ';
+            this.messageService.add({ key: 'elaboracionLista', severity: 'success', summary: 'Lista de inspección actualizada', detail: detalle + listInp.nombre});
+        }
+       
     });
 }
 

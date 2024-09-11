@@ -5,8 +5,8 @@
             <tr>
                 <th>Módulo</th>
                 <th>Código</th>
-                <th *ngIf="idEmpresa != '22' && !esAliado">Área origen</th>
-                <th *ngIf="idEmpresa == '22' || esAliado">Ubicación</th>
+                <th *ngIf="(idEmpresa != '22' && !esAliado) || (idEmpresa != '508' && !esAliado)">Área origen</th>
+                <th *ngIf="(idEmpresa == '22' || esAliado) || (idEmpresa == '508' || esAliado)">Ubicación</th>
                 <th>Concepto</th>
                 <th>Aspecto causante</th>
                 <th style="width:3em;"></th>
@@ -833,7 +833,7 @@
     </p-tabPanel>
     </ng-container>
     <p-tabPanel *ngIf="idEmpresa != '22' || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones CC' ) || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones SV')" header="PLAN DE TRABAJO">
-        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar" [tipoLista]="desviacionesList[0]?.modulo"></s-gestionTareas>
+        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar" [tipoLista]="desviacionesList[0]?.modulo" [hash]="desviacionesList[0]?.hashId" [idArea]="desviacionesList[0].area.id" [areaResp]="desviacionesList[0].area.nombre"></s-gestionTareas>
     </p-tabPanel>
 
 </p-tabView>

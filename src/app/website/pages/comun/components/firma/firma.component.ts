@@ -38,7 +38,7 @@ export class FirmaComponent implements OnInit{
   ) { }
   public async ngOnInit(){
     
-    this.estadoFirma='firmar'
+    this.estadoFirma='noexiste'
     await this.firmaservice.findById(atob(this.route.snapshot.params["id"])).then((resp:any)=>{
       this.datosFirma=resp
 
