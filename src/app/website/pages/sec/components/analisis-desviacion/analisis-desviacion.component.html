@@ -55,26 +55,46 @@
                         <!-- <button (click)="test2()">test2</button> -->
                         <div class="grid">
                             <div *ngIf="desviacionesList" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 20px;">Nombre de la Empresa</h4>
+                                <h4 style="margin-bottom: 5px; font-weight: bold;">Nombre de la Empresa</h4>
                                 {{desviacionesList[0]?.empresa}}
                             </div>
                             <div *ngIf="desviacionesList" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 20px;">NIT</h4>
+                                <h4 style="margin-bottom: 5px; font-weight: bold;">NIT</h4>
                                 {{desviacionesList[0]?.nit}}
+                            </div>
+                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
+                                <h4 style="margin-bottom: 5px; font-weight: bold;">Nombres Completos</h4>
+                                {{desviacionesList[0]?.nombresSl}}
+                            </div>
+                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
+                                <h4 style="margin-bottom: 5px; font-weight: bold;">Cedula</h4>
+                                {{desviacionesList[0]?.cedulaUsuario}}
+                            </div>
+                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
+                                <h4 style="margin-bottom: 5px; font-weight: bold;">Edad</h4>
+                                {{ calcularEdad(desviacionesList[0]?.edad) }} años
+                              </div>                              
+                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
+                                <h4 style="margin-bottom: 5px; font-weight: bold;">Antiguedad</h4>
+                                {{calcularEdad(desviacionesList[0]?.antiguedad)  }} años
+                            </div>
+                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
+                                <h4 style="margin-bottom: 5px; font-weight: bold;">Sexo</h4>
+                                {{desviacionesList[0]?.genero}}
                             </div>
 
                         </div>
-                        <div class="grid">
+                        <div class="grid" *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'">
                             <h4 style="margin-bottom: 20px;">Reporte de investigación</h4>
 
                         </div>
-                        <div class="grid">
+                        <div class="grid" *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'">
                             <h4 style="margin-bottom: 20px;">Reporte Inicial</h4>
 
                         </div>
 
 
-                        <p-table [value]="desviacionesList" autoLayout="true" id="TablaDescripcion">
+                        <p-table [value]="desviacionesList" autoLayout="true" id="TablaDescripcion" *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'">
 
                             <ng-template pTemplate="body" let-rowIndex="rowIndex">
                                 <ng-container *ngIf="rowIndex==0">
@@ -117,6 +137,132 @@
                             </ng-template>
 
                         </p-table>
+                        <p-table [value]="desviacionesList" autoLayout="true" id="TablaDescripcion" *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'">
+
+                            <ng-template pTemplate="body" let-rowIndex="rowIndex">
+                                <ng-container *ngIf="rowIndex==0">
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Division Origen</th>
+                                        <td>{{desviacionesList[0]?.divisionOrigen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Localidad Origen</th>
+                                        <td>{{desviacionesList[0]?.localidadOrigen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Area Origen</th>
+                                        <td>{{desviacionesList[0]?.areaOrigen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Proceso Origen</th>
+                                        <td>{{desviacionesList[0]?.procesoOrigen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Division Actual</th>
+                                        <td>{{desviacionesList[0]?.divisionActual}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Localidad Actual</th>
+                                        <td>{{desviacionesList[0]?.localidadActual}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Area Actual</th>
+                                        <td>{{desviacionesList[0]?.areaActual}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Proceso Actual</th>
+                                        <td>{{desviacionesList[0]?.procesoActual}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Cargo Origen</th>
+                                        <td>{{desviacionesList[0]?.cargoOrigen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Cargo Actual</th>
+                                        <td>{{desviacionesList[0]?.cargoActual}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Fecha de Apertura del caso</th>
+                                        <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Dictamen EPS</th>
+                                        <td>{{desviacionesList[0]?.epsDictamen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Dictamen ARL</th>
+                                        <td>{{desviacionesList[0]?.arlDictamen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Dictamen Junta Regional</th>
+                                        <td>{{desviacionesList[0]?.jrDictamen}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border: 1px solid #c8c8c8;">Dictamen Junta Nacional</th>
+                                        <td>{{'Junta Nacional'}}</td>
+                                    </tr>
+                                   
+                                   
+                                </ng-container>
+                            </ng-template>
+
+                        </p-table>
+                        <div class="container-fluid cew-9" *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'">
+                            <div class="row">
+                              <h2 class="title-header p-mb-2">Información sobre diagnósticos</h2>
+                            </div>
+                            <div class="ui-g-12">
+                              <p-table
+                                #dt
+                                [value]="diagnosticoList"
+                                styleClass="material-table"
+                                autoLayout="true"
+                                [rows]="5"
+                                [paginator]="true"
+                                dataKey="id"
+                                [lazy]="true"
+                              >
+                                <ng-template pTemplate="header">
+                                  <tr>
+                                    <th pSortableColumn="codigoCie10">CIE 10</th>
+                                    <th pSortableColumn="sistemaAfectado">Sistema Afectado</th>
+                                    <th pSortableColumn="diagnostico">Diagnóstico</th>
+                                    <th pSortableColumn="detalle">Detalles</th>
+                  
+                                    <th pSortableColumn="fechaDiagnostico">Fecha</th>
+                                  </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-case>
+                                  <tr
+                                    [pSelectableRowDisabled]="modalDianostico"
+                                    [pSelectableRow]="case"
+                                    class="table-row table-row-selectable"
+                                  >
+                                    <td class="p-text-center">{{ case.codigoCie10 }}</td>
+                                    <td class="p-text-center">
+                                      {{ case.sistemaAfectado || "" }}
+                                    </td>
+                                    <td class="p-text-center">{{ case.diagnostico }}</td>
+                                    <td class="p-text-center">{{ case.detalle }}</td>
+                                    <td class="p-text-center">
+                                      {{ case.fechaDiagnostico | date : "dd/MM/yyyy" }}
+                                    </td>
+                                  </tr>
+                                </ng-template>
+                                <ng-template pTemplate="summary" let-rowData>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                  <tr>
+                                    <td colspan="6" class="p-text-center">
+                                      No hay registro de diagnósticos médicos
+                                    </td>
+                                  </tr>
+                                </ng-template>
+                              </p-table>
+                            </div>
+                          </div>
+
+
 
                     </p-tabPanel>
                     <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Información complementaria">
@@ -220,6 +366,7 @@
                                                     </div>
                                                 </th>
                                             </tr>
+                                           
                                             <tr>
                                                 <th style="border: 1px solid #c8c8c8;" *ngIf="!tienePermisocamex">Entrega copia de FURAT al trabajador
                                                 </th>
@@ -252,6 +399,19 @@
                                         </ng-container>
                                     </ng-template>
                                 </p-table>
+                                <br>
+                                 <app-pcl
+                                            [diagnosticos]="this.diagnosticoList"
+                                            [entity]="entity"
+                                            [emitPclentity]="emitPclentity"
+                                            [saludLaboralFlag]="true"
+                                            [testFlag]="true"
+                                            [pkCase]="this.desviacionesList![0]?.idSl"
+                                            [pclOptionList]="pclOptionList"
+                                            (eventClose)="onCloseModalDianostico()"
+                                            (dlistaPCL)="recibirPCL($event)"
+                                          >
+                                          </app-pcl>
 
 
                             </p-tabPanel>

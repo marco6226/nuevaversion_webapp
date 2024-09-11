@@ -70,7 +70,9 @@ export class CasosMedicosListComponent implements OnInit {
     'jrDictamen',
     'documentosJr',
     'fechaDictamenJn',
-      'documentosJn'
+      'documentosJn',
+      'empresaId',
+      'eliminado'
   ];
   
   consultar: boolean = false;
@@ -114,7 +116,7 @@ export class CasosMedicosListComponent implements OnInit {
     private cargoActualService: CargoActualService,
     private empresaService: EmpresaService,
     private areaMatrizService: AreaMatrizService,
-    private areaService: AreaService,
+    private areasService: AreaService
   ) {
 
 
@@ -124,34 +126,109 @@ export class CasosMedicosListComponent implements OnInit {
     dt.filterGlobal(value, 'contains');
   }
 
-  onFilter(event: any) {
+  onFilter(event: any,) {
     this.casosListFilter = event.filteredValue
   }
+  applyDivisionFilter(filterValue: string) {
+    this.lazyLoad(null, filterValue);
+  }
+  applyLocalidadFilter(filterValue: string) {
+    this.lazyLoad(null,null, filterValue);
+  }
+  applyCargoFilter(filterValue: string) {
+    this.lazyLoad(null,null,null, filterValue);
+}
+ 
+  
   filtrosExcel: any;
-  async lazyLoad(event: any) {
+  divisionNamesMap: { [id: string]: string } = {};
+  localidadNamesMap: { [id: string]: string } = {};
+  cargosNamesMap: { [id: string]: string } = {};
+
+  async lazyLoad(event: any, divisionFilter?: any, localidadFilter?: any, cargoFilter?:any) {
+    const idemp = JSON.parse(localStorage.getItem('session') || '{}');
+
+    const emp = idemp.empresa.id;
     this.testing = false; 
     this.filtrosExcel = event;
     let filterQuery = new FilterQuery();
-    filterQuery.sortField = event.sortField;
-    filterQuery.sortOrder = event.sortOrder;
-    filterQuery.offset = event.first;
-    filterQuery.rows = event.rows;
+    filterQuery.sortField = event?.sortField;
+    filterQuery.sortOrder = event?.sortOrder;
+    filterQuery.offset = event?.first;
+    filterQuery.rows = event?.rows;
     filterQuery.count = true;
 
     let filterEliminado = new Filter();
     filterEliminado.criteria = Criteria.EQUALS;
-    //filterEliminado.field = 'eliminado';
-    //filterEliminado.value1 = 'false';
+    filterEliminado.field = 'eliminado';
+    filterEliminado.value1 = 'false';
+    let filterEmp = new Filter();
+    filterEmp.criteria = Criteria.EQUALS;
+    filterEmp.field = 'empresaId';
+    filterEmp.value1 = emp;
+    
 
     filterQuery.fieldList = this.fields;
-    filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    filterQuery.filterList.push(filterEliminado);
+    filterQuery.filterList = FilterQuery.filtersToArray(event?.filters);
+    filterQuery.filterList.push(filterEliminado, filterEmp);
 
     try {
       let res: any = await this.scmService.findWithFilterSL(filterQuery);
       this.casosList = res?.data?.map((dto: any) => {
         return FilterQuery.dtoToObject(dto);
       });
+      for (let item of this.casosList) {
+        const divisionId = item.divisionActual;
+        const localidadId = item.localidadActual;
+        const cargoId = item.cargoActual
+
+
+        if (divisionId && !this.divisionNamesMap[divisionId]) {
+          const divisionName = await this.getDivision(divisionId);
+          if (divisionName) {
+              this.divisionNamesMap[divisionId] = divisionName;
+            }
+        }
+        if (localidadId && !this.localidadNamesMap[localidadId]) {
+          const localidadName = await this.getLocalidades(localidadId);
+          console.log(localidadName);
+          if (localidadName) {
+              this.localidadNamesMap[localidadId] = localidadName;
+            }
+        }
+        if (cargoId && !this.cargosNamesMap[cargoId]) {
+          const cargoName = await this.getCargosActuales(cargoId); // Aquí pasamos cargoId
+          if (cargoName) { // Solo si cargoName no es null
+            this.cargosNamesMap[cargoId] = cargoName; // Usamos cargoId para el mapa
+          }
+        }
+        
+      
+        
+       
+      }
+      if (divisionFilter) {
+        this.casosList = this.casosList.filter((item: { divisionActual: any; }) => {
+            const divisionId = item.divisionActual;
+            const divisionName = this.divisionNamesMap[divisionId];
+            return divisionName ? divisionName.toLowerCase().includes(divisionFilter.toLowerCase()) : false;
+        });
+      }
+      if (localidadFilter) {
+        this.casosList = this.casosList.filter((item: { localidadActual: any; }) => {
+            const localidadId = item.localidadActual;
+            const localidadName = this.localidadNamesMap[localidadId];
+            return localidadName ? localidadName.toLowerCase().includes(localidadFilter.toLowerCase()) : false;
+        });
+      }
+      if (cargoFilter) {
+        this.casosList = this.casosList.filter((item: { cargoActual: any; }) => {
+            const cargoId = item.cargoActual;
+            const cargoName = this.cargosNamesMap[cargoId];
+            return cargoName ? cargoName.toLowerCase().includes(cargoFilter.toLowerCase()) : false;
+        });
+      }
+      
       this.totalRecords = res.count;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -216,6 +293,53 @@ export class CasosMedicosListComponent implements OnInit {
       console.error("Error fetching cargos:", error);
     }
   }
+  async getCargosActuales(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+  
+    try {
+      const res: any = await this.cargoActualService.getcargoRWithFilter(filterQuery);
+      const cargos: { id: string; nombre: string }[] = res['data'];
+      
+      if (cargos.length > 0) {
+        const nombre = cargos[0].nombre;
+        return nombre;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al obtener los cargos:', error);
+      return null;
+    }
+  }
+  
+  async getDivision(id: string): Promise<string | null> {
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'nombre';
+    filterQuery.fieldList = ['id', 'nombre'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+  
+    try {
+        const res: any = await this.areasService.findByFilter(filterQuery);
+        const areas: { id: string; nombre: string }[] = res['data']; 
+        if (areas.length > 0) {
+            const nombre = areas[0].nombre;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener las áreas:', error);
+        return null; 
+    }
+  }
+
   idToCargo(id: number) {
     return this.cargoActualList.find(value => {
       return value.value == id
@@ -280,11 +404,27 @@ export class CasosMedicosListComponent implements OnInit {
     const foundDivision = this.divisionActual.find(value => value['id'] == division);
     return foundDivision ? foundDivision['nombre'] : 'No encontrado';
 }
+deleteCasoSL(iddt: string | number, body: any): void {
+  this.scmService.delelteCasoSL(iddt, body).then(
+    response => {
+      this.messageService.add({
+        key: 'msgScm',
+        severity: 'success',
+        summary: 'Caso Retirado',
+        detail: 'El caso ha sido eliminado.'
+    });
+    this.lazyLoad(event);
+    },
+    error => {
+      console.error('Error al enviar datos:', error);
+    }
+  );
+}
 
   
 divisionActual: any[]=[]
   getAreaById(): void {
-    this.areaService.findByIdSL().then(
+    this.areasService.findByIdSL().then(
       data => {
         let pivot:any=data;
         this.divisionActual = pivot;
@@ -306,6 +446,30 @@ divisionActual: any[]=[]
         console.error('There was an error!', error);
       }
     );
+  }
+  async getLocalidades(id: string): Promise<string | null> {
+    console.log(id);
+    
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = 'localidad';
+    filterQuery.fieldList = ['id', 'localidad'];
+    filterQuery.filterList = [
+        { criteria: Criteria.EQUALS, field: 'id', value1: id }
+    ];
+  
+    try {
+        const res: any = await this.empresaService.getLocalidadesRWithFilter(filterQuery);
+        const localidad: { id: string; localidad: string }[] = res['data']; 
+        if (localidad.length > 0) {
+            const nombre = localidad[0].localidad;
+            return nombre;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al obtener la localidad:', error);
+        return null; 
+    }
   }
   idToLocalidad(division: number): string {
     const foundLocalidad = this.localidadAct.find(value => value['id'] == division);

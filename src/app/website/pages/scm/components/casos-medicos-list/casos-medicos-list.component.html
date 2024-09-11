@@ -145,12 +145,11 @@
                 class="filter-input"
                 pInputText
                 type="text"
-                (input)="
-                  dt.filter($event.target.value.nombre, 'cargoActual', 'equals')
-                "
+                (input)="applyCargoFilter($event.target.value)"
               />
             </div>
           </td>
+          
           <!-- <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
@@ -168,9 +167,9 @@
               <input
                 class="filter-input"
                 pInputText
-                type="number"
+                type="text"
                 (input)="
-                  dt.filter($event.target.value, 'divisionActual', 'equals')
+                  applyDivisionFilter($event.target.value)
                 "
               />
             </div>
@@ -192,9 +191,9 @@
               <input
                 class="filter-input"
                 pInputText
-                type="number"
+                type="text"
                 (input)="
-                  dt.filter($event.target.value, 'localidadActual', 'equals')
+                  applyLocalidadFilter($event.target.value)
                 "
               />
             </div>
@@ -257,6 +256,17 @@
               style="color: var(--white)"
               class="p-button-raised p-button-warning margin-right margin-left"
               (click)="openCaseConsultar()"
+              [disabled]="!caseSelect"
+            ></button>
+            <button
+              *sTienePermiso="'SCM_GET_CSL'"
+              pButton
+              type="button"
+              icon="bi bi-trash"
+              label="Eliminar"
+              style="color: var(--white)"
+              class="p-button-raised p-button-danger margin-right margin-left"
+              (click)="deleteCasoSL(caseSelect.idSl)"
               [disabled]="!caseSelect"
             ></button>
           </div>

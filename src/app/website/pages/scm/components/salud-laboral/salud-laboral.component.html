@@ -216,646 +216,7 @@
       </p-tabPanel>
     </ng-container>
     <ng-container *sTienePermiso="'SCM_POST_SDCSL'">
-      <p-tabPanel *ngIf="flagSaludLaboralRegistro" header="Documentación">
-        <p-accordion [multiple]="true">
-          <p-accordionTab header="GH Admon personal">
-            <div *ngIf="flag1" class="container-fluid">
-              <div class="form-row">
-                <div class="col-12">
-                  <label for="responsable">Responsable:</label>
-                  <p-autoComplete
-                    id="responsable"
-                    styleClass="form-control-autocomplete"
-                    placeholder="Digite"
-                    [style]="{ width: '100%' }"
-                    [suggestions]="empleadosList"
-                    (completeMethod)="buscarEmpleado($event)"
-                    (onSelect)="selectResonsable($event, 'res1')"
-                    [(ngModel)]="usuarioSolicitado"
-                    required
-                  >
-                    <ng-template let-empleado pTemplate="item">
-                      <div class="ui-helper-clearfix">
-                        <div class="wrapper">
-                          <div class="empleado-info">
-                            <br />
-                            {{ empleado?.primerApellido }}
-                            {{ empleado?.primerNombre }}
-                            {{ empleado?.segundoNombre }}
-                            <br />
-                            {{ empleado?.numeroIdentificacion }}
-                            <br />
-                            {{ empleado?.usuario.email }}
-                          </div>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-autoComplete>
-                </div>
-              </div>
-              <div class="form-row mt-3">
-                <div class="col-12">
-                  <label for="tipoDocumento"
-                    >Tipo de documento a solicitar:</label
-                  >
-                  <p-dropdown
-                    id="tipoDocumento"
-                    [options]="doc"
-                    [(ngModel)]="selectedDoc"
-                    required
-                    styleClass="select-material"
-                  ></p-dropdown>
-                </div>
-              </div>
-              <div class="form-row mt-3">
-                <div class="col-12">
-                  <label for="fechaLimite"
-                    >Fecha límite envío de documentación:</label
-                  >
-                  <p-calendar
-                    id="fechaLimite"
-                    appendTo="body"
-                    [monthNavigator]="true"
-                    [yearNavigator]="true"
-                    [yearRange]="yearRange"
-                    [maxDate]="fechaActual"
-                    [formControl]="formulario.get('fechaLimite')"
-                    dateFormat="dd/mm/yy"
-                    required
-                  ></p-calendar>
-                </div>
-              </div>
-              <div class="form-row mt-3">
-                <div class="col-12">
-                  <button
-                    class="btn btn-primary"
-                    (click)="addEmailSendghAdmon()"
-                  >
-                    <i class="fas fa-save"></i> Guardar selección
-                  </button>
-                </div>
-              </div>
-              <div class="form-row mt-4">
-                <div class="col-12">
-                  <h5>Correos para enviar:</h5>
-                  <div
-                    *ngFor="let item of ghAdmonPersonal; let i = index"
-                    class="form-group saved-item"
-                  >
-                    <div class="saved-item-content">
-                      <label>Responsable:</label>
-                      <p-autoComplete
-                        styleClass="form-control-autocomplete"
-                        placeholder="Digite"
-                        [style]="{ width: '100%' }"
-                        [suggestions]="empleadosList"
-                        (onSelect)="
-                          selectResonsableSelected($event, 'res1', item)
-                        "
-                        (completeMethod)="buscarEmpleado($event)"
-                        [(ngModel)]="item.usuarioSolicitado"
-                        [disabled]="true"
-                      >
-                        <ng-template let-empleado pTemplate="item">
-                          <div class="ui-helper-clearfix">
-                            <div class="wrapper">
-                              <div class="empleado-info">
-                                <br />
-                                {{ empleado?.primerApellido }}
-                                {{ empleado?.primerNombre }}
-                                {{ empleado?.segundoNombre }}
-                                <br />
-                                {{ empleado?.numeroIdentificacion }}
-                                <br />
-                                {{ empleado?.usuario.email }}
-                              </div>
-                            </div>
-                          </div>
-                        </ng-template>
-                      </p-autoComplete>
-                      <label>Tipo de documento a solicitar:</label>
-                      <p-dropdown
-                        [options]="doc"
-                        [(ngModel)]="item.docSolicitado"
-                        styleClass="select-material"
-                        required
-                      ></p-dropdown>
-                      <label>Fecha límite envío de documentación:</label>
-                      <p-calendar
-                        appendTo="body"
-                        [monthNavigator]="true"
-                        [yearNavigator]="true"
-                        [yearRange]="yearRange"
-                        [maxDate]="fechaActual"
-                        [(ngModel)]="item.fechaLimite"
-                        dateFormat="dd/mm/yy"
-                      ></p-calendar>
-                      <div>
-                        <button
-                          class="btn btn-danger btn-sm mt-2"
-                          (click)="removeEmail(i)"
-                        >
-                          <i class="fas fa-times"></i> Eliminar
-                        </button>
-                      </div>
-                    </div>
-                    <hr class="divider" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </p-accordionTab>
-
-          <p-accordionTab header="Seguridad">
-            <div class="container-fluid cew-9 grid">
-              <div *ngIf="flag2" class="container-fluid">
-                <div class="form-row">
-                  <div class="col-12">
-                    <label for="responsableSeguridad">Responsable:</label>
-                    <p-autoComplete
-                      id="responsableSeguridad"
-                      styleClass="form-control-autocomplete"
-                      placeholder="Digite"
-                      [style]="{ width: '100%' }"
-                      [suggestions]="empleadoListSegu"
-                      (completeMethod)="buscarEmpleado2($event)"
-                      (onSelect)="selectResonsable($event, 'res2')"
-                      [(ngModel)]="usuarioSolicitadoSeg"
-                      required
-                    >
-                      <ng-template let-empleado pTemplate="item">
-                        <div class="ui-helper-clearfix">
-                          <div class="wrapper">
-                            <div class="empleado-info">
-                              <br />
-                              {{ empleado?.primerApellido }}
-                              {{ empleado?.primerNombre }}
-                              {{ empleado?.segundoNombre }}
-                              <br />
-                              {{ empleado?.numeroIdentificacion }}
-                              <br />
-                              {{ empleado?.usuario.email }}
-                            </div>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-autoComplete>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <label for="tipoDocumentoSeguridad"
-                      >Tipo de documento a solicitar:</label
-                    >
-                    <p-dropdown
-                      id="tipoDocumentoSeguridad"
-                      [options]="docSalud"
-                      [(ngModel)]="selectedDocSalud"
-                      required
-                      styleClass="select-material"
-                    ></p-dropdown>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <label for="fechaLimiteSeguridad"
-                      >Fecha límite envío de documentación:</label
-                    >
-                    <p-calendar
-                      id="fechaLimiteSeguridad"
-                      appendTo="body"
-                      [monthNavigator]="true"
-                      [yearNavigator]="true"
-                      [yearRange]="yearRange"
-                      [maxDate]="fechaActual"
-                      [formControl]="formulario.get('fechaLimite')"
-                      dateFormat="dd/mm/yy"
-                      required
-                    ></p-calendar>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <button
-                      class="btn btn-primary"
-                      (click)="addEmailSeguridad()"
-                    >
-                      <i class="fas fa-save"></i> Guardar selección
-                    </button>
-                  </div>
-                </div>
-                <div class="form-row mt-4">
-                  <div class="col-12">
-                    <h5>Correos para enviar:</h5>
-                    <div
-                      *ngFor="let item of seguridad; let i = index"
-                      class="form-group saved-item"
-                    >
-                      <div class="saved-item-content">
-                        <label>Responsable:</label>
-                        <p-autoComplete
-                          styleClass="form-control-autocomplete"
-                          placeholder="Digite"
-                          [style]="{ width: '100%' }"
-                          [suggestions]="empleadoListSegu"
-                          (onSelect)="
-                            selectResonsableSelected($event, 'res2', item)
-                          "
-                          (completeMethod)="buscarEmpleado2($event)"
-                          [(ngModel)]="item.usuarioSolicitado"
-                          [disabled]="true"
-                        >
-                          <ng-template let-empleado pTemplate="item">
-                            <div class="ui-helper-clearfix">
-                              <div class="wrapper">
-                                <div class="empleado-info">
-                                  <br />
-                                  {{ empleado?.primerApellido }}
-                                  {{ empleado?.primerNombre }}
-                                  {{ empleado?.segundoNombre }}
-                                  <br />
-                                  {{ empleado?.numeroIdentificacion }}
-                                  <br />
-                                  {{ empleado?.usuario.email }}
-                                </div>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </p-autoComplete>
-                        <label>Tipo de documento a solicitar:</label>
-                        <p-dropdown
-                          [options]="docSalud"
-                          [(ngModel)]="item.docSolicitado"
-                          required
-                          styleClass="select-material"
-                        ></p-dropdown>
-                        <label>Fecha límite envío de documentación:</label>
-                        <p-calendar
-                          appendTo="body"
-                          [monthNavigator]="true"
-                          [yearNavigator]="true"
-                          [yearRange]="yearRange"
-                          [maxDate]="fechaActual"
-                          [(ngModel)]="item.fechaLimite"
-                          dateFormat="dd/mm/yy"
-                        ></p-calendar>
-                        <div>
-                          <button
-                            class="btn btn-danger btn-sm mt-2"
-                            (click)="removeEmailSeg(i)"
-                          >
-                            <i class="fas fa-times"></i> Eliminar
-                          </button>
-                        </div>
-                      </div>
-                      <hr class="divider" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </p-accordionTab>
-          <p-accordionTab header="Salud">
-            <div class="container-fluid cew-9 grid">
-              <div *ngIf="flag3" class="container-fluid">
-                <div class="form-row">
-                  <div class="col-12">
-                    <label for="responsableSalud">Responsable:</label>
-                    <p-autoComplete
-                      id="responsableSalud"
-                      styleClass="form-control-autocomplete"
-                      placeholder="Digite"
-                      [style]="{ width: '100%' }"
-                      [suggestions]="empleadoListSalud"
-                      (completeMethod)="buscarEmpleadoSalud($event)"
-                      (onSelect)="selectResonsable($event, 'res3')"
-                      [(ngModel)]="iduarioSolicitadoSalud"
-                      required
-                    >
-                      <ng-template let-empleado pTemplate="item">
-                        <div class="ui-helper-clearfix">
-                          <div class="wrapper">
-                            <div class="empleado-info">
-                              <br />
-                              {{ empleado?.primerApellido }}
-                              {{ empleado?.primerNombre }}
-                              {{ empleado?.segundoNombre }}
-                              <br />
-                              {{ empleado?.numeroIdentificacion }}
-                              <br />
-                              {{ empleado?.usuario.email }}
-                            </div>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-autoComplete>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <label for="tipoDocumentoSalud"
-                      >Tipo de documento a solicitar:</label
-                    >
-                    <p-dropdown
-                      [style]="{ width: '100%' }"
-                      id="tipoDocumentoSaludLaboral"
-                      [options]="docSaludLaboral"
-                      [(ngModel)]="selectedDocSaludLaboral"
-                      required
-                    ></p-dropdown>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <label for="fechaLimiteSeguridad"
-                      >Fecha límite envío de documentación:</label
-                    >
-                    <p-calendar
-                      id="fechaLimiteSeguridad"
-                      appendTo="body"
-                      [monthNavigator]="true"
-                      [yearNavigator]="true"
-                      [yearRange]="yearRange"
-                      [maxDate]="fechaActual"
-                      [formControl]="formulario.get('fechaLimite')"
-                      dateFormat="dd/mm/yy"
-                      required
-                    ></p-calendar>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <button class="btn btn-primary" (click)="addEmailSalud()">
-                      <i class="fas fa-save"></i> Guardar selección
-                    </button>
-                  </div>
-                </div>
-                <div class="form-row mt-4">
-                  <div class="col-12">
-                    <h5>Correos para enviar:</h5>
-                    <div
-                      *ngFor="let item of saludLaboralMail"
-                      class="form-group saved-item"
-                    >
-                      <div class="saved-item-content">
-                        <label>Responsable:</label>
-                        <p-autoComplete
-                          styleClass="form-control-autocomplete"
-                          placeholder="Digite"
-                          [style]="{ width: '100%' }"
-                          [suggestions]="empleadoListSalud"
-                          (onSelect)="
-                            selectResonsableSelected($event, 'res3', item)
-                          "
-                          (completeMethod)="buscarEmpleadoSalud($event)"
-                          [(ngModel)]="item.usuarioSolicitado"
-                          [disabled]="true"
-                        >
-                          <ng-template let-empleado pTemplate="item">
-                            <div class="ui-helper-clearfix">
-                              <div class="wrapper">
-                                <div class="empleado-info">
-                                  <br />
-                                  {{ empleado?.primerApellido }}
-                                  {{ empleado?.primerNombre }}
-                                  {{ empleado?.segundoNombre }}
-                                  <br />
-                                  {{ empleado?.numeroIdentificacion }}
-                                  <br />
-                                  {{ empleado?.usuario.email }}
-                                </div>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </p-autoComplete>
-                        <label>Tipo de documento a solicitar:</label>
-                        <p-dropdown
-                          [options]="docSaludLaboral"
-                          [(ngModel)]="item.docSolicitado"
-                          required
-                          styleClass="select-material"
-                        ></p-dropdown>
-                        <label>Fecha límite envío de documentación:</label>
-                        <p-calendar
-                          appendTo="body"
-                          [monthNavigator]="true"
-                          [yearNavigator]="true"
-                          [yearRange]="yearRange"
-                          [maxDate]="fechaActual"
-                          [(ngModel)]="item.fechaLimite"
-                          dateFormat="dd/mm/yy"
-                        ></p-calendar>
-                        <div>
-                          <button
-                            class="btn btn-danger btn-sm mt-2"
-                            (click)="removeEmailSaludL(i)"
-                          >
-                            <i class="fas fa-times"></i> Eliminar
-                          </button>
-                        </div>
-                      </div>
-                      <hr class="divider" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </p-accordionTab>
-
-          <p-accordionTab header="Psicosocial">
-            <div class="container-fluid cew-9 grid">
-              <div *ngIf="flag3" class="container-fluid">
-                <div class="form-row">
-                  <div class="col-12">
-                    <label for="responsablePsicosocial">Responsable:</label>
-                    <p-autoComplete
-                      id="responsablePsicosocial"
-                      styleClass="form-control-autocomplete"
-                      placeholder="Digite"
-                      [style]="{ width: '100%' }"
-                      [suggestions]="empeladoListPsicosocial"
-                      (completeMethod)="buscarEmpleadoPsicosocial($event)"
-                      (onSelect)="selectResonsable($event, 'res4')"
-                      [(ngModel)]="usuarioSolicitadoPsicosocial"
-                      required
-                    >
-                      <ng-template let-empleado pTemplate="item">
-                        <div class="ui-helper-clearfix">
-                          <div class="wrapper">
-                            <div class="empleado-info">
-                              <br />
-                              {{ empleado?.primerApellido }}
-                              {{ empleado?.primerNombre }}
-                              {{ empleado?.segundoNombre }}
-                              <br />
-                              {{ empleado?.numeroIdentificacion }}
-                              <br />
-                              {{ empleado?.usuario.email }}
-                            </div>
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-autoComplete>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <label for="tipoDocumentoPsicosocial"
-                      >Tipo de documento a solicitar:</label
-                    >
-                    <p-dropdown
-                      id="tipoDocumentoPsicosiscial"
-                      [options]="docPsicosocial"
-                      [(ngModel)]="selectedDocPsicosocial"
-                      required
-                      styleClass="select-material"
-                    ></p-dropdown>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <label for="fechaLimiteSeguridad"
-                      >Fecha límite envío de documentación:</label
-                    >
-                    <p-calendar
-                      id="fechaLimiteSeguridad"
-                      appendTo="body"
-                      [monthNavigator]="true"
-                      [yearNavigator]="true"
-                      [yearRange]="yearRange"
-                      [maxDate]="fechaActual"
-                      [formControl]="formulario.get('fechaLimite')"
-                      dateFormat="dd/mm/yy"
-                      required
-                    ></p-calendar>
-                  </div>
-                </div>
-                <div class="form-row mt-3">
-                  <div class="col-12">
-                    <button
-                      class="btn btn-primary"
-                      (click)="addEmailPsicosocial()"
-                    >
-                      <i class="fas fa-save"></i> Guardar selección
-                    </button>
-                  </div>
-                </div>
-                <div class="form-row mt-4">
-                  <div class="col-12">
-                    <h5>Correos para enviar:</h5>
-                    <div
-                      *ngFor="let item of psicosocial"
-                      class="form-group saved-item"
-                    >
-                      <div class="saved-item-content">
-                        <label>Responsable:</label>
-                        <p-autoComplete
-                          styleClass="form-control-autocomplete"
-                          placeholder="Digite"
-                          [style]="{ width: '100%' }"
-                          [suggestions]="empeladoListPsicosocial"
-                          (onSelect)="
-                            selectResonsableSelected($event, 'res4', item)
-                          "
-                          (completeMethod)="buscarEmpleadoPsicosocial($event)"
-                          [(ngModel)]="item.usuarioSolicitado"
-                          [disabled]="true"
-                        >
-                          <ng-template let-empleado pTemplate="item">
-                            <div class="ui-helper-clearfix">
-                              <div class="wrapper">
-                                <div class="empleado-info">
-                                  <br />
-                                  {{ empleado?.primerApellido }}
-                                  {{ empleado?.primerNombre }}
-                                  {{ empleado?.segundoNombre }}
-                                  <br />
-                                  {{ empleado?.numeroIdentificacion }}
-                                  <br />
-                                  {{ empleado?.usuario.email }}
-                                </div>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </p-autoComplete>
-                        <label>Tipo de documento a solicitar:</label>
-                        <p-dropdown
-                          [options]="docPsicosocial"
-                          [(ngModel)]="item.docSolicitado"
-                          required
-                          styleClass="select-material"
-                        ></p-dropdown>
-                        <label>Fecha límite envío de documentación:</label>
-                        <p-calendar
-                          appendTo="body"
-                          [monthNavigator]="true"
-                          [yearNavigator]="true"
-                          [yearRange]="yearRange"
-                          [maxDate]="fechaActual"
-                          [(ngModel)]="item.fechaLimite"
-                          dateFormat="dd/mm/yy"
-                        ></p-calendar>
-                        <div>
-                          <button
-                            class="btn btn-danger btn-sm mt-2"
-                            (click)="removeEmailPsico(i)"
-                          >
-                            <i class="fas fa-times"></i> Eliminar
-                          </button>
-                        </div>
-                      </div>
-                      <hr class="divider" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </p-accordionTab>
-        </p-accordion>
-
-        <!-- Botón para enviar -->
-        <button
-          pButton
-          (click)="abrirModalConfirmacion()"
-          type="submit"
-          icon="pi pi-envelope"
-          class="float-btn"
-          style="bottom: 100px"
-          title="Enviar Correos"
-        ></button>
-
-        <!-- Modal de confirmación -->
-        <p-dialog
-          header="Confirmación de Envío"
-          [(visible)]="modalConfirmacionVisible"
-          [modal]="true"
-          [closable]="false"
-          [responsive]="true"
-          [style]="{ width: '40vw', 'min-width': '300px' }"
-        >
-          <ng-template pTemplate="content">
-            <p>¿Está seguro de enviar los correos electrónicos?</p>
-          </ng-template>
-          <ng-template pTemplate="footer">
-            <button
-              type="button"
-              pButton
-              (click)="
-                onSubmiSLt(); onSubmiSLtSeg(); onSubmiSLl(); onSubmitPsico()
-              "
-              label="Enviar"
-              class="p-button-success"
-            ></button>
-            <button
-              type="button"
-              pButton
-              (click)="modalConfirmacionVisible = false"
-              label="Cancelar"
-              class="p-button-danger"
-            ></button>
-          </ng-template>
-        </p-dialog>
-      </p-tabPanel>
+      
       <p-tabPanel
         *ngIf="flagSaludLaboralRegistro"
         header="Información de la solicitud"
@@ -1593,6 +954,646 @@
             ></button>
           </form>
         </p-accordion>
+      </p-tabPanel>
+      <p-tabPanel *ngIf="flagSaludLaboralRegistro" header="Documentación">
+        <p-accordion [multiple]="true">
+          <p-accordionTab header="GH Admon personal">
+            <div *ngIf="flag1" class="container-fluid">
+              <div class="form-row">
+                <div class="col-12">
+                  <label for="responsable">Responsable:</label>
+                  <p-autoComplete
+                    id="responsable"
+                    styleClass="form-control-autocomplete"
+                    placeholder="Digite"
+                    [style]="{ width: '100%' }"
+                    [suggestions]="empleadosList"
+                    (completeMethod)="buscarEmpleado($event)"
+                    (onSelect)="selectResonsable($event, 'res1')"
+                    [(ngModel)]="usuarioSolicitado"
+                    required
+                  >
+                    <ng-template let-empleado pTemplate="item">
+                      <div class="ui-helper-clearfix">
+                        <div class="wrapper">
+                          <div class="empleado-info">
+                            <br />
+                            {{ empleado?.primerApellido }}
+                            {{ empleado?.primerNombre }}
+                            {{ empleado?.segundoNombre }}
+                            <br />
+                            {{ empleado?.numeroIdentificacion }}
+                            <br />
+                            {{ empleado?.usuario.email }}
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                </div>
+              </div>
+              <div class="form-row mt-3">
+                <div class="col-12">
+                  <label for="tipoDocumento"
+                    >Tipo de documento a solicitar:</label
+                  >
+                  <p-dropdown
+                    id="tipoDocumento"
+                    [options]="doc"
+                    [(ngModel)]="selectedDoc"
+                    required
+                    styleClass="select-material"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="form-row mt-3">
+                <div class="col-12">
+                  <label for="fechaLimite"
+                    >Fecha límite envío de documentación:</label
+                  >
+                  <p-calendar
+                    id="fechaLimite"
+                    appendTo="body"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [yearRange]="yearRange"
+                    [maxDate]="fechaActual"
+                    [formControl]="formulario.get('fechaLimite')"
+                    dateFormat="dd/mm/yy"
+                    required
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-row mt-3">
+                <div class="col-12">
+                  <button
+                    class="btn btn-primary"
+                    (click)="addEmailSendghAdmon()"
+                  >
+                    <i class="fas fa-save"></i> Guardar selección
+                  </button>
+                </div>
+              </div>
+              <div class="form-row mt-4">
+                <div class="col-12">
+                  <h5>Correos para enviar:</h5>
+                  <div
+                    *ngFor="let item of ghAdmonPersonal; let i = index"
+                    class="form-group saved-item"
+                  >
+                    <div class="saved-item-content">
+                      <label>Responsable:</label>
+                      <p-autoComplete
+                        styleClass="form-control-autocomplete"
+                        placeholder="Digite"
+                        [style]="{ width: '100%' }"
+                        [suggestions]="empleadosList"
+                        (onSelect)="
+                          selectResonsableSelected($event, 'res1', item)
+                        "
+                        (completeMethod)="buscarEmpleado($event)"
+                        [(ngModel)]="item.usuarioSolicitado"
+                        [disabled]="true"
+                      >
+                        <ng-template let-empleado pTemplate="item">
+                          <div class="ui-helper-clearfix">
+                            <div class="wrapper">
+                              <div class="empleado-info">
+                                <br />
+                                {{ empleado?.primerApellido }}
+                                {{ empleado?.primerNombre }}
+                                {{ empleado?.segundoNombre }}
+                                <br />
+                                {{ empleado?.numeroIdentificacion }}
+                                <br />
+                                {{ empleado?.usuario.email }}
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </p-autoComplete>
+                      <label>Tipo de documento a solicitar:</label>
+                      <p-dropdown
+                        [options]="doc"
+                        [(ngModel)]="item.docSolicitado"
+                        styleClass="select-material"
+                        required
+                      ></p-dropdown>
+                      <label>Fecha límite envío de documentación:</label>
+                      <p-calendar
+                        appendTo="body"
+                        [monthNavigator]="true"
+                        [yearNavigator]="true"
+                        [yearRange]="yearRange"
+                        [maxDate]="fechaActual"
+                        [(ngModel)]="item.fechaLimite"
+                        dateFormat="dd/mm/yy"
+                      ></p-calendar>
+                      <div>
+                        <button
+                          class="btn btn-danger btn-sm mt-2"
+                          (click)="removeEmail(i)"
+                        >
+                          <i class="fas fa-times"></i> Eliminar
+                        </button>
+                      </div>
+                    </div>
+                    <hr class="divider" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+
+          <p-accordionTab header="Seguridad">
+            <div class="container-fluid cew-9 grid">
+              <div *ngIf="flag2" class="container-fluid">
+                <div class="form-row">
+                  <div class="col-12">
+                    <label for="responsableSeguridad">Responsable:</label>
+                    <p-autoComplete
+                      id="responsableSeguridad"
+                      styleClass="form-control-autocomplete"
+                      placeholder="Digite"
+                      [style]="{ width: '100%' }"
+                      [suggestions]="empleadoListSegu"
+                      (completeMethod)="buscarEmpleado2($event)"
+                      (onSelect)="selectResonsable($event, 'res2')"
+                      [(ngModel)]="usuarioSolicitadoSeg"
+                      required
+                    >
+                      <ng-template let-empleado pTemplate="item">
+                        <div class="ui-helper-clearfix">
+                          <div class="wrapper">
+                            <div class="empleado-info">
+                              <br />
+                              {{ empleado?.primerApellido }}
+                              {{ empleado?.primerNombre }}
+                              {{ empleado?.segundoNombre }}
+                              <br />
+                              {{ empleado?.numeroIdentificacion }}
+                              <br />
+                              {{ empleado?.usuario.email }}
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-autoComplete>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <label for="tipoDocumentoSeguridad"
+                      >Tipo de documento a solicitar:</label
+                    >
+                    <p-dropdown
+                      id="tipoDocumentoSeguridad"
+                      [options]="docSalud"
+                      [(ngModel)]="selectedDocSalud"
+                      required
+                      styleClass="select-material"
+                    ></p-dropdown>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <label for="fechaLimiteSeguridad"
+                      >Fecha límite envío de documentación:</label
+                    >
+                    <p-calendar
+                      id="fechaLimiteSeguridad"
+                      appendTo="body"
+                      [monthNavigator]="true"
+                      [yearNavigator]="true"
+                      [yearRange]="yearRange"
+                      [maxDate]="fechaActual"
+                      [formControl]="formulario.get('fechaLimite')"
+                      dateFormat="dd/mm/yy"
+                      required
+                    ></p-calendar>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <button
+                      class="btn btn-primary"
+                      (click)="addEmailSeguridad()"
+                    >
+                      <i class="fas fa-save"></i> Guardar selección
+                    </button>
+                  </div>
+                </div>
+                <div class="form-row mt-4">
+                  <div class="col-12">
+                    <h5>Correos para enviar:</h5>
+                    <div
+                      *ngFor="let item of seguridad; let i = index"
+                      class="form-group saved-item"
+                    >
+                      <div class="saved-item-content">
+                        <label>Responsable:</label>
+                        <p-autoComplete
+                          styleClass="form-control-autocomplete"
+                          placeholder="Digite"
+                          [style]="{ width: '100%' }"
+                          [suggestions]="empleadoListSegu"
+                          (onSelect)="
+                            selectResonsableSelected($event, 'res2', item)
+                          "
+                          (completeMethod)="buscarEmpleado2($event)"
+                          [(ngModel)]="item.usuarioSolicitado"
+                          [disabled]="true"
+                        >
+                          <ng-template let-empleado pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                              <div class="wrapper">
+                                <div class="empleado-info">
+                                  <br />
+                                  {{ empleado?.primerApellido }}
+                                  {{ empleado?.primerNombre }}
+                                  {{ empleado?.segundoNombre }}
+                                  <br />
+                                  {{ empleado?.numeroIdentificacion }}
+                                  <br />
+                                  {{ empleado?.usuario.email }}
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </p-autoComplete>
+                        <label>Tipo de documento a solicitar:</label>
+                        <p-dropdown
+                          [options]="docSalud"
+                          [(ngModel)]="item.docSolicitado"
+                          required
+                          styleClass="select-material"
+                        ></p-dropdown>
+                        <label>Fecha límite envío de documentación:</label>
+                        <p-calendar
+                          appendTo="body"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          [yearRange]="yearRange"
+                          [maxDate]="fechaActual"
+                          [(ngModel)]="item.fechaLimite"
+                          dateFormat="dd/mm/yy"
+                        ></p-calendar>
+                        <div>
+                          <button
+                            class="btn btn-danger btn-sm mt-2"
+                            (click)="removeEmailSeg(i)"
+                          >
+                            <i class="fas fa-times"></i> Eliminar
+                          </button>
+                        </div>
+                      </div>
+                      <hr class="divider" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Salud">
+            <div class="container-fluid cew-9 grid">
+              <div *ngIf="flag3" class="container-fluid">
+                <div class="form-row">
+                  <div class="col-12">
+                    <label for="responsableSalud">Responsable:</label>
+                    <p-autoComplete
+                      id="responsableSalud"
+                      styleClass="form-control-autocomplete"
+                      placeholder="Digite"
+                      [style]="{ width: '100%' }"
+                      [suggestions]="empleadoListSalud"
+                      (completeMethod)="buscarEmpleadoSalud($event)"
+                      (onSelect)="selectResonsable($event, 'res3')"
+                      [(ngModel)]="iduarioSolicitadoSalud"
+                      required
+                    >
+                      <ng-template let-empleado pTemplate="item">
+                        <div class="ui-helper-clearfix">
+                          <div class="wrapper">
+                            <div class="empleado-info">
+                              <br />
+                              {{ empleado?.primerApellido }}
+                              {{ empleado?.primerNombre }}
+                              {{ empleado?.segundoNombre }}
+                              <br />
+                              {{ empleado?.numeroIdentificacion }}
+                              <br />
+                              {{ empleado?.usuario.email }}
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-autoComplete>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <label for="tipoDocumentoSalud"
+                      >Tipo de documento a solicitar:</label
+                    >
+                    <p-dropdown
+                      [style]="{ width: '100%' }"
+                      id="tipoDocumentoSaludLaboral"
+                      [options]="docSaludLaboral"
+                      [(ngModel)]="selectedDocSaludLaboral"
+                      required
+                    ></p-dropdown>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <label for="fechaLimiteSeguridad"
+                      >Fecha límite envío de documentación:</label
+                    >
+                    <p-calendar
+                      id="fechaLimiteSeguridad"
+                      appendTo="body"
+                      [monthNavigator]="true"
+                      [yearNavigator]="true"
+                      [yearRange]="yearRange"
+                      [maxDate]="fechaActual"
+                      [formControl]="formulario.get('fechaLimite')"
+                      dateFormat="dd/mm/yy"
+                      required
+                    ></p-calendar>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <button class="btn btn-primary" (click)="addEmailSalud()">
+                      <i class="fas fa-save"></i> Guardar selección
+                    </button>
+                  </div>
+                </div>
+                <div class="form-row mt-4">
+                  <div class="col-12">
+                    <h5>Correos para enviar:</h5>
+                    <div
+                      *ngFor="let item of saludLaboralMail"
+                      class="form-group saved-item"
+                    >
+                      <div class="saved-item-content">
+                        <label>Responsable:</label>
+                        <p-autoComplete
+                          styleClass="form-control-autocomplete"
+                          placeholder="Digite"
+                          [style]="{ width: '100%' }"
+                          [suggestions]="empleadoListSalud"
+                          (onSelect)="
+                            selectResonsableSelected($event, 'res3', item)
+                          "
+                          (completeMethod)="buscarEmpleadoSalud($event)"
+                          [(ngModel)]="item.usuarioSolicitado"
+                          [disabled]="true"
+                        >
+                          <ng-template let-empleado pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                              <div class="wrapper">
+                                <div class="empleado-info">
+                                  <br />
+                                  {{ empleado?.primerApellido }}
+                                  {{ empleado?.primerNombre }}
+                                  {{ empleado?.segundoNombre }}
+                                  <br />
+                                  {{ empleado?.numeroIdentificacion }}
+                                  <br />
+                                  {{ empleado?.usuario.email }}
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </p-autoComplete>
+                        <label>Tipo de documento a solicitar:</label>
+                        <p-dropdown
+                          [options]="docSaludLaboral"
+                          [(ngModel)]="item.docSolicitado"
+                          required
+                          styleClass="select-material"
+                        ></p-dropdown>
+                        <label>Fecha límite envío de documentación:</label>
+                        <p-calendar
+                          appendTo="body"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          [yearRange]="yearRange"
+                          [maxDate]="fechaActual"
+                          [(ngModel)]="item.fechaLimite"
+                          dateFormat="dd/mm/yy"
+                        ></p-calendar>
+                        <div>
+                          <button
+                            class="btn btn-danger btn-sm mt-2"
+                            (click)="removeEmailSaludL(i)"
+                          >
+                            <i class="fas fa-times"></i> Eliminar
+                          </button>
+                        </div>
+                      </div>
+                      <hr class="divider" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+
+          <p-accordionTab header="Psicosocial">
+            <div class="container-fluid cew-9 grid">
+              <div *ngIf="flag3" class="container-fluid">
+                <div class="form-row">
+                  <div class="col-12">
+                    <label for="responsablePsicosocial">Responsable:</label>
+                    <p-autoComplete
+                      id="responsablePsicosocial"
+                      styleClass="form-control-autocomplete"
+                      placeholder="Digite"
+                      [style]="{ width: '100%' }"
+                      [suggestions]="empeladoListPsicosocial"
+                      (completeMethod)="buscarEmpleadoPsicosocial($event)"
+                      (onSelect)="selectResonsable($event, 'res4')"
+                      [(ngModel)]="usuarioSolicitadoPsicosocial"
+                      required
+                    >
+                      <ng-template let-empleado pTemplate="item">
+                        <div class="ui-helper-clearfix">
+                          <div class="wrapper">
+                            <div class="empleado-info">
+                              <br />
+                              {{ empleado?.primerApellido }}
+                              {{ empleado?.primerNombre }}
+                              {{ empleado?.segundoNombre }}
+                              <br />
+                              {{ empleado?.numeroIdentificacion }}
+                              <br />
+                              {{ empleado?.usuario.email }}
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-autoComplete>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <label for="tipoDocumentoPsicosocial"
+                      >Tipo de documento a solicitar:</label
+                    >
+                    <p-dropdown
+                      id="tipoDocumentoPsicosiscial"
+                      [options]="docPsicosocial"
+                      [(ngModel)]="selectedDocPsicosocial"
+                      required
+                      styleClass="select-material"
+                    ></p-dropdown>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <label for="fechaLimiteSeguridad"
+                      >Fecha límite envío de documentación:</label
+                    >
+                    <p-calendar
+                      id="fechaLimiteSeguridad"
+                      appendTo="body"
+                      [monthNavigator]="true"
+                      [yearNavigator]="true"
+                      [yearRange]="yearRange"
+                      [maxDate]="fechaActual"
+                      [formControl]="formulario.get('fechaLimite')"
+                      dateFormat="dd/mm/yy"
+                      required
+                    ></p-calendar>
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-12">
+                    <button
+                      class="btn btn-primary"
+                      (click)="addEmailPsicosocial()"
+                    >
+                      <i class="fas fa-save"></i> Guardar selección
+                    </button>
+                  </div>
+                </div>
+                <div class="form-row mt-4">
+                  <div class="col-12">
+                    <h5>Correos para enviar:</h5>
+                    <div
+                      *ngFor="let item of psicosocial"
+                      class="form-group saved-item"
+                    >
+                      <div class="saved-item-content">
+                        <label>Responsable:</label>
+                        <p-autoComplete
+                          styleClass="form-control-autocomplete"
+                          placeholder="Digite"
+                          [style]="{ width: '100%' }"
+                          [suggestions]="empeladoListPsicosocial"
+                          (onSelect)="
+                            selectResonsableSelected($event, 'res4', item)
+                          "
+                          (completeMethod)="buscarEmpleadoPsicosocial($event)"
+                          [(ngModel)]="item.usuarioSolicitado"
+                          [disabled]="true"
+                        >
+                          <ng-template let-empleado pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                              <div class="wrapper">
+                                <div class="empleado-info">
+                                  <br />
+                                  {{ empleado?.primerApellido }}
+                                  {{ empleado?.primerNombre }}
+                                  {{ empleado?.segundoNombre }}
+                                  <br />
+                                  {{ empleado?.numeroIdentificacion }}
+                                  <br />
+                                  {{ empleado?.usuario.email }}
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </p-autoComplete>
+                        <label>Tipo de documento a solicitar:</label>
+                        <p-dropdown
+                          [options]="docPsicosocial"
+                          [(ngModel)]="item.docSolicitado"
+                          required
+                          styleClass="select-material"
+                        ></p-dropdown>
+                        <label>Fecha límite envío de documentación:</label>
+                        <p-calendar
+                          appendTo="body"
+                          [monthNavigator]="true"
+                          [yearNavigator]="true"
+                          [yearRange]="yearRange"
+                          [maxDate]="fechaActual"
+                          [(ngModel)]="item.fechaLimite"
+                          dateFormat="dd/mm/yy"
+                        ></p-calendar>
+                        <div>
+                          <button
+                            class="btn btn-danger btn-sm mt-2"
+                            (click)="removeEmailPsico(i)"
+                          >
+                            <i class="fas fa-times"></i> Eliminar
+                          </button>
+                        </div>
+                      </div>
+                      <hr class="divider" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+
+        <!-- Botón para enviar -->
+        <button
+          pButton
+          (click)="abrirModalConfirmacion()"
+          type="submit"
+          icon="pi pi-envelope"
+          class="float-btn"
+          style="bottom: 100px"
+          title="Enviar Correos"
+        ></button>
+
+        <!-- Modal de confirmación -->
+        <p-dialog
+          header="Confirmación de Envío"
+          [(visible)]="modalConfirmacionVisible"
+          [modal]="true"
+          [closable]="false"
+          [responsive]="true"
+          [style]="{ width: '40vw', 'min-width': '300px' }"
+        >
+          <ng-template pTemplate="content">
+            <p>¿Está seguro de enviar los correos electrónicos?</p>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <button
+              type="button"
+              pButton
+              (click)="
+                onSubmiSLt(); onSubmiSLtSeg(); onSubmiSLl(); onSubmitPsico()
+              "
+              label="Enviar"
+              class="p-button-success"
+            ></button>
+            <button
+              type="button"
+              pButton
+              (click)="modalConfirmacionVisible = false"
+              label="Cancelar"
+              class="p-button-danger"
+            ></button>
+          </ng-template>
+        </p-dialog>
       </p-tabPanel>
     </ng-container>
 

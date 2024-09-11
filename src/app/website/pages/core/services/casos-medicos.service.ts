@@ -69,6 +69,11 @@ export class CasosMedicosService {
         // Convertir promesa a observable
     }
 
+    delelteCasoSL(iddt: string | number, body: any) {
+        return this.http.put(`${endPoints.scm}deleteCasoSL/${iddt}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
+
     putCaseMail(id: string | number, body: any) {
         return this.http.put(`${endPoints.scm}email/${id}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable

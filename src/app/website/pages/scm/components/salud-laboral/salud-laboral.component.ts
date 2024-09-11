@@ -181,7 +181,8 @@ export class SaludLaboralComponent implements OnInit {
     'jrDictamen',
     'documentosJr',
     'fechaDictamenJn',
-    'documentosJn'
+    'documentosJn',
+    'empresaId'
   ];
 
   rangoAntiguedad = [
@@ -512,6 +513,8 @@ export class SaludLaboralComponent implements OnInit {
 
     const saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
     const idSl = saludL.idSl;
+    const empresa = JSON.parse(localStorage.getItem('session') || '{}');
+    const idemp = empresa.empresa.id;
     let docs: string[] = [];
 
     const formData = {
@@ -528,6 +531,7 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoNombres: this.saludLaboralSelect.nombreCompletoSL,
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
       documentos: JSON.stringify(docs),
+      empresaId: idemp
     }
 
 
@@ -569,6 +573,8 @@ export class SaludLaboralComponent implements OnInit {
   addEmailSeguridad() {
     const saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
     const pkUserCase = saludL.pkUser;
+    const empresa = JSON.parse(localStorage.getItem('session') || '{}');
+    const idemp = empresa.empresa.id;
     const idSl = saludL.idSl;
     const formData = {
       ...this.formulario.value,
@@ -583,6 +589,7 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoNombresMail: this.nombreCompletoSeg,
       solicitadoNombres: this.saludLaboralSelect.nombreCompletoSL,
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
+      empresaId: idemp,
     }
 
 
@@ -600,6 +607,8 @@ export class SaludLaboralComponent implements OnInit {
   addEmailSalud() {
     const saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
     const idSl = saludL.idSl;
+    const empresa = JSON.parse(localStorage.getItem('session') || '{}');
+    const idemp = empresa.empresa.id;
     const formData = {
       ...this.formulario.value,
       pkCase: idSl,
@@ -613,6 +622,7 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoNombresMail: this.nombreCompletoSaludLaboral,
       solicitadoNombres: this.saludLaboralSelect.nombreCompletoSL,
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
+      empresaId: idemp,
     }
 
 
@@ -629,6 +639,8 @@ export class SaludLaboralComponent implements OnInit {
   addEmailPsicosocial() {
     const saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
     const idSl = saludL.idSl;
+    const empresa = JSON.parse(localStorage.getItem('session') || '{}');
+    const idemp = empresa.empresa.id;
     const formData = {
       ...this.formulario.value,
       pkCase: idSl,
@@ -642,6 +654,7 @@ export class SaludLaboralComponent implements OnInit {
       solicitadoNombresMail: this.nombreCompletoPsicosocial,
       solicitadoNombres: this.saludLaboralSelect.nombreCompletoSL,
       solicitadoCedula: this.saludLaboralSelect.usuarioAsignado,
+      empresaId: idemp,
     }
 
     this.resetFormPsico();
@@ -993,6 +1006,7 @@ export class SaludLaboralComponent implements OnInit {
       documentosJr: [''],
       fechaDictamenJn: [''],
       documentosJn: [''],
+      empresaId: [''],
 
     });
 
@@ -1043,6 +1057,7 @@ export class SaludLaboralComponent implements OnInit {
       asignacionTarea: new FormControl(),
       razonRechazoSolicitado: new FormControl(''),
       razonRechazoSolicitante: new FormControl(''),
+      empresaId: new FormControl(''),
     });
 
   }
@@ -1320,6 +1335,7 @@ export class SaludLaboralComponent implements OnInit {
       'documentosJr': [''],
       'fechaDictamenJn': [''],
       'documentosJn': [''],
+      'empresaId':[''],
     });
     const dataToSend = {
       'iddt': null,
@@ -1356,6 +1372,7 @@ export class SaludLaboralComponent implements OnInit {
       'documentosJr': [''],
       'fechaDictamenJn': [''],
       'documentosJn': [''],
+      'empresaId': ['']
     };
     const cleanDataToSend = this.prepareFormData(dataToSend);
     this.empleadoForm.patchValue(cleanDataToSend);
@@ -1393,7 +1410,13 @@ export class SaludLaboralComponent implements OnInit {
 
   envioExitoso = false;
 
+
   async onSubmit() {
+    const idemp = JSON.parse(localStorage.getItem('session') || '{}');
+
+    const emp = idemp.empresa.id;
+    console.log(emp, 'emp');
+    
     if (this.empleadoForm.valid) {
       let body = { ...this.empleadoForm.value };
 
@@ -1403,6 +1426,8 @@ export class SaludLaboralComponent implements OnInit {
       body.areaActual = body.areaActual?.id || body.areaActual;
       body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
       body.nombreCompletoSL = `${body.primerApellido || ''} ${body.segundoApellido || ''} ${body.primerNombre || ''} ${body.segundoNombre || ''}`;
+      body.empresaId = emp;
+      console.log(emp, 'empsend');
 
       if (Array.isArray(body.pkUser)) {
         body.pkUser = body.pkUser[0];

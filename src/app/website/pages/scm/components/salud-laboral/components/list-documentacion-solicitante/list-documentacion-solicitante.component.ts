@@ -48,6 +48,7 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
     'documentos',
     'razonRechazoSolicitante',
     'correoEnviado',
+    'empresaId'
   ];
 
   usuarioId = JSON.parse(localStorage.getItem('session') || '{}');
@@ -58,6 +59,9 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
   }
   testing: boolean = false;
   async lazyLoad(event: any) {
+    const idemp = JSON.parse(localStorage.getItem('session') || '{}');
+
+    const emp = idemp.empresa.id;
     this.testing = false; 
     let filterQuery = new FilterQuery();
     filterQuery.sortField = event.sortField;
@@ -65,10 +69,15 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
     filterQuery.offset = event.first;
     filterQuery.rows = event.rows;
     filterQuery.count = true;
+    let filterEmp = new Filter();
+    filterEmp.criteria = Criteria.EQUALS;
+    filterEmp.field = 'empresaId';
+    filterEmp.value1 = emp;
 
 
     filterQuery.fieldList = this.fields;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
+    filterQuery.filterList.push(filterEmp);
 
     try {
       let res: any = await this.scmService.findWithFilterMail(filterQuery);

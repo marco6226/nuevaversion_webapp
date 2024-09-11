@@ -143,6 +143,7 @@ export class CargueDocumentosEmpresaComponent implements OnInit {
       documentosJr: [''],
       fechaDictamenJn: [''],
       documentosJn: [''],
+      empresaId: [''],
     });
 
   }

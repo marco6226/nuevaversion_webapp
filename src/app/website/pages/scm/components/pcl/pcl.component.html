@@ -77,7 +77,7 @@
             class="p-button-raised p-button-primary margin-right"
             label="Crear"
             (click)="nuevoTratamiento()"
-            [disabled]="pclSelect || esConsulta"
+            [disabled]="pclSelect || esConsulta || testFlag"
           ></button>
           <button
             *sTienePermiso="'SCM_EDIT_CASEPCL'"
@@ -87,7 +87,7 @@
             icon="bi bi-pencil"
             class="p-button-raised p-button-success margin-right margin-left"
             (click)="editPcl()"
-            [disabled]="!pclSelect || action || esConsulta"
+            [disabled]="!pclSelect || action || esConsulta || testFlag"
           ></button>
           <button
             pButton
@@ -106,7 +106,7 @@
             label="Eliminar"
             class="p-button-raised p-button-danger margin-right margin-left"
             (click)="deletePcl()"
-            [disabled]="!pclSelect || action || esConsulta"
+            [disabled]="!pclSelect || action || esConsulta || testFlag"
           ></button>
         </ng-template>
 

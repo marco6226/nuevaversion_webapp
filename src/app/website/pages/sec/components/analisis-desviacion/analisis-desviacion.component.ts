@@ -1,6 +1,6 @@
 import { Causa_Raiz, FactorCausal, Incapacidad, listFactores, listPlanAccion } from 'src/app/website/pages/comun/entities/factor-causal';
 import { InformacionComplementaria } from 'src/app/website/pages/comun/entities/informacion_complementaria';
-import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy, ChangeDetectorRef } from "@angular/core";
 import { Reporte } from 'src/app/website/pages/comun/entities/reporte';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
@@ -62,6 +62,8 @@ import { SubprocesoMatriz } from '../../../comun/entities/Subproceso-matriz.ts';
 import { MatrizPeligros } from '../../../comun/entities/Matriz-peligros';
 import { MatrizPeligrosService } from '../../../core/services/matriz-peligros.service';
 import { Router } from '@angular/router';
+import { CasosMedicosService } from '../../../core/services/casos-medicos.service';
+import { epsorarl } from '../../../scm/entities/eps-or-arl';
 
 Diagram.Inject(UndoRedo, DiagramContextMenu, PrintAndExport);
 @Component({
@@ -139,6 +141,7 @@ export class AnalisisDesviacionComponent implements OnInit {
     display: boolean = false;
     nitEmpresa?: string | null;
     nombreEmpresa?: string;
+    iddt?: number
 
     empresaName?: string;
     empresaNit?: string;
@@ -148,6 +151,7 @@ export class AnalisisDesviacionComponent implements OnInit {
     localeES: any = locale_es;
 
     dataListFactor: listFactores[] = [];
+    diagnosticoList: any[] = [];
 
     dataFlow?: AnalisisDesviacion;
     tarea?: Tarea
@@ -181,11 +185,28 @@ export class AnalisisDesviacionComponent implements OnInit {
         'nombre',
         'fk_tipo_peligro'
     ];
+      
     ARLfirme = [
         { label: "--Seleccione--", value: null },
         { label: "Objetado", value: "Objetado" },
         { label: "En firme", value: "En firme" },
     ]
+    pclOptionList: SelectItem[] = [
+        { label: "--Seleccione--", value: null },
+        { label: "En Calificación", value: "1" },
+        { label: "En Firme", value: "2" },
+        { label: "En Apelación", value: "0" }
+      ]
+      entity: epsorarl = { EPS: [], ARL: [], AFP: [], Medicina_Prepagada: [], Proveedor_de_salud: [], Junta_Regional: [] };
+      emitPclentity: SelectItem[] = [
+        { label: "--Seleccione--", value: null },
+        { label: "EPS", value: "EPS" },
+        { label: "ARL", value: "ARL" },
+        { label: "AFP", value: "AFP" },
+        { label: "Junta Regional", value: "Junta_Regional" },
+        { label: "Junta Nacional", value: "Junta Nacional" },
+        { label: "Otros", value: "otros" }
+      ]
     Peligro = [
         { label: "--Seleccione--", value: null },
     ]
@@ -206,6 +227,7 @@ export class AnalisisDesviacionComponent implements OnInit {
     constructor(
         private sistCausAdminService: SistemaCausaAdministrativaService,
         private analisisDesviacionService: AnalisisDesviacionService,
+        private scmService: CasosMedicosService,
         private tareaService: TareaService,
         private tipoPeligroService: TipoPeligroService,
         private peligroService: PeligroService,
@@ -223,6 +245,7 @@ export class AnalisisDesviacionComponent implements OnInit {
         private subprocesoMatrizService: SubprocesoMatrizService,
         private matrizPeligrosService: MatrizPeligrosService,
         private router: Router,
+        private cd: ChangeDetectorRef,
         fb: FormBuilder,
     ) {
         this.analisisPeligros = fb.group({
@@ -361,9 +384,18 @@ export class AnalisisDesviacionComponent implements OnInit {
             areaSv: '',
             procesoSv:'',
         }
+       
+        
+        
+        
+          
         setTimeout(() => {
             if (this.desviacionesList)
                 this.severidad = this.desviacionesList[0].severidad;
+            console.log(this.desviacionesList, " desviciones");
+           
+             this.loadDiags();              
+            
             this.severidadFlag = (this.severidad == 'Grave' || this.severidad == 'Mortal') ? true : false;
             this.disabled = false;
         }, 3000);
@@ -550,6 +582,44 @@ export class AnalisisDesviacionComponent implements OnInit {
             }
         );
     }
+    calcularEdad(timestamp: number): number {
+        const fechaNacimiento = new Date(timestamp);
+        const diferencia = Date.now() - fechaNacimiento.getTime();
+        const edad = new Date(diferencia).getUTCFullYear() - 1970; // Restar 1970 ya que la diferencia se calcula desde esa fecha
+        return edad;
+      }
+      async loadDiags(){
+        const hashId = this.desviacionesList![0]?.idSl; // Asegúrate de que estés accediendo correctamente al campo
+
+            
+        await this.scmService.getDiagnosticosSl(hashId).then(value2 => {
+          const reposunte: any = value2;
+          this.diagnosticoList = reposunte;
+          this.cd.detectChanges();
+          console.log(this.diagnosticoList, 'diags');
+        })
+      }
+      listaPCL: any;
+      recibirPCL(event: any) {
+        this.listaPCL = event
+      }
+      itemInPCL: boolean = false;
+      diagSelect: any;
+      validarPCL() {
+        this.itemInPCL = false;
+        this.listaPCL.forEach((item: any) => {
+          if (item.diagnostic.label == this.diagSelect.diagnostico) {
+            this.itemInPCL = true;
+          }
+        });
+      }
+      modalDianostico = false;
+      async onCloseModalDianostico() {
+        this.modalDianostico = false;
+        this.diagSelect = null;        
+       
+      }
+      
     habilitarInforme() {
         let validador = true
         if (this.listPlanAccion.length > 0) {

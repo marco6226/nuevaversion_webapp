@@ -162,11 +162,11 @@ dataKey="id"
             <p-sortIcon field="estadoCorreo"></p-sortIcon>
           </th>
           <th pSortableColumn="razonRechazoSolicitado">
-            Motivo rechazo del usuario solicitante
+            Motivo rechazo del usuario solicitado
             <p-sortIcon field="razonRechazoSolicitado"></p-sortIcon>
           </th>
           <th pSortableColumn="razonRechazoSolicitante">
-            Motivo rechazo del usuario solicitado
+            Motivo rechazo del usuario solicitante
             <p-sortIcon field="razonRechazoSolicitante"></p-sortIcon>
           </th>
           <th pSortableColumn="documentos">
@@ -223,11 +223,7 @@ dataKey="id"
                 pInputText
                 type="text"
                 (input)="
-                  dt.filter(
-                    $event.target.value,
-                    'razonRechazoSolicitado',
-                    'contains'
-                  )
+                  dt.filter($event.target.value, 'usuarioSolicitado', 'contains')
                 "
               />
             </div>
@@ -247,16 +243,20 @@ dataKey="id"
             </div>
           </td>
           <td class="text-center bg-light">
-            <div class="ui-inputgroup">
-              <input
-                class="filter-input"
-                pInputText
-                type="number"
-                (input)="
-                  dt.filter($event.target.value, 'estadoCorreo', 'equals')
-                "
-              />
-            </div>
+            <p-dropdown
+              appendTo="body"
+              [options]="[
+                { label: 'Seleccione', value: null },
+                { label: 'En proceso', value: 1 },
+                { label: 'Rechazado', value: 2 },
+                {label: 'Recibido', value: 3},
+                {label: 'Aprobado', value: 4},
+                {label: 'Eliminado', value: 5}
+              ]"
+              (onChange)="
+                dt.filter($event.value, 'estadoCorreo', 'equals')
+              "
+            ></p-dropdown>
           </td>
           <td class="text-center bg-light">
             <div class="ui-inputgroup">
@@ -303,6 +303,10 @@ dataKey="id"
               />
             </div>
           </td>
+          
+         
+          
+         
         </tr>
       </ng-template>
 

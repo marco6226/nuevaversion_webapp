@@ -214,7 +214,8 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       fechaMaximaEnvDocs: [null],
       fechaCierreCaso: [null],
       statusCaso: [null],
-      epsDictamen: [null]
+      epsDictamen: [null],
+      
     });
 
     this.status = this.caseStatus.find(sta => sta.value == this.empleadoForm.get("statusCaso")?.value)?.label
@@ -661,6 +662,10 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   }
 
   onSubmit() {
+    const idemp = JSON.parse(localStorage.getItem('session') || '{}');
+
+    const emp = idemp.empresa.id;
+    console.log(emp, 'emp');
 
     // Excluir cargoId del formulario
     const { cargoId, ...formValues } = this.empleadoForm.value;
@@ -678,6 +683,9 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
         `${body.segundoApellido ? body.segundoApellido : ''} ` +
         `${body.primerNombre ? body.primerNombre : ''} ` +
         `${body.segundoNombre ? body.segundoNombre : ''}`.trim();
+
+        body.empresaId = emp;
+      console.log(emp, 'empsend');
 
 
       if (Array.isArray(body.pkUser)) {

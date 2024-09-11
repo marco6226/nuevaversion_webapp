@@ -29,6 +29,7 @@ export class PclComponent implements OnInit {
     @Output() eventClose: EventEmitter<any> = new EventEmitter<any>()
     @Output() dlistaPCL: EventEmitter<any> = new EventEmitter();
     @Input() saludLaboralFlag: boolean = false;
+    @Input() testFlag: boolean = false;
     action: boolean = false;
     loadingForm: boolean = false;
     modalDialog: boolean = false;
@@ -295,6 +296,14 @@ export class PclComponent implements OnInit {
     
 
     async consultarPcl() {
+        setTimeout(() => {
+            this.editing = false;
+        this.estado = 'crear';
+        this.modalDianostico = true;
+         this.iniciarPcl();
+        this.dlistaPCL.emit(this.pclList);
+        this.modalDianostico = false;
+        }, 1);
 
         this.loading = true;
         try {
