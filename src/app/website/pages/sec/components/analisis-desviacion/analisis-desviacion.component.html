@@ -174,11 +174,11 @@
                                         <td>{{desviacionesList[0]?.procesoActual}}</td>
                                     </tr>
                                     <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Cargo Origen</th>
+                                        <th style="border: 1px solid #c8c8c8;">Cargo Actual</th>
                                         <td>{{desviacionesList[0]?.cargoOrigen}}</td>
                                     </tr>
                                     <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Cargo Actual</th>
+                                        <th style="border: 1px solid #c8c8c8;">Cargo Origen</th>
                                         <td>{{desviacionesList[0]?.cargoActual}}</td>
                                     </tr>
                                     <tr>
@@ -401,6 +401,7 @@
                                 </p-table>
                                 <br>
                                  <app-pcl
+                                 *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
                                             [diagnosticos]="this.diagnosticoList"
                                             [entity]="entity"
                                             [emitPclentity]="emitPclentity"
@@ -415,13 +416,17 @@
 
 
                             </p-tabPanel>
-                            <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Dias perdidos">
+                            <p-tabPanel 
+  *ngIf="idEmpresa == '22' || idEmpresa == '3' && desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'"
+  [header]="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral' ? 'Análisis de ausentismo' : 'Días perdidos'">
 
-                                <app-incapacidades-complementaria (listIncapacidades)="getListIncapacidades($event)"
-                                    [incapacidades]="incapacidadesList"></app-incapacidades-complementaria>
+  <app-incapacidades-complementaria 
+    (listIncapacidades)="getListIncapacidades($event)"
+    [incapacidades]="incapacidadesList">
+  </app-incapacidades-complementaria>
 
+</p-tabPanel>
 
-                            </p-tabPanel>
                             <!-- matriz Peligros -->
 
                             <!-- <p-tabPanel *ngIf="flagMatriz && analisisPeligros.valid && !adicionar" header="Matriz de peligros">
