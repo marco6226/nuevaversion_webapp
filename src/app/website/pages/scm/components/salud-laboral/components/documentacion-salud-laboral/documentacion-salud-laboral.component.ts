@@ -71,6 +71,8 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       'documentos',
       'razonRechazoSolicitante',
       'correoEnviado',
+      'empresaId'
+
     ];
     
 
@@ -112,7 +114,10 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         }
       }
       testing: boolean = false;
+
       async lazyLoad(event: any) {
+        const idemp = JSON.parse(localStorage.getItem('session') || '{}');
+        const emp = idemp.empresa.id;
         this.testing = false; 
         let usuario = await this.sessionService.getUsuario();
         
@@ -126,12 +131,16 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         filterUser.criteria = Criteria.EQUALS;
         filterUser.field = 'usuarioSolicitado';
         filterUser.value1 = usuario?.email;
+        let filterEmp = new Filter();
+        filterEmp.criteria = Criteria.EQUALS;
+        filterEmp.field = 'empresaId';
+        filterEmp.value1 = emp;
 
     
     
         filterQuery.fieldList = this.fields;
         filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-        filterQuery.filterList.push(filterUser);
+        filterQuery.filterList.push(filterUser, filterEmp);
     
         try {
           let res: any = await this.scmService.findWithFilterMail(filterQuery);

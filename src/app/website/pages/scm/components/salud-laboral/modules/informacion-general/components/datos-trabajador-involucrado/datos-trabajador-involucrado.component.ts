@@ -665,6 +665,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     const idemp = JSON.parse(localStorage.getItem('session') || '{}');
 
     const emp = idemp.empresa.id;
+    const emppk = idemp.empleado.id;
     console.log(emp, 'emp');
 
     // Excluir cargoId del formulario
@@ -685,6 +686,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
         `${body.segundoNombre ? body.segundoNombre : ''}`.trim();
 
         body.empresaId = emp;
+        body.pkUserEmp = emppk;
       console.log(emp, 'empsend');
 
 
