@@ -42,6 +42,9 @@ export class LocalidadesComponent implements OnInit {
   actividadesList: string[] = [];
   locadidadList: any[] = [];
   locadidadesList: string[] = [];
+  localidadesList: any[] = [];
+  listDivision: string[] = []
+  listDivisionN: any[] = []
   edit: string | null = null;
   @Input() flagConsult: boolean=false;
   filtroLocalidades: string | null = null;
@@ -54,22 +57,26 @@ export class LocalidadesComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private empresaService: EmpresaService,
-    private _areaService:AreaService
+    private areaService:AreaService
   ) { }
 
   ngOnInit(): void {
     this.edit = this.activatedRoute.snapshot.params['onEdit'];
-
-    //this.loadDiv();
     this.getArea(this.empresaId.id);
-    //this.loadLocalidades()
-    this.loadingTemplateLocalities(this.empresaId.id)
+    this.loadingTemplateLocalities(this.empresaId.id, null)
   }
   
-  agregarActividad(){
+  async agregarActividad(){
+
+    this.localidadesList=[];
+    this.listDivisionN = [];
+
+    await this.loadIdDivision(this.empresaId.id, this.selectActividad);
+    this.loadingTemplateLocalities(this.empresaId.id, this.listDivisionN);
+
     this.actividadesList = this.selectActividad;
     this.cerrarDialogo();
-    // this.data.emit(JSON.stringify(this.actividadesList));
+    this.data.emit(JSON.stringify(this.actividadesList));
 
   }
 
@@ -86,24 +93,6 @@ export class LocalidadesComponent implements OnInit {
 
   onAddLocalidad(){
     this.dataLocalidad.emit(JSON.stringify(this.locadidadesList))
-    
-  }
-
-  async loadLocalidades(){
-    await this.empresaService.getLocalidades().then((element: Localidades[]) =>{
-      element.forEach(elemen => {
-        this.locadidadList.push({label: elemen.localidad, value: elemen.localidad})
-    });
-   });
-
-   this.locadidadList.sort(function(a,b){
-    if(a.label > b.label){
-      return 1
-    }else if(a.label < b.label){
-      return -1;
-    }
-      return 0;
-    });
   }
 
   SortArray(x: any, y: any){
@@ -121,7 +110,7 @@ export class LocalidadesComponent implements OnInit {
 
   agregarLocalidad(){
     this.locadidadesList = this.selectLocalidades;
-    //this.onAddLocalidad()
+    this.dataLocalidad.emit(JSON.stringify(this.locadidadesList))
     this.cerrarLocalidad()
     
   }
@@ -140,7 +129,7 @@ export class LocalidadesComponent implements OnInit {
 
   onSelectAllLocalidades(event: CheckboxChangeEvent){
     if(event.checked.length > 0){
-      this.selectLocalidades = this.locadidadList.map((localidad) => {
+      this.selectLocalidades = this.localidadesList.map((localidad) => {
         return localidad.label;
       });
     }else{
@@ -149,7 +138,7 @@ export class LocalidadesComponent implements OnInit {
   }
 
   onSelectLocalidad(event: CheckboxChangeEvent){
-    if(event.checked.length === this.locadidadList.length) {
+    if(event.checked.length === this.locadidadesList.length) {
       this.selectedAllLocalidades = [this.selectAllLocalidades.value];
     } else {
       this.selectedAllLocalidades = [];
@@ -172,11 +161,8 @@ export class LocalidadesComponent implements OnInit {
         { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
       ];
     }
-
-
-
     try{
-      const resp: any =  await this._areaService.findByFilter(filterAreaQuery);
+      const resp: any =  await this.areaService.findByFilter(filterAreaQuery);
       const divisionList = resp.data.map((element:any)=>({ label: element.nombre, value: element.id}));
       this.listDivision = divisionList
     }catch (error) {  
@@ -185,27 +171,75 @@ export class LocalidadesComponent implements OnInit {
 
   }
 
-  listDivision: any = []
-
-  async loadingTemplateLocalities(empresId:number) {
-    let filterPlantaQuery = new FilterQuery();
-    filterPlantaQuery.sortField = "id";
-    filterPlantaQuery.sortOrder = -1;
-    filterPlantaQuery.fieldList = ["id", "localidad"];
-    filterPlantaQuery.filterList = [
-      { field: 'empresa_id', criteria: Criteria.EQUALS, value1: empresId.toString() },
-    ];
+  async loadIdDivision(empresId:number, Divisiones:string[] |null) {
+    if (Divisiones && Divisiones.length > 0) {
+      try {
+        for (let divisionName of Divisiones) {
+          let filterDivision = new FilterQuery();
+          filterDivision.sortField = "id";
+          filterDivision.sortOrder = -1;
+          filterDivision.fieldList = ["id", "nombre"];
+            if(empresId === 508){
+              filterDivision.filterList = [
+                { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+                { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '88' },
+                { field: 'nombre', criteria: Criteria.EQUALS, value1: divisionName}
+              ];
+            }else{
+              filterDivision.filterList = [
+                { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+                { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' },
+                { field: 'nombre', criteria: Criteria.EQUALS, value1: divisionName }
+              ];
+            }
+            try {
+              const res: any = await this.areaService.findByFilter(filterDivision);
+              const areas: { id: string; nombre: string }[] = res['data']; 
+              if (areas.length > 0) {
+                const id = areas[0].id;
+                this.listDivisionN = this.listDivisionN.concat(id);
+              } 
+          } catch (error) {
+              console.error('Error al obtener las áreas:', error);
+          }
+        }
+        this.listDivisionN = this.listDivisionN;
+      } catch (error) {
+        console.error("Error al cargar las areas:", error);
+      }
+    } else{
+      this.listDivisionN = [];
+    }
+  }
   
-    try {
-      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
-      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+  async loadingTemplateLocalities(empresId:number, idDivisiones:any[] |null) { 
+    if (idDivisiones && idDivisiones.length > 0) {
+      try {
+        this.localidadesList = []
+        for (let divisionId of idDivisiones) {
+          let filterPlantaQuery = new FilterQuery();
+          filterPlantaQuery.sortField = "id";
+          filterPlantaQuery.sortOrder = -1;
+          filterPlantaQuery.fieldList = ["id", "localidad"];
+          filterPlantaQuery.filterList = [
+            { field: 'empresa_id', criteria: Criteria.EQUALS, value1: empresId.toString() },
+            { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: divisionId.toString() }
+          ];
   
-      this.localidadesList = localidadesList;
-      console.log("me trajo localidadesList: ",localidadesList);
-    } catch (error) {
-      console.error("Error al cargar las localidades:", error);
+          const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
+          const divisionesLocalidades = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+          this.localidadesList = this.localidadesList.concat(divisionesLocalidades);
+        }
+  
+        this.localidadesList = this.localidadesList.filter((value, index, self) =>
+          index === self.findIndex((t) => t.value === value.value)
+        );
+      } catch (error) {
+        console.error("Error al cargar las localidades:", error);
+      }
+    } else {
+      this.localidadesList = []
     }
   }
 
-  localidadesList: any[] = [];
 }
