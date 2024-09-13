@@ -205,7 +205,7 @@
         <tr [pSelectableRow]="case" class="table-row table-row-selectable">
           <td class="p-text-center">{{ case.idSl }}</td>
           <td class="p-text-center">{{ case.usuarioCreador }}</td>
-          <td class="p-text-center">{{ case.usuarioAsignado }} - {{case.nombreCompletoSL}}</td>
+          <td class="p-text-center">{{case.nombreCompletoSL}} - {{ case.usuarioAsignado }}</td>
           <td class="p-text-center">
             {{ case.fechaCreacion | date : "dd/MM/yyyy" }}
           </td>
