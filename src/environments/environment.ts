@@ -149,6 +149,6 @@ export const endPoints: string | any = {
   tareaService: path,
   firmaservice: path + "firm/",
   firma: 'http://localhost:4200/firma/',
-  //plantillaAnexo6: 'http://localhost:4200/plantillaAnexo6/',
+  plantillaAnexo6: 'http://localhost:4200/plantillaAnexo6/',
   seguimientoid: 5721
 };

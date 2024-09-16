@@ -38,6 +38,8 @@ import { endPoints } from 'src/environments/environment';
 import{firma} from 'src/app/website/pages/comun/entities/firma';
 import { Message } from 'primeng/api';
 import { EmpleadoBasic } from "../../../empresa/entities/empleado-basic";
+import { CookieService } from 'ngx-cookie-service';
+
 
 
 export interface TreeNode {
@@ -344,6 +346,7 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
         private messageService: MessageService,
         private config: PrimeNGConfig,
         private firmaservice:firmaservice,
+        private cookieService: CookieService,
         @Inject(LOCALE_ID) private locale: string,
     ) {
 
@@ -1097,6 +1100,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
     }
 
     async copiarLinkSeguimiento(idSeguimiento:number, usuario:string,seguimiento:any){
+        // this.cookieService.set('whoSignature', usuario);
+        // this.cookieService.set('empleado', JSON.stringify(this.empleadoSelect ?? {}));
+        // this.cookieService.set('seguimiento', idSeguimiento.toString());
         localStorage.setItem('whoSignature', usuario);
         localStorage.setItem('empleado', JSON.stringify(this.empleadoSelect ?? {}));
         localStorage.setItem('seguimiento', idSeguimiento.toString());
@@ -1150,9 +1156,9 @@ export class FormularioScmComponent implements OnInit, OnDestroy {
                 key: 'formScm',
                 severity: 'info', summary: 'Link firmado', detail: 'Este link ya se encuentra con una firma registrada' });
         }
-        navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
+        // navigator.clipboard.writeText(endPoints.firma+btoa(firm.id))
         //navigator.clipboard.writeText(endPoints.plantillaAnexo6+btoa(firm.id))
-        //navigator.clipboard.writeText(endPoints.plantillaAnexo6+btoa(seguimiento));
+        navigator.clipboard.writeText(endPoints.plantillaAnexo6+btoa(seguimiento));
     }
 
     async onCloseModalDianostico() {
