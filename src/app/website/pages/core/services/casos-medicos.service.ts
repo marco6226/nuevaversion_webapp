@@ -219,6 +219,9 @@ export class CasosMedicosService {
     getDiagnosticosSl(documento: string | number) {
         return this.http.get<[]>(`${endPoints.scm}diagnosticosSl/${documento}`, this.getRequestHeaders(this.headers)).toPromise();
     }
+    getDiagnosticosSlCM(documento: string | number, pkcase: string | number) {
+        return this.http.get<[]>(`${endPoints.scm}diagnosticosSlCM/${documento}/${pkcase}`, this.getRequestHeaders(this.headers)).toPromise();
+    }
     findAllByIdDiagPartes(documento: string | number) {
         return this.http.get<[]>(`${endPoints.scm}partDiag/${documento}`, this.getRequestHeaders(this.headers)).toPromise();
     }

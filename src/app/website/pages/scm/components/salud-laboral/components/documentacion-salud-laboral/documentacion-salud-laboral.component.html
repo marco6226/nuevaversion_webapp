@@ -249,10 +249,15 @@
             Listado de documentos solicitados
             <p-sortIcon field="docSolicitado"></p-sortIcon>
           </th>
+          <th pSortableColumn="solicitadoCedula">
+            Cedula Trabajador Solicitado
+            <p-sortIcon field="solicitadoCedula"></p-sortIcon>
+          </th>
           <th pSortableColumn="solicitadoNombres">
-            Trabajador Solicitado
+            Nombres Trabajador Solicitado
             <p-sortIcon field="solicitadoNombres"></p-sortIcon>
           </th>
+         
           <th pSortableColumn="fechaLimite">
             Fecha Limite
             <p-sortIcon field="fechaLimite"></p-sortIcon>
@@ -316,6 +321,18 @@
                 type="text"
                 (input)="
                   dt.filter($event.target.value, 'docSolicitado', 'contains')
+                "
+              />
+            </div>
+          </td>
+          <td class="text-center bg-light">
+            <div class="ui-inputgroup">
+              <input
+                class="filter-input"
+                pInputText
+                type="text"
+                (input)="
+                  dt.filter($event.target.value, 'solicitadoCedula', 'contains')
                 "
               />
             </div>
@@ -419,7 +436,8 @@
           <td class="p-text-center">{{ case.pkCase }}</td>
           <td class="p-text-center">{{ case.asignacionTarea }}</td>
           <td class="p-text-center">{{ case.docSolicitado }}</td>
-          <td class="p-text-center">{{ case.solicitadoNombres }} - {{ case.solicitadoCedula }}</td>
+          <td class="p-text-center">{{ case.solicitadoCedula }}</td>
+          <td class="p-text-center">{{ case.solicitadoNombres }}</td>
           <td class="p-text-center">
             {{ case.fechaLimite | date : "dd/MM/yyyy" }}
           </td>

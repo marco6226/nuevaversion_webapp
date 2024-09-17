@@ -19,6 +19,8 @@ export class IncapacidadesComplementariaComponent implements OnInit {
   submitted!: boolean;
   selectedProducts: any;
   GuardadoEdicion :boolean=false;
+  @Input() saludLaboralFlag: boolean = false;
+
 
   incapacidadess!: Incapacidad[];
   incapacidad!: Incapacidad;
@@ -54,17 +56,25 @@ export class IncapacidadesComplementariaComponent implements OnInit {
 
   
   get daysCount() {
-
-    if(this.flagIncapacidad=='true'){
-    let fecha1 = moment(this.fechaInicio);
-
-    let fecha2 = moment(this.fechaFin);
-
-    this.diasAusencia =  Math.abs(fecha1.diff(fecha2, "days"))+1;}
-    else{this.diasAusencia=0}
-
-    return this.diasAusencia;
+    // Si el flag es 'true', el valor de diasAusencia es manual
+    if (this.saludLaboralFlag === true) {
+        return this.diasAusencia; // Retorna el valor manual
+    } 
+    // Si no es 'Salud Laboral', calcula automáticamente los días
+    else {
+        let fecha1 = moment(this.fechaInicio);
+        let fecha2 = moment(this.fechaFin);
+        this.diasAusencia = Math.abs(fecha1.diff(fecha2, "days")) + 1;
+        return this.diasAusencia;
+    }
 }
+updateDiasAusencia(event: any) {
+  if (this.flagIncapacidad === 'true') {
+      this.diasAusencia = event.target.value;
+  }
+}
+
+
 
   openNew(){
     this.GuardadoEdicion=true;

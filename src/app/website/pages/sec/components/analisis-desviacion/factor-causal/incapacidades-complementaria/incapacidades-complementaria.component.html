@@ -85,10 +85,17 @@
                 
             </div>
         </ng-container>
-        <div class="p-field">
+        <div class="p-field" *ngIf="!saludLaboralFlag">
             <label for="diasAusencia">Dias de Ausencias</label>
             <input type="number"  autofocus [value]="daysCount" disabled="true"  />
         </div>
+        <div class="p-field" *ngIf="saludLaboralFlag">
+            <label for="diasAusencia">Dias de Ausencias</label>
+            <input type="number" [(ngModel)]="diasAusencia" autofocus [value]="daysCount" />
+        </div>
+       
+        
+        
 
         <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
         <button *ngIf="GuardadoEdicion" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>

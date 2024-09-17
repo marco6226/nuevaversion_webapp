@@ -152,6 +152,7 @@ export class AnalisisDesviacionComponent implements OnInit {
 
     dataListFactor: listFactores[] = [];
     diagnosticoList: any[] = [];
+    diagnosticoListSLCM: any[] = [];
 
     dataFlow?: AnalisisDesviacion;
     tarea?: Tarea
@@ -392,6 +393,7 @@ export class AnalisisDesviacionComponent implements OnInit {
         setTimeout(() => {
             if (this.desviacionesList)
                 this.severidad = this.desviacionesList[0].severidad;
+                
             console.log(this.desviacionesList, " desviciones");
            
              this.loadDiags();              
@@ -589,7 +591,8 @@ export class AnalisisDesviacionComponent implements OnInit {
         return edad;
       }
       async loadDiags(){
-        const hashId = this.desviacionesList![0]?.idSl; // Asegúrate de que estés accediendo correctamente al campo
+        const hashId = this.desviacionesList![0]?.idSl;
+        const pkUser = this.desviacionesList![0]?.pkUserSl;  // Asegúrate de que estés accediendo correctamente al campo
 
             
         await this.scmService.getDiagnosticosSl(hashId).then(value2 => {
@@ -598,6 +601,12 @@ export class AnalisisDesviacionComponent implements OnInit {
           this.cd.detectChanges();
           console.log(this.diagnosticoList, 'diags');
         })
+        await this.scmService.getDiagnosticosSlCM(pkUser, hashId).then(value2 => {
+            const reposunte: any = value2;
+            this.diagnosticoListSLCM = reposunte;
+            this.cd.detectChanges();
+            console.log(this.diagnosticoListSLCM, 'diags');
+          })
       }
       listaPCL: any;
       recibirPCL(event: any) {

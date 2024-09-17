@@ -5,8 +5,9 @@ import { Directorio } from '../../../../ado/entities/directorio';
 import { DirectorioService } from 'src/app/website/pages/ado/services/directorio.service'
 import { Util } from 'src/app/website/pages/comun/entities/util';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-evidencias',
@@ -20,31 +21,37 @@ export class EvidenciasComponent implements OnInit {
   @Input('documentos') documentos?: Documento[];
   @Output('onUpdate') onUpdate = new EventEmitter<Documento>();
   @Input('readOnly') readOnly?: boolean;
-
+  @Input('idSl') idSl?: string;
   documentosList?: any[];
-  documentosListFoto: any[]=[];
-  documentosListDocumental: any[]=[];
-  documentosListPoliticas: any[]=[];
-  documentosListProcedimientos: any[]=[];
-  documentosListMultimedia: any[]=[];
+  documentosListFoto: any[] = [];
+  documentosListDocumental: any[] = [];
+  documentosListPoliticas: any[] = [];
+  documentosListProcedimientos: any[] = [];
+  documentosListMultimedia: any[] = [];
 
   visibleDlgFoto?: boolean;
   visibleDlgDocumento?: boolean;
   visibleDlgPoliticas?: boolean;
   visibleDlgProcedimientos?: boolean;
   visibleDlgMultimedia?: boolean;
-  
+
   modulo = Modulo.SEC.value;
   msgs?: Message[];
   constructor(
     private directorioService: DirectorioService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private route: Router,
+    private messageService: MessageService,
+
+
   ) { }
 
   ngOnInit(): void {
+    console.log(this.idSl, 'uwu');
+    
   }
   showDialog(tipo: string) {
-    
+
     switch (tipo) {
       case 'foto':
         this.visibleDlgFoto = true
@@ -61,7 +68,7 @@ export class EvidenciasComponent implements OnInit {
       case 'multimedia':
         this.visibleDlgMultimedia = true
         break;
-    
+
       default:
         break;
     }
@@ -71,6 +78,21 @@ export class EvidenciasComponent implements OnInit {
       this.documentos = [];
     this.documentos.push(event.documento!);
     this.documentos = this.documentos.slice();
+  }
+
+  redirectCase() {
+    setTimeout(() => {
+      this.route.navigate(['/app/scm/saludlaborallist'])
+
+    }, 3000);
+    this.msgs = [];
+    this.messageService.add({
+      key: 'formSL',
+      severity: "success",
+      summary: "Caso encontrado",
+      detail: `Caso asociado numero ${this.idSl} revisar la documentación`,
+
+    });
   }
 
   descargarDocumento(doc: Documento) {
@@ -105,13 +127,13 @@ export class EvidenciasComponent implements OnInit {
       header: 'Confirmar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-          this.onUpdate.emit(doc);
-          this.directorioService.eliminarDocumento(doc.id).then(
-            data => {
-              this.documentos = this.documentos?.filter(val => val.id !== doc.id);
-            }
-          );
+        this.onUpdate.emit(doc);
+        this.directorioService.eliminarDocumento(doc.id).then(
+          data => {
+            this.documentos = this.documentos?.filter(val => val.id !== doc.id);
+          }
+        );
       }
-  });
+    });
   }
 }
