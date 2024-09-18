@@ -237,6 +237,8 @@ import { ListTableComponent } from './components/list-table/list-table.component
 import { ElaboracionInspeccionesSignosVitalesComponent } from './pages/inspecciones/components/elaboracion-inspecciones-signos-vitales/elaboracion-inspecciones-signos-vitales.component';
 import { PlantillaAnexo6ConsentimientoComponent } from './pages/scm/components/formulario-scm/plantilla-anexo6-consentimiento/plantilla-anexo6-consentimiento.component';
 import { MiembrosEquipoSaludLaboralComponent } from './pages/sec/components/analisis-desviacion/miembros-equipo/miembros-equipo-salud-laboral/miembros-equipo-salud-laboral.component';
+import { CargueDocumentosSendDocumentacionComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-send-documentacion/cargue-documentos-send-documentacion.component';
+import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-ministerio/cargue-documentos-ministerio.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -433,7 +435,9 @@ import { MiembrosEquipoSaludLaboralComponent } from './pages/sec/components/anal
     DatosTrabajadorInvolucradoComponent,
     ElaboracionInspeccionesSignosVitalesComponent,
     PlantillaAnexo6ConsentimientoComponent,
-    MiembrosEquipoSaludLaboralComponent
+    MiembrosEquipoSaludLaboralComponent,
+    CargueDocumentosSendDocumentacionComponent,
+    CargueDocumentosMinisterioComponent
   ],
   imports: [
     GridModule,

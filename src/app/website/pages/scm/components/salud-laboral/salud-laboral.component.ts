@@ -61,11 +61,15 @@ export class SaludLaboralComponent implements OnInit {
   documentosEmp!: Documento[];
   documentosMin!: Documento[];
   documentosSl!: Documento[];
+  documentosSendDocs!: Documento[];
   @Input('documentos') directorios: Directorio[] = [];
   @Input('documentos') directoriosArl: Directorio[] = [];
   @Input('documentos') directoriosJr: Directorio[] = [];
   @Input('documentos') directoriosJn: Directorio[] = [];
   @Input('documentos') directoriosSl: Directorio[] = [];
+  @Input('documentos') directoriosSendocs: Directorio[] = [];
+  @Input('documentos') directoriosMin: Directorio[] = [];
+  
   documentosList!: any[];
   @Input() Directorio: any[] = [];
 
@@ -114,6 +118,7 @@ export class SaludLaboralComponent implements OnInit {
   selectedDocIDDT: number = 0;
   selectedDocEmp: number = 0;
   selectedDocMin: number = 0;
+  selectedDocSub: number = 0;
 
   documentacionCase: any;
   documentacionSelectCase: any;
@@ -130,7 +135,7 @@ export class SaludLaboralComponent implements OnInit {
   getSelectedId() {
     this.loadMailData(this.idSl);
     this.loadMailDataUser(this.idSl, this.pkuser);
-    
+
     if (this.documentacionSelectUser) {
       const selectedId = this.documentacionSelectUser.id;
       return selectedId;
@@ -879,12 +884,14 @@ export class SaludLaboralComponent implements OnInit {
       } setTimeout(() => {
         this.consultar = (localStorage.getItem('slShowCase') === 'true') ? true : false;
         this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!)
-        this.loadDocumentosCaseDT();
+        // this.loadDocumentosCaseDT();
+        this.loadDocumentosSendDocs();
         this.loadDocumentosEmp();
         this.loadDocumentosArl();
         this.loadDocumentosMin();
         this.loadDocumentosJn();
         this.loadDocumentosJr();
+
       }, 2000);
 
 
@@ -1337,7 +1344,7 @@ export class SaludLaboralComponent implements OnInit {
       'documentosJr': [''],
       'fechaDictamenJn': [''],
       'documentosJn': [''],
-      'empresaId':[''],
+      'empresaId': [''],
     });
     const dataToSend = {
       'iddt': null,
@@ -1417,7 +1424,7 @@ export class SaludLaboralComponent implements OnInit {
     const idemp = JSON.parse(localStorage.getItem('session') || '{}');
 
     const emp = idemp.empresa.id;
-    
+
     if (this.empleadoForm.valid) {
       let body = { ...this.empleadoForm.value };
 
@@ -1543,26 +1550,26 @@ export class SaludLaboralComponent implements OnInit {
 
   onEditState(iddt: string | number, body: any): void {
     if (this.documentacionSelectSolicitado.estadoCorreo === 4) {
-      
-        this.messageService.add({
-          key: 'formScmSL',
-            severity: 'warn',
-            summary: 'Acción no permitida',
-            detail: 'El documento ya se encuentra aprobado.'
-        });
-        this.dialogRechazoFlag = false;
-        return; // Salir de la función sin hacer nada más
+
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'El documento ya se encuentra aprobado.'
+      });
+      this.dialogRechazoFlag = false;
+      return; // Salir de la función sin hacer nada más
     }
     if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
-      
-        this.messageService.add({
-          key: 'formScmSL',
-            severity: 'warn',
-            summary: 'Acción no permitida',
-            detail: 'El documento no puede ser aprobado hasta ser recibido.'
-        });
-        this.dialogRechazoFlag = false;
-        return; // Salir de la función sin hacer nada más
+
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'El documento no puede ser aprobado hasta ser recibido.'
+      });
+      this.dialogRechazoFlag = false;
+      return; // Salir de la función sin hacer nada más
     }
     this.scmService.putStateApr(iddt, body).then(
       response => {
@@ -1663,17 +1670,17 @@ export class SaludLaboralComponent implements OnInit {
   }
   putmailSoliictante() {
     if (this.documentacionSelectSolicitado.estadoCorreo != 3) {
-      
-        this.messageService.add({
-          key: 'formScmSL',
-            severity: 'warn',
-            summary: 'Acción no permitida',
-            detail: 'El documento solo puede ser rechazado cuando su estado es RECIBIDO.'
-        });
-        this.dialogRechazoFlagSolicitante = false;
-        return; // Salir de la función sin hacer nada más
+
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'El documento solo puede ser rechazado cuando su estado es RECIBIDO.'
+      });
+      this.dialogRechazoFlagSolicitante = false;
+      return; // Salir de la función sin hacer nada más
     }
-    
+
     if (!this.motivoRechazoSolicitante.trim()) {
       this.messageService.add({
         // this.msgs.push({
@@ -1890,9 +1897,9 @@ export class SaludLaboralComponent implements OnInit {
       this.documentoId = [];
 
       // Recargar los datos después de la carga
-       setTimeout(() => {
-         this.loadMailData(this.idSl);
-       this.loadMailDataUser(this.idSl, this.pkuser);
+      setTimeout(() => {
+        this.loadMailData(this.idSl);
+        this.loadMailDataUser(this.idSl, this.pkuser);
       }, 3000);
 
       // Mostrar mensaje de éxito
@@ -1917,50 +1924,59 @@ export class SaludLaboralComponent implements OnInit {
     }
   }
 
-  documentotoIDT: any[] = [];
-  async onUploadCaseDT(event: Directorio) {
+  // documentoSendDocs: any[] = [];
+  // async onUploadCaseDT(event: Directorio) {
 
-    if (this.documentos == null) {
-      this.documentos = [];
-    }
-    if (this.directorios == null) {
-      this.directorios = [];
-    }
+  //   if (this.documentosSendDocs == null) {
+  //     this.documentosSendDocs = [];
+  //   }
+  //   if (this.directoriosSendocs == null) {
+  //     this.directoriosSendocs = [];
+  //   }
 
-    try {
-      this.directorios.push(event);
-      this.documentos.push(event.documento!);
-      let index = this.documentacionListUser.findIndex((c: any) => this.selectedDocId == c.id);
+  //   try {
+  //     this.directoriosSendocs.push(event);
+  //     this.documentosSendDocs.push(event.documento!);
+  //     let ids: string[] = [];
 
-      this.documentoId.push(event.documento!.id);
-      // this.documentacionListUser[index].documentos = this.documentoId;
+  //     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosSendDocs) {
+  //       ids = this.saludLaboralSelect.documentosSendDocs.split(',');
+  //     }
+
+  //     let index = ids.findIndex((c: any) => this.selectedDocSub == c.id);
+
+  //     this.documentoId.push(event.documento!.id);
+  //     ids.push(this.documentoId.toString())
+  //     // this.documentacionListUser[index].documentos = this.documentoId;
 
 
-      // Llamada para actualizar la tabla mail_saludlaboral
-      await this.updateCaseDT(this.idSl, this.documentoId.toString());
+  //     // Llamada para actualizar la tabla mail_saludlaboral
+  //     //await this.updateCaseDT(this.idSl, this.documentoId.toString());
+  //     await this.updateCaseDT(this.idSl, this.directoriosSendocs.map(value => value.id).join(','));
 
-      // Mostrar mensaje de éxito
-      this.messageService.add({
-        // this.msgs.push({
-        key: 'formScmSL',
-        severity: "success",
-        summary: "Usuario actualizado",
-        detail: `Documentacion Adjuntada`,
-      });
 
-    } catch (error) {
-      console.error(error);
+  //     // Mostrar mensaje de éxito
+  //     this.messageService.add({
+  //       // this.msgs.push({
+  //       key: 'formScmSL',
+  //       severity: "success",
+  //       summary: "Usuario actualizado",
+  //       detail: `Documentacion Adjuntada`,
+  //     });
 
-      // Mostrar mensaje de error
-      this.messageService.add({
-        // this.msgs.push({
-        key: 'formScmSL',
-        severity: "warn",
-        summary: "Usuario actualizado",
-        detail: `Documentacion no Adjuntada revisa`,
-      });
-    }
-  }
+  //   } catch (error) {
+  //     console.error(error);
+
+  //     // Mostrar mensaje de error
+  //     this.messageService.add({
+  //       // this.msgs.push({
+  //       key: 'formScmSL',
+  //       severity: "warn",
+  //       summary: "Usuario actualizado",
+  //       detail: `Documentacion no Adjuntada revisa`,
+  //     });
+  //   }
+  // }
   // documentoEmp: any[] = [];
 
   // async onUploadCaseEmp(event: Directorio) {
@@ -2108,15 +2124,15 @@ export class SaludLaboralComponent implements OnInit {
 
   }
 
-  openUploadDialogCaseDT(docId: number, documentsID: any) {
-    this.selectedDocIDDT = docId;
-    this.flagDocDT = true;
-    if (documentsID) {
-      this.documentotoIDT = documentsID.split(",");
-    } else {
-      this.documentotoIDT = [];
-    }
-  }
+  // openUploadDialogCaseDT(docId: number, documentsID: any) {
+  //   this.selectedDocSub = docId;
+  //   this.flagDocDT = true;
+  //   if (documentsID) {
+  //     this.documentoSendDocs = documentsID.split(",");
+  //   } else {
+  //     this.documentoSendDocs = [];
+  //   }
+  // }
 
   // openUploadDialogCaseEmpresa(docId: number, documentsID: any) {
   //   this.selectedDocEmp = docId;
@@ -2161,75 +2177,75 @@ export class SaludLaboralComponent implements OnInit {
   eliminarDocument(doc: Documento) {
     // Verifica si el estado del caso es 'Aprobado' (estadoCorreo === 4)
     if (this.documentacionSelectUser.estadoCorreo === 4) {
-        this.messageService.add({
-          key: 'formScmSL',
-            severity: 'warn',
-            summary: 'Acción no permitida',
-            detail: 'No se puede eliminar un documento de un caso aprobado.'
-        });
-        return; // Salir de la función sin hacer nada más
+      this.messageService.add({
+        key: 'formScmSL',
+        severity: 'warn',
+        summary: 'Acción no permitida',
+        detail: 'No se puede eliminar un documento de un caso aprobado.'
+      });
+      return; // Salir de la función sin hacer nada más
     }
 
 
     if (!doc || !doc.id) {
-        console.error('El documento no tiene un ID válido:', doc);
-        return;
+      console.error('El documento no tiene un ID válido:', doc);
+      return;
     }
 
     this.confirmationService.confirm({
-        message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
-        header: 'Confirmar',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            this.deleteDocument(this.documentacionSelectUser.id, doc.id);
-            this.directorioService.eliminarDocumento(doc.id).then(
-                data => {
-                    // Filtrar solo si val tiene un id válido
-                    this.directorios = this.directorios.filter(val => val.id && val?.id! !== doc?.id!);
-                    let docIds: string[] = [];
+      message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteDocument(this.documentacionSelectUser.id, doc.id);
+        this.directorioService.eliminarDocumento(doc.id).then(
+          data => {
+            // Filtrar solo si val tiene un id válido
+            this.directorios = this.directorios.filter(val => val.id && val?.id! !== doc?.id!);
+            let docIds: string[] = [];
 
-                    this.directorios.forEach(el => {
-                        if (el.id) {
-                            docIds.push(el.id!);
-                        }
-                    });
-                    this.messageService.add({
-                      key: 'formScmSL',
-            severity: 'success',
-            summary: 'Documento Eliminado',
-            detail: 'El documento ha sido retirado.'
-        });
-        setTimeout(() => {
-          this.loadMailData(this.idSl);
-          this.loadMailDataUser(this.idSl, this.pkuser);
-          this.loadDocumentosSL();
-      }, 3000);
-      this.documentacionSelectUser = [];
-                   
-                }
-            ).catch(err => {
-                if (err.status !== 404) {
-                    console.error('Error al eliminar el documento:', err);
-                }
-
-                // Elimina el documento localmente en caso de error
-                // this.directorios = this.directorios.filter(val => val.id && val.id !== doc.id);
-                // let docIds: string[] = [];
-
-                // this.directorios.forEach(el => {
-                //     if (el.id) {
-                //         docIds.push(el.id);
-                //     }
-                // });
-                // console.log("que trae docIds", docIds);
+            this.directorios.forEach(el => {
+              if (el.id) {
+                docIds.push(el.id!);
+              }
             });
-            this.loadMailData(this.idSl);
-            this.loadMailDataUser(this.idSl, this.pkuser)
-            this.loadDocumentosSL();
-        }
+            this.messageService.add({
+              key: 'formScmSL',
+              severity: 'success',
+              summary: 'Documento Eliminado',
+              detail: 'El documento ha sido retirado.'
+            });
+            setTimeout(() => {
+              this.loadMailData(this.idSl);
+              this.loadMailDataUser(this.idSl, this.pkuser);
+              this.loadDocumentosSL();
+            }, 3000);
+            this.documentacionSelectUser = [];
+
+          }
+        ).catch(err => {
+          if (err.status !== 404) {
+            console.error('Error al eliminar el documento:', err);
+          }
+
+          // Elimina el documento localmente en caso de error
+          // this.directorios = this.directorios.filter(val => val.id && val.id !== doc.id);
+          // let docIds: string[] = [];
+
+          // this.directorios.forEach(el => {
+          //     if (el.id) {
+          //         docIds.push(el.id);
+          //     }
+          // });
+          // console.log("que trae docIds", docIds);
+        });
+        this.loadMailData(this.idSl);
+        this.loadMailDataUser(this.idSl, this.pkuser)
+        this.loadDocumentosSL();
+      }
     });
 
-}
+  }
 
   eliminarDocumentCaseDT(doc: Documento) {
     this.confirmationService.confirm({
@@ -2279,7 +2295,7 @@ export class SaludLaboralComponent implements OnInit {
     });
   }
 
-  async refresh(){
+  async refresh() {
     this.loadDocumentos();
     this.loadMailData(this.idSl);
     this.loadMailDataUser(this.idSl, this.pkuser)
@@ -2331,48 +2347,6 @@ export class SaludLaboralComponent implements OnInit {
       }
     });
   }
-  // eliminarDocumentArl(doc: Documento) {
-  //   this.confirmationService.confirm({
-  //     message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
-  //     header: 'Confirmar',
-  //     icon: 'pi pi-exclamation-triangle',
-  //     accept: () => {
-  //       this.deleteDocumentArl(this.idSl, doc.id),
-  //         this.directorioService.eliminarDocumento(doc.id).then(
-  //           data => {
-  //             this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
-  //             let docIds: string[] = [];
-
-  //             this.directoriosArl.forEach(el => {
-  //               docIds.push(el.id!);
-  //             });
-  //             this.messageService.add({
-  //               // this.msgs.push({
-  //               key: 'formScmSL',
-  //               severity: "success",
-  //               summary: "Usuario actualizado",
-  //               detail: `Documento Retirado`,
-  //             });
-  //           }
-
-  //         ).catch(err => {
-  //           if (err) {
-  //            console.log("error");
-
-  //           }
-
-  //           // Si el error es 404, o cualquier otro caso, sigue eliminando el documento localmente
-  //           this.directoriosArl = this.directoriosArl.filter(val => val.id !== doc.id);
-  //           let docIds: string[] = [];
-
-  //           this.directoriosArl.forEach(el => {
-  //             docIds.push(el.id!);
-  //           });
-  //           console.log("que trae dosid", docIds);
-  //         });
-  //     }
-  //   });
-  // }
   eliminarDocumentjR(doc: Documento) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de que quieres eliminar ' + doc.nombre + '?',
@@ -2571,23 +2545,23 @@ export class SaludLaboralComponent implements OnInit {
   }
 
 
-  loadDocumentosCaseDT() {
-    if (this.saludLaboralSelect && this.saludLaboralSelect.documentos) {
+  // loadDocumentosCaseDT() {
+  //   if (this.saludLaboralSelect && this.saludLaboralSelect.documentos) {
 
 
-      let docum = this.saludLaboralSelect.documentos.split(",");
+  //     let docum = this.saludLaboralSelect.documentos.split(",");
 
-      docum.forEach((algo: string) => {
-        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+  //     docum.forEach((algo: string) => {
+  //       this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
 
-          this.directorios.push(elem[0]);
-        })
-      });
+  //         this.directorios.push(elem[0]);
+  //       })
+  //     });
 
-    }
+  //   }
 
 
-  }
+  // }
   timestampToDate(timestamp: number): Date {
     return new Date(timestamp);
   }
@@ -2618,6 +2592,31 @@ export class SaludLaboralComponent implements OnInit {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
           elem[0].fechaCreacion = this.timestampToDate(elem[0].fechaCreacion as number);
           this.directoriosArl.push(elem[0]);
+          console.log(this.directoriosArl, 'arl');
+          console.log(this.saludLaboralSelect);
+
+
+
+        })
+      });
+
+    }
+  }
+  loadDocumentosSendDocs() {
+    console.log("entra =????");
+
+    if (this.saludLaboralSelect && this.saludLaboralSelect.documentos) {
+
+
+      let docum = this.saludLaboralSelect.documentos.split(",");
+
+      docum.forEach((algo: string) => {
+        this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          this.directoriosSendocs.push(elem[0]);
+          console.log(this.directoriosSendocs, 'que monda esta llegando aca');
+          console.log(this.saludLaboralSelect);
+
+
 
         })
       });
@@ -2656,7 +2655,10 @@ export class SaludLaboralComponent implements OnInit {
 
     }
   }
+ 
   loadDocumentosMin() {
+    console.log("entra =????");
+
     if (this.saludLaboralSelect && this.saludLaboralSelect.documentosMinisterio) {
 
 
@@ -2664,8 +2666,12 @@ export class SaludLaboralComponent implements OnInit {
 
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
+          this.directoriosMin.push(elem[0]);
+          console.log(this.directoriosMin, 'que monda esta llegando aca');
+          console.log(this.saludLaboralSelect);
 
-          this.directorios.push(elem[0]);
+
+
         })
       });
 
@@ -3004,7 +3010,7 @@ export class SaludLaboralComponent implements OnInit {
       case 'res1':
         this.usuarioSolicitado = eve.usuario.email
         this.pkUser = eve.usuario.id
-        this.nombreCompletoSalud =`${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
+        this.nombreCompletoSalud = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
 
         break;
       case 'res2':
@@ -3103,7 +3109,7 @@ export class SaludLaboralComponent implements OnInit {
 
     let filterEliminado = new Filter();
     filterEliminado.criteria = Criteria.EQUALS;
-    filterEliminado.field= 'eliminado'
+    filterEliminado.field = 'eliminado'
     filterEliminado.value1 = 'false';
 
     let filterCedula = new Filter();

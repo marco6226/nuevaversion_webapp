@@ -1,6 +1,6 @@
 <p-toast key="formScmSL"></p-toast>
 <!-- <p-messages [(value)]="msgs" ></p-messages> -->
-<p-confirmDialog></p-confirmDialog>
+
 <div class="info-container">
   <div class="info-item">
     <span class="label">Caso: No </span>{{this.iddt}}
@@ -202,7 +202,9 @@
         header="Calificación (origen -PCL)"
         *ngIf="saludLaboralSelect && this.diagnosticoList.length > 0"
       >
+      <p-confirmDialog></p-confirmDialog>
         <app-pcl
+        
           [diagnosticos]="this.diagnosticoList"
           [entity]="entity"
           [emitPclentity]="emitPclentity"
@@ -373,12 +375,12 @@
                   </div>
                 </div>
               </div>
-              <ng-container>
+              <!-- <ng-container>
                 <button
                   pButton
                   type="button"
                   icon="bi bi-upload"
-                  label="Adjuntar Soporte"
+                  label="Adjuntar Soporte es"
                   title="Subir documento"
                   [value]="documentacionSubirSelect"
                   class="p-button-info margin-left margin-right"
@@ -388,15 +390,15 @@
               <s-documentoUpload
                 [privadoCheck]="false"
                 [(visible)]="flagDocDT"
-                [modParam]="selectedDocIDDT"
+                [modParam]="selectedDocSub"
                 [modulo]="modulo"
-                [tipoEvidencia]="'cargaDocumentosDT' + selectedDocIDDT"
+                [tipoEvidencia]="'cargaDocumentosDT' + selectedDocSub"
                 (onUpload)="onUploadCaseDT($event)"
               >
               </s-documentoUpload>
               <div class="ui-g" style="margin-top: 10px">
                 <div class="ui-g-12 ui-sm-12 ui-md-10">
-                  <div *ngFor="let doc of directorios">
+                  <div *ngFor="let doc of directoriosSendocs">
                     <ng-container *ngIf="doc?.documento">
                       <table
                         class="caption-top"
@@ -437,416 +439,16 @@
                       </table>
                     </ng-container>
                   </div>
-                </div>
-              </div>
+                </div> 
+              </div>-->
+              <app-cargue-documentos-send-documentacion
+              [directoriosSendocs]="this.directoriosSendocs"
+              ></app-cargue-documentos-send-documentacion>
             </p-accordionTab>
           </form>
           <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
             <p-accordionTab header="Fecha de notificacion del dictamen">
-              <!-- <div class="row row-cols-1 row-cols-md-2 g-4">
-                <div class="col">
-                  <div class="card" style="padding: 2%">
-                    <p-panel header="Dictamen de la EPS">
-                    <p-dropdown
-                      [options]="ePSDocs"
-                      appendTo="body"
-                      [filter]="true"
-                      formControlName="selectedEps"
-                      optionLabel="label"
-                      placeholder="Seleccione una EPS"
-                    >
-                    </p-dropdown>
-
-                    <label for="fechaLimite"
-                      >Fecha notificacion de la empresa:</label
-                    >
-                    <p-calendar
-                      id="fechaNotificacionEmp"
-                      appendTo="body"
-                      [monthNavigator]="true"
-                      [yearNavigator]="true"
-                      [yearRange]="yearRange"
-                      [maxDate]="fechaActual"
-                      formControlName="fechaNotificacionEmp"
-                      dateFormat="dd/mm/yy"
-                    ></p-calendar>
-
-                    <button
-                      pButton
-                      type="button"
-                      icon="bi bi-upload"
-                      label="Adjuntar Soporte"
-                      title="Subir documento"
-                      [value]="documentacionSubirSelect"
-                      class="p-button-info margin-left margin-right"
-                      (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
-                    ></button>
-
-                    <s-documentoUpload
-                      [privadoCheck]="false"
-                      [(visible)]="flagDocEmp"
-                      [modParam]="selectedDocEmp"
-                      [modulo]="modulo"
-                      [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
-                      (onUpload)="onUploadCaseEmp($event)"
-                    >
-                    </s-documentoUpload>
-                    <div class="ui-g" style="margin-top: 10px">
-                      <div class="ui-g-12 ui-sm-12 ui-md-10">
-                        <div *ngFor="let doc of directorios">
-                          <ng-container *ngIf="doc?.documento">
-                            <table
-                              class="caption-top"
-                              *ngIf="
-                                doc.documento.proceso ===
-                                'cargaDocumentosEmp' + idSl
-                              "
-                            >
-                              <p>Soportes:</p>
-                              <thead>
-                                <tr>
-                                  <th scope="col">Descripción</th>
-                                  <th scope="col">Opciones</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>
-                                    <a
-                                      type="button"
-                                      class="btn btn-outline-primary"
-                                      (click)="
-                                        descargarDocumento(doc.documento)
-                                      "
-                                      >{{ doc.documento.descripcion }}</a
-                                    >
-                                  </td>
-                                  <td>
-                                    <a>&nbsp;</a>
-                                    <a
-                                      type="button"
-                                      [ariaDisabled]="true"
-                                      class="btn btn-outline-danger"
-                                      title="Eliminar documento"
-                                      (click)="eliminarDocumentEmp(doc)"
-                                      ><span class="pi pi-trash"></span
-                                    ></a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </ng-container>
-                        </div>
-                      </div>
-                    </div>
-                  </p-panel>
-                  </div>
-                  
-                </div>
-                <div class="col">
-                  <div class="card">
-                    <div class="card-body">
-                      <p-panel header="Dictamen de la Junta Regional">
-                        <p-dropdown
-                          [options]="jrDocs"
-                          appendTo="body"
-                          [filter]="true"
-                          formControlName="selectedArl"
-                          optionLabel="label"
-                          placeholder="Seleccione el departamento asociado"
-                        >
-                        </p-dropdown>
-    
-                        <label for="fechaLimite"
-                          >Fecha notificacion de la empresa:</label
-                        >
-                        <p-calendar
-                          id="fechaNotificacionEmp"
-                          appendTo="body"
-                          [monthNavigator]="true"
-                          [yearNavigator]="true"
-                          [yearRange]="yearRange"
-                          [maxDate]="fechaActual"
-                          formControlName="fechaNotificacionEmp"
-                          dateFormat="dd/mm/yy"
-                        ></p-calendar>
-    
-                        <button
-                          pButton
-                          type="button"
-                          icon="bi bi-upload"
-                          label="Adjuntar Soporte"
-                          title="Subir documento"
-                          [value]="documentacionSubirSelect"
-                          class="p-button-info margin-left margin-right"
-                          (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
-                        ></button>
-    
-                        <s-documentoUpload
-                          [privadoCheck]="false"
-                          [(visible)]="flagDocEmp"
-                          [modParam]="selectedDocEmp"
-                          [modulo]="modulo"
-                          [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
-                          (onUpload)="onUploadCaseEmp($event)"
-                        >
-                        </s-documentoUpload>
-                        <div class="ui-g" style="margin-top: 10px">
-                          <div class="ui-g-12 ui-sm-12 ui-md-10">
-                            <div *ngFor="let doc of directorios">
-                              <ng-container *ngIf="doc?.documento">
-                                <table
-                                  class="caption-top"
-                                  *ngIf="
-                                    doc.documento.proceso ===
-                                    'cargaDocumentosEmp' + idSl
-                                  "
-                                >
-                                  <p>Soportes:</p>
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Descripción</th>
-                                      <th scope="col">Opciones</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <a
-                                          type="button"
-                                          class="btn btn-outline-primary"
-                                          (click)="
-                                            descargarDocumento(doc.documento)
-                                          "
-                                          >{{ doc.documento.descripcion }}</a
-                                        >
-                                      </td>
-                                      <td>
-                                        <a>&nbsp;</a>
-                                        <a
-                                          type="button"
-                                          [ariaDisabled]="true"
-                                          class="btn btn-outline-danger"
-                                          title="Eliminar documento"
-                                          (click)="eliminarDocumentEmp(doc)"
-                                          ><span class="pi pi-trash"></span
-                                        ></a>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </ng-container>
-                            </div>
-                          </div>
-                        </div>
-                      </p-panel>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row row-cols-1 row-cols-md-2 g-4">
-                <div class="col">
-                  <div class="card">
-                    <div class="card-body">
-                      <p-panel header="Dictamen de la ARL">
-                        <p-dropdown
-                          [options]="arlDocs"
-                          appendTo="body"
-                          [filter]="true"
-                          formControlName="selectedArl"
-                          optionLabel="label"
-                          placeholder="Seleccione una ARL"
-                        >
-                        </p-dropdown>
-    
-                        <label for="fechaLimite"
-                          >Fecha notificacion de la empresa:</label
-                        >
-                        <p-calendar
-                          id="fechaNotificacionEmp"
-                          appendTo="body"
-                          [monthNavigator]="true"
-                          [yearNavigator]="true"
-                          [yearRange]="yearRange"
-                          [maxDate]="fechaActual"
-                          formControlName="fechaNotificacionEmp"
-                          dateFormat="dd/mm/yy"
-                        ></p-calendar>
-    
-                        <button
-                          pButton
-                          type="button"
-                          icon="bi bi-upload"
-                          label="Adjuntar Soporte"
-                          title="Subir documento"
-                          [value]="documentacionSubirSelect"
-                          class="p-button-info margin-left margin-right"
-                          (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
-                        ></button>
-    
-                        <s-documentoUpload
-                          [privadoCheck]="false"
-                          [(visible)]="flagDocEmp"
-                          [modParam]="selectedDocEmp"
-                          [modulo]="modulo"
-                          [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
-                          (onUpload)="onUploadCaseEmp($event)"
-                        >
-                        </s-documentoUpload>
-                        <div class="ui-g" style="margin-top: 10px">
-                          <div class="ui-g-12 ui-sm-12 ui-md-10">
-                            <div *ngFor="let doc of directorios">
-                              <ng-container *ngIf="doc?.documento">
-                                <table
-                                  class="caption-top"
-                                  *ngIf="
-                                    doc.documento.proceso ===
-                                    'cargaDocumentosEmp' + idSl
-                                  "
-                                >
-                                  <p>Soportes:</p>
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Descripción</th>
-                                      <th scope="col">Opciones</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <a
-                                          type="button"
-                                          class="btn btn-outline-primary"
-                                          (click)="
-                                            descargarDocumento(doc.documento)
-                                          "
-                                          >{{ doc.documento.descripcion }}</a
-                                        >
-                                      </td>
-                                      <td>
-                                        <a>&nbsp;</a>
-                                        <a
-                                          type="button"
-                                          [ariaDisabled]="true"
-                                          class="btn btn-outline-danger"
-                                          title="Eliminar documento"
-                                          (click)="eliminarDocumentEmp(doc)"
-                                          ><span class="pi pi-trash"></span
-                                        ></a>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </ng-container>
-                            </div>
-                          </div>
-                        </div>
-                      </p-panel>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="card">
-                    <div class="card-body">
-                      <p-panel header="Dictamen de la Junta Nacional">
-                         <div class="input-field">
-                    <input
-                      type="text"
-                      class="form-control"
-                      value="Junta Nacional"
-                      disabled
-                    />
-                  </div>
-                 <br>
-    
-                        <label for="fechaLimite"
-                          >Fecha notificacion de la empresa:</label
-                        >
-                        <p-calendar
-                          id="fechaNotificacionEmp"
-                          appendTo="body"
-                          [monthNavigator]="true"
-                          [yearNavigator]="true"
-                          [yearRange]="yearRange"
-                          [maxDate]="fechaActual"
-                          formControlName="fechaNotificacionEmp"
-                          dateFormat="dd/mm/yy"
-                        ></p-calendar>
-    
-                        <button
-                          pButton
-                          type="button"
-                          icon="bi bi-upload"
-                          label="Adjuntar Soporte"
-                          title="Subir documento"
-                          [value]="documentacionSubirSelect"
-                          class="p-button-info margin-left margin-right"
-                          (click)="openUploadDialogCaseEmpresa(idSl, documentosEmp)"
-                        ></button>
-    
-                        <s-documentoUpload
-                          [privadoCheck]="false"
-                          [(visible)]="flagDocEmp"
-                          [modParam]="selectedDocEmp"
-                          [modulo]="modulo"
-                          [tipoEvidencia]="'cargaDocumentosEmp' + selectedDocEmp"
-                          (onUpload)="onUploadCaseEmp($event)"
-                        >
-                        </s-documentoUpload>
-                        <div class="ui-g" style="margin-top: 10px">
-                          <div class="ui-g-12 ui-sm-12 ui-md-10">
-                            <div *ngFor="let doc of directorios">
-                              <ng-container *ngIf="doc?.documento">
-                                <table
-                                  class="caption-top"
-                                  *ngIf="
-                                    doc.documento.proceso ===
-                                    'cargaDocumentosEmp' + idSl
-                                  "
-                                >
-                                  <p>Soportes:</p>
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Descripción</th>
-                                      <th scope="col">Opciones</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <a
-                                          type="button"
-                                          class="btn btn-outline-primary"
-                                          (click)="
-                                            descargarDocumento(doc.documento)
-                                          "
-                                          >{{ doc.documento.descripcion }}</a
-                                        >
-                                      </td>
-                                      <td>
-                                        <a>&nbsp;</a>
-                                        <a
-                                          type="button"
-                                          [ariaDisabled]="true"
-                                          class="btn btn-outline-danger"
-                                          title="Eliminar documento"
-                                          (click)="eliminarDocumentEmp(doc)"
-                                          ><span class="pi pi-trash"></span
-                                        ></a>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </ng-container>
-                            </div>
-                          </div>
-                        </div>
-                      </p-panel>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-
+              
               <app-cargue-documentos-empresa
                 [directorios]="this.directorios"
                 [directoriosArl]="this.directoriosArl"
@@ -875,7 +477,10 @@
                   dateFormat="dd/mm/yy"
                 ></p-calendar>
               </div>
-              <ng-container>
+              <app-cargue-documentos-ministerio
+              [directoriosMin]="this.directoriosMin"
+              ></app-cargue-documentos-ministerio>
+              <!-- <ng-container>
                 <button
                   pButton
                   type="button"
@@ -940,7 +545,7 @@
                     </ng-container>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </p-accordionTab>
             <button
               pButton
