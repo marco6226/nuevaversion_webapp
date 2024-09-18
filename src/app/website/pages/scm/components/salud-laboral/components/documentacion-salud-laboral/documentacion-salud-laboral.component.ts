@@ -71,7 +71,8 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       'documentos',
       'razonRechazoSolicitante',
       'correoEnviado',
-      'empresaId'
+      'empresaId',
+      'eliminado'
 
     ];
     
@@ -135,12 +136,16 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
         filterEmp.criteria = Criteria.EQUALS;
         filterEmp.field = 'empresaId';
         filterEmp.value1 = emp;
+        let filterElim = new Filter();
+        filterElim.criteria = Criteria.EQUALS;
+        filterElim.field = 'eliminado';
+        filterElim.value1 = 'false';
 
     
     
         filterQuery.fieldList = this.fields;
         filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-        filterQuery.filterList.push(filterUser, filterEmp);
+        filterQuery.filterList.push(filterUser, filterEmp, filterElim);
     
         try {
           let res: any = await this.scmService.findWithFilterMail(filterQuery);

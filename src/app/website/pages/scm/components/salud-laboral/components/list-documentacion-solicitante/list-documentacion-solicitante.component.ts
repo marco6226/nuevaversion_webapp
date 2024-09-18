@@ -48,7 +48,8 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
     'documentos',
     'razonRechazoSolicitante',
     'correoEnviado',
-    'empresaId'
+    'empresaId',
+    'eliminado'
   ];
 
   usuarioId = JSON.parse(localStorage.getItem('session') || '{}');
@@ -74,10 +75,15 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
     filterEmp.field = 'empresaId';
     filterEmp.value1 = emp;
 
+    let filterElim = new Filter();
+    filterElim.criteria = Criteria.EQUALS;
+    filterElim.field = 'eliminado';
+    filterElim.value1 = 'false';
+
 
     filterQuery.fieldList = this.fields;
     filterQuery.filterList = FilterQuery.filtersToArray(event.filters);
-    filterQuery.filterList.push(filterEmp);
+    filterQuery.filterList.push(filterEmp, filterElim);
 
     try {
       let res: any = await this.scmService.findWithFilterMail(filterQuery);
