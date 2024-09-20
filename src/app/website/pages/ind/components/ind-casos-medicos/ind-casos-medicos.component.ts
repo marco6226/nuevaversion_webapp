@@ -15,8 +15,6 @@ import { PrimeNGConfig } from 'primeng/api';
 import { Switch } from '@syncfusion/ej2/buttons';
 import { SesionService } from 'src/app/website/pages/core/services/session.service';
 
-// import { TranslateService } from '@ngx-translate/core';
-
 @Component({
   selector: 'app-ind-casos-medicos',
   templateUrl: './ind-casos-medicos.component.html',
@@ -230,6 +228,11 @@ export class IndCasosMedicosComponent implements OnInit {
   ];
 
   async ngOnInit() {
+    // Ejemplo de uso
+    const today = new Date(); // Crea un objeto Date
+    const weekOfMonth = this.getWeekOfMonth(today);
+    console.log(`La semana del mes es: ${weekOfMonth}`);
+
     this.config.setTranslation(this.localeES);
     await this.cargarDatos();
     this.numeroCasos();
@@ -246,6 +249,21 @@ export class IndCasosMedicosComponent implements OnInit {
     private config: PrimeNGConfig,
     private sesionService: SesionService
   ) {}
+
+  getWeekOfMonth(date: Date): number {
+    const dayOfMonth = date.getDate(); // Obtener el día del mes
+    const firstDayOfMonth = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      1
+    ).getDay(); // Día de la semana del primer día del mes
+
+    // Ajuste para considerar que la semana comienza el lunes
+    const adjustedFirstDay = firstDayOfMonth === 0 ? 7 : firstDayOfMonth; // Si es domingo (0), lo ajustamos como 7
+
+    // Calcula la semana considerando lunes como inicio de la semana
+    return Math.ceil((dayOfMonth + adjustedFirstDay - 1) / 7);
+  }
 
   async cargarDatos() {
     switch (this.idEmpresa) {
