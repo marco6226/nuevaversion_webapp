@@ -1,170 +1,443 @@
 <div class="shadow">
-    <p-panel header="Creación de Aliado">
-        <div class="ui-g" style="width:250px;margin-bottom:10px">
-            <div class="ui-g-12"><p-radioButton name="group1" value="Natural" label="Natural" [(ngModel)]="seleccion" [disabled]="isSelected || !isCreate" inputId="opt1"></p-radioButton></div>
-            <div class="ui-g-12"><p-radioButton name="group1" value="Jurídica" label="Jurídica" [(ngModel)]="seleccion" [disabled]="isSelected || !isCreate" inputId="opt2"></p-radioButton></div>
-        </div>
-        <p-button *ngIf="isCreate" label="Continuar" icon="pi pi-check" (click)="continuar()" [disabled]="isSelected || !isCreate"></p-button>
-    </p-panel >
+  <p-panel header="Creación de Aliado">
+    <div class="ui-g" style="width: 250px; margin-bottom: 10px">
+      <div class="ui-g-12">
+        <p-radioButton
+          name="group1"
+          value="Natural"
+          label="Natural"
+          [(ngModel)]="seleccion"
+          disabled
+          inputId="opt1"
+        ></p-radioButton>
+      </div>
+      <div class="ui-g-12">
+        <p-radioButton
+          name="group1"
+          value="Jurídica"
+          label="Jurídica"
+          [(ngModel)]="seleccion"
+          [disabled]="isSelected || !isCreate"
+          inputId="opt2"
+        ></p-radioButton>
+      </div>
+    </div>
+    <p-button
+      *ngIf="isCreate"
+      label="Continuar"
+      icon="pi pi-check"
+      (click)="continuar()"
+      [disabled]="isSelected || !isCreate"
+    ></p-button>
+  </p-panel>
 </div>
 <p-confirmDialog></p-confirmDialog>
 
-<br>
+<br />
 <div class="shadow">
-    <p-panel *ngIf="onSeleccion=='Natural'" header="Persona Natural" [formGroup]="formNatural">
-        <div>
-            <div class="row g-2 mb-3">
-                <div class="input-field">
-                    <input type="text" pInputText formControlName="razonSocial" [readOnly]="!isCreate" [(ngModel)]="valueEmpresa.razonSocial" placeholder="Nombre o Razón social"
-                        class="form-material"/>
-                    <label for="">Nombre o Razón social</label>            
-                </div>
-                <div class="input-field">
-                    <input type="text" pInputText formControlName="identificacion" [readOnly]="!isCreate" [(ngModel)]="valueEmpresa.nit" placeholder="Número de identificación"
-                    class="form-material"/>
-                    <label for="">Número de identificación</label>
-                </div>
-                <div class="input-field">
-                    <input type="text" pInputText formControlName="email" [readOnly]="!isCreate" [(ngModel)]="valueEmpresa.email" placeholder="Email"
-                    class="form-material"  (ngModelChange)="valueEmpresa.email = $event.toLowerCase()"/>
-                    <label for="">Email</label>
-                </div>
-                <div class="input-field">
-                    <input type="text" pInputText formControlName="telefono" [readOnly]="!isCreate" [(ngModel)]="valueEmpresa.telefono" placeholder="Telefono"
-                    class="form-material"/>
-                    <label for="">Telefono</label>
-                </div>
-            </div>
-            <div class="row g-2 mb-3">
-                <div class="input-field">
-                    <p-multiSelect class="form-material"  defaultLabel="--seleccione Actividad--" [options]="actividadesContratadasList2" [disabled]="!isCreate" [(ngModel)]="valueEmpresa.actividades_contratadas" formControlName="actividadesContratadas"> </p-multiSelect>
-                    <label for="">Actividades contratadas</label>
-                </div>
-                <div class="input-field">
-                    <p-multiSelect class="form-material"  defaultLabel="--seleccione division--" [options]="divisionList" [disabled]="!isCreate" [(ngModel)]="valueEmpresa.division" formControlName="division"> </p-multiSelect>
-                    <label for="">División</label>
-                </div>
-                <div class="input-field">
-                    <p-multiSelect class="form-material"  defaultLabel="--seleccione Localidades--" [options]="localidades" [disabled]="!isCreate" [(ngModel)]="valueEmpresa.localidad" formControlName="localidad"> </p-multiSelect>
-        
-                    <label for="">Localidad</label>
-                </div>
-            </div>
+  <p-panel
+    *ngIf="onSeleccion == 'Natural'"
+    header="Persona Natural"
+    [formGroup]="formNatural"
+  >
+    <div>
+      <div class="row g-2 mb-3">
+        <div class="input-field">
+          <input
+            type="text"
+            pInputText
+            formControlName="razonSocial"
+            [readOnly]="!isCreate"
+            [(ngModel)]="valueEmpresa.razonSocial"
+            placeholder="Nombre o Razón social"
+            class="form-material"
+          />
+          <label for="">Nombre o Razón social</label>
         </div>
-    </p-panel>
-    
-    <p-panel *ngIf="onSeleccion=='Jurídica'" header="Persona Jurídica"  [formGroup]="formJuridica">
-        <div>
-            <div class="row g-2 mb-4">
-                <div class="col-md-6 col-sm-12">
-                    <div>
-                        <label for="">Razón social</label>   
-                        <input type="text" class="form-control" required pInputText formControlName="razonSocial" [readOnly]="(!isCreate && onEdit==null) || flagConsult" [(ngModel)]="valueEmpresa.razonSocial" placeholder="Razón social"/> 
-                    </div>     
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <label for="">NIT</label>
-                    <input type="number" class="form-control" required pInputText formControlName="identificacion" [readOnly]="(!isCreate && onEdit==null) || flagConsult" [(ngModel)]="valueEmpresa.nit" placeholder="NIT"/>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <label for="">Nombre comercial</label>
-                    <input type="text" class="form-control" required pInputText formControlName="nombreComercial" [readOnly]="(!isCreate && onEdit==null) || flagConsult" [(ngModel)]="valueEmpresa.nombreComercial" placeholder="Nombre comercial"/>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <label for="">Email</label>
-                    <input type="email" class="form-control" required pInputText formControlName="email" [readOnly]="!isCreate || flagConsult" [ngModel]="valueEmpresa.email" placeholder="Email" (ngModelChange)="valueEmpresa.email = $event.toLowerCase()"/>
-                </div>     
-            </div>
-            <div class="row g-2 mb-4">
-                <div class="col-md-6 col-sm-12">
-                    <label for="">Calificación de proceso de selección</label>
-                    <input type="number" class="form-control" required pInputText formControlName="calificacion_proceso" [(ngModel)]="calificacion" (keyup)="onCalificacion()" [readonly]="(!isCreate && onEdit==null) || flagConsult" placeholder="Calificación">
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <label for="">Fecha calificación</label>
-                    <p-calendar 
-                    appendTo="body"
-                    [className]="['form-control']" showButtonBar="true" 
-                    showClear="true" required formControlName="fecha_calificacion" 
-                    [yearNavigator]="true" [(ngModel)]="fecha_calificacion" 
-                    (onSelect)="onFechaCalificacion()" yearRange="1900:2050" 
-                    [monthNavigator]="true" dateFormat="dd/mm/yy" 
-                    [touchUI]="true" [disabled]="(!isCreate && onEdit==null) || flagConsult" 
-                    [readonlyInput]="true" name="fechaCalificacion" appendTo="body"></p-calendar>
-                    <button [disabled]="onEdit != 'edit'" style="height: 33px;" type="button" class="btn btn-primary" (click)="resetdate()">Limpiar</button>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <label for="">Quién califica</label>
-                    <input required class="form-control" formControlName="quien_califica" type="text" pInputText [(ngModel)]="quienCalifica" (keyup)="onQuienCalifica()" [readonly]="(!isCreate && onEdit==null) || flagConsult" placeholder="Quién califica">
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <label for="">Adjunte el soporte de calificación de selección</label>
-                    <br>
-                    <div class="col-3">
-                        <button  pButton type="button" [disabled]="onEdit != 'edit'" (click)="showDialog()" icon="fa fa-plus" label="Adjuntar soporte" style="margin-bottom: 10px;height: 40px" ></button>
-                        <s-documentoUpload [(visible)]="visibleDlgExcel" [modParam]="analisisId" [modulo]="modulo" tipoEvidencia="soporteCalificacion" (onUpload)="onUpload($event)"></s-documentoUpload>
-                    </div>
-                    <div class="col6">
-                        <div class="ui-g" style="margin-top: 10px;">
-                            <div class="ui-g-12 ui-sm-12 ui-md-10">
-                                <div *ngFor="let doc of directorios">
-                                    <table class="caption-top" *ngIf="doc!.documento.proceso=='soporteCalificacion'"> 
-                                        <caption>Soportes: </caption>
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Descripción</th>
-                                                <th scope="col">Opciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <a [disabled]="onEdit != 'edit'" type="button" class="btn btn-outline-primary" (click)="descargarDocumento(doc.documento)">{{doc.documento.descripcion}}</a>
-                                                </td>
-                                                <td>
-                                                    <a>&nbsp;</a>
-                                                    <a [disabled]="onEdit != 'edit'" type="button" class="btn btn-outline-danger" title="Eliminar documento" (click)="eliminarDocument(doc)"><span class="pi pi-trash"></span></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="row g-3 mb-4">
-                    <div class="input-field col-md-6 col-sm-6">
-                        <div class="ui-g-12">
-                            <label for="subctr" style="margin-bottom:10px;background-color:transparent;">La empresa cuenta con autorización para subcontratación: </label>
-                            <p-radioButton [disabled]="(!isCreate && onEdit==null) || flagConsult" (onClick)="onAutorizaSubcontratacion()" name="subctr" value="Si" label="Si" [(ngModel)]="autorizaSubcontratacion" [ngModelOptions]="{standalone: true}" required></p-radioButton>
-                            <p-radioButton [disabled]="(!isCreate && onEdit==null) || flagConsult" (onClick)="onAutorizaSubcontratacion()" name="subctr" value="No" label="No" [(ngModel)]="autorizaSubcontratacion" [ngModelOptions]="{standalone: true}" required></p-radioButton>
-                        </div>
-                    </div>
-                    <div class="input-field col-md-6 col-sm-6">
-                        <div class="ui-g-12">
-                            <label for="subctr" style="margin-bottom:10px;background-color:transparent;">Empresa de servicios temporales: </label>
-                            <p-radioButton [disabled]="!isCreate" (onClick)="onEsTemporal()" name="temporal" value="Si" label="Sí" [(ngModel)]="istemporal" [ngModelOptions]="{standalone: true}" required></p-radioButton>
-                            <p-radioButton [disabled]="!isCreate" (onClick)="onEsTemporal()" name="temporal" value="No" label="No" [(ngModel)]="istemporal" [ngModelOptions]="{standalone: true}" required></p-radioButton>
-                        </div>
-                    </div>
-                    <div *sTienePermiso="'CTR_PUT_PERMISO_REPORTEAT'">
-                        <div class="input-field col-md-6 col-sm-6" *ngIf="istemporal=='No'">
-                            <div class="ui-g-12">
-                                <label style="margin-bottom:10px;background-color:transparent;">¿Autoriza el registro de accidentes de esta empresa?</label>
-                                <p-radioButton [disabled]="(!isCreate && onEdit==null) || flagConsult" (onClick)="onAutorizaReporteAt()" name="registroAt" [value]="true" label="Sí" [(ngModel)]="autorizaRegistroAt" [ngModelOptions]="{standalone: true}" required></p-radioButton>
-                                <p-radioButton [disabled]="(!isCreate && onEdit==null) || flagConsult" (onClick)="onAutorizaReporteAt()" name="registroAt" [value]="false" label="No" [(ngModel)]="autorizaRegistroAt" [ngModelOptions]="{standalone: true}" required></p-radioButton>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="input-field">
+          <input
+            type="text"
+            pInputText
+            formControlName="identificacion"
+            [readOnly]="!isCreate"
+            [(ngModel)]="valueEmpresa.nit"
+            placeholder="Número de identificación"
+            class="form-material"
+          />
+          <label for="">Número de identificación</label>
         </div>
-    </p-panel>
+        <div class="input-field">
+          <input
+            type="text"
+            pInputText
+            formControlName="email"
+            [readOnly]="!isCreate"
+            [(ngModel)]="valueEmpresa.email"
+            placeholder="Email"
+            class="form-material"
+            (ngModelChange)="valueEmpresa.email = $event.toLowerCase()"
+          />
+          <label for="">Email</label>
+        </div>
+        <div class="input-field">
+          <input
+            type="text"
+            pInputText
+            formControlName="telefono"
+            [readOnly]="!isCreate"
+            [(ngModel)]="valueEmpresa.telefono"
+            placeholder="Telefono"
+            class="form-material"
+          />
+          <label for="">Telefono</label>
+        </div>
+      </div>
+      <div class="row g-2 mb-3">
+        <div class="input-field">
+          <p-multiSelect
+            class="form-material"
+            defaultLabel="--seleccione Actividad--"
+            [options]="actividadesContratadasList2"
+            [disabled]="!isCreate"
+            [(ngModel)]="valueEmpresa.actividades_contratadas"
+            formControlName="actividadesContratadas"
+          >
+          </p-multiSelect>
+          <label for="">Actividades contratadas</label>
+        </div>
+        <div class="input-field">
+          <p-multiSelect
+            class="form-material"
+            defaultLabel="--seleccione division--"
+            [options]="divisionList"
+            [disabled]="!isCreate"
+            [(ngModel)]="valueEmpresa.division"
+            formControlName="division"
+          >
+          </p-multiSelect>
+          <label for="">División</label>
+        </div>
+        <div class="input-field">
+          <p-multiSelect
+            class="form-material"
+            defaultLabel="--seleccione Localidades--"
+            [options]="localidades"
+            [disabled]="!isCreate"
+            [(ngModel)]="valueEmpresa.localidad"
+            formControlName="localidad"
+          >
+          </p-multiSelect>
+
+          <label for="">Localidad</label>
+        </div>
+      </div>
+    </div>
+  </p-panel>
+
+  <p-panel
+    *ngIf="onSeleccion == 'Jurídica'"
+    header="Persona Jurídica"
+    [formGroup]="formJuridica"
+  >
+    <div>
+      <div class="row g-2 mb-4">
+        <div class="col-md-6 col-sm-12">
+          <div>
+            <label for="">Razón social</label>
+            <input
+              type="text"
+              class="form-control"
+              required
+              pInputText
+              formControlName="razonSocial"
+              [readOnly]="(!isCreate && onEdit == null) || flagConsult"
+              [(ngModel)]="valueEmpresa.razonSocial"
+              placeholder="Razón social"
+            />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="">NIT</label>
+          <input
+            type="number"
+            class="form-control"
+            required
+            pInputText
+            formControlName="identificacion"
+            [readOnly]="(!isCreate && onEdit == null) || flagConsult"
+            [(ngModel)]="valueEmpresa.nit"
+            placeholder="NIT"
+          />
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="">Nombre comercial</label>
+          <input
+            type="text"
+            class="form-control"
+            required
+            pInputText
+            formControlName="nombreComercial"
+            [readOnly]="(!isCreate && onEdit == null) || flagConsult"
+            [(ngModel)]="valueEmpresa.nombreComercial"
+            placeholder="Nombre comercial"
+          />
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            required
+            pInputText
+            formControlName="email"
+            [readOnly]="!isCreate || flagConsult"
+            [ngModel]="valueEmpresa.email"
+            placeholder="Email"
+            (ngModelChange)="valueEmpresa.email = $event.toLowerCase()"
+          />
+        </div>
+      </div>
+      <div class="row g-2 mb-4">
+        <div class="col-md-6 col-sm-12">
+          <label for="">Calificación de proceso de selección</label>
+          <input
+            type="number"
+            class="form-control"
+            required
+            pInputText
+            formControlName="calificacion_proceso"
+            [(ngModel)]="calificacion"
+            (keyup)="onCalificacion()"
+            [readonly]="(!isCreate && onEdit == null) || flagConsult"
+            placeholder="Calificación"
+          />
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="">Fecha calificación</label>
+          <p-calendar
+            appendTo="body"
+            [className]="['form-control']"
+            showButtonBar="true"
+            showClear="true"
+            required
+            formControlName="fecha_calificacion"
+            [yearNavigator]="true"
+            [(ngModel)]="fecha_calificacion"
+            (onSelect)="onFechaCalificacion()"
+            yearRange="1900:2050"
+            [monthNavigator]="true"
+            dateFormat="dd/mm/yy"
+            [touchUI]="true"
+            [disabled]="(!isCreate && onEdit == null) || flagConsult"
+            [readonlyInput]="true"
+            name="fechaCalificacion"
+            appendTo="body"
+          ></p-calendar>
+          <button
+            [disabled]="onEdit != 'edit'"
+            style="height: 33px"
+            type="button"
+            class="btn btn-primary"
+            (click)="resetdate()"
+          >
+            Limpiar
+          </button>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="">Quién califica</label>
+          <input
+            required
+            class="form-control"
+            formControlName="quien_califica"
+            type="text"
+            pInputText
+            [(ngModel)]="quienCalifica"
+            (keyup)="onQuienCalifica()"
+            [readonly]="(!isCreate && onEdit == null) || flagConsult"
+            placeholder="Quién califica"
+          />
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="">Adjunte el soporte de calificación de selección</label>
+          <br />
+          <div class="col-3">
+            <button
+              pButton
+              type="button"
+              [disabled]="onEdit != 'edit'"
+              (click)="showDialog()"
+              icon="fa fa-plus"
+              label="Adjuntar soporte"
+              style="margin-bottom: 10px; height: 40px"
+            ></button>
+            <s-documentoUpload
+              [(visible)]="visibleDlgExcel"
+              [modParam]="analisisId"
+              [modulo]="modulo"
+              tipoEvidencia="soporteCalificacion"
+              (onUpload)="onUpload($event)"
+            ></s-documentoUpload>
+          </div>
+          <div class="col6">
+            <div class="ui-g" style="margin-top: 10px">
+              <div class="ui-g-12 ui-sm-12 ui-md-10">
+                <div *ngFor="let doc of directorios">
+                  <table
+                    class="caption-top"
+                    *ngIf="doc!.documento.proceso == 'soporteCalificacion'"
+                  >
+                    <caption>
+                      Soportes:
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a
+                            [disabled]="onEdit != 'edit'"
+                            type="button"
+                            class="btn btn-outline-primary"
+                            (click)="descargarDocumento(doc.documento)"
+                            >{{ doc.documento.descripcion }}</a
+                          >
+                        </td>
+                        <td>
+                          <a>&nbsp;</a>
+                          <a
+                            [disabled]="onEdit != 'edit'"
+                            type="button"
+                            class="btn btn-outline-danger"
+                            title="Eliminar documento"
+                            (click)="eliminarDocument(doc)"
+                            ><span class="pi pi-trash"></span
+                          ></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mb-4">
+          <div class="input-field col-md-6 col-sm-6">
+            <div class="ui-g-12">
+              <label
+                for="subctr"
+                style="margin-bottom: 10px; background-color: transparent"
+                >La empresa cuenta con autorización para subcontratación:
+              </label>
+              <p-radioButton
+                [disabled]="(!isCreate && onEdit == null) || flagConsult"
+                (onClick)="onAutorizaSubcontratacion()"
+                name="subctr"
+                value="Si"
+                label="Si"
+                [(ngModel)]="autorizaSubcontratacion"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              ></p-radioButton>
+              <p-radioButton
+                [disabled]="(!isCreate && onEdit == null) || flagConsult"
+                (onClick)="onAutorizaSubcontratacion()"
+                name="subctr"
+                value="No"
+                label="No"
+                [(ngModel)]="autorizaSubcontratacion"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              ></p-radioButton>
+            </div>
+          </div>
+          <div class="input-field col-md-6 col-sm-6">
+            <div class="ui-g-12">
+              <label
+                for="subctr"
+                style="margin-bottom: 10px; background-color: transparent"
+                >Empresa de servicios temporales:
+              </label>
+              <p-radioButton
+                [disabled]="!isCreate"
+                (onClick)="onEsTemporal()"
+                name="temporal"
+                value="Si"
+                label="Sí"
+                [(ngModel)]="istemporal"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              ></p-radioButton>
+              <p-radioButton
+                [disabled]="!isCreate"
+                (onClick)="onEsTemporal()"
+                name="temporal"
+                value="No"
+                label="No"
+                [(ngModel)]="istemporal"
+                [ngModelOptions]="{ standalone: true }"
+                required
+              ></p-radioButton>
+            </div>
+          </div>
+          <div *sTienePermiso="'CTR_PUT_PERMISO_REPORTEAT'">
+            <div
+              class="input-field col-md-6 col-sm-6"
+              *ngIf="istemporal == 'No'"
+            >
+              <div class="ui-g-12">
+                <label
+                  style="margin-bottom: 10px; background-color: transparent"
+                  >¿Autoriza el registro de accidentes de esta empresa?</label
+                >
+                <p-radioButton
+                  [disabled]="(!isCreate && onEdit == null) || flagConsult"
+                  (onClick)="onAutorizaReporteAt()"
+                  name="registroAt"
+                  [value]="true"
+                  label="Sí"
+                  [(ngModel)]="autorizaRegistroAt"
+                  [ngModelOptions]="{ standalone: true }"
+                  required
+                ></p-radioButton>
+                <p-radioButton
+                  [disabled]="(!isCreate && onEdit == null) || flagConsult"
+                  (onClick)="onAutorizaReporteAt()"
+                  name="registroAt"
+                  [value]="false"
+                  label="No"
+                  [(ngModel)]="autorizaRegistroAt"
+                  [ngModelOptions]="{ standalone: true }"
+                  required
+                ></p-radioButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-panel>
 </div>
 
-<ng-container *ngIf="(formNatural.valid || formJuridica.valid) && isCreate && autorizaSubcontratacion && !guardando">
-    <button *sTienePermiso="'EMP_POST_USU_ALIADO'" pButton type="button" icon="pi pi-save" title="Guardar Aliado"
-        (click)="saveAliado()" class="float-btn"></button>
+<ng-container
+  *ngIf="
+    (formNatural.valid || formJuridica.valid) &&
+    isCreate &&
+    autorizaSubcontratacion &&
+    !guardando
+  "
+>
+  <button
+    *sTienePermiso="'EMP_POST_USU_ALIADO'"
+    pButton
+    type="button"
+    icon="pi pi-save"
+    title="Guardar Aliado"
+    (click)="saveAliado()"
+    class="float-btn"
+  ></button>
 </ng-container>

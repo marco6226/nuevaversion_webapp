@@ -2,59 +2,153 @@
 <sg-loading [visible]="IsVisible"></sg-loading>
 
 <div *ngIf="contadorFallas >= intentosMax" class="contador-container">
-    <div>
-        <p>
-            Se ha alcanzado el número máximo de intentos.
-        </p>
-        Podrá volver a intentar en
-        <label style="color:#3ba2dc;font-weight: bold;">{{relojText}}</label>
-    </div>
+  <div>
+    <p>Se ha alcanzado el número máximo de intentos.</p>
+    Podrá volver a intentar en
+    <label style="color: #3ba2dc; font-weight: bold">{{ relojText }}</label>
+  </div>
 </div>
 
-<div class="background blue contenedor">
-    <div class="sub-contenedor">
-        <div class="contenedor-circular">
-            <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
-        </div>
-        <div class="contenedor-cuadrado">
-            <div style="padding-top: 75px; height: 100%;" *ngIf="flag">
-                <form [formGroup]="formLogin" role="form">
-                    <mat-form-field appearance="outline" style=" width: 74%;">
-                        <mat-label>Correo</mat-label>
-                        <input id="asd" type="email" formControlName="correo" matInput autocomplete="off">
-
-                    </mat-form-field>
-                    <mat-form-field appearance="outline" style=" width: 74%;">
-                        <mat-label>Contraseña</mat-label>
-                        <input [type]="typePassword" matInput formControlName="password">
-                        <mat-icon *ngIf="isPassword" matSuffix (click)="tooglePsw()">visibility</mat-icon>
-                        <mat-icon *ngIf="!isPassword" matSuffix (click)="tooglePsw()">visibility_off</mat-icon>
-                    </mat-form-field>
-                    <div>
-                        <button class="button-round button-gray text-color-white" *ngIf="formLogin.invalid"
-                            mat-raised-button color="disabled">Ingresar</button>
-                        <button class="button-round button-orange" *ngIf="formLogin.valid"
-                            (click)="validate(formLogin.value)" mat-raised-button color="primary">Ingresar</button>
-                    </div>
-                </form>
-
-                <p class="predec-link">¿No puedes ingresar?
-                    <a class="link" routerLink="/reset-password">Recordar Contraseña</a>
-                </p>
-                
-                <div class="urlLer">
-                    <span>Desarrollado por: </span>
-                    <a href="https://lerprevencion.co/" target="_blank" rel="noopener noreferrer">
-                        <img src="../../../../../../assets/png/LogoLer.png" />
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
+<div class="background blue contenedor" *ngIf="!esDemo">
+  <div class="sub-contenedor">
+    <div class="contenedor-circular">
+      <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="" />
     </div>
-    <div class="footer">
-        <label class="version">v {{version}}</label>
+    <div class="contenedor-cuadrado">
+      <div style="padding-top: 75px; height: 100%" *ngIf="flag">
+        <form [formGroup]="formLogin" role="form">
+          <mat-form-field appearance="outline" style="width: 74%">
+            <mat-label>Correo</mat-label>
+            <input
+              id="asd"
+              type="email"
+              formControlName="correo"
+              matInput
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 74%">
+            <mat-label>Contraseña</mat-label>
+            <input [type]="typePassword" matInput formControlName="password" />
+            <mat-icon *ngIf="isPassword" matSuffix (click)="tooglePsw()"
+              >visibility</mat-icon
+            >
+            <mat-icon *ngIf="!isPassword" matSuffix (click)="tooglePsw()"
+              >visibility_off</mat-icon
+            >
+          </mat-form-field>
+          <div>
+            <button
+              class="button-round button-gray text-color-white"
+              *ngIf="formLogin.invalid"
+              mat-raised-button
+              color="disabled"
+            >
+              Ingresar
+            </button>
+            <button
+              class="button-round button-orange"
+              *ngIf="formLogin.valid"
+              (click)="validate(formLogin.value)"
+              mat-raised-button
+              color="primary"
+            >
+              Ingresar
+            </button>
+          </div>
+        </form>
+
+        <p class="predec-link">
+          ¿No puedes ingresar?
+          <a class="link" routerLink="/reset-password">Recordar Contraseña</a>
+        </p>
+
+        <div class="urlLer">
+          <span>Desarrollado por: </span>
+          <a
+            href="https://lerprevencion.co/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="../../../../../../assets/png/LogoLer.png" />
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="footer">
+    <label class="version">v {{ version }}</label>
+  </div>
+</div>
+<div class="background yellow contenedor" *ngIf="esDemo">
+  <div class="sub-contenedor">
+    <div class="contenedor-circular">
+      <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="" />
+    </div>
+    <div class="contenedor-cuadrado">
+      <div style="padding-top: 75px; height: 100%" *ngIf="flag">
+        <form [formGroup]="formLogin" role="form">
+          <mat-form-field appearance="outline" style="width: 74%">
+            <mat-label>Correo</mat-label>
+            <input
+              id="asd"
+              type="email"
+              formControlName="correo"
+              matInput
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 74%">
+            <mat-label>Contraseña</mat-label>
+            <input [type]="typePassword" matInput formControlName="password" />
+            <mat-icon *ngIf="isPassword" matSuffix (click)="tooglePsw()"
+              >visibility</mat-icon
+            >
+            <mat-icon *ngIf="!isPassword" matSuffix (click)="tooglePsw()"
+              >visibility_off</mat-icon
+            >
+          </mat-form-field>
+          <div>
+            <button
+              class="button-round button-gray text-color-white"
+              *ngIf="formLogin.invalid"
+              mat-raised-button
+              color="disabled"
+            >
+              Ingresar
+            </button>
+            <button
+              class="button-round button-orange"
+              *ngIf="formLogin.valid"
+              (click)="validate(formLogin.value)"
+              mat-raised-button
+              color="primary"
+            >
+              Ingresar
+            </button>
+          </div>
+        </form>
+
+        <p class="predec-link">
+          ¿No puedes ingresar?
+          <a class="link" routerLink="/reset-password">Recordar Contraseña</a>
+        </p>
+
+        <div class="urlLer">
+          <span>Desarrollado por: </span>
+          <a
+            href="https://lerprevencion.co/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="../../../../../../assets/png/LogoLer.png" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <label class="version">v {{ version }}</label>
+  </div>
 </div>
 <app-whatsapp></app-whatsapp>
