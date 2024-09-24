@@ -45,7 +45,7 @@
     </div>
   </div>
   <br />
-  <table width="85%" style="border-collapse: collapse; margin: auto">
+  <table width="50%" style="border-collapse: collapse; margin: auto">
     <br />
 
     <tr>
@@ -136,7 +136,9 @@
             (touchstart)="startDrawingMedico($event)"
             (touchend)="stopDrawingMedico()"
             (touchmove)="draw($event, ctxMedico)"
-            [style.pointer-events]="whoSignature === 'aprueba' ? 'none' : 'auto'"
+            [style.pointer-events]="
+              whoSignature === 'aprueba' ? 'none' : 'auto'
+            "
           ></canvas>
         </div>
         <div

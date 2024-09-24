@@ -104,6 +104,17 @@
         display: none;
     }
 }
+.col6{
+    align-items: center;
+    display: flex;
+    margin-right: 7px;
+    margin-left: 15px;
+    img{
+        height: 45px;
+        background-color: white;
+        border-radius: 20px;
+    }
+}
 
 // tablets
 @media screen and (min-width: 40em) and (max-width: 63.9em){

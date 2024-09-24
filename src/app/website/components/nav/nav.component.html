@@ -1,148 +1,269 @@
 <p-toast position="top-center"></p-toast>
 <div class="contenedor">
-    <div class="col1">
-        <img src="../../../../assets/svg/logoSigessRedondo2.svg" alt=""  (click)="dashBoard()" type="button">
-    </div>
-    <div class="col2">
-        <img src="../../../../assets/svg/Sigess5.svg" alt=""  (click)="dashBoard()" type="button">
-    </div>
-    <div class="col3">        
-        <img class="logo-Empresa" *ngIf="empresaSelect?.logo" [src]="empresaSelect?.logo" alt="">          
-        <button type="button" class="button-round button-white" mat-raised-button color="primary" (click)="showDialog()">  
-            <mat-icon type="button"  class="logo-Empresa" *ngIf="!empresaSelect?.logo" fontIcon="apartment" style="color: #052f6e;"></mat-icon>
-            <label type="button"  for="" style="width:100%">{{empresaSelect?.nombreComercial}}</label>           
-        </button>       
-    </div>
-    <div class="col4">
-        <mat-icon [matBadge]="notificacionesPendientes" (mouseover)="op.toggle($event)" (mouseover)="mouseCampana()" [matBadgeColor]="BadgeColor" aria-hidden="false" fontIcon="notifications"></mat-icon>
-    </div>
-    <div class="col5" (click)="showDialogSideBar()" type="button">
-        <mat-icon *ngIf="!usuario?.avatar" aria-hidden="false" fontIcon="account_circle"></mat-icon>
-        <img *ngIf="usuario?.avatar" [src]="usuario.avatar"/>
-        <label type="button" class="text-color-white" for="">{{usuario?.email}}</label>  
-    </div>
+  <div class="col1">
+    <img
+      src="../../../../assets/svg/logoSigessRedondo2.svg"
+      alt=""
+      (click)="dashBoard()"
+      type="button"
+    />
+  </div>
+  <div class="col2">
+    <img
+      src="../../../../assets/svg/Sigess5.svg"
+      alt=""
+      (click)="dashBoard()"
+      type="button"
+    />
+  </div>
+  <div class="col6">
+    <a
+      href="https://lerprevencion.co/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src="../../../../assets/png/LogoLer.png"
+        alt=""
+        (click)="dashBoard()"
+        type="button"
+      />
+    </a>
+  </div>
+  <div class="col3">
+    <img
+      class="logo-Empresa"
+      *ngIf="empresaSelect?.logo"
+      [src]="empresaSelect?.logo"
+      alt=""
+    />
+    <button
+      type="button"
+      class="button-round button-white"
+      mat-raised-button
+      color="primary"
+      (click)="showDialog()"
+    >
+      <mat-icon
+        type="button"
+        class="logo-Empresa"
+        *ngIf="!empresaSelect?.logo"
+        fontIcon="apartment"
+        style="color: #052f6e"
+      ></mat-icon>
+      <label type="button" for="" style="width: 100%">{{
+        empresaSelect?.nombreComercial
+      }}</label>
+    </button>
+  </div>
+  <div class="col4">
+    <mat-icon
+      [matBadge]="notificacionesPendientes"
+      (mouseover)="op.toggle($event)"
+      (mouseover)="mouseCampana()"
+      [matBadgeColor]="BadgeColor"
+      aria-hidden="false"
+      fontIcon="notifications"
+    ></mat-icon>
+  </div>
+  <div class="col5" (click)="showDialogSideBar()" type="button">
+    <mat-icon
+      *ngIf="!usuario?.avatar"
+      aria-hidden="false"
+      fontIcon="account_circle"
+    ></mat-icon>
+    <img *ngIf="usuario?.avatar" [src]="usuario.avatar" />
+    <label type="button" class="text-color-white" for="">{{
+      usuario?.email
+    }}</label>
+  </div>
 </div>
 
-<p-dialog  header="Lista de Empresas" position="top" draggable="false" keepInViewport="false" modal="true" [(visible)]="display" [style]="{width: '50vw'}">
-    <app-empresa-list [empresasList]="empresasItems" (changeEmpresa)="confirmEmpresa($event)"></app-empresa-list>
-    <!-- <ng-template pTemplate="footer"> -->
-        <!-- <p-button icon="pi pi-check" (click)="test()" label="Aceptar" styleClass="p-button-text"></p-button> -->
-    <!-- </ng-template> -->
+<p-dialog
+  header="Lista de Empresas"
+  position="top"
+  draggable="false"
+  keepInViewport="false"
+  modal="true"
+  [(visible)]="display"
+  [style]="{ width: '50vw' }"
+>
+  <app-empresa-list
+    [empresasList]="empresasItems"
+    (changeEmpresa)="confirmEmpresa($event)"
+  ></app-empresa-list>
+  <!-- <ng-template pTemplate="footer"> -->
+  <!-- <p-button icon="pi pi-check" (click)="test()" label="Aceptar" styleClass="p-button-text"></p-button> -->
+  <!-- </ng-template> -->
 </p-dialog>
 
-<p-sidebar [(visible)]="displaySideBar" position="right" autoZIndex="true" baseZIndex="1" appendTo="body">
-    <ng-template pTemplate="content" >
+<p-sidebar
+  [(visible)]="displaySideBar"
+  position="right"
+  autoZIndex="true"
+  baseZIndex="1"
+  appendTo="body"
+>
+  <ng-template pTemplate="content">
+    <div>
+      <div>
         <div>
+          <i
+            *ngIf="!usuario.avatar"
+            class="pi pi-user"
+            style="font-size: 128px; color: #3ba2dc"
+            aria-hidden="true"
+          ></i>
+          <img
+            *ngIf="usuario.avatar"
+            [src]="usuario.avatar"
+            style="
+              border-radius: 50%;
+              height: 128px;
+              width: 128px;
+              margin-right: -3px;
+            "
+            #imgAvatar
+          />
+          <div class="img-select" (click)="abrirDlg()">
             <div>
-                <div>
-                    <i *ngIf="!usuario.avatar" class="pi pi-user" style="font-size: 128px;color:#3ba2dc;"
-                        aria-hidden="true"></i>
-                    <img *ngIf="usuario.avatar" [src]="usuario.avatar" style="border-radius: 50%; height: 128px; width: 128px; margin-right: -3px;" #imgAvatar />
-                    <div class="img-select" (click)="abrirDlg()">
-                        <div>
-                            <i class="bi bi-camera" style="font-size: 32px; color:#aaa;" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <label for="">{{usuario?.perfilNombre}}</label>  
-                <label for="">{{usuario?.email}}</label>  
+              <i
+                class="bi bi-camera"
+                style="font-size: 32px; color: #aaa"
+                aria-hidden="true"
+              ></i>
             </div>
-            <br>
-            <div>
-                <button class="p-button-raised p-button-primary margin-right" 
-                        pButton type="button" 
-                        icon="bi bi-key" 
-                        label="Cambiar Contraseña"
-                        (click)="abrirCambioPasswd()"></button>
-            </div>            
-        </div>        
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <div>
-            
-            
-            <div>
-                <button pButton type="button" 
-                        icon="bi bi-box-arrow-left" 
-                        label="Cerrar Sesión" 
-                        class="p-button-raised p-button-danger margin-right margin-left"
-                        (click)="logout()" ></button>
-            </div>
+          </div>
         </div>
-    </ng-template>
+
+        <label for="">{{ usuario?.perfilNombre }}</label>
+        <label for="">{{ usuario?.email }}</label>
+      </div>
+      <br />
+      <div>
+        <button
+          class="p-button-raised p-button-primary margin-right"
+          pButton
+          type="button"
+          icon="bi bi-key"
+          label="Cambiar Contraseña"
+          (click)="abrirCambioPasswd()"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div>
+      <div>
+        <button
+          pButton
+          type="button"
+          icon="bi bi-box-arrow-left"
+          label="Cerrar Sesión"
+          class="p-button-raised p-button-danger margin-right margin-left"
+          (click)="logout()"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
 </p-sidebar>
 
 <p-dialog [(visible)]="visibleDlg" modal="true">
-    <p-header>
-        <button pButton type="button" 
-            icon="bi bi-plus"
-            class="p-button-raised p-button-primary margin-right margin-left"
-            label="Explorar" 
-            (click)="inputFile.click()"></button>
+  <p-header>
+    <button
+      pButton
+      type="button"
+      icon="bi bi-plus"
+      class="p-button-raised p-button-primary margin-right margin-left"
+      label="Explorar"
+      (click)="inputFile.click()"
+    ></button>
 
-        <button pButton type="button" 
-            icon="bi bi-upload"
-            class="p-button-raised p-button-success margin-right margin-left"
-            label="Subir" 
-            (click)="aceptarImg()"></button>
+    <button
+      pButton
+      type="button"
+      icon="bi bi-upload"
+      class="p-button-raised p-button-success margin-right margin-left"
+      label="Subir"
+      (click)="aceptarImg()"
+    ></button>
 
-        <input type="file" #inputFile style="visibility: hidden;width: 0px;height: 0px;"
-            (change)="fileChangeEvent($event)" />
-    </p-header>
-    <div style="width: 600px;height: 600px">
-        <div class="previsual-crop">
-            <img [src]="croppedImage" />
-        </div>
-        <image-cropper *ngIf="imageChangedEvent" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-            [aspectRatio]="4 / 4" height="480" [resizeToWidth]="128" format="jpg" (imageCropped)="imageCropped($event)">
-        </image-cropper>
+    <input
+      type="file"
+      #inputFile
+      style="visibility: hidden; width: 0px; height: 0px"
+      (change)="fileChangeEvent($event)"
+    />
+  </p-header>
+  <div style="width: 600px; height: 600px">
+    <div class="previsual-crop">
+      <img [src]="croppedImage" />
     </div>
+    <image-cropper
+      *ngIf="imageChangedEvent"
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4 / 4"
+      height="480"
+      [resizeToWidth]="128"
+      format="jpg"
+      (imageCropped)="imageCropped($event)"
+    >
+    </image-cropper>
+  </div>
 </p-dialog>
 
-<p-dialog [(visible)]="visbleChangePasw" modal="true" (onHide)="onCloseChangePassword()">    
-    <p-header>
-        Cambiar Contraseña
-    </p-header>
-    <div style="width: 300px">
-        <app-cambio-passwd></app-cambio-passwd>
-    </div>
+<p-dialog
+  [(visible)]="visbleChangePasw"
+  modal="true"
+  (onHide)="onCloseChangePassword()"
+>
+  <p-header> Cambiar Contraseña </p-header>
+  <div style="width: 300px">
+    <app-cambio-passwd></app-cambio-passwd>
+  </div>
 </p-dialog>
 
 <p-overlayPanel #op>
-    <ng-template pTemplate="content">
-        <div *ngIf="tareasPendientesTotal == 0 && matricezPendientesTotal == 0">
-            <h4>No tiene notificaciones pendientes</h4>
-        </div>
-        <div *ngIf="tareasPendientesTotal > 0">
-            <h4>Usted tiene asignadas las siguientes tareas:</h4>
-            <div *ngFor="let datos of tareasPendientes | keyvalue">
-                <label >{{datos.key}}: {{datos.value}}</label>
-                <br/>
-            </div>
-            <br/>
+  <ng-template pTemplate="content">
+    <div *ngIf="tareasPendientesTotal == 0 && matricezPendientesTotal == 0">
+      <h4>No tiene notificaciones pendientes</h4>
+    </div>
+    <div *ngIf="tareasPendientesTotal > 0">
+      <h4>Usted tiene asignadas las siguientes tareas:</h4>
+      <div *ngFor="let datos of tareasPendientes | keyvalue">
+        <label>{{ datos.key }}: {{ datos.value }}</label>
+        <br />
+      </div>
+      <br />
 
-            <button *sTienePermiso="'ADM_POST_PERF'" 
-                        pButton type="button" 
-                        label="ir"
-                        class="p-button-raised p-button-primary margin-right" 
-                        (click)="irtareas()"></button>
-        </div>
-        <div *ngIf="matricezPendientesTotal > 0">
-            <h4>Matrices disponibles para descarga:</h4>
-            <div *ngFor="let datos of matricezPendientes">
-                <hr>
-                <label >Planta:{{datos.nombre}}, Tipo documento:{{datos.tipo}} </label>
-                <br/>
-            </div>
-            <br/>
+      <button
+        *sTienePermiso="'ADM_POST_PERF'"
+        pButton
+        type="button"
+        label="ir"
+        class="p-button-raised p-button-primary margin-right"
+        (click)="irtareas()"
+      ></button>
+    </div>
+    <div *ngIf="matricezPendientesTotal > 0">
+      <h4>Matrices disponibles para descarga:</h4>
+      <div *ngFor="let datos of matricezPendientes">
+        <hr />
+        <label
+          >Planta:{{ datos.nombre }}, Tipo documento:{{ datos.tipo }}
+        </label>
+        <br />
+      </div>
+      <br />
 
-            <button 
-                        pButton type="button" 
-                        label="ir"
-                        class="p-button-raised p-button-primary margin-right" 
-                        (click)="irmatriz()"></button>
-        </div>
-        
-    </ng-template>
+      <button
+        pButton
+        type="button"
+        label="ir"
+        class="p-button-raised p-button-primary margin-right"
+        (click)="irmatriz()"
+      ></button>
+    </div>
+  </ng-template>
 </p-overlayPanel>
