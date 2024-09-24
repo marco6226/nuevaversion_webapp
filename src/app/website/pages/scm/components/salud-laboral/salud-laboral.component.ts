@@ -69,7 +69,7 @@ export class SaludLaboralComponent implements OnInit {
   @Input('documentos') directoriosSl: Directorio[] = [];
   @Input('documentos') directoriosSendocs: Directorio[] = [];
   @Input('documentos') directoriosMin: Directorio[] = [];
-  
+
   documentosList!: any[];
   @Input() Directorio: any[] = [];
 
@@ -779,7 +779,18 @@ export class SaludLaboralComponent implements OnInit {
         await this.onEntidadChange({ value: data['entidadEmiteCalificacion'] })
 
         this.empleadoForm.controls['entidadEmiteCalificacion'].setValue(data['entidadEmiteCalificacion']);
+        console.log(this.empleadoForm.controls['entidadEmiteCalificacion'], "entity");
+
         var a = this.detalleOptions.find(eleemnt => { return eleemnt.value == data['detalleCalificacion'] })
+        console.log(a, 'entity 2');
+        const epsOption = this.detalleOptions.find(element => element.value === data['detalleCalificacion']);
+        if (epsOption) {
+          this.empleadoForm.controls['detalleCalificacion'].setValue(epsOption.value);
+        } else {
+          console.error('EPS no encontrada en las opciones', data['detalleCalificacion']);
+        }
+
+
 
 
         this.empleadoForm.controls['epsDictamen'].setValue(a?.value);
@@ -2614,7 +2625,6 @@ export class SaludLaboralComponent implements OnInit {
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
           this.directoriosSendocs.push(elem[0]);
-          console.log(this.directoriosSendocs, 'que monda esta llegando aca');
           console.log(this.saludLaboralSelect);
 
 
@@ -2656,7 +2666,7 @@ export class SaludLaboralComponent implements OnInit {
 
     }
   }
- 
+
   loadDocumentosMin() {
     console.log("entra =????");
 
@@ -2668,7 +2678,6 @@ export class SaludLaboralComponent implements OnInit {
       docum.forEach((algo: string) => {
         this.directorioService.buscarDocumentosById(algo).then((elem: Directorio[]) => {
           this.directoriosMin.push(elem[0]);
-          console.log(this.directoriosMin, 'que monda esta llegando aca');
           console.log(this.saludLaboralSelect);
 
 
@@ -3430,12 +3439,21 @@ export class SaludLaboralComponent implements OnInit {
 
     switch (entidad) {
       case 'EPS':
-        this.comunService.findAllEps().then(
+        await this.comunService.findAllEps().then(
           (res: any) => {
             this.detalleOptions = res.map((item: any) => ({
               label: item.nombre, // Ajusta esto según la estructura de tus datos
               value: item.id // Ajusta esto según la estructura de tus datos
             }));
+            
+            // Asegurarse de que el valor del campo solo se establece después de cargar los detalles.
+            const selectedValue = this.empleadoForm.controls['detalleCalificacion'].value;
+            if (selectedValue) {
+              const epsOption = this.detalleOptions.find(option => option.value === selectedValue);
+              if (epsOption) {
+                this.empleadoForm.controls['detalleCalificacion'].setValue(epsOption.value);
+              }
+            }
           },
           err => {
             console.error('Error loading detalles:', err);

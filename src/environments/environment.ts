@@ -1,14 +1,14 @@
 // //local
-//  let protocol = "http";
-//  let host = "localhost";
-//  let port = "8080";
-//  let path = protocol + "://" + host + ":" + port + "/sigess/api/";
+ let protocol = "http";
+ let host = "localhost";
+ let port = "8080";
+ let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 //Demo
-let protocol = 'https';
-let host = 'demo.sigess.app';
-let port = '2096';
-let path = protocol + '://' + host + ':' + port + '/sigess/api/';
+// let protocol = 'https';
+// let host = 'demo.sigess.app';
+// let port = '2096';
+// let path = protocol + '://' + host + ':' + port + '/sigess/api/';
 
 //Produccion
 // let protocol = 'https';
