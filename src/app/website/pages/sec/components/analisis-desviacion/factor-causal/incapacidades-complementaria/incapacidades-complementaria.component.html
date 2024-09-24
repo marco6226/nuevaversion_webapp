@@ -13,8 +13,13 @@
                 <th pSortableColumn="name">Tipo <p-sortIcon field="name"></p-sortIcon></th>
                 <th pSortableColumn="price">CIE 10 <p-sortIcon field="price"></p-sortIcon></th>
                 <th pSortableColumn="category">Diagnostico <p-sortIcon field="category"></p-sortIcon></th>
-                <th pSortableColumn="rating">Fecha inicio <p-sortIcon field="rating"></p-sortIcon></th>
-                <th pSortableColumn="rating">Fecha fin <p-sortIcon field="rating"></p-sortIcon></th>
+                <th pSortableColumn="rating">{{ saludLaboralFlag ? 'Desde' : 'Fecha Inicio' }}
+                    <p-sortIcon field="rating"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="rating">{{ saludLaboralFlag ? 'Hasta' : 'Fecha Fin' }}
+                    <p-sortIcon field="rating"></p-sortIcon>
+                  </th>
+                  
                 <th pSortableColumn="rating">Dias de ausencia <p-sortIcon field="rating"></p-sortIcon></th>
                 <th></th>
             </tr>
@@ -67,23 +72,31 @@
                 <small class="p-invalid" *ngIf="submitted && !cie10">Obligatorio</small>
             </div>
             <div class="p-field">
-                <label for="fechaInicio">Fecha Inicio</label>
-                <!-- <input type="date" required autofocus [(ngModel)]="fechaInicio" /> -->
-                <p-calendar appendTo="body" [(ngModel)]="fechaInicio" [touchUI]="true"
-                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"  required> 
+                <label for="fechaInicio">{{ saludLaboralFlag ? 'Desde' : 'Fecha Inicio' }}</label>
+                <p-calendar 
+                  appendTo="body" 
+                  [(ngModel)]="fechaInicio" 
+                  [touchUI]="true"
+                  dateFormat="dd/mm/yy" 
+                  placeholder="dd/MM/yyyy"  
+                  required> 
                 </p-calendar>
-                <small class="p-invalid" *ngIf="submitted && !fechaInicio">Obligatorio</small>            
-            </div>
-            <div class="p-field">
-                <label for="fechaFin">Fecha Fin</label>
-                <!-- <input type="date" required autofocus [(ngModel)]="fechaFin" /> -->
-                <p-calendar appendTo="body" [(ngModel)]="fechaFin"  [touchUI]="true"
-                    dateFormat="dd/mm/yy" placeholder="dd/MM/yyyy"  required>
+                <small class="p-invalid" *ngIf="submitted && !fechaInicio">Obligatorio</small>
+              </div>
+              
+              <div class="p-field">
+                <label for="fechaFin">{{ saludLaboralFlag ? 'Hasta' : 'Fecha Fin' }}</label>
+                <p-calendar 
+                  appendTo="body" 
+                  [(ngModel)]="fechaFin" 
+                  [touchUI]="true"
+                  dateFormat="dd/mm/yy" 
+                  placeholder="dd/MM/yyyy"  
+                  required>
                 </p-calendar>
                 <small class="p-invalid" *ngIf="submitted && !fechaFin">Obligatorio</small>
-
-                
-            </div>
+              </div>
+              
         </ng-container>
         <div class="p-field" *ngIf="!saludLaboralFlag">
             <label for="diasAusencia">Dias de Ausencias</label>

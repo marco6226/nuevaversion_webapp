@@ -263,6 +263,7 @@ export class SaludLaboralComponent implements OnInit {
   ]
   tipoIdentificacionList: SelectItem[];
   fechaActual: Date = new Date();
+  fechaActual2: Date = new Date();
   yearRange: string = `${this.fechaActual.getFullYear()}:${this.fechaActual.getFullYear() + 10}`; // Para navegación entre años (opcional)
   division: string | null = null;
 
@@ -941,7 +942,7 @@ export class SaludLaboralComponent implements OnInit {
     this.empresa = this.sesionService.getEmpresa();
     let defaultItem = <SelectItem[]>[{ label: "--seleccione--", value: null }];
     this.tipoIdentificacionList = defaultItem.concat(<SelectItem[]>tipo_identificacion);
-    //this.fechaActual.setFullYear(this.fechaActual.getFullYear() + 1);
+    this.fechaActual2.setFullYear(this.fechaActual2.getFullYear() + 1);
 
     this.empleadoForm = fb.group({
       'id': [null],
@@ -1459,7 +1460,7 @@ export class SaludLaboralComponent implements OnInit {
           : this.casoMedico.createDT(body));
 
         if (response) {
-          this.showSuccessToast();
+          //this.showSuccessToast();
           // Recargar los datos después de crear/actualizar el caso
           this.lazyLoad({ sortField: 'fechaCreacion', sortOrder: -1, first: 0, rows: 10, filters: {} });
         }

@@ -20,9 +20,11 @@
                 <td>
                     {{rowData.hashId}}
                 </td>
-                <td *ngIf="rowData.modulo!='Inspecciones CC'; else division">
-                    {{rowData.area.nombre}}
-                </td>
+                <td>
+                    {{ rowData.modulo === 'Salud Laboral' ? desviacionesList[0]?.areaOrigen : rowData.area.nombre }}
+                  </td>
+                  
+                  
                 <ng-template #division>
                     <td>
                         {{rowData.division}}
@@ -224,6 +226,7 @@
                               >
                                 <ng-template pTemplate="header">
                                   <tr>
+                                    <th pSortableColumn="pkCase">Caso asociado</th>
                                     <th pSortableColumn="codigoCie10">CIE 10</th>
                                     <th pSortableColumn="sistemaAfectado">Sistema Afectado</th>
                                     <th pSortableColumn="diagnostico">Diagnóstico</th>
@@ -238,6 +241,7 @@
                                     [pSelectableRow]="case"
                                     class="table-row table-row-selectable"
                                   >
+                                  <td class="p-text-center">{{ case.pkCase }}</td>
                                     <td class="p-text-center">{{ case.codigoCie10 }}</td>
                                     <td class="p-text-center">
                                       {{ case.sistemaAfectado || "" }}
@@ -279,13 +283,14 @@
                                 <ng-template pTemplate="header">
                                   <tr>
                                     <th pSortableColumn="pkCase">Caso Asociado</th>
+                                    <th pSortableColumn="saludLaboral">Tipo</th>
                                     <th pSortableColumn="codigoCie10">CIE 10</th>
                                     <th pSortableColumn="sistemaAfectado">Sistema Afectado</th>
                                     <th pSortableColumn="diagnostico">Diagnóstico</th>
                                     <th pSortableColumn="detalle">Detalles</th>
                   
                                     <th pSortableColumn="fechaDiagnostico">Fecha</th>
-                                    <th pSortableColumn="saludLaboral">Tipo</th>
+                                    
                                   </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-case>
@@ -295,6 +300,9 @@
                                     class="table-row table-row-selectable"
                                   >
                                     <td class="p-text-center">{{ case.pkCase }}</td>
+                                    <td class="p-text-center">
+                                        {{ case.saludLaboral ? 'Salud Laboral' : 'Casos Médicos' }}
+                                      </td> 
                                     <td class="p-text-center">{{ case.codigoCie10 }}</td>
                                     <td class="p-text-center">
                                       {{ case.sistemaAfectado || "" }}
@@ -304,9 +312,7 @@
                                     <td class="p-text-center">
                                       {{ case.fechaDiagnostico | date : "dd/MM/yyyy" }}
                                     </td>
-                                    <td class="p-text-center">
-                                        {{ case.saludLaboral ? 'Salud Laboral' : 'Casos Médicos' }}
-                                      </td> 
+                                   
                                 </tr>
                                 </ng-template>
                                 <ng-template pTemplate="summary" let-rowData>
@@ -661,7 +667,11 @@
                     </p-tabPanel>
                     <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Evidencias"
                         [disabled]="adicionar">
-                        <app-evidencias [analisisId]="analisisId" [documentos]="documentos" [idSl]="desviacionesList[0]?.idSl"></app-evidencias>
+                        <app-evidencias   *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+                        [analisisId]="analisisId" [documentos]="documentos" [idSl]="desviacionesList[0]?.idSl" [saludLaboralFlag] = "true"></app-evidencias>
+                        <app-evidencias   *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'"
+                        [analisisId]="analisisId" [documentos]="documentos" [idSl]="desviacionesList[0]?.idSl" [saludLaboralFlag] = "false"></app-evidencias>
+
                     </p-tabPanel>
                     <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Diagrama de flujo">
                         <app-flow-chart (datosFC)="setFactorCausal($event)" (diagramSave)="dataDiagram($event)"
@@ -917,8 +927,12 @@
 
 </p-tabView>
 <div *ngIf="guardando" class="loader-container">
-    <div class="loader float-btn" style="position:absolute; top:340px; left:53%; "></div>
-</div>
+    <div class="image">
+      <img src="../../../../../../assets/gif/tenor.gif" alt="Cargando..." class="loader">
+    </div>
+  </div>
+  
+  
 <ng-container *ngIf="adicionar && !consultar">
     <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="pi pi-save" 
 title="Guardar Análisis" (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled"></button>

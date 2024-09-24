@@ -3,7 +3,7 @@
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <div >
     <div>
-        <label for="tipoPeligro">Tipo de peligro</label>             
+        <label for="tipoPeligro">Tipo de investigación</label>             
         <p-dropdown appendTo="body"[disabled]="dropdownDisabled" [options]="patologiasList" [(ngModel)]="peligro" (onChange)="onPeligroChange($event)"></p-dropdown>
       </div>
     <p-table #dt [value]="miembrosList" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
@@ -20,7 +20,7 @@
                 <th pSortableColumn="category">División <p-sortIcon field="category"></p-sortIcon></th>
                 <th pSortableColumn="rating">Localidad <p-sortIcon field="rating"></p-sortIcon></th>
                 <th pSortableColumn="cargo">Miembro del equipo<p-sortIcon field="cargo"></p-sortIcon></th>
-                <th pSortableColumn="peligro">Peligro Asociado<p-sortIcon field="peligro"></p-sortIcon></th>
+                <th pSortableColumn="peligro">Tipo de investigación<p-sortIcon field="peligro"></p-sortIcon></th>
                 <th></th>
             </tr>
         </ng-template>
@@ -68,7 +68,7 @@
             <input type="text" autofocus [(ngModel)]="localidad" />
         </div>
         <div>
-            <label for="subPeligro">Subtipo de peligro</label>             
+            <label for="subPeligro">Equipo investigador</label>             
             <p-dropdown appendTo="body" [options]="cargosInvestigacionPatologiasList" [(ngModel)]="profesionalEncargado" [disabled]="!cargosInvestigacionPatologiasList.length"></p-dropdown>
           </div>
 

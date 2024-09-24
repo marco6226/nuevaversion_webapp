@@ -241,7 +241,7 @@
                     [monthNavigator]="true"
                     [yearNavigator]="true"
                     [yearRange]="yearRange"
-                    [maxDate]="fechaActual"
+                    [maxDate]="fechaActual2"
                     formControlName="fechaRecepcionDocs"
                     dateFormat="dd/mm/yy"
                   ></p-calendar>
@@ -323,7 +323,7 @@
                   [monthNavigator]="true"
                   [yearNavigator]="true"
                   [yearRange]="yearRange"
-                  [maxDate]="fechaActual"
+                  [maxDate]="fechaActual2"
                   formControlName="fechaCierreCaso"
                   dateFormat="dd/mm/yy"
                 ></p-calendar>
@@ -375,72 +375,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <ng-container>
-                <button
-                  pButton
-                  type="button"
-                  icon="bi bi-upload"
-                  label="Adjuntar Soporte es"
-                  title="Subir documento"
-                  [value]="documentacionSubirSelect"
-                  class="p-button-info margin-left margin-right"
-                  (click)="openUploadDialogCaseDT(idSl, documentosDT)"
-                ></button>
-              </ng-container>
-              <s-documentoUpload
-                [privadoCheck]="false"
-                [(visible)]="flagDocDT"
-                [modParam]="selectedDocSub"
-                [modulo]="modulo"
-                [tipoEvidencia]="'cargaDocumentosDT' + selectedDocSub"
-                (onUpload)="onUploadCaseDT($event)"
-              >
-              </s-documentoUpload>
-              <div class="ui-g" style="margin-top: 10px">
-                <div class="ui-g-12 ui-sm-12 ui-md-10">
-                  <div *ngFor="let doc of directoriosSendocs">
-                    <ng-container *ngIf="doc?.documento">
-                      <table
-                        class="caption-top"
-                        *ngIf="
-                          doc.documento.proceso === 'cargaDocumentosDT' + idSl
-                        "
-                      >
-                        <p>Soportes:</p>
-                        <thead>
-                          <tr>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Opciones</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <a
-                                type="button"
-                                class="btn btn-outline-primary"
-                                (click)="descargarDocumento(doc.documento)"
-                                >{{ doc.documento.descripcion }}</a
-                              >
-                            </td>
-                            <td>
-                              <a>&nbsp;</a>
-                              <a
-                                type="button"
-                                [ariaDisabled]="true"
-                                class="btn btn-outline-danger"
-                                title="Eliminar documento"
-                                (click)="eliminarDocumentCaseDT(doc)"
-                                ><span class="pi pi-trash"></span
-                              ></a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </ng-container>
-                  </div>
-                </div> 
-              </div>-->
               <app-cargue-documentos-send-documentacion
               [directoriosSendocs]="this.directoriosSendocs"
               ></app-cargue-documentos-send-documentacion>
@@ -472,7 +406,7 @@
                   [monthNavigator]="true"
                   [yearNavigator]="true"
                   [yearRange]="yearRange"
-                  [maxDate]="fechaActual"
+                  [maxDate]="fechaActual2"
                   formControlName="fechaNotificacionMin"
                   dateFormat="dd/mm/yy"
                 ></p-calendar>
@@ -480,72 +414,6 @@
               <app-cargue-documentos-ministerio
               [directoriosMin]="this.directoriosMin"
               ></app-cargue-documentos-ministerio>
-              <!-- <ng-container>
-                <button
-                  pButton
-                  type="button"
-                  icon="bi bi-upload"
-                  label="Adjuntar Soporte"
-                  title="Subir documento"
-                  [value]="documentacionSubirSelect"
-                  class="p-button-info margin-left margin-right"
-                  (click)="openUploadDialogCaseMinisterio(idSl, documentosMin)"
-                ></button>
-              </ng-container>
-              <s-documentoUpload
-                [privadoCheck]="false"
-                [(visible)]="flagDocMin"
-                [modParam]="selectedDocMin"
-                [modulo]="modulo"
-                [tipoEvidencia]="'cargaDocumentosMin' + selectedDocMin"
-                (onUpload)="onUploadCaseMin($event)"
-              >
-              </s-documentoUpload>
-              <div class="ui-g" style="margin-top: 10px">
-                <div class="ui-g-12 ui-sm-12 ui-md-10">
-                  <div *ngFor="let doc of directorios">
-                    <ng-container *ngIf="doc?.documento">
-                      <table
-                        class="caption-top"
-                        *ngIf="
-                          doc.documento.proceso === 'cargaDocumentosMin' + idSl
-                        "
-                      >
-                        <p>Soportes:</p>
-                        <thead>
-                          <tr>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Opciones</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <a
-                                type="button"
-                                class="btn btn-outline-primary"
-                                (click)="descargarDocumento(doc.documento)"
-                                >{{ doc.documento.descripcion }}</a
-                              >
-                            </td>
-                            <td>
-                              <a>&nbsp;</a>
-                              <a
-                                type="button"
-                                [ariaDisabled]="true"
-                                class="btn btn-outline-danger"
-                                title="Eliminar documento"
-                                (click)="eliminarDocumentMin(doc)"
-                                ><span class="pi pi-trash"></span
-                              ></a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </ng-container>
-                  </div>
-                </div>
-              </div> -->
             </p-accordionTab>
             <button
               pButton
