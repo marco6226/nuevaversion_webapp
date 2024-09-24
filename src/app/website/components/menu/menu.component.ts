@@ -700,6 +700,20 @@ export class MenuComponent implements OnInit, AfterContentInit {
           },
         ],
       },
+      {
+        label: 'EPP',
+        icon: 'pi pi-warehouse',
+        codigo: 'CONF_GET_MANUSR',
+        expanded: false,
+        items: [
+          {
+            label: 'Matriz EPP',
+            codigo: 'CONF_GET_MANUSR',
+            routerLink: ['/app/epp/matrzEpp'],
+            icon: 'pi pi-slack',
+          },
+        ],
+      },
     ];
 
     this.permisosAliados = [];

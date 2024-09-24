@@ -58,7 +58,7 @@
     "npm": "^10.7.0",
     "postcss": "^8.4.31",
     "primeflex": "3.3.0",
-    "primeicons": "6.0.1",
+    "primeicons": "7.0.0",
     "primeng": "^16.0.0-rc.2",
     "rxjs": "7.5.0",
     "signature_pad": "4.1.5",
