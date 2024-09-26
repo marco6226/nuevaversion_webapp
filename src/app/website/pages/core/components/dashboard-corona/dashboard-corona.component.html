@@ -59,7 +59,18 @@
                 <ng-container *ngIf="!this.selectedDivisionResumen1"
                   ><h3>Meta ILI</h3></ng-container
                 >
-                <!-- <ng-container *ngIf="this.selectPais1 && !this.selectedDivisionResumen1"><h3>Meta ILI {{(this.selectPais1=='Corona Total')?'':' pais'}}</h3></ng-container> -->
+                <ng-container
+                  *ngIf="!selectPais1 || selectPais1 == 'Corona Total'"
+                  ><h3>
+                    Meta ILI
+                    {{
+                      this.selectPais1 == "Corona Total"
+                        ? "Corona Total"
+                        : " pais"
+                    }}
+                    {{ metaIli }}
+                  </h3></ng-container
+                >
                 <ng-container
                   *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"
                   ><h3>Meta ILI división</h3></ng-container
@@ -194,8 +205,9 @@
         pButton
         type="button"
         icon="pi pi-external-link"
-        pTooltip="Indicadores Caracterización"
-        (click)="IndicadoresCaracterizacion()"
+        pTooltip="Indicadores Accidentalidad"
+        (click)="IndicadoresAccidentalidad()"
+        *ngIf="!contraer"
       ></button>
     </div>
     <div class="grid colorsitos colorfondo">
