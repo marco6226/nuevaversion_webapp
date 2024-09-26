@@ -17,6 +17,7 @@ import { PeligroService } from '../../../core/services/peligro.service';
 import { Peligro } from '../../../comun/entities/peligro';
 import { ViewHHtMetasService } from '../../../core/services/viewhhtmetas.service';
 import { division } from '../../../comun/entities/datosGraf4';
+import * as LZString from 'lz-string';
 
 @Component({
   selector: 'app-ind-matriz-peligros',
@@ -1057,7 +1058,9 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       .getmpRWithFilter(filterMatriz)
       .then((resp: any) => {
         dataMP = resp.data;
-        localStorage.setItem('dataMP', JSON.stringify(dataMP));
+        var compressed = LZString.compress(JSON.stringify(dataMP));
+        localStorage.setItem('dataMP', compressed);
+        //  localStorage.setItem('dataMP', JSON.stringify(dataMP));
       });
 
     let filterQueryMeta = new FilterQuery();
@@ -2546,13 +2549,34 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
 
     this.resumenInicial = [];
     this.resumenInicialText = [];
-    let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
-    dataRiesgoInicial = dataRiesgoInicial.filter(
-      (at) => at.division != null && at.division != ''
-    );
-    dataRiesgoInicial = dataRiesgoInicial.filter(
-      (at) => at.cualitativoInicial != null && at.cualitativoInicial != ''
-    );
+    let compressedData = localStorage.getItem('dataMP');
+    let decompressedData: any;
+    console.log(compressedData);
+    if (compressedData !== null) {
+      // Descomprimir los datos
+      decompressedData = LZString.decompress(compressedData);
+      console.log('descompre' + decompressedData);
+      // console.log(decompressedData); // Esto debería mostrar los datos originales
+    } else {
+      console.log('No hay datos disponibles para descomprimir.');
+    }
+    //let descomprimido=LZString.decompress(compressedData2);
+    let decompressedData2: any[] = JSON.parse(decompressedData);
+    //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+    console.log(decompressedData);
+    console.log(decompressedData2);
+    let dataRiesgoInicial: any[] = decompressedData2;
+    console.log('datos.' + dataRiesgoInicial);
+
+    if (dataRiesgoInicial != null) {
+      //  let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      dataRiesgoInicial = dataRiesgoInicial.filter(
+        (at) => at.division != null && at.division != ''
+      );
+      dataRiesgoInicial = dataRiesgoInicial.filter(
+        (at) => at.cualitativoInicial != null && at.cualitativoInicial != ''
+      );
+    }
     let divisionList = this.divisionList.map((resp: any) => resp.nombre);
 
     divisionList = divisionList.filter((resp: any) => resp != 'TEST');
@@ -2647,7 +2671,22 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
 
     this.resumenResidual = [];
     this.resumenResidualText = [];
-    let dataRiesgoFinal: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+    let compressedData = localStorage.getItem('dataMP');
+    let decompressedData: any;
+
+    if (compressedData !== null) {
+      // Descomprimir los datos
+      decompressedData = LZString.decompress(compressedData);
+
+      // console.log(decompressedData); // Esto debería mostrar los datos originales
+    } else {
+      console.log('No hay datos disponibles para descomprimir.');
+    }
+    //let descomprimido=LZString.decompress(compressedData2);
+    let decompressedData2: any[] = JSON.parse(decompressedData);
+    //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+    let dataRiesgoFinal: any[] = decompressedData2;
+    // let dataRiesgoFinal: any[] = JSON.parse(localStorage.getItem('dataMP')!);
     dataRiesgoFinal = dataRiesgoFinal.filter(
       (at) => at.division != null && at.division != ''
     );
@@ -3142,9 +3181,23 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   grafData1() {
     let flagZero: boolean = false;
     if (this.selectPais1) {
-      let dataAnalisisRiesgo1: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      // let dataAnalisisRiesgo1: any[] = JSON.parse( localStorage.getItem('dataMP')!);
+      let dataAnalisisRiesgo1 = dataRiesgoFinal;
       let dataEventos1: any[] = [];
 
       let ejeY: any;
@@ -3348,9 +3401,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
     // if(this.selectPais2 == 'Corona Total' || this.selecteDivision2 == 'Total' || this.selecteLocalidad2){
     if (this.selectPais2) {
-      let dataAnalisisRiesgo2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -3553,9 +3622,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   grafData3() {
     let flagZero: boolean = false;
     if (this.selectPais3) {
-      let dataAnalisisRiesgo3: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo3 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo3: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos3: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -3755,9 +3840,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais4) {
-      let dataAnalisisRiesgo4: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo4 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo4: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos4: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -3942,9 +4043,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais5) {
-      let dataAnalisisRiesgo5: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo5 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo5: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos5: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -4141,9 +4258,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais6) {
-      let dataAnalisisRiesgo6: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo6 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo6: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos6: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -4296,9 +4429,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais7) {
-      let dataAnalisisRiesgo7: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo7 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo7: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos7: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -4456,9 +4605,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais8) {
-      let dataAnalisisRiesgo8: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo8 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo8: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos8: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -4675,9 +4840,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais9) {
-      let dataAnalisisRiesgo9: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo9 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo9: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos9: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -4901,9 +5082,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais10) {
-      let dataAnalisisRiesgo10: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo10 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo10: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos10: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -5095,9 +5292,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais11) {
-      let dataAnalisisRiesgo11: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo11 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo11: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos11: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -5300,9 +5513,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais12 && this.selectePeligro12) {
-      let dataAnalisisRiesgo12: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo12 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo12: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos12: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -5493,9 +5722,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais13 && this.selectePeligro13) {
-      let dataAnalisisRiesgo13: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo13 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo13: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos13: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -5707,9 +5952,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       this.selecteDivision14 == 'Total' ||
       this.selecteLocalidad14
     ) {
-      let dataAnalisisRiesgo14: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo14 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo14: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos14: any[] = [];
 
       let ejeY: any;
@@ -5936,9 +6197,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais15) {
-      let dataAnalisisRiesgo15: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo15 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo15: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos15: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -6142,9 +6419,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais16) {
-      let dataAnalisisRiesgo16: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo16 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo16: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos16: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -6359,9 +6652,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais17) {
-      let dataAnalisisRiesgo17: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo17 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo17: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos17: any[] = [];
 
       let ejeY: any;
@@ -6529,9 +6838,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais18) {
-      let dataAnalisisRiesgo18: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo18 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo18: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos18: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -6672,9 +6997,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais19) {
-      let dataAnalisisRiesgo19: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo19 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo19: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos19: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -6825,9 +7166,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       this.selecteDivision20 == 'Total' ||
       this.selecteLocalidad20
     ) {
-      let dataAnalisisRiesgo20: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo20 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo20: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos20: any[] = [];
 
       let ejeY: any;
@@ -7000,9 +7357,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais21) {
-      let dataAnalisisRiesgo21: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo21 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo21: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
 
       let dataEventos21: any[] = [];
 
@@ -7153,9 +7526,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais22) {
-      let dataAnalisisRiesgo22: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo22 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo22: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos22: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -7318,9 +7707,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       this.selecteDivision23 == 'Total' ||
       this.selecteLocalidad23
     ) {
-      let dataAnalisisRiesgo23: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo23 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo23: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let ejeY: any;
@@ -7594,9 +7999,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais24) {
-      let dataAnalisisRiesgo24: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo24 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo24: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let dataMPCopyDiv: any[] = [];
@@ -7822,9 +8243,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais25) {
-      let dataAnalisisRiesgo25: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo25 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo25: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let dataMPCopyDiv: any[] = [];
@@ -8039,9 +8476,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       this.selecteDivision1_2 == 'Total' ||
       this.selecteLocalidad1_2
     ) {
-      let dataAnalisisRiesgo1_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo1_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo1_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos1_2: any[] = [];
 
       let ejeY: any;
@@ -8248,9 +8701,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
     // if(this.selectPais2 == 'Corona Total' || this.selecteDivision2 == 'Total' || this.selecteLocalidad2){
     if (this.selectPais2_2) {
-      let dataAnalisisRiesgo2_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo2_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo2_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos2_2: any[] = [];
 
       let dataMPCopyDiv_2: any[] = [];
@@ -8457,9 +8926,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   grafData3_2() {
     let flagZero: boolean = false;
     if (this.selectPais3_2) {
-      let dataAnalisisRiesgo3_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo3_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo3_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos3_2: any[] = [];
 
       let dataMPCopyDiv_2: any[] = [];
@@ -8660,9 +9145,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais4_2) {
-      let dataAnalisisRiesgo4_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo4_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo4_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos4_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -8854,9 +9355,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais5_2) {
-      let dataAnalisisRiesgo5_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo5_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo5_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos5_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -9058,9 +9575,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais6_2) {
-      let dataAnalisisRiesgo6_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo6_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo6_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos6_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -9221,9 +9754,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais7_2) {
-      let dataAnalisisRiesgo7_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo7_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo7_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos7_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -9386,9 +9935,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais8_2) {
-      let dataAnalisisRiesgo8_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo8_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo8_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos8_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -9612,9 +10177,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais9_2) {
-      let dataAnalisisRiesgo9_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo9_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo9_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos9_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -9843,9 +10424,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais10_2) {
-      let dataAnalisisRiesgo10_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo10_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo10_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos10_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -10037,9 +10634,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais11_2) {
-      let dataAnalisisRiesgo11_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo11_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo11_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos11_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -10243,9 +10856,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais12_2 && this.selectePeligro12_2) {
-      let dataAnalisisRiesgo12_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo12_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo12_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      //);
       let dataEventos12_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -10435,9 +11064,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais13_2 && this.selectePeligro13_2) {
-      let dataAnalisisRiesgo13_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo13_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo13_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos13_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -10648,9 +11293,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       this.selecteDivision14_2 == 'Total' ||
       this.selecteLocalidad14_2
     ) {
-      let dataAnalisisRiesgo14_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo14_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo14_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos14_2: any[] = [];
 
       let ejeY: any;
@@ -10879,9 +11540,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais15_2) {
-      let dataAnalisisRiesgo15_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo15_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo15_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos15_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -11085,9 +11762,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais16_2) {
-      let dataAnalisisRiesgo16_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo16_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo16_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos16_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -11304,9 +11997,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais17_2) {
-      let dataAnalisisRiesgo17_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo17_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo17_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos17_2: any[] = [];
 
       let ejeY: any;
@@ -11476,9 +12185,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais18_2) {
-      let dataAnalisisRiesgo18_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo18_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo18_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos18_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -11619,9 +12344,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais19_2) {
-      let dataAnalisisRiesgo19_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo19_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo19_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos19_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -11770,9 +12511,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais20_2) {
-      let dataAnalisisRiesgo20_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo20_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo20_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos20_2: any[] = [];
 
       let ejeY: any;
@@ -11947,9 +12704,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais21_2) {
-      let dataAnalisisRiesgo21_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo21_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo21_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
 
       let dataEventos21_2: any[] = [];
 
@@ -12100,9 +12873,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais22_2) {
-      let dataAnalisisRiesgo22_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo22_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo22_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let dataEventos22_2: any[] = [];
 
       let dataMPCopyDiv: any[] = [];
@@ -12266,9 +13055,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       this.selecteDivision23_2 == 'Total' ||
       this.selecteLocalidad23_2
     ) {
-      let dataAnalisisRiesgo23_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo23_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo23_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let ejeY: any;
@@ -12538,9 +13343,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais24_2) {
-      let dataAnalisisRiesgo24_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo24_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo24_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let dataMPCopyDiv: any[] = [];
@@ -12768,9 +13589,25 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais25_2) {
-      let dataAnalisisRiesgo25_2: any[] = JSON.parse(
-        localStorage.getItem('dataMP')!
-      );
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
+
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+
+        // console.log(decompressedData); // Esto debería mostrar los datos originales
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      //let descomprimido=LZString.decompress(compressedData2);
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo25_2 = dataRiesgoFinal;
+      // let dataAnalisisRiesgo25_2: any[] = JSON.parse(
+      //   localStorage.getItem('dataMP')!
+      // );
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
       let dataMPCopyDiv: any[] = [];

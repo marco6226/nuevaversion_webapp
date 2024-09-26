@@ -184,18 +184,6 @@ export class DashboardCoronaComponent implements OnInit {
 
     //Tercera grafica
     this.dataCuartaGrafica();
-
-    this.compressText();
-    this.decompressText();
-  }
-  compressText() {
-    this.compressedText = LZString.compress(this.originalText);
-    console.log('Texto comprimido:', this.compressedText);
-  }
-
-  decompressText() {
-    this.decompressedText = LZString.decompress(this.compressedText) || '';
-    console.log('Texto descomprimido:', this.decompressedText);
   }
 
   constructor(
@@ -662,6 +650,7 @@ export class DashboardCoronaComponent implements OnInit {
             );
 
             this.metaIli = hhtEmpresaFind.iliAnual;
+            console.log(this.metaIli);
           } else if (this.selectedDivisionResumen1 && !this.PlantaSelect1) {
             let hhtEmpresaFind: any = hhtmeta.find(
               (ele: any) => ele.nombreDivision == this.selectedDivisionResumen1
@@ -1201,12 +1190,12 @@ export class DashboardCoronaComponent implements OnInit {
 
     let compressedData = localStorage.getItem('dataMP');
     let decompressedData: any;
-
+    console.log(compressedData);
     if (compressedData !== null) {
       // Descomprimir los datos
       decompressedData = LZString.decompress(compressedData);
 
-      // console.log(decompressedData); // Esto debería mostrar los datos originales
+      console.log(decompressedData); // Esto debería mostrar los datos originales
     } else {
       console.log('No hay datos disponibles para descomprimir.');
     }
