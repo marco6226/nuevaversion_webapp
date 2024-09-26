@@ -22,6 +22,7 @@ import { Localidades } from '../../../ctr/entities/aliados';
 import { EmpresaService } from '../../../empresa/services/empresa.service';
 import { ViewMatrizPeligrosService } from '../../services/view-matriz-peligros.service';
 import * as LZString from 'lz-string';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-corona',
@@ -167,8 +168,11 @@ export class DashboardCoronaComponent implements OnInit {
   ngOnDestroy(): void {
     localStorage.removeItem('reportesAt');
   }
+  topPosition: string = '9%';
   toggleDiv() {
     this.contraer = !this.contraer;
+    this.topPosition = this.topPosition === '9%' ? '8%' : '9%'; 
+
   }
   async ngOnInit() {
     //debugger

@@ -145,6 +145,14 @@
   color: red; /* Color rojo para destacar el mensaje */
   font-weight: bold; /* Texto en negrita para mayor énfasis */
 }
+.fixed-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0; /* Elimina cualquier margen si es necesario */
+  z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+}
 
 
   

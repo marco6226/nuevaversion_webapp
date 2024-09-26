@@ -257,7 +257,7 @@
             Nombres Trabajador Solicitado
             <p-sortIcon field="solicitadoNombres"></p-sortIcon>
           </th>
-         
+
           <th pSortableColumn="fechaLimite">
             Fecha Limite
             <p-sortIcon field="fechaLimite"></p-sortIcon>
@@ -344,12 +344,16 @@
                 pInputText
                 type="text"
                 (input)="
-                  dt.filter($event.target.value, 'solicitadoNombres', 'contains')
+                  dt.filter(
+                    $event.target.value,
+                    'solicitadoNombres',
+                    'contains'
+                  )
                 "
               />
             </div>
           </td>
-          
+
           <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <s-rangoFechaSelector
@@ -371,13 +375,11 @@
                 { label: 'Seleccione', value: null },
                 { label: 'Pendiente', value: 1 },
                 { label: 'Rechazado', value: 2 },
-                {label: 'Enviado', value: 3},
-                {label: 'Aprobado', value: 4},
-                {label: 'Eliminado', value: 5}
+                { label: 'Enviado', value: 3 },
+                { label: 'Aprobado', value: 4 },
+                { label: 'Eliminado', value: 5 }
               ]"
-              (onChange)="
-                dt.filter($event.value, 'estadoCorreo', 'equals')
-              "
+              (onChange)="dt.filter($event.value, 'estadoCorreo', 'equals')"
             ></p-dropdown>
           </td>
           <td class="text-center bg-light">
@@ -461,6 +463,7 @@
               ></button>
             </ng-container>
             <s-documentoUpload
+              class="fixed-modal"
               [privadoCheck]="false"
               [(visible)]="flagDoc"
               [modParam]="selectedDocId"
@@ -474,7 +477,9 @@
                 <div *ngFor="let doc of directorios">
                   <table
                     class="caption-top"
-                    *ngIf="doc?.documento?.proceso == 'cargaDocumentosSL' + case.id"
+                    *ngIf="
+                      doc?.documento?.proceso == 'cargaDocumentosSL' + case.id
+                    "
                   >
                     <p>Soportes:</p>
                     <thead>
@@ -486,7 +491,9 @@
                     <tbody>
                       <tr>
                         <td>
-                          <span class="document-name">{{ doc.documento.descripcion }}</span>
+                          <span class="document-name">{{
+                            doc.documento.descripcion
+                          }}</span>
                         </td>
                         <td>
                           <a>&nbsp;</a>
@@ -506,8 +513,6 @@
               </div>
             </div>
           </td>
-          
-          
         </tr>
       </ng-template>
 
@@ -519,7 +524,7 @@
           label="Rechazar"
           class="p-button-danger margin-left margin-right"
           [disabled]="!documentacionSelectUser"
-          (click)="dialogRechazoFlag = true; getSelectedId();"
+          (click)="dialogRechazoFlag = true; getSelectedId()"
         ></button>
       </ng-template>
       <ng-template pTemplate="emptymessage">
@@ -541,45 +546,45 @@
   </p-panel>
 </div>
 <p-dialog
-[header]="'Rechazo documentación'"
-[(visible)]="dialogRechazoFlag"
-[modal]="true"
-[closable]="false"
-[draggable]="false"
-[resizable]="false"
-[responsive]="true"
-[style]="{ width: '50vw' }"
+  [header]="'Rechazo documentación'"
+  [(visible)]="dialogRechazoFlag"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  [responsive]="true"
+  [style]="{ width: '50vw' }"
 >
-<div class="grid">
-  <div class="col-12">Detalle del porqué se rechaza:</div>
-  <div class="col-12">
-    <textarea
-      name="motivoRechazoSolicitante"
-      [(ngModel)]="motivoRechazo"
-      required
-      cols="30"
-      rows="10"
-    ></textarea>
+  <div class="grid">
+    <div class="col-12">Detalle del porqué se rechaza:</div>
+    <div class="col-12">
+      <textarea
+        name="motivoRechazoSolicitante"
+        [(ngModel)]="motivoRechazo"
+        required
+        cols="30"
+        rows="10"
+      ></textarea>
+    </div>
+    <div class="col-12">
+      <button
+        pButton
+        type="button"
+        icon="bi bi-check-lg"
+        label="Aceptar"
+        class="p-button-primary margin-left margin-right"
+        (click)="putmail()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        icon="bi bi-x"
+        label="Cancelar"
+        class="p-button-danger margin-left margin-right"
+        (click)="dialogRechazoFlag = false"
+      ></button>
+    </div>
   </div>
-  <div class="col-12">
-    <button
-      pButton
-      type="button"
-      icon="bi bi-check-lg"
-      label="Aceptar"
-      class="p-button-primary margin-left margin-right"
-      (click)="putmail()"
-    ></button>
-    <button
-      pButton
-      type="button"
-      icon="bi bi-x"
-      label="Cancelar"
-      class="p-button-danger margin-left margin-right"
-      (click)="dialogRechazoFlag = false"
-    ></button>
-  </div>
-</div>
 </p-dialog>
 
 <a style="visibility: hidden" id="dwldLink"></a>

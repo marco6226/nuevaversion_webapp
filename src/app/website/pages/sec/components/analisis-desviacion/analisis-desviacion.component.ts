@@ -172,7 +172,7 @@ export class AnalisisDesviacionComponent implements OnInit {
     disabled: boolean = true;
     tabIndex?: number;
     imgCompress?: string;
-
+    @Input('idSl') idSl?: string | number;
     flagModificar: boolean = false;
 
     usuario?: Usuario;
@@ -248,6 +248,10 @@ export class AnalisisDesviacionComponent implements OnInit {
         private router: Router,
         private cd: ChangeDetectorRef,
         fb: FormBuilder,
+        private route: Router,
+        private messageService: MessageService,
+
+
     ) {
         this.analisisPeligros = fb.group({
             Area:[null, /*Validators.required*/],
@@ -696,6 +700,56 @@ export class AnalisisDesviacionComponent implements OnInit {
             this.peligroItemList = [{ label: '--Seleccione Peligro--', value: [null, null] }];
         }
     }
+    redirectCase() {
+        setTimeout(() => {
+          // Redirige al caso después de 3 segundos
+          this.route.navigate(['/app/scm/saludlaboral/' + this.desviacionesList![0]?.idSl]);
+      
+          // Verifica si los datos ya están en localStorage
+          let storedCase = localStorage.getItem('saludL');
+          localStorage.setItem('scmShowCase', 'true');
+          localStorage.setItem('slShowCase', 'true');
+          const id = Number(this.desviacionesList![0]?.idSl);
+      
+          // Si id no es un número válido, evitamos ejecutar la función
+          // if (!isNaN(id)) {
+          //   this.loadMailData(id);
+          //   this.loadMailDataUser(id, this.pkuser);
+          // } else {
+          //   console.error('El valor de idSl no es válido:', this.idSl);
+          // }  
+    
+          
+          if (storedCase && JSON.parse(storedCase).idSl === this.idSl) {
+            // Si los datos del caso ya están en el localStorage, solo los usamos
+            console.log("Datos del caso obtenidos de localStorage", JSON.parse(storedCase));
+          } else {
+            // Si los datos no están en el localStorage, hacemos una petición para obtenerlos
+            if (this.desviacionesList![0]?.idSl !== undefined && this.desviacionesList![0]?.idSl !== null) {
+              this.scmService.getCaseSL(this.desviacionesList![0]?.idSl).then((caseData) => {
+                // Almacenar los datos del caso en localStorage
+                localStorage.setItem('saludL', JSON.stringify(caseData));
+                window.location.reload();
+                console.log("Datos del caso actualizados y almacenados en localStorage", caseData);
+              });
+            } else {
+              console.error("El ID del caso no es válido");
+            }
+            
+          }
+          
+      
+        }, 3000);  
+        // Mensaje de confirmación
+        this.msgs = [];
+        this.messageService.add({
+          key: 'formSL',
+          severity: "success",
+          summary: "Caso encontrado",
+          detail: `Caso asociado numero ${this.desviacionesList![0]?.idSl} revisar la documentación`,
+          
+        });
+      }
     setListDataFactor() {
         this.tempData = []
         this.dataListFactor = []

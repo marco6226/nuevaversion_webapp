@@ -5,7 +5,6 @@
 <div class="card">
   <div class="grid">
     <div class="col-12">
-      
       <p-table
         [value]="pclList"
         dataKey="id"
@@ -120,7 +119,11 @@
               class="p-text-center"
               *ngIf="!loading && pclList.length === 0"
             >
-              No hay Calificaciones registradas en este caso médico
+              {{
+                saludLaboralFlag
+                  ? "No hay calificaciones registradas en este caso de salud laboral"
+                  : "No hay calificaciones registradas en este caso médico"
+              }}
             </td>
           </tr>
         </ng-template>
@@ -129,7 +132,6 @@
   </div>
 
   <p-dialog
-  
     [header]="
       !pclSelect
         ? 'Crear PCL - Origen'
@@ -148,22 +150,22 @@
       <div class="">
         <div class="row" *ngIf="estado == 'crear' || estado == 'edit'">
           <div *ngIf="saludLaboralFlag" class="mt-4">
-            <button *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'" 
-                    type="button" 
-                    pButton
-                    class="ui-button-raised p-button-warning" 
-                    label="Enviar caso a investigación"
-                    icon="bi bi-arrow-left-right" 
-                    (click)="cambiarEstado(iddt)"
-                    [disabled]="isButtonDisabled">
-            </button>
+            <button
+              *sTienePermiso="'SCM_PUT_CAMBIAR_ESTADO'"
+              type="button"
+              pButton
+              class="ui-button-raised p-button-warning"
+              label="Enviar caso a investigación"
+              icon="bi bi-arrow-left-right"
+              (click)="cambiarEstado(iddt)"
+              [disabled]="isButtonDisabled"
+            ></button>
           </div>
-          
+
           <div class="row">
             <ng-container *ngIf="estado == 'crear'">
               <!-- <div class="col" *sTienePermiso="'SCM_POST_DIAGPCL'"> -->
               <div class="col">
-                
                 <div class="input-field">
                   <label for="" class="active">Diagnósticos</label>
                   <p-multiSelect
@@ -195,7 +197,7 @@
                         </ng-container> -->
           </div>
         </div>
-        
+
         <ng-container>
           <div *ngIf="estado == 'crear' || estado == 'edit'">
             <div class="col">
@@ -204,7 +206,9 @@
             <div class="row">
               <div class="col">
                 <div class="input-field">
-                  <label for="" class="active">Estado de calificación origen</label>
+                  <label for="" class="active"
+                    >Estado de calificación origen</label
+                  >
                   <p-dropdown
                     appendTo="body"
                     [filter]="true"
@@ -237,12 +241,13 @@
               </div>
             </div>
 
-            <div class="row" *ngIf="pclForm.get('statusDeCalificacion')?.value ==  2">
+            <div
+              class="row"
+              *ngIf="pclForm.get('statusDeCalificacion')?.value == 2"
+            >
               <div class="col">
                 <div class="input-field">
-                  <label for="" class="active"
-                    >Origen</label
-                  >
+                  <label for="" class="active">Origen</label>
                   <p-dropdown
                     appendTo="body"
                     [options]="origenList"
@@ -258,8 +263,9 @@
               <div class="col">
                 <div class="input-field">
                   <label for="" class="active"
-                    >Fecha de calificación origen</label>
-                    <p-calendar
+                    >Fecha de calificación origen</label
+                  >
+                  <p-calendar
                     appendTo="body"
                     [monthNavigator]="true"
                     [touchUI]="true"
@@ -277,12 +283,17 @@
               </div>
               <div class="col">
                 <div class="input-field">
-                  <label for="tiempoCalificacion" class="active">Tiempo de calificación de origen</label>
-                  <input type="text" formControlName="tiempoCalificacion" class="form-control" disabled>
+                  <label for="tiempoCalificacion" class="active"
+                    >Tiempo de calificación de origen</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="tiempoCalificacion"
+                    class="form-control"
+                    disabled
+                  />
                 </div>
               </div>
-              
-              
             </div>
 
             <div class="row">
@@ -292,7 +303,8 @@
                   pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' ||
                   pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' ||
                   pclForm.get('entidadEmiteCalificacion')?.value == 'AFP' ||
-                  pclForm.get('entidadEmiteCalificacion')?.value == 'Junta_Regional'
+                  pclForm.get('entidadEmiteCalificacion')?.value ==
+                    'Junta_Regional'
                 "
               >
                 <div class="input-field">
@@ -364,9 +376,7 @@
               </div>
               <div class="col" *ngIf="pclForm.get('pcl')?.value == 2">
                 <div class="input-field">
-                  <label for="" class="active"
-                    >Origen PCL</label
-                  >
+                  <label for="" class="active">Origen PCL</label>
                   <p-dropdown
                     appendTo="body"
                     [options]="origenPclList"
@@ -445,7 +455,8 @@
                   pclForm.get('entidadEmitePcl')?.value == 'EPS' ||
                   pclForm.get('entidadEmitePcl')?.value == 'ARL' ||
                   pclForm.get('entidadEmitePcl')?.value == 'AFP' ||
-                  pclForm.get('entidadEmiteCalificacion')?.value == 'Junta_Regional'
+                  pclForm.get('entidadEmiteCalificacion')?.value ==
+                    'Junta_Regional'
                 "
               >
                 <div class="input-field">
@@ -568,7 +579,8 @@
                   pclForm.get('entidadEmiteCalificacion')?.value == 'EPS' ||
                   pclForm.get('entidadEmiteCalificacion')?.value == 'ARL' ||
                   pclForm.get('entidadEmiteCalificacion')?.value == 'AFP' ||
-                  pclForm.get('entidadEmiteCalificacion')?.value == 'Junta_Regional'
+                  pclForm.get('entidadEmiteCalificacion')?.value ==
+                    'Junta_Regional'
                 "
               >
                 <div class="input-field">
@@ -688,7 +700,7 @@
     <h5 class="title-header">Origen</h5>
   </div>
   <div class="container">
-    <div class="row" >
+    <div class="row">
       <div class="col">
         <p>Origen</p>
         <input
@@ -702,7 +714,11 @@
         <p>Estado calificación de origen</p>
         <input
           type="text"
-          [value]="getStatusLabel(pclSeleccionada.statusDeCalificacion) ? getStatusLabel(pclSeleccionada.statusDeCalificacion) : ''"
+          [value]="
+            getStatusLabel(pclSeleccionada.statusDeCalificacion)
+              ? getStatusLabel(pclSeleccionada.statusDeCalificacion)
+              : ''
+          "
           class="form-control"
           disabled
         />
@@ -711,7 +727,11 @@
         <p>Entidad</p>
         <input
           type="text"
-          [value]="pclSeleccionada?.nombreEntidadCalificada ? pclSeleccionada?.nombreEntidadCalificada : ''"
+          [value]="
+            pclSeleccionada?.nombreEntidadCalificada
+              ? pclSeleccionada?.nombreEntidadCalificada
+              : ''
+          "
           class="form-control"
           disabled
         />
@@ -722,7 +742,11 @@
         <p>Fecha de calificación del origen</p>
         <input
           type="text"
-          [value]="pclSeleccionada.fechaCalificacion ? (pclSeleccionada.fechaCalificacion | date:'yyyy-MM-dd') : ''"
+          [value]="
+            pclSeleccionada.fechaCalificacion
+              ? (pclSeleccionada.fechaCalificacion | date : 'yyyy-MM-dd')
+              : ''
+          "
           class="form-control"
           disabled
         />
@@ -731,7 +755,11 @@
         <p>Entidad emitente de calificación</p>
         <input
           type="text"
-          [value]="pclSeleccionada.entidadEmiteCalificacion ? pclSeleccionada.entidadEmiteCalificacion : ''"
+          [value]="
+            pclSeleccionada.entidadEmiteCalificacion
+              ? pclSeleccionada.entidadEmiteCalificacion
+              : ''
+          "
           class="form-control"
           disabled
         />
@@ -741,13 +769,15 @@
       <p>Observaciones</p>
       <textarea
         class="form-control"
-        [value]="pclSeleccionada.observaciones ? pclSeleccionada.observaciones : ''"
+        [value]="
+          pclSeleccionada.observaciones ? pclSeleccionada.observaciones : ''
+        "
         readonly
       ></textarea>
     </div>
     <!-- Agrega más filas según tus necesidades -->
   </div>
-  <br>
+  <br />
   <div class="row">
     <div class="col">
       <h5 class="title-header">PCL</h5>
@@ -763,7 +793,11 @@
               <p>PCL</p>
               <input
                 type="text"
-                [value]="getStatusLabelPCL(pclSeleccionada.pcl) ? getStatusLabelPCL(pclSeleccionada.pcl) : ''"
+                [value]="
+                  getStatusLabelPCL(pclSeleccionada.pcl)
+                    ? getStatusLabelPCL(pclSeleccionada.pcl)
+                    : ''
+                "
                 class="form-control"
                 disabled
               />
@@ -774,7 +808,11 @@
               <p>Porcentaje de la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.porcentajePcl ? pclSeleccionada.porcentajePcl + '%' : ''"
+                [value]="
+                  pclSeleccionada.porcentajePcl
+                    ? pclSeleccionada.porcentajePcl + '%'
+                    : ''
+                "
                 class="form-control"
                 disabled
               />
@@ -785,7 +823,11 @@
               <p>Fecha de emisión de la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada?.emisionPclFecha ? (pclSeleccionada?.emisionPclFecha | date:'yyyy-MM-dd') : ''"
+                [value]="
+                  pclSeleccionada?.emisionPclFecha
+                    ? (pclSeleccionada?.emisionPclFecha | date : 'yyyy-MM-dd')
+                    : ''
+                "
                 class="form-control"
                 disabled
               />
@@ -799,7 +841,11 @@
               <p>Entidad que emite la PCL</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.entidadEmitePcl ? pclSeleccionada.entidadEmitePcl : ''"
+                [value]="
+                  pclSeleccionada.entidadEmitePcl
+                    ? pclSeleccionada.entidadEmitePcl
+                    : ''
+                "
                 class="form-control"
                 disabled
               />
@@ -810,7 +856,11 @@
               <p>Entidad emitente de calificación</p>
               <input
                 type="text"
-                [value]="pclSeleccionada.nombreEntidad ? pclSeleccionada.nombreEntidad : ''"
+                [value]="
+                  pclSeleccionada.nombreEntidad
+                    ? pclSeleccionada.nombreEntidad
+                    : ''
+                "
                 class="form-control"
                 disabled
               />
@@ -823,4 +873,3 @@
     </div>
   </div>
 </p-dialog>
-

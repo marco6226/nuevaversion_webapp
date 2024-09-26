@@ -1,3 +1,4 @@
+<p-confirmDialog></p-confirmDialog>
 <p-toast key="formScmSL"></p-toast>
 <!-- <p-messages [(value)]="msgs" ></p-messages> -->
 
@@ -202,7 +203,6 @@
         header="Calificación (origen -PCL)"
         *ngIf="saludLaboralSelect && this.diagnosticoList.length > 0"
       >
-      <p-confirmDialog></p-confirmDialog>
         <app-pcl
         
           [diagnosticos]="this.diagnosticoList"
@@ -305,7 +305,7 @@
                     [monthNavigator]="true"
                     [yearNavigator]="true"
                     [yearRange]="yearRange"
-                    [maxDate]="fechaActual"
+                    [maxDate]="fechaActual2"
                     formControlName="fechaMaximaEnvDocs"
                     dateFormat="dd/mm/yy"
                   ></p-calendar>

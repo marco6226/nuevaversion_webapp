@@ -80,6 +80,9 @@ export class CasosMedicosListComponent implements OnInit {
     this.testing = true;
     this.getAreaById();
     this.getLocalidad();
+    this.loadEstadoOptions();
+    this.loadDivisonesOpt();
+    this.localidadesOpts();
     
     await this.getCargoActual();
     this.config.setTranslation(this.localeES);
@@ -316,6 +319,53 @@ export class CasosMedicosListComponent implements OnInit {
       return null;
     }
   }
+  estadoOptions: { label: string, value: number | string }[] = [];
+  async loadEstadoOptions() {
+    try {
+      let filterQuery = new FilterQuery();
+      filterQuery.sortField = 'nombre'; // Ajustar según la necesidad
+      filterQuery.fieldList = ['id', 'nombre']; // Ajustar según la estructura de los datos
+      const res: any = await this.cargoActualService.getcargoRWithFilter(filterQuery);
+      const cargos: { id: string; nombre: string }[] = res['data'];
+      
+      // Mapeamos los datos obtenidos para el p-dropdown
+      this.estadoOptions = cargos.map(cargo => ({
+        label: cargo.nombre,  // Ajustar según los datos
+        value: cargo.id       // Ajustar según los datos
+      }));
+      
+      // Agregar opción por defecto 'Seleccione'
+      this.estadoOptions.unshift({ label: 'Seleccione', value: '' }); // O puedes usar 'none' o 0
+    } catch (error) {
+      console.error('Error al cargar opciones de estado:', error);
+    }
+  }
+
+  divisionOpt: { label: string, value: number | string }[] = [];
+  async loadDivisonesOpt() {  
+    try {
+      let filterQuery = new FilterQuery();
+      filterQuery.sortField = 'nombre'; // Ajustar según la necesidad
+      filterQuery.fieldList = ['id', 'nombre'];
+      filterQuery.filterList = [
+        { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+      ];
+       // Ajustar según la estructura de los datos
+      const res: any = await this.areasService.findByFilter(filterQuery);
+      const cargos: { id: string; nombre: string }[] = res['data'];
+      
+      // Mapeamos los datos obtenidos para el p-dropdown
+      this.divisionOpt = cargos.map(cargo => ({
+        label: cargo.nombre,  // Ajustar según los datos
+        value: cargo.id       // Ajustar según los datos
+      }));
+      
+      // Agregar opción por defecto 'Seleccione'
+      this.divisionOpt.unshift({ label: 'Seleccione', value: '' }); // O puedes usar 'none' o 0
+    } catch (error) {
+      console.error('Error al cargar opciones de estado:', error);
+    }
+  }
   
   async getDivision(id: string): Promise<string | null> {
     let filterQuery = new FilterQuery();
@@ -469,6 +519,28 @@ divisionActual: any[]=[]
     } catch (error) {
         console.error('Error al obtener la localidad:', error);
         return null; 
+    }
+  }
+  localidadesOpt: { label: string, value: number | string }[] = [];
+  async localidadesOpts() {  
+    try {
+      let filterQuery = new FilterQuery();
+      filterQuery.sortField = 'localidad';
+    filterQuery.fieldList = ['id', 'localidad'];
+       // Ajustar según la estructura de los datos
+      const res: any = await this.empresaService.getLocalidadesRWithFilter(filterQuery);
+      const cargos: { id: string; localidad: string }[] = res['data'];
+      
+      // Mapeamos los datos obtenidos para el p-dropdown
+      this.localidadesOpt = cargos.map(cargo => ({
+        label: cargo.localidad,  // Ajustar según los datos
+        value: cargo.id       // Ajustar según los datos
+      }));
+      
+      // Agregar opción por defecto 'Seleccione'
+      this.localidadesOpt.unshift({ label: 'Seleccione', value: '' }); // O puedes usar 'none' o 0
+    } catch (error) {
+      console.error('Error al cargar opciones de estado:', error);
     }
   }
   idToLocalidad(division: number): string {

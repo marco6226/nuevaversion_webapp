@@ -1,13 +1,19 @@
 <p-toast key="msgScm"></p-toast>
 <div class="shadow">
-  <div  *ngIf="testing" style="width: 100%; display: flex; flex-direction: column-reverse;"> 
-    <div class = "image"><img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" ></div>
-</div>
+  <div
+    *ngIf="testing"
+    style="width: 100%; display: flex; flex-direction: column-reverse"
+  >
+    <div class="image">
+      <img src="../../../../../../assets/gif/tenor.gif" alt="" class="loader" />
+    </div>
+  </div>
   <p-panel styleClass="material-panel">
     <p-header> Casos de salud laboral </p-header>
-    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
       <span>
-          Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords || 0}} registros
+        Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+        {{ totalRecords || 0 }} registros
       </span>
     </div>
     <p-table
@@ -23,7 +29,7 @@
       dataKey="idSl"
       [lazy]="true"
       (onLazyLoad)="lazyLoad($event)"
-      sortField="fechaCreacion"
+      sortField="idSl"
       sortOrder="1"
       [totalRecords]="totalRecords"
       (onFilter)="onFilter($event)"
@@ -79,7 +85,6 @@
             Localidad Actual
             <p-sortIcon field="localidadActual"></p-sortIcon>
           </th>
-          
         </tr>
         <tr class="filters">
           <!-- Ajustar campos en los filtros según la estructura de tus datos -->
@@ -156,16 +161,14 @@
             </div>
           </td> -->
           <td class="text-center bg-light">
-            <div class="ui-inputgroup">
-              <input
-                class="filter-input"
-                pInputText
-                type="text"
-                (input)="applyCargoFilter($event.target.value)"
-              />
-            </div>
+            <p-dropdown
+              appendTo="body"
+              [filter]="true"
+              [options]="estadoOptions"
+              (onChange)="dt.filter($event.value, 'cargoActual', 'equals')"
+            ></p-dropdown>
           </td>
-          
+
           <!-- <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
@@ -178,18 +181,13 @@
               />
             </div>
           </td> -->
-          <td class="text-center bg-light">
-            <div class="ui-inputgroup">
-              <input
-                class="filter-input"
-                pInputText
-                type="text"
-                (input)="
-                  applyDivisionFilter($event.target.value)
-                "
-              />
-            </div>
-          </td>
+          <p-dropdown
+            appendTo="body"
+            [filter]="true"
+            [options]="divisionOpt"
+            (onChange)="dt.filter($event.value, 'divisionActual','equals')"
+          ></p-dropdown>
+
           <!-- <td class="text-center bg-light">
             <div class="ui-inputgroup">
               <input
@@ -203,18 +201,15 @@
             </div>
           </td> -->
           <td class="text-center bg-light">
-            <div class="ui-inputgroup">
-              <input
-                class="filter-input"
-                pInputText
-                type="text"
-                (input)="
-                  applyLocalidadFilter($event.target.value)
-                "
-              />
-            </div>
+            <p-multiSelect
+            appendTo="body"
+            [filter]="true"
+            [options]="localidadesOpt"
+            defaultLabel="Seleccione"
+            (onChange)="dt.filter($event.value, 'localidadActual', 'contains')"
+          ></p-multiSelect>
+          
           </td>
-         
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-case>
@@ -222,7 +217,7 @@
           <td class="p-text-center">{{ case.idSl }}</td>
           <td class="p-text-center">{{ case.usuarioCreador }}</td>
           <td class="p-text-center">{{ case.usuarioAsignado }}</td>
-          <td class="p-text-center">{{case.nombreCompletoSL}}</td>
+          <td class="p-text-center">{{ case.nombreCompletoSL }}</td>
           <td class="p-text-center">
             {{ case.fechaCreacion | date : "dd/MM/yyyy" }}
           </td>
@@ -232,21 +227,24 @@
           <!-- <td class="p-text-center">{{ idToCargo(case.cargoOriginal) }}</td> -->
           <td class="p-text-center">{{ idToCargo(case.cargoActual) }}</td>
           <!-- <td class="p-text-center">{{idToDivision( case.divisionOrigen)}}</td> -->
-          <td class="p-text-center">{{ idToDivision( case.divisionActual) }}</td>
+          <td class="p-text-center">{{ idToDivision(case.divisionActual) }}</td>
           <!-- <td class="p-text-center">{{ idToLocalidad(case.localidadOrigen) }}</td> -->
-          <td class="p-text-center">{{ idToLocalidad(case.localidadActual) }}</td>
+          <td class="p-text-center">
+            {{ idToLocalidad(case.localidadActual) }}
+          </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="summary" let-rowData>
-        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
+        <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
           <span>
-              Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords || 0}} registros
+            Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+            {{ totalRecords || 0 }} registros
           </span>
         </div>
         <div class="d-flex justify-content-center">
           <div class="btn-group" role="group">
             <button
-            *sTienePermiso="'SCM_POST_CSL'"
+              *sTienePermiso="'SCM_POST_CSL'"
               class="p-button-raised p-button-primary margin-right"
               pButton
               type="button"
@@ -292,7 +290,8 @@
       <ng-template pTemplate="emptymessage">
         <tr>
           <td colspan="15" class="p-text-center">
-            No hay registro de casos médicos o con los términos de filtro usados
+            No hay registro de casos de salud laboral con los términos de filtro
+            usados
           </td>
         </tr>
       </ng-template>

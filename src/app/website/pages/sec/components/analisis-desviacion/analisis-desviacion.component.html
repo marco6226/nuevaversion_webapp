@@ -1,4 +1,5 @@
 <!-- <p-toast (value)="msgs"></p-toast> -->
+<p-toast key="formSL"></p-toast>
 <p-panel header="DESVIACIONES">
     <p-table [value]="desviacionesList" *ngIf="desviacionesList" autoLayout="true">
         <ng-template pTemplate="header">
@@ -19,10 +20,19 @@
                 </td>
                 <td>
                     {{rowData.hashId}}
+                    <button *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'" 
+                            pButton 
+                            type="button" 
+                            class="p-button-text p-button-sm"
+                            icon="pi pi-search" 
+                            (click)="redirectCase()">
+                    </button>
                 </td>
                 <td>
                     {{ rowData.modulo === 'Salud Laboral' ? desviacionesList[0]?.areaOrigen : rowData.area.nombre }}
+
                   </td>
+                  
                   
                   
                 <ng-template #division>

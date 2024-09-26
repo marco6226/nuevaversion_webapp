@@ -1,5 +1,25 @@
 <div style="width: 100%">
-  <p-panel header="RESUMEN ACCIDENTALIDAD" style="text-align: center">
+  <p-panel
+    header="RESUMEN ACCIDENTALIDAD"
+    style="text-align: center; position: relative"
+  >
+    <div
+      style="
+        position: absolute;
+        transform: translateY(-90%);
+        z-index: 3;
+        margin-left: 288px;
+      "
+    >
+      <button
+        *sTienePermiso="'IND_GET_ACD'"
+        pButton
+        type="button"
+        icon="pi pi-external-link"
+        pTooltip="Indicadores Accidentalidad"
+        (click)="IndicadoresAccidentalidad()"
+      ></button>
+    </div>
     <div class="grid colorsitos colorfondo">
       <div class="col-12">
         <div class="grid">
@@ -64,7 +84,6 @@
           <button
             pButton
             type="button"
-            style="margin-top: -34px; display: flex"
             icon="bi bi-filter"
             pTooltip="Mostrar Filtros"
             (click)="toggleDiv()"
@@ -157,30 +176,28 @@
           >
           </p-calendar>
         </div>
-        <div class="col-12 md:col-2 lg:col-1" style="display: flex">
-          <button
-            pButton
-            type="button"
-            icon="pi pi-external-link"
-            pTooltip="Indicadores Accidentalidad"
-            (click)="IndicadoresAccidentalidad()"
-          ></button>
-        </div>
       </div>
-    </div>
-    <div>
-      <button
-        pButton
-        type="button"
-        icon="pi pi-external-link"
-        pTooltip="Indicadores Accidentalidad"
-        (click)="IndicadoresAccidentalidad()"
-        *ngif="!contraer"
-      ></button>
     </div>
   </p-panel>
   <br />
   <p-panel header="RESUMEN CARACTERIZACIÓN">
+    <div
+      style="
+        position: absolute;
+        transform: translateY(-90%);
+        z-index: 3;
+        margin-left: 300px;
+      "
+    >
+      <button
+        *sTienePermiso="'IND_GET_CAR'"
+        pButton
+        type="button"
+        icon="pi pi-external-link"
+        pTooltip="Indicadores Caracterización"
+        (click)="IndicadoresCaracterizacion()"
+      ></button>
+    </div>
     <div class="grid colorsitos colorfondo">
       <div class="col-12">
         <p-radioButton
@@ -322,20 +339,28 @@
           >
           </p-calendar>
         </div>
-        <div class="col-12 md:col-6 lg:col-4" style="display: flex">
-          <button
-            pButton
-            type="button"
-            icon="pi pi-external-link"
-            pTooltip="Indicadores Caracterización"
-            (click)="IndicadoresCaracterizacion()"
-          ></button>
-        </div>
       </div>
     </div>
   </p-panel>
   <br />
   <p-panel header="RESUMEN CASOS MEDICOS" style="text-align: center">
+    <div
+      style="
+        position: absolute;
+        transform: translateY(-90%);
+        z-index: 3;
+        margin-left: 280px;
+      "
+    >
+      <button
+        *sTienePermiso="'IND_GET_SCM'"
+        pButton
+        type="button"
+        icon="pi pi-external-link"
+        pTooltip="Indicadores Casos Medicos"
+        (click)="IndicadoresCasosMedicos()"
+      ></button>
+    </div>
     <div class="grid colorfondo" style="margin: 0px auto">
       <!-- <div class="col-md-1">&nbsp;</div> -->
       <div class="col-12">
@@ -440,6 +465,23 @@
     header="RESUMEN MATRIZ DE PELIGROS (MAPA DE CALOR)"
     style="text-align: center"
   >
+    <div
+      style="
+        position: absolute;
+        transform: translateY(-90%);
+        z-index: 3;
+        margin-left: 520px;
+      "
+    >
+      <button
+        *sTienePermiso="'ING_GET_MP'"
+        pButton
+        type="button"
+        icon="pi pi-external-link"
+        pTooltip="Indicadores Matriz de peligros"
+        (click)="IndicadoresMatrizPeligros()"
+      ></button>
+    </div>
     <div class="grid colorfondo" *ngIf="flagResumen">
       <div class="col-12" style="padding-bottom: 0%">
         <div class="grid" style="padding-bottom: 0%">
@@ -447,21 +489,12 @@
             class="col-12 grid"
             style="padding-bottom: 0%; padding-top: 10px"
           >
-            <div class="col-5">
+            <div class="col-3">
               <h1 style="color: black !important">
                 Riesgo inicial / Riesgo residual
               </h1>
             </div>
             <div class="col-5">&nbsp;</div>
-            <div class="col-1" style="padding-left: 10px">
-              <button
-                pButton
-                type="button"
-                icon="pi pi-external-link"
-                pTooltip="Indicadores Matriz de peligros"
-                (click)="IndicadoresMatrizPeligros()"
-              ></button>
-            </div>
           </div>
           <div class="col-12 md:col-6 lg:col-3 cardGrid2">
             <div
