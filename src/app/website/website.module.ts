@@ -105,10 +105,10 @@ import { PanelModule } from 'primeng/panel';
 import { RangoFechaSelectorComponent } from './pages/comun/components/rango-fecha-selector/rango-fecha-selector.component';
 import { CalendarModule } from 'primeng/calendar';
 import { PerfilService } from './pages/admin/services/perfil.service';
-import {MessagesModule} from 'primeng/messages';
-import {MessageModule} from 'primeng/message';
-import {FieldsetModule} from 'primeng/fieldset';
-import {TreeTableModule} from 'primeng/treetable';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { FieldsetModule } from 'primeng/fieldset';
+import { TreeTableModule } from 'primeng/treetable';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { EmpleadoComponent } from './pages/empresa/components/empleado/empleado.component';
 import { EmpleadoFormComponent } from './pages/empresa/components/empleado/empleado-form/empleado-form.component';
@@ -124,7 +124,7 @@ import { DocumentosEmpleadoFormComponent } from './pages/empresa/components/empl
 import { DocumentoUploadComponent } from './pages/ado/components/documento-upload/documento-upload.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DataNotFoundComponent } from './pages/comun/components/data-not-found/data-not-found.component';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AreaSelectorComponent } from './pages/empresa/components/area/area-selector/area-selector.component';
 import { EmpleadoSelectorComponent } from './pages/comun/components/empleado-selector/empleado-selector.component';
@@ -153,14 +153,24 @@ import { ListadoCausasComponent } from './pages/sec/components/analisis-desviaci
 import { PlanAccionListComponent } from './pages/sec/components/analisis-desviacion/factor-causal/plan-accion-list/plan-accion-list.component';
 import { InformeComponent } from './pages/sec/components/analisis-desviacion/factor-causal/informe/informe.component';
 import { PlanAccionComponent } from './pages/sec/components/analisis-desviacion/factor-causal/plan-accion/plan-accion.component';
-import { DiagramModule, SymbolPaletteModule } from '@syncfusion/ej2-angular-diagrams';
-import { NumericTextBoxModule, TextBoxModule, UploaderModule } from '@syncfusion/ej2-angular-inputs';
+import {
+  DiagramModule,
+  SymbolPaletteModule,
+} from '@syncfusion/ej2-angular-diagrams';
+import {
+  NumericTextBoxModule,
+  TextBoxModule,
+  UploaderModule,
+} from '@syncfusion/ej2-angular-inputs';
 import { EmpleadoBasicSelectorComponent } from './pages/comun/components/empleado-basic-selector/empleado-basic-selector.component';
 import { DiagnosticoFormComponent } from './pages/scm/components/diagnostico-form/diagnostico-form.component';
 import { ReintegroComponent } from './pages/scm/components/formulario-scm/reintegro/reintegro.component';
 import { ReintegroListComponent } from './pages/scm/components/formulario-scm/reintegro-list/reintegro-list.component';
 import { PclComponent } from './pages/scm/components/pcl/pcl.component';
-import { RecomendationsformComponent,RecomendationStatusPipe} from './pages/scm/components/recomendationsform/recomendationsform.component';
+import {
+  RecomendationsformComponent,
+  RecomendationStatusPipe,
+} from './pages/scm/components/recomendationsform/recomendationsform.component';
 import { ScmComponent } from './pages/scm/components/scm/scm.component';
 import { ScmpermisosComponent } from './pages/scm/components/scmpermisos/scmpermisos.component';
 import { SeguimientosformComponent } from './pages/scm/components/seguimientosform/seguimientosform.component';
@@ -170,10 +180,11 @@ import { UsuarioService } from './pages/admin/services/usuario.service';
 import { IdleTimeoutComponent } from './pages/comun/components/idle-timeout/idle-timeout.component';
 import { IndCaracterizacionComponent } from './pages/ind/components/ind-caracterizacion/ind-caracterizacion.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { compress, decompress } from 'lz-string';
 import { ChartModule } from 'primeng/chart';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { IndCasosMedicosComponent } from './pages/ind/components/ind-casos-medicos/ind-casos-medicos.component';
 import { IndCasosMedicosGestionComponent } from './pages/ind/components/ind-casos-medicos-gestion/ind-casos-medicos-gestion.component';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
@@ -203,7 +214,7 @@ import { FirmaComponent } from './pages/comun/components/firma/firma.component';
 import { ResetPasswordComponent } from './pages/core/components/reset-password/reset-password.component';
 import { FormularioComponent } from './pages/comun/components/formulario/formulario.component';
 import { ChipsModule } from 'primeng/chips';
-import { FileSizePipe } from './pages/comun/pipes/file-size.pipe'
+import { FileSizePipe } from './pages/comun/pipes/file-size.pipe';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ElaboracionListaCtrComponent } from './pages/ctr/components/inspecciones-ctr/elaboracion-lista-ctr/elaboracion-lista-ctr.component';
 import { ListaInspeccionFormCtrComponent } from './pages/ctr/components/inspecciones-ctr/lista-inspeccion-form-ctr/lista-inspeccion-form-ctr.component';
@@ -262,7 +273,7 @@ import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salu
     DasboardComercialComponent,
     TerminosCondicionesComponent,
     InicioComponent,
-    ActividadesContratadasComponent,  
+    ActividadesContratadasComponent,
     AdminContratistasComponent,
     AliadosComponent,
     AliadosActualizarComponent,
@@ -292,7 +303,7 @@ import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salu
     ConsultaTableroComponent,
     ElaboracionTableroComponent,
     HoraHombresTrabajadaComponent,
-   // DatosTrabajadorInvolucradoComponent,
+    // DatosTrabajadorInvolucradoComponent,
     IndicadoresAusentismoComponent,
     IndicadoresEmpComponent,
     IndicadoresInpComponent,
@@ -437,7 +448,7 @@ import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salu
     PlantillaAnexo6ConsentimientoComponent,
     MiembrosEquipoSaludLaboralComponent,
     CargueDocumentosSendDocumentacionComponent,
-    CargueDocumentosMinisterioComponent
+    CargueDocumentosMinisterioComponent,
   ],
   imports: [
     GridModule,
@@ -469,10 +480,10 @@ import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salu
     DialogModule,
     StepsModule,
     ToastModule,
-    DiagramModule, 
+    DiagramModule,
     SymbolPaletteModule,
-    NumericTextBoxModule, 
-    TextBoxModule, 
+    NumericTextBoxModule,
+    TextBoxModule,
     UploaderModule,
     OverlayPanelModule,
     ContextMenuModule,
@@ -487,11 +498,10 @@ import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salu
       radius: 100,
       outerStrokeWidth: 16,
       innerStrokeWidth: 8,
-      outerStrokeColor: "#78C000",
-      innerStrokeColor: "#C7E596",
+      outerStrokeColor: '#78C000',
+      innerStrokeColor: '#C7E596',
       animationDuration: 300,
-      
-    })
+    }),
   ],
   providers: [
     PerfilService,
@@ -499,13 +509,9 @@ import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salu
     UsuarioService,
     CapitalizePipe,
     AuthGuardService,
-    EditService ,
-    DatePipe
+    EditService,
+    DatePipe,
   ],
-  exports:[
-    ConfiguracionGeneralDirective,
-    FileSizePipe
-  ]
-
+  exports: [ConfiguracionGeneralDirective, FileSizePipe],
 })
-export class WebsiteModule { }
+export class WebsiteModule {}
