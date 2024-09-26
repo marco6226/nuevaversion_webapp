@@ -62,6 +62,7 @@ export class ScmComponent implements OnInit, AfterViewInit {
         'documento',
         'cargo',
         'statusCaso',
+        'fechaFinal',
         'casoMedicoLaboral',
         'razon',
         'pkUser_area_padreNombre',
@@ -196,10 +197,10 @@ export class ScmComponent implements OnInit, AfterViewInit {
             let res: any = await this.scmService.findByFilter(filterQuery);
             this.casosList = [];
             res?.data?.forEach((dto: any) => {
-                this.casosList.push(FilterQuery.dtoToObject(dto));
-                
-                
+                this.casosList.push(FilterQuery.dtoToObject(dto));  
             });
+            console.log(this.casosList);
+            
             this.totalRecords = res.count;
             this.testing = false;
             
