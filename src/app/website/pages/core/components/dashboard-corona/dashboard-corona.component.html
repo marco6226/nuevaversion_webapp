@@ -59,18 +59,13 @@
                 <ng-container *ngIf="!this.selectedDivisionResumen1"
                   ><h3>Meta ILI</h3></ng-container
                 >
-                <ng-container
-                  *ngIf="!selectPais1 || selectPais1 == 'Corona Total'"
-                  ><h3>
+                <!-- <ng-container *ngIf="!selectPais1 || selectPais1 === 'Corona Total'">
+                  <h3>
                     Meta ILI
-                    {{
-                      this.selectPais1 == "Corona Total"
-                        ? "Corona Total"
-                        : " pais"
-                    }}
+                    {{ selectPais1 === 'Corona Total' ? 'Corona Total' : ' país' }}
                     {{ metaIli }}
-                  </h3></ng-container
-                >
+                  </h3>
+                </ng-container> -->
                 <ng-container
                   *ngIf="this.selectedDivisionResumen1 && !this.PlantaSelect1"
                   ><h3>Meta ILI división</h3></ng-container
@@ -81,7 +76,7 @@
               </div>
               <div style="text-align: right">
                 <span class="tamañotexto">{{
-                  (!this.selectedDivisionResumen1 ? 0 : metaIli) || 0
+                  (!this.selectedDivisionResumen1 ? 0 : metaIli) || metaIli
                 }}</span>
                 <!-- <ng-container *ngIf="this.selectedDivisionResumen1"><br><span class="tamañotexto2">{{(this.selectPais1=='Corona Total')?'Corona total':' pais'}}: {{metaPais || 0}}</span></ng-container> -->
                 <ng-container *ngIf="this.PlantaSelect1"
@@ -207,7 +202,6 @@
         icon="pi pi-external-link"
         pTooltip="Indicadores Accidentalidad"
         (click)="IndicadoresAccidentalidad()"
-        *ngIf="!contraer"
       ></button>
     </div>
     <div class="grid colorsitos colorfondo">
