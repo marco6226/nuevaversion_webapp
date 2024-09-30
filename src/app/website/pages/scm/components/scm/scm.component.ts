@@ -199,8 +199,6 @@ export class ScmComponent implements OnInit, AfterViewInit {
             res?.data?.forEach((dto: any) => {
                 this.casosList.push(FilterQuery.dtoToObject(dto));  
             });
-            console.log(this.casosList);
-            
             this.totalRecords = res.count;
             this.testing = false;
             
@@ -217,8 +215,9 @@ export class ScmComponent implements OnInit, AfterViewInit {
         this.excel.forEach((el:any) => delete el.empresaId)
         
         let excel= this.empresaIdLoggin == 22? 
-                    this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<=new Date(this.rangeDatesInforme[1])}) : 
-                    this.excel.filter((resp:any)=>{ return new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1])})
+                    this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<=new Date(this.rangeDatesInforme[1]) }): 
+                    this.excel.filter((resp:any)=>{ return new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1])})  
+                    
                 
         excel.map((resp:any)=>{
             if(resp.estadoCaso==1){resp.estadoCaso='Abierto'}
@@ -276,9 +275,17 @@ export class ScmComponent implements OnInit, AfterViewInit {
                 dataExcel = resp;
             })
             this.excel=[...dataExcel]
-        
-            this.excel.map((resp1:any)=>{return resp1.fechaCreacion=new Date(resp1.fechaCreacion)})
-            this.excel.map((resp1:any)=>{return resp1.proximoSeguimiento=(resp1.proximoSeguimiento)?new Date(resp1.proximoSeguimiento):''})
+            this.excel.map((resp1: any) => {
+              resp1.fechaCreacion = new Date(resp1.fechaCreacion)
+              if(resp1.fechaFinal != null){
+                resp1.fechaFinal = new Date(resp1.fechaFinal).toLocaleDateString();
+              }else{
+                resp1.fechaFinal = '';
+              }
+              
+              resp1.proximoSeguimiento = resp1.proximoSeguimiento ? new Date(resp1.proximoSeguimiento).toLocaleDateString() : '';
+              return resp1;
+            });
 
         } else {
             let filterQuery = new FilterQuery();
@@ -304,6 +311,7 @@ export class ScmComponent implements OnInit, AfterViewInit {
                         Nombre: element.pkUser?.primerNombre,
                         Documento: element.documento,
                         Estado_caso: element.statusCaso == 1 ? 'Abierto' : 'Cerrado',
+                        Fecha_Cierre: element.fechaFinal ? new Date(element.fechaFinal).toLocaleDateString() : '',
                         Proximo_seguimiento: element.proximoseguimiento ? new Date(element.proximoseguimiento).toLocaleDateString() : '',
                         Prioridad: element.prioridadCaso,
                         Tipo_caso: element.tipoCaso,
