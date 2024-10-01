@@ -252,7 +252,7 @@ export class EmpleadoFormComponent implements OnInit {
                     jefeInmediato: this.empleadoSelect.jefeInmediato,
                     'ipPermitida': this.empleadoSelect.usuario.ipPermitida,
                     businessPartner: this.empleadoSelect.businessPartner,
-                    email: [this.empleadoSelect.usuario.email],
+                    email: [this.empleadoSelect.usuario.email?.trim()],
                 });
                 setTimeout(() => {
                     this.form.patchValue({
@@ -343,7 +343,7 @@ export class EmpleadoFormComponent implements OnInit {
         empleado.emergencyContact = this.form.value.emergencyContact;
         empleado.corporativePhone = this.form.value.corporativePhone;
         empleado.phoneEmergencyContact = this.form.value.phoneEmergencyContact;
-        empleado.emailEmergencyContact = this.form.value.emailEmergencyContact;
+        empleado.emailEmergencyContact = this.form.value.emailEmergencyContact.trim();
         empleado.fechaNacimiento = this.form.value.fechaNacimiento;
         empleado.genero = this.form.value.genero;
         empleado.numeroIdentificacion = this.form.value.numeroIdentificacion;
@@ -368,10 +368,10 @@ export class EmpleadoFormComponent implements OnInit {
         empleado.usuario = new Usuario();
         empleado.area.id = this.form.value.area.id;
         empleado.cargo.id = this.form.value.cargoId;
-        empleado.usuario.email = this.form.value.email;
+        empleado.usuario.email = this.form.value.email.trim();
         empleado.ciudadGerencia = this.form.value.ciudadGerencia;
         empleado.enviacorreo = this.form.value.enviacorreo;
-        (empleado.regional = this.form.value.regional), (empleado.correoPersonal = this.form.value.correoPersonal);
+        (empleado.regional = this.form.value.regional), (empleado.correoPersonal = this.form.value.correoPersonal.trim());
 
         if (this.form.value.businessPartner) {
             empleado.businessPartner = this.form.value.businessPartner.id;
