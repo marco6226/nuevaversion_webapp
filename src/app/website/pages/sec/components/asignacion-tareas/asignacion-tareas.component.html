@@ -29,15 +29,20 @@
     "
   >
     <!-- Mover aquí el permiso -->
-    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
-        <span>
-            Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords}} registros
-        </span>
+    <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+      <span>
+        Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+        {{ totalRecords }} registros
+      </span>
     </div>
 
     <div class="floating-buttons-scroll">
-        <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()"><span class="pi pi-angle-left"></span></button>
-        <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()"><span class="pi pi-angle-right"></span></button>
+      <button type="button" *ngIf="isScrollLeft" (click)="scrollLeft()">
+        <span class="pi pi-angle-left"></span>
+      </button>
+      <button type="button" *ngIf="isScrollRigth" (click)="scrollRight()">
+        <span class="pi pi-angle-right"></span>
+      </button>
     </div>
     <button
       pButton
@@ -63,7 +68,8 @@
           [paginator]="true"
           [rows]="10"
           (onFilter)="onFilter($event)"
-          [rowsPerPageOptions]="[10, 20, 50, 100]" scrollable="true"
+          [rowsPerPageOptions]="[10, 20, 50, 100]"
+          scrollable="true"
         >
           <ng-template pTemplate="header" let-columns>
             <tr>
@@ -110,8 +116,8 @@
                 <p-sortIcon field="localidad"></p-sortIcon>
               </th>
               <th
-              pSortableColumn="localidad_sv"
-              *ngIf="mostrarColumna('localidad_sv')"
+                pSortableColumn="localidad_sv"
+                *ngIf="mostrarColumna('localidad_sv')"
               >
                 Localidad
                 <p-sortIcon field="localidad_sv"></p-sortIcon>
@@ -253,7 +259,7 @@
                     pInputText
                     type="text"
                     (input)="
-                       dt.filter($event.target.value, 'localidad_sv', 'contains')
+                      dt.filter($event.target.value, 'localidad_sv', 'contains')
                     "
                   />
                 </div>
@@ -359,7 +365,9 @@
                 {{ tarea.area }}
               </td>
               <td *ngIf="mostrarColumna('localidad')">{{ tarea.localidad }}</td>
-              <td *ngIf="mostrarColumna('localidad_sv')">{{ tarea.localidad_sv}}</td>
+              <td *ngIf="mostrarColumna('localidad_sv')">
+                {{ tarea.localidad_sv }}
+              </td>
               <td *ngIf="mostrarColumna('tipo_lista')">
                 {{ tarea.tipo_lista }}
               </td>
@@ -409,10 +417,11 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="summary" let-rowData>
-            <div class="p-d-flex p-jc-center" style="margin-bottom: 16px;">
-                <span>
-                    Mostrando {{dt.first + 1}} a {{dt.first + dt.rows}} de {{totalRecords || 0}} registros
-                </span>
+            <div class="p-d-flex p-jc-center" style="margin-bottom: 16px">
+              <span>
+                Mostrando {{ dt.first + 1 }} a {{ dt.first + dt.rows }} de
+                {{ totalRecords || 0 }} registros
+              </span>
             </div>
             <button
               pButton
@@ -577,7 +586,7 @@
         pButton
         type="button"
         (click)="cerrarDialogo()"
-        class="ui-button-secondary"
+        class="ui-button-danger"
         label="Cancelar"
       ></button>
     </p-footer>
