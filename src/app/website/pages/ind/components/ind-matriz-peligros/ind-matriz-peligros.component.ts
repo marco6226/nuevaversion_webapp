@@ -968,7 +968,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     private areaMatrizService: AreaMatrizService,
     private viewHHtMetasService: ViewHHtMetasService,
     private config: PrimeNGConfig
-  ) {}
+  ) { }
   async ngOnInit(): Promise<void> {
     window.scrollTo({
       top: 1, // La posición vertical a la que deseas desplazar
@@ -7268,8 +7268,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
             return count + (fin.estado == 'Riesgo eliminado')
               ? 0
               : fin.nrResidual
-              ? Number(fin.nrResidual)
-              : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
           }, 0);
 
         gpiTotal += gpi;
@@ -7455,8 +7455,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -7631,8 +7631,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -7874,8 +7874,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               (fin.estado == 'Riesgo eliminado'
                 ? 0
                 : fin.nrResidual != null
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial))
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial))
             );
           }, 0);
 
@@ -8161,8 +8161,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -8396,8 +8396,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -8444,31 +8444,48 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       this.filtroGraf25();
     }
   }
+
   filtroGraf25() {
     let dataEventos25: any = JSON.parse(localStorage.getItem('dataEventos25')!);
 
-    if (this.selectMes25 && this.selectMes25.length > 0) {
-      let mesList25 = [...this.meta25];
-      let selectMes25 = this.selectMes25.map((m: any) => m).sort();
-      dataEventos25.labels = selectMes25;
-      dataEventos25.datasets[1].data = dataEventos25.datasets[1].data.filter(
-        (data: any, index: any) => selectMes25.includes(mesList25[index])
-      );
-      dataEventos25.datasets[0].data = dataEventos25.datasets[0].data.filter(
-        (data: any, index: any) => selectMes25.includes(mesList25[index])
-      );
+    // Verificar que existan meses seleccionados y meta25 no esté vacío
+    if (this.selectMes25 && this.selectMes25.length > 0 && this.meta25 > 0) {
+        // Normalizar los valores de los meses (en caso de que haya diferencias de formato)
+        let mesList25 = this.meta25.map((mes: any) => mes.toLowerCase().trim());
+        let selectMes25 = this.selectMes25.map((m: any) => m.toLowerCase().trim()).sort();
+
+        // Mostrar los valores de los meses seleccionados y meta25 para verificar
+        console.log('Meses seleccionados:', selectMes25);
+        console.log('Meses en meta25:', mesList25);
+
+        // Filtrar los datos basados en los meses seleccionados
+        dataEventos25.labels = selectMes25;
+        dataEventos25.datasets[1].data = dataEventos25.datasets[1].data.filter(
+            (data: any, index: any) => selectMes25.includes(mesList25[index])
+        );
+        dataEventos25.datasets[0].data = dataEventos25.datasets[0].data.filter(
+            (data: any, index: any) => selectMes25.includes(mesList25[index])
+        );
     }
 
+    // Filtro adicional basado en selectFiltro25
     if (this.selectFiltro25 && this.selectFiltro25.length > 0) {
-      let selectFiltro25Meta = this.filtro17.map((div: any) => div.label);
-      let selectFiltro25 = this.selectFiltro25.map((div: any) => div);
-      dataEventos25.datasets = dataEventos25.datasets.filter(
-        (data: any, index: any) =>
-          selectFiltro25.includes(selectFiltro25Meta[index])
-      );
+        let selectFiltro25Meta = this.filtro17.map((div: any) => div.label);
+        let selectFiltro25 = this.selectFiltro25.map((div: any) => div);
+
+        // Filtrar datasets según selectFiltro25
+        dataEventos25.datasets = dataEventos25.datasets.filter(
+            (data: any, index: any) =>
+                selectFiltro25.includes(selectFiltro25Meta[index])
+        );
     }
+
+    // Actualizar el objeto dataEventos25 en el componente
     Object.assign(this, { dataEventos25 });
-  }
+}
+
+
+
   grafData1_2() {
     let flagZero: boolean = false;
     if (
@@ -12615,8 +12632,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
             return count + (fin.estado == 'Riesgo eliminado')
               ? 0
               : fin.nrResidual
-              ? Number(fin.nrResidual)
-              : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
           }, 0);
 
         gpiTotal += gpi;
@@ -12802,8 +12819,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -12980,8 +12997,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -13221,8 +13238,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
             return count + (fin.estado == 'Riesgo eliminado')
               ? 0
               : fin.nrResidual
-              ? Number(fin.nrResidual)
-              : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
           }, 0);
 
         gpiTotal += gpi;
@@ -13505,8 +13522,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -13742,8 +13759,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+                  ? Number(fin.nrResidual)
+                  : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
