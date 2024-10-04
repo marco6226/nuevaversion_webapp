@@ -1,95 +1,172 @@
-
-<div style="width: 100%; height: 100%; margin-top: 1px; display: flex;flex-direction: column;" *ngIf="estadoFirma=='firmar'">
-    <p-messages [(value)]="msgs" ></p-messages>
-    <div class="contenedorcanvas">
-        <canvas id="tamcanvas" #canvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)" width="1200" height="600"></canvas>
+<div
+  style="
+    width: 95%;
+    height: 65%;
+    margin-top: 1px;
+    display: inline-grid;
+    flex-direction: column;
+  "
+  *ngIf="estadoFirma == 'firmar'"
+>
+  <p-messages [(value)]="msgs"></p-messages>
+  <div class="contenedorcanvas">
+    <canvas
+      id="tamcanvas"
+      #canvas
+      (touchstart)="startDrawing($event)"
+      (touchmove)="moved($event)"
+      width="90%"
+      height="60%"
+    ></canvas>
+  </div>
+  <div class="contenedor grid">
+    <div class="logo" style="width: 20%">
+      <img src="../../../../assets/svg/logoSigessRedondo2.svg" alt="" />
     </div>
-    <div class="contenedor grid">
-        <div class="logo" style="width: 20%;">
-            <img src="../../../../assets/svg/logoSigessRedondo2.svg" alt="">
-        </div>
-        <div style="width: 20%;">
-            &nbsp;
-        </div>
-        <div style="align-items: center; width: 58%;">
-            <button class="p-button-danger" label="Borrar" pButton type="button" (click)="clearPad()"></button>
-            <button class="p-button-success" label="Guardar" pButton type="button" (click)="savePad()"></button>
-        </div>
+    <div style="width: 20%">&nbsp;</div>
+    <div style="align-items: center; width: 58%">
+      <button
+        class="p-button-danger"
+        label="Borrar"
+        pButton
+        type="button"
+        (click)="clearPad()"
+      ></button>
+      <button
+        class="p-button-success"
+        label="Guardar"
+        pButton
+        type="button"
+        (click)="savePad()"
+      ></button>
     </div>
+  </div>
 
-    <p-dialog [closable]="false" [(visible)]="visibleDlg" modal="true" [style]="{width: '90%'}">
-        <div class="content">
-            <p style="margin-top:0px;text-align: center;font-weight: bold; margin: auto;">
-              A continuación encontrará nuestra política de tratamiento de datos personales. Por favor léala cuidadosamente y después especifique
-              si acepta los términos:
-            </p>
-            <br>
-            <div style="width: 90%; text-align: justify; margin: auto;">
-                De conformidad con lo dispuesto en las normas vigentes sobre protección de datos personales
-                Ley 1581 de 2012, yo <input (input)="input()" type="text" min="8" style="width: 25%;" [(ngModel)]="nombre"> con C.C. <input (input)="input()" type="number" min="4" style="width: 25%;" [(ngModel)]="cedula"> autorizo libre, expresa e inequívocamente a LER PREVENCION/SIGESS&#174;, para 
-                que realice la recolección y tratamiento de datos que suministro de manera veraz y completa, 
-                los cuales serán utilizados para los diferentes aspectos relacionados con la gestión del SG-SST en
-                SIGESS&#174;.
-            </div>
-            <!-- <iframe style="border:solid thin #ccc;" width="700" height="345" src="https://sigess.app/avisoprivacidad.html">
+  <p-dialog
+    [closable]="false"
+    [(visible)]="visibleDlg"
+    modal="true"
+    [style]="{ width: '90%' }"
+  >
+    <div class="content">
+      <p
+        style="
+          margin-top: 0px;
+          text-align: center;
+          font-weight: bold;
+          margin: auto;
+        "
+      >
+        A continuación encontrará nuestra política de tratamiento de datos
+        personales. Por favor léala cuidadosamente y después especifique si
+        acepta los términos:
+      </p>
+      <br />
+      <div style="width: 90%; text-align: justify; margin: auto">
+        De conformidad con lo dispuesto en las normas vigentes sobre protección
+        de datos personales Ley 1581 de 2012, yo
+        <input
+          (input)="input()"
+          type="text"
+          min="8"
+          style="width: 25%"
+          [(ngModel)]="nombre"
+        />
+        con C.C.
+        <input
+          (input)="input()"
+          type="number"
+          min="4"
+          style="width: 25%"
+          [(ngModel)]="cedula"
+        />
+        autorizo libre, expresa e inequívocamente a LER PREVENCION/SIGESS&#174;,
+        para que realice la recolección y tratamiento de datos que suministro de
+        manera veraz y completa, los cuales serán utilizados para los diferentes
+        aspectos relacionados con la gestión del SG-SST en SIGESS&#174;.
+      </div>
+      <!-- <iframe style="border:solid thin #ccc;" width="700" height="345" src="https://sigess.app/avisoprivacidad.html">
             </iframe> -->
-            <div style="margin-top:10px;">
-              ¿Acepta los términos?
-              <button (click)="terminosyCondiciones(true)" pButton label="SI" [disabled]="flagNombre || flagCedula"></button>
-              <button (click)="terminosyCondiciones(false)" pButton class="p-button-secondary" label="NO" [disabled]="flagNombre || flagCedula"></button>
-            </div>
-          </div>
-    </p-dialog>
+      <div style="margin-top: 10px">
+        ¿Acepta los términos?
+        <button
+          (click)="terminosyCondiciones(true)"
+          pButton
+          label="SI"
+          [disabled]="flagNombre || flagCedula"
+        ></button>
+        <button
+          (click)="terminosyCondiciones(false)"
+          pButton
+          class="p-button-secondary"
+          label="NO"
+          [disabled]="flagNombre || flagCedula"
+        ></button>
+      </div>
+    </div>
+  </p-dialog>
 </div>
 
-<div class="background blue contenedor2" *ngIf="estadoFirma=='noexiste'">
-    <div class="sub-contenedor">
-        <div class="contenedor-circular">
-            <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
-        </div>
-        <div class="contenedor-cuadrado">
-            <div style="padding-top: 70PX;"> 
-                <s-dataNotFound [message]="'La pagina no se encuentra habilitada'"></s-dataNotFound>               
-            </div>   
-        </div>        
+<div class="background blue contenedor2" *ngIf="estadoFirma == 'noexiste'">
+  <div class="sub-contenedor">
+    <div class="contenedor-circular">
+      <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="" />
     </div>
+    <div class="contenedor-cuadrado">
+      <div style="padding-top: 70px">
+        <s-dataNotFound
+          [message]="'La pagina no se encuentra habilitada'"
+        ></s-dataNotFound>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="background blue contenedor2" *ngIf="estadoFirma=='noterminos'">
-    <div class="sub-contenedor">
-        <div class="contenedor-circular">
-            <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
-        </div>
-        <div class="contenedor-cuadrado">
-            <div style="padding-top: 70PX;"> 
-                <s-dataNotFound [message]="'Debe aceptar terminos y condiciones para hacer uso de la aplicación'"></s-dataNotFound>               
-            </div>   
-        </div>        
+<div class="background blue contenedor2" *ngIf="estadoFirma == 'noterminos'">
+  <div class="sub-contenedor">
+    <div class="contenedor-circular">
+      <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="" />
     </div>
+    <div class="contenedor-cuadrado">
+      <div style="padding-top: 70px">
+        <s-dataNotFound
+          [message]="
+            'Debe aceptar terminos y condiciones para hacer uso de la aplicación'
+          "
+        ></s-dataNotFound>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="background blue contenedor2" *ngIf="estadoFirma=='firmado'">
-    <div class="sub-contenedor">
-        <div class="contenedor-circular">
-            <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
-        </div>
-        <div class="contenedor-cuadrado">
-            <div style="padding-top: 70PX;"> 
-                <s-dataNotFound [message]="'Ya se encuentra registrada una firma en este link'"></s-dataNotFound>               
-            </div>   
-        </div>        
+<div class="background blue contenedor2" *ngIf="estadoFirma == 'firmado'">
+  <div class="sub-contenedor">
+    <div class="contenedor-circular">
+      <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="" />
     </div>
+    <div class="contenedor-cuadrado">
+      <div style="padding-top: 70px">
+        <s-dataNotFound
+          [message]="'Ya se encuentra registrada una firma en este link'"
+        ></s-dataNotFound>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="background blue contenedor2" *ngIf="estadoFirma=='firmavencida'">
-    <div class="sub-contenedor">
-        <div class="contenedor-circular">
-            <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="">
-        </div>
-        <div class="contenedor-cuadrado">
-            <div style="padding-top: 70PX;"> 
-                <s-dataNotFound [message]="'Por seguridad este link expiro el tiempo limite para su uso'"></s-dataNotFound>               
-            </div>   
-        </div>        
+<div class="background blue contenedor2" *ngIf="estadoFirma == 'firmavencida'">
+  <div class="sub-contenedor">
+    <div class="contenedor-circular">
+      <img src="../../../../../../assets/svg/logoSigessRedondo.svg" alt="" />
     </div>
+    <div class="contenedor-cuadrado">
+      <div style="padding-top: 70px">
+        <s-dataNotFound
+          [message]="
+            'Por seguridad este link expiro el tiempo limite para su uso'
+          "
+        ></s-dataNotFound>
+      </div>
+    </div>
+  </div>
 </div>
