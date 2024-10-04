@@ -201,20 +201,20 @@
             </div>
           </td> -->
           <td class="text-center bg-light">
-            <p-multiSelect
+            <p-dropdown
             appendTo="body"
             [filter]="true"
             [options]="localidadesOpt"
             defaultLabel="Seleccione"
             (onChange)="dt.filter($event.value, 'localidadActual', 'contains')"
-          ></p-multiSelect>
+          ></p-dropdown>
           
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-case>
         <tr [pSelectableRow]="case" class="table-row table-row-selectable">
-          <td class="p-text-center">{{ case.idSl }}</td>
+          <td class="p-text-center">SL-{{ case.idSl }}</td>
           <td class="p-text-center">{{ case.usuarioCreador }}</td>
           <td class="p-text-center">{{ case.usuarioAsignado }}</td>
           <td class="p-text-center">{{ case.nombreCompletoSL }}</td>
@@ -227,10 +227,22 @@
           <!-- <td class="p-text-center">{{ idToCargo(case.cargoOriginal) }}</td> -->
           <td class="p-text-center">{{ idToCargo(case.cargoActual) }}</td>
           <!-- <td class="p-text-center">{{idToDivision( case.divisionOrigen)}}</td> -->
-          <td class="p-text-center">{{ idToDivision(case.divisionActual) }}</td>
+          <td class="p-text-center">
+            
+            <!-- Mostrar spinner mientras se cargan las divisiones -->
+            <span *ngIf="isDivisionesLoading" class="spinner"></span>
+          
+            <!-- Mostrar la división una vez que haya terminado de cargar -->
+            <span *ngIf="!isDivisionesLoading">{{ idToDivision(case.divisionActual) }}</span>
+          </td>
+          
           <!-- <td class="p-text-center">{{ idToLocalidad(case.localidadOrigen) }}</td> -->
           <td class="p-text-center">
-            {{ idToLocalidad(case.localidadActual) }}
+            <!-- Mostrar spinner mientras se cargan las divisiones -->
+            <span *ngIf="isLocalidadesLoading" class="spinner"></span>
+          
+            <!-- Mostrar la división una vez que haya terminado de cargar -->
+            <span *ngIf="!isLocalidadesLoading">{{ idToLocalidad(case.localidadActual)}}</span>
           </td>
         </tr>
       </ng-template>

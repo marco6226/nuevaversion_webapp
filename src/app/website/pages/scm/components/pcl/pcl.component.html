@@ -448,15 +448,14 @@
                   </p-dropdown>
                 </div>
               </div>
-
+            
               <div
                 class="col"
                 *ngIf="
                   pclForm.get('entidadEmitePcl')?.value == 'EPS' ||
                   pclForm.get('entidadEmitePcl')?.value == 'ARL' ||
                   pclForm.get('entidadEmitePcl')?.value == 'AFP' ||
-                  pclForm.get('entidadEmiteCalificacion')?.value ==
-                    'Junta_Regional'
+                  pclForm.get('entidadEmitePcl')?.value == 'Junta_Regional'
                 "
               >
                 <div class="input-field">
@@ -474,6 +473,7 @@
                 </div>
               </div>
             </div>
+            
             <div class="col">
               <div class="input-field">
                 <label for="" class="active"
@@ -833,6 +833,20 @@
               />
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+              <div class="input-field">
+                <label for="tiempoCalificacion" class="active">Tiempo de calificación de origen</label>
+                <input
+                  type="text"
+                  [value]="tiempoCalificacion"
+                  class="form-control"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+          
         </div>
         <div class="col-6">
           <!-- Columna derecha -->
@@ -865,6 +879,19 @@
                 disabled
               />
             </div>
+          </div>
+          
+          
+          
+          <div class="col">
+            <p>Observaciones PCL</p>
+            <textarea
+              class="form-control"
+              [value]="
+                pclSeleccionada.observacionesPcl ? pclSeleccionada.observacionesPcl : ''
+              "
+              readonly
+            ></textarea>
           </div>
         </div>
       </div>

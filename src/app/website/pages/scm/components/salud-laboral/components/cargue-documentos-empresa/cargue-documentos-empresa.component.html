@@ -61,14 +61,15 @@
 
                       <td>
                         <a>&nbsp;</a>
-                        <a
+                        <button
                           type="button"
-                          [ariaDisabled]="true"
                           class="btn btn-outline-danger"
                           title="Eliminar documento"
                           (click)="eliminarDocumentEmp(doc)"
-                          ><span class="pi pi-trash"></span
-                        ></a>
+                          [disabled]="stateDownload"
+                        >
+                          <span class="pi pi-trash"></span>
+                        </button>
                       </td>
                       <td>
                         <div>
@@ -101,17 +102,17 @@
       <div class="card-body">
         <p-panel header="Dictamen de la ARL">
           <form [formGroup]="empleadoForm">
-          <p-dropdown
-            [options]="arlDocs"
-            appendTo="body"
-            [filter]="true"
-            formControlName="arlDictamen"
-            optionLabel="label"
-            placeholder="Seleccione la ARL asociada"
-          >
-          </p-dropdown>
+            <p-dropdown
+              [options]="arlDocs"
+              appendTo="body"
+              [filter]="true"
+              formControlName="arlDictamen"
+              optionLabel="label"
+              placeholder="Seleccione la ARL asociada"
+            >
+            </p-dropdown>
 
-          <!-- <label for="fechaLimite">Fecha notificacion:</label>
+            <!-- <label for="fechaLimite">Fecha notificacion:</label>
           <p-calendar
             id="fechaDictamenArl"
             appendTo="body"
@@ -123,17 +124,17 @@
             dateFormat="dd/mm/yy"
           ></p-calendar> -->
 
-          <button
-            pButton
-            type="button"
-            icon="bi bi-upload"
-            label="Adjuntar Soporte"
-            title="Subir documento"
-            [value]="documentacionSubirSelect"
-            class="p-button-info margin-left margin-right"
-            (click)="openUploadDialogCaseArl(idSl, documentosArl)"
-          ></button>
-        </form>
+            <button
+              pButton
+              type="button"
+              icon="bi bi-upload"
+              label="Adjuntar Soporte"
+              title="Subir documento"
+              [value]="documentacionSubirSelect"
+              class="p-button-info margin-left margin-right"
+              (click)="openUploadDialogCaseArl(idSl, documentosArl)"
+            ></button>
+          </form>
 
           <s-documentoUpload
             [privadoCheck]="false"
@@ -167,20 +168,21 @@
                           <a
                             type="button"
                             class="btn btn-outline-primary"
-                            (click)="descargarDocumento(doc.documento)"
+                            (click)="descargarDocumentoArl(doc.documento)"
                             >{{ doc.documento.descripcion }}</a
                           >
                         </td>
                         <td>
                           <a>&nbsp;</a>
-                          <a
+                          <button
                             type="button"
-                            [ariaDisabled]="true"
                             class="btn btn-outline-danger"
                             title="Eliminar documento"
                             (click)="eliminarDocumentArl(doc)"
-                            ><span class="pi pi-trash"></span
-                          ></a>
+                            [disabled]="stateDownloadArl"
+                          >
+                            <span class="pi pi-trash"></span>
+                          </button>
                         </td>
                         <td>
                           <div>
@@ -216,17 +218,17 @@
       <div class="card-body">
         <p-panel header="Dictamen de la Junta Regional">
           <form [formGroup]="empleadoForm">
-          <p-dropdown
-            [options]="jrDocs"
-            appendTo="body"
-            [filter]="true"
-            formControlName="jrDictamen"
-            optionLabel="label"
-            placeholder="Seleccione la Junta Regional asociada"
-          >
-          </p-dropdown>
+            <p-dropdown
+              [options]="jrDocs"
+              appendTo="body"
+              [filter]="true"
+              formControlName="jrDictamen"
+              optionLabel="label"
+              placeholder="Seleccione la Junta Regional asociada"
+            >
+            </p-dropdown>
 
-          <!-- <label for="fechaLimite">Fecha notificacion:</label>
+            <!-- <label for="fechaLimite">Fecha notificacion:</label>
           <p-calendar
             id="fechaDictamenJr"
             appendTo="body"
@@ -238,17 +240,17 @@
             dateFormat="dd/mm/yy"
           ></p-calendar> -->
 
-          <button
-            pButton
-            type="button"
-            icon="bi bi-upload"
-            label="Adjuntar Soporte"
-            title="Subir documento"
-            [value]="documentacionSubirSelect"
-            class="p-button-info margin-left margin-right"
-            (click)="openUploadDialogCaseJR(idSl, documentosJr)"
-          ></button>
-        </form>
+            <button
+              pButton
+              type="button"
+              icon="bi bi-upload"
+              label="Adjuntar Soporte"
+              title="Subir documento"
+              [value]="documentacionSubirSelect"
+              class="p-button-info margin-left margin-right"
+              (click)="openUploadDialogCaseJR(idSl, documentosJr)"
+            ></button>
+          </form>
 
           <s-documentoUpload
             [privadoCheck]="false"
@@ -280,20 +282,21 @@
                           <a
                             type="button"
                             class="btn btn-outline-primary"
-                            (click)="descargarDocumento(doc.documento)"
+                            (click)="descargarDocumentoJr(doc.documento)"
                             >{{ doc.documento.descripcion }}</a
                           >
                         </td>
                         <td>
                           <a>&nbsp;</a>
-                          <a
+                          <button
                             type="button"
-                            [ariaDisabled]="true"
                             class="btn btn-outline-danger"
                             title="Eliminar documento"
                             (click)="eliminarDocumentjR(doc)"
-                            ><span class="pi pi-trash"></span
-                          ></a>
+                            [disabled]="stateDownloadJr"
+                          >
+                            <span class="pi pi-trash"></span>
+                          </button>
                         </td>
                         <td>
                           <div>
@@ -327,16 +330,16 @@
       <div class="card-body">
         <p-panel header="Dictamen de la Junta Nacional">
           <form [formGroup]="empleadoForm">
-          <div class="input-field">
-            <input
-              type="text"
-              class="form-control"
-              value="Junta Nacional"
-              disabled
-            />
-          </div>
+            <div class="input-field">
+              <input
+                type="text"
+                class="form-control"
+                value="Junta Nacional"
+                disabled
+              />
+            </div>
 
-          <!-- <label for="fechaLimite">Fecha notificacion:</label>
+            <!-- <label for="fechaLimite">Fecha notificacion:</label>
           <p-calendar
             id="fechaDictamenJn"
             appendTo="body"
@@ -348,17 +351,17 @@
             dateFormat="dd/mm/yy"
           ></p-calendar> -->
 
-          <button
-            pButton
-            type="button"
-            icon="bi bi-upload"
-            label="Adjuntar Soporte"
-            title="Subir documento"
-            [value]="documentacionSubirSelect"
-            class="p-button-info margin-left margin-right"
-            (click)="openUploadDialogCaseJN(idSl, documentosJn)"
-          ></button>
-        </form>
+            <button
+              pButton
+              type="button"
+              icon="bi bi-upload"
+              label="Adjuntar Soporte"
+              title="Subir documento"
+              [value]="documentacionSubirSelect"
+              class="p-button-info margin-left margin-right"
+              (click)="openUploadDialogCaseJN(idSl, documentosJn)"
+            ></button>
+          </form>
 
           <s-documentoUpload
             [privadoCheck]="false"
@@ -390,20 +393,21 @@
                           <a
                             type="button"
                             class="btn btn-outline-primary"
-                            (click)="descargarDocumento(doc.documento)"
+                            (click)="descargarDocumentoJn(doc.documento)"
                             >{{ doc.documento.descripcion }}</a
                           >
                         </td>
                         <td>
                           <a>&nbsp;</a>
-                          <a
+                          <button
                             type="button"
-                            [ariaDisabled]="true"
                             class="btn btn-outline-danger"
                             title="Eliminar documento"
                             (click)="eliminarDocumentJn(doc)"
-                            ><span class="pi pi-trash"></span
-                          ></a>
+                            [disabled]="stateDownloadJn"
+                          >
+                            <span class="pi pi-trash"></span>
+                          </button>
                         </td>
                         <td>
                           <div>

@@ -40,8 +40,8 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
 
     ];
 
-    createOrigenList(){
-        if(this.idEmpresa=='22' || this.idEmpresa=='508'){
+    createOrigenList() {
+        if (this.idEmpresa == '22' || this.idEmpresa == '508') {
             this.origenList = [
                 { label: 'Seleccione', value: null },
                 { label: 'Común', value: 'Común' },
@@ -49,7 +49,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
                 { label: 'Enfermedad laboral', value: 'Enfermedad Laboral' },
 
             ];
-        }else{
+        } else {
             this.origenList = [
                 { label: 'Seleccione', value: null },
                 { label: 'Común', value: 'Común' },
@@ -100,7 +100,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
             this.parteAfectadaList = valuepivot
 
         })
-         this.createOrigenList()
+        this.createOrigenList()
         let resp: any = await this.scmService.getSistemasAFectados();
         this.esConsulta = JSON.parse(localStorage.getItem('scmShowCase')!) == true ? true : false;
 
@@ -116,7 +116,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
     async ngOnChanges(changes: SimpleChanges) {
         this.patchFormValues();
 
-    
+
         if (this.diagSelect && this.diagSelect['id'] != undefined && this.diagSelect['id'].toString().length > 0) {
             try {
                 const value = await this.scmService.findAllByIdDiagPartes(this.diagSelect['id']);
@@ -140,7 +140,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
         // You can also use categoryId.previousValue and
         // categoryId.firstChange for comparing old and new values
     }
-    
+
 
     async patchFormValues() {
         if (this.diagSelect) {
@@ -195,7 +195,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
                     let deleteItems = this.idPivotbase.filter(value => {
                         return !idSelected.includes(value)
                     })
-                    
+
                     let createItems = idSelected.filter(value => {
                         return !this.idPivotbase.includes(value)
                     })
@@ -225,11 +225,23 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
 
 
             }
+            if (!this.saludLaboralFlag) {
+                this.scmService.getDiagnosticos(this.caseId).then((value: any) => {
+                  const pivot: any[] = value;
+                  console.log(value);
+                  this.scmService.putCasoMedico(this.caseId, { 
+                    diagnostico: pivot.map(element => element['diagnostico']).join(',') 
+                  });
+                });
+              }
+              
+
 
             if (res) {
 
                 this.clearInputs();
                 this.messageServices.add({
+                    key: 'diagnostico',
                     severity: "success",
                     summary: "Mensaje del sistema",
                     detail: this.diagSelect ? "El diagnóstico fue actualizado exitosamente" : 'El diagnóstico fue creado exitosamente',
@@ -241,6 +253,7 @@ export class DiagnosticoFormComponent implements OnInit, OnChanges {
             }
         } catch (error) {
             this.messageServices.add({
+                key: 'diagnostico',
                 severity: "error",
                 summary: "Mensaje del sistema",
                 detail: "Ocurrió un problema con el diagnóstico"

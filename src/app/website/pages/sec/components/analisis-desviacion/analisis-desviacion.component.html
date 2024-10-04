@@ -1,520 +1,782 @@
 <!-- <p-toast (value)="msgs"></p-toast> -->
 <p-toast key="formSL"></p-toast>
 <p-panel header="DESVIACIONES">
-    <p-table [value]="desviacionesList" *ngIf="desviacionesList" autoLayout="true">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Módulo</th>
-                <th>Código</th>
-                <th *ngIf="(idEmpresa != '22' && !esAliado) || (idEmpresa != '508' && !esAliado)">Área origen</th>
-                <th *ngIf="(idEmpresa == '22' || esAliado) || (idEmpresa == '508' || esAliado)">Ubicación</th>
-                <th>Concepto</th>
-                <th>Aspecto causante</th>
-                <th style="width:3em;"></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData>
-            <tr>
-                <td>
-                    {{rowData.modulo}}
-                </td>
-                <td>
-                    {{rowData.hashId}}
-                    <button *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'" 
-                            pButton 
-                            type="button" 
-                            class="p-button-text p-button-sm"
-                            icon="pi pi-search" 
-                            (click)="redirectCase()">
-                    </button>
-                </td>
-                <td>
-                    {{ rowData.modulo === 'Salud Laboral' ? desviacionesList[0]?.areaOrigen : rowData.area.nombre }}
+  <p-table
+    [value]="desviacionesList"
+    *ngIf="desviacionesList"
+    autoLayout="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Módulo</th>
+        <th>Código</th>
+        <th
+          *ngIf="
+            (idEmpresa != '22' && !esAliado) ||
+            (idEmpresa != '508' && !esAliado)
+          "
+        >
+          Área origen
+        </th>
+        <th
+          *ngIf="
+            idEmpresa == '22' || esAliado || idEmpresa == '508' || esAliado
+          "
+        >
+          Ubicación
+        </th>
+        <th>Concepto</th>
+        <th>Aspecto causante</th>
+        <th style="width: 3em"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td>
+          {{ rowData.modulo }}
+        </td>
+        <td>
+          {{ rowData.hashId }}
+          <button
+            *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+            pButton
+            type="button"
+            class="p-button-text p-button-sm"
+            icon="pi pi-search"
+            (click)="redirectCase()"
+          ></button>
+        </td>
+        <td>
+          {{
+            rowData.modulo === "Salud Laboral"
+              ? desviacionesList[0]?.areaOrigen
+              : rowData.area.nombre
+          }}
+        </td>
 
-                  </td>
-                  
-                  
-                  
-                <ng-template #division>
-                    <td>
-                        {{rowData.division}}
-                    </td>
-                </ng-template>
-                <td>
-                    {{rowData.concepto}}
-                </td>
-                <td>
-                    {{rowData.aspectoCausante}}
-                </td>
-                <td>
-                    <button *ngIf="!consultar" pButton type="button" icon="bi bi-x" class="border rounded p-2"
-                        (click)="removeDesv(rowData)"></button>
-                </td>
-            </tr>
+        <ng-template #division>
+          <td>
+            {{ rowData.division }}
+          </td>
         </ng-template>
-    </p-table>
+        <td>
+          {{ rowData.concepto }}
+        </td>
+        <td>
+          {{ rowData.aspectoCausante }}
+        </td>
+        <td>
+          <button
+            *ngIf="!consultar"
+            pButton
+            type="button"
+            icon="bi bi-x"
+            class="border rounded p-2"
+            (click)="removeDesv(rowData)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </p-panel>
 <p-messages [(value)]="msgs" [closable]="true"></p-messages>
 <br />
 
 <p-tabView>
-    <ng-container *ngIf="desviacionesList && desviacionesList[0]?.modulo != 'Inspecciones CC' &&  desviacionesList[0].modulo != 'Inspecciones SV'">
-    <p-tabPanel header="INVESTIGACIÓN" *sTienePermiso="'SEC_POST_INVESTIGACIONES'">
-        <div class="grid">
-            <div class="col-12">
-                <p-tabView [(activeIndex)]="tabIndex" (onChange)="indexTab($event)" [scrollable]="true">
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Descripción">
-                        <!-- <button (click)="test2()">test2</button> -->
-                        <div class="grid">
-                            <div *ngIf="desviacionesList" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 5px; font-weight: bold;">Nombre de la Empresa</h4>
-                                {{desviacionesList[0]?.empresa}}
-                            </div>
-                            <div *ngIf="desviacionesList" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 5px; font-weight: bold;">NIT</h4>
-                                {{desviacionesList[0]?.nit}}
-                            </div>
-                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 5px; font-weight: bold;">Nombres Completos</h4>
-                                {{desviacionesList[0]?.nombresSl}}
-                            </div>
-                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 5px; font-weight: bold;">Cedula</h4>
-                                {{desviacionesList[0]?.cedulaUsuario}}
-                            </div>
-                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 5px; font-weight: bold;">Edad</h4>
-                                {{ calcularEdad(desviacionesList[0]?.edad) }} años
-                              </div>                              
-                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 5px; font-weight: bold;">Antiguedad</h4>
-                                {{calcularEdad(desviacionesList[0]?.antiguedad)  }} años
-                            </div>
-                            <div *ngIf="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'" class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 5px; font-weight: bold;">Sexo</h4>
-                                {{desviacionesList[0]?.genero}}
-                            </div>
+  <ng-container
+    *ngIf="
+      desviacionesList &&
+      desviacionesList[0]?.modulo != 'Inspecciones CC' &&
+      desviacionesList[0].modulo != 'Inspecciones SV'
+    "
+  >
+    <p-tabPanel
+      header="INVESTIGACIÓN"
+      *sTienePermiso="'SEC_POST_INVESTIGACIONES'"
+    >
+      <div class="grid">
+        <div class="col-12">
+          <p-tabView
+            [(activeIndex)]="tabIndex"
+            (onChange)="indexTab($event)"
+            [scrollable]="true"
+          >
+            <p-tabPanel
+              *ngIf="idEmpresa == '22' || idEmpresa == '3'"
+              header="Descripción"
+            >
+              <!-- <button (click)="test2()">test2</button> -->
+              <div class="grid">
+                <div *ngIf="desviacionesList" class="col-12 lg:col-4">
+                  <h4 style="margin-bottom: 5px; font-weight: bold">
+                    Nombre de la Empresa
+                  </h4>
+                  {{ desviacionesList[0]?.empresa }}
+                </div>
+                <div *ngIf="desviacionesList" class="col-12 lg:col-4">
+                  <h4 style="margin-bottom: 5px; font-weight: bold">NIT</h4>
+                  {{ desviacionesList[0]?.nit }}
+                </div>
+                <div
+                  *ngIf="
+                    desviacionesList &&
+                    desviacionesList[0]?.modulo == 'Salud Laboral'
+                  "
+                  class="col-12 lg:col-4"
+                >
+                  <h4 style="margin-bottom: 5px; font-weight: bold">
+                    Nombres Completos
+                  </h4>
+                  {{ desviacionesList[0]?.nombresSl }}
+                </div>
+                <div
+                  *ngIf="
+                    desviacionesList &&
+                    desviacionesList[0]?.modulo == 'Salud Laboral'
+                  "
+                  class="col-12 lg:col-4"
+                >
+                  <h4 style="margin-bottom: 5px; font-weight: bold">Cedula</h4>
+                  {{ desviacionesList[0]?.cedulaUsuario }}
+                </div>
+                <div
+                  *ngIf="
+                    desviacionesList &&
+                    desviacionesList[0]?.modulo == 'Salud Laboral'
+                  "
+                  class="col-12 lg:col-4"
+                >
+                  <h4 style="margin-bottom: 5px; font-weight: bold">Edad</h4>
+                  {{ calcularEdad(desviacionesList[0]?.edad) }} años
+                </div>
+                <div
+                  *ngIf="
+                    desviacionesList &&
+                    desviacionesList[0]?.modulo == 'Salud Laboral'
+                  "
+                  class="col-12 lg:col-4"
+                >
+                  <h4 style="margin-bottom: 5px; font-weight: bold">
+                    Antiguedad
+                  </h4>
+                  {{ calcularEdad(desviacionesList[0]?.antiguedad) }} años
+                </div>
+                <div
+                  *ngIf="
+                    desviacionesList &&
+                    desviacionesList[0]?.modulo == 'Salud Laboral'
+                  "
+                  class="col-12 lg:col-4"
+                >
+                  <h4 style="margin-bottom: 5px; font-weight: bold">Sexo</h4>
+                  {{ desviacionesList[0]?.genero }}
+                </div>
+              </div>
+              <div
+                class="grid"
+                *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'"
+              >
+                <h4 style="margin-bottom: 20px">Reporte de investigación</h4>
+              </div>
+              <div
+                class="grid"
+                *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'"
+              >
+                <h4 style="margin-bottom: 20px">Reporte Inicial</h4>
+              </div>
 
+              <p-table
+                [value]="desviacionesList"
+                autoLayout="true"
+                id="TablaDescripcion"
+                *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'"
+              >
+                <ng-template pTemplate="body" let-rowIndex="rowIndex">
+                  <ng-container *ngIf="rowIndex == 0">
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Nombre del evento
+                      </th>
+                      <td>{{ desviacionesList[0]?.concepto }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Nombre del colaborador
+                      </th>
+                      <td>{{ desviacionesList[0]?.nombre }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Fecha del incidente
+                      </th>
+                      <td>
+                        {{
+                          desviacionesList[0]?.fechaReporte
+                            | date : "dd/MM/yyyy"
+                        }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Hora del incidente
+                      </th>
+                      <td>{{ desviacionesList[0]?.hora }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Ubicacion</th>
+                      <td>{{ desviacionesList[0]?.area.nombre }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Clasificación</th>
+                      <td>{{ desviacionesList[0]?.severidad }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Descripción detallada del AT
+                      </th>
+                      <td>
+                        <textarea
+                          style="width: 100%"
+                          maxlength="5000"
+                          *ngIf="!consultar"
+                          pInputTextarea
+                          rows="20"
+                          placeholder="Observaciones de análisis"
+                          [(ngModel)]="observacion"
+                        ></textarea>
+                        <div *ngIf="consultar">
+                          {{ observacion }}
                         </div>
-                        <div class="grid" *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'">
-                            <h4 style="margin-bottom: 20px;">Reporte de investigación</h4>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-template>
+              </p-table>
+              <p-table
+                [value]="desviacionesList"
+                autoLayout="true"
+                id="TablaDescripcion"
+                *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+              >
+                <ng-template pTemplate="body" let-rowIndex="rowIndex">
+                  <ng-container *ngIf="rowIndex == 0">
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Division Origen</th>
+                      <td>{{ desviacionesList[0]?.divisionOrigen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Localidad Origen
+                      </th>
+                      <td>{{ desviacionesList[0]?.localidadOrigen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Area Origen</th>
+                      <td>{{ desviacionesList[0]?.areaOrigen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Proceso Origen</th>
+                      <td>{{ desviacionesList[0]?.procesoOrigen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Division Actual</th>
+                      <td>{{ desviacionesList[0]?.divisionActual }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Localidad Actual
+                      </th>
+                      <td>{{ desviacionesList[0]?.localidadActual }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Area Actual</th>
+                      <td>{{ desviacionesList[0]?.areaActual }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Proceso Actual</th>
+                      <td>{{ desviacionesList[0]?.procesoActual }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Cargo Actual</th>
+                      <td>{{ desviacionesList[0]?.cargoOrigen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Cargo Origen</th>
+                      <td>{{ desviacionesList[0]?.cargoActual }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Fecha de Apertura del caso
+                      </th>
+                      <td>
+                        {{
+                          desviacionesList[0]?.fechaReporte
+                            | date : "dd/MM/yyyy"
+                        }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Dictamen EPS</th>
+                      <td>{{ desviacionesList[0]?.epsDictamen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">Dictamen ARL</th>
+                      <td>{{ desviacionesList[0]?.arlDictamen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Dictamen Junta Regional
+                      </th>
+                      <td>{{ desviacionesList[0]?.jrDictamen }}</td>
+                    </tr>
+                    <tr>
+                      <th style="border: 1px solid #c8c8c8">
+                        Dictamen Junta Nacional
+                      </th>
+                      <td>{{ "Junta Nacional" }}</td>
+                    </tr>
+                  </ng-container>
+                </ng-template>
+              </p-table>
+              <div
+                class="container-fluid cew-9"
+                *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+              >
+                <div class="row">
+                  <h2 class="title-header p-mb-2">
+                    Información sobre diagnósticos asociados al caso
+                  </h2>
+                </div>
+                <div class="ui-g-12">
+                  <p-table
+                    #dt
+                    [value]="diagnosticoList"
+                    styleClass="material-table"
+                    autoLayout="true"
+                    [rows]="5"
+                    [paginator]="true"
+                    dataKey="id"
+                    [lazy]="true"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="pkCase">Caso asociado</th>
+                        <th pSortableColumn="codigoCie10">CIE 10</th>
+                        <th pSortableColumn="sistemaAfectado">
+                          Sistema Afectado
+                        </th>
+                        <th pSortableColumn="diagnostico">Diagnóstico</th>
+                        <th pSortableColumn="detalle">Detalles</th>
 
-                        </div>
-                        <div class="grid" *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'">
-                            <h4 style="margin-bottom: 20px;">Reporte Inicial</h4>
+                        <th pSortableColumn="fechaDiagnostico">Fecha</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-case>
+                      <tr
+                        [pSelectableRowDisabled]="modalDianostico"
+                        [pSelectableRow]="case"
+                        class="table-row table-row-selectable"
+                      >
+                        <td class="p-text-center">{{ case.pkCase }}</td>
+                        <td class="p-text-center">{{ case.codigoCie10 }}</td>
+                        <td class="p-text-center">
+                          {{ case.sistemaAfectado || "" }}
+                        </td>
+                        <td class="p-text-center">{{ case.diagnostico }}</td>
+                        <td class="p-text-center">{{ case.detalle }}</td>
+                        <td class="p-text-center">
+                          {{ case.fechaDiagnostico | date : "dd/MM/yyyy" }}
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary" let-rowData> </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="6" class="p-text-center">
+                          No hay registro de diagnósticos médicos
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+              <div
+                class="container-fluid cew-9"
+                *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+              >
+                <div class="row">
+                  <h2 class="title-header p-mb-2">
+                    Información sobre diagnósticos asociados al trabajador en
+                    Casos medicos y Salud Laboral
+                  </h2>
+                </div>
+                <div class="ui-g-12">
+                  <p-table
+                    #dt
+                    [value]="diagnosticoListSLCM"
+                    styleClass="material-table"
+                    autoLayout="true"
+                    [rows]="5"
+                    [paginator]="true"
+                    dataKey="id"
+                    [lazy]="true"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="pkCase">Caso Asociado</th>
+                        <th pSortableColumn="saludLaboral">Tipo</th>
+                        <th pSortableColumn="codigoCie10">CIE 10</th>
+                        <th pSortableColumn="sistemaAfectado">
+                          Sistema Afectado
+                        </th>
+                        <th pSortableColumn="diagnostico">Diagnóstico</th>
+                        <th pSortableColumn="detalle">Detalles</th>
 
-                        </div>
-
-
-                        <p-table [value]="desviacionesList" autoLayout="true" id="TablaDescripcion" *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'">
-
-                            <ng-template pTemplate="body" let-rowIndex="rowIndex">
-                                <ng-container *ngIf="rowIndex==0">
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Nombre del evento</th>
-                                        <td>{{desviacionesList[0]?.concepto}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Nombre del colaborador</th>
-                                        <td>{{desviacionesList[0]?.nombre}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Fecha del incidente</th>
-                                        <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Hora del incidente</th>
-                                        <td>{{desviacionesList[0]?.hora}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Ubicacion</th>
-                                        <td>{{desviacionesList[0]?.area.nombre}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Clasificación</th>
-                                        <td>{{desviacionesList[0]?.severidad}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Descripción detallada del AT</th>
-                                        <td>
-                                            <textarea style="width: 100%;" maxlength="5000" *ngIf="!consultar"
-                                                pInputTextarea rows="20" placeholder="Observaciones de análisis"
-                                                [(ngModel)]="observacion"></textarea>
-                                            <div *ngIf="consultar">
-                                                {{observacion}}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </ng-template>
-
-                        </p-table>
-                        <p-table [value]="desviacionesList" autoLayout="true" id="TablaDescripcion" *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'">
-
-                            <ng-template pTemplate="body" let-rowIndex="rowIndex">
-                                <ng-container *ngIf="rowIndex==0">
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Division Origen</th>
-                                        <td>{{desviacionesList[0]?.divisionOrigen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Localidad Origen</th>
-                                        <td>{{desviacionesList[0]?.localidadOrigen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Area Origen</th>
-                                        <td>{{desviacionesList[0]?.areaOrigen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Proceso Origen</th>
-                                        <td>{{desviacionesList[0]?.procesoOrigen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Division Actual</th>
-                                        <td>{{desviacionesList[0]?.divisionActual}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Localidad Actual</th>
-                                        <td>{{desviacionesList[0]?.localidadActual}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Area Actual</th>
-                                        <td>{{desviacionesList[0]?.areaActual}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Proceso Actual</th>
-                                        <td>{{desviacionesList[0]?.procesoActual}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Cargo Actual</th>
-                                        <td>{{desviacionesList[0]?.cargoOrigen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Cargo Origen</th>
-                                        <td>{{desviacionesList[0]?.cargoActual}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Fecha de Apertura del caso</th>
-                                        <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Dictamen EPS</th>
-                                        <td>{{desviacionesList[0]?.epsDictamen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Dictamen ARL</th>
-                                        <td>{{desviacionesList[0]?.arlDictamen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Dictamen Junta Regional</th>
-                                        <td>{{desviacionesList[0]?.jrDictamen}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="border: 1px solid #c8c8c8;">Dictamen Junta Nacional</th>
-                                        <td>{{'Junta Nacional'}}</td>
-                                    </tr>
-                                   
-                                   
-                                </ng-container>
-                            </ng-template>
-
-                        </p-table>
-                        <div class="container-fluid cew-9" *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'">
-                            <div class="row">
-                              <h2 class="title-header p-mb-2">Información sobre diagnósticos asociados al caso</h2>
-                            </div>
-                            <div class="ui-g-12">
-                              <p-table
-                                #dt
-                                [value]="diagnosticoList"
-                                styleClass="material-table"
-                                autoLayout="true"
-                                [rows]="5"
-                                [paginator]="true"
-                                dataKey="id"
-                                [lazy]="true"
+                        <th pSortableColumn="fechaDiagnostico">Fecha</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-case>
+                      <tr
+                        [pSelectableRowDisabled]="modalDianostico"
+                        [pSelectableRow]="case"
+                        class="table-row table-row-selectable"
+                      >
+                        <td class="p-text-center">{{ case.pkCase }}</td>
+                        <td class="p-text-center">
+                          {{
+                            case.saludLaboral
+                              ? "Salud Laboral"
+                              : "Casos Médicos"
+                          }}
+                        </td>
+                        <td class="p-text-center">{{ case.codigoCie10 }}</td>
+                        <td class="p-text-center">
+                          {{ case.sistemaAfectado || "" }}
+                        </td>
+                        <td class="p-text-center">{{ case.diagnostico }}</td>
+                        <td class="p-text-center">{{ case.detalle }}</td>
+                        <td class="p-text-center">
+                          {{ case.fechaDiagnostico | date : "dd/MM/yyyy" }}
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary" let-rowData> </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="6" class="p-text-center">
+                          No hay registro de diagnósticos médicos
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="idEmpresa == '22' || idEmpresa == '3'"
+              header="Información complementaria"
+            >
+              <p-tabView>
+                <p-tabPanel *ngIf="idEmpresa == '22'" header="Complementaria">
+                  <p-table
+                    [value]="desviacionesList"
+                    autoLayout="true"
+                    [formGroup]="analisisPeligros"
+                  >
+                    <ng-template
+                      pTemplate="body"
+                      let-aus
+                      let-rowIndex="rowIndex"
+                    >
+                      <ng-container *ngIf="rowIndex == 0">
+                        <!-- matriz Peligros -->
+                        <!-- <ng-container *ngIf="usuarioPrueba == '6051'"> -->
+                        <ng-container *ngIf="false">
+                          <tr>
+                            <th style="border: 1px solid #c8c8c8">Area</th>
+                            <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                            <th style="border: 1px solid #c8c8c8">
+                              <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                              <p-dropdown
+                                placeholder="-- Seleccione --"
+                                [options]="this.areaMatrizItemList"
+                                formControlName="Area"
+                                (onChange)="cargarProceso($event.value)"
+                                appendTo="body"
                               >
-                                <ng-template pTemplate="header">
-                                  <tr>
-                                    <th pSortableColumn="pkCase">Caso asociado</th>
-                                    <th pSortableColumn="codigoCie10">CIE 10</th>
-                                    <th pSortableColumn="sistemaAfectado">Sistema Afectado</th>
-                                    <th pSortableColumn="diagnostico">Diagnóstico</th>
-                                    <th pSortableColumn="detalle">Detalles</th>
-                  
-                                    <th pSortableColumn="fechaDiagnostico">Fecha</th>
-                                  </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-case>
-                                  <tr
-                                    [pSelectableRowDisabled]="modalDianostico"
-                                    [pSelectableRow]="case"
-                                    class="table-row table-row-selectable"
-                                  >
-                                  <td class="p-text-center">{{ case.pkCase }}</td>
-                                    <td class="p-text-center">{{ case.codigoCie10 }}</td>
-                                    <td class="p-text-center">
-                                      {{ case.sistemaAfectado || "" }}
-                                    </td>
-                                    <td class="p-text-center">{{ case.diagnostico }}</td>
-                                    <td class="p-text-center">{{ case.detalle }}</td>
-                                    <td class="p-text-center">
-                                      {{ case.fechaDiagnostico | date : "dd/MM/yyyy" }}
-                                    </td>
-                                  </tr>
-                                </ng-template>
-                                <ng-template pTemplate="summary" let-rowData>
-                                </ng-template>
-                                <ng-template pTemplate="emptymessage">
-                                  <tr>
-                                    <td colspan="6" class="p-text-center">
-                                      No hay registro de diagnósticos médicos
-                                    </td>
-                                  </tr>
-                                </ng-template>
-                              </p-table>
-                            </div>
-                          </div>
-                          <div class="container-fluid cew-9" *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'">
-                            <div class="row">
-                              <h2 class="title-header p-mb-2">Información sobre diagnósticos asociados al trabajador en Casos medicos y Salud Laboral</h2>
-                            </div>
-                            <div class="ui-g-12">
-                              <p-table
-                                #dt
-                                [value]="diagnosticoListSLCM"
-                                styleClass="material-table"
-                                autoLayout="true"
-                                [rows]="5"
-                                [paginator]="true"
-                                dataKey="id"
-                                [lazy]="true"
+                              </p-dropdown>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th style="border: 1px solid #c8c8c8">Proceso</th>
+                            <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                            <th style="border: 1px solid #c8c8c8">
+                              <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                              <p-dropdown
+                                placeholder="-- Seleccione --"
+                                [options]="this.procesoMatrizItemList"
+                                formControlName="Proceso"
+                                (onChange)="cargarSubproceso($event.value)"
+                                appendTo="body"
                               >
-                                <ng-template pTemplate="header">
-                                  <tr>
-                                    <th pSortableColumn="pkCase">Caso Asociado</th>
-                                    <th pSortableColumn="saludLaboral">Tipo</th>
-                                    <th pSortableColumn="codigoCie10">CIE 10</th>
-                                    <th pSortableColumn="sistemaAfectado">Sistema Afectado</th>
-                                    <th pSortableColumn="diagnostico">Diagnóstico</th>
-                                    <th pSortableColumn="detalle">Detalles</th>
-                  
-                                    <th pSortableColumn="fechaDiagnostico">Fecha</th>
-                                    
-                                  </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-case>
-                                  <tr
-                                    [pSelectableRowDisabled]="modalDianostico"
-                                    [pSelectableRow]="case"
-                                    class="table-row table-row-selectable"
-                                  >
-                                    <td class="p-text-center">{{ case.pkCase }}</td>
-                                    <td class="p-text-center">
-                                        {{ case.saludLaboral ? 'Salud Laboral' : 'Casos Médicos' }}
-                                      </td> 
-                                    <td class="p-text-center">{{ case.codigoCie10 }}</td>
-                                    <td class="p-text-center">
-                                      {{ case.sistemaAfectado || "" }}
-                                    </td>
-                                    <td class="p-text-center">{{ case.diagnostico }}</td>
-                                    <td class="p-text-center">{{ case.detalle }}</td>
-                                    <td class="p-text-center">
-                                      {{ case.fechaDiagnostico | date : "dd/MM/yyyy" }}
-                                    </td>
-                                   
-                                </tr>
-                                </ng-template>
-                                <ng-template pTemplate="summary" let-rowData>
-                                </ng-template>
-                                <ng-template pTemplate="emptymessage">
-                                  <tr>
-                                    <td colspan="6" class="p-text-center">
-                                      No hay registro de diagnósticos médicos
-                                    </td>
-                                  </tr>
-                                </ng-template>
-                              </p-table>
+                              </p-dropdown>
+                            </th>
+                          </tr>
+                          <tr>
+                            <th style="border: 1px solid #c8c8c8">
+                              SubProceso (cargo/oficio)
+                            </th>
+                            <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                            <th style="border: 1px solid #c8c8c8">
+                              <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                              <p-dropdown
+                                placeholder="-- Seleccione --"
+                                [options]="this.subprocesoMatrizItemList"
+                                formControlName="subProceso"
+                                (onChange)="cargarMatricez()"
+                                appendTo="body"
+                              >
+                              </p-dropdown>
+                            </th>
+                          </tr>
+                        </ng-container>
+                        <tr>
+                          <th style="border: 1px solid #c8c8c8">Peligro</th>
+                          <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
+                          <th style="border: 1px solid #c8c8c8">
+                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
+                            <p-dropdown
+                              required
+                              [options]="this.tipoPeligroItemList"
+                              formControlName="Peligro"
+                              (onChange)="SelectPeligro($event.value)"
+                              appendTo="body"
+                            >
+                            </p-dropdown>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th style="border: 1px solid #c8c8c8">
+                            Descripción del Peligro
+                          </th>
+                          <!-- <td>{{desviacionesList[0]?.nombre}}</td>  -->
+                          <th style="border: 1px solid #c8c8c8">
+                            <!-- <p-dropdown [options]="this.peligroItemList" formControlName="tipoCaso"></p-dropdown> -->
+
+                            <p-dropdown
+                              [options]="this.peligroItemList"
+                              formControlName="DescripcionPeligro"
+                              required
+                              appendTo="body"
+                              (onChange)="cargarMatricez()"
+                            ></p-dropdown>
+                          </th>
+                        </tr>
+                        <tr>
+                          <th
+                            style="border: 1px solid #c8c8c8"
+                            *ngIf="!tienePermisocamex"
+                          >
+                            Estado del evento ante ARL c
+                          </th>
+                          <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
+                          <th
+                            style="border: 1px solid #c8c8c8"
+                            *ngIf="!tienePermisocamex"
+                          >
+                            <p-dropdown
+                              [options]="ARLfirme"
+                              formControlName="EnventoARL"
+                              required
+                              appendTo="body"
+                            ></p-dropdown>
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <th style="border: 1px solid #c8c8c8">
+                            Reporte a entes de control
+                          </th>
+                          <td *ngIf="!severidadFlag">
+                            <p-radioButton
+                              name="ReporteControl"
+                              label="Si  "
+                              [value]="true"
+                              formControlName="ReporteControl"
+                              required
+                            ></p-radioButton>
+                            <p-radioButton
+                              name="ReporteControl"
+                              label="No  "
+                              [value]="false"
+                              formControlName="ReporteControl"
+                            ></p-radioButton>
+                          </td>
+                          <td *ngIf="severidadFlag">
+                            <p-radioButton
+                              name="ReporteControl"
+                              label="Si  "
+                              [value]="true"
+                              formControlName="ReporteControl"
+                              required
+                              class="fieldgroup"
+                            ></p-radioButton>
+                            <p-radioButton
+                              name="ReporteControl"
+                              label="No  "
+                              [value]="false"
+                              formControlName="ReporteControl"
+                              class="fieldgroup"
+                            ></p-radioButton>
+                          </td>
+                        </tr>
+                        <tr
+                          *ngIf="
+                            analisisPeligros.get('ReporteControl').value == true
+                          "
+                        >
+                          <th style="border: 1px solid #c8c8c8">
+                            Fecha de envio a entes de control
+                          </th>
+                          <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
+                          <th style="border: 1px solid #c8c8c8">
+                            <div class="field col-12 md:col-4">
+                              <!-- <label for="touchui">Touch UI</label> -->
+                              <!-- <p-calendar [(ngModel)]="date1" [touchUI]="true" [readonlyInput]="true" inputId="touchui" [(ngModel)]="FechaControl"></p-calendar> -->
+                              <p-calendar
+                                appendTo="body"
+                                [yearNavigator]="true"
+                                yearRange="1900:2030"
+                                [monthNavigator]="true"
+                                dateFormat="dd/mm/yy"
+                                [touchUI]="true"
+                                [readonlyInput]="true"
+                                required
+                                inputId="touchui"
+                                formControlName="FechaControl"
+                              ></p-calendar>
                             </div>
-                          </div>
+                          </th>
+                        </tr>
 
+                        <tr>
+                          <th
+                            style="border: 1px solid #c8c8c8"
+                            *ngIf="!tienePermisocamex"
+                          >
+                            Entrega copia de FURAT al trabajador
+                          </th>
 
+                          <td *ngIf="!tienePermisocamex">
+                            <p-radioButton
+                              name="CopiaTrabajador"
+                              label="Si  "
+                              [value]="true"
+                              formControlName="CopiaTrabajador"
+                              required
+                            ></p-radioButton>
+                            <p-radioButton
+                              name="CopiaTrabajador"
+                              label="No  "
+                              [value]="false"
+                              formControlName="CopiaTrabajador"
+                            ></p-radioButton>
+                          </td>
+                        </tr>
+                        <tr
+                          *ngIf="
+                            analisisPeligros.get('CopiaTrabajador').value ==
+                            true
+                          "
+                        >
+                          <th
+                            style="border: 1px solid #c8c8c8; width: 35%"
+                            *ngIf="!tienePermisocamex"
+                          >
+                            Fecha entrega copia al trabajador
+                          </th>
+                          <th style="border: 1px solid #c8c8c8">
+                            <div
+                              class="field col-12 md:col-4"
+                              *ngIf="!tienePermisocamex"
+                            >
+                              <!-- <label for="touchui">Touch UI</label> -->
+                              <!-- <p-calendar [(ngModel)]="date2" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaCopia"></p-calendar> -->
+                              <p-calendar
+                                appendTo="body"
+                                [yearNavigator]="true"
+                                yearRange="1900:2030"
+                                [monthNavigator]="true"
+                                dateFormat="dd/mm/yy"
+                                [touchUI]="true"
+                                [readonlyInput]="true"
+                                inputId="touchui"
+                                formControlName="FechaCopia"
+                              ></p-calendar>
+                            </div>
+                          </th>
+                        </tr>
+                        <tr>
+                          <s-documentosAnalisisDesviacion
+                            *ngIf="documentos"
+                            [analisisId]="analisisId"
+                            [documentos]="documentos"
+                            (onUpdate)="confirmarActualizacion($event)"
+                            [readOnly]="consultar"
+                          ></s-documentosAnalisisDesviacion>
+                        </tr>
+                      </ng-container>
+                    </ng-template>
+                  </p-table>
+                  <br />
+                  <app-pcl
+                    *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+                    [diagnosticos]="this.diagnosticoList"
+                    [entity]="entity"
+                    [emitPclentity]="emitPclentity"
+                    [saludLaboralFlag]="true"
+                    [testFlag]="true"
+                    [pkCase]="this.desviacionesList![0]?.idSl"
+                    [pclOptionList]="pclOptionList"
+                    (eventClose)="onCloseModalDianostico()"
+                    (dlistaPCL)="recibirPCL($event)"
+                  >
+                  </app-pcl>
+                </p-tabPanel>
+                <p-tabPanel
+                  *ngIf="
+                    idEmpresa == '22' ||
+                    (idEmpresa == '3' &&
+                      desviacionesList &&
+                      desviacionesList[0]?.modulo == 'Salud Laboral')
+                  "
+                  [header]="
+                    desviacionesList &&
+                    desviacionesList[0]?.modulo == 'Salud Laboral'
+                      ? 'Análisis de ausentismo'
+                      : 'Días perdidos'
+                  "
+                >
+                  <app-incapacidades-complementaria
+                    *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+                    (listIncapacidades)="getListIncapacidades($event)"
+                    [saludLaboralFlag]="true"
+                    [incapacidades]="incapacidadesList"
+                  >
+                  </app-incapacidades-complementaria>
 
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Información complementaria">
-                        <p-tabView>
-                            <p-tabPanel *ngIf="idEmpresa == '22'" header="Complementaria">
-                                <p-table [value]="desviacionesList" autoLayout="true" [formGroup]="analisisPeligros">
-                                    <ng-template  pTemplate="body" let-aus let-rowIndex="rowIndex">
-                                        <ng-container *ngIf="rowIndex==0">
-                                            <!-- matriz Peligros -->
-                                            <!-- <ng-container *ngIf="usuarioPrueba == '6051'"> -->
-                                            <ng-container *ngIf="false">
-                                                    <tr>
-                                                        <th style="border: 1px solid #c8c8c8;">Area</th>
-                                                        <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
-                                                        <th style="border: 1px solid #c8c8c8;">
-                                                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
-                                                            <p-dropdown placeholder="-- Seleccione --"  [options]="this.areaMatrizItemList"
-                                                                formControlName="Area" (onChange)="cargarProceso($event.value)" appendTo="body">
-                                                            </p-dropdown>
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th style="border: 1px solid #c8c8c8;">Proceso</th>
-                                                        <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
-                                                        <th style="border: 1px solid #c8c8c8;">
-                                                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
-                                                            <p-dropdown placeholder="-- Seleccione --"  [options]="this.procesoMatrizItemList"
-                                                                formControlName="Proceso" (onChange)="cargarSubproceso($event.value)" appendTo="body">
-                                                            </p-dropdown>
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th style="border: 1px solid #c8c8c8;">SubProceso (cargo/oficio)</th>
-                                                        <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
-                                                        <th style="border: 1px solid #c8c8c8;">
-                                                            <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
-                                                            <p-dropdown placeholder="-- Seleccione --"  [options]="this.subprocesoMatrizItemList"
-                                                                formControlName="subProceso" (onChange)="cargarMatricez()" appendTo="body">
-                                                            </p-dropdown>
-                                                        </th>
-                                                    </tr>
-                                            </ng-container>
-                                            <tr>
-                                                <th style="border: 1px solid #c8c8c8;">Peligro</th>
-                                                <!-- <td>{{desviacionesList[0].concepto}}</td>  -->
-                                                <th style="border: 1px solid #c8c8c8;">
-                                                    <!-- <p-dropdown [options]="this.tipoPeligroItemList" (onChange)="SelectPeligro($event.value)" [(ngModel)]="informacionComplementaria.Peligro" optionValue="label"> -->
-                                                    <p-dropdown required [options]="this.tipoPeligroItemList"
-                                                        formControlName="Peligro" (onChange)="SelectPeligro($event.value)" appendTo="body">
-                                                    </p-dropdown>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th style="border: 1px solid #c8c8c8;">Descripción del Peligro</th>
-                                                <!-- <td>{{desviacionesList[0]?.nombre}}</td>  -->
-                                                <th style="border: 1px solid #c8c8c8;">
-                                                    <!-- <p-dropdown [options]="this.peligroItemList" formControlName="tipoCaso"></p-dropdown> -->
-    
-                                                    <p-dropdown [options]="this.peligroItemList"
-                                                        formControlName="DescripcionPeligro" required appendTo="body" (onChange)="cargarMatricez()"></p-dropdown>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th style="border: 1px solid #c8c8c8;" *ngIf="!tienePermisocamex">Estado del evento ante ARL c</th>
-                                                <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
-                                                <th style="border: 1px solid #c8c8c8;" *ngIf="!tienePermisocamex">
-                                                    <p-dropdown [options]="ARLfirme" formControlName="EnventoARL"
-                                                        required appendTo="body"></p-dropdown>
-                                            </tr>
-                                            <tr>
-                                                <th style="border: 1px solid #c8c8c8;">Reporte a entes de control
-                                                </th>
-                                                <td *ngIf="!severidadFlag">
-                                                    <p-radioButton name="ReporteControl" label="Si  " [value]="true"
-                                                        formControlName="ReporteControl" required></p-radioButton>
-                                                    <p-radioButton name="ReporteControl" label="No  " [value]="false"
-                                                        formControlName="ReporteControl"></p-radioButton>
-                                                </td>
-                                                <td *ngIf="severidadFlag">
-                                                    <p-radioButton name="ReporteControl" label="Si  " [value]="true"
-                                                        formControlName="ReporteControl" required
-                                                        class="fieldgroup"></p-radioButton>
-                                                    <p-radioButton name="ReporteControl" label="No  " [value]="false"
-                                                        formControlName="ReporteControl" class="fieldgroup"></p-radioButton>
-                                                </td>
-                                            </tr>
-                                            <tr *ngIf="analisisPeligros.get('ReporteControl').value == true">
-    
-                                                <th style="border: 1px solid #c8c8c8;">Fecha de envio a entes de control
-                                                </th>
-                                                <!-- <td>{{desviacionesList[0]?.fechaReporte | date:'dd/MM/yyyy'}}</td>  -->
-                                                <th style="border: 1px solid #c8c8c8;">
-                                                    <div class="field col-12 md:col-4">
-                                                        <!-- <label for="touchui">Touch UI</label> -->
-                                                        <!-- <p-calendar [(ngModel)]="date1" [touchUI]="true" [readonlyInput]="true" inputId="touchui" [(ngModel)]="FechaControl"></p-calendar> -->
-                                                        <p-calendar appendTo="body" [yearNavigator]="true"
-                                                            yearRange="1900:2030" [monthNavigator]="true"
-                                                            dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true"
-                                                            required inputId="touchui"
-                                                            formControlName="FechaControl"></p-calendar>
-                                                    </div>
-                                                </th>
-                                            </tr>
-                                           
-                                            <tr>
-                                                <th style="border: 1px solid #c8c8c8;" *ngIf="!tienePermisocamex">Entrega copia de FURAT al trabajador
-                                                </th>
-    
-                                                <td  *ngIf="!tienePermisocamex"><p-radioButton name="CopiaTrabajador" label="Si  " [value]="true"
-                                                        formControlName="CopiaTrabajador" required></p-radioButton>
-                                                    <p-radioButton name="CopiaTrabajador" label="No  " [value]="false"
-                                                        formControlName="CopiaTrabajador"></p-radioButton>
-                                                </td>
-                                            </tr>
-                                            <tr *ngIf="analisisPeligros.get('CopiaTrabajador').value == true">
-                                                <th style="border: 1px solid #c8c8c8;width: 35%"  *ngIf="!tienePermisocamex">Fecha entrega copia al
-                                                    trabajador</th>
-                                                <th style="border: 1px solid #c8c8c8;">
-                                                    <div class="field col-12 md:col-4"   *ngIf="!tienePermisocamex">
-                                                        <!-- <label for="touchui">Touch UI</label> -->
-                                                        <!-- <p-calendar [(ngModel)]="date2" [touchUI]="true" [readonlyInput]="true" inputId="touchui" formControlName="FechaCopia"></p-calendar> -->
-                                                        <p-calendar appendTo="body" [yearNavigator]="true"
-                                                            yearRange="1900:2030" [monthNavigator]="true"
-                                                            dateFormat="dd/mm/yy" [touchUI]="true" [readonlyInput]="true"
-                                                            inputId="touchui" formControlName="FechaCopia"></p-calendar>
-                                                    </div>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <s-documentosAnalisisDesviacion *ngIf="documentos" [analisisId]="analisisId"
-                                                    [documentos]="documentos" (onUpdate)="confirmarActualizacion($event)"
-                                                    [readOnly]="consultar"></s-documentosAnalisisDesviacion>
-                                            </tr>
-                                        </ng-container>
-                                    </ng-template>
-                                </p-table>
-                                <br>
-                                 <app-pcl
-                                 *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
-                                            [diagnosticos]="this.diagnosticoList"
-                                            [entity]="entity"
-                                            [emitPclentity]="emitPclentity"
-                                            [saludLaboralFlag]="true"
-                                            [testFlag]="true"
-                                            [pkCase]="this.desviacionesList![0]?.idSl"
-                                            [pclOptionList]="pclOptionList"
-                                            (eventClose)="onCloseModalDianostico()"
-                                            (dlistaPCL)="recibirPCL($event)"
-                                          >
-                                          </app-pcl>
+                  <app-incapacidades-complementaria
+                    *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'"
+                    (listIncapacidades)="getListIncapacidades($event)"
+                    [saludLaboralFlag]="false"
+                    [incapacidades]="incapacidadesList"
+                  >
+                  </app-incapacidades-complementaria>
+                </p-tabPanel>
 
+                <!-- matriz Peligros -->
 
-                            </p-tabPanel>
-                            <p-tabPanel 
-  *ngIf="idEmpresa == '22' || idEmpresa == '3' && desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral'"
-  [header]="desviacionesList && desviacionesList[0]?.modulo == 'Salud Laboral' ? 'Análisis de ausentismo' : 'Días perdidos'">
-
-  <app-incapacidades-complementaria 
-  *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
-    (listIncapacidades)="getListIncapacidades($event)"
-    [saludLaboralFlag]="true"
-    [incapacidades]="incapacidadesList">
-  </app-incapacidades-complementaria>
-  
-  <app-incapacidades-complementaria
-  *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'" 
-  (listIncapacidades)="getListIncapacidades($event)"
-  [saludLaboralFlag]="false"
-  [incapacidades]="incapacidadesList">
-</app-incapacidades-complementaria>
-
-</p-tabPanel>
-
-                            <!-- matriz Peligros -->
-
-                            <!-- <p-tabPanel *ngIf="flagMatriz && analisisPeligros.valid && !adicionar" header="Matriz de peligros">
+                <!-- <p-tabPanel *ngIf="flagMatriz && analisisPeligros.valid && !adicionar" header="Matriz de peligros">
                                 <span *ngIf="matrizPeligros"><br><h4>ID matriz asociada: &nbsp;{{matrizPeligros}}</h4><br></span>
                                 <p-table #dt styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="matrizSelect" [value]="matrizPList" [paginator]="true" [rows]="10" *ngIf="flagMatriz" >
                                     <ng-template pTemplate="header" let-columns>
@@ -662,298 +924,609 @@
 
 
                             </p-tabPanel> -->
-                        </p-tabView>
+              </p-tabView>
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="
+                (idEmpresa == '22' || idEmpresa == '3') &&
+                desviacionesList[0]?.modulo != 'Salud Laboral'
+              "
+              header="Miembros del equipo"
+            >
+              <app-miembros-equipo
+                [miembrosList]="miembros"
+                (disable)="guardadModificar($event)"
+              ></app-miembros-equipo>
+              <!-- <app-miembros-equipo [miembrosList]="miembros" (miembrosOut)="miembrosIn($event)" (selectedProductsOUT)="selectedProductsIn($event)"></app-miembros-equipo> -->
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="
+                (idEmpresa == '22' || idEmpresa == '3') &&
+                desviacionesList[0]?.modulo == 'Salud Laboral'
+              "
+              header="Miembros del equipo"
+            >
+              <app-miembros-equipo-salud-laboral
+                [miembrosList]="miembros"
+                (disable)="guardadModificar($event)"
+              ></app-miembros-equipo-salud-laboral>
+              <!-- <app-miembros-equipo [miembrosList]="miembros" (miembrosOut)="miembrosIn($event)" (selectedProductsOUT)="selectedProductsIn($event)"></app-miembros-equipo> -->
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="idEmpresa == '22' || idEmpresa == '3'"
+              header="Evidencias"
+              [disabled]="adicionar"
+            >
+              <app-evidencias
+                *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+                [analisisId]="analisisId"
+                [documentos]="documentos"
+                [idSl]="desviacionesList[0]?.idSl"
+                [saludLaboralFlag]="true"
+              ></app-evidencias>
+              <app-evidencias
+                *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'"
+                [analisisId]="analisisId"
+                [documentos]="documentos"
+                [idSl]="desviacionesList[0]?.idSl"
+                [saludLaboralFlag]="false"
+              ></app-evidencias>
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="idEmpresa == '22' || idEmpresa == '3'"
+              header="Diagrama de flujo"
+            >
+              <app-flow-chart
+                (datosFC)="setFactorCausal($event)"
+                (diagramSave)="dataDiagram($event)"
+                [dataFlowChart]="flowChart"
+              ></app-flow-chart>
+            </p-tabPanel>
 
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && desviacionesList[0]?.modulo != 'Salud Laboral'" header="Miembros del equipo">
-                        <app-miembros-equipo [miembrosList]="miembros"
-                            (disable)="guardadModificar($event)"></app-miembros-equipo>
-                        <!-- <app-miembros-equipo [miembrosList]="miembros" (miembrosOut)="miembrosIn($event)" (selectedProductsOUT)="selectedProductsIn($event)"></app-miembros-equipo> -->
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && desviacionesList[0]?.modulo == 'Salud Laboral'" header="Miembros del equipo">
-                        <app-miembros-equipo-salud-laboral [miembrosList]="miembros"
-                            (disable)="guardadModificar($event)"></app-miembros-equipo-salud-laboral>
-                        <!-- <app-miembros-equipo [miembrosList]="miembros" (miembrosOut)="miembrosIn($event)" (selectedProductsOUT)="selectedProductsIn($event)"></app-miembros-equipo> -->
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Evidencias"
-                        [disabled]="adicionar">
-                        <app-evidencias   *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
-                        [analisisId]="analisisId" [documentos]="documentos" [idSl]="desviacionesList[0]?.idSl" [saludLaboralFlag] = "true"></app-evidencias>
-                        <app-evidencias   *ngIf="desviacionesList[0]?.modulo != 'Salud Laboral'"
-                        [analisisId]="analisisId" [documentos]="documentos" [idSl]="desviacionesList[0]?.idSl" [saludLaboralFlag] = "false"></app-evidencias>
+            <p-tabPanel
+              *ngFor="let data of factorCusal; let i = index"
+              header="Factor Causal {{ i + 1 }}"
+            >
+              <app-factor-causal
+                (dataFC)="setListDataFactor()"
+                (validators2)="getValidator($event)"
+                [factorCausal]="data"
+              ></app-factor-causal>
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="
+                (idEmpresa == '22' || idEmpresa == '3') &&
+                dataListFactor.length > 0 &&
+                !validators
+              "
+              header="Listado de causas"
+            >
+             
 
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa == '22' || idEmpresa == '3'" header="Diagrama de flujo">
-                        <app-flow-chart (datosFC)="setFactorCausal($event)" (diagramSave)="dataDiagram($event)"
-                            [dataFlowChart]="flowChart"></app-flow-chart>
-                    </p-tabPanel>
+              <app-listado-causas
+                [factores]="dataListFactor"
+                (tabIndex)="changeTab()"
+                (validacionPA)="habilitarInforme()"
+                [planAccionList]="listPlanAccion"
+                (observacionChange)="updateObservacion($event)"
+              ></app-listado-causas>
+              <textarea
+              style="width: 100%"
+              maxlength="5000"
+              pInputTextarea
+              rows="20"
+              placeholder="Observaciones de análisis"
+              [(ngModel)]="observacion"
+            ></textarea>
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="
+                (idEmpresa == '22' || idEmpresa == '3') &&
+                listPlanAccion.length > 0
+              "
+              header="Plan de accion"
+            >
+              <app-plan-accion-list
+                (actualizar)="setListDataFactor()"
+                (validacionPA)="habilitarInforme()"
+                (flagPlanAccionlist)="eliminarPlandeAccion($event)"
+                [planAccionList]="listPlanAccion"
+              ></app-plan-accion-list>
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="(idEmpresa == '22' || idEmpresa == '3') && displayInforme"
+              header="Informe"
+            >
+              <button
+                pButton
+                icon="pi pi-print"
+                (click)="imprimir()"
+                class="soft-icon"
+                [disabled]="buttonPrint"
+              ></button>
+              <!-- <button  (click)="test2()" >test</button>  -->
+              <table width="90%" style="margin: auto" [formGroup]="infoIn">
+                <tr>
+                  <td style="text-align: left">Fecha de investigación</td>
+                  <td style="text-align: left">
+                    <p-calendar
+                      appendTo="body"
+                      [yearNavigator]="true"
+                      yearRange="1900:2030"
+                      [monthNavigator]="true"
+                      dateFormat="dd/mm/yy"
+                      [touchUI]="true"
+                      [readonlyInput]="true"
+                      inputId="touchui"
+                      formControlName="FechaI"
+                    ></p-calendar>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left" *ngIf="!tienePermisocamex">
+                    Anexo Furat No
+                  </td>
+                  <td style="text-align: left" *ngIf="!tienePermisocamex">
+                    {{ desviacionesList[0]?.furat }}
+                  </td>
+                  <td style="text-align: left">Anexos Otros</td>
+                  <td colspan="2" style="text-align: left">
+                    <input
+                      type="text"
+                      pInputText
+                      formControlName="AnexoO"
+                      style="
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                      "
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="5" style="text-align: left"></td>
+                </tr>
+                <tr>
+                  <th colspan="2" style="text-align: left">
+                    Representante Legal
+                  </th>
+                  <th colspan="3" style="text-align: left">
+                    Responsable de la Investigación
+                  </th>
+                </tr>
+                <tr>
+                  <td style="text-align: left">Nombre</td>
+                  <td style="text-align: left">
+                    <input
+                      type="text"
+                      pInputText
+                      formControlName="RepresentanteLegal"
+                      style="
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                      "
+                    />
+                  </td>
+                  <td style="text-align: left"></td>
+                  <td style="text-align: left">Nombre</td>
+                  <td style="text-align: left">
+                    <input
+                      type="text"
+                      pInputText
+                      formControlName="RepresentanteInvestigacion"
+                      style="
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                      "
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">Número de Identificación</td>
+                  <td style="text-align: left">
+                    <input
+                      type="number"
+                      pInputText
+                      formControlName="CcLegal"
+                      style="
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                      "
+                    />
+                  </td>
+                  <td style="text-align: left"></td>
+                  <td style="text-align: left">Número de Identificación</td>
+                  <td style="text-align: left">
+                    <input
+                      type="number"
+                      pInputText
+                      formControlName="CcInvestigacion"
+                      style="
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                      "
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">Cargo</td>
+                  <td style="text-align: left">
+                    <input
+                      type="text"
+                      formControlName="Cargo"
+                      style="
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                      "
+                    />
+                  </td>
+                  <td style="text-align: left"></td>
+                  <td style="text-align: left" *ngIf="!tienePermisocamex">
+                    Licencia No
+                  </td>
+                  <td style="text-align: left" *ngIf="!tienePermisocamex">
+                    <input
+                      type="number"
+                      pInputText
+                      formControlName="Licencia"
+                      style="
+                        border-top: 0px;
+                        border-left: 0px;
+                        border-right: 0px;
+                      "
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align: left"></td>
+                  <td style="text-align: left"></td>
+                  <td style="text-align: left"></td>
+                  <td style="text-align: left" *ngIf="!tienePermisocamex">
+                    Expedida
+                  </td>
+                  <td style="text-align: left" *ngIf="!tienePermisocamex">
+                    <p-calendar
+                      appendTo="body"
+                      [yearNavigator]="true"
+                      yearRange="1900:2030"
+                      [monthNavigator]="true"
+                      dateFormat="dd/mm/yy"
+                      [touchUI]="true"
+                      [readonlyInput]="true"
+                      inputId="touchui"
+                      formControlName="Expedida"
+                    ></p-calendar>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="5" style="text-align: left"></td>
+                </tr>
+                <tr *ngIf="!tienePermisocamex">
+                  <td colspan="4" rowspan="3" style="text-align: left">
+                    Fecha envío investigación y sus recomendaciones a la
+                    dirección territorial y oficinas especiales del Ministerio
+                    del Trabajo
+                  </td>
+                  <td style="text-align: left">
+                    <p-calendar
+                      appendTo="body"
+                      [yearNavigator]="true"
+                      yearRange="1900:2030"
+                      [monthNavigator]="true"
+                      dateFormat="dd/mm/yy"
+                      [touchUI]="true"
+                      [readonlyInput]="true"
+                      inputId="touchui"
+                      formControlName="FechaEnvio"
+                    >
+                    </p-calendar>
+                  </td>
+                </tr>
+              </table>
+              <div id="plantilla" style="display: none">
+                <!-- <div id="plantilla" > -->
+                <div style="background-color: white">
+                  <table
+                    width="90%"
+                    style="border-collapse: collapse; margin: auto"
+                  >
+                    <tr>
+                      <td style="width: 30%; text-align: left">
+                        <img
+                          style="width: 50%; margin-left: 28px"
+                          id="P_empresa_logo"
+                        />
+                      </td>
+                      <th style="width: 40%; text-align: center">
+                        INFORME INVESTIGACIÓN DE ACCIDENTE LABORAL
+                      </th>
+                      <th style="width: 30%; text-align: center"></th>
+                    </tr>
+                  </table>
+                  <table
+                    width="85%"
+                    style="border-collapse: collapse; margin: auto"
+                  >
+                    <tr>
+                      <th style="text-align: left" width="30%">
+                        Nombre de la empresa
+                      </th>
+                      <td style="text-align: left">
+                        {{ desviacionesList[0]?.empresa }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th style="text-align: left" width="30%">NIT:</th>
+                      <td style="text-align: left">
+                        {{ desviacionesList[0]?.nit }}
+                      </td>
+                    </tr>
+                  </table>
 
-                    <p-tabPanel *ngFor="let data of factorCusal; let i=index" header="Factor Causal {{i+1}}">
-                        <app-factor-causal (dataFC)="setListDataFactor()" (validators2)="getValidator($event)"
-                            [factorCausal]="data"></app-factor-causal>
-                    </p-tabPanel>
-                    <p-tabPanel
-                        *ngIf="(idEmpresa == '22' || idEmpresa == '3') && dataListFactor.length>0 && !validators"
-                        header="Listado de causas">
-                        <app-listado-causas [factores]="dataListFactor" (tabIndex)="changeTab()"
-                            (validacionPA)="habilitarInforme()" [planAccionList]="listPlanAccion"></app-listado-causas>
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && listPlanAccion.length>0"
-                        header="Plan de accion">
-                        <app-plan-accion-list (actualizar)="setListDataFactor()" (validacionPA)="habilitarInforme()"
-                            (flagPlanAccionlist)="eliminarPlandeAccion($event)"
-                            [planAccionList]="listPlanAccion"></app-plan-accion-list>
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="(idEmpresa == '22' || idEmpresa == '3') && displayInforme" header="Informe">
-                        <button pButton icon="pi pi-print" (click)="imprimir()" class="soft-icon"
-                            [disabled]="buttonPrint"></button>
-                        <!-- <button  (click)="test2()" >test</button>  -->
-                        <table width="90%" style=" margin: auto;" [formGroup]="infoIn">
-                            <tr>
-                                <td style="text-align: left">Fecha de investigación</td>
-                                <td style="text-align: left"><p-calendar appendTo="body" [yearNavigator]="true"
-                                        yearRange="1900:2030" [monthNavigator]="true" dateFormat="dd/mm/yy"
-                                        [touchUI]="true" [readonlyInput]="true" inputId="touchui"
-                                        formControlName="FechaI"></p-calendar></td>
-                            </tr>
-                            <tr>
-                                <td style=" text-align: left" *ngIf="!tienePermisocamex">Anexo Furat No</td>
-                                <td style=" text-align: left" *ngIf="!tienePermisocamex">{{desviacionesList[0]?.furat}}</td>
-                                <td style=" text-align: left">Anexos Otros</td>
-                                <td colspan="2" style=" text-align: left"><input type="text" pInputText
-                                        formControlName="AnexoO"
-                                        style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" style=" text-align: left"></td>
-                            </tr>
-                            <tr>
-                                <th colspan="2" style=" text-align: left">Representante Legal</th>
-                                <th colspan="3" style=" text-align: left">Responsable de la Investigación</th>
-                            </tr>
-                            <tr>
-                                <td style=" text-align: left">Nombre</td>
-                                <td style=" text-align: left"><input type="text" pInputText
-                                        formControlName="RepresentanteLegal"
-                                        style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
-                                <td style=" text-align: left"></td>
-                                <td style=" text-align: left">Nombre</td>
-                                <td style=" text-align: left"><input type="text" pInputText
-                                        formControlName="RepresentanteInvestigacion"
-                                        style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
-                            </tr>
-                            <tr>
-                                <td style=" text-align: left">Número de Identificación</td>
-                                <td style=" text-align: left"><input type="number" pInputText formControlName="CcLegal"
-                                        style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
-                                <td style=" text-align: left"></td>
-                                <td style=" text-align: left">Número de Identificación</td>
-                                <td style=" text-align: left"><input type="number" pInputText
-                                        formControlName="CcInvestigacion"
-                                        style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
-                            </tr>
-                            <tr>
-                                <td style=" text-align: left">Cargo</td>
-                                <td style=" text-align: left"><input type="text" formControlName="Cargo"
-                                        style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
-                                <td style=" text-align: left"></td>
-                                <td style=" text-align: left" *ngIf="!tienePermisocamex">Licencia No</td>
-                                <td style=" text-align: left" *ngIf="!tienePermisocamex"><input type="number" pInputText formControlName="Licencia"
-                                        style="border-top: 0px;border-left: 0px;border-right: 0px;" /></td>
-                            </tr>
-                            <tr>
-                                <td style=" text-align: left"></td>
-                                <td style=" text-align: left"></td>
-                                <td style=" text-align: left"></td>
-                                <td style=" text-align: left" *ngIf="!tienePermisocamex">Expedida</td>
-                                <td style=" text-align: left" *ngIf="!tienePermisocamex"><p-calendar appendTo="body" [yearNavigator]="true"
-                                        yearRange="1900:2030" [monthNavigator]="true" dateFormat="dd/mm/yy"
-                                        [touchUI]="true" [readonlyInput]="true" inputId="touchui"
-                                        formControlName="Expedida"></p-calendar></td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" style=" text-align: left"></td>
-                            </tr>
-                            <tr *ngIf="!tienePermisocamex">
-                                <td colspan="4" rowspan="3" style=" text-align: left">Fecha envío investigación y sus
-                                    recomendaciones a la dirección territorial y oficinas especiales del Ministerio del
-                                    Trabajo</td>
-                                <td style=" text-align: left"><p-calendar appendTo="body" [yearNavigator]="true"
-                                        yearRange="1900:2030" [monthNavigator]="true" dateFormat="dd/mm/yy"
-                                        [touchUI]="true" [readonlyInput]="true" inputId="touchui"
-                                        formControlName="FechaEnvio">
-                                    </p-calendar></td>
+                  <br />
 
-                            </tr>
-                        </table>
-                        <div id="plantilla" style="display: none;">
-                            <!-- <div id="plantilla" > -->
-                            <div style="background-color: white">
+                  <app-informe
+                    [desviacionesList]="desviacionesList"
+                    [consultar]="consultar"
+                    [observacion]="observacion"
+                    [miembros]="miembros"
+                    [selectedProducts]="selectedProducts"
+                    [factores]="dataListFactor"
+                    [infoIn]="infoIn"
+                    [planAccionList]="listPlanAccion"
+                    [contFotografia]="contFotografia"
+                    [contDocumental]="contDocumental"
+                    [contPoliticas]="contPoliticas"
+                    [contProcedimientos]="contProcedimientos"
+                    [contMultimedias]="contMultimedias"
+                  >
+                  </app-informe>
+                  <!-- [diagramaFlujo]="imgIN" -->
+                </div>
+                <p style="page-break-after: always"></p>
+                <!-- <div><h1><strong><u>Anexos:</u></strong></h1></div> -->
 
-                                <table width="90%" style="border-collapse: collapse;margin: auto">
-                                    <tr>
-                                        <td style="width: 30%;text-align: left">
-                                            <img style="width:50%; margin-left: 28px;" id="P_empresa_logo" />
-                                        </td>
-                                        <th style="width: 40%;text-align: center">
-                                            INFORME INVESTIGACIÓN DE ACCIDENTE LABORAL
-                                        </th>
-                                        <th style="width: 30%;text-align: center"></th>
-                                    </tr>
-                                </table>
-                                <table width="85%" style="border-collapse: collapse;margin: auto;">
-                                    <tr>
-                                        <th style="text-align: left" width="30%">
-                                            Nombre de la empresa
-                                        </th>
-                                        <td style="text-align: left">{{desviacionesList[0]?.empresa}}</td>
-                                    </tr>
-                                    <tr>
-                                        <th style="text-align: left" width="30%">
-                                            NIT:
-                                        </th>
-                                        <td style="text-align: left">{{desviacionesList[0]?.nit}}</td>
-                                    </tr>
-                                </table>
+                <!-- <br/> -->
 
-                                <br />
+                <table
+                  width="90%"
+                  style="border-collapse: collapse; margin: auto"
+                >
+                  <tr>
+                    <th style="text-align: center" width="50%">
+                      Diagrama de flujo - Análisis Factor Causal y Raiz
+                    </th>
+                  </tr>
+                </table>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel
+              *ngIf="idEmpresa != '22'"
+              header="Establecimiento de causas"
+            >
+              <div class="grid">
+                <div class="col-12 lg:col-4">
+                  <h4 style="margin-bottom: 20px">Causas inmediatas</h4>
+                  <p-tree
+                    [value]="causaInmediataList!"
+                    selectionMode="checkbox"
+                    [(selection)]="causaInmediataListSelect"
+                    [style]="{ width: '100%' }"
+                  ></p-tree>
+                </div>
+                <div class="col-12 lg:col-4">
+                  <h4 style="margin-bottom: 20px">Causas básicas (raíz)</h4>
+                  <p-tree
+                    [value]="causaRaizList!"
+                    selectionMode="checkbox"
+                    [(selection)]="causaRaizListSelect"
+                    [style]="{ width: '100%' }"
+                  ></p-tree>
+                </div>
+                <div class="col-12 lg:col-4">
+                  <h4 style="margin-bottom: 20px">Causas administrativas</h4>
+                  <p-tree
+                    [value]="causaAdminList!"
+                    selectionMode="checkbox"
+                    [(selection)]="causaAdminListSelect"
+                    [style]="{ width: '100%' }"
+                  ></p-tree>
+                </div>
+              </div>
+            </p-tabPanel>
 
-                                <app-informe [desviacionesList]="desviacionesList" [consultar]="consultar"
-                                    [observacion]="observacion" [miembros]="miembros"
-                                    [selectedProducts]="selectedProducts" [factores]="dataListFactor" [infoIn]="infoIn"
-                                    [planAccionList]="listPlanAccion" [contFotografia]="contFotografia"
-                                    [contDocumental]="contDocumental" [contPoliticas]="contPoliticas"
-                                    [contProcedimientos]="contProcedimientos" [contMultimedias]="contMultimedias">
-                                </app-informe>
-                                <!-- [diagramaFlujo]="imgIN" -->
+            <p-tabPanel header="Costos" *sConfig="'FORM_COSTOS_INVST'">
+              <s-analisisCostos
+                *ngIf="analisisCosto"
+                [analisisCosto]="analisisCosto"
+                [readOnly]="consultar"
+              >
+              </s-analisisCostos>
+            </p-tabPanel>
 
-                            </div>
-                            <p style="page-break-after: always"></p>
-                            <!-- <div><h1><strong><u>Anexos:</u></strong></h1></div> -->
+            <p-tabPanel header="Participantes" *sConfig="'FORM_PART_INVST'">
+              <table style="width: 100%; table-layout: fixed">
+                <thead style="background: #efefef">
+                  <th class="th">Nombres y apellidos</th>
+                  <th class="th">Cargo</th>
+                  <th class="th">Tipo identificación</th>
+                  <th class="th">Número identificación</th>
+                  <th style="width: 2.5em"></th>
+                </thead>
+                <ng-template
+                  ngFor
+                  let-parti
+                  [ngForOf]="participantes"
+                  let-i="index"
+                >
+                  <tr>
+                    <td>
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="parti.nombresApellidos"
+                        [disabled]="consultar"
+                        maxlength="128"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="parti.cargo"
+                        [disabled]="consultar"
+                        maxlength="128"
+                      />
+                    </td>
+                    <td>
+                      <select
+                        class="select-option"
+                        [(ngModel)]="parti.tipoIdentificacion"
+                        [disabled]="consultar"
+                      >
+                        <option value="Cedula de ciudadanía">
+                          Cedula de ciudadanía
+                        </option>
+                        <option value="Cédula de extranjería">
+                          Cédula de extranjería
+                        </option>
+                        <option value="Tarjeta de identidad">
+                          Tarjeta de identidad
+                        </option>
+                        <option value="Pasaporte">Pasaporte</option>
+                        <option value="Documento de dentidad">
+                          Documento de dentidad
+                        </option>
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="parti.numeroIdentificacion"
+                        [disabled]="consultar"
+                        maxlength="45"
+                      />
+                    </td>
+                    <td>
+                      <button
+                        pButton
+                        type="button"
+                        icon="bi bi-x-lg"
+                        class="soft-icon"
+                        (click)="removeParti(i)"
+                        *ngIf="!consultar"
+                      ></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </table>
+              <button
+                *ngIf="!consultar"
+                style="margin-top: 10px"
+                pButton
+                type="button"
+                icon="fa fa-plus"
+                label="Adicionar participante"
+                (click)="adicionarParticipante()"
+              ></button>
+            </p-tabPanel>
 
-                            <!-- <br/> -->
+            <p-tabPanel
+              *ngIf="idEmpresa != '22'"
+              header="Documentación"
+              [disabled]="adicionar"
+            >
+              <s-documentosAnalisisDesviacion
+                *ngIf="documentos"
+                [analisisId]="analisisId"
+                [documentos]="documentos"
+                (onUpdate)="confirmarActualizacion($event)"
+                [readOnly]="consultar"
+              ></s-documentosAnalisisDesviacion>
+            </p-tabPanel>
 
-                            <table width="90%" style="border-collapse: collapse; margin: auto;">
-                                <tr>
-                                    <th style="text-align: center" width="50%">Diagrama de flujo - Análisis Factor
-                                        Causal y Raiz</th>
-                                </tr>
-                            </table>
-                        </div>
-
-                    </p-tabPanel>
-                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Establecimiento de causas">
-                        <div class="grid">
-                            <div class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 20px;">Causas inmediatas</h4>
-                                <p-tree [value]="causaInmediataList!" selectionMode="checkbox"
-                                    [(selection)]="causaInmediataListSelect" [style]="{'width':'100%'}"></p-tree>
-                            </div>
-                            <div class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 20px;">Causas básicas (raíz) </h4>
-                                <p-tree [value]="causaRaizList!" selectionMode="checkbox"
-                                    [(selection)]="causaRaizListSelect" [style]="{'width':'100%'}"></p-tree>
-                            </div>
-                            <div class="col-12 lg:col-4">
-                                <h4 style="margin-bottom: 20px;">Causas administrativas</h4>
-                                <p-tree [value]="causaAdminList!" selectionMode="checkbox"
-                                    [(selection)]="causaAdminListSelect" [style]="{'width':'100%'}"></p-tree>
-                            </div>
-                        </div>
-                    </p-tabPanel>
-
-                    <p-tabPanel header="Costos" *sConfig="'FORM_COSTOS_INVST'">
-                        <s-analisisCostos *ngIf="analisisCosto" [analisisCosto]="analisisCosto" [readOnly]="consultar">
-                        </s-analisisCostos>
-                    </p-tabPanel>
-
-                    <p-tabPanel header="Participantes" *sConfig="'FORM_PART_INVST'">
-                        <table style="width: 100%;table-layout: fixed">
-                            <thead style="background: #efefef;">
-                                <th class="th">Nombres y apellidos</th>
-                                <th class="th">Cargo</th>
-                                <th class="th">Tipo identificación</th>
-                                <th class="th">Número identificación</th>
-                                <th style="width: 2.5em;"></th>
-                            </thead>
-                            <ng-template ngFor let-parti [ngForOf]="participantes" let-i="index">
-                                <tr>
-                                    <td>
-                                        <input pInputText type="text" [(ngModel)]="parti.nombresApellidos"
-                                            [disabled]="consultar" maxlength="128" />
-                                    </td>
-                                    <td>
-                                        <input pInputText type="text" [(ngModel)]="parti.cargo" [disabled]="consultar"
-                                            maxlength="128" />
-                                    </td>
-                                    <td>
-                                        <select class="select-option" [(ngModel)]="parti.tipoIdentificacion"
-                                            [disabled]="consultar">
-                                            <option value="Cedula de ciudadanía">Cedula de ciudadanía</option>
-                                            <option value="Cédula de extranjería">Cédula de extranjería</option>
-                                            <option value="Tarjeta de identidad">Tarjeta de identidad</option>
-                                            <option value="Pasaporte">Pasaporte</option>
-                                            <option value="Documento de dentidad">Documento de dentidad</option>
-                                            
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input pInputText type="text" [(ngModel)]="parti.numeroIdentificacion"
-                                            [disabled]="consultar" maxlength="45" />
-                                    </td>
-                                    <td>
-                                        <button pButton type="button" icon="bi bi-x-lg" class="soft-icon"
-                                            (click)="removeParti(i)" *ngIf="!consultar"></button>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </table>
-                        <button *ngIf="!consultar" style="margin-top: 10px;" pButton type="button" icon="fa fa-plus"
-                            label="Adicionar participante" (click)="adicionarParticipante()"></button>
-                    </p-tabPanel>
-
-                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Documentación" [disabled]="adicionar">
-                        <s-documentosAnalisisDesviacion *ngIf="documentos" [analisisId]="analisisId"
-                            [documentos]="documentos" (onUpdate)="confirmarActualizacion($event)"
-                            [readOnly]="consultar"></s-documentosAnalisisDesviacion>
-                    </p-tabPanel>
-
-                    <p-tabPanel *ngIf="idEmpresa != '22' " header="Observaciones">
-                        <textarea maxlength="510" *ngIf="!consultar" pInputTextarea rows="7"
-                            placeholder="Observaciones de análisis" [(ngModel)]="observacion"></textarea>
-                        <div *ngIf="consultar">
-                            {{observacion}}
-                        </div>
-                    </p-tabPanel>
-
-                </p-tabView>
-            </div>
+            <p-tabPanel *ngIf="idEmpresa != '22'" header="Observaciones">
+              <textarea
+                maxlength="510"
+                *ngIf="!consultar"
+                pInputTextarea
+                rows="7"
+                placeholder="Observaciones de análisis"
+                [(ngModel)]="observacion"
+              ></textarea>
+              <div *ngIf="consultar">
+                {{ observacion }}
+              </div>
+            </p-tabPanel>
+          </p-tabView>
         </div>
+      </div>
     </p-tabPanel>
-    </ng-container>
-    <p-tabPanel *ngIf="idEmpresa != '22' || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones CC' ) || (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones SV')" header="PLAN DE TRABAJO">
-        <s-gestionTareas (onEvent)="onEvent($event)" [tareasList]="tareasList" [readOnly]="consultar" [tipoLista]="desviacionesList[0]?.modulo" [hash]="desviacionesList[0]?.hashId" [idArea]="desviacionesList[0].area.id" [areaResp]="desviacionesList[0].area.nombre"></s-gestionTareas>
-    </p-tabPanel>
-
+  </ng-container>
+  <p-tabPanel
+    *ngIf="
+      idEmpresa != '22' ||
+      (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones CC') ||
+      (desviacionesList && desviacionesList[0]?.modulo == 'Inspecciones SV')
+    "
+    header="PLAN DE TRABAJO"
+  >
+    <s-gestionTareas
+      (onEvent)="onEvent($event)"
+      [tareasList]="tareasList"
+      [readOnly]="consultar"
+      [tipoLista]="desviacionesList[0]?.modulo"
+      [hash]="desviacionesList[0]?.hashId"
+      [idArea]="desviacionesList[0].area.id"
+      [areaResp]="desviacionesList[0].area.nombre"
+    ></s-gestionTareas>
+  </p-tabPanel>
 </p-tabView>
 <div *ngIf="guardando" class="loader-container">
-    <div class="image">
-      <img src="../../../../../../assets/gif/tenor.gif" alt="Cargando..." class="loader">
-    </div>
+  <div class="image">
+    <img
+      src="../../../../../../assets/gif/tenor.gif"
+      alt="Cargando..."
+      class="loader"
+    />
   </div>
-  
-  
+</div>
+
 <ng-container *ngIf="adicionar && !consultar">
-    <button *sTienePermiso="'SEC_POST_ANADESV'" pButton type="button" icon="pi pi-save" 
-title="Guardar Análisis" (click)="guardarAnalisis()" class="float-btn" [disabled]="disabled"></button>
+  <button
+    *sTienePermiso="'SEC_POST_ANADESV'"
+    pButton
+    type="button"
+    icon="pi pi-save"
+    title="Guardar Análisis"
+    (click)="guardarAnalisis()"
+    class="float-btn"
+    [disabled]="disabled"
+  ></button>
 </ng-container>
 
 <ng-container *ngIf="modificar && !consultar">
-    <button *sTienePermiso="'SEC_PUT_ANADESV'" pButton type="button" icon="bi bi-pencil-square"
-        title="Modificar Análisis" (click)="modificarAnalisis()" class="p-button-success float-btn p-button-success"
-        [disabled]="guardando" style="z-index: 100;"></button>
+  <button
+    *sTienePermiso="'SEC_PUT_ANADESV'"
+    pButton
+    type="button"
+    icon="bi bi-pencil-square"
+    title="Modificar Análisis"
+    (click)="modificarAnalisis()"
+    class="p-button-success float-btn p-button-success"
+    [disabled]="guardando"
+    style="z-index: 100"
+  ></button>
 </ng-container>
 
-<div style="height: 100px;"></div>
-<button (click)="testmsng()" *ngIf="idUsuario=='214'">Envio correo periodico</button>
-<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<div style="height: 100px"></div>
+<button (click)="testmsng()" *ngIf="idUsuario == '214'">
+  Envio correo periodico
+</button>
+<p-confirmDialog [style]="{ width: '50vw' }"></p-confirmDialog>
