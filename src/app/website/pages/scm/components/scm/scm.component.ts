@@ -211,14 +211,14 @@ export class ScmComponent implements OnInit, AfterViewInit {
     async exportexcel(): Promise<void> 
     {
         //debugger
-        await this.datosExcel()
+        await this.datosExcel()   
         this.excel.forEach((el:any) => delete el.empresaId)
         
         let excel= this.empresaIdLoggin == 22? 
-                    this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<=new Date(this.rangeDatesInforme[1]) }): 
-                    this.excel.filter((resp:any)=>{ return new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1])})  
+                    this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>= new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<= new Date(this.rangeDatesInforme[1]) && resp.estadoCaso ==1|| new Date(resp.fechaFinal)>= new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaFinal)<= new Date(this.rangeDatesInforme[1]) && resp.estadoCaso ==0}): 
+                    this.excel.filter((resp:any)=>{ return new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1])  && resp.Estado_caso === 'Abierto' || new Date(resp.Fecha_Cierre) >= new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_Cierre)<= new Date(this.rangeDatesInforme[1]) && resp.Estado_caso ==='Cerrado'})  
                     
-                
+        
         excel.map((resp:any)=>{
             if(resp.estadoCaso==1){resp.estadoCaso='Abierto'}
             if(resp.estadoCaso==0){resp.estadoCaso='Cerrado'}
@@ -244,32 +244,6 @@ export class ScmComponent implements OnInit, AfterViewInit {
     async datosExcel(): Promise<void>{
         let dataExcel:any[] = []
 
-        // let filterQuery = new FilterQuery();
-        // filterQuery.sortField = this.filtrosExcel.sortField;
-        // filterQuery.sortOrder = this.filtrosExcel.sortOrder;
-        // // filterQuery.offset = this.filtrosExcel.first;
-        // filterQuery.count = true;
-        // let filterEliminado = new Filter();
-        // filterEliminado.criteria = Criteria.EQUALS;
-        // filterEliminado.field = 'eliminado';
-        // filterEliminado.value1 = 'false';
-
-        // filterQuery.fieldList = this.fields;
-        // filterQuery.filterList = FilterQuery.filtersToArray(this.filtrosExcel.filters);
-        // filterQuery.filterList.push(filterEliminado);      
-        // try {
-        //     let res: any = await this.scmService.findByFilter(filterQuery);
-        //     dataExcel = res.data;
-
-        // } catch (error) {
-        //     console.error(error)
-        // }
-
-
-        // console.log(this.casosListFilter)
-        // this.casosListFilter
-        // this.excel=[]
-        // console.log(dataExcel)
         if (this.empresaIdLoggin == 22) {
             await this.viewscmInformeService.findByEmpresaId().then((resp:any)=>{
                 dataExcel = resp;
@@ -278,7 +252,7 @@ export class ScmComponent implements OnInit, AfterViewInit {
             this.excel.map((resp1: any) => {
               resp1.fechaCreacion = new Date(resp1.fechaCreacion)
               if(resp1.fechaFinal != null){
-                resp1.fechaFinal = new Date(resp1.fechaFinal).toLocaleDateString();
+                resp1.fechaFinal = new Date(resp1.fechaFinal);
               }else{
                 resp1.fechaFinal = '';
               }
@@ -311,7 +285,7 @@ export class ScmComponent implements OnInit, AfterViewInit {
                         Nombre: element.pkUser?.primerNombre,
                         Documento: element.documento,
                         Estado_caso: element.statusCaso == 1 ? 'Abierto' : 'Cerrado',
-                        Fecha_Cierre: element.fechaFinal ? new Date(element.fechaFinal).toLocaleDateString() : '',
+                        Fecha_Cierre: element.fechaFinal ? new Date(element.fechaFinal): '',
                         Proximo_seguimiento: element.proximoseguimiento ? new Date(element.proximoseguimiento).toLocaleDateString() : '',
                         Prioridad: element.prioridadCaso,
                         Tipo_caso: element.tipoCaso,

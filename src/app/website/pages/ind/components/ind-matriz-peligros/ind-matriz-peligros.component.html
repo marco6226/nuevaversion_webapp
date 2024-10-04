@@ -732,6 +732,7 @@
                 [(ngModel)]="selecteLocalidad1"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf1')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -753,6 +754,7 @@
                 [(ngModel)]="selecteLocalidad1"
                 defaultLabel="Seleccionar localidad"
                 (onChange)="filtroGraf1()"
+                [filter]="true"
               >
               </p-multiSelect>
             </ng-container>
@@ -934,6 +936,7 @@
             [(ngModel)]="selecteLocalidad3"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf3')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -1130,6 +1133,7 @@
             [(ngModel)]="selecteLocalidad2"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf2')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -1321,6 +1325,7 @@
             [(ngModel)]="selecteLocalidad4"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf4')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -1476,6 +1481,7 @@
             [(ngModel)]="selecteLocalidad5"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf5')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -1626,6 +1632,7 @@
             [(ngModel)]="selecteLocalidad6"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf6')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -1751,6 +1758,7 @@
             [(ngModel)]="selecteLocalidad7"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf7')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -1788,6 +1796,7 @@
     </div>
   </p-panel>
   <br />
+
   <p-panel header="Plan de acción">
     <div class="colorfondo">
       <div class="grid" *ngIf="!flagComparativoEve8; else comparativoGraf8">
@@ -1920,6 +1929,7 @@
             [(ngModel)]="selecteLocalidad8"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf8')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -2103,6 +2113,7 @@
             [(ngModel)]="selecteLocalidad9"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf9')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -2166,6 +2177,7 @@
     </div>
   </p-panel>
   <br />
+
   <p-panel header="Expuestos (Peligro)">
     <div class="colorfondo">
       <div class="grid" *ngIf="!flagComparativoEve10; else comparativoGraf10">
@@ -2294,6 +2306,7 @@
             [(ngModel)]="selecteLocalidad10"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf10')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -2446,6 +2459,7 @@
             [(ngModel)]="selecteLocalidad11"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf11')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -2483,6 +2497,7 @@
     </div>
   </p-panel>
   <br />
+
   <p-panel header="Expuestos (Tipo de peligro)">
     <div class="colorfondo">
       <div class="grid" *ngIf="!flagComparativoEve12; else comparativoGraf12">
@@ -2527,7 +2542,7 @@
 
         <div class="col-8 grid">
           <ng-container
-            *ngIf="selectPais12 && selectePeligro12; else filtroFaltante"
+            *ngIf="selectPais12 && selectePeligro12; else filtroFaltanteTipos"
           >
             <div class="col-11 grafic" style="color: black; font-weight: bold">
               <ngx-charts-bar-vertical-2d
@@ -2613,6 +2628,7 @@
             [(ngModel)]="selecteLocalidad12"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf12')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -2702,7 +2718,7 @@
 
         <div class="col-8 grid">
           <ng-container
-            *ngIf="selectPais13 && selectePeligro13; else filtroFaltante"
+            *ngIf="selectPais13 && selectePeligro13; else filtroFaltanteTipos"
           >
             <div class="col-11 grafic" style="color: black; font-weight: bold">
               <ngx-charts-bar-vertical-2d
@@ -2777,6 +2793,7 @@
             [(ngModel)]="selecteLocalidad13"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf13')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -2824,6 +2841,7 @@
     </div>
   </p-panel>
   <br />
+
   <p-panel header="Jerarquia de control">
     <div class="colorfondo">
       <div class="grid" *ngIf="!flagComparativoEve14; else comparativoGraf14">
@@ -2946,6 +2964,7 @@
                 [(ngModel)]="selecteLocalidad14"
                 defaultLabel="Seleccionar localidad"
                 (onChange)="filtroGraf14()"
+                [filter]="true"
               >
               </p-multiSelect>
             </ng-container>
@@ -2957,6 +2976,7 @@
                 [(ngModel)]="selecteLocalidad14"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf14')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -3084,6 +3104,7 @@
             [(ngModel)]="selecteLocalidad16"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf16')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -3221,6 +3242,7 @@
             [(ngModel)]="selecteLocalidad15"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf15')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -3258,6 +3280,7 @@
     </div>
   </p-panel>
   <br />
+
   <p-panel header="Accidente mayor">
     <div class="colorfondo">
       <div class="grid" *ngIf="!flagComparativoEve17; else comparativoGraf17">
@@ -3372,6 +3395,7 @@
                 [(ngModel)]="selecteLocalidad17"
                 defaultLabel="Seleccionar localidad"
                 (onChange)="filtroGraf17()"
+                [filter]="true"
               >
               </p-multiSelect>
             </ng-container>
@@ -3383,6 +3407,7 @@
                 [(ngModel)]="selecteLocalidad17"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf17')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -3510,6 +3535,7 @@
             [(ngModel)]="selecteLocalidad19"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf19')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -3646,6 +3672,7 @@
             [(ngModel)]="selecteLocalidad18"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf18')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -3683,6 +3710,7 @@
     </div>
   </p-panel>
   <br />
+
   <p-panel header="GPI - GPF">
     <div class="colorfondo">
       <div class="grid" *ngIf="!flagComparativoEve20; else comparativoGraf20">
@@ -3804,6 +3832,7 @@
                 [(ngModel)]="selecteLocalidad20"
                 defaultLabel="Seleccionar localidad"
                 (onChange)="filtroGraf20()"
+                [filter]="true"
               >
               </p-multiSelect>
             </ng-container>
@@ -3815,6 +3844,7 @@
                 [(ngModel)]="selecteLocalidad20"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf20')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -3942,6 +3972,7 @@
             [(ngModel)]="selecteLocalidad22"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf22')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -4068,6 +4099,7 @@
             [(ngModel)]="selecteLocalidad21"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf21')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -4105,6 +4137,7 @@
     </div>
   </p-panel>
   <br />
+
   <p-panel header="ICR">
     <div class="colorfondo">
       <div class="grid" *ngIf="!flagComparativoEve23; else comparativoGraf23">
@@ -4195,6 +4228,7 @@
                 [(ngModel)]="selecteLocalidad23"
                 defaultLabel="Seleccionar localidad"
                 (onChange)="filtroGraf23()"
+                [filter]="true"
               >
               </p-multiSelect>
             </ng-container>
@@ -4206,6 +4240,7 @@
                 [(ngModel)]="selecteLocalidad23"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf23')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -4276,7 +4311,7 @@
         </div>
 
         <div class="col-12 md:col-4 lg:col-4 filter">
-          <h3>Año</h3>
+          <h3>Año2</h3>
           <p-dropdown
             [style]="{ width: '100%' }"
             appendTo="body"
@@ -4322,6 +4357,7 @@
             [(ngModel)]="selecteLocalidad25"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf25')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -4426,6 +4462,7 @@
             [(ngModel)]="selecteLocalidad24"
             placeholder="Seleccionar localidad"
             (onChange)="funcSelectLocalidad($event, 'graf24')"
+            [filter]="true"
           >
           </p-dropdown>
           <h3>Area</h3>
@@ -4487,6 +4524,14 @@
   <div class="col-11">
     <s-dataNotFound
       [message]="'Seleccione el pais, la división y localidad'"
+    ></s-dataNotFound>
+  </div>
+</ng-template>
+
+<ng-template #filtroFaltanteTipos>
+  <div class="col-11">
+    <s-dataNotFound
+      [message]="'Seleccione el pais, la división, localidad y tipo de peligro'"
     ></s-dataNotFound>
   </div>
 </ng-template>
@@ -4614,6 +4659,7 @@
                     [(ngModel)]="selecteLocalidad1"
                     placeholder="Seleccionar localidad"
                     (onChange)="funcSelectLocalidad($event, 'graf1')"
+                    [filter]="true"
                   >
                   </p-dropdown>
                   <h3>Area</h3>
@@ -4635,6 +4681,7 @@
                     [(ngModel)]="selecteLocalidad1"
                     defaultLabel="Seleccionar localidad"
                     (onChange)="filtroGraf1()"
+                     [filter]="true"
                   >
                   </p-multiSelect>
                 </ng-container>
@@ -4854,6 +4901,7 @@
                     [(ngModel)]="selecteLocalidad1_2"
                     placeholder="Seleccionar localidad"
                     (onChange)="funcSelectLocalidad($event, 'graf1_2')"
+                    [filter]="true"
                   >
                   </p-dropdown>
                   <h3>Area</h3>
@@ -4875,6 +4923,7 @@
                     [(ngModel)]="selecteLocalidad1_2"
                     defaultLabel="Seleccionar localidad"
                     (onChange)="filtroGraf1_2()"
+                    [filter]="true"
                   >
                   </p-multiSelect>
                 </ng-container>
@@ -5075,6 +5124,7 @@
                 [(ngModel)]="selecteLocalidad2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -5287,6 +5337,7 @@
                 [(ngModel)]="selecteLocalidad2_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf2_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -5513,6 +5564,7 @@
                 [(ngModel)]="selecteLocalidad3"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf3')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -5723,6 +5775,7 @@
                 [(ngModel)]="selecteLocalidad3_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf3_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -5896,6 +5949,7 @@
                 [(ngModel)]="selecteLocalidad4"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf4')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -6075,6 +6129,7 @@
                 [(ngModel)]="selecteLocalidad4_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf4_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -6267,6 +6322,7 @@
                 [(ngModel)]="selecteLocalidad5"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf5')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -6435,6 +6491,7 @@
                 [(ngModel)]="selecteLocalidad5_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf5_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -6563,6 +6620,7 @@
                 [(ngModel)]="selecteLocalidad6"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf6')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -6715,6 +6773,7 @@
                 [(ngModel)]="selecteLocalidad6_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf6_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -6880,6 +6939,7 @@
                 [(ngModel)]="selecteLocalidad7"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf7')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -7021,6 +7081,7 @@
                 [(ngModel)]="selecteLocalidad7_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf7_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -7169,6 +7230,7 @@
                 [(ngModel)]="selecteLocalidad8"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf8')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -7377,6 +7439,7 @@
                 [(ngModel)]="selecteLocalidad8_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf8_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -7599,6 +7662,7 @@
                 [(ngModel)]="selecteLocalidad9"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf9')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -7796,6 +7860,7 @@
                 [(ngModel)]="selecteLocalidad9_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf9_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -7965,6 +8030,7 @@
                 [(ngModel)]="selecteLocalidad10"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf10')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -8142,6 +8208,7 @@
                 [(ngModel)]="selecteLocalidad10_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf10_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -8332,6 +8399,7 @@
                 [(ngModel)]="selecteLocalidad11"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf11')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -8498,6 +8566,7 @@
                 [(ngModel)]="selecteLocalidad11_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf11_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -8571,7 +8640,7 @@
       <div class="col-12 grid" style="height: 17cm">
         <div class="col-12 grid">
           <ng-container
-            *ngIf="selectPais12 && selectePeligro12; else filtroFaltante"
+            *ngIf="selectPais12 && selectePeligro12; else filtroFaltanteTipos"
           >
             <div class="col-11 grafic" style="color: black; font-weight: bold">
               <ngx-charts-bar-vertical-2d
@@ -8643,6 +8712,7 @@
                 [(ngModel)]="selecteLocalidad12"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf12')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -8761,7 +8831,7 @@
       <div class="col-12 grid" style="height: 17cm">
         <div class="col-12 grid">
           <ng-container
-            *ngIf="selectPais12_2 && selectePeligro12_2; else filtroFaltante"
+            *ngIf="selectPais12_2 && selectePeligro12_2; else filtroFaltanteTipos"
           >
             <div class="col-11 grafic" style="color: black; font-weight: bold">
               <ngx-charts-bar-vertical-2d
@@ -8832,6 +8902,7 @@
                 [(ngModel)]="selecteLocalidad12_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf12_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -8944,7 +9015,7 @@
       <div class="col-12 grid" style="height: 17cm">
         <div class="col-12 grid">
           <ng-container
-            *ngIf="selectPais13 && selectePeligro13; else filtroFaltante"
+            *ngIf="selectPais13 && selectePeligro13; else filtroFaltanteTipos"
           >
             <div class="col-11 grafic" style="color: black; font-weight: bold">
               <ngx-charts-bar-vertical-2d
@@ -9034,6 +9105,7 @@
                 [(ngModel)]="selecteLocalidad13"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf13')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -9123,7 +9195,7 @@
       <div class="col-12 grid" style="height: 17cm">
         <div class="col-12 grid">
           <ng-container
-            *ngIf="selectPais13_2 && selectePeligro13_2; else filtroFaltante"
+            *ngIf="selectPais13_2 && selectePeligro13_2; else filtroFaltanteTipos"
           >
             <div class="col-11 grafic" style="color: black; font-weight: bold">
               <ngx-charts-bar-vertical-2d
@@ -9212,6 +9284,7 @@
                 [(ngModel)]="selecteLocalidad13_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf13_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -9353,6 +9426,7 @@
                     [(ngModel)]="selecteLocalidad14"
                     defaultLabel="Seleccionar localidad"
                     (onChange)="filtroGraf14()"
+                    [filter]="true"
                   >
                   </p-multiSelect>
                 </ng-container>
@@ -9364,6 +9438,7 @@
                     [(ngModel)]="selecteLocalidad14"
                     placeholder="Seleccionar localidad"
                     (onChange)="funcSelectLocalidad($event, 'graf14')"
+                    [filter]="true"
                   >
                   </p-dropdown>
                   <h3>Area</h3>
@@ -9531,6 +9606,7 @@
                     [(ngModel)]="selecteLocalidad14_2"
                     defaultLabel="Seleccionar localidad"
                     (onChange)="filtroGraf14_2()"
+                    [filter]="true"
                   >
                   </p-multiSelect>
                 </ng-container>
@@ -9542,6 +9618,7 @@
                     [(ngModel)]="selecteLocalidad14_2"
                     placeholder="Seleccionar localidad"
                     (onChange)="funcSelectLocalidad($event, 'graf14_2')"
+                    [filter]="true"
                   >
                   </p-dropdown>
                   <h3>Area</h3>
@@ -9691,6 +9768,7 @@
                 [(ngModel)]="selecteLocalidad15"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf15')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -9843,6 +9921,7 @@
                 [(ngModel)]="selecteLocalidad15_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf15_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -10008,6 +10087,7 @@
                 [(ngModel)]="selecteLocalidad16"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf16')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -10149,6 +10229,7 @@
                 [(ngModel)]="selecteLocalidad16_2"
                 placeholder="Seleccionar localidad"
                 (onChange)="funcSelectLocalidad($event, 'graf16_2')"
+                [filter]="true"
               >
               </p-dropdown>
               <h3>Area</h3>
@@ -10279,6 +10360,7 @@
                     [options]="localidadesList17"
                     [(ngModel)]="selecteLocalidad17"
                     defaultLabel="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="filtroGraf17()"
                   >
                   </p-multiSelect>
@@ -10290,6 +10372,7 @@
                     [options]="localidadesList17"
                     [(ngModel)]="selecteLocalidad17"
                     placeholder="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="funcSelectLocalidad($event, 'graf17')"
                   >
                   </p-dropdown>
@@ -10457,6 +10540,7 @@
                     [options]="localidadesList17_2"
                     [(ngModel)]="selecteLocalidad17_2"
                     defaultLabel="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="filtroGraf17_2()"
                   >
                   </p-multiSelect>
@@ -10468,6 +10552,7 @@
                     [options]="localidadesList17_2"
                     [(ngModel)]="selecteLocalidad17_2"
                     placeholder="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="funcSelectLocalidad($event, 'graf17_2')"
                   >
                   </p-dropdown>
@@ -10617,6 +10702,7 @@
                 [options]="localidadesList18"
                 [(ngModel)]="selecteLocalidad18"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf18')"
               >
               </p-dropdown>
@@ -10769,6 +10855,7 @@
                 [options]="localidadesList18_2"
                 [(ngModel)]="selecteLocalidad18_2"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf18_2')"
               >
               </p-dropdown>
@@ -10934,6 +11021,7 @@
                 [options]="localidadesList19"
                 [(ngModel)]="selecteLocalidad19"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf19')"
               >
               </p-dropdown>
@@ -11075,6 +11163,7 @@
                 [options]="localidadesList19_2"
                 [(ngModel)]="selecteLocalidad19_2"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf19_2')"
               >
               </p-dropdown>
@@ -11213,6 +11302,7 @@
                     [options]="localidadesList20"
                     [(ngModel)]="selecteLocalidad20"
                     defaultLabel="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="filtroGraf20()"
                   >
                   </p-multiSelect>
@@ -11224,6 +11314,7 @@
                     [options]="localidadesList20"
                     [(ngModel)]="selecteLocalidad20"
                     placeholder="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="funcSelectLocalidad($event, 'graf20')"
                   >
                   </p-dropdown>
@@ -11399,6 +11490,7 @@
                     [(ngModel)]="selecteLocalidad20_2"
                     defaultLabel="Seleccionar localidad"
                     (onChange)="filtroGraf20_2()"
+                    [filter]="true"
                   >
                   </p-multiSelect>
                 </ng-container>
@@ -11409,6 +11501,7 @@
                     [options]="localidadesList20_2"
                     [(ngModel)]="selecteLocalidad20_2"
                     placeholder="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="funcSelectLocalidad($event, 'graf20_2')"
                   >
                   </p-dropdown>
@@ -11558,6 +11651,7 @@
                 [options]="localidadesList21"
                 [(ngModel)]="selecteLocalidad21"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf21')"
               >
               </p-dropdown>
@@ -11710,6 +11804,7 @@
                 [options]="localidadesList21_2"
                 [(ngModel)]="selecteLocalidad21_2"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf21_2')"
               >
               </p-dropdown>
@@ -11875,6 +11970,7 @@
                 [options]="localidadesList22"
                 [(ngModel)]="selecteLocalidad22"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf22')"
               >
               </p-dropdown>
@@ -12006,6 +12102,7 @@
                 [options]="localidadesList22_2"
                 [(ngModel)]="selecteLocalidad22_2"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf22_2')"
               >
               </p-dropdown>
@@ -12139,6 +12236,7 @@
                     [options]="localidadesList23"
                     [(ngModel)]="selecteLocalidad23"
                     defaultLabel="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="filtroGraf23()"
                   >
                   </p-multiSelect>
@@ -12150,6 +12248,7 @@
                     [options]="localidadesList23"
                     [(ngModel)]="selecteLocalidad23"
                     placeholder="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="funcSelectLocalidad($event, 'graf23')"
                   >
                   </p-dropdown>
@@ -12300,6 +12399,7 @@
                     [options]="localidadesList23_2"
                     [(ngModel)]="selecteLocalidad23_2"
                     defaultLabel="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="filtroGraf23_2()"
                   >
                   </p-multiSelect>
@@ -12311,6 +12411,7 @@
                     [options]="localidadesList23_2"
                     [(ngModel)]="selecteLocalidad23_2"
                     placeholder="Seleccionar localidad"
+                    [filter]="true"
                     (onChange)="funcSelectLocalidad($event, 'graf23_2')"
                   >
                   </p-dropdown>
@@ -12438,6 +12539,7 @@
                 [options]="localidadesList24"
                 [(ngModel)]="selecteLocalidad24"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf24')"
               >
               </p-dropdown>
@@ -12568,6 +12670,7 @@
                 [options]="localidadesList24_2"
                 [(ngModel)]="selecteLocalidad24_2"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf24_2')"
               >
               </p-dropdown>
@@ -12691,8 +12794,11 @@
                 [style]="{ width: '100%' }"
                 appendTo="body"
                 [options]="localidadesList25"
+                class="select-material"
+                styleClass="select-material";
                 [(ngModel)]="selecteLocalidad25"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf25')"
               >
               </p-dropdown>
@@ -12813,6 +12919,7 @@
                 [options]="localidadesList25_2"
                 [(ngModel)]="selecteLocalidad25_2"
                 placeholder="Seleccionar localidad"
+                [filter]="true"
                 (onChange)="funcSelectLocalidad($event, 'graf25_2')"
               >
               </p-dropdown>

@@ -2551,11 +2551,9 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     this.resumenInicialText = [];
     let compressedData = localStorage.getItem('dataMP');
     let decompressedData: any;
-    console.log(compressedData);
     if (compressedData !== null) {
       // Descomprimir los datos
       decompressedData = LZString.decompress(compressedData);
-      console.log('descompre' + decompressedData);
       // console.log(decompressedData); // Esto debería mostrar los datos originales
     } else {
       console.log('No hay datos disponibles para descomprimir.');
@@ -2563,10 +2561,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     //let descomprimido=LZString.decompress(compressedData2);
     let decompressedData2: any[] = JSON.parse(decompressedData);
     //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
-    console.log(decompressedData);
-    console.log(decompressedData2);
     let dataRiesgoInicial: any[] = decompressedData2;
-    console.log('datos.' + dataRiesgoInicial);
 
     if (dataRiesgoInicial != null) {
       //  let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
@@ -7714,7 +7709,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         // Descomprimir los datos
         decompressedData = LZString.decompress(compressedData);
 
-        // console.log(decompressedData); // Esto debería mostrar los datos originales
       } else {
         console.log('No hay datos disponibles para descomprimir.');
       }
@@ -8006,7 +8000,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         // Descomprimir los datos
         decompressedData = LZString.decompress(compressedData);
 
-        // console.log(decompressedData); // Esto debería mostrar los datos originales
       } else {
         console.log('No hay datos disponibles para descomprimir.');
       }
@@ -8249,8 +8242,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       if (compressedData !== null) {
         // Descomprimir los datos
         decompressedData = LZString.decompress(compressedData);
-
-        // console.log(decompressedData); // Esto debería mostrar los datos originales
       } else {
         console.log('No hay datos disponibles para descomprimir.');
       }
@@ -8404,13 +8395,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           gpfTotal += gpf;
 
           if (gpi == 0 && gpf == 0) flagZero = true;
-          else flagZero = false;
-
+          else flagZero = false; 
           if (!flagZero) {
             this.meta25.push(mes);
             labels.push(mes);
             icr.push(((gpi - gpf) / gpi) * 100);
             metaIcr.push(metaF);
+            
           }
         }
       labels.push('Total');
@@ -8449,25 +8440,32 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let dataEventos25: any = JSON.parse(localStorage.getItem('dataEventos25')!);
 
     // Verificar que existan meses seleccionados y meta25 no esté vacío
-    if (this.selectMes25 && this.selectMes25.length > 0 && this.meta25 > 0) {
-        // Normalizar los valores de los meses (en caso de que haya diferencias de formato)
-        let mesList25 = this.meta25.map((mes: any) => mes.toLowerCase().trim());
-        let selectMes25 = this.selectMes25.map((m: any) => m.toLowerCase().trim()).sort();
-
-        // Mostrar los valores de los meses seleccionados y meta25 para verificar
-        console.log('Meses seleccionados:', selectMes25);
-        console.log('Meses en meta25:', mesList25);
-
-        // Filtrar los datos basados en los meses seleccionados
-        dataEventos25.labels = selectMes25;
-        dataEventos25.datasets[1].data = dataEventos25.datasets[1].data.filter(
-            (data: any, index: any) => selectMes25.includes(mesList25[index])
-        );
-        dataEventos25.datasets[0].data = dataEventos25.datasets[0].data.filter(
-            (data: any, index: any) => selectMes25.includes(mesList25[index])
-        );
-    }
-
+    if (this.selectMes25 && this.selectMes25.length > 0 && this.meta25 && this.meta25.length > 0) {
+      // Normalizar los valores de los meses (en caso de que haya diferencias de formato)
+      let mesList25 = this.meta25.map((mes: any) => mes.toLowerCase().trim());
+      let selectMes25 = this.selectMes25.map((m: any) => m.toLowerCase().trim()).sort();
+  
+      // Actualizar las etiquetas con los meses seleccionados
+      dataEventos25.labels = selectMes25;
+  
+      // Mapeamos los datasets para reflejar solo los meses seleccionados
+      dataEventos25.datasets[1].data = selectMes25.map(
+          (mes: any) => {
+              const index = mesList25.indexOf(mes);
+              return index !== -1 ? dataEventos25.datasets[1].data[index] : 0; // Asignar 0 si no existe el mes
+          }
+      );
+  
+      dataEventos25.datasets[0].data = selectMes25.map(
+          (mes: any) => {
+              const index = mesList25.indexOf(mes);
+              return index !== -1 ? dataEventos25.datasets[0].data[index] : 0; // Asignar 0 si no existe el mes
+          }
+      );
+  } else {
+      console.log("No hay meses seleccionados o la meta no está disponible.");
+  }
+  
     // Filtro adicional basado en selectFiltro25
     if (this.selectFiltro25 && this.selectFiltro25.length > 0) {
         let selectFiltro25Meta = this.filtro17.map((div: any) => div.label);
@@ -8481,7 +8479,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     }
 
     // Actualizar el objeto dataEventos25 en el componente
-    Object.assign(this, { dataEventos25 });
+    Object.assign(this, { dataEventos25 });
 }
 
 

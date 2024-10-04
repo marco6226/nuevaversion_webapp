@@ -340,7 +340,6 @@ export class IndCasosMedicosComponent implements OnInit {
 
     this.numCasos = this.casosAbiertos + this.casosCerrados;
     //console.log(this.casosAbiertos);
-    //console.log(this.casosCerrados);
     this.datosNumeroCasos!.forEach((resp) => {
       if (resp['estadoDelCaso'] == '1')
         this.casosAbiertos = this.casosAbiertos + 1;
