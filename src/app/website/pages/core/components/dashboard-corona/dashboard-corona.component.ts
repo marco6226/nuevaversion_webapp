@@ -171,8 +171,7 @@ export class DashboardCoronaComponent implements OnInit {
   topPosition: string = '9%';
   toggleDiv() {
     this.contraer = !this.contraer;
-    this.topPosition = this.topPosition === '9%' ? '8%' : '9%'; 
-
+    this.topPosition = this.topPosition === '9%' ? '8%' : '9%';
   }
   async ngOnInit() {
     //debugger
@@ -194,12 +193,12 @@ export class DashboardCoronaComponent implements OnInit {
   }
   compressText() {
     this.compressedText = LZString.compress(this.originalText);
-    console.log('Texto comprimido:', this.compressedText);
+    //console.log('Texto comprimido:', this.compressedText);
   }
 
   decompressText() {
     this.decompressedText = LZString.decompress(this.compressedText) || '';
-    console.log('Texto descomprimido:', this.decompressedText);
+    //console.log('Texto descomprimido:', this.decompressedText);
   }
 
   constructor(
@@ -331,7 +330,7 @@ export class DashboardCoronaComponent implements OnInit {
           resolve(true);
         })
         .catch((err) => {
-          console.error(err);
+          //console.error(err);
           reject(false);
         });
     });
@@ -685,12 +684,12 @@ export class DashboardCoronaComponent implements OnInit {
             this.metaIli = 0;
           }
         } else {
-          console.error('No se obtuvieron registros meta de la empresa.');
+          //console.error('No se obtuvieron registros meta de la empresa.');
           this.metaIli = 0;
         }
       })
       .catch((err) => {
-        console.error('Error al obtener metas de la empresa');
+        //console.error('Error al obtener metas de la empresa');
       });
 
     await this.hhtService
@@ -699,11 +698,11 @@ export class DashboardCoronaComponent implements OnInit {
         if (res.data.length > 0) {
           hhtEmpresa = Array.from(res.data);
         } else {
-          console.error('No se obtuvieron registros hht de la empresa.');
+          //console.error('No se obtuvieron registros hht de la empresa.');
         }
       })
       .catch((err) => {
-        console.error('Error al obtener hht de la empresa');
+        //console.error('Error al obtener hht de la empresa');
       });
 
     await this.hhtService
@@ -712,11 +711,11 @@ export class DashboardCoronaComponent implements OnInit {
         if (res.data.length > 0) {
           hhtTemp = Array.from(res.data);
         } else {
-          console.error('No se obtuvieron registros hht de las temporales');
+          //console.error('No se obtuvieron registros hht de las temporales');
         }
       })
       .catch((err) => {
-        console.error('Error al obtener hht de las temporales');
+        //console.error('Error al obtener hht de las temporales');
       });
 
     let accidentesConDiasPerdidos = 0;
@@ -1121,6 +1120,7 @@ export class DashboardCoronaComponent implements OnInit {
   casosAbiertos: number = 0;
   casosCerrados: number = 0;
   datosNumeroCasos?: any[];
+  datosNumeroCasosCerrados?: any[];
   selecDiv0 = null;
 
   fechaDesde0?: Date | any;
@@ -1129,6 +1129,7 @@ export class DashboardCoronaComponent implements OnInit {
     this.numCasos = 0;
     this.casosAbiertos = 0;
     this.datosNumeroCasos = this.datos;
+    this.datosNumeroCasosCerrados = this.datos;
     this.datosNumeroCasos = this.filtroDivisionMono(
       this.selecDiv0,
       this.datosNumeroCasos
@@ -1138,13 +1139,29 @@ export class DashboardCoronaComponent implements OnInit {
       this.fechaHasta0,
       this.datosNumeroCasos
     );
+    this.datosNumeroCasosCerrados = this.filtroFechaCerrados(
+      this.fechaDesde0!,
+      this.fechaHasta0!,
+      this.datosNumeroCasosCerrados
+    );
 
-    this.numCasos = this.datosNumeroCasos!.length;
+    // this.numCasos = this.datosNumeroCasos!.length;
+    this.numCasos = this.casosAbiertos + this.casosCerrados;
     this.datosNumeroCasos!.forEach((resp) => {
       if (resp['estadoDelCaso'] == '1')
         this.casosAbiertos = this.casosAbiertos + 1;
     });
-    this.casosCerrados = this.numCasos - this.casosAbiertos;
+
+    this.datosNumeroCasosCerrados!.forEach((resp) => {
+      if (resp['estadoDelCaso'] == '0' && resp['fecha_cierre'] !== null)
+        this.casosCerrados = this.casosCerrados + 1;
+    });
+    //this.casosCerrados = this.numCasos - this.casosAbiertos;
+    console.log(this.datosNumeroCasosCerrados);
+
+    console.log(this.datosNumeroCasos);
+
+    this.numCasos = this.casosAbiertos + this.casosCerrados;
   }
 
   filtroDivisionMono(selecDiv: any, datos: any) {
@@ -1189,6 +1206,33 @@ export class DashboardCoronaComponent implements OnInit {
     }
     return datos0;
   }
+  filtroFechaCerrados(fechaDesde: Date, fechaHasta: Date, datos: any) {
+    let datos0;
+    if (fechaHasta)
+      fechaHasta = new Date(
+        new Date(fechaHasta).setMonth(new Date(fechaHasta).getMonth() + 1)
+      );
+
+    if (fechaDesde && fechaHasta) {
+      datos0 = datos.filter((resp: any) => {
+        return (
+          new Date(resp.fecha_cierre) >= fechaDesde &&
+          new Date(resp.fecha_cierre) < fechaHasta
+        );
+      });
+    } else if (fechaDesde) {
+      datos0 = datos.filter((resp: any) => {
+        return new Date(resp.fecha_cierre) >= fechaDesde;
+      });
+    } else if (fechaHasta) {
+      datos0 = datos.filter((resp: any) => {
+        return new Date(resp.fecha_cierre) < fechaHasta;
+      });
+    } else {
+      datos0 = datos;
+    }
+    return datos0;
+  }
   IndicadoresCasosMedicos() {
     this.paramNav.redirect('app/ind/indcasosmedicos');
   }
@@ -1212,7 +1256,7 @@ export class DashboardCoronaComponent implements OnInit {
 
       // console.log(decompressedData); // Esto debería mostrar los datos originales
     } else {
-      console.log('No hay datos disponibles para descomprimir.');
+      //console.log('No hay datos disponibles para descomprimir.');
     }
     //let descomprimido=LZString.decompress(compressedData2);
     let decompressedData2: any[] = JSON.parse(decompressedData);
@@ -1331,7 +1375,7 @@ export class DashboardCoronaComponent implements OnInit {
 
       // console.log(decompressedData); // Esto debería mostrar los datos originales
     } else {
-      console.log('No hay datos disponibles para descomprimir.');
+      //console.log('No hay datos disponibles para descomprimir.');
     }
     //let descomprimido=LZString.decompress(compressedData2);
     let decompressedData2: any[] = JSON.parse(decompressedData);
@@ -1443,16 +1487,16 @@ export class DashboardCoronaComponent implements OnInit {
       .getmpRWithFilter(filterMatriz)
       .then((resp: any) => {
         dataMP = resp.data;
-        console.log('antes de' + dataMP);
+        //console.log('antes de' + dataMP);
 
         this.dataSize = new TextEncoder().encode(JSON.stringify(dataMP)).length;
-        console.log('Tamaño de dataMP:' + this.dataSize + 'bytes');
+        //console.log('Tamaño de dataMP:' + this.dataSize + 'bytes');
         var compressed = LZString.compress(JSON.stringify(dataMP));
         localStorage.setItem('dataMP', compressed);
 
         // localStorage.setItem('dataMP', JSON.stringify(dataMP));
         this.dataSize2 = new TextEncoder().encode(compressed).length;
-        console.log('Tamaño de dataMP compressed' + this.dataSize2 + 'bytes');
+        //console.log('Tamaño de dataMP compressed' + this.dataSize2 + 'bytes');
       });
 
     let filterQueryMeta = new FilterQuery();

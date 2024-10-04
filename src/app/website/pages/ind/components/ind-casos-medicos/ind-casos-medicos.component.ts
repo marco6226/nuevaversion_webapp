@@ -28,6 +28,7 @@ export class IndCasosMedicosComponent implements OnInit {
   casosCerrados: number = 0;
   datos?: any[];
   datosNumeroCasos?: any[];
+  datosNumeroCasosCerrados?: any[];
   nameX?: string;
   divisiones?: any;
   divisionesCorona = [
@@ -93,9 +94,11 @@ export class IndCasosMedicosComponent implements OnInit {
   fechaHasta7?: Date | null;
 
   datosGraf0: any;
+  datosGraf0Cerrados: any;
   datosGraf0Print: any;
 
   datosGraf1: any;
+  datosGraf1Cerrados: any;
   datosGraf1Print: any;
 
   datosGraf2: any;
@@ -231,7 +234,7 @@ export class IndCasosMedicosComponent implements OnInit {
     // Ejemplo de uso
     const today = new Date(); // Crea un objeto Date
     const weekOfMonth = this.getWeekOfMonth(today);
-    console.log(`La semana del mes es: ${weekOfMonth}`);
+    //console.log(`La semana del mes es: ${weekOfMonth}`);
 
     this.config.setTranslation(this.localeES);
     await this.cargarDatos();
@@ -316,8 +319,10 @@ export class IndCasosMedicosComponent implements OnInit {
   //Grafica cards
   numeroCasos() {
     this.numCasos = 0;
+    this.casosCerrados = 0;
     this.casosAbiertos = 0;
     this.datosNumeroCasos = this.datos;
+    this.datosNumeroCasosCerrados = this.datos;
     this.datosNumeroCasos = this.filtroDivisionMono(
       this.selecDiv0,
       this.datosNumeroCasos
@@ -327,51 +332,124 @@ export class IndCasosMedicosComponent implements OnInit {
       this.fechaHasta0!,
       this.datosNumeroCasos
     );
+    this.datosNumeroCasosCerrados = this.filtroFechaCerrados(
+      this.fechaDesde0!,
+      this.fechaHasta0!,
+      this.datosNumeroCasosCerrados
+    );
 
-    this.numCasos = this.datosNumeroCasos!.length;
+    this.numCasos = this.casosAbiertos + this.casosCerrados;
+    //console.log(this.casosAbiertos);
+    //console.log(this.casosCerrados);
     this.datosNumeroCasos!.forEach((resp) => {
       if (resp['estadoDelCaso'] == '1')
         this.casosAbiertos = this.casosAbiertos + 1;
     });
-    this.casosCerrados = this.numCasos - this.casosAbiertos;
-  }
 
+    this.datosNumeroCasosCerrados!.forEach((resp) => {
+      if (resp['estadoDelCaso'] == '0' && resp['fecha_cierre'] !== null)
+        this.casosCerrados = this.casosCerrados + 1;
+    });
+    this.numCasos = this.casosAbiertos + this.casosCerrados;
+  }
   //Grafica uno
   DatosGrafica1() {
     this.datosGraf0 = Array.from(this.datos!);
+    this.datosGraf0Cerrados = Array.from(this.datos!);
+    //console.log(this.datosGraf0Cerrados);
+
     this.datosGraf0 = this.filtroFecha(
       this.fechaDesde1!,
       this.fechaHasta1!,
       this.datosGraf0
     );
+    this.datosGraf0Cerrados = this.filtroFechaCerrados(
+      this.fechaDesde1!,
+      this.fechaHasta1!,
+      this.datosGraf0Cerrados
+    );
+    //console.log(this.datosGraf0Cerrados);
+
     switch (this.radioButon0) {
+      case 0:
+        this.datosGraf0 = this.datosGraf0.filter((resp1: any) => {
+          return resp1['estadoDelCaso'] == '1';
+        });
+        this.datosGraf0Cerrados = this.datosGraf0Cerrados.filter(
+          (resp1: any) => {
+            return (
+              resp1['estadoDelCaso'] == '0' && resp1['fecha_cierre'] !== null
+            );
+            //this.datosGraf0 = this.datosGraf0.filter((resp1: any) => {return resp1['fecha_cierre'] !== null;
+          }
+        );
+        this.datosGraf0Print = [];
+        this.divisiones.forEach((resp: any) => {
+          this.datosGraf0Print.push({
+            name: resp,
+            value:
+              this.datosGraf0.filter((resp1: any) => {
+                return resp1['divisionUnidad'] == resp;
+              }).length +
+              this.datosGraf0Cerrados.filter((resp1: any) => {
+                return resp1['divisionUnidad'] == resp;
+              }).length,
+          });
+        });
+        //console.log(this.datosGraf0Print);
+
+        break;
       case 1:
         this.datosGraf0 = this.datosGraf0.filter((resp1: any) => {
           return resp1['estadoDelCaso'] == '1';
         });
+        this.datosGraf0Print = [];
+        this.divisiones.forEach((resp: any) => {
+          this.datosGraf0Print.push({
+            name: resp,
+            value: this.datosGraf0.filter((resp1: any) => {
+              return resp1['divisionUnidad'] == resp;
+            }).length,
+          });
+        });
+
         break;
       case 2:
-        this.datosGraf0 = this.datosGraf0.filter((resp1: any) => {
-          return (
-            resp1['estadoDelCaso'] == '0' && resp1['fecha_cierre'] !== null
-          );
-          //this.datosGraf0 = this.datosGraf0.filter((resp1: any) => {return resp1['fecha_cierre'] !== null;
-          console.log(this.datosGraf0);
+        this.datosGraf0Cerrados = this.datosGraf0Cerrados.filter(
+          (resp1: any) => {
+            return (
+              resp1['estadoDelCaso'] == '0' && resp1['fecha_cierre'] !== null
+            );
+            //this.datosGraf0 = this.datosGraf0.filter((resp1: any) => {return resp1['fecha_cierre'] !== null;
+          }
+        );
+        //console.log(this.datosGraf0Cerrados);
+        this.datosGraf0Print = [];
+        this.divisiones.forEach((resp: any) => {
+          this.datosGraf0Print.push({
+            name: resp,
+
+            value: this.datosGraf0Cerrados.filter((resp1: any) => {
+              return resp1['divisionUnidad'] == resp;
+            }).length,
+          });
         });
 
         break;
       default:
+        this.datosGraf0Print = [];
+        this.divisiones.forEach((resp: any) => {
+          this.datosGraf0Print.push({
+            name: resp,
+            value: this.datosGraf0.filter((resp1: any) => {
+              return resp1['divisionUnidad'] == resp;
+            }).length,
+          });
+        });
         break;
     }
-    this.datosGraf0Print = [];
-    this.divisiones.forEach((resp: any) => {
-      this.datosGraf0Print.push({
-        name: resp,
-        value: this.datosGraf0.filter((resp1: any) => {
-          return resp1['divisionUnidad'] == resp;
-        }).length,
-      });
-    });
+
+    //console.log(this.datosGraf0Print);
   }
 
   //Grafica dos
@@ -383,6 +461,19 @@ export class IndCasosMedicosComponent implements OnInit {
       this.fechaHasta2!,
       this.datosGraf1
     );
+    this.datosGraf1 = this.datosGraf1.filter((resp1: any) => {
+      return resp1['estadoDelCaso'] == '1';
+    });
+    this.datosGraf1Cerrados = Array.from(this.datos!);
+    this.datosGraf1Cerrados = this.filtroFechaCerrados(
+      this.fechaDesde2!,
+      this.fechaHasta2!,
+      this.datosGraf1Cerrados
+    );
+    this.datosGraf1Cerrados = this.datosGraf1Cerrados.filter((resp1: any) => {
+      return resp1['estadoDelCaso'] == '0' && resp1['fecha_cierre'] !== null;
+      //this.datosGraf0 = this.datosGraf0.filter((resp1: any) => {return resp1['fecha_cierre'] !== null;
+    });
     let nombre = '';
     if (this.radioButon1 == 0) {
       this.opcion1 = this.StatusList;
@@ -407,15 +498,18 @@ export class IndCasosMedicosComponent implements OnInit {
     );
 
     let opcion1 = this.filtroEventoMultiple(this.selectEvento1, this.opcion1);
+    let combinedData = [...this.datosGraf1, ...this.datosGraf1Cerrados];
 
     this.datosGraf1Print = this.datosGraf2DDivisiones(
       divisiones,
-      this.datosGraf1,
+      combinedData,
+      this.datosGraf1Cerrados,
       opcion1,
       nombre,
       'divisionUnidad'
     );
     this.flag1 = true;
+    //console.log(this.datosGraf1Print);
   }
 
   returnDatos1() {
@@ -485,6 +579,7 @@ export class IndCasosMedicosComponent implements OnInit {
       this.datosGraf2Print = this.datosGraf2DDivisiones(
         plantas,
         this.datosGraf2,
+        null,
         opcion2,
         nombre,
         'ubicacion'
@@ -648,6 +743,7 @@ export class IndCasosMedicosComponent implements OnInit {
     this.datosGraf3Print = this.datosGraf2DDivisiones(
       divisiones,
       this.datosGraf3,
+      null,
       opcion3,
       nombre,
       'divisionUnidad'
@@ -702,6 +798,7 @@ export class IndCasosMedicosComponent implements OnInit {
       this.datosGraf4Print = this.datosGraf2DDivisiones(
         plantas,
         this.datosGraf4,
+        null,
         opcion4,
         nombre,
         'ubicacion'
@@ -875,6 +972,7 @@ export class IndCasosMedicosComponent implements OnInit {
     this.datosGraf5 = this.datosGraf2DDivisiones(
       divisiones,
       this.datosGraf5,
+      null,
       opcion5,
       nombre,
       'divisionUnidad'
@@ -968,6 +1066,7 @@ export class IndCasosMedicosComponent implements OnInit {
       this.datosGraf6Print = this.datosGraf2DDivisiones(
         plantas,
         this.datosGraf6,
+        null,
         opcion6,
         nombre,
         'ubicacion'
@@ -1132,6 +1231,34 @@ export class IndCasosMedicosComponent implements OnInit {
     return datos0;
   }
 
+  filtroFechaCerrados(fechaDesde: Date, fechaHasta: Date, datos: any) {
+    let datos0;
+    if (fechaHasta)
+      fechaHasta = new Date(
+        new Date(fechaHasta).setMonth(new Date(fechaHasta).getMonth() + 1)
+      );
+
+    if (fechaDesde && fechaHasta) {
+      datos0 = datos.filter((resp: any) => {
+        return (
+          new Date(resp.fecha_cierre) >= fechaDesde &&
+          new Date(resp.fecha_cierre) < fechaHasta
+        );
+      });
+    } else if (fechaDesde) {
+      datos0 = datos.filter((resp: any) => {
+        return new Date(resp.fecha_cierre) >= fechaDesde;
+      });
+    } else if (fechaHasta) {
+      datos0 = datos.filter((resp: any) => {
+        return new Date(resp.fecha_cierre) < fechaHasta;
+      });
+    } else {
+      datos0 = datos;
+    }
+    return datos0;
+  }
+
   filtroDivisionMono(selecDiv: any, datos: any) {
     let datos0 = [];
     if (selecDiv.length > 0) {
@@ -1177,6 +1304,7 @@ export class IndCasosMedicosComponent implements OnInit {
   datosGraf2DDivisiones(
     division: any,
     datos: any,
+    datosCerrados: any = undefined,
     opciones: any,
     nombre: string,
     div: string
@@ -1188,6 +1316,8 @@ export class IndCasosMedicosComponent implements OnInit {
     opciones.forEach((resp: any) => {
       datos0_2.push({ name: resp.label, value: 0 });
     });
+    //console.log(opciones);
+    //console.log(datos0);
 
     division.forEach((resp: any) => {
       if (resp != this.nombreEmpresa)
