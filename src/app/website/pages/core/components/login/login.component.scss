@@ -1,7 +1,7 @@
 .background{
     height: 100%;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: auto;
 }
 
@@ -71,8 +71,15 @@ form{
         text-align: center;
         margin-right: 14px;
     }
+    .version {
+        margin-left: 10px;
+    }
   }
-
+  @media screen and (min-width: 120em) { /* 1em ≈ 16px, por lo que 120em ≈ 1920px */
+    .version {
+        margin-left: 180px;
+    }
+}
 .contenedor-circular{
     height: 160px;
     width: 160px;
@@ -129,3 +136,4 @@ button{
     width: 300px;
     box-shadow: 2px 2px 5px #ccc;
 }
+
