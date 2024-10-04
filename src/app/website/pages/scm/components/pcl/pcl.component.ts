@@ -35,8 +35,8 @@ export class PclComponent implements OnInit {
     modalDialog: boolean = false;
     loading: boolean = false;
     editing: boolean = false;
-    pclSelect: any={};
-    pclSelect2: any={};
+    pclSelect: any = {};
+    pclSelect2: any = {};
 
     esConsulta: boolean = false;
     pclCalificacionList: SelectItem[] = [
@@ -60,9 +60,10 @@ export class PclComponent implements OnInit {
     estado!: string;
     respuestaDelServidor: any[] | undefined;
     modalVisible: boolean = false;
-    pclSeleccionada: any={};
-    pclListDiag: any[]=[];
-    listOneDiag:any[]=[];
+    pclSeleccionada: any = {};
+    pclListDiag: any[] = [];
+    listOneDiag: any[] = [];
+    
 
 
 
@@ -94,9 +95,9 @@ export class PclComponent implements OnInit {
             entidadEmitida: [null, /*Validators.required*/],
             origen: [null, /*Validators.required*/],
             observaciones: [null, /*Validators.required*/],
-            origenPcl : [null, /*Validators.required*/],
+            origenPcl: [null, /*Validators.required*/],
             observacionesPcl: [null, /*Validators.required*/],
-            tiempoCalificacion: [{ value: '', disabled: true }]
+            tiempoCalificacion: [{ value: '', disabled: true }],
 
         });
 
@@ -109,28 +110,28 @@ export class PclComponent implements OnInit {
         const status = this.pclForm.get('statusDeCalificacion')?.value;
         const origen = this.pclForm.get('origen')?.value;
         return status !== '2' || origen !== 'Enfermedad Laboral';
-      }
-   
-      
+    }
+
+
     calculateTimeDifference(fechaInicio: number, fechaFin: Date): string {
         const startDate = new Date(fechaInicio);
         const endDate = new Date(fechaFin);
-    
+
         let totalMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12;
         totalMonths -= startDate.getMonth();
         totalMonths += endDate.getMonth();
         totalMonths = totalMonths <= 0 ? 0 : totalMonths;
-    
+
         let totalDays = endDate.getDate() - startDate.getDate();
         if (totalDays < 0) {
             totalMonths--;
             totalDays += new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
         }
-    
+
         return `${totalMonths} meses y ${totalDays} días`;
     }
-      
-      
+
+
 
     async ngOnInit() {
         this.config.setTranslation(this.localeES);
@@ -141,7 +142,7 @@ export class PclComponent implements OnInit {
         this.dlistaPCL.emit(this.pclList);
         this.esConsulta = JSON.parse(localStorage.getItem('scmShowCase')!) == true ? true : false;
         this.clearSelection();
-    
+
         // Agrupar las PCL por id en un objeto auxiliar
         let pclUniqueMap = new Map<string, any>();
         this.pclList.forEach(pcl => {
@@ -154,26 +155,29 @@ export class PclComponent implements OnInit {
             }
         });
         this.pclList = Array.from(pclUniqueMap.values()).map(pcl => ({ ...pcl, diag: Array.from(pcl.diag) }));
-        
+
         await this.iniciarPcl();
 
         const saludL = localStorage.getItem('saludL');
         let fechaRecepcionDocs: Date | null = null;
+
         if (saludL) {
             const parsedSaludL = JSON.parse(saludL);
             if (parsedSaludL.fechaRecepcionDocs) {
                 fechaRecepcionDocs = new Date(parsedSaludL.fechaRecepcionDocs);
             }
         }
-    
+
+        // Suscribirse a los cambios en el campo `fechaCalificacion`
         this.pclForm.get('fechaCalificacion')?.valueChanges.subscribe(fechaCalificacion => {
             if (fechaRecepcionDocs && fechaCalificacion) {
                 const tiempoCalificacion = this.calculateTimeDifference(fechaRecepcionDocs.getTime(), fechaCalificacion);
                 this.pclForm.get('tiempoCalificacion')?.setValue(tiempoCalificacion);
             }
         });
+
     }
-    
+
 
     createOrigenList() {
         if (this.idEmpresa == '22') {
@@ -248,9 +252,9 @@ export class PclComponent implements OnInit {
             } else {
                 this.pclList = await this.scmService.getListPcl(this.pkCase);
             }
-            
-            
-    
+
+
+
             if (this.pclList) {
                 let pclMap = new Map<number, any>();
                 this.pclList.forEach(pcl => {
@@ -264,7 +268,7 @@ export class PclComponent implements OnInit {
                 // Convertir el Map a un array de objetos
                 this.pclList = Array.from(pclMap.values());
             }
-    
+
             // Configurar los demás campos necesarios
             this.pclList.forEach(pcl => {
                 pcl.diagnostic = this.diagList.find(diag => diag.value === pcl.diag.toString());
@@ -277,8 +281,8 @@ export class PclComponent implements OnInit {
                 pcl.entidadEmitida = parseInt(pcl.entidadEmitida);
                 // Asegúrate de asignar los campos origenPcl y observacionesPcl
             });
-            
-    
+
+
             this.loading = false;
             this.cd.markForCheck();
         } catch (e) {
@@ -292,44 +296,64 @@ export class PclComponent implements OnInit {
             this.cd.markForCheck();
         }
     }
-    
-    
 
+
+
+    tiempoCalificacion: string = '';  // Nueva propiedad para almacenar el valor
+  
     async consultarPcl() {
-        setTimeout(() => {
-            this.editing = false;
+      setTimeout(() => {
+        this.editing = false;
         this.estado = 'crear';
         this.modalDianostico = true;
-         this.iniciarPcl();
+        this.iniciarPcl();
         this.dlistaPCL.emit(this.pclList);
         this.modalDianostico = false;
-        }, 1);
-
-        this.loading = true;
-        try {
-            const response: pclDiagnostico[] = await this.scmService.listPclAllDiags(this.pkCase, this.pclSelect.id);
-            this.pclListDiag = response;
-            
-            this.listOneDiag=[this.pclListDiag[0]]
-            this.pclSeleccionada=response[0]
-            
-            
-            this.modalVisible = true;
-            
-            this.loading = false;
-            this.cd.markForCheck();
-        } catch (error) {
-            
-            this.messageService.add({
-                key: 'pcl',
-                severity: "error",
-                summary: "Mensaje del sistema",
-                detail: "Ocurrió un error al cargar el listado de PCL"
-            });
-            this.loading = false;
-            this.cd.markForCheck();
-        }
+      }, 1);
+  
+      this.loading = true;
+      try {
+        const response: pclDiagnostico[] = await this.scmService.listPclAllDiags(this.pkCase, this.pclSelect.id);
+        this.pclListDiag = response;
+        this.listOneDiag = [this.pclListDiag[0]];
+        this.pclSeleccionada = response[0];
+  
+        // Calcula el tiempo de calificación
+        this.calcularTiempoCalificacion();
+        
+        this.modalVisible = true;
+        this.loading = false;
+        this.cd.markForCheck();
+      } catch (error) {
+        this.messageService.add({
+          key: 'pcl',
+          severity: "error",
+          summary: "Mensaje del sistema",
+          detail: "Ocurrió un error al cargar el listado de PCL"
+        });
+        this.loading = false;
+        this.cd.markForCheck();
+      }
     }
+  
+    calcularTiempoCalificacion() {
+      const saludL = localStorage.getItem('saludL');
+      let fechaRecepcionDocs: Date | null = null;
+      if (saludL) {
+        const parsedSaludL = JSON.parse(saludL);
+        if (parsedSaludL.fechaRecepcionDocs) {
+          fechaRecepcionDocs = new Date(parsedSaludL.fechaRecepcionDocs);
+        }
+      }
+  
+      const fechaCalificacion = this.pclSeleccionada?.fechaCalificacion;
+      if (fechaRecepcionDocs && fechaCalificacion) {
+        this.tiempoCalificacion = this.calculateTimeDifference(fechaRecepcionDocs.getTime(), fechaCalificacion);
+      }
+    }
+  
+
+
 
 
 
@@ -358,8 +382,8 @@ export class PclComponent implements OnInit {
                 return '';
         }
     }
-    
-    
+
+
 
 
 
@@ -370,10 +394,10 @@ export class PclComponent implements OnInit {
         this.pclSelect.entidadEmitida = this.pclSelect.entidadEmitida.toString();
         this.pclForm.patchValue(this.pclSelect);
         try {
-    
+
             if (await this.confirmService.confirmPCL()) {
                 let res = await this.scmService.deletePcl(this.pclForm.value);
-    
+
                 if (res) {
                     this.messageService.add({
                         key: 'pcl',
@@ -390,7 +414,7 @@ export class PclComponent implements OnInit {
                     this.dlistaPCL.emit(this.pclList);
                     this.clearSelection();
                 }
-    
+
             }
             else {
                 this.messageService.add({
@@ -400,8 +424,8 @@ export class PclComponent implements OnInit {
                     detail: "usted cancelo la eliminación"
                 });
             }
-    
-    
+
+
         } catch (error) {
             this.messageService.add({
                 key: 'pcl',
@@ -413,7 +437,7 @@ export class PclComponent implements OnInit {
             this.cd.markForCheck();
         }
     }
-    
+
 
     editPcl() {
         this.estado = 'edit';
@@ -426,28 +450,28 @@ export class PclComponent implements OnInit {
         const saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
         const idSl = saludL.idSl;
         this.confirmationService.confirm({
-        message: '¿Estás seguro de que quieres enviar el caso ' + idSl+' a investigación ?',
-        header: 'Confirmar',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            this.scmService.changeEstadoSL(idSl).then(
-                response => {
-                  this.messageService.add({
-                    key: 'pcl',
-                    severity: "success",
-                    summary: "Documento aprobado",
-                    detail: `El caso ha sido enviado a investigación`,
-                  });
-                },
-                error => {
-                  console.error('Error al enviar datos:', error);
-                }
-              );
+            message: '¿Estás seguro de que quieres enviar el caso ' + idSl + ' a investigación ?',
+            header: 'Confirmar',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.scmService.changeEstadoSL(idSl).then(
+                    response => {
+                        this.messageService.add({
+                            key: 'pcl',
+                            severity: "success",
+                            summary: "Documento aprobado",
+                            detail: `El caso ha sido enviado a investigación`,
+                        });
+                    },
+                    error => {
+                        console.error('Error al enviar datos:', error);
+                    }
+                );
 
-        }
+            }
         })
-        
-      }
+
+    }
 
     async nuevoTratamiento() {
         this.editing = false;
@@ -484,7 +508,7 @@ export class PclComponent implements OnInit {
             let res: any;
             if (upd) {
                 let pcl = this.pclForm.value;
-                
+
                 if (this.saludLaboralFlag) {
                     pcl.saludLaboral = true;
                 }
@@ -499,7 +523,7 @@ export class PclComponent implements OnInit {
                     pcl.saludLaboral = true;
                 }
                 res = await this.scmService.createPcl(this.pclForm.value, diags);
-                
+
             }
             if (res) {
                 this.messageService.add({

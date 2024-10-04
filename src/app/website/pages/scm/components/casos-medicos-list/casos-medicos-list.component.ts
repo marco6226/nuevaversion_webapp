@@ -27,6 +27,8 @@ export class CasosMedicosListComponent implements OnInit {
   localeES: any = locale_es;
   loading: boolean = false;
   testing: boolean = false;
+  isDivisionesLoading:boolean = true;
+  isLocalidadesLoading:boolean = true;
   caseSelect: any;
   casosList: any;
   saludLaboralSelect: any;
@@ -78,6 +80,8 @@ export class CasosMedicosListComponent implements OnInit {
   consultar: boolean = false;
   async ngOnInit() {
     this.testing = true;
+    this.isDivisionesLoading = true;
+    this.isLocalidadesLoading = true;
     this.getAreaById();
     this.getLocalidad();
     this.loadEstadoOptions();
@@ -361,7 +365,8 @@ export class CasosMedicosListComponent implements OnInit {
       }));
       
       // Agregar opción por defecto 'Seleccione'
-      this.divisionOpt.unshift({ label: 'Seleccione', value: '' }); // O puedes usar 'none' o 0
+      this.divisionOpt.unshift({ label: 'Seleccione', value: '' }); 
+     // O puedes usar 'none' o 0
     } catch (error) {
       console.error('Error al cargar opciones de estado:', error);
     }
@@ -478,7 +483,9 @@ divisionActual: any[]=[]
       data => {
         let pivot:any=data;
         this.divisionActual = pivot;
+        this.isDivisionesLoading = false
       },
+      
       error => {
         console.error('There was an error!', error);
       }
@@ -491,7 +498,8 @@ divisionActual: any[]=[]
       data => {
         let pivot:any=data;
         this.localidadAct = pivot;
-      },
+        this.isLocalidadesLoading = false;
+      }, 
       error => {
         console.error('There was an error!', error);
       }

@@ -60,6 +60,10 @@ export class CasosMedicosService {
         return this.http.put(`${endPoints.scm}caseESL/${iddt}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
     }
+    putCasoMedico(iddt: string | number, body: any) {
+        return this.http.put(`${endPoints.scm}casosmedicosEd/${iddt}`, body, this.getRequestHeaders(this.headers)).toPromise();
+        // Convertir promesa a observable
+    }
     putUserDataSL(pkUser: string | number, body: any) {
         return this.http.put(`${endPoints.scm}userUpdate/${pkUser}`, body, this.getRequestHeaders(this.headers)).toPromise();
         // Convertir promesa a observable
@@ -212,7 +216,7 @@ export class CasosMedicosService {
         return this.http.put(`${endPoints.scm}diagnosticos/${id}`, {}, this.getRequestHeaders(this.headers)).toPromise();
     }
 
-    getDiagnosticos(documento: string | number): any {
+    getDiagnosticos(documento: string | number):any {
         return this.http.get<[]>(`${endPoints.scm}diagnosticos/${documento}`, this.getRequestHeaders(this.headers)).toPromise();
     }
 

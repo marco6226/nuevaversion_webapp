@@ -435,7 +435,7 @@
           <td class="p-text-center">
             {{ case.fechaSolicitud | date : "dd/MM/yyyy" }}
           </td>
-          <td class="p-text-center">{{ case.pkCase }}</td>
+          <td class="p-text-center">SL-{{ case.pkCase }}</td>
           <td class="p-text-center">{{ case.asignacionTarea }}</td>
           <td class="p-text-center">{{ case.docSolicitado }}</td>
           <td class="p-text-center">{{ case.solicitadoCedula }}</td>
@@ -460,6 +460,10 @@
                 title="Subir documento"
                 class="p-button-info margin-left margin-right"
                 (click)="openUploadDialog(case.id, case.documentos)"
+                [disabled]="documentacionSelectUser?.id !== case.id"
+                    [ngClass]="{
+                      'btn-selected': documentacionSelectUser?.id === case.id
+                    }"
               ></button>
             </ng-container>
             <s-documentoUpload
@@ -497,14 +501,17 @@
                         </td>
                         <td>
                           <a>&nbsp;</a>
-                          <a
-                            type="button"
-                            class="btn btn-outline-danger"
-                            title="Eliminar documento"
-                            (click)="eliminarDocument(doc)"
-                          >
-                            <span class="pi pi-trash"></span>
-                          </a>
+                          <button
+                          type="button"
+                          class="btn btn-outline-danger"
+                          title="Eliminar documento"
+                          (click)="eliminarDocument(doc)"
+                          [disabled]="documentacionSelectUser?.id !== case.id"
+
+                        >
+                          <span class="pi pi-trash"></span>
+                        </button>
+                        
                         </td>
                       </tr>
                     </tbody>

@@ -13,6 +13,7 @@ export class ListadoCausasComponent implements OnInit {
 
   @Output() validacionPA = new EventEmitter<any>()
   @Output() tabIndex = new EventEmitter<number>()
+  @Output() observacionChange = new EventEmitter<string>();
 
   factores?: listFactores[];
   @Input("factores")
@@ -30,6 +31,10 @@ export class ListadoCausasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
+  }
+  onObservacionChange(value: string) {
+    this.observacionChange.emit(value);
   }
   crearPlanAccion(){
     this.confirmationService.confirm({

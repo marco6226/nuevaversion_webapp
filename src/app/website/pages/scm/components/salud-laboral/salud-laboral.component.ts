@@ -484,7 +484,7 @@ export class SaludLaboralComponent implements OnInit {
         }, 500);
     });
     try {
-      await this.getArea()
+      //await this.getArea()
     } catch (error) {
 
     }
@@ -787,7 +787,6 @@ export class SaludLaboralComponent implements OnInit {
         if (epsOption) {
           this.empleadoForm.controls['detalleCalificacion'].setValue(epsOption.value);
         } else {
-          console.error('EPS no encontrada en las opciones', data['detalleCalificacion']);
         }
 
 
@@ -879,16 +878,16 @@ export class SaludLaboralComponent implements OnInit {
         this.empleadoForm.controls['procesoActual'].setValue(parseInt(data['procesoActual']));
 
         // Llamar a cargarPlantaLocalidad para actualizar las localidades
-        await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionOrigen'].value, 'Origen');
-        await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionActual'].value, 'Actual');
-        await this.cargarArea(this.empleadoForm.controls['localidadOrigen'].value, 'Origen')
-        this.empleadoForm.controls['areaOrigen'].setValue(this.areaList.find(value => value.id == parseInt(data['areaOrigen'])));
-        await this.cargarArea(this.empleadoForm.controls['localidadActual'].value, 'Actual')
-        this.empleadoForm.controls['areaActual'].setValue(this.areaListActual.find(value => value.id == parseInt(data['areaActual'])));
-        await this.cargarProceso(this.empleadoForm.controls['areaOrigen'].value, 'Origen')
-        this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoOrigen'])));
-        await this.cargarProceso(this.empleadoForm.controls['areaActual'].value, 'Actual')
-        this.empleadoForm.controls['procesoActual'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoActual'])));
+        // await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionOrigen'].value, 'Origen');
+        // await this.cargarPlantaLocalidad(this.empleadoForm.controls['divisionActual'].value, 'Actual');
+        // await this.cargarArea(this.empleadoForm.controls['localidadOrigen'].value, 'Origen')
+        // this.empleadoForm.controls['areaOrigen'].setValue(this.areaList.find(value => value.id == parseInt(data['areaOrigen'])));
+        // await this.cargarArea(this.empleadoForm.controls['localidadActual'].value, 'Actual')
+        // this.empleadoForm.controls['areaActual'].setValue(this.areaListActual.find(value => value.id == parseInt(data['areaActual'])));
+        // await this.cargarProceso(this.empleadoForm.controls['areaOrigen'].value, 'Origen')
+        // this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoOrigen'])));
+        // await this.cargarProceso(this.empleadoForm.controls['areaActual'].value, 'Actual')
+        // this.empleadoForm.controls['procesoActual'].setValue(this.procesoList.find(value => value.id == parseInt(data['procesoActual'])));
 
 
 
@@ -915,8 +914,10 @@ export class SaludLaboralComponent implements OnInit {
   }
 
   abrirModalConfirmacion() {
+    this.validateCorreos(); // Valida si hay datos antes de abrir el modal
     this.modalConfirmacionVisible = true;
   }
+  
   enviarFormulario() {
     if (this.formulario.valid) {
       // Aquí puedes abrir el modal de confirmación si deseas hacerlo antes de enviar los datos al backend
@@ -1082,98 +1083,105 @@ export class SaludLaboralComponent implements OnInit {
     });
 
   }
-  listDivision: any = []
-  async getArea() {
-    let filterAreaQuery = new FilterQuery();
-    filterAreaQuery.sortField = "id";
-    filterAreaQuery.sortOrder = -1;
-    filterAreaQuery.fieldList = ["id", "nombre"];
-    filterAreaQuery.filterList = [
-      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
-    ];
+  // listDivision: any = []
+  // async getArea() {
+  //   let filterAreaQuery = new FilterQuery();
+  //   filterAreaQuery.sortField = "id";
+  //   filterAreaQuery.sortOrder = -1;
+  //   filterAreaQuery.fieldList = ["id", "nombre"];
+  //   filterAreaQuery.filterList = [
+  //     { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+  //   ];
 
-    await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
-      resp.data.forEach((resp2: any) => {
-        this.listDivision.push({ label: resp2.nombre, value: resp2.id })
-      });
-    })
+  //   await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
+  //     resp.data.forEach((resp2: any) => {
+  //       this.listDivision.push({ label: resp2.nombre, value: resp2.id })
+  //     });
+  //   })
 
-  }
-
-
-  localidadesList: any = [];
-  localidadesListActual: any = [];
-  async cargarPlantaLocalidad(eve: any, tipo: string) {
-    let filterPlantaQuery = new FilterQuery();
-    filterPlantaQuery.sortField = "id";
-    filterPlantaQuery.sortOrder = -1;
-    filterPlantaQuery.fieldList = ["id", "localidad"];
-    filterPlantaQuery.filterList = [
-      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
-    ];
-
-    await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp: any) => {
-      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
-      if (tipo === 'Origen') {
-        this.localidadesList = localidadesList;
-      } else {
-        this.localidadesListActual = localidadesList;
-      }
-    }).catch(error => {
-      console.error("Error al cargar las localidades:", error);
-    });
-  }
-
-  areaList: any[] = []
-  areaListActual: any[] = []
-  async cargarArea(eve: any, tipo: string) {
-
-    let filterArea = new FilterQuery();
-    filterArea.sortField = "id";
-    filterArea.sortOrder = -1;
-    filterArea.fieldList = [
-      'id',
-      'nombre'
-    ];
-    filterArea.filterList = [
-      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve },
-      { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
-    ];
-
-    let areaList: any = [];
-    await this.areaMatrizService.findByFilter(filterArea).then(async (resp: any) => {
-      resp.data.forEach((element: any) => {
-        areaList.push({ 'name': element.nombre, 'id': element.id }); // Solo agregar el nombre del área
-      });
-    });
-
-    if (tipo === 'Origen') {
-      this.areaList = [...areaList];
-    } else {
-      this.areaListActual = [...areaList];
-    }
-  }
+  // }
 
 
-  procesoList: any[] = []
-  procesoListActual: any[] = []
-  async cargarProceso(eve: any, tipo: string) {
-    let filterProceso = new FilterQuery();
-    filterProceso.fieldList = [
-      'id',
-      'nombre'
-    ];
-    filterProceso.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve },
-    { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }];
-    let procesoList: any = []
-    await this.procesoMatrizService.findByFilter().then(async (resp: any) => {
-      resp.data.forEach((element: any) => {
-        procesoList.push({ label: element.nombre, id: element.id })
-      });
-    })
-    if (tipo == 'Origen') this.procesoList = [...procesoList]
-    else this.procesoListActual = [...procesoList]
-  }
+  // localidadesList: any = [];
+  // localidadesListActual: any = [];
+  // async cargarPlantaLocalidad(eve: any, tipo: string) {
+  //   let filterPlantaQuery = new FilterQuery();
+  //   filterPlantaQuery.sortField = "id";
+  //   filterPlantaQuery.sortOrder = -1;
+  //   filterPlantaQuery.fieldList = ["id", "localidad"];
+  //   filterPlantaQuery.filterList = [
+  //     { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
+  //   ];
+
+  //   await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp: any) => {
+  //     const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
+  //     if (tipo === 'Origen') {
+  //       this.localidadesList = localidadesList;
+  //     } else {
+  //       this.localidadesListActual = localidadesList;
+  //     }
+  //   }).catch(error => {
+  //     console.error("Error al cargar las localidades:", error);
+  //   });
+  // }
+
+  // areaList: any[] = []
+  // areaListActual: any[] = []
+  // async cargarArea(eve: any, tipo: string) {
+
+  //   let filterArea = new FilterQuery();
+  //   filterArea.sortField = "id";
+  //   filterArea.sortOrder = -1;
+  //   filterArea.fieldList = [
+  //     'id',
+  //     'nombre'
+  //   ];
+  //   filterArea.filterList = [
+  //     { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve },
+  //     { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+  //   ];
+
+  //   let areaList: any = [];
+  //   await this.areaMatrizService.findByFilter(filterArea).then(async (resp: any) => {
+  //     resp.data.forEach((element: any) => {
+  //       areaList.push({ 'name': element.nombre, 'id': element.id }); // Solo agregar el nombre del área
+  //     });
+  //   });
+
+  //   if (tipo === 'Origen') {
+  //     this.areaList = [...areaList];
+  //   } else {
+  //     this.areaListActual = [...areaList];
+  //   }
+  // }
+
+
+  // procesoList: any[] = []
+  // procesoListActual: any[] = []
+  // async cargarProceso(eve: any, tipo: string) {
+  //   let filterProceso = new FilterQuery();
+  //   filterProceso.sortField = "id";
+  //   filterProceso.sortOrder = -1;
+  //   filterProceso.fieldList = [
+  //     'id',
+  //     'nombre'
+  //   ];
+  //   filterProceso.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve },
+  //   { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }];
+  //   let procesoList: any = []
+  //   await this.procesoMatrizService.findByFilter().then(async (resp: any) => {
+  //     resp.data.forEach((element: any) => {
+  //       procesoList.push({ 'name': element.nombre, 'id': element.id })
+  //     });
+  //   });
+  //   if (tipo == 'Origen'){
+  //     this.procesoList = [...procesoList]
+  //   }
+      
+  //   else {
+  //     this.procesoListActual = [...procesoList]
+  //   }
+  // }
 
   async buscarEmpleado(event: any) {
     await this.empleadoService
@@ -1253,8 +1261,12 @@ export class SaludLaboralComponent implements OnInit {
       this.empresaSelect2 = this.empresaForm!.value.empresa
     }
     this.loaded = true;
-    this.nameAndLastName = (this.empleadoSelect.primerApellido || "") + " " + (this.empleadoSelect.segundoApellido || "") + " " + (this.empleadoSelect.primerNombre || "") + " " + (this.empleadoSelect.segundoNombre || " ");
-    let fecha = moment(this.empleadoSelect.fechaIngreso);
+    this.nameAndLastName = 
+    [this.empleadoSelect.primerNombre, this.empleadoSelect.segundoNombre, 
+     this.empleadoSelect.primerApellido, this.empleadoSelect.segundoApellido]
+    .filter(nombre => nombre && nombre.trim() !== "")
+    .join(" ");
+      let fecha = moment(this.empleadoSelect.fechaIngreso);
     let fechaNacimiento = moment(this.empleadoSelect.fechaNacimiento);
     let antigueMoment = fecha.diff(moment.now(), "years") * -1;
 
@@ -1439,13 +1451,6 @@ export class SaludLaboralComponent implements OnInit {
 
     if (this.empleadoForm.valid) {
       let body = { ...this.empleadoForm.value };
-
-      // Actualizar los campos según sea necesario
-      body.procesoActual = body.procesoActual?.id || body.procesoActual;
-      body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
-      body.areaActual = body.areaActual?.id || body.areaActual;
-      body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
-      body.nombreCompletoSL = `${body.primerApellido || ''} ${body.segundoApellido || ''} ${body.primerNombre || ''} ${body.segundoNombre || ''}`;
       body.empresaId = emp;
       console.log(emp, 'empsend');
 
@@ -1657,7 +1662,7 @@ export class SaludLaboralComponent implements OnInit {
             // this.msgs.push({
             key: 'formScmSL',
             severity: "success",
-            summary: "Usuario actualizado",
+            summary: "Documento Rechazado",
             detail: `Rechazo enviado correctamente`,
           });
           this.dialogRechazoFlag = false;
@@ -1669,7 +1674,7 @@ export class SaludLaboralComponent implements OnInit {
             // this.msgs.push({
             key: 'formScmSL',
             severity: "warn",
-            summary: "Usuario actualizado",
+            summary: "Documento Rechazado",
             detail: `Rechazo no enviado correctamente`,
           });
         }
@@ -1918,7 +1923,7 @@ export class SaludLaboralComponent implements OnInit {
       this.messageService.add({
         key: 'formScmSL',
         severity: "success",
-        summary: "Usuario actualizado",
+        summary: "Documento Adjuntado",
         detail: `Documentación adjuntada exitosamente.`,
       });
       this.documentacionSelectUser = [];
@@ -2075,7 +2080,7 @@ export class SaludLaboralComponent implements OnInit {
         // this.msgs.push({
         key: 'formScmSL',
         severity: "success",
-        summary: "Usuario actualizado",
+        summary: "Documento Adjuntado",
         detail: `Documentacion Adjuntada`,
       });
 
@@ -2087,7 +2092,7 @@ export class SaludLaboralComponent implements OnInit {
         // this.msgs.push({
         key: 'formScmSL',
         severity: "warn",
-        summary: "Usuario actualizado",
+        summary: "Documento no Adjuntado",
         detail: `Documentacion no Adjuntada revisa`,
       });
     }
@@ -2278,7 +2283,7 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
+                summary: "Documento Retirado",
                 detail: `Documento Retirado`,
               });
             }
@@ -2290,7 +2295,7 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Eliminacion Fallida",
                 detail: `No se pudo eliminar el documento`,
               });
             }
@@ -2331,7 +2336,7 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
+                summary: "Documento",
                 detail: `Documento Retirado`,
               });
             }
@@ -2343,7 +2348,7 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Documento Fallido",
                 detail: `No se pudo eliminar el documento`,
               });
             }
@@ -2378,8 +2383,8 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
+                summary: "Documento Retirado",
+                detail: `El documento ha sido Retirado`,
               });
             }
 
@@ -2390,7 +2395,7 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Documento no Eliminado",
                 detail: `No se pudo eliminar el documento`,
               });
             }
@@ -2473,8 +2478,8 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
+                summary: "Documento Retirado",
+                detail: `El documento ha sido retirado`,
               });
             }
 
@@ -2485,7 +2490,7 @@ export class SaludLaboralComponent implements OnInit {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Documento Fallido",
                 detail: `No se pudo eliminar el documento`,
               });
             }
@@ -2697,8 +2702,8 @@ export class SaludLaboralComponent implements OnInit {
       // this.msgs.push({
       key: 'formScmSL',
       severity: "success",
-      summary: "Usuario actualizado",
-      detail: `Empleado con  identificación  ${this.empleadoForm.value.numeroIdentificacion} fue actualizado`,
+      summary: "Informacion de la Solicitud",
+      detail: `La informacion de la solicitud del caso SL- ${this.idSl} fue actualizada`,
     });
   }
 
@@ -2708,7 +2713,7 @@ export class SaludLaboralComponent implements OnInit {
 
   onSelectionBP(event: any) {
     let empleado = <Empleado>event;
-    this.businessNames = (empleado.primerApellido || "") + " " + (empleado.segundoApellido || "") + " " + (empleado.primerNombre || "") + " " + (empleado.segundoNombre || " ");
+    this.businessNames = (empleado.primerNombre || "") + " " + (empleado.segundoNombre || "") + " " + (empleado.primerApellido || "") + " " + (empleado.segundoApellido || " ");
     this.empleadoForm.patchValue({ businessPartner: empleado.id })
     this.bussinessParner.patchValue({
       id: empleado.id,
@@ -2830,7 +2835,7 @@ export class SaludLaboralComponent implements OnInit {
   async onCloseModalDianostico() {
     this.modalDianostico = false;
     this.diagSelect = null;
-    this.chargueValue()
+    this.chargueValue();
   }
   recibirPCL(event: any) {
     this.listaPCL = event
@@ -3020,25 +3025,34 @@ export class SaludLaboralComponent implements OnInit {
       case 'res1':
         this.usuarioSolicitado = eve.usuario.email
         this.pkUser = eve.usuario.id
-        this.nombreCompletoSalud = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
-
+        this.nombreCompletoSalud = 
+        [eve.primerNombre, eve.segundoNombre, eve.primerApellido, eve.segundoApellido]
+        .filter(nombre => nombre && nombre.trim() !== "")
+        .join(" ");
+      
         break;
       case 'res2':
         this.usuarioSolicitadoSeg = eve.usuario.email
         this.pkuser2 = eve.usuario.id;
-        this.nombreCompletoSeg = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
+        this.nombreCompletoSeg = [eve.primerNombre, eve.segundoNombre, eve.primerApellido, eve.segundoApellido]
+        .filter(nombre => nombre && nombre.trim() !== "")
+        .join(" ");
         this.userSoliCedula = eve.numeroIdentificacion
         break;
       case 'res3':
         this.iduarioSolicitadoSalud = eve.usuario.email
         this.pkuserSalud = eve.usuario.id;
-        this.nombreCompletoSaludLaboral = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
+        this.nombreCompletoSaludLaboral = [eve.primerNombre, eve.segundoNombre, eve.primerApellido, eve.segundoApellido]
+        .filter(nombre => nombre && nombre.trim() !== "")
+        .join(" ");
         this.userSoliCedula = eve.numeroIdentificacion
         break;
       case 'res4':
         this.usuarioSolicitadoPsicosocial = eve.usuario.email
         this.pkuserPsico = eve.usuario.id;
-        this.nombreCompletoPsicosocial = `${eve.primerApellido || ''} ${eve.segundoApellido || ''} ${eve.primerNombre || ''} ${eve.segundoNombre || ''}`;
+        this.nombreCompletoPsicosocial = [eve.primerNombre, eve.segundoNombre, eve.primerApellido, eve.segundoApellido]
+        .filter(nombre => nombre && nombre.trim() !== "")
+        .join(" ");
         this.userSoliCedula = eve.numeroIdentificacion
         break;
 
@@ -3179,6 +3193,7 @@ export class SaludLaboralComponent implements OnInit {
 
     this.filteredSuggestions = [];
   }
+  isEnviarDisabled: boolean = true;  // Por defecto, deshabilitado
   async onSubmiSLt() {
     for (const value of this.ghAdmonPersonal) {
       if (!value.usuarioSolicitado) {
@@ -3209,6 +3224,7 @@ export class SaludLaboralComponent implements OnInit {
           summary: "Correo Enviado",
           detail: "El correo electrónico fue enviado exitosamente.",
         });
+        this.ghAdmonPersonal = [];
       } catch (error) {
         this.messageService.add({
           key: 'formScmSL',
@@ -3224,6 +3240,19 @@ export class SaludLaboralComponent implements OnInit {
     this.loadMailData(this.idSl);
     this.loadMailDataUser(this.idSl, this.pkUser);
   }
+  validateCorreos() {
+    // Verifica si hay al menos un correo con usuarioSolicitado y fechaLimite
+    this.isEnviarDisabled = 
+    !(
+      this.ghAdmonPersonal.some(value => value.usuarioSolicitado && value.fechaLimite) || 
+      this.seguridad.some(value => value.usuarioSolicitado && value.fechaLimite) ||
+      this.saludLaboralMail.some(value => value.usuarioSolicitado && value.fechaLimite) ||
+      this.psicosocial.some(value => value.usuarioSolicitado && value.fechaLimite)
+    );
+    }
+
+  
+  
 
 
   isFechaLimiteProxima(fechaLimite: string): boolean {
@@ -3267,6 +3296,7 @@ export class SaludLaboralComponent implements OnInit {
           summary: "Correo Enviado",
           detail: "El correo electrónico fue enviado exitosamente.",
         });
+        this.seguridad =[];
 
         // Actualizar los datos de correo después del envío exitoso
       } catch (error) {
@@ -3322,6 +3352,7 @@ export class SaludLaboralComponent implements OnInit {
           summary: "Correo Enviado",
           detail: "El correo electrónico fue enviado exitosamente.",
         });
+        this.saludLaboralMail =[];
 
       } catch (error) {
         // Mostrar mensaje de advertencia si hay un error en el envío
@@ -3376,6 +3407,7 @@ export class SaludLaboralComponent implements OnInit {
           summary: "Correo Enviado",
           detail: "El correo electrónico fue enviado exitosamente.",
         });
+        this.psicosocial = [];
 
       } catch (error) {
         // Mostrar mensaje de advertencia si hay un error en el envío

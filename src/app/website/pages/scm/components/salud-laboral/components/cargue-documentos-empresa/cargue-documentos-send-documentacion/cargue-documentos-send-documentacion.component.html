@@ -50,14 +50,15 @@
                 </td>
                 <td>
                   <a>&nbsp;</a>
-                  <a
-                    type="button"
-                    [ariaDisabled]="true"
-                    class="btn btn-outline-danger"
-                    title="Eliminar documento"
-                    (click)="eliminarDocumentCaseDT(doc)"
-                    ><span class="pi pi-trash"></span
-                  ></a>
+                  <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  title="Eliminar documento"
+                  (click)="eliminarDocumentCaseDT(doc)"
+                  [disabled]="stateDownload"
+                >
+                  <span class="pi pi-trash"></span>
+                </button>
                 </td>
               </tr>
             </tbody>

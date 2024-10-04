@@ -284,7 +284,7 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             // this.msgs.push({
             key: 'formScmSL',
             severity: "success",
-            summary: "Usuario actualizado",
+            summary: "Documentacion",
             detail: `Documentacion Adjuntada`,
           });
     
@@ -296,7 +296,7 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             // this.msgs.push({
             key: 'formScmSL',
             severity: "warn",
-            summary: "Usuario actualizado",
+            summary: "Documentacion Fallida",
             detail: `Documentacion no Adjuntada revisa`,
           });
         }
