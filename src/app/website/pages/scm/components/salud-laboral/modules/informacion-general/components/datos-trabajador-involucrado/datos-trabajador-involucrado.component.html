@@ -103,15 +103,20 @@
                 </div>
                 <div>
                   <p-dropdown
-                    [filter]="true"
-                    [options]="cargoActualList"
-                    formControlName="cargoOriginal"
-                    class="select-material"
-                    styleClass="select-material"
-                    placeholder="Seleccione cargo"
-                    required
-                  >
-                  </p-dropdown>
+                  [filter]="true"
+                  [options]="cargoActualList"
+                  formControlName="cargoOriginal"
+                  class="select-material"
+                  styleClass="select-material"
+                  placeholder="Seleccione un cargo"
+                  (onFilter)="onFilter($event)"
+                  required
+                >
+                </p-dropdown>
+                
+                <!-- Botón "Cargar más" -->
+                <!-- <button (click)="loadMoreCargos()" class="btn-load-more">Cargar más</button> -->
+                
                 </div>
               </div>
             </div>
@@ -126,7 +131,7 @@
                       [filter]="true"
                       [options]="cargoActualList"
                       formControlName="cargoActual"
-                      placeholder="Seleccione cargo"
+                      placeholder="Seleccione un cargo"
                       required
                       class="select-material"
                       styleClass="select-material"
@@ -175,7 +180,7 @@
                 [options]="localidadesList"
                 class="select-material"
                 styleClass="select-material"
-                placeholder="Seleccione localidad"
+                placeholder="Seleccione una localidad"
                 required
                 (onChange)="cargarArea($event.value, 'Origen')"
               >
@@ -190,9 +195,8 @@
               <p-dropdown
                 formControlName="areaOrigen"
                 [filter]="true"
-                placeholder="Seleccione una área"
+                placeholder="Seleccione un área"
                 [options]="areaList"
-                optionLabel="name"
                 appendTo="body"
                 required
                 (onChange)="cargarProceso($event.value, 'Origen')"
@@ -208,7 +212,7 @@
                 <p-dropdown
                   formControlName="procesoOrigen"
                   [filter]="true"
-                  placeholder="Seleccione una proceso"
+                  placeholder="Seleccione un proceso"
                   [options]="procesoList"
                   optionLabel="label"
                   required
@@ -242,7 +246,7 @@
                 [options]="localidadesListActual"
                 class="select-material"
                 styleClass="select-material"
-                placeholder="Seleccione localidad"
+                placeholder="Seleccione una localidad"
                 required
                 (onChange)="cargarArea($event.value, 'Actual')"
               >
@@ -257,9 +261,8 @@
               <p-dropdown
                 formControlName="areaActual"
                 [filter]="true"
-                placeholder="Seleccione una área"
+                placeholder="Seleccione un área"
                 [options]="areaListActual"
-                optionLabel="name"
                 appendTo="body"
                 required
                 (onChange)="cargarProceso($event.value, 'Actual')"
@@ -275,8 +278,9 @@
                 <p-dropdown
                   formControlName="procesoActual"
                   [filter]="true"
-                  placeholder="Seleccione una proceso"
+                  placeholder="Seleccione un proceso"
                   [options]="procesoListActual"
+                  optionLabel="label"
                   required
                   appendTo="body"
                 ></p-dropdown>
@@ -451,12 +455,13 @@
           </div>
           <div class="col">
                           <div>
-                              <label for="" class="active">País y ciudad de residencia</label>
-                              <s-ciudadSelector formControlName="ciudad"
-                                  [id]="departamento" class="select-material" styleClass="select-material" [_value]="this.empleadoForm.value!.ciudad"
-                                  required
-                                  >
-                              </s-ciudadSelector>
+                              <label for="" class="active">País, departamento y ciudad de residencia</label>
+                              <s-ciudadSelector
+                    id="ciudadSelector"
+                    formControlName="ciudad"
+                    [_value]="this.empleadoForm.value!.ciudad"
+                    required
+                  ></s-ciudadSelector>
                           </div>
                       </div>
           <div class="col">
@@ -802,7 +807,7 @@
                 <input
                   type="text"
                   pInputText
-                  [value]="jefeNames"
+                  [value]="jefeNames ? jefeNames : 'sin información'"
                   placeholder="Apellidos y nombres"
                   [attr.disabled]="true"
                   class="form-control"
@@ -810,6 +815,7 @@
                 />
               </div>
             </div>
+            
 <!-- 
             <div class="col">
               <div>

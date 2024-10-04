@@ -4,10 +4,11 @@
 
 <div class="info-container">
   <div class="info-item">
-    <span class="label">Caso: No </span>{{this.iddt}}
+    <span class="label">Caso: No </span>SL-{{ this.iddt }}
   </div>
   <div class="info-item">
-    <span class="label">Fecha de creación: </span>{{this.fechaCreacion2 | date : "dd/MM/yyyy"}}
+    <span class="label">Fecha de creación: </span
+    >{{ this.fechaCreacion2 | date : "dd/MM/yyyy" }}
   </div>
 </div>
 
@@ -188,7 +189,7 @@
               <ng-template pTemplate="emptymessage">
                 <tr>
                   <td colspan="6" class="p-text-center">
-                    No hay registro de diagnósticos médicos
+                    No hay registro de diagnósticos de Salud Laboral
                   </td>
                 </tr>
               </ng-template>
@@ -204,7 +205,6 @@
         *ngIf="saludLaboralSelect && this.diagnosticoList.length > 0"
       >
         <app-pcl
-        
           [diagnosticos]="this.diagnosticoList"
           [entity]="entity"
           [emitPclentity]="emitPclentity"
@@ -218,7 +218,6 @@
       </p-tabPanel>
     </ng-container>
     <ng-container *sTienePermiso="'SCM_POST_SDCSL'">
-      
       <p-tabPanel
         *ngIf="flagSaludLaboralRegistro"
         header="Información de la solicitud"
@@ -376,13 +375,12 @@
                 </div>
               </div>
               <app-cargue-documentos-send-documentacion
-              [directoriosSendocs]="this.directoriosSendocs"
+                [directoriosSendocs]="this.directoriosSendocs"
               ></app-cargue-documentos-send-documentacion>
             </p-accordionTab>
           </form>
           <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
             <p-accordionTab header="Fecha de notificacion del dictamen">
-              
               <app-cargue-documentos-empresa
                 [directorios]="this.directorios"
                 [directoriosArl]="this.directoriosArl"
@@ -412,7 +410,7 @@
                 ></p-calendar>
               </div>
               <app-cargue-documentos-ministerio
-              [directoriosMin]="this.directoriosMin"
+                [directoriosMin]="this.directoriosMin"
               ></app-cargue-documentos-ministerio>
             </p-accordionTab>
             <button
@@ -1057,6 +1055,7 @@
               "
               label="Enviar"
               class="p-button-success"
+              [disabled]="isEnviarDisabled"
             ></button>
             <button
               type="button"
@@ -1164,7 +1163,6 @@
               icon="bi bi-check"
               label="Aprobar"
               class="p-button-info margin-left margin-right"
-             
               (click)="onEditState(documentacionSelectSolicitado.id)"
             ></button>
             <button
@@ -1272,6 +1270,10 @@
                     title="Subir documento"
                     class="p-button-info margin-left margin-right"
                     (click)="openUploadDialog(docsub.id, docsub.documentos)"
+                    [disabled]="documentacionSelectUser?.id !== docsub.id"
+                    [ngClass]="{
+                      'btn-selected': documentacionSelectUser?.id === docsub.id
+                    }"
                   ></button>
                 </ng-container>
                 <s-documentoUpload
@@ -1309,14 +1311,16 @@
                             </td>
                             <td>
                               <a>&nbsp;</a>
-                              <a
+                              <button
                                 type="button"
-                                [ariaDisabled]="true"
                                 class="btn btn-outline-danger"
                                 title="Eliminar documento"
                                 (click)="eliminarDocument(doc)"
-                                ><span class="pi pi-trash"></span
-                              ></a>
+                                [disabled]="documentacionSelectUser?.id !== docsub.id"
+
+                              >
+                                <span class="pi pi-trash"></span>
+                              </button>
                             </td>
                           </tr>
                         </tbody>
@@ -1346,7 +1350,6 @@
               [disabled]="!documentacionSelectUser"
               (click)="dialogRechazoFlag = true; getSelectedId()"
             ></button>
-           
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>

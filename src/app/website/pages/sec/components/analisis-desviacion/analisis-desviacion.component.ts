@@ -1112,6 +1112,8 @@ export class AnalisisDesviacionComponent implements OnInit {
             ad.desviacionesList = this.desviacionesList ?? null;
             ad.analisisCosto = this.analisisCosto;
             ad.observacion = this.observacion ?? null;
+            console.log(ad.observacion, 'obs');
+            
             ad.participantes = JSON.stringify(this.participantes);
             ad.flow_chart = this.flowChartSave ?? null;
             ad.factor_causal = JSON.stringify(this.factorCusal);
@@ -1182,6 +1184,10 @@ export class AnalisisDesviacionComponent implements OnInit {
         }
         window.scrollTo(0, 0);
     }
+    updateObservacion(newObservacion: string) {
+        this.observacion = newObservacion;
+      }
+      
 
     async modificarAnalisis() {
         this.guardando = true;

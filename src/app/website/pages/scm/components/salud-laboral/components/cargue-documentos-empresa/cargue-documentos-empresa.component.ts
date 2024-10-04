@@ -219,8 +219,8 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "success",
-        summary: "Usuario actualizado",
-        detail: `Documentacion Adjuntada SM`,
+        summary: "Documentos",
+        detail: `Documentacion Adjuntada`,
       });
     } catch (error) {
       console.error(error);
@@ -229,7 +229,7 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "warn",
-        summary: "Usuario actualizado",
+        summary: "Documentacion Fallida",
         detail: `Documentacion no Adjuntada revisa`,
       });
     }
@@ -275,8 +275,8 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "success",
-        summary: "Usuario actualizado",
-        detail: `Documentacion Adjuntada SM`,
+        summary: "Documentacion",
+        detail: `Documentacion Adjuntada`,
       });
     } catch (error) {
       console.error(error);
@@ -285,7 +285,7 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "warn",
-        summary: "Usuario actualizado",
+        summary: "Documentacion Fallida",
         detail: `Documentacion no Adjuntada revisa`,
       });
     }
@@ -379,7 +379,7 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "success",
-        summary: "Usuario actualizado",
+        summary: "Documentacion",
         detail: `Documentacion Adjuntada`,
       });
     } catch (error) {
@@ -389,7 +389,7 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "warn",
-        summary: "Usuario actualizado",
+        summary: "Documentacion Fallida",
         detail: `Documentacion no Adjuntada revisa`,
       });
     }
@@ -431,7 +431,7 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "success",
-        summary: "Usuario actualizado",
+        summary: "Documentacion",
         detail: `Documentacion Adjuntada`,
       });
     } catch (error) {
@@ -441,7 +441,7 @@ resetFechaCreacion(doc: any) {
       this.messageService.add({
         key: 'formScmSL',
         severity: "warn",
-        summary: "Usuario actualizado",
+        summary: "Documentacion Fallida",
         detail: `Documentacion no Adjuntada revisa`,
       });
     }
@@ -615,22 +615,201 @@ resetFechaCreacion(doc: any) {
 
     return processedFormValue;
   }
+  stateDownload: boolean = false;
+
   descargarDocumento(doc: Documento) {
-    let msg = { severity: 'info', summary: 'Descargando documento...', detail: 'Archivo \"' + doc.nombre + "\" en proceso de descarga" };
-    this.messageService.add(msg);
+    this.stateDownload = true; // Deshabilitar el botón al iniciar la descarga
+    this.messageService.add({
+      key: 'download',
+      severity: 'info',
+      summary: 'Descargando archivo',
+      detail: 'Por favor, espera mientras se descarga el archivo...'
+    });
+  
     this.directorioService.download(doc.id).then(
       resp => {
         if (resp != null) {
-          var blob = new Blob([<any>resp]);
-          let url = URL.createObjectURL(blob);
-          let dwldLink = document.getElementById("dwldLink")!;
+          const blob = new Blob([<any>resp]);
+          const url = URL.createObjectURL(blob);
+          const dwldLink = document.getElementById("dwldLink")!;
           dwldLink.setAttribute("href", url);
           dwldLink.setAttribute("download", doc.nombre);
           dwldLink.click();
-          this.messageService.add({ severity: 'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo ' + doc.nombre });
+  
+          // Mensaje de éxito
+          this.messageService.add({
+            key: 'download',
+            severity: 'success',
+            summary: 'Descarga completa',
+            detail: 'El archivo se ha descargado exitosamente.'
+          });
+        } else {
+          // Mensaje de fallo si la respuesta es nula
+          this.messageService.add({
+            key: 'download',
+            severity: 'error',
+            summary: 'Error de descarga',
+            detail: 'No se pudo descargar el archivo. Por favor, inténtalo de nuevo.'
+          });
         }
       }
-    );
+    ).catch(err => {
+      // Mensaje de fallo en caso de error
+      this.messageService.add({
+        key: 'download',
+        severity: 'error',
+        summary: 'Error de descarga',
+        detail: 'Ocurrió un error al intentar descargar el archivo. Inténtalo más tarde.'
+      });
+    }).finally(() => {
+    });
+  }
+  stateDownloadArl: boolean = false;
+
+  descargarDocumentoArl(doc: Documento) {
+    this.stateDownloadArl = true; // Deshabilitar el botón al iniciar la descarga
+    this.messageService.add({
+      key: 'download',
+      severity: 'info',
+      summary: 'Descargando archivo',
+      detail: 'Por favor, espera mientras se descarga el archivo...'
+    });
+  
+    this.directorioService.download(doc.id).then(
+      resp => {
+        if (resp != null) {
+          const blob = new Blob([<any>resp]);
+          const url = URL.createObjectURL(blob);
+          const dwldLink = document.getElementById("dwldLink")!;
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", doc.nombre);
+          dwldLink.click();
+  
+          // Mensaje de éxito
+          this.messageService.add({
+            key: 'download',
+            severity: 'success',
+            summary: 'Descarga completa',
+            detail: 'El archivo se ha descargado exitosamente.'
+          });
+        } else {
+          // Mensaje de fallo si la respuesta es nula
+          this.messageService.add({
+            key: 'download',
+            severity: 'error',
+            summary: 'Error de descarga',
+            detail: 'No se pudo descargar el archivo. Por favor, inténtalo de nuevo.'
+          });
+        }
+      }
+    ).catch(err => {
+      // Mensaje de fallo en caso de error
+      this.messageService.add({
+        key: 'download',
+        severity: 'error',
+        summary: 'Error de descarga',
+        detail: 'Ocurrió un error al intentar descargar el archivo. Inténtalo más tarde.'
+      });
+    }).finally(() => {
+    });
+  }
+  stateDownloadJr: boolean = false;
+
+  descargarDocumentoJr(doc: Documento) {
+    this.stateDownloadJr = true; // Deshabilitar el botón al iniciar la descarga
+    this.messageService.add({
+      key: 'download',
+      severity: 'info',
+      summary: 'Descargando archivo',
+      detail: 'Por favor, espera mientras se descarga el archivo...'
+    });
+  
+    this.directorioService.download(doc.id).then(
+      resp => {
+        if (resp != null) {
+          const blob = new Blob([<any>resp]);
+          const url = URL.createObjectURL(blob);
+          const dwldLink = document.getElementById("dwldLink")!;
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", doc.nombre);
+          dwldLink.click();
+  
+          // Mensaje de éxito
+          this.messageService.add({
+            key: 'download',
+            severity: 'success',
+            summary: 'Descarga completa',
+            detail: 'El archivo se ha descargado exitosamente.'
+          });
+        } else {
+          // Mensaje de fallo si la respuesta es nula
+          this.messageService.add({
+            key: 'download',
+            severity: 'error',
+            summary: 'Error de descarga',
+            detail: 'No se pudo descargar el archivo. Por favor, inténtalo de nuevo.'
+          });
+        }
+      }
+    ).catch(err => {
+      // Mensaje de fallo en caso de error
+      this.messageService.add({
+        key: 'download',
+        severity: 'error',
+        summary: 'Error de descarga',
+        detail: 'Ocurrió un error al intentar descargar el archivo. Inténtalo más tarde.'
+      });
+    }).finally(() => {
+    });
+  }
+  stateDownloadJn: boolean = false;
+
+  descargarDocumentoJn(doc: Documento) {
+    this.stateDownloadJn = true; // Deshabilitar el botón al iniciar la descarga
+    this.messageService.add({
+      key: 'download',
+      severity: 'info',
+      summary: 'Descargando archivo',
+      detail: 'Por favor, espera mientras se descarga el archivo...'
+    });
+  
+    this.directorioService.download(doc.id).then(
+      resp => {
+        if (resp != null) {
+          const blob = new Blob([<any>resp]);
+          const url = URL.createObjectURL(blob);
+          const dwldLink = document.getElementById("dwldLink")!;
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", doc.nombre);
+          dwldLink.click();
+  
+          // Mensaje de éxito
+          this.messageService.add({
+            key: 'download',
+            severity: 'success',
+            summary: 'Descarga completa',
+            detail: 'El archivo se ha descargado exitosamente.'
+          });
+        } else {
+          // Mensaje de fallo si la respuesta es nula
+          this.messageService.add({
+            key: 'download',
+            severity: 'error',
+            summary: 'Error de descarga',
+            detail: 'No se pudo descargar el archivo. Por favor, inténtalo de nuevo.'
+          });
+        }
+      }
+    ).catch(err => {
+      // Mensaje de fallo en caso de error
+      this.messageService.add({
+        key: 'download',
+        severity: 'error',
+        summary: 'Error de descarga',
+        detail: 'Ocurrió un error al intentar descargar el archivo. Inténtalo más tarde.'
+      });
+    }).finally(() => {
+    });
   }
   documentacionList: any;
   deleteDocumentArl(diagId: string | number, docId: string | number) {
@@ -663,8 +842,8 @@ resetFechaCreacion(doc: any) {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
+                summary: "Documento retirado",
+                detail: `El  documento ha sido Retirado`,
               });
             }
 
@@ -675,7 +854,7 @@ resetFechaCreacion(doc: any) {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Documentacion Fallida",
                 detail: `No se pudo eliminar el documento`,
               });
             }
@@ -723,8 +902,8 @@ resetFechaCreacion(doc: any) {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
+                summary: "Documentacion Retiada",
+                detail: `El documento ha sido Retirado`,
               });
             }
 
@@ -735,7 +914,7 @@ resetFechaCreacion(doc: any) {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Documentacion Fallida",
                 detail: `No se pudo eliminar el documento`,
               });
             }
@@ -783,8 +962,8 @@ resetFechaCreacion(doc: any) {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
+                summary: "Documento Retirado",
+                detail: `El documento ha sido retirado`,
               });
             }
 
@@ -795,7 +974,7 @@ resetFechaCreacion(doc: any) {
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Documentacion Fallida",
                 detail: `No se pudo eliminar el documento`,
               });
             }

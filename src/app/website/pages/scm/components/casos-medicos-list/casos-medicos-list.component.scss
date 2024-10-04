@@ -9,3 +9,30 @@
     width: 10%;
     height: auto;
 }
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1); /* Color gris de fondo */
+    border-top-color: #279ae7; /* Azul claro */
+    border-right-color: rgb(255, 196, 0); /* Amarillo */
+    border-left-color: #000f61; /* Verde */
+    border-bottom-color: #000f61; /* Rojo oscuro */
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  
+  
+  

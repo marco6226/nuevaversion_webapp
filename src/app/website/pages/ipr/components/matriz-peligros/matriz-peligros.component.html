@@ -193,7 +193,7 @@
                                     <label for="">Área</label><br>
                                     <!-- <p-dropdown appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event)" >
                                     </p-dropdown> -->
-                                    <p-multiSelect formControlName="Area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="cargarProceso($event.value)">
+                                    <p-multiSelect formControlName="Area" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.areaMatrizItemList" (onChange)="onChangeC($event.value, 'area')">
                                     </p-multiSelect>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
@@ -214,7 +214,7 @@
                                     <label for="">Proceso</label>
                                     <!-- <p-dropdown  [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event)">
                                     </p-dropdown> -->
-                                    <p-multiSelect  formControlName="Proceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="cargarSubproceso($event.value)">
+                                    <p-multiSelect  formControlName="Proceso" [style]="{'width':'100%'}" appendTo="body" [filter]="true" required [options]="this.procesoMatrizItemList" (onChange)="onChangeC($event.value, 'proceso')">
                                     </p-multiSelect>
                                 </div>
                                 <div class="col-md-6 col-sm-12">

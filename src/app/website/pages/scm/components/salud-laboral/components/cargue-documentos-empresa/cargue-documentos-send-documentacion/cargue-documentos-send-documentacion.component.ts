@@ -117,7 +117,7 @@ export class CargueDocumentosSendDocumentacionComponent implements OnInit{
         // this.msgs.push({
         key: 'formScmSL',
         severity: "success",
-        summary: "Usuario actualizado",
+        summary: "Documentacion",
         detail: `Documentacion Adjuntada`,
       });
 
@@ -129,7 +129,7 @@ export class CargueDocumentosSendDocumentacionComponent implements OnInit{
         // this.msgs.push({
         key: 'formScmSL',
         severity: "warn",
-        summary: "Usuario actualizado",
+        summary: "Documentacion Fallida",
         detail: `Documentacion no Adjuntada revisa`,
       });
     }
@@ -166,8 +166,8 @@ export class CargueDocumentosSendDocumentacionComponent implements OnInit{
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "success",
-                summary: "Usuario actualizado",
-                detail: `Documento Retirado`,
+                summary: "Documentacion Retirada",
+                detail: `El documento ha sido retirado`,
               });
             }
 
@@ -178,7 +178,7 @@ export class CargueDocumentosSendDocumentacionComponent implements OnInit{
                 // this.msgs.push({
                 key: 'formScmSL',
                 severity: "warn",
-                summary: "Usuario actualizado",
+                summary: "Documentacion Fallida",
                 detail: `No se pudo eliminar el documento`,
               });
             }
@@ -193,6 +193,55 @@ export class CargueDocumentosSendDocumentacionComponent implements OnInit{
             console.log("que trae dosid", docIds);
           });
       }
+    });
+  }
+  stateDownload: boolean = false;
+
+  descargarDocumento(doc: Documento) {
+    this.stateDownload = true; // Deshabilitar el botón al iniciar la descarga
+    this.messageService.add({
+      key: 'download',
+      severity: 'info',
+      summary: 'Descargando archivo',
+      detail: 'Por favor, espera mientras se descarga el archivo...'
+    });
+  
+    this.directorioService.download(doc.id).then(
+      resp => {
+        if (resp != null) {
+          const blob = new Blob([<any>resp]);
+          const url = URL.createObjectURL(blob);
+          const dwldLink = document.getElementById("dwldLink")!;
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", doc.nombre);
+          dwldLink.click();
+  
+          // Mensaje de éxito
+          this.messageService.add({
+            key: 'download',
+            severity: 'success',
+            summary: 'Descarga completa',
+            detail: 'El archivo se ha descargado exitosamente.'
+          });
+        } else {
+          // Mensaje de fallo si la respuesta es nula
+          this.messageService.add({
+            key: 'download',
+            severity: 'error',
+            summary: 'Error de descarga',
+            detail: 'No se pudo descargar el archivo. Por favor, inténtalo de nuevo.'
+          });
+        }
+      }
+    ).catch(err => {
+      // Mensaje de fallo en caso de error
+      this.messageService.add({
+        key: 'download',
+        severity: 'error',
+        summary: 'Error de descarga',
+        detail: 'Ocurrió un error al intentar descargar el archivo. Inténtalo más tarde.'
+      });
+    }).finally(() => {
     });
   }
 

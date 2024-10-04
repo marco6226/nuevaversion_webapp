@@ -252,21 +252,74 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     });
 
   }
-
+  page: number = 0;
+  size: number = 5;
+  cargoActualListFull: any[] = [];
+  filteredCargoList: any[] = [];
+  
   async getCargoActual() {
     let cargoActualfiltQuery = new FilterQuery();
     cargoActualfiltQuery.sortOrder = SortOrder.ASC;
     cargoActualfiltQuery.sortField = "nombre";
     cargoActualfiltQuery.fieldList = ["id", "nombre"];
-    cargoActualfiltQuery.filterList = []
-    cargoActualfiltQuery.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: this.empresa?.id?.toString() });
+    cargoActualfiltQuery.filterList = [];
+  
+    cargoActualfiltQuery.filterList.push({
+      field: 'empresa.id',
+      criteria: Criteria.EQUALS,
+      value1: this.empresa?.id?.toString()
+    });
+  
+    // Obtener todos los resultados
     await this.cargoActualService.getcargoRWithFilter(cargoActualfiltQuery).then((resp: any) => {
-      this.cargoActualList = []
-      resp.data.forEach((ele: any) => {
-        this.cargoActualList.push({ label: ele.nombre, value: ele.id })
+      // Almacenar todos los datos
+      this.cargoActualListFull = resp.data.map((ele: any) => {
+        return { label: ele.nombre, value: ele.id };
       });
-    })
+  
+      // Mostrar los primeros 5
+      this.cargoActualList = this.cargoActualListFull.slice(0, this.size);
+    });
   }
+  
+  // Función para cargar más datos cuando el usuario lo solicite
+  loadMoreCargos() {
+    // Incrementar el número de página
+    this.page++;
+    
+    // Determinar los nuevos índices para cargar más datos
+    const start = this.page * this.size;
+    const end = start + this.size;
+  
+    // Concatenar los nuevos datos a la lista visible
+    this.cargoActualList = this.cargoActualList.concat(this.cargoActualListFull.slice(start, end));
+  }
+  
+  // Filtrar y mostrar solo los resultados relevantes
+  onFilter(event: any) {
+    const query = event.filter.trim().toLowerCase();
+  
+    // Filtrar los resultados completos
+    this.filteredCargoList = this.cargoActualListFull.filter((item: any) => 
+      item.label.toLowerCase().includes(query)
+    );
+  
+    // Mostrar los primeros 5 resultados del filtro
+    this.cargoActualList = this.filteredCargoList.slice(0, this.size);
+  }
+  
+  
+  // Función para cargar más datos cuando el usuario lo solicite
+
+  
+  // Método para resetear y aplicar filtros
+  applyFiltersAndReset() {
+    this.page = 0;  // Reiniciar la paginación
+    this.getCargoActual();  // Volver a cargar los primeros datos
+  }
+  
+  
+  
   value: any;
   saludlaboralCHANGETest: any[] = [];
   empresaSelect2!: empresaNit;
@@ -503,7 +556,19 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   jefeInmediatoName0?: string;
   onSelectionJefeInmediato(event: any) {
     let empleado = <Empleado>event;
-    this.jefeNames = (empleado.primerApellido || "") + " " + (empleado.segundoApellido || "") + " " + (empleado.primerNombre || "") + " " + (empleado.segundoNombre || " ");
+    this.jefeNames = 
+    (empleado.primerApellido || "") + " " + 
+    (empleado.segundoApellido || "") + " " + 
+    (empleado.primerNombre || "") + " " + 
+    (empleado.segundoNombre || "");
+  
+  // Eliminar los espacios en blanco adicionales
+  this.jefeNames = this.jefeNames.trim();
+  
+  // Si después de limpiar los espacios está vacío, asignar "sin información"
+  if (!this.jefeNames) {
+    this.jefeNames = "sin información";
+  }
     this.empleadoForm.patchValue({ jefeInmediato: empleado.id })
     this.jefeInmediato.patchValue({
       id: empleado.id,
@@ -550,8 +615,28 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     this.selectedItem = ''
   }
 
-  localidadesList: any = [];
+  async getArea() {
+    let filterAreaQuery = new FilterQuery();
+    filterAreaQuery.sortField = "id";
+    filterAreaQuery.sortOrder = -1;
+    filterAreaQuery.fieldList = ["id", "nombre"];
+    filterAreaQuery.filterList = [
+      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+      { field: 'tipoArea.id', criteria: Criteria.EQUALS, value1: '59' }
+    ];
+    try{
+        const resp: any =  await this.areaService.findByFilter(filterAreaQuery);
+        const divisionList = resp.data.map((element:any)=>({ label: element.nombre, value: element.id}));
+        this.listDivision = divisionList
+    }catch (error) {
+        console.error("Error al cargar las divisiones:", error);
+    }
+
+  }
+
+  localidadesList: any[] = [];
   localidadesListActual: any = [];
+
   async cargarPlantaLocalidad(eve: any, tipo: string) {
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
@@ -560,22 +645,24 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     filterPlantaQuery.filterList = [
       { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: eve.toString() },
     ];
-
-    await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery).then((resp: any) => {
+  
+    try {
+      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
       const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element.id }));
       if (tipo === 'Origen') {
         this.localidadesList = localidadesList;
       } else {
         this.localidadesListActual = localidadesList;
       }
-    }).catch(error => {
-    });
+    } catch (error) {
+      console.error("Error al cargar las localidades:", error);
+    }
   }
 
   areaList: any[] = []
   areaListActual: any[] = []
-  async cargarArea(eve: any, tipo: string) {
 
+  async cargarArea(eve: any, tipo: string) {
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
     filterArea.sortOrder = -1;
@@ -584,51 +671,41 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       'nombre'
     ];
     filterArea.filterList = [
-      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve },
+      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve.toString() },
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
     ];
 
-    let areaList: any = [];
-    await this.areaMatrizService.findByFilter(filterArea).then(async (resp: any) => {
-      resp.data.forEach((element: any) => {
-        areaList.push({ 'name': element.nombre, 'id': element.id }); // Solo agregar el nombre del área
-      });
-    });
-
+    const resp: any = await this.areaMatrizService.findByFilter(filterArea);
+    const areaList = resp.data.map((element: any) => ({ label: element.nombre, value: element.id }));
     if (tipo === 'Origen') {
       this.areaList = [...areaList];
     } else {
       this.areaListActual = [...areaList];
     }
   }
+
   procesoList: any[] = []
   procesoListActual: any[] = []
   async cargarProceso(eve: any, tipo: string) {
     try {
-
-      // Verifica que eve tenga el ID correcto
-      const areaId = eve?.id;
-
       let filterProceso = new FilterQuery();
+      filterProceso.sortField = "id";
+      filterProceso.sortOrder = -1;
       filterProceso.fieldList = ['id', 'nombre'];
       filterProceso.filterList = [
-        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: areaId },
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: eve },
         { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
       ];
-
-
-      let procesoList: any = [];
-      await this.procesoMatrizService.findByFilter(filterProceso).then((resp: any) => {
-        procesoList = resp.data.map((element: any) => ({ label: element.nombre, id: element.id }));
-      }).catch(error => {
-        throw error;
-      });
-
+  
+      const resp: any = await this.procesoMatrizService.findByFilter(filterProceso);
+      const procesoList = resp.data.map((element: any) => ({ label: element.nombre, value: element.id }))
       if (tipo === 'Origen') {
         this.procesoList = [...procesoList];
       } else {
         this.procesoListActual = [...procesoList];
       }
+      console.log(this.procesoListActual, procesoList, "algo");
+      
     } catch (error) {
       console.error("Error en cargarProceso:", error);
     }
@@ -661,43 +738,43 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     const idemp = JSON.parse(localStorage.getItem('session') || '{}');
 
     const emp = idemp.empresa.id;
-    const emppk = idemp.empleado.id;
-    console.log(emp, 'emp');
-
-    // Excluir cargoId del formulario
-    const { cargoId, ...formValues } = this.empleadoForm.value;
 
     if (this.empleadoForm.valid) {
-      let body = { ...formValues };  // Utiliza los valores excluyendo cargoId
+      let body = { ...this.empleadoForm.value };
 
-      // Continuar con el procesamiento de los campos
-      body.procesoActual = body.procesoActual?.id || body.procesoActual;
-      body.procesoOrigen = body.procesoOrigen?.id || body.procesoOrigen;
-      body.areaActual = body.areaActual?.id || body.areaActual;
-      body.areaOrigen = body.areaOrigen?.id || body.areaOrigen;
-      body.nombreCompletoSL =
-        `${body.primerApellido ? body.primerApellido : ''} ` +
-        `${body.segundoApellido ? body.segundoApellido : ''} ` +
-        `${body.primerNombre ? body.primerNombre : ''} ` +
-        `${body.segundoNombre ? body.segundoNombre : ''}`.trim();
+      // Actualizar los campos según sea necesario
+      body.procesoActual = body.procesoActual?.value || body.procesoActual;
+      body.procesoOrigen = body.procesoOrigen?.value || body.procesoOrigen;
+      body.areaActual = body.areaActual?.value || body.areaActual;
+      body.areaOrigen = body.areaOrigen?.value || body.areaOrigen;
+      body.nombreCompletoSL = 
+  [body.primerNombre, body.segundoNombre, body.primerApellido, body.segundoApellido]
+  .filter(nombre => nombre && nombre.trim() !== "")
+  .join(" ");
 
-        body.empresaId = emp;
-        body.pkUserEmp = emppk;
+      body.empresaId = emp;
       console.log(emp, 'empsend');
-
 
       if (Array.isArray(body.pkUser)) {
         body.pkUser = body.pkUser[0];
       }
+      if (body.epsDictamen && body.epsDictamen.value) {
+        body.epsDictamen = body.epsDictamen.value;
+      }
+      if (body.arlDictamen && body.arlDictamen.value) {
+        body.arlDictamen = body.arlDictamen.value;
+      }
+      if (body.jrDictamen && body.jrDictamen.value) {
+        body.jrDictamen = body.jrDictamen.value;
+      }
 
+      // Limpia el formulario según sea necesario
       body = this.prepareFormData(body);
 
-
-      // Verificar si es una creación o actualización
       if (this.iddt === undefined) {
         this.casoMedico.createDT(body)
           .then((response) => {
@@ -779,6 +856,7 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   diagnosticoList: any[] = [];
   consultar: boolean = false;
   saludLaboralSelect: any;
+  nombreCompletoSL: any;
   async chargueValue() {
 
 
@@ -791,6 +869,11 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     this.cedula = cedula;
     this.nombreSesion = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
     this.nombreSesionSeg = primerNombre + ' ' + segundoNombre + ' ' + primerApellido + ' ' + segundoApellido
+    this.nombreCompletoSL =
+        `${primerNombre ? primerNombre : ''} ` +
+        `${segundoNombre ? segundoNombre : ''} ` +
+        `${primerApellido ? segundoApellido : ''} ` +
+        `${segundoApellido ? segundoApellido : ''}`.trim();
 
     this.config.setTranslation(this.localeES);
     this.colsActionList = [
@@ -933,9 +1016,12 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   }
 
   async setEmpleadoFormValues(empleado: any) {
-
-
-
+    // Esperar a que se carguen los datos del empleado
+    if (!empleado) {
+      console.error('No se encontraron datos del empleado.');
+      return;
+    }
+  
     const empleadoFields = [
       'numeroIdentificacion', 'area', 'cargoId', 'perfilesId', 'tipoIdentificacion',
       'primerNombre', 'segundoNombre', 'primerApellido', 'segundoApellido',
@@ -943,41 +1029,69 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
       'zonaResidencia', 'telefono1', 'telefono2', 'correoPersonal', 'emailEmergencyContact',
       'phoneEmergencyContact', 'emergencyContact', 'ciudad', 'email',
     ];
-
+    
+    // Inicializar nameAndLastName
+    this.nameAndLastName = '';
+    
+    // Setear los valores del formulario
     empleadoFields.forEach(field => {
-      this.empleadoForm.controls[field].setValue(empleado[field]);
+      this.empleadoForm.controls[field].setValue(empleado[field] ?? 'SIN INFORMACIÓN');
+    
+      // Concatenar nombres y apellidos solo si no son nulos ni vacíos
+      if (field === 'primerNombre' || field === 'segundoNombre') {
+        const nombre = empleado[field];
+        if (nombre) { // Validación para evitar nulos o cadenas vacías
+          this.nameAndLastName += nombre + ' '; // Agrega un espacio después de cada nombre
+        }
+      }
+    
+      if (field === 'primerApellido' || field === 'segundoApellido') {
+        const apellido = empleado[field];
+        if (apellido) { // Validación para evitar nulos o cadenas vacías
+          this.nameAndLastName += apellido + ' '; // Agrega un espacio después de cada apellido
+        }
+      }
     });
-
-    this.empleadoForm.controls['eps'].setValue(empleado['eps']['id']);
-    this.empleadoForm.controls['afp'].setValue(empleado['afp']['id']);
+    
+    // Eliminar el último espacio adicional
+    this.nameAndLastName = this.nameAndLastName.trim();
+    
+    
+  
+    // Verificar que los datos relacionados estén disponibles
+    this.empleadoForm.controls['eps'].setValue(empleado['eps']?.id ?? null);
+    this.empleadoForm.controls['afp'].setValue(empleado['afp']?.id ?? null);
     this.arl = this.empresa?.arl == null ? null : this.empresa.arl.nombre;
-    this.empleadoForm.controls['tipoIdentificacion'].setValue(empleado['tipoIdentificacion']?.id)
-    this.nameAndLastName = `${empleado['primerNombre']} ${empleado['primerApellido']}`;
-    this.empleadoForm.controls['fechaNacimiento'].setValue(new Date(empleado['fechaNacimiento']));
-    this.empleadoForm.controls['fechaIngreso'].setValue(new Date(empleado['fechaIngreso']));
-    this.empleadoForm.controls['cargoId'].setValue(empleado['cargo'])
-    this.empleadoForm.controls['perfilesId'].setValue(empleado['id'])
-
-
+    this.empleadoForm.controls['tipoIdentificacion'].setValue(empleado['tipoIdentificacion']?.id ?? null);
+    
+    // Asegurarse de que los campos de fecha se establezcan correctamente
+    this.empleadoForm.controls['fechaNacimiento'].setValue(new Date(empleado['fechaNacimiento']) || null);
+    this.empleadoForm.controls['fechaIngreso'].setValue(new Date(empleado['fechaIngreso']) || null);
+    
+    // Establecer los valores de cargo y perfil
+    this.empleadoForm.controls['cargoId'].setValue(empleado['cargo'] || null);
+    this.empleadoForm.controls['perfilesId'].setValue(empleado['id'] || null);
+    
+    // Manejar la empresa y el NIT
     let empresaNitpivot: empresaNit = {
       empresa: empleado['empresa'],
       nit: empleado['nit'],
       label: empleado['empresa']
     };
+    
     const empresaSeleccionada = this.empresaList2.find(e => e.label === empresaNitpivot.label);
-
+  
     if (empresaSeleccionada) {
       this.empresaForm?.controls['empresa'].setValue(empresaSeleccionada);
       this.empresaForm?.controls['nit'].setValue(empresaNitpivot.nit);
-
-
     } else {
-      // Manejar el caso cuando la empresa no se encuentra en la lista
       console.error('Empresa no encontrada en la lista');
     }
-
-
+  
+    // Asegúrate de que el campo de ciudad se establezca correctamente
+    this.empleadoForm.controls['ciudad'].setValue(empleado['ciudad'] ?? 'SIN INFORMACIÓN');
   }
+  
 
 
   setFechaValues(data: any) {
@@ -992,13 +1106,17 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   setJefeInmediatoValues(jefeInmediato: any, usuario: any) {
 
     this.jefeInmediato.controls['numeroIdentificacion'].setValue(jefeInmediato['numeroIdentificacion'] ?? 'SIN INFORMACIÓN');
-    this.jefeNames = `${jefeInmediato['primerNombre']} ${jefeInmediato['primerApellido']}` ?? 'sin informacion';
-    this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION');
+    this.jefeNames = 
+    `${jefeInmediato['primerNombre'] || ''} ${jefeInmediato['primerApellido'] || ''}`.trim() || 'SIN INFORMACIÓN';
+      this.jefeInmediato.controls['corporativePhone'].setValue(jefeInmediato['corporativePhone'] ?? 'SIN INFORMACION');
     if (jefeInmediato && jefeInmediato.usuario) {
 
-      this.jefeInmediato.controls['email'].setValue(jefeInmediato.usuario.email);
-    } else {
-      console.error("El control 'email' no existe en el formulario jefeInmediato");
+      this.jefeInmediato.controls['email'].setValue(
+        jefeInmediato && jefeInmediato.usuario && jefeInmediato.usuario.email 
+          ? jefeInmediato.usuario.email 
+          : 'SIN INFORMACIÓN'
+      );
+          } else {
     }
 
 
@@ -1041,22 +1159,29 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     ]);
 
     // Establecer valores para áreas
-    const areaOrigen = this.areaList.find(value => value.id === parseInt(data['areaOrigen']));
-    const areaActual = this.areaListActual.find(value => value.id === parseInt(data['areaActual']));
+    const areaOrigen = this.areaList.find(value => value.value === parseInt(data['areaOrigen']));
+    const areaActual = this.areaListActual.find(value => value.value === parseInt(data['areaActual']));
 
-    this.empleadoForm.controls['areaOrigen'].setValue(areaOrigen);
-    this.empleadoForm.controls['areaActual'].setValue(areaActual);
+    this.empleadoForm.controls['areaOrigen'].setValue(areaOrigen.value);
+    this.empleadoForm.controls['areaActual'].setValue(areaActual.value);
+
+    console.log(areaOrigen, areaActual, "areas");
+    
 
     // Esperar a que se carguen los procesos
     await Promise.all([
-      this.cargarProceso(areaOrigen?.id, 'Origen'),
-      this.cargarProceso(areaActual?.id, 'Actual')
+      this.cargarProceso(areaOrigen?.value, 'Origen'),
+      this.cargarProceso(areaActual?.value, 'Actual')
 
 
     ]);
     // Establecer valores para procesos
-    this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.id === parseInt(data['procesoOrigen'])));
-    this.empleadoForm.controls['procesoActual'].setValue(this.procesoListActual.find(value => value.id === parseInt(data['procesoActual'])));
+    this.empleadoForm.controls['procesoOrigen'].setValue(this.procesoList.find(value => value.value === parseInt(data['procesoOrigen'])));
+    this.empleadoForm.controls['procesoActual'].setValue(this.procesoListActual.find(value => value.value === parseInt(data['procesoActual'])));
+    console.log(this.empleadoForm.controls['procesoOrigen'], 'orige');
+    console.log(this.empleadoForm.controls['procesoActual'], 'actual');
+    
+    
   }
 
 
@@ -1086,31 +1211,31 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     });
   }
   JuntaRegionalList!: SelectItem[];
-  async getArea() {
-    let filterAreaQuery = new FilterQuery();
-    filterAreaQuery.sortField = "id";
-    filterAreaQuery.sortOrder = -1;
-    filterAreaQuery.fieldList = ["id", "nombre"];
-    filterAreaQuery.filterList = [
-      { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
-    ];
+  // async getArea() {
+  //   let filterAreaQuery = new FilterQuery();
+  //   filterAreaQuery.sortField = "id";
+  //   filterAreaQuery.sortOrder = -1;
+  //   filterAreaQuery.fieldList = ["id", "nombre"];
+  //   filterAreaQuery.filterList = [
+  //     { field: 'nivel', criteria: Criteria.EQUALS, value1: '0' },
+  //   ];
 
-    await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
-      resp.data.forEach((resp2: any) => {
-        this.listDivision.push({ label: resp2.nombre, value: resp2.id })
-      });
-    })
-    await this.comunService.findAllJuntas().then((data) => {
-      this.JuntaRegionalList = [];
-      this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
-      (<JuntaRegional[]>data).forEach((JuntaRegional) => {
-        this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
+  //   await this.areaService.findByFilter(filterAreaQuery).then((resp: any) => {
+  //     resp.data.forEach((resp2: any) => {
+  //       this.listDivision.push({ label: resp2.nombre, value: resp2.id })
+  //     });
+  //   })
+  //   await this.comunService.findAllJuntas().then((data) => {
+  //     this.JuntaRegionalList = [];
+  //     this.JuntaRegionalList.push({ label: "--Seleccione--", value: null });
+  //     (<JuntaRegional[]>data).forEach((JuntaRegional) => {
+  //       this.JuntaRegionalList.push({ label: JuntaRegional.nombre, value: JuntaRegional.id });
 
 
-      });
-      this.entity.Junta_Regional = this.JuntaRegionalList;
-    });
-  }
+  //     });
+  //     this.entity.Junta_Regional = this.JuntaRegionalList;
+  //   });
+  // }
 
   solicitando: boolean = false;
 
