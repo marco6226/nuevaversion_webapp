@@ -252,73 +252,21 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     });
 
   }
-  page: number = 0;
-  size: number = 5;
-  cargoActualListFull: any[] = [];
-  filteredCargoList: any[] = [];
   
   async getCargoActual() {
     let cargoActualfiltQuery = new FilterQuery();
     cargoActualfiltQuery.sortOrder = SortOrder.ASC;
     cargoActualfiltQuery.sortField = "nombre";
     cargoActualfiltQuery.fieldList = ["id", "nombre"];
-    cargoActualfiltQuery.filterList = [];
-  
-    cargoActualfiltQuery.filterList.push({
-      field: 'empresa.id',
-      criteria: Criteria.EQUALS,
-      value1: this.empresa?.id?.toString()
-    });
-  
-    // Obtener todos los resultados
+    cargoActualfiltQuery.filterList = []
+    cargoActualfiltQuery.filterList.push({ field: 'empresa.id', criteria: Criteria.EQUALS, value1: this.empresa?.id?.toString() });
     await this.cargoActualService.getcargoRWithFilter(cargoActualfiltQuery).then((resp: any) => {
-      // Almacenar todos los datos
-      this.cargoActualListFull = resp.data.map((ele: any) => {
-        return { label: ele.nombre, value: ele.id };
+      this.cargoActualList = []
+      resp.data.forEach((ele: any) => {
+        this.cargoActualList.push({ label: ele.nombre, value: ele.id })
       });
-  
-      // Mostrar los primeros 5
-      this.cargoActualList = this.cargoActualListFull.slice(0, this.size);
-    });
+    })
   }
-  
-  // Función para cargar más datos cuando el usuario lo solicite
-  loadMoreCargos() {
-    // Incrementar el número de página
-    this.page++;
-    
-    // Determinar los nuevos índices para cargar más datos
-    const start = this.page * this.size;
-    const end = start + this.size;
-  
-    // Concatenar los nuevos datos a la lista visible
-    this.cargoActualList = this.cargoActualList.concat(this.cargoActualListFull.slice(start, end));
-  }
-  
-  // Filtrar y mostrar solo los resultados relevantes
-  onFilter(event: any) {
-    const query = event.filter.trim().toLowerCase();
-  
-    // Filtrar los resultados completos
-    this.filteredCargoList = this.cargoActualListFull.filter((item: any) => 
-      item.label.toLowerCase().includes(query)
-    );
-  
-    // Mostrar los primeros 5 resultados del filtro
-    this.cargoActualList = this.filteredCargoList.slice(0, this.size);
-  }
-  
-  
-  // Función para cargar más datos cuando el usuario lo solicite
-
-  
-  // Método para resetear y aplicar filtros
-  applyFiltersAndReset() {
-    this.page = 0;  // Reiniciar la paginación
-    this.getCargoActual();  // Volver a cargar los primeros datos
-  }
-  
-  
   
   value: any;
   saludlaboralCHANGETest: any[] = [];
