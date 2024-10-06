@@ -413,6 +413,7 @@
                 [directoriosMin]="this.directoriosMin"
               ></app-cargue-documentos-ministerio>
             </p-accordionTab>
+            <div *ngIf="!consultar2">
             <button
               pButton
               *sTienePermiso="'SCM_POST_CSL'"
@@ -423,6 +424,7 @@
               style="bottom: 200px"
               title="Guardar datos info nueva"
             ></button>
+          </div>
           </form>
         </p-accordion>
       </p-tabPanel>
@@ -1025,6 +1027,7 @@
 
         <!-- Botón para enviar -->
         <button
+        *ngIf="!consultar2"
           pButton
           (click)="abrirModalConfirmacion()"
           type="submit"
@@ -1032,6 +1035,7 @@
           class="float-btn"
           style="bottom: 100px"
           title="Enviar Correos"
+          [disabled]="isSending"
         ></button>
 
         <!-- Modal de confirmación -->
@@ -1051,7 +1055,7 @@
               type="button"
               pButton
               (click)="
-                onSubmiSLt(); onSubmiSLtSeg(); onSubmiSLl(); onSubmitPsico()
+                sendEmails()
               "
               label="Enviar"
               class="p-button-success"
@@ -1156,25 +1160,32 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="summary" let-rowData>
-            <button
-              *sTienePermiso="'SCM_POST_RDS'"
-              pButton
-              type="button"
-              icon="bi bi-check"
-              label="Aprobar"
-              class="p-button-info margin-left margin-right"
-              (click)="onEditState(documentacionSelectSolicitado.id)"
-            ></button>
-            <button
-              *sTienePermiso="'SCM_POST_ADS'"
-              pButton
-              type="button"
-              icon="bi bi-x"
-              label="Rechazar"
-              class="p-button-danger margin-left margin-right"
-              (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
-            ></button>
+            <div class="button-container">
+              <div *ngIf="!consultar2">
+                <button
+                  *sTienePermiso="'SCM_POST_RDS'"
+                  pButton
+                  type="button"
+                  icon="bi bi-check"
+                  label="Aprobar"
+                  class="p-button-info margin-left margin-right"
+                  (click)="onEditState(documentacionSelectSolicitado.id)"
+                ></button>
+              </div>
+              <div *ngIf="!consultar2">
+                <button
+                  *sTienePermiso="'SCM_POST_ADS'"
+                  pButton
+                  type="button"
+                  icon="bi bi-x"
+                  label="Rechazar"
+                  class="p-button-danger margin-left margin-right"
+                  (click)="dialogRechazoFlagSolicitante = true; getSelectedSoli()"
+                ></button>
+              </div>
+            </div>
           </ng-template>
+          
           <ng-template pTemplate="emptymessage">
             <tr>
               <td colspan="9" class="p-text-center">
@@ -1341,6 +1352,7 @@
             [disabled]="!documentacionSelectUser"
             (click)="dialogTrazabilidadFlag = true"
           ></button> -->
+          <div *ngIf="!consultar2">
             <button
               pButton
               type="button"
@@ -1350,6 +1362,7 @@
               [disabled]="!documentacionSelectUser"
               (click)="dialogRechazoFlag = true; getSelectedId()"
             ></button>
+          </div>
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>

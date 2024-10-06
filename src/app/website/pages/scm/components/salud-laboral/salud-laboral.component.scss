@@ -193,6 +193,16 @@
   border-color: #ffc107; /* Cambiar el color del borde si es necesario */
 }
 
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.button-container > div {
+  margin-right: 10px; /* Ajusta el espacio entre los botones si es necesario */
+}
+
+
 
 
   

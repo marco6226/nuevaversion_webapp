@@ -43,14 +43,15 @@ export class CargueDocumentosSendDocumentacionComponent implements OnInit{
   saludLaboralSelect: any
   documentoId: any[] = [];
 
-
+  consultar2: boolean = false;
 
 
 
 
 
   ngOnInit(): void {
-      
+    this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
+
   }
 
   constructor(

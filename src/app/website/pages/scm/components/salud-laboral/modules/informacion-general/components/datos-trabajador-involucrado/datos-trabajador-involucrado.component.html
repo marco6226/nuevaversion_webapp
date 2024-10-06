@@ -2,6 +2,8 @@
 <p-toast key="formScmSL"></p-toast>
 <!-- <p-messages [(value)]="msgs" ></p-messages> -->
 
+
+
 <p-panel header="Datos del trabajador involucrado">
 
     <form [formGroup]="empleadoForm">
@@ -112,6 +114,7 @@
                   styleClass="select-material"
                 >
                 </p-dropdown>
+
                 
                 </div>
               </div>
@@ -456,7 +459,7 @@
                     id="ciudadSelector"
                     formControlName="ciudad"
                     [_value]="this.empleadoForm.value!.ciudad"
-                    required
+                    
                   ></s-ciudadSelector>
                           </div>
                       </div>
@@ -642,16 +645,18 @@
 
       <div *ngIf="!consultar2" style="text-align: center; width: 100%">
         <button
-  pButton
-  *sTienePermiso="'SCM_POST_CSL'"
-  (click)="onSubmit(); submitEmp()"
-  type="submit"
-  icon="pi pi-save"
-  class="float-btn"
-  style="bottom: 100px"
-  title="Guardar datos de Empleado"
-  [disabled]="!empleadoForm.valid" 
-></button>
+        pButton
+        *sTienePermiso="'SCM_POST_CSL'"
+        (click)="onSubmit(); submitEmp()"
+        type="submit"
+        icon="pi pi-save"
+        class="float-btn"
+        style="bottom: 100px"
+        title="Guardar datos de Empleado"
+        [disabled]="!empleadoForm.valid || isSaving"  
+      >
+        <i *ngIf="isSaving" class="pi pi-spin pi-spinner"></i> <!-- Texto del botón -->
+      </button>
 
       </div>
     </form>

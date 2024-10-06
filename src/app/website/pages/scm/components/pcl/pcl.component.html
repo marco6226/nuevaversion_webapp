@@ -751,6 +751,19 @@
           disabled
         />
       </div>
+      
+        <div class="col">
+          
+            <p for="tiempoCalificacion" class="active">Tiempo de calificación de origen</p>
+            <input
+              type="text"
+              [value]="tiempoCalificacion"
+              class="form-control"
+              readonly
+            />
+         
+        </div>
+      
       <div class="col">
         <p>Entidad emitente de calificación</p>
         <input
@@ -833,19 +846,7 @@
               />
             </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <div class="input-field">
-                <label for="tiempoCalificacion" class="active">Tiempo de calificación de origen</label>
-                <input
-                  type="text"
-                  [value]="tiempoCalificacion"
-                  class="form-control"
-                  readonly
-                />
-              </div>
-            </div>
-          </div>
+          
           
         </div>
         <div class="col-6">

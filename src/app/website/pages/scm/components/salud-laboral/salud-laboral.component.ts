@@ -1665,10 +1665,13 @@ export class SaludLaboralComponent implements OnInit {
             summary: "Documento Rechazado",
             detail: `Rechazo enviado correctamente`,
           });
+          
           this.dialogRechazoFlag = false;
           this.loadMailDataUser(this.idSl, this.pkuser);
           this.loadMailData(this.idSl)
           this.documentacionSelectUser = [];
+          this.formulario.get('razonRechazoSolicitado')?.reset();
+          this.motivoRechazo = '';
         } else {
           this.messageService.add({
             // this.msgs.push({
@@ -1683,6 +1686,24 @@ export class SaludLaboralComponent implements OnInit {
       });
     } else {
       console.error("No hay un caso seleccionado");
+    }
+  }
+  isSending: boolean = false;
+  async sendEmails() {
+    this.isSending = true; // Deshabilita el botón mientras se envían los correos
+  
+    try {
+      await Promise.all([
+        this.onSubmiSLt(),
+        this.onSubmiSLtSeg(),
+        this.onSubmiSLl(),
+        this.onSubmitPsico()
+      ]);
+      
+    } catch (error) {
+      console.error('Error enviando los correos:', error);
+    } finally {
+      this.isSending = false; // Habilita el botón nuevamente una vez que se completa el proceso
     }
   }
   putmailSoliictante() {
@@ -1740,6 +1761,9 @@ export class SaludLaboralComponent implements OnInit {
           this.dialogRechazoFlagSolicitante = false;
           this.loadMailDataUser(this.idSl, this.pkuser);
           this.loadMailData(this.idSl)
+          this.documentacionSelectSolicitado = [];
+          this.formulario.get('razonRechazoSolicitante')?.reset();
+          this.motivoRechazoSolicitante = '';
         } else {
           this.messageService.add({
             // this.msgs.push({
@@ -2174,8 +2198,6 @@ export class SaludLaboralComponent implements OnInit {
 
 
   descargarDocumento(doc: Documento) {
-    let msg = { severity: 'info', summary: 'Descargando documento...', detail: 'Archivo \"' + doc.nombre + "\" en proceso de descarga" };
-    this.messageService.add(msg);
     this.directorioService.download(doc.id).then(
       resp => {
         if (resp != null) {
@@ -2185,7 +2207,6 @@ export class SaludLaboralComponent implements OnInit {
           dwldLink.setAttribute("href", url);
           dwldLink.setAttribute("download", doc.nombre);
           dwldLink.click();
-          this.messageService.add({ severity: 'success', summary: 'Archivo descargado', detail: 'Se ha descargado correctamente el archivo ' + doc.nombre });
         }
       }
     );

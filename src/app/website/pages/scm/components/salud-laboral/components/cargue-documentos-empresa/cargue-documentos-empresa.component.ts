@@ -54,10 +54,13 @@ export class CargueDocumentosEmpresaComponent implements OnInit {
   @Input() directoriosJn: Directorio[] = [];
   @Output() deleteDoc = new EventEmitter<any>();
   @Input() empleadoForm: FormGroup;
+  consultar2:boolean = false;
 
   async ngOnInit() {
 
     this.loadData();
+    this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
+
 
   }
   constructor(

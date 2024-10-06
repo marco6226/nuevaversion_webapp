@@ -686,107 +686,95 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
     });
   }
 
-  async onSubmit() {
-    const idemp = JSON.parse(localStorage.getItem('session') || '{}');
 
-    const emp = idemp.empresa.id;
+isSaving: boolean = false;
+async onSubmit() {
+  this.isSaving = true;  // Activar loader al inicio
+  const idemp = JSON.parse(localStorage.getItem('session') || '{}');
+  const emp = idemp.empresa.id;
 
-    if (this.empleadoForm.valid) {
-      let body = { ...this.empleadoForm.value };
+  if (this.empleadoForm.valid) {
+    let body = { ...this.empleadoForm.value };
 
-      // Actualizar los campos según sea necesario
-      body.procesoActual = body.procesoActual?.value || body.procesoActual;
-      body.procesoOrigen = body.procesoOrigen?.value || body.procesoOrigen;
-      body.areaActual = body.areaActual?.value || body.areaActual;
-      body.areaOrigen = body.areaOrigen?.value || body.areaOrigen;
-      body.nombreCompletoSL = 
-  [body.primerNombre, body.segundoNombre, body.primerApellido, body.segundoApellido]
-  .filter(nombre => nombre && nombre.trim() !== "")
-  .join(" ");
+    // Actualizar los campos según sea necesario
+    body.procesoActual = body.procesoActual?.value || body.procesoActual;
+    body.procesoOrigen = body.procesoOrigen?.value || body.procesoOrigen;
+    body.areaActual = body.areaActual?.value || body.areaActual;
+    body.areaOrigen = body.areaOrigen?.value || body.areaOrigen;
+    body.nombreCompletoSL = 
+      [body.primerNombre, body.segundoNombre, body.primerApellido, body.segundoApellido]
+      .filter(nombre => nombre && nombre.trim() !== "")
+      .join(" ");
+    body.empresaId = emp;
 
-      body.empresaId = emp;
-      console.log(emp, 'empsend');
+    if (Array.isArray(body.pkUser)) {
+      body.pkUser = body.pkUser[0];
+    }
+    if (body.epsDictamen && body.epsDictamen.value) {
+      body.epsDictamen = body.epsDictamen.value;
+    }
+    if (body.arlDictamen && body.arlDictamen.value) {
+      body.arlDictamen = body.arlDictamen.value;
+    }
+    if (body.jrDictamen && body.jrDictamen.value) {
+      body.jrDictamen = body.jrDictamen.value;
+    }
 
-      if (Array.isArray(body.pkUser)) {
-        body.pkUser = body.pkUser[0];
-      }
-      if (body.epsDictamen && body.epsDictamen.value) {
-        body.epsDictamen = body.epsDictamen.value;
-      }
-      if (body.arlDictamen && body.arlDictamen.value) {
-        body.arlDictamen = body.arlDictamen.value;
-      }
-      if (body.jrDictamen && body.jrDictamen.value) {
-        body.jrDictamen = body.jrDictamen.value;
-      }
+    body = this.prepareFormData(body);
 
-      // Limpia el formulario según sea necesario
-      body = this.prepareFormData(body);
-
+    try {
       if (this.iddt === undefined) {
-        this.casoMedico.createDT(body)
-          .then((response) => {
-            if (response) {
-              this.showSuccessToast();
-              setTimeout(() => {
-                this.route.navigate(['/app/scm/saludlaborallist'])
-
-              }, 3000);
-              this.msgs = [];
-              this.messageService.add({
-                key: 'formScmSL',
-                severity: "warn",
-                summary: "Caso creado",
-                detail: `Caso creado con numero ${response} revisar el listado`,
-
-              });
-            }
-          })
-          .catch((error) => {
-            console.error('Error al crear el empleado:', error);
-            this.msgs = [];
-            this.messageService.add({
-              key: 'formScmSL',
-              severity: "error",
-              summary: "Error al crear empleado",
-              detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado`,
-
-            });
+        const response = await this.casoMedico.createDT(body);
+        if (response) {
+          this.showSuccessToast();
+          setTimeout(() => {
+            this.route.navigate(['/app/scm/saludlaborallist']);
+          }, 3000);
+          this.msgs = [];
+          this.messageService.add({
+            key: 'formScmSL',
+            severity: "warn",
+            summary: "Caso creado",
+            detail: `Caso creado con número ${response}, revisar el listado`,
           });
+        }
       } else {
-        this.casoMedico.putCaseSL(this.iddt, body)
-          .then((response) => {
-            if (response) {
-              this.msgs = []
-              // this.messageService.add({
-              //   key: 'formScmSL',
-              //   severity: "success",
-              //   summary: "Usuario actualizado",
-              //   detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} fue actualizado con el caso ${response}`,
-              // });
-            }
-          })
-          .catch((error) => {
-            console.error('Error al actualizar el empleado:', error);
-            this.msgs = [];
-            this.messageService.add({
-              key: 'formScmSL',
-              severity: "error",
-              summary: "Error al actualizar empleado",
-              detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue actualizado`,
-            });
-          });
+        const response = await this.casoMedico.putCaseSL(this.iddt, body);
+        if (response) {
+          this.msgs = [];
+          // this.messageService.add({
+          //   key: 'formScmSL',
+          //   severity: "success",
+          //   summary: "Usuario actualizado",
+          //   detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} fue actualizado con el caso ${response}`,
+          // });
+        }
       }
-    } else {
+    } catch (error) {
+      console.error('Error al procesar el caso:', error);
       this.msgs = [];
       this.messageService.add({
         key: 'formScmSL',
         severity: "error",
-        summary: "Usuario no creado",
-        detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
+        summary: "Error al procesar caso",
+        detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue procesado`,
       });
+    } finally {
+      // Siempre restablecer el estado del loader
+      this.isSaving = false;
     }
+  } else {
+    this.msgs = [];
+    this.messageService.add({
+      key: 'formScmSL',
+      severity: "error",
+      summary: "Formulario inválido",
+      detail: `Empleado con identificación ${this.empleadoForm.value.numeroIdentificacion} no fue creado, formulario inválido`,
+    });
+    this.isSaving = false;  // Restablecer en caso de formulario inválido
   }
+}
+
 
 
 
@@ -921,49 +909,57 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
 
   }
   flagSaludLaboralRegistro: boolean = false
+  flagLoading: boolean = false;
   async chargueEditForm() {
     try {
+      this.flagLoading = true;  // Iniciar el loader
       this.flagSaludLaboralRegistro = true;
+  
       const data: any = await this.scmService.getCaseSL(this.iddt!.toString());
-
+  
       await this.buscarEmpleado({ query: data['usuarioAsignado'] });
       const empleado = this.empleadosList[0];
       if (empleado && typeof empleado === 'object') {
         this.setEmpleadoFormValues(empleado);
+         this.empleadoForm.controls['ciudad'].setValue(empleado['ciudad'] ?? 'SIN INFORMACIÓN');
         this.setFechaValues(data);
-
+  
         const jefeInmediato = empleado['jefeInmediato'] ?? {};
         this.setJefeInmediatoValues(jefeInmediato, empleado['usuario']);
-
+  
         this.setEmpleadoEdadYAntiguedad(empleado);
-
+  
         if (data) {
           await this.setDataRelatedValues(data);
         }
-
+  
         // Asegurarse de establecer cargoOriginal y cargoActual
         if (data['cargoOriginal'] != null) {
           this.empleadoForm.controls['cargoOriginal'].setValue(parseInt(data['cargoOriginal']));
         } else {
           this.empleadoForm.controls['cargoOriginal'].setValue(null);
         }
-
+  
         if (data['cargoActual'] != null) {
           this.empleadoForm.controls['cargoActual'].setValue(parseInt(data['cargoActual']));
         } else {
           this.empleadoForm.controls['cargoActual'].setValue(null);
         }
-
+  
         setTimeout(() => {
           this.consultar = localStorage.getItem('slShowCase') === 'true';
           this.saludLaboralSelect = JSON.parse(localStorage.getItem('saludL')!);
         }, 2000);
       }
     } catch (error) {
+      console.error(error);
+    } finally {
+      this.flagLoading = false;  // Detener el loader cuando termina la carga
     }
   }
+  
 
-  async setEmpleadoFormValues(empleado: any) {
+   setEmpleadoFormValues(empleado: any) {
     // Esperar a que se carguen los datos del empleado
     if (!empleado) {
       console.error('No se encontraron datos del empleado.');
@@ -1038,6 +1034,8 @@ export class DatosTrabajadorInvolucradoComponent implements OnInit {
   
     // Asegúrate de que el campo de ciudad se establezca correctamente
     this.empleadoForm.controls['ciudad'].setValue(empleado['ciudad'] ?? 'SIN INFORMACIÓN');
+    console.log(this.empleadoForm.controls, "COntrols user");
+    
   }
   
 

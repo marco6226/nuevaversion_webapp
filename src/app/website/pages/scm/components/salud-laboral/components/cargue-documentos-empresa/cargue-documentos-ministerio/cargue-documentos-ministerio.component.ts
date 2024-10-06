@@ -40,8 +40,12 @@ export class CargueDocumentosMinisterioComponent implements OnInit{
   saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
   usuarioId = JSON.parse(localStorage.getItem('session') || '{}');
   idSl = this.saludL.idSl;
+  consultar2: boolean = false;
+
 
   ngOnInit(): void {
+    this.consultar2 = (localStorage.getItem('scmShowCase') === 'true') ? true : false;
+
       
   }
 

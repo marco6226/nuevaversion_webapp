@@ -48,15 +48,19 @@
               </td>
               <td>
                 <a>&nbsp;</a>
+               
                 <button
+                *ngIf="!consultar2"
                   type="button"
                   class="btn btn-outline-danger"
                   title="Eliminar documento"
                   (click)="eliminarDocumentMin(doc)"
                   [disabled]="stateDownload"
                 >
+
                   <span class="pi pi-trash"></span>
                 </button>
+             
               </td>
             </tr>
           </tbody>
