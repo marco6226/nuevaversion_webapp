@@ -3849,6 +3849,7 @@
               </p-dropdown>
               <h3>Area</h3>
               <p-multiSelect
+              #multiSelect
                 [style]="{ width: '100%' }"
                 appendTo="body"
                 [options]="areasList20"
@@ -12794,8 +12795,6 @@
                 [style]="{ width: '100%' }"
                 appendTo="body"
                 [options]="localidadesList25"
-                class="select-material"
-                styleClass="select-material";
                 [(ngModel)]="selecteLocalidad25"
                 placeholder="Seleccionar localidad"
                 [filter]="true"
