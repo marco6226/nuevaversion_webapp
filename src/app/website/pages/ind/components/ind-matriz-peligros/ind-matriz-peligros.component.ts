@@ -1,4 +1,10 @@
-import { Component, HostBinding, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Plantas } from '../../../comun/entities/Plantas';
 import { FilterQuery } from '../../../core/entities/filter-query';
 import { Criteria, SortOrder } from '../../../core/entities/filter';
@@ -90,7 +96,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild('multiSelect') multiSelect: MultiSelect | undefined;
-  
+
   dataEventos1: any[] = [];
   dataEventos1Porcentaje: any[] = [];
   dataEventos2: any[] = [];
@@ -971,7 +977,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     private areaMatrizService: AreaMatrizService,
     private viewHHtMetasService: ViewHHtMetasService,
     private config: PrimeNGConfig
-  ) { }
+  ) {}
   async ngOnInit(): Promise<void> {
     window.scrollTo({
       top: 1, // La posición vertical a la que deseas desplazar
@@ -1186,7 +1192,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   async funcSelectPais(pais: any, filter: any) {
     switch (filter) {
       case 'graf1':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea1 = null;
@@ -1199,7 +1205,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData1();
         break;
       case 'graf2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea2 = null;
@@ -1207,12 +1213,12 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList2 = [];
         this.selecteLocalidad2 = null;
         this.selecteDivision2 = null;
-        this.divisionList2 = await this.getDivisiones(pais.value);   
+        this.divisionList2 = await this.getDivisiones(pais.value);
         this.selectePeligro2 = null;
         this.grafData2();
         break;
       case 'graf3':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea3 = null;
@@ -1225,7 +1231,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData3();
         break;
       case 'graf4':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea4 = null;
@@ -1233,12 +1239,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList4 = [];
         this.selecteLocalidad4 = null;
         this.selecteDivision4 = null;
-        this.divisionList4 = await this.getDivisiones(pais.value); this.selectePeligro4 = null;
+        this.divisionList4 = await this.getDivisiones(pais.value);
+        this.selectePeligro4 = null;
         this.grafData4();
-       
+
         break;
       case 'graf5':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea5 = null;
@@ -1246,12 +1253,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList5 = [];
         this.selecteLocalidad5 = null;
         this.selecteDivision5 = null;
-        this.divisionList5 = await this.getDivisiones(pais.value);this.selectePeligro5  = null;
+        this.divisionList5 = await this.getDivisiones(pais.value);
+        this.selectePeligro5 = null;
         this.grafData5();
-        
+
         break;
       case 'graf6':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea6 = null;
@@ -1259,12 +1267,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList6 = [];
         this.selecteLocalidad6 = null;
         this.selecteDivision6 = null;
-        this.divisionList6 = await this.getDivisiones(pais.value); this.selectePeligro6 = null;
+        this.divisionList6 = await this.getDivisiones(pais.value);
+        this.selectePeligro6 = null;
         this.grafData6();
-       
+
         break;
       case 'graf7':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea7 = null;
@@ -1272,12 +1281,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList7 = [];
         this.selecteLocalidad7 = null;
         this.selecteDivision7 = null;
-        this.divisionList7 = await this.getDivisiones(pais.value); this.selectePeligro7 = null;
+        this.divisionList7 = await this.getDivisiones(pais.value);
+        this.selectePeligro7 = null;
         this.grafData7();
-       
+
         break;
       case 'graf8':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea8 = null;
@@ -1285,12 +1295,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList8 = [];
         this.selecteLocalidad8 = null;
         this.selecteDivision8 = null;
-        this.divisionList8 = await this.getDivisiones(pais.value); this.selectePeligro8 = null;
+        this.divisionList8 = await this.getDivisiones(pais.value);
+        this.selectePeligro8 = null;
         this.grafData8();
-       
+
         break;
       case 'graf9':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea9 = null;
@@ -1298,12 +1309,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList9 = [];
         this.selecteLocalidad9 = null;
         this.selecteDivision9 = null;
-        this.divisionList9 = await this.getDivisiones(pais.value);  this.selectePeligro9 = null;
+        this.divisionList9 = await this.getDivisiones(pais.value);
+        this.selectePeligro9 = null;
         this.grafData9();
-      
+
         break;
       case 'graf10':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea10 = null;
@@ -1311,12 +1323,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList10 = [];
         this.selecteLocalidad10 = null;
         this.selecteDivision10 = null;
-        this.divisionList10 = await this.getDivisiones(pais.value);  this.selectePeligro10 = null;
+        this.divisionList10 = await this.getDivisiones(pais.value);
+        this.selectePeligro10 = null;
         this.grafData10();
-       
+
         break;
       case 'graf11':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea11 = null;
@@ -1324,12 +1337,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList11 = [];
         this.selecteLocalidad11 = null;
         this.selecteDivision11 = null;
-        this.divisionList11 = await this.getDivisiones(pais.value);   this.selectePeligro11 = null;
+        this.divisionList11 = await this.getDivisiones(pais.value);
+        this.selectePeligro11 = null;
         this.grafData11();
-      
+
         break;
       case 'graf12':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea12 = null;
@@ -1337,12 +1351,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList12 = [];
         this.selecteLocalidad12 = null;
         this.selecteDivision12 = null;
-        this.divisionList12 = await this.getDivisiones(pais.value); this.selectePeligro12 = null;
+        this.divisionList12 = await this.getDivisiones(pais.value);
+        this.selectePeligro12 = null;
         this.grafData12();
-       
+
         break;
       case 'graf13':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea13 = null;
@@ -1350,12 +1365,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList13 = [];
         this.selecteLocalidad13 = null;
         this.selecteDivision13 = null;
-        this.divisionList13 = await this.getDivisiones(pais.value);        this.selectePeligro13 = null;
+        this.divisionList13 = await this.getDivisiones(pais.value);
+        this.selectePeligro13 = null;
         this.grafData13();
 
         break;
       case 'graf14':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea14 = null;
@@ -1363,12 +1379,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList14 = [];
         this.selecteLocalidad14 = null;
         this.selecteDivision14 = null;
-        this.divisionList14 = await this.getDivisiones(pais.value);this.selectePeligro14 = null;
+        this.divisionList14 = await this.getDivisiones(pais.value);
+        this.selectePeligro14 = null;
         this.grafData14();
-        
+
         break;
       case 'graf15':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea15 = null;
@@ -1376,12 +1393,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList15 = [];
         this.selecteLocalidad15 = null;
         this.selecteDivision15 = null;
-        this.divisionList15 = await this.getDivisiones(pais.value);  this.selectePeligro15 = null;
+        this.divisionList15 = await this.getDivisiones(pais.value);
+        this.selectePeligro15 = null;
         this.grafData15();
-      
+
         break;
       case 'graf16':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea16 = null;
@@ -1389,12 +1407,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList16 = [];
         this.selecteLocalidad16 = null;
         this.selecteDivision16 = null;
-        this.divisionList16 = await this.getDivisiones(pais.value);this.selectePeligro16 =  null
+        this.divisionList16 = await this.getDivisiones(pais.value);
+        this.selectePeligro16 = null;
         this.grafData16();
-        
+
         break;
       case 'graf17':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea17 = null;
@@ -1402,12 +1421,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList17 = [];
         this.selecteLocalidad17 = null;
         this.selecteDivision17 = null;
-        this.divisionList17 = await this.getDivisiones(pais.value);this.selectePeligro17 = null;
+        this.divisionList17 = await this.getDivisiones(pais.value);
+        this.selectePeligro17 = null;
         this.grafData17();
-        
+
         break;
       case 'graf18':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea18 = null;
@@ -1415,12 +1435,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList18 = [];
         this.selecteLocalidad18 = null;
         this.selecteDivision18 = null;
-        this.divisionList18 = await this.getDivisiones(pais.value);  this.selectePeligro18 = null;
+        this.divisionList18 = await this.getDivisiones(pais.value);
+        this.selectePeligro18 = null;
         this.grafData18();
-      
+
         break;
       case 'graf19':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea19 = null;
@@ -1428,9 +1449,10 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList19 = [];
         this.selecteLocalidad19 = null;
         this.selecteDivision19 = null;
-        this.divisionList19 = await this.getDivisiones(pais.value); this.selectePeligro19 = null;
+        this.divisionList19 = await this.getDivisiones(pais.value);
+        this.selectePeligro19 = null;
         this.grafData19();
-       
+
         break;
 
       case 'graf20':
@@ -1442,12 +1464,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList20 = [];
         this.selecteLocalidad20 = null;
         this.selecteDivision20 = null;
-        this.divisionList20 = await this.getDivisiones(pais.value);  this.selectePeligro20 =  null;
+        this.divisionList20 = await this.getDivisiones(pais.value);
+        this.selectePeligro20 = null;
         this.grafData20();
-      
+
         break;
       case 'graf21':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea21 = null;
@@ -1455,12 +1478,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList21 = [];
         this.selecteLocalidad21 = null;
         this.selecteDivision21 = null;
-        this.divisionList21 = await this.getDivisiones(pais.value);this.selectePeligro21 =  null;
+        this.divisionList21 = await this.getDivisiones(pais.value);
+        this.selectePeligro21 = null;
         this.grafData21();
-        
+
         break;
       case 'graf22':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea22 = null;
@@ -1468,12 +1492,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList22 = [];
         this.selecteLocalidad22 = null;
         this.selecteDivision22 = null;
-        this.divisionList22 = await this.getDivisiones(pais.value);this.selectePeligro22 = null;
+        this.divisionList22 = await this.getDivisiones(pais.value);
+        this.selectePeligro22 = null;
         this.grafData22();
-        
+
         break;
       case 'graf23':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea23 = null;
@@ -1481,12 +1506,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList23 = [];
         this.selecteLocalidad23 = null;
         this.selecteDivision23 = null;
-        this.divisionList23 = await this.getDivisiones(pais.value); this.selectePeligro23 = null;
+        this.divisionList23 = await this.getDivisiones(pais.value);
+        this.selectePeligro23 = null;
         this.grafData23();
-       
+
         break;
       case 'graf24':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea24 = null;
@@ -1494,12 +1520,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList24 = [];
         this.selecteLocalidad24 = null;
         this.selecteDivision24 = null;
-        this.divisionList24 = await this.getDivisiones(pais.value);this.selectePeligro24 = null;
+        this.divisionList24 = await this.getDivisiones(pais.value);
+        this.selectePeligro24 = null;
         this.grafData24();
-        
+
         break;
       case 'graf25':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea25 = null;
@@ -1507,12 +1534,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList25 = [];
         this.selecteLocalidad25 = null;
         this.selecteDivision25 = null;
-        this.divisionList25 = await this.getDivisiones(pais.value); this.selectePeligro25 = null;
+        this.divisionList25 = await this.getDivisiones(pais.value);
+        this.selectePeligro25 = null;
         this.grafData25();
-       
+
         break;
       case 'graf1_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea1_2 = null;
@@ -1520,12 +1548,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList1_2 = [];
         this.selecteLocalidad1_2 = null;
         this.selecteDivision1_2 = null;
-        this.divisionList1_2 = await this.getDivisiones(pais.value);    this.selectePeligro1_2 = null;
+        this.divisionList1_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro1_2 = null;
         this.grafData1_2();
-    
+
         break;
       case 'graf2_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea2_2 = null;
@@ -1533,12 +1562,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList2_2 = [];
         this.selecteLocalidad2_2 = null;
         this.selecteDivision2_2 = null;
-        this.divisionList2_2 = await this.getDivisiones(pais.value); this.selectePeligro2_2 = null;
+        this.divisionList2_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro2_2 = null;
         this.grafData2_2();
-       
+
         break;
       case 'graf3_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea3_2 = null;
@@ -1546,12 +1576,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList3_2 = [];
         this.selecteLocalidad3_2 = null;
         this.selecteDivision3_2 = null;
-        this.divisionList3_2 = await this.getDivisiones(pais.value);this.selectePeligro3_2 = null;
+        this.divisionList3_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro3_2 = null;
         this.grafData3_2();
-        
+
         break;
       case 'graf4_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea4_2 = null;
@@ -1559,12 +1590,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList4_2 = [];
         this.selecteLocalidad4_2 = null;
         this.selecteDivision4_2 = null;
-        this.divisionList4_2 = await this.getDivisiones(pais.value); this.selectePeligro4_2 = null;
+        this.divisionList4_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro4_2 = null;
         this.grafData4_2();
-       
+
         break;
       case 'graf5_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea5_2 = null;
@@ -1572,12 +1604,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList5_2 = [];
         this.selecteLocalidad5_2 = null;
         this.selecteDivision5_2 = null;
-        this.divisionList5_2 = await this.getDivisiones(pais.value); this.selectePeligro5_2 =  null;
+        this.divisionList5_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro5_2 = null;
         this.grafData5_2();
-       
+
         break;
       case 'graf6_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea6_2 = null;
@@ -1585,12 +1618,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList6_2 = [];
         this.selecteLocalidad6_2 = null;
         this.selecteDivision6_2 = null;
-        this.divisionList6_2 = await this.getDivisiones(pais.value);this.selectePeligro6_2 = null;
+        this.divisionList6_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro6_2 = null;
         this.grafData6_2();
-        
+
         break;
       case 'graf7_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea7_2 = null;
@@ -1598,12 +1632,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList7_2 = [];
         this.selecteLocalidad7_2 = null;
         this.selecteDivision7_2 = null;
-        this.divisionList7_2 = await this.getDivisiones(pais.value);   this.selectePeligro7_2 = null; 
+        this.divisionList7_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro7_2 = null;
         this.grafData7_2();
-     
+
         break;
       case 'graf8_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea8_2 = null;
@@ -1611,12 +1646,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList8_2 = [];
         this.selecteLocalidad8_2 = null;
         this.selecteDivision8_2 = null;
-        this.divisionList8_2 = await this.getDivisiones(pais.value);  this.selectePeligro8_2 =  null;
+        this.divisionList8_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro8_2 = null;
         this.grafData8_2();
-      
+
         break;
       case 'graf9_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea9_2 = null;
@@ -1624,12 +1660,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList9_2 = [];
         this.selecteLocalidad9_2 = null;
         this.selecteDivision9_2 = null;
-        this.divisionList9_2 = await this.getDivisiones(pais.value); this.selectePeligro9_2 = null;
+        this.divisionList9_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro9_2 = null;
         this.grafData9_2();
-       
+
         break;
       case 'graf10_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea10_2 = null;
@@ -1637,12 +1674,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList10_2 = [];
         this.selecteLocalidad10_2 = null;
         this.selecteDivision10_2 = null;
-        this.divisionList10_2 = await this.getDivisiones(pais.value); this.selectePeligro10_2 = null;
+        this.divisionList10_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro10_2 = null;
         this.grafData10_2();
-       
+
         break;
       case 'graf11_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea11_2 = null;
@@ -1650,12 +1688,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList11_2 = [];
         this.selecteLocalidad11_2 = null;
         this.selecteDivision11_2 = null;
-        this.divisionList11_2 = await this.getDivisiones(pais.value);   this.selectePeligro11_2 = null; 
+        this.divisionList11_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro11_2 = null;
         this.grafData11_2();
-     
+
         break;
       case 'graf12_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea12_2 = null;
@@ -1663,12 +1702,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList12_2 = [];
         this.selecteLocalidad12_2 = null;
         this.selecteDivision12_2 = null;
-        this.divisionList12_2 = await this.getDivisiones(pais.value); this.selectePeligro12_2 = null;
+        this.divisionList12_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro12_2 = null;
         this.grafData12_2();
-       
+
         break;
       case 'graf13_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea13_2 = null;
@@ -1676,12 +1716,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList13_2 = [];
         this.selecteLocalidad13_2 = null;
         this.selecteDivision13_2 = null;
-        this.divisionList13_2 = await this.getDivisiones(pais.value);  this.selectePeligro13_2 = null;
+        this.divisionList13_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro13_2 = null;
         this.grafData13_2();
-      
+
         break;
       case 'graf14_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea14_2 = null;
@@ -1689,12 +1730,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList14_2 = [];
         this.selecteLocalidad14_2 = null;
         this.selecteDivision14_2 = null;
-        this.divisionList14_2 = await this.getDivisiones(pais.value); this.selectePeligro14_2 = null;
+        this.divisionList14_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro14_2 = null;
         this.grafData14_2();
-       
+
         break;
       case 'graf15_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea15_2 = null;
@@ -1702,12 +1744,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList15_2 = [];
         this.selecteLocalidad15_2 = null;
         this.selecteDivision15_2 = null;
-        this.divisionList15_2 = await this.getDivisiones(pais.value); this.selectePeligro15_2 = null;
+        this.divisionList15_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro15_2 = null;
         this.grafData15_2();
-       
+
         break;
       case 'graf16_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea16_2 = null;
@@ -1715,12 +1758,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList16_2 = [];
         this.selecteLocalidad16_2 = null;
         this.selecteDivision16_2 = null;
-        this.divisionList16_2 = await this.getDivisiones(pais.value);    this.selectePeligro16_2 = null;
+        this.divisionList16_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro16_2 = null;
         this.grafData16_2();
-    
+
         break;
       case 'graf17_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea17_2 = null;
@@ -1728,12 +1772,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList17_2 = [];
         this.selecteLocalidad17_2 = null;
         this.selecteDivision17_2 = null;
-        this.divisionList17_2 = await this.getDivisiones(pais.value);this.selectePeligro17_2 = null;
+        this.divisionList17_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro17_2 = null;
         this.grafData17_2();
-        
+
         break;
       case 'graf18_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea18_2 = null;
@@ -1741,12 +1786,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList18_2 = [];
         this.selecteLocalidad18_2 = null;
         this.selecteDivision18_2 = null;
-        this.divisionList18_2 = await this.getDivisiones(pais.value);  this.selectePeligro18_2 = null;
+        this.divisionList18_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro18_2 = null;
         this.grafData18_2();
-      
+
         break;
       case 'graf19_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea19_2 = null;
@@ -1754,13 +1800,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList19_2 = [];
         this.selecteLocalidad19_2 = null;
         this.selecteDivision19_2 = null;
-        this.divisionList19_2 = await this.getDivisiones(pais.value); this.selectePeligro19_2 = null;
+        this.divisionList19_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro19_2 = null;
         this.grafData19_2();
-       
+
         break;
 
       case 'graf20_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea20_2 = null;
@@ -1768,12 +1815,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList20_2 = [];
         this.selecteLocalidad20_2 = null;
         this.selecteDivision20_2 = null;
-        this.divisionList20_2 = await this.getDivisiones(pais.value); this.selectePeligro20_2 = null;
+        this.divisionList20_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro20_2 = null;
         this.grafData20_2();
-       
+
         break;
       case 'graf21_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea21_2 = null;
@@ -1781,12 +1829,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList21_2 = [];
         this.selecteLocalidad21_2 = null;
         this.selecteDivision21_2 = null;
-        this.divisionList21_2 = await this.getDivisiones(pais.value); this.selectePeligro21_2 = null;
+        this.divisionList21_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro21_2 = null;
         this.grafData21_2();
-       
+
         break;
       case 'graf22_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea22_2 = null;
@@ -1794,12 +1843,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList22_2 = [];
         this.selecteLocalidad22_2 = null;
         this.selecteDivision22_2 = null;
-        this.divisionList22_2 = await this.getDivisiones(pais.value);  this.selectePeligro22_2 = null;
+        this.divisionList22_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro22_2 = null;
         this.grafData22_2();
-       
+
         break;
       case 'graf23_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea23_2 = null;
@@ -1807,12 +1857,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList23_2 = [];
         this.selecteLocalidad23_2 = null;
         this.selecteDivision23_2 = null;
-        this.divisionList23_2 = await this.getDivisiones(pais.value);  this.selectePeligro23_2 = null;
+        this.divisionList23_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro23_2 = null;
         this.grafData23_2();
-      
+
         break;
       case 'graf24_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea24_2 = null;
@@ -1820,12 +1871,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList24_2 = [];
         this.selecteLocalidad24_2 = null;
         this.selecteDivision24_2 = null;
-        this.divisionList24_2 = await this.getDivisiones(pais.value);  this.selectePeligro24_2 = null;
+        this.divisionList24_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro24_2 = null;
         this.grafData24_2();
-      
+
         break;
       case 'graf25_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea25_2 = null;
@@ -1833,9 +1885,10 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.localidadesList25_2 = [];
         this.selecteLocalidad25_2 = null;
         this.selecteDivision25_2 = null;
-        this.divisionList25_2 = await this.getDivisiones(pais.value); this.selectePeligro25_2  = null;
+        this.divisionList25_2 = await this.getDivisiones(pais.value);
+        this.selectePeligro25_2 = null;
         this.grafData25_2();
-       
+
         break;
       default:
         break;
@@ -1934,7 +1987,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
 
     switch (filter) {
       case 'graf1':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea1 = null;
@@ -1952,7 +2005,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData1();
         break;
       case 'graf2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea2 = null;
@@ -1970,7 +2023,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData2();
         break;
       case 'graf3':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea3 = null;
@@ -1988,7 +2041,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData3();
         break;
       case 'graf4':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea4 = null;
@@ -2006,14 +2059,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData4();
         break;
       case 'graf5':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea5 = null;
         this.areasList5 = [];
         this.localidadesList5 = [];
         this.selecteLocalidad5 = null;
-        this.selectePeligro5  = null;
+        this.selectePeligro5 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList5.push({
@@ -2024,7 +2077,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData5();
         break;
       case 'graf6':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea6 = null;
@@ -2042,7 +2095,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData6();
         break;
       case 'graf7':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea7 = null;
@@ -2060,7 +2113,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData7();
         break;
       case 'graf8':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea8 = null;
@@ -2078,7 +2131,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData8();
         break;
       case 'graf9':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea9 = null;
@@ -2096,13 +2149,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData9();
         break;
       case 'graf10':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea10 = null;
         this.areasList10 = [];
         this.localidadesList10 = [];
-        this.selecteLocalidad10 = null; this.selectePeligro10 = null;
+        this.selecteLocalidad10 = null;
+        this.selectePeligro10 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList10.push({
@@ -2113,13 +2167,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData10();
         break;
       case 'graf11':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea11 = null;
         this.areasList11 = [];
         this.localidadesList11 = [];
-        this.selecteLocalidad11 = null; this.selectePeligro11 = null;
+        this.selecteLocalidad11 = null;
+        this.selectePeligro11 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList11.push({
@@ -2130,13 +2185,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData11();
         break;
       case 'graf12':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea12 = null;
         this.areasList12 = [];
         this.localidadesList12 = [];
-        this.selecteLocalidad12 = null;   this.selectePeligro12 = null;
+        this.selecteLocalidad12 = null;
+        this.selectePeligro12 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList12.push({
@@ -2147,13 +2203,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData12();
         break;
       case 'graf13':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea13 = null;
         this.areasList13 = [];
         this.localidadesList13 = [];
-        this.selecteLocalidad13 = null;  this.selectePeligro13 = null;
+        this.selecteLocalidad13 = null;
+        this.selectePeligro13 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList13.push({
@@ -2164,13 +2221,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData13();
         break;
       case 'graf14':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea14 = null;
         this.areasList14 = [];
         this.localidadesList14 = [];
-        this.selecteLocalidad14 = null;this.selectePeligro14 = null;
+        this.selecteLocalidad14 = null;
+        this.selectePeligro14 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList14.push({
@@ -2181,13 +2239,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData14();
         break;
       case 'graf15':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea15 = null;
         this.areasList15 = [];
         this.localidadesList15 = [];
-        this.selecteLocalidad15 = null;  this.selectePeligro15 = null;
+        this.selecteLocalidad15 = null;
+        this.selectePeligro15 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList15.push({
@@ -2198,13 +2257,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData15();
         break;
       case 'graf16':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea16 = null;
         this.areasList16 = [];
         this.localidadesList16 = [];
-        this.selecteLocalidad16 = null;this.selectePeligro16 =  null
+        this.selecteLocalidad16 = null;
+        this.selectePeligro16 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList16.push({
@@ -2215,13 +2275,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData16();
         break;
       case 'graf17':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea17 = null;
         this.areasList17 = [];
         this.localidadesList17 = [];
-        this.selecteLocalidad17 = null;this.selectePeligro17 = null;
+        this.selecteLocalidad17 = null;
+        this.selectePeligro17 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList17.push({
@@ -2232,13 +2293,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData17();
         break;
       case 'graf18':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea18 = null;
         this.areasList18 = [];
         this.localidadesList18 = [];
-        this.selecteLocalidad18 = null;  this.selectePeligro18 = null;
+        this.selecteLocalidad18 = null;
+        this.selectePeligro18 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList18.push({
@@ -2249,13 +2311,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData18();
         break;
       case 'graf19':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea19 = null;
         this.areasList19 = [];
         this.localidadesList19 = [];
-        this.selecteLocalidad19 = null; this.selectePeligro19 = null;
+        this.selecteLocalidad19 = null;
+        this.selectePeligro19 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList19.push({
@@ -2266,13 +2329,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData19();
         break;
       case 'graf20':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea20 = null;
         this.areasList20 = [];
         this.localidadesList20 = [];
-        this.selecteLocalidad20 = null;  this.selectePeligro20 =  null;
+        this.selecteLocalidad20 = null;
+        this.selectePeligro20 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList20.push({
@@ -2283,13 +2347,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData20();
         break;
       case 'graf21':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea21 = null;
         this.areasList21 = [];
         this.localidadesList21 = [];
-        this.selecteLocalidad21 = null;this.selectePeligro21 =  null;
+        this.selecteLocalidad21 = null;
+        this.selectePeligro21 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList21.push({
@@ -2300,13 +2365,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData21();
         break;
       case 'graf22':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea22 = null;
         this.areasList22 = [];
         this.localidadesList22 = [];
-        this.selecteLocalidad22 = null;this.selectePeligro22 = null;
+        this.selecteLocalidad22 = null;
+        this.selectePeligro22 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList22.push({
@@ -2317,13 +2383,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData22();
         break;
       case 'graf23':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea23 = null;
         this.areasList23 = [];
         this.localidadesList23 = [];
-        this.selecteLocalidad23 = null; this.selectePeligro23 = null;
+        this.selecteLocalidad23 = null;
+        this.selectePeligro23 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList23.push({
@@ -2334,13 +2401,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData23();
         break;
       case 'graf24':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea24 = null;
         this.areasList24 = [];
         this.localidadesList24 = [];
-        this.selecteLocalidad24 = null;this.selectePeligro24 = null;
+        this.selecteLocalidad24 = null;
+        this.selectePeligro24 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList24.push({
@@ -2351,13 +2419,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData24();
         break;
       case 'graf25':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea25 = null;
         this.areasList25 = [];
         this.localidadesList25 = [];
-        this.selecteLocalidad25 = null; this.selectePeligro25 = null;
+        this.selecteLocalidad25 = null;
+        this.selectePeligro25 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList25.push({
@@ -2368,13 +2437,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData25();
         break;
       case 'graf1_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea1_2 = null;
         this.areasList1_2 = [];
         this.localidadesList1_2 = [];
-        this.selecteLocalidad1_2 = null;    this.selectePeligro1_2 = null;
+        this.selecteLocalidad1_2 = null;
+        this.selectePeligro1_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList1_2.push({
@@ -2385,13 +2455,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData1_2();
         break;
       case 'graf2_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea2_2 = null;
         this.areasList2_2 = [];
         this.localidadesList2_2 = [];
-        this.selecteLocalidad2_2 = null; this.selectePeligro2_2 = null;
+        this.selecteLocalidad2_2 = null;
+        this.selectePeligro2_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList2_2.push({
@@ -2402,13 +2473,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData2_2();
         break;
       case 'graf3_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea3_2 = null;
         this.areasList3_2 = [];
         this.localidadesList3_2 = [];
-        this.selecteLocalidad3_2 = null;this.selectePeligro3_2 = null;
+        this.selecteLocalidad3_2 = null;
+        this.selectePeligro3_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList3_2.push({
@@ -2419,13 +2491,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData3_2();
         break;
       case 'graf4_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea4_2 = null;
         this.areasList4_2 = [];
         this.localidadesList4_2 = [];
-        this.selecteLocalidad4_2 = null; this.selectePeligro4_2 = null;
+        this.selecteLocalidad4_2 = null;
+        this.selectePeligro4_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList4_2.push({
@@ -2436,16 +2509,17 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData4_2();
         break;
       case 'graf5_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea5_2 = null;
         this.areasList5_2 = [];
         this.localidadesList5_2 = [];
-        this.selecteLocalidad5_2 = null; this.selectePeligro5_2 =  null;
+        this.selecteLocalidad5_2 = null;
+        this.selectePeligro5_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList5_2.push({
@@ -2456,13 +2530,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData5_2();
         break;
       case 'graf6_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea6_2 = null;
         this.areasList6_2 = [];
         this.localidadesList6_2 = [];
-        this.selecteLocalidad6_2 = null;this.selectePeligro6_2 = null;
+        this.selecteLocalidad6_2 = null;
+        this.selectePeligro6_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList6_2.push({
@@ -2473,13 +2548,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData6_2();
         break;
       case 'graf7_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea7_2 = null;
         this.areasList7_2 = [];
         this.localidadesList7_2 = [];
-        this.selecteLocalidad7_2 = null;   this.selectePeligro7_2 = null; 
+        this.selecteLocalidad7_2 = null;
+        this.selectePeligro7_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList7_2.push({
@@ -2490,13 +2566,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData7_2();
         break;
       case 'graf8_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea8_2 = null;
         this.areasList8_2 = [];
         this.localidadesList8_2 = [];
-        this.selecteLocalidad8_2 = null;  this.selectePeligro8_2 =  null;
+        this.selecteLocalidad8_2 = null;
+        this.selectePeligro8_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList8_2.push({
@@ -2507,13 +2584,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData8_2();
         break;
       case 'graf9_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea9_2 = null;
         this.areasList9_2 = [];
         this.localidadesList9_2 = [];
-        this.selecteLocalidad9_2 = null; this.selectePeligro9_2 = null;
+        this.selecteLocalidad9_2 = null;
+        this.selectePeligro9_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList9_2.push({
@@ -2524,13 +2602,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData9_2();
         break;
       case 'graf10_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea10_2 = null;
         this.areasList10_2 = [];
         this.localidadesList10_2 = [];
-        this.selecteLocalidad10_2 = null; this.selectePeligro10_2 = null;
+        this.selecteLocalidad10_2 = null;
+        this.selectePeligro10_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList10_2.push({
@@ -2541,13 +2620,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData10_2();
         break;
       case 'graf11_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea11_2 = null;
         this.areasList11_2 = [];
         this.localidadesList11_2 = [];
-        this.selecteLocalidad11_2 = null;   this.selectePeligro11_2 = null; 
+        this.selecteLocalidad11_2 = null;
+        this.selectePeligro11_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList11_2.push({
@@ -2558,13 +2638,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData11_2();
         break;
       case 'graf12_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea12_2 = null;
         this.areasList12_2 = [];
         this.localidadesList12_2 = [];
-        this.selecteLocalidad12_2 = null; this.selectePeligro12_2 = null;
+        this.selecteLocalidad12_2 = null;
+        this.selectePeligro12_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList12_2.push({
@@ -2575,13 +2656,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData12_2();
         break;
       case 'graf13_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea13_2 = null;
         this.areasList13_2 = [];
         this.localidadesList13_2 = [];
-        this.selecteLocalidad13_2 = null;  this.selectePeligro13_2 = null;
+        this.selecteLocalidad13_2 = null;
+        this.selectePeligro13_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList13_2.push({
@@ -2592,13 +2674,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData13_2();
         break;
       case 'graf14_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea14_2 = null;
         this.areasList14_2 = [];
         this.localidadesList14_2 = [];
-        this.selecteLocalidad14_2 = null; this.selectePeligro14_2 = null;
+        this.selecteLocalidad14_2 = null;
+        this.selectePeligro14_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList14_2.push({
@@ -2609,13 +2692,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData14();
         break;
       case 'graf15_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea15_2 = null;
         this.areasList15_2 = [];
         this.localidadesList15_2 = [];
-        this.selecteLocalidad15_2 = null; this.selectePeligro15_2 = null;
+        this.selecteLocalidad15_2 = null;
+        this.selectePeligro15_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList15_2.push({
@@ -2626,13 +2710,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData15_2();
         break;
       case 'graf16_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea16_2 = null;
         this.areasList16_2 = [];
         this.localidadesList16_2 = [];
-        this.selecteLocalidad16_2 = null;    this.selectePeligro16_2 = null;
+        this.selecteLocalidad16_2 = null;
+        this.selectePeligro16_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList16_2.push({
@@ -2643,13 +2728,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData16_2();
         break;
       case 'graf17_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea17_2 = null;
         this.areasList17_2 = [];
         this.localidadesList17_2 = [];
-        this.selecteLocalidad17_2 = null;this.selectePeligro17_2 = null;
+        this.selecteLocalidad17_2 = null;
+        this.selectePeligro17_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList17_2.push({
@@ -2660,13 +2746,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData17_2();
         break;
       case 'graf18_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea18_2 = null;
         this.areasList18_2 = [];
         this.localidadesList18_2 = [];
-        this.selecteLocalidad18_2 = null;  this.selectePeligro18_2 = null;
+        this.selecteLocalidad18_2 = null;
+        this.selectePeligro18_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList18_2.push({
@@ -2677,13 +2764,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData18_2();
         break;
       case 'graf19_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea19_2 = null;
         this.areasList19_2 = [];
         this.localidadesList19_2 = [];
-        this.selecteLocalidad19_2 = null; this.selectePeligro19_2 = null;
+        this.selecteLocalidad19_2 = null;
+        this.selectePeligro19_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList19_2.push({
@@ -2694,13 +2782,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData19_2();
         break;
       case 'graf20_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea20_2 = null;
         this.areasList20_2 = [];
         this.localidadesList20_2 = [];
-        this.selecteLocalidad20_2 = null;  this.selectePeligro20_2 = null;
+        this.selecteLocalidad20_2 = null;
+        this.selectePeligro20_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList20_2.push({
@@ -2711,13 +2800,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData20_2();
         break;
       case 'graf21_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea21_2 = null;
         this.areasList21_2 = [];
         this.localidadesList21_2 = [];
-        this.selecteLocalidad21_2 = null; this.selectePeligro21_2 = null;
+        this.selecteLocalidad21_2 = null;
+        this.selectePeligro21_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList21_2.push({
@@ -2728,13 +2818,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData21_2();
         break;
       case 'graf22_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea22_2 = null;
         this.areasList22_2 = [];
         this.localidadesList22_2 = [];
-        this.selecteLocalidad22_2 = null;  this.selectePeligro22_2 = null;
+        this.selecteLocalidad22_2 = null;
+        this.selectePeligro22_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList22_2.push({
@@ -2745,13 +2836,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData22_2();
         break;
       case 'graf23_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea23_2 = null;
         this.areasList23_2 = [];
         this.localidadesList23_2 = [];
-        this.selecteLocalidad23_2 = null;  this.selectePeligro23_2 = null;
+        this.selecteLocalidad23_2 = null;
+        this.selectePeligro23_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList23_2.push({
@@ -2762,13 +2854,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData23_2();
         break;
       case 'graf24_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea24_2 = null;
         this.areasList24_2 = [];
         this.localidadesList24_2 = [];
-        this.selecteLocalidad24_2 = null;  this.selectePeligro24_2 = null;
+        this.selecteLocalidad24_2 = null;
+        this.selectePeligro24_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList24_2.push({
@@ -2779,12 +2872,13 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         this.grafData24_2();
         break;
       case 'graf25_2':
-         if (this.multiSelect) {
+        if (this.multiSelect) {
           this.multiSelect.filterValue = ''; // Limpia el valor del filtro
         }
         this.selecteArea25_2 = null;
         this.areasList25_2 = [];
-        this.selecteLocalidad25_2 = null; this.selectePeligro25_2  = null;
+        this.selecteLocalidad25_2 = null;
+        this.selectePeligro25_2 = null;
         if (localidadesList)
           for (const loc of localidadesList) {
             this.localidadesList25_2.push({
@@ -2802,7 +2896,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   async funcSelectLocalidad(loc: any, filter: any) {
     switch (filter) {
       case 'graf1':
-        this.areasList1 = []
+        this.areasList1 = [];
         this.areasList1 = await this.getArea(loc.value);
         this.grafData1();
         break;
@@ -7778,17 +7872,12 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
             return count + (fin.estado == 'Riesgo eliminado')
               ? 0
               : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
-                
+              ? Number(fin.nrResidual)
+              : Number(fin.nrInicial);
           }, 0);
-
-          
-          
 
         gpiTotal += gpi;
         gpfTotal += gpf;
-        
 
         if (gpi == 0 && gpf == 0) flagZero = true;
         else flagZero = false;
@@ -7970,8 +8059,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -8146,8 +8235,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -8228,7 +8317,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       if (compressedData !== null) {
         // Descomprimir los datos
         decompressedData = LZString.decompress(compressedData);
-
       } else {
         console.log('No hay datos disponibles para descomprimir.');
       }
@@ -8388,8 +8476,8 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               (fin.estado == 'Riesgo eliminado'
                 ? 0
                 : fin.nrResidual != null
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial))
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial))
             );
           }, 0);
 
@@ -8519,7 +8607,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       if (compressedData !== null) {
         // Descomprimir los datos
         decompressedData = LZString.decompress(compressedData);
-
       } else {
         console.log('No hay datos disponibles para descomprimir.');
       }
@@ -8672,12 +8759,12 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
             )
             .reduce((count, fin) => {
               console.log(fin.estado);
-              
+
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -8693,9 +8780,9 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
             metaIcr.push(metaF);
           }
         }
-        
-      console.log(gpiTotal,'uno');
-      console.log(gpfTotal,'dos');
+
+      console.log(gpiTotal, 'uno');
+      console.log(gpfTotal, 'dos');
 
       labels.push('Total');
       icr.push(((gpiTotal - gpfTotal) / gpiTotal) * 100);
@@ -8762,183 +8849,213 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     let flagZero: boolean = false;
 
     if (this.selectPais25) {
-        let compressedData = localStorage.getItem('dataMP');
-        let decompressedData: any;
+      let compressedData = localStorage.getItem('dataMP');
+      let decompressedData: any;
 
-        if (compressedData !== null) {
-            // Descomprimir los datos
-            decompressedData = LZString.decompress(compressedData);
-        } else {
-            console.log('No hay datos disponibles para descomprimir.');
-        }
-        let decompressedData2: any[] = JSON.parse(decompressedData);
-        let dataRiesgoFinal: any[] = decompressedData2;
-        let dataAnalisisRiesgo25 = dataRiesgoFinal;
-        let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
+      if (compressedData !== null) {
+        // Descomprimir los datos
+        decompressedData = LZString.decompress(compressedData);
+      } else {
+        console.log('No hay datos disponibles para descomprimir.');
+      }
+      let decompressedData2: any[] = JSON.parse(decompressedData);
+      let dataRiesgoFinal: any[] = decompressedData2;
+      let dataAnalisisRiesgo25 = dataRiesgoFinal;
+      let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
 
-        let dataMPCopyDiv: any[] = [];
+      let dataMPCopyDiv: any[] = [];
 
-        // Aplicar los filtros generales como en grafica y filtro 24
-        dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.fechaEdicion != null);
-        dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => new Date(at.fechaEdicion).getFullYear() == this.selectAnio25);
-        metaMP = metaMP.filter(at => at.anio == this.selectAnio25);
+      // Aplicar los filtros generales como en grafica y filtro 24
+      dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(
+        (at) => at.fechaEdicion != null
+      );
+      dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(
+        (at) => new Date(at.fechaEdicion).getFullYear() == this.selectAnio25
+      );
+      metaMP = metaMP.filter((at) => at.anio == this.selectAnio25);
 
-        // Filtros adicionales basados en la selección del usuario (país, división, localidad, área)
-        if (this.selectPais25 != 'Corona Total')
-            dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.pais == this.selectPais25);
-        metaMP = metaMP.filter(at => at.pais == this.selectPais25);
+      // Filtros adicionales basados en la selección del usuario (país, división, localidad, área)
+      if (this.selectPais25 != 'Corona Total')
+        dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(
+          (at) => at.pais == this.selectPais25
+        );
+      metaMP = metaMP.filter((at) => at.pais == this.selectPais25);
 
-        if (this.selecteDivision25)
-            dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.division == this.selecteDivision25);
-        if (this.selecteLocalidad25)
-            dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(at => at.planta == this.selecteLocalidad25);
-        if (this.selecteArea25 && this.selecteArea25.length > 0) {
-            dataMPCopyDiv = [];
-            this.selecteArea25.forEach((element: any) => {
-                dataMPCopyDiv = dataMPCopyDiv.concat(
-                    dataAnalisisRiesgo25.filter(at => at.area == element)
-                );
-            });
-            dataAnalisisRiesgo25 = [...dataMPCopyDiv];
-        }
+      if (this.selecteDivision25)
+        dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(
+          (at) => at.division == this.selecteDivision25
+        );
+      if (this.selecteLocalidad25)
+        dataAnalisisRiesgo25 = dataAnalisisRiesgo25.filter(
+          (at) => at.planta == this.selecteLocalidad25
+        );
+      if (this.selecteArea25 && this.selecteArea25.length > 0) {
+        dataMPCopyDiv = [];
+        this.selecteArea25.forEach((element: any) => {
+          dataMPCopyDiv = dataMPCopyDiv.concat(
+            dataAnalisisRiesgo25.filter((at) => at.area == element)
+          );
+        });
+        dataAnalisisRiesgo25 = [...dataMPCopyDiv];
+      }
 
-        // Inicializar los datos de la gráfica y los labels
-        let labels = [];
-        let dataEventos25: {
-            labels: any;
-            datasets: any[];
-        } = {
-            labels: [],
-            datasets: [
-                {
-                    label: 'ICR',
-                    backgroundColor: 'rgb(0, 176, 240,0.5)',
-                    borderColor: 'rgb(0, 176, 240)',
-                    borderWidth: 1,
-                    data: [],
-                    type: 'bar',
-                },
-                {
-                    label: 'Meta ICR',
-                    backgroundColor: 'rgb(10, 53, 255)',
-                    fill: false,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    borderColor: 'rgb(10, 53, 255)',
-                    data: [],
-                    type: 'line',
-                },
-            ],
-        };
+      // Inicializar los datos de la gráfica y los labels
+      let labels = [];
+      let dataEventos25: {
+        labels: any;
+        datasets: any[];
+      } = {
+        labels: [],
+        datasets: [
+          {
+            label: 'ICR',
+            backgroundColor: 'rgb(0, 176, 240,0.5)',
+            borderColor: 'rgb(0, 176, 240)',
+            borderWidth: 1,
+            data: [],
+            type: 'bar',
+          },
+          {
+            label: 'Meta ICR',
+            backgroundColor: 'rgb(10, 53, 255)',
+            fill: false,
+            tension: 0.4,
+            borderWidth: 2,
+            borderColor: 'rgb(10, 53, 255)',
+            data: [],
+            type: 'line',
+          },
+        ],
+      };
 
-        // Procesar datos por meses, como en grafica y filtro 24
-        let icr: any = [];
-        let metaIcr: any = [];
-        let gpiTotal: number = 0;
-        let gpfTotal: number = 0;
+      // Procesar datos por meses, como en grafica y filtro 24
+      let icr: any = [];
+      let metaIcr: any = [];
+      let gpiTotal: number = 0;
+      let gpfTotal: number = 0;
 
-        // Iterar sobre los meses para obtener los datos agrupados
-        for (const mes of this.meses) {
-            let metaF = 0;
+      // Iterar sobre los meses para obtener los datos agrupados
+      for (const mes of this.meses) {
+        let metaF = 0;
 
-            // Obtener el valor de meta en función de la división o localidad seleccionada
-            if (this.selecteDivision25 && this.selecteLocalidad25 == null) {
-                let m = metaMP.find((f) => f.nombreDivision == this.selecteDivision25);
-                if (m) metaF = m.icrDivision;
-            }
-            if (this.selecteLocalidad25) {
-                let l = this.localidadesList.find((l: any) => l.localidad == this.selecteLocalidad25);
-                if (l && l.plantas_nombre) {
-                    let m = metaMP.find((f) => f.nombrePlanta == l.plantas_nombre);
-                    if (m) metaF = m.icrPlanta;
-                }
-            }
-
-            let gpi: number = dataAnalisisRiesgo25
-                .filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null)
-                .reduce((count, ini) => count + Number(ini.nrInicial), 0);
-
-            let gpf: number = dataAnalisisRiesgo25
-                .filter(mp => this.meses[new Date(mp.fechaEdicion).getMonth()] === mes && mp.nrInicial != null)
-                .reduce((count, fin) => count + ((fin.estado == 'Riesgo eliminado') ? 0 : (fin.nrResidual ? Number(fin.nrResidual) : Number(fin.nrInicial))), 0);
-
-            gpiTotal += gpi;
-            gpfTotal += gpf;
-
-            if (gpi == 0 && gpf == 0) flagZero = true;
-            else flagZero = false;
-
-            if (!flagZero) {
-                this.meta25.push(mes); // Se usa para filtro
-                labels.push(mes); // Se agregan los meses como labels
-                icr.push(((gpi - gpf) / gpi) * 100); // Cálculo de ICR
-                metaIcr.push(metaF); // Meta correspondiente al mes
-            }
-        }
-
-        // Agregar datos totales
-        labels.push('Total');
-        icr.push(((gpiTotal - gpfTotal) / gpiTotal) * 100);
-        let metaTotal = 0;
+        // Obtener el valor de meta en función de la división o localidad seleccionada
         if (this.selecteDivision25 && this.selecteLocalidad25 == null) {
-            let m = metaMP.find(f => f.nombreDivision == this.selecteDivision25);
-            if (m) metaTotal = m.icrDivision;
+          let m = metaMP.find(
+            (f) => f.nombreDivision == this.selecteDivision25
+          );
+          if (m) metaF = m.icrDivision;
         }
         if (this.selecteLocalidad25) {
-            let l = this.localidadesList.find((l: any) => l.localidad == this.selecteLocalidad25);
-            if (l && l.plantas_nombre) {
-                let m = metaMP.find(f => f.nombrePlanta == l.plantas_nombre);
-                if (m) metaTotal = m.icrPlanta;
-            }
+          let l = this.localidadesList.find(
+            (l: any) => l.localidad == this.selecteLocalidad25
+          );
+          if (l && l.plantas_nombre) {
+            let m = metaMP.find((f) => f.nombrePlanta == l.plantas_nombre);
+            if (m) metaF = m.icrPlanta;
+          }
         }
 
-        metaIcr.push(metaTotal);
-        dataEventos25.labels = labels;
-        dataEventos25.datasets[0].data = icr;
-        dataEventos25.datasets[1].data = metaIcr;
+        let gpi: number = dataAnalisisRiesgo25
+          .filter(
+            (mp) =>
+              this.meses[new Date(mp.fechaEdicion).getMonth()] === mes &&
+              mp.nrInicial != null
+          )
+          .reduce((count, ini) => count + Number(ini.nrInicial), 0);
 
-        // Asignar los datos a dataEventos25 y almacenarlos
-        Object.assign(this, { dataEventos25 });
-        localStorage.setItem('dataEventos25', JSON.stringify(dataEventos25));
+        let gpf: number = dataAnalisisRiesgo25
+          .filter(
+            (mp) =>
+              this.meses[new Date(mp.fechaEdicion).getMonth()] === mes &&
+              mp.nrInicial != null
+          )
+          .reduce(
+            (count, fin) =>
+              count +
+              (fin.estado == 'Riesgo eliminado'
+                ? 0
+                : fin.nrResidual
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial)),
+            0
+          );
 
-        this.filtroGraf25();
+        gpiTotal += gpi;
+        gpfTotal += gpf;
+
+        if (gpi == 0 && gpf == 0) flagZero = true;
+        else flagZero = false;
+
+        if (!flagZero) {
+          this.meta25.push(mes); // Se usa para filtro
+          labels.push(mes); // Se agregan los meses como labels
+          icr.push(((gpi - gpf) / gpi) * 100); // Cálculo de ICR
+          metaIcr.push(metaF); // Meta correspondiente al mes
+        }
+      }
+
+      // Agregar datos totales
+      labels.push('Total');
+      icr.push(((gpiTotal - gpfTotal) / gpiTotal) * 100);
+      let metaTotal = 0;
+      if (this.selecteDivision25 && this.selecteLocalidad25 == null) {
+        let m = metaMP.find((f) => f.nombreDivision == this.selecteDivision25);
+        if (m) metaTotal = m.icrDivision;
+      }
+      if (this.selecteLocalidad25) {
+        let l = this.localidadesList.find(
+          (l: any) => l.localidad == this.selecteLocalidad25
+        );
+        if (l && l.plantas_nombre) {
+          let m = metaMP.find((f) => f.nombrePlanta == l.plantas_nombre);
+          if (m) metaTotal = m.icrPlanta;
+        }
+      }
+
+      metaIcr.push(metaTotal);
+      dataEventos25.labels = labels;
+      dataEventos25.datasets[0].data = icr;
+      dataEventos25.datasets[1].data = metaIcr;
+
+      // Asignar los datos a dataEventos25 y almacenarlos
+      Object.assign(this, { dataEventos25 });
+      localStorage.setItem('dataEventos25', JSON.stringify(dataEventos25));
+
+      this.filtroGraf25();
     }
-}
+  }
 
+  filtroGraf25() {
+    let dataEventos25: any = JSON.parse(localStorage.getItem('dataEventos25')!);
 
-
-filtroGraf25() {
-  let dataEventos25: any = JSON.parse(localStorage.getItem('dataEventos25')!);
-
-  if (this.selectMes25 && this.selectMes25.length > 0 && this.meta25 && this.meta25.length > 0) {
+    if (
+      this.selectMes25 &&
+      this.selectMes25.length > 0 &&
+      this.meta25 &&
+      this.meta25.length > 0
+    ) {
       let mesList25 = this.meta25.map((mes: any) => mes.toLowerCase().trim());
-      let selectMes25 = this.selectMes25.map((m: any) => m.toLowerCase().trim());
+      let selectMes25 = this.selectMes25.map((m: any) =>
+        m.toLowerCase().trim()
+      );
 
       dataEventos25.labels = selectMes25;
 
-      dataEventos25.datasets[1].data = selectMes25.map(
-          (mes: any) => {
-              const index = mesList25.indexOf(mes);
-              return index !== -1 ? dataEventos25.datasets[1].data[index] : 0;
-          }
-      );
+      dataEventos25.datasets[1].data = selectMes25.map((mes: any) => {
+        const index = mesList25.indexOf(mes);
+        return index !== -1 ? dataEventos25.datasets[1].data[index] : 0;
+      });
 
-      dataEventos25.datasets[0].data = selectMes25.map(
-          (mes: any) => {
-              const index = mesList25.indexOf(mes);
-              return index !== -1 ? dataEventos25.datasets[0].data[index] : 0;
-          }
-      );
-  } else {
-      console.log("No hay meses seleccionados o la meta no está disponible.");
+      dataEventos25.datasets[0].data = selectMes25.map((mes: any) => {
+        const index = mesList25.indexOf(mes);
+        return index !== -1 ? dataEventos25.datasets[0].data[index] : 0;
+      });
+    } else {
+      console.log('No hay meses seleccionados o la meta no está disponible.');
+    }
+
+    Object.assign(this, { dataEventos25 });
   }
-
-  Object.assign(this, { dataEventos25 });
-}
-
-
-
-
 
   grafData1_2() {
     let flagZero: boolean = false;
@@ -13086,8 +13203,8 @@ filtroGraf25() {
             return count + (fin.estado == 'Riesgo eliminado')
               ? 0
               : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+              ? Number(fin.nrResidual)
+              : Number(fin.nrInicial);
           }, 0);
 
         gpiTotal += gpi;
@@ -13273,8 +13390,8 @@ filtroGraf25() {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -13451,8 +13568,8 @@ filtroGraf25() {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -13692,8 +13809,8 @@ filtroGraf25() {
             return count + (fin.estado == 'Riesgo eliminado')
               ? 0
               : fin.nrResidual
-                ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
+              ? Number(fin.nrResidual)
+              : Number(fin.nrInicial);
           }, 0);
 
         gpiTotal += gpi;
@@ -13976,8 +14093,8 @@ filtroGraf25() {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
@@ -14213,8 +14330,8 @@ filtroGraf25() {
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
                 : fin.nrResidual
-                  ? Number(fin.nrResidual)
-                  : Number(fin.nrInicial);
+                ? Number(fin.nrResidual)
+                : Number(fin.nrInicial);
             }, 0);
 
           gpiTotal += gpi;
