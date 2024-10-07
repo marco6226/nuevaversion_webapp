@@ -316,7 +316,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
         expanded: false,
         items: [
           {
-            label: 'Creacion de seguimiento caso',
+            label: 'Creacion de seguimiento caso médico',
             codigo: 'SCM_CREATE_CASE',
             routerLink: ['/app/scm/creacion'],
             icon: 'bi bi-bag-plus',
