@@ -1931,7 +1931,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
                   value: ele['nombre'],
                 });
             }
-            divisionListOut.push({ label: 'Total', value: 'Total' });
             resolve(divisionListOut);
           })
           .catch((err) => {
