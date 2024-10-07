@@ -278,6 +278,8 @@ export class ListDocumentacionSolicitanteComponent implements OnInit {
             summary: 'Rechazado',
             detail: 'El documento ha sido rechazado.'
         });
+        this.formulario.get('razonRechazoSolicitante')?.reset();
+              this.motivoRechazoSolicitante = '';
           this.dialogRechazoFlagSolicitante = false;
           this.loadMailData(this.pkuser);
           this.documentacionSelectSolicitado = [];

@@ -378,6 +378,8 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
             });              this.dialogRechazoFlag = false;
               this.lazyLoad(event);
               this.documentacionSelectUser = [];
+              this.formulario.get('razonRechazoSolicitado')?.reset();
+              this.motivoRechazo = '';
               //this.loadMailData(this.pkuser)
             } else {
               console.error("Error en la actualización");
