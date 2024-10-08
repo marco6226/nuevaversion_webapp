@@ -122,26 +122,96 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   dataEventos20: any[] = [];
   dataEventos21: any[] = [];
   dataEventos22: any[] = [];
+
   dataEventos23?: {
     labels: any;
     datasets: any[];
     options: any;
   };
-  dataOpciones23: any = {
-    title: {
-      display: true,
-      text: 'Meta',
+
+
+  dataOpciones23 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top', // Puedes ajustar la posición de la leyenda si la necesitas
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Areas', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' // Cambia el color del título del eje X
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'ICR', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' 
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
     },
   };
+
   dataEventos24?: {
     labels: any;
     datasets: any[];
     options: any;
   };
-  dataOpciones24: any = {
-    title: {
-      display: true,
-      text: 'Meta p',
+  dataOpciones24 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top', // Puedes ajustar la posición de la leyenda si la necesitas
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Peligros', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' // Cambia el color del título del eje X
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'ICR', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' 
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
     },
   };
   dataEventos25?: {
@@ -149,13 +219,45 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     datasets: any[];
     options: any;
   };
-  dataOpciones25: any = {
-    title: {
-      display: true,
-      text: 'Meta por planta',
+  dataOpciones25 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top', // Puedes ajustar la posición de la leyenda si la necesitas
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Meses', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' // Cambia el color del título del eje X
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'ICR', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' 
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
     },
   };
-
   dataEventos1_2: any[] = [];
   dataEventos1Porcentaje_2: any[] = [];
   dataEventos2_2: any[] = [];
@@ -186,10 +288,43 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     datasets: any[];
     options: any;
   };
-  dataOpciones23_2: any = {
-    title: {
-      display: true,
-      text: 'Meta',
+  dataOpciones23_2 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top', // Puedes ajustar la posición de la leyenda si la necesitas
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Areas', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' // Cambia el color del título del eje X
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'ICR', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' 
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
     },
   };
   dataEventos24_2?: {
@@ -197,10 +332,43 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     datasets: any[];
     options: any;
   };
-  dataOpciones24_2: any = {
-    title: {
-      display: true,
-      text: 'Meta p',
+  dataOpciones24_2 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top', // Puedes ajustar la posición de la leyenda si la necesitas
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Peligros', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' // Cambia el color del título del eje X
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'ICR', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' 
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
     },
   };
   dataEventos25_2?: {
@@ -208,10 +376,43 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
     datasets: any[];
     options: any;
   };
-  dataOpciones25_2: any = {
-    title: {
-      display: true,
-      text: 'Meta por planta',
+  dataOpciones25_2 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top', // Puedes ajustar la posición de la leyenda si la necesitas
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Meses', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' // Cambia el color del título del eje X
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'ICR', // Cambia esto a lo que quieras
+          font: {
+            size: 18,
+            weight: 'bold',
+          },
+          color: 'black' 
+        },
+        ticks: {
+          color: 'black', // Cambia el color de las etiquetas del eje X
+        }
+      },
     },
   };
 
@@ -3842,6 +4043,11 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(
             (at) => at.pais == this.selectPais1
           );
+      if (this.selecteDivision1)
+            if (this.selectPais1 != 'Corona Total')
+              dataAnalisisRiesgo1 = dataAnalisisRiesgo1.filter(
+                (at) => at.division == this.selecteDivision1
+      );    
       if (this.selectePeligro1)
         if (this.selectePeligro1.length > 0) {
           dataMPCopyDiv = [];
@@ -3852,7 +4058,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           });
           dataAnalisisRiesgo1 = [...dataMPCopyDiv];
         }
-
       let numeroAtTotal: number = 0;
       let numeroElTotal: number = 0;
       for (const y of ejeY) {
@@ -6621,11 +6826,17 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
       dataAnalisisRiesgo14 = dataAnalisisRiesgo14.filter(
         (at) => at.area != null
       );
+       
       if (this.selectPais14)
         if (this.selectPais14 != 'Corona Total')
           dataAnalisisRiesgo14 = dataAnalisisRiesgo14.filter(
             (at) => at.pais == this.selectPais14
           );
+          if (this.selecteDivision14)
+            if (this.selecteDivision14 != 'Corona Total')
+              dataAnalisisRiesgo14 = dataAnalisisRiesgo14.filter(
+                (at) => at.division == this.selecteDivision14
+        );  
       if (this.selectePeligro14)
         if (this.selectePeligro14.length > 0) {
           dataMPCopyDiv = [];
@@ -6636,6 +6847,7 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           });
           dataAnalisisRiesgo14 = [...dataMPCopyDiv];
         }
+        
       //fin nuevo
       let controlAdmTotal: number = 0;
       let controlIngTotal: number = 0;
@@ -7329,6 +7541,11 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo17 = dataAnalisisRiesgo17.filter(
             (at) => at.pais == this.selectPais17
           );
+
+      if (this.selecteDivision17)
+        dataAnalisisRiesgo17 = dataAnalisisRiesgo17.filter(
+            (at) => at.division == this.selecteDivision17
+        );
       if (this.selectePeligro17)
         if (this.selectePeligro17.length > 0) {
           dataMPCopyDiv = [];
@@ -7840,6 +8057,11 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo20 = dataAnalisisRiesgo20.filter(
             (at) => at.pais == this.selectPais20
           );
+
+      if (this.selecteDivision20)
+          dataAnalisisRiesgo20 = dataAnalisisRiesgo20.filter(
+            (at) => at.division == this.selecteDivision20
+      );
       if (this.selectePeligro20)
         if (this.selectePeligro20.length > 0) {
           dataMPCopyDiv = [];
@@ -8384,6 +8606,10 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(
             (at) => at.pais == this.selectPais23
           );
+          if (this.selecteDivision23)
+              dataAnalisisRiesgo23 = dataAnalisisRiesgo23.filter(
+                (at) => at.division == this.selecteDivision23
+              );
       if (this.selectePeligro23)
         if (this.selectePeligro23.length > 0) {
           dataMPCopyDiv = [];
@@ -8757,7 +8983,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
               (mp) => mp.peligro === tipoPeligro.label && mp.nrInicial != null
             )
             .reduce((count, fin) => {
-              console.log(fin.estado);
 
               return count + (fin.estado == 'Riesgo eliminado')
                 ? 0
@@ -8779,9 +9004,6 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
             metaIcr.push(metaF);
           }
         }
-
-      console.log(gpiTotal, 'uno');
-      console.log(gpfTotal, 'dos');
 
       labels.push('Total');
       icr.push(((gpiTotal - gpfTotal) / gpiTotal) * 100);
@@ -9123,6 +9345,12 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo1_2 = dataAnalisisRiesgo1_2.filter(
             (at) => at.pais == this.selectPais1_2
           );
+        
+      if (this.selecteDivision1_2)
+        if (this.selectPais1_2 != 'Corona Total')
+          dataAnalisisRiesgo1_2 = dataAnalisisRiesgo1_2.filter(
+          (at) => at.division == this.selecteDivision1_2
+      );  
       if (this.selectePeligro1_2)
         if (this.selectePeligro1_2.length > 0) {
           dataMPCopyDiv_2 = [];
@@ -11951,6 +12179,11 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo14_2 = dataAnalisisRiesgo14_2.filter(
             (at) => at.pais == this.selectPais14_2
           );
+          if (this.selecteDivision14_2)
+            if (this.selecteDivision14_2 != 'Corona Total')
+              dataAnalisisRiesgo14_2 = dataAnalisisRiesgo14_2.filter(
+                (at) => at.division == this.selecteDivision14_2
+        );  
       if (this.selectePeligro14_2)
         if (this.selectePeligro14_2.length > 0) {
           dataMPCopyDiv = [];
@@ -12658,6 +12891,11 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo17_2 = dataAnalisisRiesgo17_2.filter(
             (at) => at.pais == this.selectPais17_2
           );
+      
+      if (this.selecteDivision17_2)
+        dataAnalisisRiesgo17_2 = dataAnalisisRiesgo17_2.filter(
+            (at) => at.division == this.selecteDivision17_2
+        );
       if (this.selectePeligro17_2)
         if (this.selectePeligro17_2.length > 0) {
           dataMPCopyDiv = [];
@@ -13169,6 +13407,11 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo20_2 = dataAnalisisRiesgo20_2.filter(
             (at) => at.pais == this.selectPais20_2
           );
+
+      if (this.selecteDivision20_2)
+          dataAnalisisRiesgo20_2 = dataAnalisisRiesgo20_2.filter(
+            (at) => at.division == this.selecteDivision20_2
+      );
       if (this.selectePeligro20_2)
         if (this.selectePeligro20_2.length > 0) {
           dataMPCopyDiv = [];
@@ -13718,6 +13961,11 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           dataAnalisisRiesgo23_2 = dataAnalisisRiesgo23_2.filter(
             (at) => at.pais == this.selectPais23_2
           );
+
+      if (this.selecteDivision23_2)
+        dataAnalisisRiesgo23_2 = dataAnalisisRiesgo23_2.filter(
+            (at) => at.division == this.selecteDivision23_2
+        );
       if (this.selectePeligro23_2)
         if (this.selectePeligro23_2.length > 0) {
           dataMPCopyDiv = [];
@@ -14174,30 +14422,26 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   grafData25_2() {
     this.meta25_2 = [];
     let flagZero: boolean = false;
-
+  
     if (this.selectPais25_2) {
       let compressedData = localStorage.getItem('dataMP');
       let decompressedData: any;
-
+  
       if (compressedData !== null) {
         // Descomprimir los datos
         decompressedData = LZString.decompress(compressedData);
-
-        // console.log(decompressedData); // Esto debería mostrar los datos originales
       } else {
         console.log('No hay datos disponibles para descomprimir.');
       }
-      //let descomprimido=LZString.decompress(compressedData2);
+  
       let decompressedData2: any[] = JSON.parse(decompressedData);
-      //let dataRiesgoInicial: any[] = JSON.parse(localStorage.getItem('dataMP')!);
       let dataRiesgoFinal: any[] = decompressedData2;
       let dataAnalisisRiesgo25_2 = dataRiesgoFinal;
-      // let dataAnalisisRiesgo25_2: any[] = JSON.parse(
-      //   localStorage.getItem('dataMP')!
-      // );
       let metaMP: any[] = JSON.parse(localStorage.getItem('metaMP')!);
-
+  
       let dataMPCopyDiv: any[] = [];
+  
+      // Aplicar los filtros generales como en grafica 1
       dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
         (at) => at.fechaEdicion != null
       );
@@ -14205,32 +14449,14 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         (at) => new Date(at.fechaEdicion).getFullYear() == this.selectAnio25_2
       );
       metaMP = metaMP.filter((at) => at.anio == this.selectAnio25_2);
-
-      //nuevo
-      dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
-        (at) => at.pais != null
-      );
-      dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
-        (at) => at.division != null
-      );
-      dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
-        (at) => at.planta != null
-      );
-      dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
-        (at) => at.area != null
-      );
-      if (this.selectPais25_2)
-        if (this.selectPais25_2 != 'Corona Total')
-          dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
-            (at) => at.pais == this.selectPais25_2
-          );
-      metaMP = metaMP.filter((at) => at.pais == this.selectPais25_2);
+  
+      // Filtros adicionales basados en la selección del usuario (país, división, localidad, área)
       if (this.selectPais25_2 != 'Corona Total')
-        if (this.selecteDivision25_2)
-          if (this.selecteDivision25_2 != 'Total')
-            metaMP = metaMP.filter(
-              (m) => m.nombreDivision == this.selecteDivision25_2
-            );
+        dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
+          (at) => at.pais == this.selectPais25_2
+        );
+      metaMP = metaMP.filter((at) => at.pais == this.selectPais25_2);
+  
       if (this.selecteDivision25_2)
         dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
           (at) => at.division == this.selecteDivision25_2
@@ -14239,23 +14465,21 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
         dataAnalisisRiesgo25_2 = dataAnalisisRiesgo25_2.filter(
           (at) => at.planta == this.selecteLocalidad25_2
         );
-      if (this.selecteArea25_2)
-        if (this.selecteArea25_2.length > 0) {
-          dataMPCopyDiv = [];
-          this.selecteArea25_2.forEach((element: any) => {
-            dataMPCopyDiv = dataMPCopyDiv.concat(
-              dataAnalisisRiesgo25_2.filter((at) => at.area == element)
-            );
-          });
-          dataAnalisisRiesgo25_2 = [...dataMPCopyDiv];
-        }
-      //fin nuevo
-
+      if (this.selecteArea25_2 && this.selecteArea25_2.length > 0) {
+        dataMPCopyDiv = [];
+        this.selecteArea25_2.forEach((element: any) => {
+          dataMPCopyDiv = dataMPCopyDiv.concat(
+            dataAnalisisRiesgo25_2.filter((at) => at.area == element)
+          );
+        });
+        dataAnalisisRiesgo25_2 = [...dataMPCopyDiv];
+      }
+  
+      // Inicializar los datos de la gráfica y los labels
       let labels = [];
       let dataEventos25_2: {
         labels: any;
         datasets: any[];
-        options?: any;
       } = {
         labels: [],
         datasets: [
@@ -14279,80 +14503,77 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           },
         ],
       };
-
-      let gpiTotal: number = 0;
-      let gpfTotal: number = 0;
+  
+      // Procesar datos por meses, como en la primera gráfica
       let icr: any = [];
       let metaIcr: any = [];
-      if (this.tipoPeligroItemList)
-        for (const mes of this.meses) {
-          let metaF = 0;
-          if (this.selecteDivision25_2 && this.selecteLocalidad25_2 == null) {
-            let m = metaMP.find((f) => {
-              return f.nombreDivision == this.selecteDivision25_2;
-            });
-            if (m) metaF = m.icrDivision;
+      let gpiTotal: number = 0;
+      let gpfTotal: number = 0;
+  
+      // Iterar sobre los meses para obtener los datos agrupados
+      for (const mes of this.meses) {
+        let metaF = 0;
+  
+        // Obtener el valor de meta en función de la división o localidad seleccionada
+        if (this.selecteDivision25_2 && this.selecteLocalidad25_2 == null) {
+          let m = metaMP.find((f) => f.nombreDivision == this.selecteDivision25_2);
+          if (m) metaF = m.icrDivision;
+        }
+        if (this.selecteLocalidad25_2) {
+          let l = this.localidadesList.find(
+            (l: any) => l.localidad == this.selecteLocalidad25_2
+          );
+          if (l && l.plantas_nombre) {
+            let m = metaMP.find((f) => f.nombrePlanta == l.plantas_nombre);
+            if (m) metaF = m.icrPlanta;
           }
-          if (this.selecteLocalidad25_2) {
-            let l = this.localidadesList.find(
-              (l: any) => l.localidad == this.selecteLocalidad25_2
-            );
-            if (l && l.plantas_nombre) {
-              let m = metaMP.find((f) => {
-                return f.nombrePlanta == l.plantas_nombre;
-              });
-              if (m) metaF = m.icrPlanta;
-            }
-          }
-
-          let data: any = {
-            name: mes,
-            series: [],
-          };
-
-          let gpi: number = dataAnalisisRiesgo25_2
-            .filter(
-              (mp) =>
-                this.meses[new Date(mp.fechaEdicion).getMonth()] === mes &&
-                mp.nrInicial != null
-            )
-            .reduce((count, ini) => {
-              return count + Number(ini.nrInicial);
-            }, 0);
-          let gpf: number = dataAnalisisRiesgo25_2
-            .filter(
-              (mp) =>
-                this.meses[new Date(mp.fechaEdicion).getMonth()] === mes &&
-                mp.nrInicial != null
-            )
-            .reduce((count, fin) => {
-              return count + (fin.estado == 'Riesgo eliminado')
+        }
+  
+        let gpi: number = dataAnalisisRiesgo25_2
+          .filter(
+            (mp) =>
+              this.meses[new Date(mp.fechaEdicion).getMonth()] === mes &&
+              mp.nrInicial != null
+          )
+          .reduce((count, ini) => count + Number(ini.nrInicial), 0);
+  
+        let gpf: number = dataAnalisisRiesgo25_2
+          .filter(
+            (mp) =>
+              this.meses[new Date(mp.fechaEdicion).getMonth()] === mes &&
+              mp.nrInicial != null
+          )
+          .reduce(
+            (count, fin) =>
+              count +
+              (fin.estado == 'Riesgo eliminado'
                 ? 0
                 : fin.nrResidual
                 ? Number(fin.nrResidual)
-                : Number(fin.nrInicial);
-            }, 0);
-
-          gpiTotal += gpi;
-          gpfTotal += gpf;
-
-          if (gpi == 0 && gpf == 0) flagZero = true;
-          else flagZero = false;
-
-          if (!flagZero) {
-            this.meta25_2.push(mes);
-            labels.push(mes);
-            icr.push(((gpi - gpf) / gpi) * 100);
-            metaIcr.push(metaF);
-          }
+                : Number(fin.nrInicial)),
+            0
+          );
+  
+        gpiTotal += gpi;
+        gpfTotal += gpf;
+  
+        if (gpi == 0 && gpf == 0) flagZero = true;
+        else flagZero = false;
+  
+        if (!flagZero) {
+          this.meta25_2.push(mes); // Se usa para filtro
+          labels.push(mes); // Se agregan los meses como labels
+          icr.push(((gpi - gpf) / gpi) * 100); // Cálculo de ICR
+          metaIcr.push(metaF); // Meta correspondiente al mes
         }
+      }
+  
+      // Agregar datos totales
       labels.push('Total');
       icr.push(((gpiTotal - gpfTotal) / gpiTotal) * 100);
       let metaTotal = 0;
       if (this.selecteDivision25_2 && this.selecteLocalidad25_2 == null) {
-        let m = metaMP.find((f) => {
-          return f.nombreDivision == this.selecteDivision25_2;
-        });
+        let m = metaMP.find((f) => f.nombreDivision == this.selecteDivision25_2);
         if (m) metaTotal = m.icrDivision;
       }
       if (this.selecteLocalidad25_2) {
@@ -14360,50 +14581,48 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
           (l: any) => l.localidad == this.selecteLocalidad25_2
         );
         if (l && l.plantas_nombre) {
-          let m = metaMP.find((f) => {
-            return f.nombrePlanta == l.plantas_nombre;
-          });
+          let m = metaMP.find((f) => f.nombrePlanta == l.plantas_nombre);
           if (m) metaTotal = m.icrPlanta;
         }
       }
-
+  
       metaIcr.push(metaTotal);
       dataEventos25_2.labels = labels;
       dataEventos25_2.datasets[0].data = icr;
       dataEventos25_2.datasets[1].data = metaIcr;
-
+  
+      // Asignar los datos a dataEventos25_2 y almacenarlos
       Object.assign(this, { dataEventos25_2 });
       localStorage.setItem('dataEventos25_2', JSON.stringify(dataEventos25_2));
-      this.filtroGraf25();
+  
+      this.filtroGraf25_2();
     }
   }
+  
   filtroGraf25_2() {
-    let dataEventos25_2: any = JSON.parse(
-      localStorage.getItem('dataEventos25_2')!
-    );
-
-    if (this.selectMes25_2 && this.selectMes25_2.length > 0) {
-      let mesList25 = [...this.meta25_2];
-      let selectMes25 = this.selectMes25_2.map((m: any) => m).sort();
-      dataEventos25_2.labels = selectMes25;
-      dataEventos25_2.datasets[1].data =
-        dataEventos25_2.datasets[1].data.filter((data: any, index: any) =>
-          selectMes25.includes(mesList25[index])
-        );
-      dataEventos25_2.datasets[0].data =
-        dataEventos25_2.datasets[0].data.filter((data: any, index: any) =>
-          selectMes25.includes(mesList25[index])
-        );
-    }
-
-    if (this.selectFiltro25_2 && this.selectFiltro25_2.length > 0) {
-      let selectFiltro25Meta_2 = this.filtro17.map((div: any) => div.label);
-      let selectFiltro25_2 = this.selectFiltro25_2.map((div: any) => div);
-      dataEventos25_2.datasets = dataEventos25_2.datasets.filter(
-        (data: any, index: any) =>
-          selectFiltro25_2.includes(selectFiltro25Meta_2[index])
+    let dataEventos25_2: any = JSON.parse(localStorage.getItem('dataEventos25_2')!);
+  
+    if (this.selectMes25_2 && this.selectMes25_2.length > 0 && this.meta25_2 && this.meta25_2.length > 0) {
+      let mesList25_2 = this.meta25_2.map((mes: any) => mes.toLowerCase().trim());
+      let selectMes25_2 = this.selectMes25_2.map((m: any) =>
+        m.toLowerCase().trim()
       );
+  
+      dataEventos25_2.labels = selectMes25_2;
+  
+      dataEventos25_2.datasets[1].data = selectMes25_2.map((mes: any) => {
+        const index = mesList25_2.indexOf(mes);
+        return index !== -1 ? dataEventos25_2.datasets[1].data[index] : 0;
+      });
+  
+      dataEventos25_2.datasets[0].data = selectMes25_2.map((mes: any) => {
+        const index = mesList25_2.indexOf(mes);
+        return index !== -1 ? dataEventos25_2.datasets[0].data[index] : 0;
+      });
+    } else {
+      console.log('No hay meses seleccionados o la meta no está disponible.');
     }
+  
     Object.assign(this, { dataEventos25_2 });
   }
   imgFlag: boolean = false;
