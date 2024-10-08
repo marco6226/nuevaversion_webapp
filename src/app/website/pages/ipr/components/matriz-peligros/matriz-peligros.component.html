@@ -733,7 +733,7 @@
                         </div>
                         <br>
                         <h1>Evidencia riesgo inicial</h1>
-                        <button pButton type="button" (click)="visibleDlgFoto1=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosI.valid || CRUDMatriz!=='PUT'"></button>
+                        <button pButton type="button" (click)="visibleDlgFoto1=true" icon="fa fa-plus" label="Adjuntar evidencia" style="margin-bottom: 10px;" [disabled]="!formMatrizRiesgosI.valid || CRUDMatriz!=='POST'"></button>
 
                         <s-documentoUpload tipoEvidencia="matrizRExistente" [(visible)]="visibleDlgFoto1" [modParam]="idMatriz" [modulo]="modulo" (onUpload)="onUpload($event)" [flagPrivado]="false"></s-documentoUpload>
                         <div *ngFor="let doc of documentosList">
