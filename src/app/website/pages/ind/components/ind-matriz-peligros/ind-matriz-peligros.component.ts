@@ -3096,203 +3096,352 @@ export class IndMatrizPeligrosComponent implements OnInit, OnDestroy {
   async funcSelectLocalidad(loc: any, filter: any) {
     switch (filter) {
       case 'graf1':
+        this.selecteArea1 = null;
         this.areasList1 = [];
+        this.selectePeligro1 = null;
         this.areasList1 = await this.getArea(loc.value);
         this.grafData1();
         break;
       case 'graf2':
+        this.selecteArea2 = null;
+        this.areasList2 = [];
+        this.selectePeligro2 = null;
         this.areasList2 = await this.getArea(loc.value);
         this.grafData2();
         break;
       case 'graf3':
+        this.selecteArea3 = null;
+        this.areasList3 = [];
+        this.selectePeligro3 = null;
         this.areasList3 = await this.getArea(loc.value);
         this.grafData3();
         break;
       case 'graf4':
+        this.selecteArea4 = null;
+        this.areasList4 = [];
+        this.selectePeligro4 = null;
         this.areasList4 = await this.getArea(loc.value);
         this.grafData4();
         break;
       case 'graf5':
+        this.selecteArea5 = null;
+        this.areasList5 = [];
+        this.selectePeligro5 = null;
         this.areasList5 = await this.getArea(loc.value);
         this.grafData5();
         break;
       case 'graf6':
+        this.selecteArea6 = null;
+        this.areasList6 = [];
+        this.selectePeligro6 = null;
         this.areasList6 = await this.getArea(loc.value);
         this.grafData6();
         break;
       case 'graf7':
+        this.selecteArea7 = null;
+        this.areasList7 = [];
+        this.selectePeligro7 = null;
         this.areasList7 = await this.getArea(loc.value);
         this.grafData7();
         break;
       case 'graf8':
+        this.selecteArea8 = null;
+        this.areasList8 = [];
+        this.selectePeligro8 = null;
         this.areasList8 = await this.getArea(loc.value);
         this.grafData8();
         break;
       case 'graf9':
+        this.selecteArea9 = null;
+        this.areasList9 = [];
+        this.selectePeligro9 = null;
         this.areasList9 = await this.getArea(loc.value);
         this.grafData9();
         break;
       case 'graf10':
+        this.selecteArea10 = null;
+        this.areasList10 = [];
+        this.selectePeligro10 = null;
         this.areasList10 = await this.getArea(loc.value);
         this.grafData10();
         break;
       case 'graf11':
+        this.selecteArea11 = null;
+        this.areasList11 = [];
+        this.selectePeligro11 = null;
         this.areasList11 = await this.getArea(loc.value);
         this.grafData11();
         break;
       case 'graf12':
+        this.selecteArea12 = null;
+        this.areasList12 = [];
+        this.selectePeligro12 = null;
         this.areasList12 = await this.getArea(loc.value);
         this.grafData12();
         break;
       case 'graf13':
+        this.selecteArea13 = null;
+        this.areasList13 = [];
+        this.selectePeligro13 = null;
         this.areasList13 = await this.getArea(loc.value);
         this.grafData13();
         break;
       case 'graf14':
+        this.selecteArea14 = null;
+        this.areasList14 = [];
+        this.selectePeligro14 = null;
         this.areasList14 = await this.getArea(loc.value);
         this.grafData14();
         break;
       case 'graf15':
+        this.selecteArea15 = null;
+        this.areasList15 = [];
+        this.selectePeligro15 = null;
         this.areasList15 = await this.getArea(loc.value);
         this.grafData15();
         break;
       case 'graf16':
+        this.selecteArea16 = null;
+        this.areasList16 = [];
+        this.selectePeligro16 = null;
         this.areasList16 = await this.getArea(loc.value);
         this.grafData16();
         break;
       case 'graf17':
+        this.selecteArea17 = null;
+        this.areasList17 = [];
+        this.selectePeligro17 = null;
         this.areasList17 = await this.getArea(loc.value);
         this.grafData17();
         break;
       case 'graf18':
+        this.selecteArea18 = null;
+        this.areasList18 = [];
+        this.selectePeligro18 = null;
         this.areasList18 = await this.getArea(loc.value);
         this.grafData18();
         break;
       case 'graf19':
+        this.selecteArea19 = null;
+        this.areasList19 = [];
+        this.selectePeligro19 = null;
         this.areasList19 = await this.getArea(loc.value);
         this.grafData19();
         break;
       case 'graf20':
+        this.selecteArea20 = null;
+        this.areasList20 = [];
+        this.selectePeligro20 = null;
         this.areasList20 = await this.getArea(loc.value);
         this.grafData20();
         break;
       case 'graf21':
+        this.selecteArea21 = null;
+        this.areasList21 = [];
+        this.selectePeligro21 = null;
         this.areasList21 = await this.getArea(loc.value);
         this.grafData21();
         break;
       case 'graf22':
+        this.selecteArea22 = null;
+        this.areasList22 = [];
+        this.selectePeligro22 = null;
         this.areasList22 = await this.getArea(loc.value);
         this.grafData22();
         break;
       case 'graf23':
+        this.selecteArea23 = null;
+        this.areasList23 = [];
+        this.selectePeligro23 = null;
         this.areasList23 = await this.getArea(loc.value);
         this.grafData23();
         break;
       case 'graf24':
+        this.selecteArea24 = null;
+        this.areasList24 = [];
+        this.selectePeligro24 = null;
         this.areasList24 = await this.getArea(loc.value);
         this.grafData24();
         break;
       case 'graf25':
+        this.selecteArea25 = null;
+        this.areasList25 = [];
+        this.selectePeligro25 = null;
         this.areasList25 = await this.getArea(loc.value);
         this.grafData25();
         break;
       case 'graf1_2':
+        this.selecteArea1_2 = null;
+        this.areasList1_2 = [];
+        this.selectePeligro1_2 = null;
         this.areasList1_2 = await this.getArea(loc.value);
         this.grafData1_2();
         break;
       case 'graf2_2':
+        this.selecteArea2_2 = null;
+        this.areasList2_2 = [];
+        this.selectePeligro2_2 = null;
         this.areasList2_2 = await this.getArea(loc.value);
         this.grafData2_2();
         break;
       case 'graf3_2':
+        this.selecteArea3_2 = null;
+        this.areasList3_2 = [];
+        this.selectePeligro3_2 = null;
         this.areasList3_2 = await this.getArea(loc.value);
         this.grafData3_2();
         break;
       case 'graf4_2':
+        this.selecteArea4_2 = null;
+        this.areasList4_2 = [];
+        this.selectePeligro4_2 = null;
         this.areasList4_2 = await this.getArea(loc.value);
         this.grafData4_2();
         break;
       case 'graf5_2':
+        this.selecteArea5_2 = null;
+        this.areasList5_2 = [];
+        this.selectePeligro5_2 = null;
         this.areasList5_2 = await this.getArea(loc.value);
         this.grafData5_2();
         break;
       case 'graf6_2':
+        this.selecteArea6_2 = null;
+        this.areasList6_2 = [];
+        this.selectePeligro6_2 = null;
         this.areasList6_2 = await this.getArea(loc.value);
         this.grafData6_2();
         break;
       case 'graf7_2':
+        this.selecteArea7_2 = null;
+        this.areasList7_2 = [];
+        this.selectePeligro7_2 = null;
         this.areasList7_2 = await this.getArea(loc.value);
         this.grafData7_2();
         break;
       case 'graf8_2':
+        this.selecteArea8_2 = null;
+        this.areasList8_2 = [];
+        this.selectePeligro8_2 = null;
         this.areasList8_2 = await this.getArea(loc.value);
         this.grafData8_2();
         break;
       case 'graf9_2':
+        this.selecteArea9_2 = null;
+        this.areasList9_2 = [];
+        this.selectePeligro9_2 = null;
         this.areasList9_2 = await this.getArea(loc.value);
         this.grafData9_2();
         break;
       case 'graf10_2':
+        this.selecteArea10_2 = null;
+        this.areasList10_2 = [];
+        this.selectePeligro10_2 = null;
         this.areasList10_2 = await this.getArea(loc.value);
         this.grafData10_2();
         break;
       case 'graf11_2':
+        this.selecteArea11_2 = null;
+        this.areasList11_2 = [];
+        this.selectePeligro11_2 = null;
         this.areasList11_2 = await this.getArea(loc.value);
         this.grafData11_2();
         break;
       case 'graf12_2':
+        this.selecteArea12_2 = null;
+        this.areasList12_2 = [];
+        this.selectePeligro12_2 = null;
         this.areasList12_2 = await this.getArea(loc.value);
         this.grafData12_2();
         break;
       case 'graf13_2':
+        this.selecteArea13_2 = null;
+        this.areasList13_2 = [];
+        this.selectePeligro13_2 = null;
         this.areasList13_2 = await this.getArea(loc.value);
         this.grafData13_2();
         break;
       case 'graf14_2':
+        this.selecteArea14_2 = null;
+        this.areasList14_2 = [];
+        this.selectePeligro14_2 = null;
         this.areasList14_2 = await this.getArea(loc.value);
         this.grafData14_2();
         break;
       case 'graf15_2':
+        this.selecteArea15_2 = null;
+        this.areasList15_2 = [];
+        this.selectePeligro15_2 = null;
         this.areasList15_2 = await this.getArea(loc.value);
         this.grafData15_2();
         break;
       case 'graf16_2':
+        this.selecteArea16_2 = null;
+        this.areasList16_2 = [];
+        this.selectePeligro16_2 = null;
         this.areasList16_2 = await this.getArea(loc.value);
         this.grafData16_2();
         break;
       case 'graf17_2':
+        this.selecteArea17_2 = null;
+        this.areasList17_2 = [];
+        this.selectePeligro17_2 = null;
         this.areasList17_2 = await this.getArea(loc.value);
         this.grafData17_2();
         break;
       case 'graf18_2':
+        this.selecteArea18_2 = null;
+        this.areasList18_2 = [];
+        this.selectePeligro18_2 = null;
         this.areasList18_2 = await this.getArea(loc.value);
         this.grafData18_2();
         break;
       case 'graf19_2':
+        this.selecteArea19_2 = null;
+        this.areasList19_2 = [];
+        this.selectePeligro19_2 = null;
         this.areasList19_2 = await this.getArea(loc.value);
         this.grafData19_2();
         break;
       case 'graf20_2':
+        this.selecteArea20_2 = null;
+        this.areasList20_2 = [];
+        this.selectePeligro20_2 = null;
         this.areasList20_2 = await this.getArea(loc.value);
         this.grafData20_2();
         break;
       case 'graf21_2':
+        this.selecteArea21_2 = null;
+        this.areasList21_2 = [];
+        this.selectePeligro21_2 = null;
         this.areasList21_2 = await this.getArea(loc.value);
         this.grafData21_2();
         break;
       case 'graf22_2':
+        this.selecteArea22_2 = null;
+        this.areasList22_2 = [];
+        this.selectePeligro22_2 = null;
         this.areasList22_2 = await this.getArea(loc.value);
         this.grafData22_2();
         break;
       case 'graf23_2':
+        this.selecteArea23_2 = null;
+        this.areasList23_2 = [];
+        this.selectePeligro23_2 = null;
         this.areasList23_2 = await this.getArea(loc.value);
         this.grafData23_2();
         break;
       case 'graf24_2':
+        this.selecteArea24_2 = null;
+        this.areasList24_2 = [];
+        this.selectePeligro24_2 = null;
         this.areasList24_2 = await this.getArea(loc.value);
         this.grafData24_2();
         break;
       case 'graf25_2':
+        this.selecteArea25_2 = null;
+        this.areasList25_2 = [];
+        this.selectePeligro25_2 = null;
         this.areasList25_2 = await this.getArea(loc.value);
         this.grafData25_2();
         break;
