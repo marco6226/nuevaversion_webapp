@@ -149,13 +149,22 @@
     font-weight: bold; /* Negrita para el texto */
 }
 .fechaProxima {
-  color: red;
-}
-.mensaje-proximo {
-  color: red; /* Color rojo para destacar el mensaje */
-  font-weight: bold; /* Texto en negrita para mayor énfasis */
+  color: orange;
 }
 
+.fechaVencida {
+  color: red;
+}
+
+.mensaje-proximo {
+  color: orange;
+  font-weight: bold;
+}
+
+.mensaje-vencido {
+  color: red;
+  font-weight: bold;
+}
 .info-container {
   display: flex;
   justify-content: flex-end; /* Alinea los elementos al final del contenedor */
@@ -201,7 +210,11 @@
 .button-container > div {
   margin-right: 10px; /* Ajusta el espacio entre los botones si es necesario */
 }
-
+.btn-selected {
+  background-color: #e2aa00; /* Un color de fondo visible, como amarillo */
+  color: #fff; /* Cambiar el color del texto para que sea más legible */
+  border-color: #ffc107; /* Cambiar el color del borde si es necesario */
+}
 
 
 

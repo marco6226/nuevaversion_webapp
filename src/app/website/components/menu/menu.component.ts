@@ -696,7 +696,7 @@ export class MenuComponent implements OnInit, AfterContentInit {
             label: 'Manuales',
             codigo: 'CONF_GET_MANUSR',
             routerLink: ['/app/ayuda/manuales'],
-            icon: 'pi pi-sitemap',
+            icon: 'bi bi-journal-arrow-down',
           },
         ],
       },

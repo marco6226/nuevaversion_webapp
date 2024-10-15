@@ -41,6 +41,9 @@
             #CASO
             <p-sortIcon field="idSl"></p-sortIcon>
           </th>
+          <th pSortableColumn="statusCaso">
+            Estado de Investigación
+          </th>
           <th pSortableColumn="usuarioCreador">
             Usuario Creador
             <p-sortIcon field="usuarioCreador"></p-sortIcon>
@@ -97,6 +100,17 @@
                 (input)="dt.filter($event.target.value, 'idSl', 'equals')"
               />
             </div>
+          </td>
+          <td class="text-center bg-light">
+            <p-dropdown
+              appendTo="body"
+              [options]="[
+                { label: 'Seleccione', value: null },
+                { label: 'Investigado', value: true },
+                {label: 'No investigado', value: false}
+              ]"
+              (onChange)="dt.filter($event.value, 'statusCaso','equals')"
+            ></p-dropdown>
           </td>
           <td class="text-center bg-light">
             <div class="ui-inputgroup">
@@ -215,6 +229,10 @@
       <ng-template pTemplate="body" let-case>
         <tr [pSelectableRow]="case" class="table-row table-row-selectable">
           <td class="p-text-center">SL-{{ case.idSl }}</td>
+          <td class="p-text-center">
+            {{ case.statusCaso ? 'En Investigación' : 'No investigado' }}
+          </td>
+          
           <td class="p-text-center">{{ case.usuarioCreador }}</td>
           <td class="p-text-center">{{ case.usuarioAsignado }}</td>
           <td class="p-text-center">{{ case.nombreCompletoSL }}</td>

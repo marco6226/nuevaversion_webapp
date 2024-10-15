@@ -74,7 +74,8 @@ export class CasosMedicosListComponent implements OnInit {
     'fechaDictamenJn',
       'documentosJn',
       'empresaId',
-      'eliminado'
+      'eliminado',
+      'statusCaso'
   ];
   
   consultar: boolean = false;

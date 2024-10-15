@@ -139,11 +139,21 @@
     font-weight: bold; /* Negrita para el texto */
 }
 .fechaProxima {
+  color: orange;
+}
+
+.fechaVencida {
   color: red;
 }
+
 .mensaje-proximo {
-  color: red; /* Color rojo para destacar el mensaje */
-  font-weight: bold; /* Texto en negrita para mayor énfasis */
+  color: orange;
+  font-weight: bold;
+}
+
+.mensaje-vencido {
+  color: red;
+  font-weight: bold;
 }
 .fixed-modal {
   position: fixed;

@@ -162,12 +162,21 @@ export class DocumentacionSaludLaboralComponent implements OnInit{
       onFilter(event: any) {
         this.casosListFilter = event.filteredValue
       }
-      isFechaLimiteProxima(fechaLimite: string): boolean {
+      isFechaLimiteProxima(fechaLimite: string): string {
         const fechaLimiteDate = new Date(fechaLimite);
         const dosDiasEnMS = 2 * 24 * 60 * 60 * 1000; // Dos días en milisegundos
-        const dosDiasAntes = new Date().getTime() + dosDiasEnMS; // Fecha actual más dos días
-        return fechaLimiteDate.getTime() < dosDiasAntes;
+        const fechaActual = new Date().getTime();
+        const dosDiasAntes = fechaActual + dosDiasEnMS; // Fecha actual más dos días
+      
+        if (fechaLimiteDate.getTime() < fechaActual) {
+          return 'vencido'; // Fecha ya ha pasado
+        } else if (fechaLimiteDate.getTime() < dosDiasAntes) {
+          return 'proximo'; // Fecha es dentro de dos días o menos
+        } else {
+          return ''; // Fecha está bien
+        }
       }
+      
       convertirEstadoCorreoUser(estado: number): string {
         switch (estado) {
           case 1:

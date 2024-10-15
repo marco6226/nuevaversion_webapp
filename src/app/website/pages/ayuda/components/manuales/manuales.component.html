@@ -1,1 +1,131 @@
-<p>manuales works!</p>
+<p-toast key="man"></p-toast>
+<p-header>Manuales De Usuario Sigess</p-header>
+<p-accordion [activeIndex]="0">
+  <p-accordionTab header="Manuales Casos Medicos">
+    <div class="wrapper">
+      <div class="cols">
+        <div class="col" ontouchstart="this.classList.toggle('hover');">
+          <div class="container">
+            <div
+              class="front"
+              style="background-image: url(https://unsplash.it/500/500/)"
+            >
+              <div class="inner">
+                <p>Diligord</p>
+                <span>Lorem ipsum</span>
+              </div>
+            </div>
+            <div class="back">
+              <div class="inner">
+                <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Alias cum repellat velit quae suscipit c.
+                </p>
+              </div>
+
+              <!-- Primer botón de descarga con su URL -->
+              <p-button
+                class="downloadButton"
+                icon="pi pi-download"
+                severity="success"
+                data-url="https://drive.google.com/uc?export=download&id=16cwPxzedJWoy3AjsnLHbTeYtkVImxQyw"
+                [style]="{'margin-top': '20px'}">                
+              
+              </p-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col" ontouchstart="this.classList.toggle('hover');">
+          <div class="container">
+            <div
+              class="front"
+              style="background-image: url(https://unsplash.it/500/500/)"
+            >
+              <div class="inner">
+                <p>Diligord</p>
+                <span>Lorem ipsum</span>
+              </div>
+            </div>
+            <div class="back">
+              <div class="inner">
+                <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Alias cum repellat velit quae suscipit c.
+                </p>
+              </div>
+
+              <!-- Segundo botón de descarga con su URL -->
+              <button
+                class="downloadButton"
+                data-url="https://drive.google.com/uc?export=download&id=1yz9MfFJQhanKYxZEUjik_epclPhxcWYS
+                            "
+                style="
+                  padding: 10px 20px;
+                  background-color: #4caf50;
+                  color: white;
+                  border: none;
+                  border-radius: 5px;
+                "
+              >
+                Descargar Archivo 2
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensaje de estado de la descarga -->
+        <p id="downloadStatus"></p>
+      </div>
+    </div>
+    <p-accordion>
+      <p-accordionTab header="Videos Casos Medicos">
+        <div class="blog-card">
+          <div class="meta">
+            <div class="photo">
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div class="description">
+            <h1>Creacion de caso medico</h1>
+            <p>Video Explicativo de como llevar a cabo un caso medico.</p>
+          </div>
+        </div>
+        <div class="blog-card alt">
+          <div class="meta">
+            <div class="photo">
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+          <div class="description">
+            <h1>Mastering the Language</h1>
+            <h2>Java is not the same as JavaScript</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum
+              dolorum architecto obcaecati enim dicta praesentium, quam nobis!
+              Neque ad aliquam facilis numquam. Veritatis, sit.
+            </p>
+          </div>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+  </p-accordionTab>
+
+  <p-accordionTab header="Header II">
+    <p>
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+      accusantium...
+    </p>
+  </p-accordionTab>
+  <p-accordionTab header="Header III">
+    <p>At vero eos et accusamus et iusto odio dignissimos...</p>
+  </p-accordionTab>
+</p-accordion>

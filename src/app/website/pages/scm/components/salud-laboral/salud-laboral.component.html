@@ -1142,12 +1142,19 @@
                         <tbody>
                           <tr>
                             <td>
-                              <a
-                                type="button"
-                                class="btn btn-outline-primary"
-                                (click)="descargarDocumento(doc.documento)"
-                                >{{ doc.documento.descripcion }}</a
+                              <button
+                              type="button"
+                              class="btn btn-outline-primary"
+                              (click)="descargarDocumento(doc?.documento??'')"
+                              [ngClass]="{
+                                'btn-selected': documentacionSelectSolicitado?.id === case.id
+                              }"
                               >
+                              {{ doc?.documento?.descripcion}}
+                              
+                              </button
+                            >
+                              
                             </td>
                           </tr>
                         </tbody>
@@ -1252,22 +1259,34 @@
                 {{ docsub.solicitadoNombres }}- {{ docsub.solicitadoCedula }}
               </td>
               <td
-                [class.fechaProxima]="
-                  isFechaLimiteProxima(docsub.fechaLimite) &&
+              [class.fechaProxima]="
+                isFechaLimiteProxima(docsub.fechaLimite) === 'proximo' &&
+                docsub.estadoCorreo !== 3
+              "
+              [class.fechaVencida]="
+                isFechaLimiteProxima(docsub.fechaLimite) === 'vencido' &&
+                docsub.estadoCorreo !== 3
+              "
+            >
+              {{ docsub.fechaLimite | date : "dd/MM/yyyy" }}
+              <br />
+              <span
+                *ngIf="
+                  isFechaLimiteProxima(docsub.fechaLimite) === 'proximo' &&
                   docsub.estadoCorreo !== 3
                 "
+                class="mensaje-proximo"
+                >Próximo a vencer</span
               >
-                {{ docsub.fechaLimite | date : "dd/MM/yyyy" }}
-                <br />
-                <span
-                  *ngIf="
-                    isFechaLimiteProxima(docsub.fechaLimite) &&
-                    docsub.estadoCorreo !== 3
-                  "
-                  class="mensaje-proximo"
-                  >Próximo a vencer</span
-                >
-              </td>
+              <span
+                *ngIf="
+                  isFechaLimiteProxima(docsub.fechaLimite) === 'vencido' &&
+                  docsub.estadoCorreo !== 3
+                "
+                class="mensaje-vencido"
+                >Vencido</span
+              >
+            </td>
 
               <td>{{ docsub.fechaEnvio | date : "dd/MM/yyyy" }}</td>
               <td>{{ convertirEstadoCorreo(docsub.estadoCorreo) }}</td>

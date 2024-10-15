@@ -403,7 +403,7 @@ export class PclComponent implements OnInit {
                         key: 'pcl',
                         severity: "success",
                         summary: "Mensaje del sistema",
-                        detail: "La PCL ha sido eliminada exitosamente"
+                        detail: "La calificación ha sido eliminada exitosamente"
                     });
                     this.action = false;
                     this.eventClose.emit();
@@ -431,7 +431,7 @@ export class PclComponent implements OnInit {
                 key: 'pcl',
                 severity: "error",
                 summary: "Mensaje del sistema",
-                detail: "Ocurrió un error al eliminar la PCL"
+                detail: "Ocurrió un error al eliminar la calificación"
             });
             this.action = false;
             this.cd.markForCheck();
@@ -446,11 +446,26 @@ export class PclComponent implements OnInit {
             this.pclForm.patchValue(this.pclSelect);
         }
     }
+    
     cambiarEstado(iddt: number): void {
         const saludL = JSON.parse(localStorage.getItem('saludL') || '{}');
         const idSl = saludL.idSl;
+        const state = saludL.statusCaso;
+    
+        // Si el estado del caso es "en investigación", mostrar mensaje y detener ejecución
+        if (state === true) {
+            this.messageService.add({
+                key: 'pcl',
+                severity: "warn",
+                summary: "Caso en investigación",
+                detail: `El caso ya está en investigación`,
+            });
+            return; // Detener la ejecución aquí para evitar que el modal se abra
+        }
+    
+        // Si el caso no está en investigación, abrir el modal de confirmación
         this.confirmationService.confirm({
-            message: '¿Estás seguro de que quieres enviar el caso ' + idSl + ' a investigación ?',
+            message: '¿Estás seguro de que quieres enviar el caso ' + idSl + ' a investigación?',
             header: 'Confirmar',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
@@ -459,19 +474,25 @@ export class PclComponent implements OnInit {
                         this.messageService.add({
                             key: 'pcl',
                             severity: "success",
-                            summary: "Documento aprobado",
+                            summary: "Caso enviado",
                             detail: `El caso ha sido enviado a investigación`,
                         });
+    
+                        // Actualizar el estado del caso en localStorage
+                        saludL.statusCaso = true; // Cambiar el estado a 'true' porque ya está en investigación
+                        localStorage.setItem('saludL', JSON.stringify(saludL)); // Guardar el nuevo estado en localStorage
                     },
                     error => {
                         console.error('Error al enviar datos:', error);
                     }
                 );
-
             }
-        })
-
+        });
     }
+
+    
+    
+    
 
     async nuevoTratamiento() {
         this.editing = false;
@@ -504,6 +525,8 @@ export class PclComponent implements OnInit {
         if (!this.pclForm.valid && !upd) {
             return this.markFormGroupTouched(this.pclForm);
         }
+        console.log(this.pclForm, this.pclForm.valid, "pcl");
+        
         try {
             let res: any;
             if (upd) {
@@ -530,7 +553,7 @@ export class PclComponent implements OnInit {
                     key: 'pcl',
                     severity: "success",
                     summary: "Mensaje del sistema",
-                    detail: upd ? "La PCL ha sido actualizada exitosamente" : 'La PCL fue creada exitosamente',
+                    detail: upd ? "La calificación ha sido actualizada exitosamente" : 'La calificación fue creada exitosamente',
                 });
                 this.pclSelect = null;
                 this.loadingForm = false;
@@ -545,7 +568,7 @@ export class PclComponent implements OnInit {
                 key: 'pcl',
                 severity: "error",
                 summary: "Mensaje del sistema",
-                detail: upd ? "Ocurrió un problema al actualizar la PCL" : 'Ocurrió un problema al crear la PCL',
+                detail: upd ? "Ocurrió un problema al actualizar la calificación" : 'Ocurrió un problema al crear la calificación',
             });
             this.loadingForm = false;
             this.cd.markForCheck();
