@@ -33,6 +33,7 @@ export class ElementoInspeccionNodeComponent implements OnInit {
 
   @Input() editable?: boolean;
   @Input("disabled") disabled?: boolean;
+  disabled1?: boolean;
   @Input("nivelRiesgoList") nivelRiesgoList: any;
   @Input("diligenciable") diligenciable?: boolean;
   @Input("tiposHallazgo") tiposHallazgo?:TipoHallazgo[];
@@ -189,6 +190,12 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   }
 
   onChangeCalcularCumplimiento(changeEvent: InputSwitchOnChangeEvent, elem: ElementoInspeccion){
+    if(changeEvent.checked){
+      this.disabled1 = true
+    }else{
+      this.disabled1 = false
+    }
+    
     let optDespreciable = this.opciones?.find(opt => opt.despreciable);
     elem.calificacion.opcionCalificacion = optDespreciable!;
     elem?.elementoInspeccionList.forEach(item => {
@@ -196,9 +203,9 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     });
   }
 
-  getValueCalcularCumplimiento(elem: ElementoInspeccion): boolean{
-    return elem.calificacion.calcularCumplimiento === null
-          || typeof elem.calificacion.calcularCumplimiento === 'undefined'
-          || elem.calificacion.calcularCumplimiento === true ? false : true;
-  }
+  // getValueCalcularCumplimiento(elem: ElementoInspeccion): boolean{
+  //   return elem.calificacion.calcularCumplimiento === null
+  //         || typeof elem.calificacion.calcularCumplimiento === 'undefined'
+  //         || elem.calificacion.calcularCumplimiento === true ? false : true;
+  // }
 }

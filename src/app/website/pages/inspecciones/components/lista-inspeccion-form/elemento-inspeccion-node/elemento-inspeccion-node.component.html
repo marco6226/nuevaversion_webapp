@@ -27,20 +27,20 @@
             <td> 
               <div *ngIf="false; else columnas">
               </div>
-              <ng-template #columnas>
-                <td width="5%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="50%">&nbsp;</td>
-                <td width="10%">&nbsp;</td>
-                <td width="50px" style="max-width: 50px;" *ngIf="editable">&nbsp;</td>
-                <td width="50px" style="max-width: 50px;" *ngIf="editable">&nbsp;</td>
-                <td width="50px" style="max-width: 50px;" *ngIf="editable">&nbsp;</td>
+              <ng-template #columnas width="100%">
+                <td >&nbsp;</td>
+                <td >&nbsp;</td>
+                <td >&nbsp;</td>
+                <td >&nbsp;</td>
+                <td *ngIf="editable">&nbsp;</td>
+                <td *ngIf="editable">&nbsp;</td>
+                <td *ngIf="editable">&nbsp;</td>
               </ng-template>
               <ng-template ngFor let-opc [ngForOf]="opciones">
-                <td align="center" width="70px" style="min-width: 70px;">
+                <td align="center" style="min-width: 70px;">
                   <label *ngIf="!elem.calificable">{{opc.nombre}}</label>
                   <p-radioButton #radiobutton [id]="elem.id + '_' + opc.id" [name]="elem.codigo + elem.nombre"
-                    [value]="opc.id" [label]="" [disabled]="disabled" [(ngModel)]="elem.calificacion?.opcionCalificacion.id"
+                    [value]="opc.id" [label]="" [disabled]="disabled1" [(ngModel)]="elem.calificacion?.opcionCalificacion.id"
                     [pTooltip]="opc.descripcion" tooltipPosition="left" *ngIf="elem.calificable"></p-radioButton>
                 </td>
               </ng-template>
@@ -48,9 +48,9 @@
           </tr>
           <tr>
               <app-elemento-inspeccion-node [value]="elem?.elementoInspeccionList" [opciones]="opciones"
-              [editable]="editable" [disabled]="disabled" [nivelRiesgoList]="nivelRiesgoList"
+              [editable]="editable" [disabled]="disabled1" [nivelRiesgoList]="nivelRiesgoList"
               [diligenciable]="diligenciable" (onElementoClick)="emitirEventoSelecElemento($event)"
-              [tiposHallazgo]="tiposHallazgo" [tipoLista]="tipoLista" [ngStyle]="{'width': '100%'}"></app-elemento-inspeccion-node>
+              [tiposHallazgo]="tiposHallazgo" [tipoLista]="tipoLista"></app-elemento-inspeccion-node>
           </tr>
           <ng-container *sTienePermiso="'CTR_GET_CUMP_INP'">
             <tr *ngIf="conPeso && elem.elementoInspeccionList" style="height: 35px; background-color: #eeeeee; color: #333333; text-align: right;">
@@ -86,14 +86,14 @@
               disabled>
             <label *ngIf="!editable">{{elem.codigo}}</label>
           </td>
-          <td width="10%">
+          <td width="30%">
             <input pInputText [(ngModel)]="elem.nombre" *ngIf="editable" placeholder="Nombre"
               maxlength="255">
             <label *ngIf="!elem.calificable && !editable">{{elem.nombre}}</label>
             <label *ngIf="elem.calificable && !editable" [title]="elem.nombre" style="cursor: help;"
               (click)="emitirEventoSelecElemento(elem)" class="clickeable">{{elem.nombre}}</label>
           </td>
-          <td>
+          <td width="30%">
             <input pInputText [(ngModel)]="elem.descripcion" *ngIf="editable" placeholder="Descripción"
               maxlength="512">
             <label *ngIf="!editable">{{elem.descripcion}}</label>

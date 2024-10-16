@@ -14,6 +14,7 @@ import { OpcionCalificacion } from '../../entities/opcion-calificacion';
 import { TipoHallazgo } from '../../entities/tipo-hallazgo';
 import { TipoHallazgoService } from '../../services/tipo-hallazgo.service';
 import { locale_es } from '../../../comun/entities/reporte-enumeraciones';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-lista-inspeccion-form',
@@ -65,6 +66,7 @@ export class ListaInspeccionFormComponent implements OnInit {
         private directorioService: DirectorioService,
         private tipoHallazgoService: TipoHallazgoService,
         private empleadoService: EmpleadoService,
+        public router: Router,
       
     ) {
         this.empresa = this.sessionService.getEmpresa()!;
@@ -100,13 +102,16 @@ export class ListaInspeccionFormComponent implements OnInit {
     }
 
     AusenteSelected(): boolean {
-        const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
-        if(opcionSeleccionada?.nombre.toLowerCase() === 'ausente'){
-            return true;
+        if(this.opciones){
+            const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
+            if(opcionSeleccionada?.nombre.toLowerCase() === 'ausente'){
+                return true;
+            }else{
+                return false
+            }
         }else{
-            return false
+            return false;
         }
-    
     }
 
     onOpcionCalificacionChange(newValue: any) {
@@ -118,7 +123,6 @@ export class ListaInspeccionFormComponent implements OnInit {
           this.elementoSelect.calificacion.planAccion = '0';
           this.elementoSelect.calificacion.descripcionAccTarjeta = '';
           this.elementoSelect.calificacion.responsable = '';
-          this.elementoSelect.calificacion.fechaProyectada = null;
         }
       }
     
@@ -150,6 +154,10 @@ export class ListaInspeccionFormComponent implements OnInit {
         this.empleadoService
             .buscar(event.query)
             .then((data) => (this.empleadosList = <Empleado[]>data));
+    }
+
+    cerrarModal() {
+        this.visibleDlg = false; // Esto cierra el diálogo modal
     }
 
     adicionarElementoInp() {
