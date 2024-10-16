@@ -3276,12 +3276,20 @@ export class SaludLaboralComponent implements OnInit {
   
 
 
-  isFechaLimiteProxima(fechaLimite: string): boolean {
-    const fechaLimiteDate = new Date(fechaLimite);
-    const dosDiasEnMS = 2 * 24 * 60 * 60 * 1000; // Dos días en milisegundos
-    const dosDiasAntes = new Date().getTime() + dosDiasEnMS; // Fecha actual más dos días
-    return fechaLimiteDate.getTime() < dosDiasAntes;
-  }
+    isFechaLimiteProxima(fechaLimite: string): string {
+      const fechaLimiteDate = new Date(fechaLimite);
+      const dosDiasEnMS = 2 * 24 * 60 * 60 * 1000; // Dos días en milisegundos
+      const fechaActual = new Date().getTime();
+      const dosDiasAntes = fechaActual + dosDiasEnMS; // Fecha actual más dos días
+    
+      if (fechaLimiteDate.getTime() < fechaActual) {
+        return 'vencido'; // Fecha ya ha pasado
+      } else if (fechaLimiteDate.getTime() < dosDiasAntes) {
+        return 'proximo'; // Fecha es dentro de dos días o menos
+      } else {
+        return ''; // Fecha está bien
+      }
+    }
 
   async onSubmiSLtSeg() {
     for (const value of this.seguridad) {

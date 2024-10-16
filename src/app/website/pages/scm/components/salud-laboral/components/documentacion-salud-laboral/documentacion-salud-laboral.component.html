@@ -440,9 +440,36 @@
           <td class="p-text-center">{{ case.docSolicitado }}</td>
           <td class="p-text-center">{{ case.solicitadoCedula }}</td>
           <td class="p-text-center">{{ case.solicitadoNombres }}</td>
-          <td class="p-text-center">
+          <td
+            [class.fechaProxima]="
+              isFechaLimiteProxima(case.fechaLimite) === 'proximo' &&
+              case.estadoCorreo !== 3
+            "
+            [class.fechaVencida]="
+              isFechaLimiteProxima(case.fechaLimite) === 'vencido' &&
+              case.estadoCorreo !== 3
+            "
+          >
             {{ case.fechaLimite | date : "dd/MM/yyyy" }}
+            <br />
+            <span
+              *ngIf="
+                isFechaLimiteProxima(case.fechaLimite) === 'proximo' &&
+                case.estadoCorreo !== 3
+              "
+              class="mensaje-proximo"
+              >Próximo a vencer</span
+            >
+            <span
+              *ngIf="
+                isFechaLimiteProxima(case.fechaLimite) === 'vencido' &&
+                case.estadoCorreo !== 3
+              "
+              class="mensaje-vencido"
+              >Vencido</span
+            >
           </td>
+
           <td class="p-text-center">
             {{ case.fechaEnvio | date : "dd/MM/yyyy" }}
           </td>
@@ -461,9 +488,9 @@
                 class="p-button-info margin-left margin-right"
                 (click)="openUploadDialog(case.id, case.documentos)"
                 [disabled]="documentacionSelectUser?.id !== case.id"
-                    [ngClass]="{
-                      'btn-selected': documentacionSelectUser?.id === case.id
-                    }"
+                [ngClass]="{
+                  'btn-selected': documentacionSelectUser?.id === case.id
+                }"
               ></button>
             </ng-container>
             <s-documentoUpload
@@ -502,16 +529,14 @@
                         <td>
                           <a>&nbsp;</a>
                           <button
-                          type="button"
-                          class="btn btn-outline-danger"
-                          title="Eliminar documento"
-                          (click)="eliminarDocument(doc)"
-                          [disabled]="documentacionSelectUser?.id !== case.id"
-
-                        >
-                          <span class="pi pi-trash"></span>
-                        </button>
-                        
+                            type="button"
+                            class="btn btn-outline-danger"
+                            title="Eliminar documento"
+                            (click)="eliminarDocument(doc)"
+                            [disabled]="documentacionSelectUser?.id !== case.id"
+                          >
+                            <span class="pi pi-trash"></span>
+                          </button>
                         </td>
                       </tr>
                     </tbody>

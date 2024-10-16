@@ -345,12 +345,19 @@ dataKey="id"
                       <tr>
                         <td>
                         
-                          <a
+                          <button
                             type="button"
                             class="btn btn-outline-primary"
                             (click)="descargarDocumento(doc?.documento??'')"
-                            >{{ doc?.documento?.descripcion}}</a
+                            [ngClass]="{
+                              'btn-selected': documentacionSelectSolicitado?.id === case.id
+                            }"
+                            >
+                            {{ doc?.documento?.descripcion}}
+                            
+                            </button
                           >
+                          
                         </td>
                       </tr>
                     </tbody>
