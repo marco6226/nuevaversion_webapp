@@ -30,15 +30,15 @@
           </div> -->
           <div class="col-6 md:col-6 sm:col-12">
             <label for="Division">Division</label>
-            <p-multiSelect id="Division" [options]="areasOption" formControlName="division" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+            <p-multiSelect id="Division" [options]="areasOption" formControlName="division" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}" (onChange)="onChangeC($event.value, 'division')"></p-multiSelect>
           </div>
           <div class="col-6 md:col-6 sm:col-12">
             <label for="localidades">Localidad</label>
-            <p-multiSelect id="localidades" [options]="localidadesOption" formControlName="localidadSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+            <p-multiSelect id="localidades" [options]="localidadesOption" formControlName="localidadSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}" (onChange)="onChangeC($event.value, 'localidadSv')"></p-multiSelect>
           </div>
           <div class="col-6 md:col-6 sm:col-12">
             <label for="area">area</label>
-            <p-multiSelect id="area" [options]="areasOptionAreaMatriz" formControlName="areaSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}"></p-multiSelect>
+            <p-multiSelect id="area" [options]="areasOptionAreaMatriz" formControlName="areaSv" [filter]="true" appendTo="body" [style]="{'width': '-webkit-fill-available'}" (onChange)="onChangeC($event.value, 'areaSv')"></p-multiSelect>
           </div>
           <div class="col-6 md:col-6 sm:col-12">
             <label for="area">Proceso</label>

@@ -1,24 +1,26 @@
 export class Filter {
     field?: string;
-    value1?: string | null;
+    value1?: string | boolean | null;
     value2?: string | null;
     criteria?: Criteria;
 }
 
+
 export enum Criteria {
-    EQUALS = <any>'eq',
-    NOT_EQUALS = <any>"ne",
-    CONTAINS = <any>"ct",
-    NOT_CONTAINS = <any>"nc",
-    GREATER_THAN = <any>"gt",
-    LOWER_THAN = <any>"lt",
-    LOWER_EQUALS = <any>"le",
-    GREATER_EQUALS = <any>"ge",
-    BETWEEN = <any>"bt",
-    IS_NULL = <any>"isn",
-    IS_NOT_NULL = <any>"isnn",
-    LIKE = <any>"lk",
-  }
+  EQUALS = <any>'eq',
+  NOT_EQUALS = <any>"ne",
+  CONTAINS = <any>"ct",
+  NOT_CONTAINS = <any>"nc",
+  GREATER_THAN = <any>"gt",
+  LOWER_THAN = <any>"lt",
+  LOWER_EQUALS = <any>"le",
+  GREATER_EQUALS = <any>"ge",
+  BETWEEN = <any>"bt",
+  IS_NULL = <any>"isn",
+  IS_NOT_NULL = <any>"isnn",
+  LIKE = <any>"lk",
+  IN = <any>"in",
+}
   
   export enum SortOrder {
     ASC = -1,
