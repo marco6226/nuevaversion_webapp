@@ -81,3 +81,9 @@ input[type="text"]{
     font-weight: bold;
     color:rgb(0, 0, 0);
 }
+
+textarea{
+  border:1px solid black !important;
+  border-radius: 5px !important;
+  width: 100%;
+}

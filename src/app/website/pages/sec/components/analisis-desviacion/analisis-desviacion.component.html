@@ -56,15 +56,28 @@
 
         <ng-template #division>
           <td>
-            {{ rowData.division }}
+            {{
+              rowData.modulo === "Salud Laboral"
+                ? desviacionesList[0]?.divisionOrigen
+                : rowData.division
+            }}
           </td>
         </ng-template>
         <td>
-          {{ rowData.concepto }}
+          {{
+            rowData.modulo === "Salud Laboral"
+              ? desviacionesList[0]?.divisionOrigen
+              : rowData.concepto
+          }}
         </td>
         <td>
-          {{ rowData.aspectoCausante }}
+          {{
+            rowData.modulo === "Salud Laboral"
+              ? (desviacionesList[0]?.nombresSl || '') + " - " + (this.diagnosticoList?.[0]?.sistemaAfectado || '')
+              : rowData.aspectoCausante
+          }}
         </td>
+        
         <td>
           <button
             *ngIf="!consultar"
@@ -988,10 +1001,18 @@
               header="Factor Causal {{ i + 1 }}"
             >
               <app-factor-causal
+              *ngIf="peligro != 'Psicosocial'"
                 (dataFC)="setListDataFactor()"
                 (validators2)="getValidator($event)"
                 [factorCausal]="data"
               ></app-factor-causal>
+              <app-factores-causales-psicosocial
+              *ngIf="peligro === 'Psicosocial'"
+                (dataFC)="setListDataFactor()"
+                (validators2)="getValidator($event)"
+                [factorCausal]="data"
+              >
+              </app-factores-causales-psicosocial>
             </p-tabPanel>
             <p-tabPanel
               *ngIf="
@@ -1001,23 +1022,27 @@
               "
               header="Listado de causas"
             >
-             
-
+            <header *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'">Conclusiones de la Investigación</header>
+              <textarea
+                *ngIf="desviacionesList[0]?.modulo == 'Salud Laboral'"
+                style="width: 100%; height: 50%;"
+                maxlength="5000"
+                pInputTextarea
+                rows="20"
+                placeholder="Por favor escriba las conclusiones de la investigación"
+                [(ngModel)]="observacion"
+                (ngModelChange)="updateButtonState()"
+                required
+              ></textarea>
               <app-listado-causas
                 [factores]="dataListFactor"
                 (tabIndex)="changeTab()"
                 (validacionPA)="habilitarInforme()"
                 [planAccionList]="listPlanAccion"
                 (observacionChange)="updateObservacion($event)"
+                [isButtonDisabled]="isButtonDisabled"
               ></app-listado-causas>
-              <textarea
-              style="width: 100%"
-              maxlength="5000"
-              pInputTextarea
-              rows="20"
-              placeholder="Observaciones de análisis"
-              [(ngModel)]="observacion"
-            ></textarea>
+              
             </p-tabPanel>
             <p-tabPanel
               *ngIf="
