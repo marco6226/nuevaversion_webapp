@@ -167,10 +167,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     };
 
     this.areasPerm = this.sesionService.getPermisosMap()['INP_GET_PROG'].areas;
-    await this.loadLocalidades();
     await this.loadDiv();
-    await this.loadAreasMatriz();
-    await this.loadProcesos();
     await this.applyFilter();
 
     try {
@@ -202,21 +199,78 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     });
   }
 
-  localidades: Localidades[] = [];
-  async loadLocalidades() {
-    this.empresaService.getLocalidades().then(
-      (res: Localidades[]) => {
-        this.localidades = Array.from(res);
-        this.localidadesOption = [];
-        this.localidades.forEach(localidad => {
-          this.localidadesOption.push({ label: localidad.localidad, value: localidad });
-        })
-      },
-      (reason: any) => {
-        console.error('Error al obtener localidades', reason);
+   
+  onChangeC(event: any, campoNombre: string) {
+    if (campoNombre === 'division') {
+      this.resetLocalidades();
+      this.resetAreas();
+      this.resetProcesos();
+      const selectedIds: number[] = [];
+    
+      // Iterar sobre las divisiones seleccionadas para extraer los IDs
+      event.forEach((division: any) => {
+        if (division.id) {
+          selectedIds.push(division.id);
+        }
+      });
+
+      if (selectedIds == null || selectedIds.length === 0) {
+       this.localidadesOption = [];
+      } else {
+        this.loadLocalidades(selectedIds);
       }
-    )
+      
+    }
+
+    if (campoNombre === 'localidadSv') {
+      this.resetAreas();
+      this.resetProcesos();
+      const selectedIds: number[] = [];
+      event.forEach((localidad: any) => {
+        if (localidad.id) {
+          selectedIds.push(localidad.id);
+        }
+      });
+      if (selectedIds == null || selectedIds.length === 0) {
+       this.areasOptionAreaMatriz = [];
+      } else {
+        this.loadAreasMatriz(selectedIds);
+      }
+    }
+
+    if (campoNombre === 'areaSv') {
+      this.resetProcesos();
+      const selectedIds: number[] = [];
+      event.forEach((area: any) => {
+        if (area.id) {
+          selectedIds.push(area.id);
+        }
+      });
+      
+      if (selectedIds == null || selectedIds.length === 0) {
+       this.ProcesosOption = [];
+      } else {
+        this.loadProcesos(selectedIds);
+      }
+    }
   }
+
+  
+  resetLocalidades() {
+    this.formFilters?.get('localidadSv')?.setValue(null);
+    this.localidadesOption = []
+  }
+
+  resetAreas() {
+    this.formFilters?.get('areaSv')?.setValue(null);
+    this.areasOptionAreaMatriz = []
+  }
+
+  resetProcesos() {
+    this.formFilters?.get('procesoSv')?.setValue(null);
+    this.ProcesosOption =[]
+  }
+  
   divisiones: Area[] = [];
   async loadDiv() {
     this.empresaService.getArea().then(
@@ -226,7 +280,6 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
         this.divisiones.forEach(divi => {
           this.areasOption.push({ label: divi.nombre, value: divi });
         })
-        console.log(this.areasOption), 'area';
 
       },
       (reason: any) => {
@@ -234,59 +287,76 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       }
     )
   }
-  async loadAreas() {
-    this.empresaService.getArea().then(
-      (res: Area[]) => {
-        this.divisiones = Array.from(res);
-        this.areasOption = [];
-        this.divisiones.forEach(divi => {
-          this.areasOption.push({ label: divi.nombre, value: divi });
-        })
-        console.log(this.areasOption), 'area';
 
-      },
-      (reason: any) => {
-        console.error('Error al obtener localidades', reason);
-      }
-    )
+  localidades: Localidades[] = [];
+  async loadLocalidades(ids: number[]) {
+    let filterPlantaQuery = new FilterQuery();
+    filterPlantaQuery.sortField = "id";
+    filterPlantaQuery.sortOrder = -1;
+    filterPlantaQuery.fieldList = ["id", "localidad"];
+    filterPlantaQuery.filterList = [
+      { field: 'plantas.area.id', criteria: Criteria.IN, value1: ids.join(',')},
+    ];
+  
+    try {
+      const resp: any = await this.empresaService.getLocalidadesRWithFilter(filterPlantaQuery);
+      const localidadesList = resp.data.map((element: any) => ({ label: element.localidad, value: element }));
+  
+      this.localidadesOption = localidadesList;
+      
+    } catch (error) {
+      console.error("Error al cargar las localidades:", error);
+    }
+
   }
+  
   divisionesArea: AreaMatriz[] = [];
 
-  async loadAreasMatriz() {
-    this.areaMatrizService.getForEmpresaCor().then(
-      (res: AreaMatriz[]) => {
-        this.divisionesArea = Array.from(res);
-        this.areasOptionAreaMatriz = [];
-        this.divisionesArea.forEach(divi => {
-          this.areasOptionAreaMatriz.push({ label: divi.nombre ?? '', value: divi });
-        })        
-      },
-      (reason: any) => {
-        console.error('Error al obtener localidades', reason);
-      }
-    )
+  async loadAreasMatriz(ids: number[]) {
+    let filterArea = new FilterQuery();
+    filterArea.sortField = "id";
+    filterArea.sortOrder = -1;
+    filterArea.fieldList = [
+      'id',
+      'nombre'
+    ];
+    filterArea.filterList = [
+      { field: 'localidad.id', criteria: Criteria.IN, value1: ids.join(',') },
+      { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+    ];
+
+    const resp: any = await this.areaMatrizService.findByFilter(filterArea);
+    const areaList = resp.data.map((element: any) => ({ label: element.nombre, value: element }));
+
+    this.areasOptionAreaMatriz = [...areaList];
+   
   }
+
   procesos: ProcesoMatriz[] = [];
-  async loadProcesos() {
-    this.procesoMatrizService.getForEmpresaCorPros().then(
-      (res: ProcesoMatriz[]) => {
-        this.procesos = Array.from(res);
-        this.ProcesosOption = [];
-        this.procesos.forEach(divi => {
-          this.ProcesosOption.push({ label: divi.nombre ?? '', value: divi });
-        })        
-      },
-      (reason: any) => {
-        console.error('Error al obtener localidades', reason);
-      }
-    )
+  async loadProcesos(ids: number[]) {
+    try {
+      let filterProceso = new FilterQuery();
+      filterProceso.sortField = "id";
+      filterProceso.sortOrder = -1;
+      filterProceso.fieldList = ['id', 'nombre'];
+      filterProceso.filterList = [
+        { field: 'areaMatriz.id', criteria: Criteria.IN, value1: ids.join(',') },
+        { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
+      ];
+
+      const resp: any = await this.procesoMatrizService.findByFilter(filterProceso);
+      const procesoList = resp.data.map((element: any) => ({ label: element.nombre, value: element }))
+      
+      this.ProcesosOption = [...procesoList];
+    } catch (error) {
+      console.error("Error en cargarProceso:", error);
+    }
   }
   
 
   areaList: any[] = []
   areaListActual: any[] = []
   async cargarArea(eve: any, tipo: string) {
-    console.log(eve);
 
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
@@ -309,10 +379,8 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
 
     if (tipo === 'Origen') {
       this.areaList = [...areaList];
-      console.log(areaList)
     } else {
       this.areaListActual = [...areaList];
-      console.log(this.areaListActual)
     }
   }
   ngOnChanges(changes: SimpleChanges): void { }

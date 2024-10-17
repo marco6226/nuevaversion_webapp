@@ -19,5 +19,5 @@ export interface Calificacion {
     planAccion: string;
     responsable: any | null;
     descripcionAccTarjeta: string;
-    fechaProyectada: Date | null;
+    fechaProyectada: Date;
 }

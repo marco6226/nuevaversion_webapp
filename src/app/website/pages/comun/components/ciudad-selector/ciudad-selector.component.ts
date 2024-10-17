@@ -144,10 +144,6 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
 
   }
 
-
-
-
-
   async loadPaisItems(paises: any) {
     if (Array.isArray(paises.data)) {
       paises.data.forEach((pais: Pais) => {
@@ -162,30 +158,34 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   }
 
   onPaisSelect(event: any) {
-    const selectedPaisId = event.value; // Obtén el ID seleccionado en el primer dropdown
-    // Limpiar las listas de departamentos y ciudades
+    const selectedPaisId = event.value;
+    console.log('País seleccionado ID:', selectedPaisId);
+  
     this.departamentosItems = [];
     this.ciudadesItems = [];
-    // Utiliza el ID seleccionado para cargar los departamentos correspondientes
-    // Puedes llamar a tu servicio aquí para cargar los departamentos y asignarlos a 'departamentosItems'
-    if (selectedPaisId)
+  
+    if (selectedPaisId) {
       this.comunService
         .findDepartamentoByPais(selectedPaisId)
         .then((data: Departamento[]) => {
+          console.log('Departamentos cargados:', data);
           this.loadDepartamentosItems(data);
+        })
+        .catch(error => {
+          console.error('Error al cargar departamentos:', error);
         });
-
+    }
   }
 
   onDepartamentoChange(event: any) {
-    // Limpiar la selección de la ciudad
+    const selectedDepartamentoId = event.value;
+    console.log('Departamento seleccionado ID:', selectedDepartamentoId);
+  
     this.value = null;
-    // Limpiar la lista de ciudades
     this.ciudadesItems = [];
-    // Si se selecciona un departamento, cargar las ciudades correspondientes
-    if (event.value) {
-      this.loadCiudades(event.value);
-
+  
+    if (selectedDepartamentoId) {
+      this.loadCiudades(selectedDepartamentoId);
     }
   }
 
@@ -196,10 +196,18 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
   // }
 
   async loadCiudades(departamentoId: string) {
+    console.log('Cargando ciudades para el departamento ID:', departamentoId);
+  
     this.ciudadesItems.splice(2, this.ciudadesItems.length); // Limpiar la lista antes de agregar nuevas ciudades
     await this.comunService
       .findCiudadByDepartamento(departamentoId)
-      .then((data) => this.loadCiudadesItems(<Ciudad[]>data));
+      .then((data) => {
+        console.log('Ciudades cargadas:', data);
+        this.loadCiudadesItems(<Ciudad[]>data);
+      })
+      .catch(error => {
+        console.error('Error al cargar ciudades:', error);
+      });
   }
   // async loadCiudadesmex(departamentoId: string) {
   //   await this.comunService
@@ -227,7 +235,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
 
   updateUI() {
     // console.log(this.value)
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
     setTimeout(() => {
       if (this.value != null) {
         this.paisSelectId = this.value?.departamento?.pais?.id;
@@ -239,7 +247,7 @@ export class CiudadSelectorComponent implements OnInit, ControlValueAccessor {
       } else {
 
       }
-      }, 1200);
+      }, 2000);
     }
   }
 }

@@ -115,6 +115,7 @@ export class ElaboracionInspeccionesSignosVitalesComponent implements OnInit {
   responsableM:any;
   analisis : AnalisisDesviacion[] =[]
   confiabilidad!:string;
+  arrraynocumple: any = [];
 
   EstadoOptionList = [
       { label: "Disponible", value: "Disponible" },
@@ -519,29 +520,28 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
   async onSubmit() {
       let calificacionList: Calificacion[] = [];
       try {
-
           this.extraerCalificaciones(this.listaInspeccion.elementoInspeccionList, calificacionList);
-            
+        
           let inspeccion: Inspeccion = new Inspeccion();
           inspeccion.area = this.area;
           inspeccion.listaInspeccion = this.listaInspeccion;
-
+          
           inspeccion.programacion = this.programacion;
           inspeccion.calificacionList = calificacionList;
-          inspeccion.calificacionList[0].opcionCalificacion = calificacionList[0].opcionCalificacion;
-
-          if(calificacionList[0].accion){
-            inspeccion.calificacionList[0].accion = calificacionList[0]?.accion;
-            inspeccion.calificacionList[0].descripcionAccion = calificacionList[0]?.descripcionAccion;
-            inspeccion.calificacionList[0].descripcionMiti = calificacionList[0]?.descripcionMiti;
-            if(calificacionList[0].planAccion){
-                inspeccion.calificacionList[0].planAccion = calificacionList[0]?.planAccion;
-                inspeccion.calificacionList[0].responsable = calificacionList[0]?.responsable;
-                inspeccion.calificacionList[0].descripcionAccTarjeta = calificacionList[0]?.descripcionAccTarjeta;
-                inspeccion.calificacionList[0].fechaProyectada = calificacionList[0]?.fechaProyectada;
-            } 
-          }               
-          
+          for (let i = 0; i < this.listaInspeccion.elementoInspeccionList.length; i++) {
+            inspeccion.calificacionList[i].opcionCalificacion = calificacionList[i].opcionCalificacion;
+            if(calificacionList[i].accion){
+                inspeccion.calificacionList[i].accion = calificacionList[i]?.accion;
+                inspeccion.calificacionList[i].descripcionAccion = calificacionList[i]?.descripcionAccion;
+                inspeccion.calificacionList[i].descripcionMiti = calificacionList[i]?.descripcionMiti;
+                if(calificacionList[i].planAccion){
+                    inspeccion.calificacionList[i].planAccion = calificacionList[i]?.planAccion;
+                    inspeccion.calificacionList[i].responsable = calificacionList[i]?.responsable;
+                    inspeccion.calificacionList[i].descripcionAccTarjeta = calificacionList[i]?.descripcionAccTarjeta;
+                    inspeccion.calificacionList[i].fechaProyectada = calificacionList[i]?.fechaProyectada;
+                } 
+            }               
+            }
           inspeccion.respuestasCampoList = [];
           inspeccion.equipo = this.equipo;
           if(this.listaInspeccion?.tipoLista=='Ergonomía'){inspeccion.observacion =  JSON.stringify([this.observacion1,this.observacion2])}
@@ -576,69 +576,74 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                         console.error(err);
                         this.solicitando = false;
                   }).finally(async ()=>{
-                    if(Number(calificacionList[0].accion) === 3){
-                        let result = await this.cargarDesviacion('INPSV-' + this.inspeccion.id + '-' + calificacionList[0].elementoInspeccion.id + '-' + calificacionList[0].opcionCalificacion.id) 
-                    
-                        if(result !== null){
-                            let analisisDesviacion : AnalisisDesviacion = new AnalisisDesviacion();
-                            let desviacion = this.desviacionList
+                    let analisisDesviacion : AnalisisDesviacion = new AnalisisDesviacion();
+                    let elementoInsp = this.listaInspeccion.elementoInspeccionList;
+                    for (let j = 0; j < this.listaInspeccion.elementoInspeccionList.length; j++) {          
+                        for(let i = 0; i < elementoInsp[j].elementoInspeccionList.length; i++){
 
-                            if (!analisisDesviacion.desviacionesList) {
-                                analisisDesviacion.desviacionesList = [];
-                            }
+                            if(Number(elementoInsp[j].elementoInspeccionList[i].calificacion.accion) === 3){
+                                let result = await this.cargarDesviacion('INPSV-' + this.inspeccion.id + '-' + elementoInsp[j].elementoInspeccionList[i].calificacion.elementoInspeccion.id + '-' + elementoInsp[j].elementoInspeccionList[i].calificacion.opcionCalificacion.id) 
+                                if(result !== null){
+                                    
+                                    let desviacion = this.desviacionList
+    
+                                    if (!analisisDesviacion.desviacionesList) {
+                                        analisisDesviacion.desviacionesList = [];
+                                    }
+                                    
+                                    analisisDesviacion.desviacionesList.push(desviacion)
+    
+                                    let tarea  = new Tarea();
+                                    tarea.nombre = "Tarjeta de Seguridad";
+                                    tarea.descripcion = elementoInsp[j].elementoInspeccionList[i].calificacion.descripcionAccTarjeta
+                                    if(elementoInsp[j].elementoInspeccionList[i].calificacion.fechaProyectada){
+                                        tarea.fechaProyectada = new Date(elementoInsp[j].elementoInspeccionList[i].calificacion.fechaProyectada!);
+                                    }
+                                    
+                                    if (desviacion.area != null) {
+                                        tarea.areaResponsable = new Area();
+                                        tarea.areaResponsable.id = desviacion.area.id
+                                        tarea.areaResponsable.nombre = desviacion.area.nombre;
+                                    }
+                                
+                                    let responsableA = JSON.parse(elementoInsp[j].elementoInspeccionList[i].calificacion.responsable) as EmpleadoBasic
+                                    if (responsableA != null) {
+                                        tarea.empResponsable = new Empleado();
+                                        tarea.empResponsable.id = responsableA.id;
+                                        tarea.empResponsable.primerNombre = responsableA.primerNombre;
+                                        tarea.empResponsable.primerApellido = responsableA.primerApellido;
+                                        tarea.empResponsable.usuarioBasic= responsableA.usuarioBasic;
+                                    }
+    
+                                    tarea.tipoAccion = 'Plan de acción'
+                                    tarea.modulo= 'Inspecciones SV';
+                                    tarea.codigo= desviacion.hashId
+                                    const localidadName = await this.getLocalidad(inspeccion.programacion.localidadSv);
+                                    const areaName = await this.getArea(inspeccion.programacion.areaSv);
+                                    const procesoName = await this.getProceso(inspeccion.programacion.procesoSv);
+                                    tarea.localidadSv = localidadName;
+                                    tarea.areaSv = areaName;
+                                    tarea.procesoSv = procesoName;
+                                    tarea.estado = 'NUEVO';
+                                    tarea.envioCorreo = false;
+
+                                    if (!analisisDesviacion.tareaDesviacionList) {
+                                        analisisDesviacion.tareaDesviacionList = [];
+                                    }
+                                    analisisDesviacion.tareaDesviacionList.push(tarea)
+                                }
                             
-                            analisisDesviacion.desviacionesList.push(desviacion)
-
-                            let tarea  = new Tarea();
-                            tarea.nombre = "Tarjeta de Seguridad";
-                            tarea.descripcion = calificacionList[0].descripcionAccTarjeta
-                            if(calificacionList[0].fechaProyectada){
-                                tarea.fechaProyectada = new Date(calificacionList[0].fechaProyectada);
                             }
-                            
-                            if (desviacion.area != null) {
-                                tarea.areaResponsable = new Area();
-                                tarea.areaResponsable.id = desviacion.area.id
-                                tarea.areaResponsable.nombre = desviacion.area.nombre;
-                            }
-                        
-                            let responsableA = JSON.parse(calificacionList[0].responsable) as EmpleadoBasic
-                            if (responsableA != null) {
-                                tarea.empResponsable = new Empleado();
-                                tarea.empResponsable.id = responsableA.id;
-                                tarea.empResponsable.primerNombre = responsableA.primerNombre;
-                                tarea.empResponsable.primerApellido = responsableA.primerApellido;
-                                tarea.empResponsable.usuarioBasic= responsableA.usuarioBasic;
-                            }
-
-                            tarea.tipoAccion = 'Plan de acción'
-                            tarea.modulo= 'Inspecciones SV';
-                            tarea.codigo= desviacion.hashId
-                            const localidadName = await this.getLocalidad(inspeccion.programacion.localidadSv);
-                            const areaName = await this.getArea(inspeccion.programacion.areaSv);
-                            const procesoName = await this.getProceso(inspeccion.programacion.procesoSv);
-                            tarea.localidadSv = localidadName;
-                            tarea.areaSv = areaName;
-                            tarea.procesoSv = procesoName;
-                            tarea.estado = 'NUEVO';
-                            tarea.envioCorreo = false;
-
-                            if (!analisisDesviacion.tareaDesviacionList) {
-                                analisisDesviacion.tareaDesviacionList = [];
-                            }
-                            
-                            analisisDesviacion.tareaDesviacionList.push(tarea)
-
-                            this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
-                                 this.manageResponseA(<AnalisisDesviacion>data)  
-                            }).catch(err => {
-                               console.log(err);
-                            });
-                        }
-                     
+                        }    
                     }
                     
-                   
+                    if(analisisDesviacion.desviacionesList?.length! > 0){
+                        this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
+                            this.manageResponseA(<AnalisisDesviacion>data)  
+                        }).catch(err => {
+                        console.log(err);
+                        });
+                    } 
                   });
           } else {
               if ((this.FormHseq.value.concepto == 'Aceptado' || this.FormHseq.value.concepto == 'Denegado') && this.inspeccion.empleadohse != null) {
@@ -682,69 +687,74 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                   .catch(err => {
                       this.solicitando = false;
                   }).finally(async ()=>{
-                    if(Number(calificacionList[0].accion) === 3){
-                        let result = await this.cargarDesviacion('INPSV-' + this.inspeccion.id + '-' + calificacionList[0].elementoInspeccion.id + '-' + calificacionList[0].opcionCalificacion.id) 
-                    
-                        if(result !== null){
-                            let analisisDesviacion : AnalisisDesviacion = new AnalisisDesviacion();
-                            let desviacion = this.desviacionList
+                    let analisisDesviacion : AnalisisDesviacion = new AnalisisDesviacion();
+                    let elementoInsp = this.listaInspeccion.elementoInspeccionList;
+                    for (let j = 0; j < this.listaInspeccion.elementoInspeccionList.length; j++) {          
+                        for(let i = 0; i < elementoInsp[j].elementoInspeccionList.length; i++){
 
-                            if (!analisisDesviacion.desviacionesList) {
-                                analisisDesviacion.desviacionesList = [];
-                            }
+                            if(Number(elementoInsp[j].elementoInspeccionList[i].calificacion.accion) === 3){
+                                let result = await this.cargarDesviacion('INPSV-' + this.inspeccion.id + '-' + elementoInsp[j].elementoInspeccionList[i].calificacion.elementoInspeccion.id + '-' + elementoInsp[j].elementoInspeccionList[i].calificacion.opcionCalificacion.id) 
+                                if(result !== null){
+                                    
+                                    let desviacion = this.desviacionList
+    
+                                    if (!analisisDesviacion.desviacionesList) {
+                                        analisisDesviacion.desviacionesList = [];
+                                    }
+                                    
+                                    analisisDesviacion.desviacionesList.push(desviacion)
+    
+                                    let tarea  = new Tarea();
+                                    tarea.nombre = "Tarjeta de Seguridad";
+                                    tarea.descripcion = elementoInsp[j].elementoInspeccionList[i].calificacion.descripcionAccTarjeta
+                                    if(elementoInsp[j].elementoInspeccionList[i].calificacion.fechaProyectada){
+                                        tarea.fechaProyectada = new Date(elementoInsp[j].elementoInspeccionList[i].calificacion.fechaProyectada!);
+                                    }
+                                    
+                                    if (desviacion.area != null) {
+                                        tarea.areaResponsable = new Area();
+                                        tarea.areaResponsable.id = desviacion.area.id
+                                        tarea.areaResponsable.nombre = desviacion.area.nombre;
+                                    }
+                                
+                                    let responsableA = JSON.parse(elementoInsp[j].elementoInspeccionList[i].calificacion.responsable) as EmpleadoBasic
+                                    if (responsableA != null) {
+                                        tarea.empResponsable = new Empleado();
+                                        tarea.empResponsable.id = responsableA.id;
+                                        tarea.empResponsable.primerNombre = responsableA.primerNombre;
+                                        tarea.empResponsable.primerApellido = responsableA.primerApellido;
+                                        tarea.empResponsable.usuarioBasic= responsableA.usuarioBasic;
+                                    }
+    
+                                    tarea.tipoAccion = 'Plan de acción'
+                                    tarea.modulo= 'Inspecciones SV';
+                                    tarea.codigo= desviacion.hashId
+                                    const localidadName = await this.getLocalidad(inspeccion.programacion.localidadSv);
+                                    const areaName = await this.getArea(inspeccion.programacion.areaSv);
+                                    const procesoName = await this.getProceso(inspeccion.programacion.procesoSv);
+                                    tarea.localidadSv = localidadName;
+                                    tarea.areaSv = areaName;
+                                    tarea.procesoSv = procesoName;
+                                    tarea.estado = 'NUEVO';
+                                    tarea.envioCorreo = false;
+
+                                    if (!analisisDesviacion.tareaDesviacionList) {
+                                        analisisDesviacion.tareaDesviacionList = [];
+                                    }
+                                    analisisDesviacion.tareaDesviacionList.push(tarea)
+                                }
                             
-                            analisisDesviacion.desviacionesList.push(desviacion)
-
-                            let tarea  = new Tarea();
-                            tarea.nombre = "Tarjeta de Seguridad";
-                            tarea.descripcion = calificacionList[0].descripcionAccTarjeta
-                            if(calificacionList[0].fechaProyectada){
-                                tarea.fechaProyectada = new Date(calificacionList[0].fechaProyectada);
                             }
-                            
-                            if (desviacion.area != null) {
-                                tarea.areaResponsable = new Area();
-                                tarea.areaResponsable.id = desviacion.area.id
-                                tarea.areaResponsable.nombre = desviacion.area.nombre;
-                            }
-                        
-                            let responsableA = JSON.parse(calificacionList[0].responsable) as EmpleadoBasic
-                            if (responsableA != null) {
-                                tarea.empResponsable = new Empleado();
-                                tarea.empResponsable.id = responsableA.id;
-                                tarea.empResponsable.primerNombre = responsableA.primerNombre;
-                                tarea.empResponsable.primerApellido = responsableA.primerApellido;
-                                tarea.empResponsable.usuarioBasic= responsableA.usuarioBasic;
-                            }
-
-                            tarea.tipoAccion = 'Plan de acción'
-                            tarea.modulo= 'Inspecciones SV';
-                            tarea.codigo= desviacion.hashId
-                            const localidadName = await this.getLocalidad(inspeccion.programacion.localidadSv);
-                            const areaName = await this.getArea(inspeccion.programacion.areaSv);
-                            const procesoName = await this.getProceso(inspeccion.programacion.procesoSv);
-                            tarea.localidadSv = localidadName;
-                            tarea.areaSv = areaName;
-                            tarea.procesoSv = procesoName;
-                            tarea.estado = 'NUEVO';
-                            tarea.envioCorreo = false;
-
-                            if (!analisisDesviacion.tareaDesviacionList) {
-                                analisisDesviacion.tareaDesviacionList = [];
-                            }
-                            
-                            analisisDesviacion.tareaDesviacionList.push(tarea)
-
-                            this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
-                                 this.manageResponseA(<AnalisisDesviacion>data)  
-                            }).catch(err => {
-                               console.log(err);
-                            });
-                        }
-                     
+                        }    
                     }
                     
-                   
+                    if(analisisDesviacion.desviacionesList?.length! > 0){
+                        this.analisisDesviacionService.create(analisisDesviacion).then(data=>{
+                            this.manageResponseA(<AnalisisDesviacion>data)  
+                        }).catch(err => {
+                        console.log(err);
+                        });
+                    } 
                   });
           }
           if (this.accion === 'POST') {
@@ -755,20 +765,18 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           this.messageService.add({ severity: 'warn', detail: error });
       }
 
-      let nocumple = <Calificacion[]><unknown>this.inspeccion.calificacionList;
+      if(this.inspeccion.calificacionList){
+        let nocumple = <Calificacion[]><unknown>this.inspeccion.calificacionList;
+        nocumple = nocumple.filter(function (element) {
+            return element.opcionCalificacion.valor === 0;
+        });
 
+        let var2 = nocumple.map(item => {
+            this.arrraynocumple.push(item.elementoInspeccion.id)
+            return    this.arrraynocumple
+        })
 
-      nocumple = nocumple.filter(function (element) {
-          return element.opcionCalificacion.valor === 0;
-      });
-
-      let arrraynocumple: any = [];
-
-      let var2 = nocumple.map(item => {
-          arrraynocumple.push(item.elementoInspeccion.id)
-          return arrraynocumple;
-      })
-
+      }
 
       let criticos = <ElementoInspeccion[]><unknown>this.listaInspeccion.elementoInspeccionList;
       let var1 = []
@@ -802,7 +810,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           var1[idx].map(item => {
 
               newArray.push(item.id)
-              arrraynocumple.forEach((element: any) => {
+              this.arrraynocumple.forEach((element: any) => {
                   if (item.id == element) {
                       arrayResultadoVar1.push(item)
                   }
@@ -1140,20 +1148,18 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           if (elemList[i].elementoInspeccionList != null && elemList[i].elementoInspeccionList.length > 0) {
               this.extraerCalificaciones(elemList[i].elementoInspeccionList, calificacionList);
               let calif = elemList[i].calificacion;
+               
               if(calif.opcionCalificacion.id && calif.calcularCumplimiento !== null){
                   calif.elementoInspeccion = {} as ElementoInspeccion;
                   calif.elementoInspeccion.id = elemList[i].id;
-                  calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
-                  
-                if(elemList[i].calificacion.accion){
+                  calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion; 
+                  if(elemList[i].calificacion.accion){
                     calif.accion = elemList[i].calificacion.accion;
                     if(elemList[i].calificacion.descripcionAccion){
                         calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
                         calif.responsable =  null;
-                        calif.fechaProyectada = null;
                     }else if(elemList[i].calificacion.descripcionMiti){
                         calif.responsable =  null;
-                        calif.fechaProyectada = null;
                         calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
                     }else if(elemList[i].calificacion.planAccion){
                         calif.planAccion = elemList[i].calificacion.planAccion;
@@ -1162,7 +1168,6 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                         calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
                     }else{
                         calif.responsable =  null;
-                        calif.fechaProyectada = null;
                     }
                   }else{
                     calif.accion = "";
@@ -1171,12 +1176,12 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                     calif.planAccion = "";
                     calif.responsable =  null;
                     calif.descripcionAccTarjeta = "";
-                    calif.fechaProyectada = null;
                    
                   }
-                  calif.tipoHallazgo = null;
-                  calificacionList.push(calif);               
+                calif.tipoHallazgo = null;
+                calificacionList.push(calif);      
               }
+
           } else {
 
               if (elemList[i].calificacion.opcionCalificacion.id == null) {
@@ -1195,10 +1200,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                         if(elemList[i].calificacion.descripcionAccion){
                             calif.descripcionAccion = elemList[i].calificacion.descripcionAccion;
                             calif.responsable =  null;
-                            calif.fechaProyectada = null;
                         }else if(elemList[i].calificacion.descripcionMiti){
                             calif.responsable =  null;
-                            calif.fechaProyectada = null;
                             calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
                         }else if(elemList[i].calificacion.planAccion){
                             calif.planAccion = elemList[i].calificacion.planAccion;
@@ -1207,7 +1210,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                             calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
                         }else{
                             calif.responsable =  null;
-                            calif.fechaProyectada = null;
+
                         }
                       }else{
                         calif.accion = "";
@@ -1216,12 +1219,12 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                         calif.planAccion = "";
                         calif.responsable =  null;
                         calif.descripcionAccTarjeta = "";
-                        calif.fechaProyectada = null;
+    
                        
                       }
                       calificacionList.push(calif);
-                      if(elemList[0].calificacion.opcionCalificacion.valor === 0 && this.validarAccion(elemList[0]))
-                      if(Number(elemList[0].calificacion.accion) === 3 && this.validarTarjeta(elemList[0]) && this.validarResponsable(elemList[0]) && this.validarDescAccion(elemList[0]) && this.validarFecha(elemList[0])){
+                      if(elemList[i].calificacion.opcionCalificacion.valor === 0 && this.validarAccion(elemList[i]))
+                      if(Number(elemList[i].calificacion.accion) === 3 && this.validarTarjeta(elemList[i]) && this.validarResponsable(elemList[i]) && this.validarDescAccion(elemList[i]) && this.validarFecha(elemList[i])){
                       }
                       if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                   }

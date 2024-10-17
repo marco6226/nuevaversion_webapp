@@ -67,6 +67,26 @@ export class MisTareasComponent implements OnInit {
                   tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
                   return tarea;
               }));
+              const tareasUnicasSV = new Map();
+              const otrasTareas: any[] = [];
+  
+              this.tareasList.forEach((tarea: any) => {
+                  if (tarea.module === "Inspecciones SV") {
+                      // Si es del módulo "Inspecciones SV", filtrar duplicados por hash_id
+                      if (!tareasUnicasSV.has(tarea.id)) {
+                          tareasUnicasSV.set(tarea.id, tarea);
+                      }
+                  } else {
+                      // Si no es del módulo "Inspecciones SV", incluir la tarea tal cual
+                      otrasTareas.push(tarea);
+                  }
+              });
+  
+              // Convertir el Map a un array de tareas únicas del módulo "Inspecciones SV"
+              const tareasInspeccionesSV = Array.from(tareasUnicasSV.values());
+  
+              // Unir las tareas únicas de "Inspecciones SV" con las otras tareas
+              this.tareasList = [...tareasInspeccionesSV, ...otrasTareas];
               this.loading = false;
               
                let estados = this.tareasList.map((x:any) => x.estado)
