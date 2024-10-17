@@ -48,6 +48,7 @@
     <br />
 
     <!-- Botón de iniciar plan de acción -->
+     
     <button
       *sTienePermiso="'SEC_POST_ANADESV'"
       pButton
@@ -57,7 +58,6 @@
       label="Iniciar Plan de Acción"
       (click)="crearPlanAccion()"
       [disabled]="
-        !descripcionPlan ||
         causasListSelect == null ||
         causasListSelect.length <= 0
       "
