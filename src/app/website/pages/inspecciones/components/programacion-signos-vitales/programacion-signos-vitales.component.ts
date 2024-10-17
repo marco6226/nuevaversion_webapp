@@ -205,19 +205,10 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       this.resetLocalidades();
       this.resetAreas();
       this.resetProcesos();
-      const selectedIds: number[] = [];
-    
-      // Iterar sobre las divisiones seleccionadas para extraer los IDs
-      event.forEach((division: any) => {
-        if (division.id) {
-          selectedIds.push(division.id);
-        }
-      });
-
-      if (selectedIds == null || selectedIds.length === 0) {
+      if (event.id == null || event.id.length === 0) {
        this.localidadesOption = [];
       } else {
-        this.loadLocalidades(selectedIds);
+        this.loadLocalidades(event.id);
       }
       
     }
@@ -225,32 +216,19 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     if (campoNombre === 'localidadSv') {
       this.resetAreas();
       this.resetProcesos();
-      const selectedIds: number[] = [];
-      event.forEach((localidad: any) => {
-        if (localidad.id) {
-          selectedIds.push(localidad.id);
-        }
-      });
-      if (selectedIds == null || selectedIds.length === 0) {
+      if (event.id == null || event.id.length === 0) {
        this.areasOptionAreaMatriz = [];
       } else {
-        this.loadAreasMatriz(selectedIds);
+        this.loadAreasMatriz(event.id);
       }
     }
 
     if (campoNombre === 'areaSv') {
-      this.resetProcesos();
-      const selectedIds: number[] = [];
-      event.forEach((area: any) => {
-        if (area.id) {
-          selectedIds.push(area.id);
-        }
-      });
-      
-      if (selectedIds == null || selectedIds.length === 0) {
+      this.resetProcesos();    
+      if (event.id == null || event.id.length === 0) {
        this.ProcesosOption = [];
       } else {
-        this.loadProcesos(selectedIds);
+        this.loadProcesos(event.id);
       }
     }
   }
@@ -273,6 +251,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   
   divisiones: Area[] = [];
   async loadDiv() {
+    this.formFilters?.get('division')?.setValue(null);
     this.empresaService.getArea().then(
       (res: Area[]) => {
         this.divisiones = Array.from(res);
@@ -289,13 +268,13 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   }
 
   localidades: Localidades[] = [];
-  async loadLocalidades(ids: number[]) {
+  async loadLocalidades(id: string) {
     let filterPlantaQuery = new FilterQuery();
     filterPlantaQuery.sortField = "id";
     filterPlantaQuery.sortOrder = -1;
     filterPlantaQuery.fieldList = ["id", "localidad"];
     filterPlantaQuery.filterList = [
-      { field: 'plantas.area.id', criteria: Criteria.IN, value1: ids.join(',')},
+      { field: 'plantas.area.id', criteria: Criteria.EQUALS, value1: id},
     ];
   
     try {
@@ -312,7 +291,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   
   divisionesArea: AreaMatriz[] = [];
 
-  async loadAreasMatriz(ids: number[]) {
+  async loadAreasMatriz(id: string) {
     let filterArea = new FilterQuery();
     filterArea.sortField = "id";
     filterArea.sortOrder = -1;
@@ -321,7 +300,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
       'nombre'
     ];
     filterArea.filterList = [
-      { field: 'localidad.id', criteria: Criteria.IN, value1: ids.join(',') },
+      { field: 'localidad.id', criteria: Criteria.EQUALS, value1: id},
       { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
     ];
 
@@ -333,14 +312,14 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
   }
 
   procesos: ProcesoMatriz[] = [];
-  async loadProcesos(ids: number[]) {
+  async loadProcesos(id: string) {
     try {
       let filterProceso = new FilterQuery();
       filterProceso.sortField = "id";
       filterProceso.sortOrder = -1;
       filterProceso.fieldList = ['id', 'nombre'];
       filterProceso.filterList = [
-        { field: 'areaMatriz.id', criteria: Criteria.IN, value1: ids.join(',') },
+        { field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: id },
         { field: 'eliminado', criteria: Criteria.EQUALS, value1: false }
       ];
 
@@ -394,7 +373,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     this.visibleDlgFiltros = true;
   }
   getIdsForFilter(event: any[]): string {
-    let ids = <number[]>event.map(item => {
+    let ids = <number[]>event.map(item => {      
       return item.id;
     });
     return '{' + ids.join(',') + '}';
@@ -403,21 +382,20 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
     let localidades: any[] = this.formFilters.value.localidades;
     let empresas: any[] = this.formFilters.value.empresasAliadas;
     let empleado: any = this.formFilters.value.empleado;
-    let divisiones: any[] = this.formFilters.value.division;
-    let localidadesSv: any[] = this.formFilters.value.localidadSv;
-    let areaSv: any[] = this.formFilters.value.areaSv;
-    let procesoSv: any[] = this.formFilters.value.procesoSv;
+    let divisiones: any= this.formFilters.value.division;
+    let localidadesSv: any = this.formFilters.value.localidadSv;
+    let areaSv: any = this.formFilters.value.areaSv;
+    let procesoSv: any = this.formFilters.value.procesoSv;
 
     let filterList: Filter[] = [];
     if (localidades && localidades.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'localidad.id', value1: this.getIdsForFilter(localidades) });
-    if (divisiones && divisiones.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: this.getIdsForFilter(divisiones) });
-    if (areaSv && areaSv.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'areaSv', value1: this.getIdsForFilter(areaSv) });
-    if(procesoSv && procesoSv.length > 0) filterList.push({criteria: Criteria.CONTAINS, field: 'procesoSv', value1: this.getIdsForFilter(procesoSv)})
-    if (localidadesSv && localidadesSv.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'localidadSv', value1: this.getIdsForFilter(localidadesSv) })
+    if (divisiones) filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: '{' + divisiones.id + '}' });
+    if (areaSv) filterList.push({ criteria: Criteria.CONTAINS, field: 'areaSv', value1:'{' + areaSv.id + '}' });
+    if(procesoSv ) filterList.push({criteria: Criteria.CONTAINS, field: 'procesoSv', value1: '{' + procesoSv.id + '}' })
+    if (localidadesSv ) filterList.push({ criteria: Criteria.CONTAINS, field: 'localidadSv', value1: '{' + localidadesSv.id + '}'  })
     if (empresas && empresas.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'empresaAliada.id', value1: this.getIdsForFilter(empresas) });
     if (empleado) filterList.push({ criteria: Criteria.LIKE, field: 'empleadoBasic', value1: '%' + empleado.usuarioBasic.email + '%' });
-    if (divisiones && divisiones.length > 0 && localidadesSv && localidadesSv.length > 0) filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id' && 'localidadSv', value1: this.getIdsForFilter(divisiones && localidadesSv) })
-
+    if (divisiones  && localidadesSv) filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id' && 'localidadSv', value1: '{' + divisiones.id + '}' && '{' + localidadesSv.id + '}' })
     this.actualizarEventosSV(filterList);
     this.visibleDlgFiltros = false;
   }
@@ -444,6 +422,7 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
         'areaSv',
         'procesoSv'
       ];
+      
       if (filters) filterQuery.filterList.push(...filters);
 
       if (this.calendarComponent && this.calendarComponent.getApi().getCurrentData()) {
@@ -508,7 +487,6 @@ export class ProgramacionSignosVitalesComponent implements OnInit, AfterViewInit
                 end: new Date(element.fecha + 3600000),
                 color: _color,
               }
-              console.log(element, 'element');
 
               this.events.push(this.event)
             });
