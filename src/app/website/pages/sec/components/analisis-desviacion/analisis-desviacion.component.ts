@@ -424,7 +424,13 @@ export class AnalisisDesviacionComponent implements OnInit {
                 this.miembros = JSON.parse(resp.miembros_equipo);
                 // Acceder al campo peligro
                 const miembroEquipo = this.miembros[0]; // Obtener el primer miembro
-                this.peligro = miembroEquipo.peligro; // Almacenar el valor de peligro
+                if (miembroEquipo && miembroEquipo.peligro) {
+                    this.peligro = miembroEquipo.peligro; // Asigna solo si peligro tiene valor
+                  } else {
+                    // O bien lo dejas sin hacer nada o asignas un valor por defecto si es necesario
+                    this.peligro = this.peligro || null; // Mantén su valor actual o asigna null
+                  }
+                   // Almacenar el valor de peligro
                 //console.log('Peligro:', this.peligro);
               }
             //console.log(resp);
