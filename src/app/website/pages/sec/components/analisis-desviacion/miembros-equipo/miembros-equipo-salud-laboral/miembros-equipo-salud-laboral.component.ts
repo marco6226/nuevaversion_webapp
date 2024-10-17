@@ -126,7 +126,10 @@ onPeligroChange(event: any) {
 
   ngOnInit(): void {
     this.disable.emit(false)
-    
+    if (this.miembrosList && this.miembrosList.length > 0) {
+      this.peligro = this.miembrosList[0].peligro; // O ajusta según la lógica que necesites
+      this.onPeligroChange({ value: this.peligro }); // Para actualizar la lista relacionada con el peligro seleccionado
+    }
   }
   openNew() {
     this.miembro = {};    
@@ -221,6 +224,8 @@ saveProduct() {
       this.dropdownDisabled = true;
 
   }
+  console.log(this.miembrosList, "lista");
+  
 
       this.productDialog = false;
       this.miembro = {};

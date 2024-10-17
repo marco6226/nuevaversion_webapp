@@ -4,7 +4,7 @@
 <div >
     <div>
         <label for="tipoPeligro">Tipo de investigación</label>             
-        <p-dropdown appendTo="body"[disabled]="dropdownDisabled" [options]="patologiasList" [(ngModel)]="peligro" (onChange)="onPeligroChange($event)"></p-dropdown>
+        <p-dropdown appendTo="body"[disabled]="miembrosList.length > 0" [options]="patologiasList" [(ngModel)]="peligro" (onChange)="onPeligroChange($event)"></p-dropdown>
       </div>
     <p-table #dt [value]="miembrosList" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
         [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"

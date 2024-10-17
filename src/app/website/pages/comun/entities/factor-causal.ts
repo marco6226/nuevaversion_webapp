@@ -6,9 +6,14 @@ export interface FactorCausal{
     nombre: string;
     seccion?: seccion[] | null;
     causa_Raiz?: Causa_Raiz[];
+    psicosocial?: Psicosocial[];
 }
 
 export interface seccion{
+  tipoDesempeno: string;
+  desempeno: Desempeno[];
+}
+export interface Psicosocial{
   tipoDesempeno: string;
   desempeno: Desempeno[];
 }

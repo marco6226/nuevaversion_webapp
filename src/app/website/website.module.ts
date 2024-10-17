@@ -250,6 +250,7 @@ import { PlantillaAnexo6ConsentimientoComponent } from './pages/scm/components/f
 import { MiembrosEquipoSaludLaboralComponent } from './pages/sec/components/analisis-desviacion/miembros-equipo/miembros-equipo-salud-laboral/miembros-equipo-salud-laboral.component';
 import { CargueDocumentosSendDocumentacionComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-send-documentacion/cargue-documentos-send-documentacion.component';
 import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salud-laboral/components/cargue-documentos-empresa/cargue-documentos-ministerio/cargue-documentos-ministerio.component';
+import { FactoresCausalesPsicosocialComponent } from './pages/sec/components/analisis-desviacion/factor-causal/factores-causales-psicosocial/factores-causales-psicosocial.component';
 @NgModule({
   declarations: [
     CapitalizePipe,
@@ -449,6 +450,7 @@ import { CargueDocumentosMinisterioComponent } from './pages/scm/components/salu
     MiembrosEquipoSaludLaboralComponent,
     CargueDocumentosSendDocumentacionComponent,
     CargueDocumentosMinisterioComponent,
+    FactoresCausalesPsicosocialComponent
   ],
   imports: [
     GridModule,
