@@ -398,7 +398,7 @@ export class AnalisisDesviacionComponent implements OnInit {
             if (this.desviacionesList)
                 this.severidad = this.desviacionesList[0].severidad;
                 
-            console.log(this.desviacionesList, " desviciones");
+            //console.log(this.desviacionesList, " desviciones");
            
              this.loadDiags();              
             
@@ -413,13 +413,27 @@ export class AnalisisDesviacionComponent implements OnInit {
         }, 5000);
     }
     matrizPeligros:any
+    peligro: any;
     async consultarAnalisis(analisisId: string) {
         let fq = new FilterQuery();
         fq.filterList = [
             { criteria: Criteria.EQUALS, field: "id", value1: analisisId },
         ];
         await this.analisisDesviacionService.find(analisisId).then(async (resp: any) => {
-            console.log(resp);
+            if (resp.miembros_equipo) {
+                this.miembros = JSON.parse(resp.miembros_equipo);
+                // Acceder al campo peligro
+                const miembroEquipo = this.miembros[0]; // Obtener el primer miembro
+                if (miembroEquipo && miembroEquipo.peligro) {
+                    this.peligro = miembroEquipo.peligro; // Asigna solo si peligro tiene valor
+                  } else {
+                    // O bien lo dejas sin hacer nada o asignas un valor por defecto si es necesario
+                    this.peligro = this.peligro || null; // Mantén su valor actual o asigna null
+                  }
+                   // Almacenar el valor de peligro
+                //console.log('Peligro:', this.peligro);
+              }
+            //console.log(resp);
             let analisis = <AnalisisDesviacion>resp;
             this.matrizPeligros=analisis.matrizPeligro ?? null
             this.Evidencias = resp.documentosList;
@@ -594,6 +608,8 @@ export class AnalisisDesviacionComponent implements OnInit {
         const edad = new Date(diferencia).getUTCFullYear() - 1970; // Restar 1970 ya que la diferencia se calcula desde esa fecha
         return edad;
       }
+   
+      
       async loadDiags(){
         const hashId = this.desviacionesList![0]?.idSl;
         const pkUser = this.desviacionesList![0]?.pkUserSl;  // Asegúrate de que estés accediendo correctamente al campo
@@ -603,15 +619,16 @@ export class AnalisisDesviacionComponent implements OnInit {
           const reposunte: any = value2;
           this.diagnosticoList = reposunte;
           this.cd.detectChanges();
-          console.log(this.diagnosticoList, 'diags');
+          //console.log(this.diagnosticoList[0].sistemaAfectado, 'diags');
         })
         await this.scmService.getDiagnosticosSlCM(pkUser, hashId).then(value2 => {
             const reposunte: any = value2;
             this.diagnosticoListSLCM = reposunte;
             this.cd.detectChanges();
-            console.log(this.diagnosticoListSLCM, 'diags');
+            //console.log(this.diagnosticoListSLCM, 'diags');
           })
       }
+      
       listaPCL: any;
       recibirPCL(event: any) {
         this.listaPCL = event
@@ -722,7 +739,7 @@ export class AnalisisDesviacionComponent implements OnInit {
           
           if (storedCase && JSON.parse(storedCase).idSl === this.idSl) {
             // Si los datos del caso ya están en el localStorage, solo los usamos
-            console.log("Datos del caso obtenidos de localStorage", JSON.parse(storedCase));
+            //console.log("Datos del caso obtenidos de localStorage", JSON.parse(storedCase));
           } else {
             // Si los datos no están en el localStorage, hacemos una petición para obtenerlos
             if (this.desviacionesList![0]?.idSl !== undefined && this.desviacionesList![0]?.idSl !== null) {
@@ -730,7 +747,7 @@ export class AnalisisDesviacionComponent implements OnInit {
                 // Almacenar los datos del caso en localStorage
                 localStorage.setItem('saludL', JSON.stringify(caseData));
                 window.location.reload();
-                console.log("Datos del caso actualizados y almacenados en localStorage", caseData);
+                //console.log("Datos del caso actualizados y almacenados en localStorage", caseData);
               });
             } else {
               console.error("El ID del caso no es válido");
@@ -1112,7 +1129,7 @@ export class AnalisisDesviacionComponent implements OnInit {
             ad.desviacionesList = this.desviacionesList ?? null;
             ad.analisisCosto = this.analisisCosto;
             ad.observacion = this.observacion ?? null;
-            console.log(ad.observacion, 'obs');
+            //console.log(ad.observacion, 'obs');
             
             ad.participantes = JSON.stringify(this.participantes);
             ad.flow_chart = this.flowChartSave ?? null;
@@ -1433,6 +1450,12 @@ export class AnalisisDesviacionComponent implements OnInit {
             this.guardando = false;
         }
     }
+    isButtonDisabled: boolean = true;
+  
+    // Método para actualizar el estado del botón
+    updateButtonState() {
+      this.isButtonDisabled = this.observacion?.trim() === '';
+    }
     async tareaList2() {
 
         let fq = new FilterQuery();
@@ -1584,6 +1607,168 @@ export class AnalisisDesviacionComponent implements OnInit {
     testmsng() {
         this.authService.callmsng()
     }
+
+    // //////Area///////////
+    // areaMatrizItemList?: SelectItem[];
+    // procesoMatrizItemList?: SelectItem[];
+    // subprocesoMatrizItemList?: SelectItem[];
+    // usuarioPrueba:any=JSON.parse(localStorage.getItem('session')!).usuario.id
+    // async cargarArea(eve:any) {
+    //     let filterArea = new FilterQuery();
+    //     filterArea.sortField = "id";
+    //     filterArea.sortOrder = -1;
+    //     filterArea.fieldList= ['id','nombre']
+    //     filterArea.filterList = [{ field: 'localidad.id', criteria: Criteria.EQUALS, value1: eve}];
+    //     await this.areaMatrizService.findByFilter(filterArea).then((resp:any)=>{
+    //       this.areaMatrizItemList=[]
+    //       resp.data.forEach((element:any) => {
+    //         this.areaMatrizItemList?.push({ label: element.nombre, value: {id:element.id,nombre:element.nombre}})
+    //         // this.area.push({label:element.nombre,value:{id:element.id,nombre:element.nombre}})
+    //       });
+    //     })
+    //   }
+      
+    // async cargarProceso(idp:any) {
+    //     this.formCreacionMatriz.patchValue({
+    //         area: [idp]
+    //     })
+    //     this.subprocesoMatrizItemList=[]
+    //     if(idp != null ){
+    //         if(idp.id !=0){
+    //         this.procesoMatrizItemList = [];
+            
+    //             let filter = new FilterQuery();
+    //             filter.filterList = [{ field: 'areaMatriz.id', criteria: Criteria.EQUALS, value1: idp.id },
+    //             { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
+    //             await this.procesoMatrizService.findByFilter(filter).then(
+    //             (resp:any) => {
+    //                 (<ProcesoMatriz[]>resp.data).forEach(
+    //                 data => 
+    //                     {
+    //                         this.procesoMatrizItemList?.push({ label: data.nombre, value: {id:data.id,nombre: data.nombre, idpadre:idp.id} })
+    //                     }
+    //                 )
+    //             }
+    //             );
+            
+            
+    //         }
+    //     }else{
+    //         this.procesoMatrizItemList = [{ label: '--Seleccione proceso--', value: [null, null]}];
+    //     }
+    // }
+    // async cargarSubproceso(idsp:any) {
+    //     if(idsp != null ){
+    //         if(idsp.id !=0){
+    //         this.subprocesoMatrizItemList = [];
+    //             let filter = new FilterQuery();
+    //             filter.filterList = [{ field: 'procesoMatriz.id', criteria: Criteria.EQUALS, value1: idsp.id},
+    //             { field: 'eliminado', criteria: Criteria.EQUALS, value1: false}];
+    //             await this.subprocesoMatrizService.getsubproWithFilter(filter).then(
+    //             (resp:any) => {
+    //                 (<SubprocesoMatriz[]>resp.data).forEach(
+    //                 data => 
+    //                     {
+    //                         this.subprocesoMatrizItemList?.push({ label: data.nombre, value: {id:data.id,nombre: data.nombre, idpadre:idsp.id} })
+    //                     }
+    //                 )
+    //             }
+    //             );
+    //         }
+    //     }else{
+    //         this.subprocesoMatrizItemList = [{ label: '--Seleccione Subproceso (cargo/oficio)--', value: [null, null]}];
+    //     }
+    // }
+    
+    // flagMatriz:boolean=false;
+    // matrizPList: MatrizPeligros[] = [];
+    // matrizSelect!: MatrizPeligros;
+    // formCreacionMatriz!:FormGroup;
+    // async cargarMatricez(){
+    //     let subP:any=this.analisisPeligros.value.subProceso
+    //     this.matrizPList=[]
+    //     let filterMatriz = new FilterQuery();
+    //     filterMatriz.sortField = "id";
+    //     filterMatriz.sortOrder = -1;
+    //     filterMatriz.filterList = [{ field: 'subProceso.id', criteria: Criteria.EQUALS, value1: subP.id}];
+    //     let matrizPList:MatrizPeligros[]=[];
+    //     let matrizPList2:any[]=[];
+    //     await this.matrizPeligrosService.getmpRWithFilter(filterMatriz).then((resp:any)=>{
+    //         matrizPList = (<MatrizPeligros[]>resp.data).map(matriz => matriz);
+    //         matrizPList.map(resp=>resp.fechaCreacion=resp.fechaCreacion?new Date(resp.fechaCreacion!):null)
+    //         matrizPList.map(resp=>resp.fechaEdicion=resp.fechaEdicion?new Date(resp.fechaEdicion!):null)
+    //         matrizPList.map(resp=>resp.controlesexistentes=JSON.parse(resp.controlesexistentes!))
+    //         matrizPList.map(resp=>resp.generalInf=JSON.parse(resp.generalInf!))
+    //         matrizPList.map(resp=>resp.peligro=JSON.parse(resp.peligro!))
+    //         matrizPList.map(resp=>resp.planAccion=JSON.parse(resp.planAccion!))
+    //         // matrizPList.map(resp=>resp.planAccion=(JSON.parse(resp.planAccion!).length>0)?'Con plan de Acción':'Sin plan de acción')
+    //         matrizPList.map(resp=>resp.valoracionRiesgoInicial=JSON.parse(resp.valoracionRiesgoInicial!))
+    //         matrizPList.map(resp=>resp.valoracionRiesgoResidual=JSON.parse(resp.valoracionRiesgoResidual!))
+    //         matrizPList.map(resp=>resp.id=(resp.fkmatrizpeligros)?resp.id+'-'+resp.fkmatrizpeligros:resp.id)
+    //         matrizPList2=new Array(matrizPList)
+    //         for(const [i,v] of matrizPList.entries()){
+    //             let valor:any=v
+    //             let estado='Sin estado'
+    //             if(valor.planAccion.length>0){
+    //                 estado='Riesgo vigente'
+    //                 for(const paccion of valor.planAccion){
+    //                 if(paccion.jerarquia=='Sustitución' && paccion.estado=='Ejecutado')estado='Riesgo sustituido'
+    //                 if(paccion.jerarquia=='Eliminación' && paccion.estado=='Ejecutado')estado='Riesgo eliminado'
+    //                 }
+    //             }
+                
+    //             matrizPList2[0][i].estadoPlanAccion=(valor.planAccion.length>0)?'Con plan de Acción':'Sin plan de acción'
+    //             matrizPList2[0][i].estado=estado
+    //         }
+    //     }).catch(er=>console.log(er))
+
+    //     if(matrizPList2[0].length>0)this.matrizPList=this.matrizPList.concat(matrizPList2[0]);
+    //     this.matrizPList=this.matrizPList.filter((resp:any)=>{return resp.peligro.Peligro !=null && resp.peligro.DescripcionPeligro !=null})
+    //     this.matrizPList=this.matrizPList.filter((resp:any)=>{return resp.estado !='Riesgo sustituido' && resp.estado !='Riesgo eliminado'})
+    //     this.matrizPList=this.matrizPList.filter((resp:any)=>{return resp.peligro.Peligro.id === this.analisisPeligros.value.Peligro.id && resp.peligro.DescripcionPeligro.id === this.analisisPeligros.value.DescripcionPeligro.id})
+    //     this.flagMatriz=false
+    //     setTimeout(() => {
+    //         this.flagMatriz=true
+    //     }, 500);
+        
+    // }
+
+    // CRUDMatriz(){
+    //     this.formCreacionMatriz.patchValue({
+    //         planta: 97,
+    //         ubicacion: 684,
+    //     })
+    //     let formCreacionMatrizLocal=Object.assign({} , {value:this.formCreacionMatriz.value})
+    //     localStorage.setItem('matrizSelect', JSON.stringify([this.matrizSelect]));
+    //     localStorage.setItem('Accion1', 'GET');
+    //     localStorage.setItem('formCreacionMatriz', JSON.stringify(formCreacionMatrizLocal));
+        
+
+    //     // this.paramNav.setParametro<MatrizPeligros[]>([this.matrizSelect])
+
+    //     // this.paramNav.setAccion<string>('GET');
+    //     // this.paramNav.setParametro2<FormGroup>(this.formCreacionMatriz);
+
+    //     window.open('/app/ipr/matrizPeligros')
+        
+    
+    //   }
+
+    //   asociarMatrizPeligros(){
+    //     let ad = new AnalisisDesviacion();
+    //     ad.id= this.analisisId ?? null;
+    //     ad.matrizPeligro=this.matrizSelect.id
+
+    //     this.analisisDesviacionService.updateMP(ad).then((resp:any)=>{
+    //         this.matrizSelect=this.matrizSelect.id
+    //         this.msgs=[]
+    //         this.msgs.push({
+    //             severity: "success",
+    //             summary: "Matriz Peligros",
+    //             detail: "Se ha asociado esta investigación a la matriz de peligros con indicativo: "+resp.id,
+    //         });
+    //     }).catch((er:any)=>console.log(er))
+    //   }
 
     // //////Area///////////
     // areaMatrizItemList?: SelectItem[];

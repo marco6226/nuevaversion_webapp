@@ -24,6 +24,7 @@ export class ListadoCausasComponent implements OnInit {
   @Input() planAccionList: listPlanAccion[]=[];
 
   causasListSelect?: listFactores[];
+  @Input() isButtonDisabled: boolean = false;
 
   constructor(
     private confirmationService: ConfirmationService,
