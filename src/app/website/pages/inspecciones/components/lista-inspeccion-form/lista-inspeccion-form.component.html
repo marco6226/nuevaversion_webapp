@@ -121,6 +121,14 @@
   </div>
 
   <div class="grid">
+    <div class="col-9">
+     
+    </div>
+    <div class="col-3" *ngIf="router.url !== '/app/inspecciones/elaboracionLista' && router.url !== '/app/signos/elaboracionListaSv' ">
+      <button pButton type="button" label="Continuar" class="p-button-raised p-button-success" (click)="cerrarModal()"></button>
+    </div>
+  </div>
+  <div class="grid">
     <div class="col-12">
       <p-messages [(value)]="msgs"></p-messages>
     </div>
