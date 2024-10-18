@@ -166,12 +166,15 @@ export class MatrizPeligrosComponent implements OnInit  {
   estado:string='Sin estado';
   guardadoSustitucion:boolean=false;
 
+  controlIng1: boolean = false;
   controlIng:any=[];
   controlIngList:any=[];
 
+  controlAdm1: boolean = false;
   controlAdm:any=[];
   controlAdmList:any=[];
 
+  controlEqu1: boolean = false;
   controlEqu:any=[];
   controlEquList:any=[];
   
@@ -184,6 +187,11 @@ export class MatrizPeligrosComponent implements OnInit  {
   jerarquiaExistente:string='';
 
   modulo?: string;
+
+  isRowSelected: boolean = false; 
+  isRowSelected1: boolean = false; 
+  isRowSelected2: boolean = false; 
+  isRowSelected3: boolean = false;
 
   @ViewChild('acordionMat') acordionMatriz: Accordion | undefined = undefined;
   
@@ -359,6 +367,7 @@ export class MatrizPeligrosComponent implements OnInit  {
           this.cargoList.push({ label: cargo, value: cargo });
       });})
   }
+
   async cargarDatos(){
     await this.getArea()
     this.cols = [
@@ -369,6 +378,30 @@ export class MatrizPeligrosComponent implements OnInit  {
     this.empresaId= this.sessionService.getEmpresa()!.id
     this.cargarTiposPeligro();
     this.getParams()
+  }
+
+  onRowSelect(event: any, tipo:string) {
+    if(tipo == 'ing'){
+      this.isRowSelected = true; 
+    }else if(tipo == 'adm'){
+      this.isRowSelected1 = true; 
+    }else if(tipo == 'eql'){
+      this.isRowSelected2 = true; 
+    }else if(tipo == 'pla'){
+      this.isRowSelected3 = true; 
+    }
+  }
+
+  onRowUnselect(event: any, tipo:string) {
+    if(tipo == 'ing'){
+      this.isRowSelected = false; 
+    }else if(tipo == 'adm'){
+      this.isRowSelected1 = false; 
+    }else if(tipo == 'eql'){
+      this.isRowSelected2 = false; 
+    }else if(tipo == 'pla'){
+      this.isRowSelected3 = true; 
+    }
   }
   CRUDMatriz:string='PUT';
   flagProcesoSubP:boolean=true
@@ -1626,7 +1659,7 @@ export class MatrizPeligrosComponent implements OnInit  {
     this.CRUDcontrol=CRUD
     switch (CRUD) {
       case 'PUT':
-        if(this.tipoControl=='ing'){
+        if(this.tipoControl=='ing'){   
         this.formControl.patchValue({
           'id': this.controlIng.id,
           'fechaCreacion': this.controlIng.fechaCreacion,
@@ -1634,21 +1667,28 @@ export class MatrizPeligrosComponent implements OnInit  {
           'barrera': this.controlIng.barrera
         })}
 
-        if(this.tipoControl=='adm')
-        this.formControl.patchValue({
-          'id': this.controlAdm.id,
-          'fechaCreacion': new Date(),
-          'descripcion': this.controlAdm.descripcion,
-          'barrera': this.controlAdm.barrera
-        })
+        if(this.tipoControl=='adm'){
+          this.formControl.patchValue({
+            'id': this.controlAdm.id,
+            'fechaCreacion': new Date(),
+            'descripcion': this.controlAdm.descripcion,
+            'barrera': this.controlAdm.barrera
+          })
+        }
+        
 
-        if(this.tipoControl=='equ')
-        this.formControl.patchValue({
-          'id': this.controlEqu.id,
-          'fechaCreacion': new Date(),
-          'descripcion': this.controlEqu.descripcion,
-          'barrera': this.controlEqu.barrera
-        })
+        if(this.tipoControl=='equ'){
+          this.formControl.patchValue({
+            'id': this.controlEqu.id,
+            'fechaCreacion': new Date(),
+            'descripcion': this.controlEqu.descripcion,
+            'barrera': this.controlEqu.barrera
+          })
+        }
+        
+        if(this.tipoControl=='ing')this.jerarquiaExistente='Control de ingeniería'
+        if(this.tipoControl=='adm')this.jerarquiaExistente='Control de administración'
+        if(this.tipoControl=='equ')this.jerarquiaExistente='Equipos y elementos de protección personal'
         this.controlFlag=true
         break;
       case 'POST':
@@ -1710,14 +1750,17 @@ export class MatrizPeligrosComponent implements OnInit  {
         break;
       case 'PUT':
         if(this.tipoControl=='ing'){
+          this.isRowSelected = false;
           const indexPlanAccion = this.controlIngList.findIndex((el:any) => el.id == this.controlIng.id)
           this.controlIngList[indexPlanAccion]={id:this.controlIng.id,fechaCreacion:new Date(this.formControl.value.fechaCreacion),descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
         if(this.tipoControl=='adm'){
-          const indexPlanAccion = this.controlAdmList.findIndex((el:any) => el.id == this.controlIng.id)
-          this.controlAdmList[indexPlanAccion]={id:this.controlIng.id,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
+          this.isRowSelected1 = false;
+          const indexPlanAccion = this.controlAdmList.findIndex((el:any) => el.id == this.controlAdm.id)
+          this.controlAdmList[indexPlanAccion]={id:this.controlAdm.id,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
         if(this.tipoControl=='equ'){
-          const indexPlanAccion = this.controlEquList.findIndex((el:any) => el.id == this.controlIng.id)
-          this.controlEquList[indexPlanAccion]={id:this.controlIng.id,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
+          this.isRowSelected2 = false;
+          const indexPlanAccion = this.controlEquList.findIndex((el:any) => el.id == this.controlEqu.id)
+          this.controlEquList[indexPlanAccion]={id:this.controlEqu.id,fechaCreacion:this.formControl.value.fechaCreacion,descripcion:this.formControl.value.descripcion,barrera:this.formControl.value.barrera}}
         this.controlFlag=false
         break;    
       default:
@@ -1756,6 +1799,7 @@ export class MatrizPeligrosComponent implements OnInit  {
           acceptLabel: 'Sí',
           rejectLabel: 'No'
         });
+        this.isRowSelected3 = false;
         break;
     
       default:
@@ -1767,15 +1811,22 @@ export class MatrizPeligrosComponent implements OnInit  {
   planAccionCRUD(CRUD:string){
     switch (CRUD) {
       case 'POST':
+      const lastId = this.tareasListPendiente.length > 0
+                ? this.tareasListPendiente[this.tareasListPendiente.length - 1].id
+                : 0; // Si la lista está vacía, el último ID será 0
+
+            // Crear una nueva tarea con un ID consecutivo al último
+            const newId = lastId + 1;
+
         this.formPlanAccion?.patchValue({
           fechaCreacion: new Date().toLocaleDateString('es-CO')
         })
-        this.tareasListPendiente.push({id:this.cont,fechaCreacion:this.convertDMYtoISO(this.formPlanAccion?.value.fechaCreacion),jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras})
+        this.tareasListPendiente.push({id:newId,fechaCreacion:this.convertDMYtoISO(this.formPlanAccion?.value.fechaCreacion),jerarquia:this.formPlanAccion?.value.jerarquia,descripcion:this.formPlanAccion?.value.descripcion,estado:this.formPlanAccion?.value.estado,barreras:this.formPlanAccion?.value.barreras})
         this.cont++
 
         if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
         else this.flagplanElimsust=false
-
+        this.isRowSelected3 = false;
         this.flagPlanAccion=false
         break;
       case 'PUT':
@@ -1785,7 +1836,7 @@ export class MatrizPeligrosComponent implements OnInit  {
         
         if(this.tareasListPendiente.filter((el:any) => el.jerarquia == 'Eliminación' || el.jerarquia == 'Sustitución').length>0)this.flagplanElimsust=true
         else this.flagplanElimsust=false
-
+        this.isRowSelected3 = false;
         this.flagPlanAccion=false
         break;    
       default:
