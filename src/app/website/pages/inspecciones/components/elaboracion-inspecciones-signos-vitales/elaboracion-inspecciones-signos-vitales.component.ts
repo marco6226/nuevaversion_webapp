@@ -519,9 +519,12 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
 
   async onSubmit() {
       let calificacionList: Calificacion[] = [];
+      if(!this.formValid) {
+        this.messageService.add({severity: 'warn', summary: 'Error', detail: 'Debe diligenciar los campos requeridos en el formulario general.'});
+        return;
+    }
       try {
           this.extraerCalificaciones(this.listaInspeccion.elementoInspeccionList, calificacionList);
-        
           let inspeccion: Inspeccion = new Inspeccion();
           inspeccion.area = this.area;
           inspeccion.listaInspeccion = this.listaInspeccion;
@@ -537,11 +540,13 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                 if(calificacionList[i].planAccion){
                     inspeccion.calificacionList[i].planAccion = calificacionList[i]?.planAccion;
                     inspeccion.calificacionList[i].responsable = calificacionList[i]?.responsable;
+
                     inspeccion.calificacionList[i].descripcionAccTarjeta = calificacionList[i]?.descripcionAccTarjeta;
                     inspeccion.calificacionList[i].fechaProyectada = calificacionList[i]?.fechaProyectada;
                 } 
             }               
             }
+            
           inspeccion.respuestasCampoList = [];
           inspeccion.equipo = this.equipo;
           if(this.listaInspeccion?.tipoLista=='Ergonomía'){inspeccion.observacion =  JSON.stringify([this.observacion1,this.observacion2])}
@@ -697,7 +702,6 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                                 if(result !== null){
                                     
                                     let desviacion = this.desviacionList
-    
                                     if (!analisisDesviacion.desviacionesList) {
                                         analisisDesviacion.desviacionesList = [];
                                     }
@@ -741,6 +745,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                                     if (!analisisDesviacion.tareaDesviacionList) {
                                         analisisDesviacion.tareaDesviacionList = [];
                                     }
+                                    
+                                    
                                     analisisDesviacion.tareaDesviacionList.push(tarea)
                                 }
                             
@@ -1047,13 +1053,13 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
       return true;
   }
 
+  
   validarAccion(elementoSelect: ElementoInspeccion){
-    if (elementoSelect.calificacion.accion == null || elementoSelect.calificacion.accion === '')
-        {
-
-            throw new Error("Debe seleccionar una acción realizada de la calificación " + elementoSelect.codigo + " " + elementoSelect.nombre + "\" ");
-        }
+    if (elementoSelect.calificacion.accion == null || elementoSelect.calificacion.accion === ''){
         return true;
+    }else{
+        return false;
+    }  
   }
 
     validarResponsable(elementoSelect: ElementoInspeccion) {
@@ -1148,11 +1154,10 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
           if (elemList[i].elementoInspeccionList != null && elemList[i].elementoInspeccionList.length > 0) {
               this.extraerCalificaciones(elemList[i].elementoInspeccionList, calificacionList);
               let calif = elemList[i].calificacion;
-               
-              if(calif.opcionCalificacion.id && calif.calcularCumplimiento !== null){
+              if(calif.opcionCalificacion.id){
                   calif.elementoInspeccion = {} as ElementoInspeccion;
                   calif.elementoInspeccion.id = elemList[i].id;
-                  calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion; 
+                  calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;                 
                   if(elemList[i].calificacion.accion){
                     calif.accion = elemList[i].calificacion.accion;
                     if(elemList[i].calificacion.descripcionAccion){
@@ -1163,7 +1168,7 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                         calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
                     }else if(elemList[i].calificacion.planAccion){
                         calif.planAccion = elemList[i].calificacion.planAccion;
-                        calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
+                        calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);                        
                         calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
                         calif.fechaProyectada = elemList[i].calificacion.fechaProyectada;
                     }else{
@@ -1179,22 +1184,27 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                    
                   }
                 calif.tipoHallazgo = null;
-                calificacionList.push(calif);      
+                calificacionList.push(calif);    
+                if(elemList[i].calificacion.opcionCalificacion.valor === 0 && this.validarAccion(elemList[i]))  
+                if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
               }
 
           } else {
-
               if (elemList[i].calificacion.opcionCalificacion.id == null) {
                   throw new Error("El elemento \"" + elemList[i].codigo + " " + elemList[i].nombre + "\" aún no ha sido calificado.");
               } else {
+                    if(elemList[i].calificacion.opcionCalificacion.valor === 0){                
+                        if(this.validarAccion(elemList[i])){
+                            throw new Error("Debe seleccionar una acción realizada de la calificación " +elemList[i].codigo + " " + elemList[i].nombre + "\" ");
+                        }
+                    }
                   let calif = elemList[i].calificacion;
                   if (calif.nivelRiesgo != null && calif.nivelRiesgo.id != null && (calif.recomendacion == null || calif.recomendacion == '')) {
                       throw new Error("Se ha establecido un nivel de riesgo para el elemento " + elemList[i].codigo + ". Debe especificar una recomendación");
-                  } else {
+                  } else {              
                       calif.elementoInspeccion = {} as ElementoInspeccion;
                       calif.elementoInspeccion.id = elemList[i].id;
                       calif.opcionCalificacion = elemList[i].calificacion.opcionCalificacion;
-
                       if(elemList[i].calificacion.accion){
                         calif.accion = elemList[i].calificacion.accion;
                         if(elemList[i].calificacion.descripcionAccion){
@@ -1204,6 +1214,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                             calif.responsable =  null;
                             calif.descripcionMiti = elemList[i].calificacion.descripcionMiti;
                         }else if(elemList[i].calificacion.planAccion){
+                            calif.descripcionAccion = '';
+                            calif.descripcionMiti = ''
                             calif.planAccion = elemList[i].calificacion.planAccion;
                             calif.responsable =  JSON.stringify(elemList[i].calificacion.responsable);
                             calif.descripcionAccTarjeta = elemList[i].calificacion.descripcionAccTarjeta;
@@ -1224,8 +1236,8 @@ async precargarDatos(formulario: Formulario, programacion: Programacion) {
                       }
                       calificacionList.push(calif);
                       if(elemList[i].calificacion.opcionCalificacion.valor === 0 && this.validarAccion(elemList[i]))
-                      if(Number(elemList[i].calificacion.accion) === 3 && this.validarTarjeta(elemList[i]) && this.validarResponsable(elemList[i]) && this.validarDescAccion(elemList[i]) && this.validarFecha(elemList[i])){
-                      }
+                    //   if(Number(elemList[i].calificacion.accion) === 3 && this.validarTarjeta(elemList[i]) && this.validarResponsable(elemList[i]) && this.validarDescAccion(elemList[i]) && this.validarFecha(elemList[i])){
+                    //   }
                       if (this.validarRequerirFoto(elemList[i]) && this.validarDescripcion(elemList[i])) { }
                   }
               }

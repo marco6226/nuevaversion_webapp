@@ -14,8 +14,9 @@
                 No Aplica
               </li>
               <li>
-                <p-inputSwitch [(ngModel)]="elem.calificacion.calcularCumplimiento"
-                (onChange)="onChangeCalcularCumplimiento($event, elem)" [disabled]="disabled"></p-inputSwitch>
+                <!-- <p-inputSwitch [(ngModel)]="elem.calificacion.calcularCumplimiento"
+                (onChange)="onChangeCalcularCumplimiento($event, elem)" [disabled]="disabled"></p-inputSwitch> -->
+                <p-inputSwitch [(ngModel)]="elem.calificacion.calcularCumplimiento" (onChange)="onChangeCalcularCumplimiento($event, elem)"></p-inputSwitch>
               </li>
             </ul>
           </div>
