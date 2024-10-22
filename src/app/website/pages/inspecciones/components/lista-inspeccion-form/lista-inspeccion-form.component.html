@@ -24,7 +24,7 @@
 </p-panel>
 
 <p-dialog [(visible)]="visibleDlg" [draggable]="true" [resizable]="true" [responsive]="true" appendTo="body" [maximizable]="true"
-  [modal]="true" style="width: 540px;">
+  [modal]="true" (onHide)="onCloseDialog()" style="width: 540px;">
   <h2>{{elementoSelect?.codigo}}. {{elementoSelect?.nombre}}</h2>
   <div class="grid g-2">
     <div class="col-6 grid">
