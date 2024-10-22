@@ -74,6 +74,14 @@
       </div>
       <input name="myFile" type="file" style="visibility: hidden;" #fileInput (change)="onArchivoSelect($event)">
     </div>
+
+    <div class=" col-12  grid">
+      <div class="col-9">
+      </div>
+      <div class="col-3">
+        <button pButton type="button" label="Continuar" class="p-button-raised p-button-success" (click)="cerrarModal()"></button>
+      </div>
+    </div>
     <div class="col-12">
       <p-messages key="msgDlgElemento" [(value)]="msgs"></p-messages>
     </div>

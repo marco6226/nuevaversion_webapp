@@ -1710,13 +1710,19 @@ export class MatrizPeligrosComponent implements OnInit  {
           accept: async () => {
             if(this.tipoControl=='ing'){
               const index = this.controlIngList.findIndex((el:any) => el.id == this.controlIng.id)
-              this.controlIngList.splice(index, 1);}
+              this.controlIngList.splice(index, 1);
+              this.isRowSelected = false
+            }
             if(this.tipoControl=='adm'){
               const index = this.controlAdmList.findIndex((el:any) => el.id == this.controlAdm.id)
-              this.controlAdmList.splice(index, 1);}
+              this.controlAdmList.splice(index, 1);
+              this.isRowSelected1 = false
+            }
             if(this.tipoControl=='equ'){
               const index = this.controlEquList.findIndex((el:any) => el.id == this.controlEqu.id)
-              this.controlEquList.splice(index, 1);}
+              this.controlEquList.splice(index, 1);
+              this.isRowSelected2 = false
+            }
           },
           acceptLabel: 'Sí',
           rejectLabel: 'No'

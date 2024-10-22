@@ -215,8 +215,8 @@ export class ScmComponent implements OnInit, AfterViewInit {
         this.excel.forEach((el:any) => delete el.empresaId)
         
         let excel= this.empresaIdLoggin == 22? 
-                    this.excel.filter((resp:any)=>{ return new Date(resp.fechaCreacion)>= new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<= new Date(this.rangeDatesInforme[1]) && resp.estadoCaso ==1|| new Date(resp.fechaFinal)>= new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaFinal)<= new Date(this.rangeDatesInforme[1]) && resp.estadoCaso ==0}): 
-                    this.excel.filter((resp:any)=>{ return new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1])  && resp.Estado_caso === 'Abierto' || new Date(resp.Fecha_Cierre) >= new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_Cierre)<= new Date(this.rangeDatesInforme[1]) && resp.Estado_caso ==='Cerrado'})  
+                    this.excel.filter((resp:any)=>{ return (new Date(resp.fechaCreacion)>= new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaCreacion)<= new Date(this.rangeDatesInforme[1])) || (new Date(resp.fechaFinal)>= new Date(this.rangeDatesInforme[0]) && new Date(resp.fechaFinal)<= new Date(this.rangeDatesInforme[1]))}): 
+                    this.excel.filter((resp:any)=>{ return (new Date(resp.Fecha_apertura)>=new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_apertura)<=new Date(this.rangeDatesInforme[1]) ) || (new Date(resp.Fecha_Cierre) >= new Date(this.rangeDatesInforme[0]) && new Date(resp.Fecha_Cierre)<= new Date(this.rangeDatesInforme[1]))})  
                     
         
         excel.map((resp:any)=>{
@@ -285,13 +285,14 @@ export class ScmComponent implements OnInit, AfterViewInit {
                         Nombre: element.pkUser?.primerNombre,
                         Documento: element.documento,
                         Estado_caso: element.statusCaso == 1 ? 'Abierto' : 'Cerrado',
-                        Fecha_Cierre: element.fechaFinal ? new Date(element.fechaFinal): '',
+                        Fecha_Cierre: element.fechaFinal ? new Date(element.fechaFinal).toLocaleDateString(): '',
                         Proximo_seguimiento: element.proximoseguimiento ? new Date(element.proximoseguimiento).toLocaleDateString() : '',
                         Prioridad: element.prioridadCaso,
                         Tipo_caso: element.tipoCaso,
                     };
                     dataExcel.push(item);
                 });
+        
         
                 this.excel=[...dataExcel]
 
