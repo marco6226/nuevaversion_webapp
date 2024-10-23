@@ -156,8 +156,138 @@ export class ListaInspeccionFormComponent implements OnInit {
             .then((data) => (this.empleadosList = <Empleado[]>data));
     }
 
+    onCloseDialog() { 
+        if(this.opciones){
+            const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
+            if(opcionSeleccionada?.nombre.toLowerCase() === 'ausente'){
+                if(this.elementoSelect?.calificacion.accion == null ||this.elementoSelect?.calificacion.accion == '' ){
+                    this.msgs = [{
+                        severity: "warn",
+                        detail: "Debe seleccionar una acción realizada",
+                    }];
+                    this.visibleDlg = true; 
+                }else{
+                    if(Number(this.elementoSelect?.calificacion.accion) === 1){
+                        if(this.elementoSelect?.calificacion.descripcionAccion == null || this.elementoSelect?.calificacion.descripcionAccion == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe agregar una descripción de la acción correctiva",
+                            }];
+                            this.visibleDlg = true; 
+                        }else{
+                            this.visibleDlg = false;
+                        } 
+                    }else if(Number(this.elementoSelect?.calificacion.accion) === 2){
+                        if(this.elementoSelect?.calificacion.descripcionMiti == null || this.elementoSelect?.calificacion.descripcionMiti == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe agregar una descripción de la mitigación",
+                            }];
+                            this.visibleDlg = true; 
+                        }else{
+                            this.visibleDlg = false;
+                        }  
+                    }else if(Number(this.elementoSelect?.calificacion.accion) === 3){
+                        if(this.elementoSelect?.calificacion.planAccion == null || this.elementoSelect?.calificacion.planAccion == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe seleccionar un plan de acción",
+                            }];
+                            this.visibleDlg = true; 
+                        }else if(this.elementoSelect?.calificacion.responsable == null || this.elementoSelect?.calificacion.responsable == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe asignar un responsable",
+                            }];
+                            this.visibleDlg = true; 
+                        }else if(this.elementoSelect?.calificacion.descripcionAccTarjeta == null || this.elementoSelect?.calificacion.descripcionAccTarjeta == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe agregar una descripción de la acción",
+                            }];
+                            this.visibleDlg = true; 
+                        }else if(this.elementoSelect?.calificacion.fechaProyectada == null || !this.elementoSelect?.calificacion.fechaProyectada){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe seleccionar una fecha proyectada",
+                            }];
+                            this.visibleDlg = true; 
+                        }else{
+                            this.visibleDlg = false;
+                        }  
+                    }
+                }   
+            }else{
+                this.visibleDlg = false;
+            }
+        }
+    }
+
     cerrarModal() {
-        this.visibleDlg = false; // Esto cierra el diálogo modal
+        if(this.opciones){
+            const opcionSeleccionada = this.opciones.find(op => op.id === this.elementoSelect?.calificacion?.opcionCalificacion?.id);
+            if(opcionSeleccionada?.nombre.toLowerCase() === 'ausente'){
+                if(this.elementoSelect?.calificacion.accion == null ||this.elementoSelect?.calificacion.accion == '' ){
+                    this.msgs = [{
+                        severity: "warn",
+                        detail: "Debe seleccionar una acción realizada",
+                    }];
+                }else{
+                    if(Number(this.elementoSelect?.calificacion.accion) === 1){
+                        if(this.elementoSelect?.calificacion.descripcionAccion == null || this.elementoSelect?.calificacion.descripcionAccion == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe agregar una descripción de la acción correctiva",
+                            }];
+                            this.visibleDlg = true; 
+                        }else{
+                            this.visibleDlg = false;
+                        } 
+                    }else if(Number(this.elementoSelect?.calificacion.accion) === 2){
+                        if(this.elementoSelect?.calificacion.descripcionMiti == null || this.elementoSelect?.calificacion.descripcionMiti == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe agregar una descripción de la mitigación",
+                            }];
+                            this.visibleDlg = true; 
+                        }else{
+                            this.visibleDlg = false;
+                        }  
+                    }else if(Number(this.elementoSelect?.calificacion.accion) === 3){
+                        if(this.elementoSelect?.calificacion.planAccion == null || this.elementoSelect?.calificacion.planAccion == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe seleccionar un plan de acción",
+                            }];
+                            this.visibleDlg = true; 
+                        }else if(this.elementoSelect?.calificacion.responsable == null || this.elementoSelect?.calificacion.responsable == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe asignar un responsable",
+                            }];
+                            this.visibleDlg = true; 
+                        }else if(this.elementoSelect?.calificacion.descripcionAccTarjeta == null || this.elementoSelect?.calificacion.descripcionAccTarjeta == ''){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe agregar una descripción de la acción",
+                            }];
+                            this.visibleDlg = true; 
+                        }else if(this.elementoSelect?.calificacion.fechaProyectada == null || !this.elementoSelect?.calificacion.fechaProyectada){
+                            this.msgs = [{
+                                severity: "warn",
+                                detail: "Debe seleccionar una fecha proyectada",
+                            }];
+                            this.visibleDlg = true; 
+                        }else{
+                            this.visibleDlg = false;
+                        }  
+                    }
+                }   
+            }else{
+                this.visibleDlg = false;
+            }
+        }
+         // Esto cierra el diálogo modal
     }
 
     adicionarElementoInp() {

@@ -344,7 +344,7 @@
                                 </div>
                                 <br>
                                 <div id="flagControlIng">
-                                    <p-table #dtContIng styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlIng" [value]="controlIngList" [paginator]="true" [rows]="10" >
+                                    <p-table #dtContIng styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlIng" [value]="controlIngList" [paginator]="true" [rows]="10" (onRowSelect)="onRowSelect($event, 'ing')" (onRowUnselect)="onRowUnselect($event, 'ing')" >
                                         <ng-template pTemplate="header" let-columns>
                                             <tr>
                                                 <th>Fecha creación</th>
@@ -385,8 +385,8 @@
                                                 <td colspan="4">
                                                     <div class="flex justify-content-end flex-wrap">
                                                         <button  pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="controlFunc('POST','ing')"></button>
-                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','ing')"></button>
-                                                        <button [disabled]="!controlIng" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','ing')"></button>
+                                                        <button [disabled]="!isRowSelected" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','ing')"></button>
+                                                        <button [disabled]="!isRowSelected" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','ing')"></button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -413,7 +413,7 @@
                                 <br>
                                 <!-- <label for="">Controles administrativos:</label> -->
                                 <div id="flagControlAdm">
-                                    <p-table #dtAdm styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlAdm" [value]="controlAdmList" [paginator]="true" [rows]="10" >
+                                    <p-table #dtAdm styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlAdm" [value]="controlAdmList" [paginator]="true" [rows]="10" (onRowSelect)="onRowSelect($event, 'adm')" (onRowUnselect)="onRowUnselect($event, 'adm')" >
                                         <ng-template pTemplate="header" let-columns>
                                             <tr>
                                                 <th>Fecha creación</th>
@@ -454,8 +454,8 @@
                                                 <td colspan="4">
                                                     <div class="flex justify-content-end flex-wrap">
                                                         <button  pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="controlFunc('POST','adm')"></button>
-                                                        <button [disabled]="!controlAdm" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','adm')"></button>
-                                                        <button [disabled]="!controlAdm" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','adm')"></button>
+                                                        <button [disabled]="!isRowSelected1" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','adm')"></button>
+                                                        <button [disabled]="!isRowSelected1" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','adm')"></button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -482,7 +482,7 @@
                                 <br>
                                 <!-- <label for="">Equipos y elementos de protección personal:</label> -->
                                 <div id="flagEquiposEle">
-                                    <p-table #dtEqu styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlEqu" [value]="controlEquList" [paginator]="true" [rows]="10" >
+                                    <p-table #dtEqu styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="controlEqu" [value]="controlEquList" [paginator]="true" [rows]="10" (onRowSelect)="onRowSelect($event, 'eql')" (onRowUnselect)="onRowUnselect($event, 'eql')" >
                                         <ng-template pTemplate="header" let-columns>
                                             <tr>
                                                 <th>Fecha creación</th>
@@ -527,8 +527,8 @@
                                                 <td colspan="4">
                                                     <div class="flex justify-content-end flex-wrap">
                                                         <button  pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="controlFunc('POST','equ')"></button>
-                                                        <button [disabled]="!controlEqu" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','equ')"></button>
-                                                        <button [disabled]="!controlEqu" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','equ')"></button>
+                                                        <button [disabled]="!isRowSelected2" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="controlFunc('PUT','equ')"></button>
+                                                        <button [disabled]="!isRowSelected2" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="controlFunc('DELETE','equ')"></button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -817,7 +817,7 @@
                 <!-- <div [class]="(!formMatrizRiesgosI.valid  || flagEliminadoSustituido)?'overlay-content':'overlay'"> -->
                 <!-- <p-accordionTab header="V. CONTROL DE RIESGO - PLAN DE ACCIÓN" [disabled]="false"> -->
 
-                <p-table #dtPlanAccion styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasListPendiente" [paginator]="true" [rows]="10" >
+                <p-table #dtPlanAccion styleClass="material-table" autoLayout="true" selectionMode="single" [(selection)]="tarea" [value]="tareasListPendiente" [paginator]="true" [rows]="10" (onRowSelect)="onRowSelect($event, 'pla')" (onRowUnselect)="onRowUnselect($event, 'pla')" >
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th>Fecha creación</th>
@@ -877,8 +877,8 @@
                             <td colspan="4">
                                 <div class="flex justify-content-end flex-wrap">
                                     <button [disabled]="flagplanElimsust" pButton class="flex m-2 p-button-primary p-button-sm" label="Agregar" icon="pi pi-plus" (click)="planAccion('POST')"></button>
-                                    <button [disabled]="!tarea" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="planAccion('PUT')"></button>
-                                    <button [disabled]="!tarea" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="planAccion('DELETE')"></button>
+                                    <button [disabled]="!isRowSelected3" pButton class="flex m-2 p-button-success p-button-sm" label="Editar" icon="pi pi-pencil" (click)="planAccion('PUT')"></button>
+                                    <button [disabled]="!isRowSelected3" pButton class="flex m-2 p-button-danger p-button-sm" label="Eliminar" icon="pi pi-trash" (click)="planAccion('DELETE')"></button>
                                 </div>
                             </td>
                         </tr>
@@ -1094,7 +1094,7 @@
                                             <th>RAI</th>
                                             <th>Fecha de Reporte</th>
                                             <th>Fecha de Accidente</th>
-                                            <th>Primer Nombre Empleadp</th>
+                                            <th>Primer Nombre Empleado</th>
                                             <th>Primer Apellido Empleado</th>
                                             <th>Número de Identificación Empleado</th>
                                             <th>Número Furat</th>

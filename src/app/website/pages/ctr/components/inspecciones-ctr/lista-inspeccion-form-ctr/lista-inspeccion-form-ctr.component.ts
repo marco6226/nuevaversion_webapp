@@ -211,4 +211,10 @@ export class ListaInspeccionFormCtrComponent implements OnInit {
         this.inpForm.patchValue({ empleadohse: { 'id': this.empleado.id } });
     }
 
+    
+    cerrarModal() { 
+      this.visibleDlg= false;
+    }
+
+
 }

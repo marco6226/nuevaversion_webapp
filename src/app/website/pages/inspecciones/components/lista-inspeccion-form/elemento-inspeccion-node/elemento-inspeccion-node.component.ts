@@ -190,17 +190,16 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   }
 
   onChangeCalcularCumplimiento(changeEvent: InputSwitchOnChangeEvent, elem: ElementoInspeccion){
-    if(changeEvent.checked){
-      this.disabled1 = true
-    }else{
-      this.disabled1 = false
-    }
+
+      this.disabled1 = changeEvent.checked;
     
-    let optDespreciable = this.opciones?.find(opt => opt.despreciable);
-    elem.calificacion.opcionCalificacion = optDespreciable!;
-    elem?.elementoInspeccionList.forEach(item => {
-      item.calificacion.opcionCalificacion.id = optDespreciable?.id!;
-    });
+      if (changeEvent.checked) {
+        let optDespreciable = this.opciones?.find(opt => opt.despreciable);
+        elem.calificacion.opcionCalificacion = optDespreciable!;
+        elem?.elementoInspeccionList.forEach(item => {
+        item.calificacion.opcionCalificacion.id = optDespreciable?.id!;
+        });
+      }
   }
 
   // getValueCalcularCumplimiento(elem: ElementoInspeccion): boolean{
